@@ -15,12 +15,6 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.mediamath.jterminalone.models.Advertiser;
-import com.mediamath.jterminalone.models.T1Entity;
-import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.utils.Utility;
 
 /**
@@ -86,18 +80,13 @@ public class Connection {
 		}
 
 		String response = invocationBuilder.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED),String.class);
-		logger.info("String Response Status " + response);
-		
-		
-		/*logger.info("Response Status " + response.getStatus());
-		boolean bufferflag = response.bufferEntity();
-		logger.info("buffer flag status " + bufferflag);
-		logger.info("Response Data" + response.readEntity(String.class));*/
 
 		return response;
 	}
 
 	public String get(String uri, HashMap<String, HashMap<String, String>> userMap) {
+		
+		String response = null;
 		
 		Client client = ClientBuilder.newClient(new ClientConfig());
 
@@ -117,15 +106,8 @@ public class Connection {
 			}
 		}
 
-		//Response response = invocationBuilder.get();
-		String response = invocationBuilder.get(String.class);
+		response = invocationBuilder.get(String.class);
 
-		//logger.info("String Response Status " + response);
-/*		logger.info("Response Status " + response.getStatus());
-		boolean bufferflag = response.bufferEntity();
-		logger.info("buffer flag status " + bufferflag);
-		logger.info("Response Data" + response.readEntity(String.class));
-*/
 		return response;
 	}
 

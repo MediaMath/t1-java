@@ -32,6 +32,9 @@ public class JTerminalOne {
 	 * maintains user session
 	 */
 	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
+	
+	
+	private boolean authenticated = false;
 
 	/**
 	 * Default Constructor
@@ -58,7 +61,9 @@ public class JTerminalOne {
 		logger.info("Loading Environment - Authenticating.");
 		String response = connection.post("login", form, null);
 		getUserSessionInfo(response);
-
+		
+		authenticated = true;
+		
 	}
 
 	/**
@@ -70,12 +75,11 @@ public class JTerminalOne {
 		Gson gson = new Gson();
 		Type stringStringMap = new TypeToken<HashMap<String, HashMap<String, String>>>() {}.getType();
 		HashMap<String, HashMap<String, String>> map = gson.fromJson(response, stringStringMap);
-		logger.info("map data=====" + map);
 		this.setUser(map);
 	}
 
 	//TODO refactor this.
-	private String get(String collection, int entity) {
+	public String get(String collection, int entity) {
 		String path = collection + "/" + String.valueOf(entity+ "?with=agency");
 		return path;
 	}
@@ -114,6 +118,10 @@ public class JTerminalOne {
 
 	public void setUser(HashMap<String, HashMap<String, String>> user) {
 		this.user = user;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
 	}
 
 }
