@@ -1,6 +1,7 @@
 package com.mediamath.jterminalone;
 
 import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class BasicTest extends TestCase {

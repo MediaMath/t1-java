@@ -1,0 +1,11 @@
+19-01-2016 15:07:17 INFO  JTerminalOne:43 - Loading Environment - setting up connection.
+19-01-2016 15:07:17 INFO  JTerminalOne:55 - Loading Environment - Authenticating.
+19-01-2016 15:07:17 INFO  JTerminalOne:61 - Loading Environment - Authenticating.
+19-01-2016 15:07:17 INFO  Connection:64 - Target URL: https://t1sandbox.mediamath.com/api/v2.0/login
+19-01-2016 15:07:20 INFO  JTerminalOne:43 - Loading Environment - setting up connection.
+19-01-2016 15:07:20 INFO  JTerminalOne:95 - Authenticating.
+19-01-2016 15:07:20 INFO  Connection:64 - Target URL: https://t1sandbox.mediamath.com/api/v2.0/login
+19-01-2016 15:07:21 INFO  Connection:95 - Target URL: https://t1sandbox.mediamath.com/api/v2.0/advertisers/154161?with=agency
+19-01-2016 15:07:22 INFO  JTerminalOne:43 - Loading Environment - setting up connection.
+19-01-2016 15:07:22 INFO  JTerminalOne:95 - Authenticating.
+19-01-2016 15:07:22 INFO  Connection:64 - Target URL: https://t1sandbox.mediamath.com/api/v2.0/login
