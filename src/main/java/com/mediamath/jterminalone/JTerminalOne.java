@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.jterminalone.service.JT1Service;
+import com.mediamath.jterminalone.utils.Constants;
 
 /**
  * handles the authentication, session, entity
@@ -28,6 +30,8 @@ public class JTerminalOne {
 	 */
 	public Connection connection = null;
 
+	public JT1Service jt1Service =null;
+	
 	/*
 	 * maintains user session
 	 */
@@ -42,6 +46,7 @@ public class JTerminalOne {
 	public JTerminalOne() {
 		logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
+		jt1Service = new JT1Service();
 	}
 
 	/**
@@ -53,13 +58,11 @@ public class JTerminalOne {
 		this();
 
 		logger.info("Loading Environment - Authenticating.");
-		Form form = new Form();
-		form.param("user", username);
-		form.param("password", password);
-		form.param("api_key", api_key);
+		Form form = jt1Service.getLoginFormData(username, password, api_key);
 
 		logger.info("Loading Environment - Authenticating.");
-		String response = connection.post("login", form, null);
+		String url = jt1Service.constructURL("login");
+		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 		
 		authenticated = true;
@@ -78,10 +81,44 @@ public class JTerminalOne {
 		this.setUser(map);
 	}
 
-	//TODO refactor this.
-	public String get(String collection, int entity) {
-		String path = collection + "/" + String.valueOf(entity+ "?with=agency");
-		return path;
+	/**public GET Method
+	 *  TODO - replace Input params by T1Request object 
+	 * @param collection
+	 * @param entity
+	 * @param child
+	 * @return
+	 */
+	public String get(String collection, long entity, String child) {
+		String path="";
+		String childPath = "";
+		
+		//param collection String example "advertisers"
+		if(!collection.equals(null)){
+			path = collection+"/";
+		}
+		
+		//param entity Int example ID 12121
+		if(entity > 0){
+			path += entity;
+		}
+		
+		//param child String example: acl, permissions
+		if(child!=null){
+			HashMap<String, Integer> childMap = Constants.childPaths.get(child);
+			for(String s : childMap.keySet()){
+				if(s.equalsIgnoreCase("target_dimensions")){
+					childPath += "?target_dimensions="+String.valueOf(childMap.get("target_dimensions"));
+				}
+				else{
+					childPath +="?"+child;
+				}
+			}
+			if(!path.equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
+				path += childPath;
+			}
+		} //end of child
+		
+		return jt1Service.constructURL(path);
 	}
 
 	/**
@@ -93,12 +130,10 @@ public class JTerminalOne {
 
 		// TODO validate
 		logger.info("Authenticating.");
-		Form form = new Form();
-		form.param("user", username);
-		form.param("password", password);
-		form.param("api_key", api_key);
-
-		String response = connection.post("login", form, null);
+		
+		Form form = jt1Service.getLoginFormData(username, password, api_key);
+		String url = jt1Service.constructURL("login");
+		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 
 		// TODO handle Exception
@@ -123,5 +158,5 @@ public class JTerminalOne {
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
-
+	
 }

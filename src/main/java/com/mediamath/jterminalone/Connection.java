@@ -31,21 +31,12 @@ public class Connection {
 
 	private String userAgent = null;
 
-	private String api_base = null;
-
-	private String path_mgmt = null;
-
-	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
-
-	
 	/**
 	 * Constructors
 	 * 
 	 */
 	public Connection() {
 		userAgent = configprop.getProperty("useragent");
-		api_base = configprop.getProperty("api_base");
-		path_mgmt = configprop.getProperty("path_mgmt");
 	}
 
 	/**
@@ -56,11 +47,11 @@ public class Connection {
 	 * @return
 	 */
 	// TODO refactor this.
-	public String post(String uri, Object data, HashMap<String, HashMap<String, String>> userMap) {
+	public String post(String url, Object data, HashMap<String, HashMap<String, String>> userMap) {
 		
 		Client client = ClientBuilder.newClient(new ClientConfig());
 
-		String url = api_base + path_mgmt + "/" + uri;
+		
 		logger.info("Target URL: " + url);
 
 		WebTarget webTarget = client.target(url);
@@ -84,13 +75,17 @@ public class Connection {
 		return response;
 	}
 
-	public String get(String uri, HashMap<String, HashMap<String, String>> userMap) {
+	/**handles GET requests
+	 * 
+	 * @param uri
+	 * @param userMap
+	 * @return
+	 */
+	public String get(String url, HashMap<String, HashMap<String, String>> userMap) {
 		
 		String response = null;
 		
 		Client client = ClientBuilder.newClient(new ClientConfig());
-
-		String url = api_base + path_mgmt + "/" + uri;
 
 		logger.info("Target URL: " + url);
 
@@ -109,14 +104,6 @@ public class Connection {
 		response = invocationBuilder.get(String.class);
 
 		return response;
-	}
-
-	public HashMap<String, HashMap<String, String>> getUser() {
-		return user;
-	}
-
-	public void setUser(HashMap<String, HashMap<String, String>> user) {
-		this.user = user;
 	}
 
 }
