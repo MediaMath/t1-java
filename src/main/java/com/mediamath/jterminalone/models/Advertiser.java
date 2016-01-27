@@ -28,7 +28,9 @@ public class Advertiser {
 	private int version;
 	private int vertical_id;
 	private List<Agency> agency;
-
+	private List<Concept> concept;
+	
+	
 	public Advertiser(int id, float ad_server_fee, int ad_server_id, String ad_server_password,
 			String ad_server_username, int agency_id, boolean allow_x_strat_optimization, int billing_contact_id,
 			Date created_on, String domain, dmp_settings dmp_enabled, boolean minimize_multi_ads, String name,
@@ -204,6 +206,14 @@ public class Advertiser {
 
 	public void setAgency(List<Agency> agency) {
 		this.agency = agency;
+	}
+
+	public List<Concept> getConcept() {
+		return concept;
+	}
+
+	public void setConcept(List<Concept> concept) {
+		this.concept = concept;
 	}
 
 }

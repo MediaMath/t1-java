@@ -2,6 +2,7 @@ package com.mediamath.jterminalone;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -54,8 +55,12 @@ public class JTerminalOne {
 	 * 
 	 */
 	public JTerminalOne(String username, String password, String api_key) {
-
 		this();
+		
+		if(username.isEmpty() || password.isEmpty() || api_key.isEmpty()) {
+			logger.error("Please provide valid credentials.");
+			throw new IllegalStateException();
+		}
 
 		logger.info("Loading Environment - Authenticating.");
 		Form form = jt1Service.getLoginFormData(username, password, api_key);
@@ -80,6 +85,66 @@ public class JTerminalOne {
 		HashMap<String, HashMap<String, String>> map = gson.fromJson(response, stringStringMap);
 		this.setUser(map);
 	}
+	
+	public String get(QueryCriteria query) {
+		String path="";
+		String childPath = "";
+		StringBuffer includePath = new StringBuffer("");
+		
+		//param collection String example "advertisers"
+		if(!query.collection.equals(null)){
+			path = query.collection+"/";
+		}
+		
+		//param entity Int example ID 12121
+		if(query.entity > 0){
+			path += query.entity;
+		}
+		
+		//param child String example: acl, permissions
+		if(query.child!=null){
+			HashMap<String, Integer> childMap = Constants.childPaths.get(query.child);
+			for(String s : childMap.keySet()){
+				if(s.equalsIgnoreCase("target_dimensions")){
+					childPath += "?target_dimensions="+String.valueOf(childMap.get("target_dimensions"));
+				}
+				else{
+					childPath +="?"+query.child;
+				}
+			}
+			if(!path.equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
+				path += childPath;
+			}
+		} //end of child
+		
+		if(query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
+			for(ConditionQuery conditionquery : query.includeConditionList) {
+				if(includePath.toString().equalsIgnoreCase("")) {
+					if(conditionquery.getInclude() != null) {
+						includePath.append("?with=" + conditionquery.getInclude());
+						if(conditionquery.getWith() != null) {
+							includePath.append("," + conditionquery.getWith());
+						}
+					}
+				} else {
+					if(conditionquery.getInclude() != null) {
+						includePath.append("&with=" + conditionquery.getInclude());
+						if(conditionquery.getWith() != null) {
+							includePath.append("," + conditionquery.getInclude());
+						}
+					}
+				}
+			}
+			
+			if(!path.equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
+				path += includePath.toString();
+			}
+		}
+		
+		
+		return jt1Service.constructURL(path);
+	}
+	
 
 	/**public GET Method
 	 *  TODO - replace Input params by T1Request object 

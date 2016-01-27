@@ -11,22 +11,11 @@ public class JsonResponse<T> {
 	@SerializedName("data")
 	T data;
 
-	@SerializedName("entity")
-	Object entity;
-
 	@SerializedName("error")
 	String error;
 
 	@SerializedName("meta")
 	T1Meta meta;
-
-	public Object getEntity() {
-		return entity;
-	}
-
-	public void setEntity(Object entity) {
-		this.entity = entity;
-	}
 
 	public String getError() {
 		return error;

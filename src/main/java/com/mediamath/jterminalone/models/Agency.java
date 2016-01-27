@@ -1,6 +1,7 @@
 package com.mediamath.jterminalone.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class Agency {
 
@@ -15,6 +16,7 @@ public class Agency {
 	private boolean status;
 	private Date updated_on;
 	private int version;
+	List<Organization> organization;
 
 	public Agency(boolean allow_x_adv_optimization, boolean billing_contact_id, Date created_on, int id, String logo,
 			String name, int organization_id, int sales_contact_id, boolean status, Date updated_on, int version) {
@@ -118,6 +120,14 @@ public class Agency {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public List<Organization> getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(List<Organization> organization) {
+		this.organization = organization;
 	}
 
 }
