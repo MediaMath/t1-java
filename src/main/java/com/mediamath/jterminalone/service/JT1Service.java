@@ -57,8 +57,8 @@ public class JT1Service {
 	 * @param path
 	 * @return
 	 */
-	public String constructURL(String path){
-		String url = api_base + path_mgmt + "/" + path;
+	public String constructURL(StringBuffer path){
+		String url = api_base + path_mgmt + "/" + path.toString();
 		return url;
 	}
 	

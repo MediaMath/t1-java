@@ -66,7 +66,7 @@ public class JTerminalOne {
 		Form form = jt1Service.getLoginFormData(username, password, api_key);
 
 		logger.info("Loading Environment - Authenticating.");
-		String url = jt1Service.constructURL("login");
+		String url = jt1Service.constructURL(new StringBuffer("login"));
 		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 		
@@ -87,18 +87,31 @@ public class JTerminalOne {
 	}
 	
 	public String get(QueryCriteria query) {
-		String path="";
+		StringBuffer path=new StringBuffer("");
 		String childPath = "";
 		StringBuffer includePath = new StringBuffer("");
 		
 		//param collection String example "advertisers"
 		if(!query.collection.equals(null)){
-			path = query.collection+"/";
+			path.append(query.collection);
 		}
 		
 		//param entity Int example ID 12121
 		if(query.entity > 0){
-			path += query.entity;
+			path.append("/"+String.valueOf(query.entity));
+		}
+		
+		//param limit, should be key=value pair. example organization : 123456
+		if(query.limit.size()>0){
+			path.append("/limit/");
+			for(String s : query.limit.keySet()){
+				if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+					//TODO raise error
+				}
+				if(!path.toString().equalsIgnoreCase("")){
+					path.append(s+"="+String.valueOf(query.limit.get(s)));
+				}
+			}
 		}
 		
 		//param child String example: acl, permissions
@@ -112,11 +125,12 @@ public class JTerminalOne {
 					childPath +="?"+query.child;
 				}
 			}
-			if(!path.equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
-				path += childPath;
+			if(!path.toString().equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
+				path.append(childPath);
 			}
 		} //end of child
 		
+		//param include
 		if(query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
 			for(ConditionQuery conditionquery : query.includeConditionList) {
 				if(includePath.toString().equalsIgnoreCase("")) {
@@ -136,55 +150,48 @@ public class JTerminalOne {
 				}
 			}
 			
-			if(!path.equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
-				path += includePath.toString();
+			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
+				path.append(includePath.toString());
 			}
-		}
+		}//end of include
 		
+		//param sortby example: sortby=id
+		if(query.sortBy!=null){
+			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&sort_by="+query.sortBy);
+			}
+			else{
+				path.append("?sort_by="+query.sortBy);
+			}
+		}//end sortby
+		
+		//param pageLimit, should not be > 100 example: page_limit=30
+		if(query.pageLimit>100){
+			//TODO throw clientexception
+		}
+		else{
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&page_limit="+String.valueOf(query.pageLimit));
+			}
+			else{
+				path.append("?page_limit="+String.valueOf(query.pageLimit));
+			}
+		}//end pageLimit
+		
+		//param pageOffset, should not be > 100 example: page_offset=100
+		if(query.pageOffset>0){
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&page_offset="+String.valueOf(query.pageOffset));
+			}
+			else{
+				path.append("?page_offset="+String.valueOf(query.pageOffset));
+			}
+		}//end pageoffset
 		
 		return jt1Service.constructURL(path);
 	}
 	
 
-	/**public GET Method
-	 *  TODO - replace Input params by T1Request object 
-	 * @param collection
-	 * @param entity
-	 * @param child
-	 * @return
-	 */
-	public String get(String collection, long entity, String child) {
-		String path="";
-		String childPath = "";
-		
-		//param collection String example "advertisers"
-		if(!collection.equals(null)){
-			path = collection+"/";
-		}
-		
-		//param entity Int example ID 12121
-		if(entity > 0){
-			path += entity;
-		}
-		
-		//param child String example: acl, permissions
-		if(child!=null){
-			HashMap<String, Integer> childMap = Constants.childPaths.get(child);
-			for(String s : childMap.keySet()){
-				if(s.equalsIgnoreCase("target_dimensions")){
-					childPath += "?target_dimensions="+String.valueOf(childMap.get("target_dimensions"));
-				}
-				else{
-					childPath +="?"+child;
-				}
-			}
-			if(!path.equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
-				path += childPath;
-			}
-		} //end of child
-		
-		return jt1Service.constructURL(path);
-	}
 
 	/**
 	 * basic authentication method.
@@ -197,7 +204,7 @@ public class JTerminalOne {
 		logger.info("Authenticating.");
 		
 		Form form = jt1Service.getLoginFormData(username, password, api_key);
-		String url = jt1Service.constructURL("login");
+		String url = jt1Service.constructURL(new StringBuffer("login"));
 		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 
@@ -224,4 +231,19 @@ public class JTerminalOne {
 		return authenticated;
 	}
 	
+	
+	public static void main(String args[]){
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
+		
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setSortby("-id")
+									.build();
+		
+		String uri = jt1.get(query);
+		
+		String response = jt1.connection.get(uri, jt1.getUser());
+		logger.info(response);
+	}
 }
