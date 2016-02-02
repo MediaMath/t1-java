@@ -1,13 +1,15 @@
 package com.mediamath.jterminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 public class JsonResponse<T> {
 
-	public JsonResponse() {
-		// TODO Auto-generated constructor stub
+	public JsonResponse(T datavalue) {
+		this.data = datavalue;
 	}
-
+	
 	@SerializedName("data")
 	T data;
 

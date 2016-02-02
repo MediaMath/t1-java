@@ -2,7 +2,6 @@ package com.mediamath.jterminalone;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -31,7 +30,10 @@ public class JTerminalOne {
 	 */
 	public Connection connection = null;
 
-	public JT1Service jt1Service =null;
+	/*
+	 * service object.
+	 */
+	private JT1Service jt1Service =null;
 	
 	/*
 	 * maintains user session
@@ -39,6 +41,9 @@ public class JTerminalOne {
 	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
 	
 	
+	/*
+	 * is authenticated? 
+	 */
 	private boolean authenticated = false;
 
 	/**
@@ -101,18 +106,7 @@ public class JTerminalOne {
 			path.append("/"+String.valueOf(query.entity));
 		}
 		
-		//param limit, should be key=value pair. example organization : 123456
-		if(query.limit.size()>0){
-			path.append("/limit/");
-			for(String s : query.limit.keySet()){
-				if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-					//TODO raise error
-				}
-				if(!path.toString().equalsIgnoreCase("")){
-					path.append(s+"="+String.valueOf(query.limit.get(s)));
-				}
-			}
-		}
+
 		
 		//param child String example: acl, permissions
 		if(query.child!=null){
@@ -129,6 +123,19 @@ public class JTerminalOne {
 				path.append(childPath);
 			}
 		} //end of child
+		
+		//param limit, should be key=value pair. example organization : 123456
+		if(query.limit.size()>0){
+			path.append("/limit/");
+			for(String s : query.limit.keySet()){
+				if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+					//TODO raise error
+				}
+				if(!path.toString().equalsIgnoreCase("")){
+					path.append(s+"="+String.valueOf(query.limit.get(s)));
+				}
+			}
+		}
 		
 		//param include
 		if(query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
@@ -166,7 +173,7 @@ public class JTerminalOne {
 		}//end sortby
 		
 		//param pageLimit, should not be > 100 example: page_limit=30
-		if(query.pageLimit>100){
+		if(query.pageLimit > 100){
 			//TODO throw clientexception
 		}
 		else{
@@ -231,19 +238,4 @@ public class JTerminalOne {
 		return authenticated;
 	}
 	
-	
-	public static void main(String args[]){
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
-		
-		QueryCriteria query = QueryCriteria.builder()
-									.setCollection("advertisers")
-									.setSortby("-id")
-									.build();
-		
-		String uri = jt1.get(query);
-		
-		String response = jt1.connection.get(uri, jt1.getUser());
-		logger.info(response);
-	}
 }

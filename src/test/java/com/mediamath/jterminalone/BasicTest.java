@@ -1,6 +1,7 @@
 package com.mediamath.jterminalone;
 
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.JsonResponse;
@@ -47,15 +50,15 @@ public class BasicTest extends TestCase {
 		
 		String response = jt1.connection.get(uri, jt1.getUser());
 		
-		T1JsonToObjParser<Advertiser> parser = new T1JsonToObjParser<Advertiser>();
+		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<Advertiser>>(){}.getType();
-		JsonResponse<Advertiser> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithSortByUsingQueryCriteria() {
+	public void testBaiscGetWithSortByUsingQueryCriteria() throws JsonParseException, JsonMappingException, IOException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
@@ -67,10 +70,19 @@ public class BasicTest extends TestCase {
 		String uri = jt1.get(query);
 		
 		String response = jt1.connection.get(uri, jt1.getUser());
-		
-		T1JsonToObjParser<List<Advertiser>> parser = new T1JsonToObjParser<List<Advertiser>>();
+/*		
+		JavaType javaType = mapper.getTypeFactory().constructParametricType(AgentResponse.class, Map.class);
+		mapper.readValue(out, javaType);
+		*/
+/*		
+		ObjectMapper mapper = new ObjectMapper();
+		Type JsonResType = new TypeToken<List<Advertiser>>(){}.getType();
+		JavaType jtype = mapper.getTypeFactory().constructParametricType(JsonResponse.class, JsonResType);
+		JsonResponse<List<Advertiser>> adv = mapper.readValue(response, jtype);
+		*/
+		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<List<Advertiser>> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
@@ -89,9 +101,9 @@ public class BasicTest extends TestCase {
 		
 		String response = jt1.connection.get(uri, jt1.getUser());
 		
-		T1JsonToObjParser<List<Advertiser>> parser = new T1JsonToObjParser<List<Advertiser>>();
+		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<List<Advertiser>> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
@@ -110,9 +122,9 @@ public class BasicTest extends TestCase {
 		
 		String response = jt1.connection.get(uri, jt1.getUser());
 		
-		T1JsonToObjParser<List<Advertiser>> parser = new T1JsonToObjParser<List<Advertiser>>();
+		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<List<Advertiser>> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
@@ -133,9 +145,9 @@ public class BasicTest extends TestCase {
 		
 		String response = jt1.connection.get(uri, jt1.getUser());
 		
-		T1JsonToObjParser<List<Advertiser>> parser = new T1JsonToObjParser<List<Advertiser>>();
+		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<List<Advertiser>> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}

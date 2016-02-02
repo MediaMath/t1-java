@@ -3,7 +3,7 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 import java.util.List;
 
-public class Advertiser {
+public class Advertiser implements T1Entity {
 
 	public enum dmp_settings {
 		inherits, disabled
@@ -28,7 +28,6 @@ public class Advertiser {
 	private int version;
 	private int vertical_id;
 	private List<Agency> agency;
-	private List<Concept> concept;
 	
 	
 	public Advertiser(int id, float ad_server_fee, int ad_server_id, String ad_server_password,
@@ -208,12 +207,5 @@ public class Advertiser {
 		this.agency = agency;
 	}
 
-	public List<Concept> getConcept() {
-		return concept;
-	}
-
-	public void setConcept(List<Concept> concept) {
-		this.concept = concept;
-	}
 
 }

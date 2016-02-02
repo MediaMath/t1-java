@@ -16,10 +16,15 @@ public class QueryCriteria {
 	List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 	
 	String sortBy = null;
+	
 	int pageLimit = 100;
+	
 	int pageOffset = 0;
+	
 	long parent = 0;
+	
 	String full = null;
+	
 	Map<String, Long> limit = new HashMap<String, Long>();
 	
 	public QueryCriteria(Builder builder) {
@@ -31,13 +36,19 @@ public class QueryCriteria {
 		child = builder.child;
 		
 		includeConditionList = builder.includeConditionList;
+		
 		sortBy = builder.sortby;
-		if(builder.pageLimit>0){
+		
+		if(builder.pageLimit > 0){
 			pageLimit = builder.pageLimit;
 		}
+		
 		parent = builder.parent;
+		
 		full = builder.full;
+		
 		pageOffset = builder.pageOffset;
+		
 		limit = builder.limit;
 	}
 	
@@ -54,11 +65,17 @@ public class QueryCriteria {
 		private String child = null; 
 		
 		List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+		
 		private String sortby = null;
+		
 		private int pageLimit;
+		
 		private long parent;
+		
 		private String full = null;
+		
 		private int pageOffset;
+		
 		private Map<String, Long> limit = new HashMap<String, Long>();
 		
 		private Builder() {}
@@ -82,8 +99,6 @@ public class QueryCriteria {
 			includeConditionList.add(value);
 			return this;
 		}
-		
-		
 		
 		public Builder setSortby(String sortby) {
 			this.sortby = sortby;
