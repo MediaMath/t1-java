@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.utils.Filters;
 
 import junit.framework.TestCase;
 
@@ -60,20 +61,6 @@ public class BasicTest extends TestCase {
 		
 		jsonresponse = jt1.get(query);
 		
-		/*String response = jt1.connection.get(uri, jt1.getUser());
-		
-		JavaType javaType = mapper.getTypeFactory().constructParametricType(AgentResponse.class, Map.class);
-		mapper.readValue(out, javaType);
-		
-		
-		ObjectMapper mapper = new ObjectMapper();
-		Type JsonResType = new TypeToken<List<Advertiser>>(){}.getType();
-		JavaType jtype = mapper.getTypeFactory().constructParametricType(JsonResponse.class, JsonResType);
-		JsonResponse<List<Advertiser>> adv = mapper.readValue(response, jtype);
-		
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);*/
 		assertNotNull(jsonresponse);
 	
 	}
@@ -130,5 +117,88 @@ public class BasicTest extends TestCase {
 		assertNotNull(jsonresponse);
 	
 	}
+	
+	@Test
+	public void testBaiscGetWithQuery() {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQuery("agency_id%3E=109308")
+									.setPageLimit(100)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		jsonresponse = jt1.get(query);
+		
+		assertNotNull(jsonresponse);
+		
+	}
+	
+	@Test
+	public void testBaiscGetWithFind() {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParam("agency_id")
+									.setQueryOperator(Filters.GREATER_OR_EQUAL)
+									.setQueryParamValueNumber(109308)
+									.setPageLimit(100)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		jsonresponse = jt1.find(query);
+		
+		assertNotNull(jsonresponse);
+	
+	}
+	
+	@Test
+	public void testBaiscGetWithFind1() {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParam("name")
+									.setQueryOperator(Filters.EQUALS)
+									.setQueryParamValueStr("Retirement")
+									.setPageLimit(100)
+									.build();
+		
+		JsonResponse<?> jsonresponse = null;
+		jsonresponse = jt1.find(query);
+		
+		assertNotNull(jsonresponse);
+	
+	}
+	
+	/*@Test
+	public void testBaiscGetWithFind2() {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		List<Object> qParams = new ArrayList<Object>();
+		qParams.add(154121);
+		qParams.add(153226);
+		qParams.add(150994);
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParam("name")
+									.setQueryOperator(Filters.IN)
+									.setQueryParamValueList(qParams)
+									.setPageLimit(100)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		jsonresponse = jt1.find(query);
+		
+		assertNotNull(jsonresponse);
+	
+	}*/
 	
 }

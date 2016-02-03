@@ -14,6 +14,7 @@ import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.utils.Constants;
+import com.mediamath.jterminalone.utils.Filters;
 import com.mediamath.jterminalone.utils.T1JsonToObjParser;
 
 /**
@@ -200,7 +201,15 @@ public class JTerminalOne {
 			}
 		}//end pageoffset
 		
-
+		//param QUERY example 
+		if(query.query!=null){
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&q="+query.query);
+			}
+			else{
+				path.append("?q="+query.query);
+			}
+		}
 		
 		
 		// get the data from t1 servers.
@@ -225,6 +234,58 @@ public class JTerminalOne {
 		return jsonresponse;
 	}
 	
+	
+	/** Find method alternative to query of get
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public JsonResponse<? extends T1Entity> find(QueryCriteria query) {
+		StringBuffer qParamVal = new StringBuffer();
+		
+		qParamVal.append(query.queryParam);
+		qParamVal.append(query.queryOperator);
+
+		//If operator is IN ie. when IN query, then check list provided and validate list for numbers and string only
+		if(query.queryOperator.equalsIgnoreCase(Filters.IN)){
+			if(query.queryParamValueList==null || (query.queryParamValueList!=null && query.queryParamValueList.size() <1)){
+				//TODO raise TypeError
+			}else{
+				qParamVal.append("(");
+				if(query.queryParamValueList.get(0) instanceof String || query.queryParamValueList.get(0) instanceof Number){
+					String prefix = "";
+					for(Object obj : query.queryParamValueList){
+						qParamVal.append(prefix);
+						qParamVal.append(String.valueOf(obj));
+						prefix = ",";
+					}
+				}else{
+					//TODO raise typeError
+				}
+				
+				qParamVal.append(")");
+			}
+		} 
+		else if(query.queryParamValueStr!=null){
+			qParamVal.append(query.queryParamValueStr);
+		}
+		else if(query.queryParamValueNumber != null){
+			qParamVal.append(query.queryParamValueNumber);
+		}
+		else if(query.queryParamValueBoolean==true){
+			qParamVal.append(1);
+		}
+		else if(query.queryParamValueBoolean==false){
+			qParamVal.append(0);
+		}
+
+		query.query =  qParamVal.toString();
+		
+
+		
+		return this.get(query);
+		
+	}
 
 
 	/**
