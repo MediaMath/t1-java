@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Strategy {
+public class Strategy implements T1Entity {
 
 	public enum aud_seg_exc {
 		AND, OR

@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class StrategyConcept {
+public class StrategyConcept implements T1Entity {
 
 	private int concept_id;
 	private Date created_on;

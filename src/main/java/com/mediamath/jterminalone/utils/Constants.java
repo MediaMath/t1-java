@@ -1,6 +1,30 @@
 package com.mediamath.jterminalone.utils;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.google.gson.reflect.TypeToken;
+import com.mediamath.jterminalone.models.AdServer;
+import com.mediamath.jterminalone.models.Advertiser;
+import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.Campaign;
+import com.mediamath.jterminalone.models.ChildPixel;
+import com.mediamath.jterminalone.models.Concept;
+import com.mediamath.jterminalone.models.Deal;
+import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.models.Organization;
+import com.mediamath.jterminalone.models.PixelProvider;
+import com.mediamath.jterminalone.models.Publisher;
+import com.mediamath.jterminalone.models.PublisherSite;
+import com.mediamath.jterminalone.models.Strategy;
+import com.mediamath.jterminalone.models.StrategyConcept;
+import com.mediamath.jterminalone.models.StrategyDayPart;
+import com.mediamath.jterminalone.models.StrategyDomain;
+import com.mediamath.jterminalone.models.StrategySupplySource;
+import com.mediamath.jterminalone.models.User;
+
+
 public final class Constants {
 
 	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String,String>();
@@ -8,8 +32,103 @@ public final class Constants {
 	public static HashMap<String, String> pathToEntity = new HashMap<String,String>();
 	public static HashMap<String, Integer> childPathSub = new HashMap<String, Integer>();
 	public static HashMap<String, HashMap<String, Integer>> childPaths = new HashMap<String, HashMap<String, Integer>>();
-	
+	public static HashMap<String, Type> getEntityType = new HashMap<String, Type>();
+	public static HashMap<String, Type> getListoFEntityType = new HashMap<String, Type>();
+		
 	static{
+		
+		getEntityType.put("ad_servers", new TypeToken<JsonResponse<AdServer>>(){}.getType());
+		getEntityType.put("advertisers", new TypeToken<JsonResponse<Advertiser>>(){}.getType());
+		getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>(){}.getType());
+		// getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		// getEntityType.put("audience_segments", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		// getEntityType.put("concepts", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		// getEntityType.put("creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		
+		getEntityType.put("ad_servers", new TypeToken<JsonResponse<AdServer>>(){}.getType());
+		getEntityType.put("advertisers", new TypeToken<JsonResponse<Advertiser>>(){}.getType());
+		getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>(){}.getType());
+	    // getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<atomic_creative>>(){}.getType());
+	    // getEntityType.put("audience_segments", new TypeToken<JsonResponse<audience_segments>>(){}.getType());
+	    getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+	    getEntityType.put("concepts", new TypeToken<JsonResponse<Concept>>(){}.getType());
+	    // getEntityType.put("creatives", new TypeToken<JsonResponse<Creative>>(){}.getType());
+	    // getEntityType.put("creative_approvals", new TypeToken<JsonResponse<creative_approvals>>(){}.getType());
+	    getEntityType.put("deals", new TypeToken<JsonResponse<Deal>>(){}.getType());
+	    getEntityType.put("organizations", new TypeToken<JsonResponse<Organization>>(){}.getType());
+	    getEntityType.put("pixels", new TypeToken<JsonResponse<ChildPixel>>(){}.getType());
+	    // getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<PixelBundle>>(){}.getType());
+	    getEntityType.put("pixel_providers", new TypeToken<JsonResponse<PixelProvider>>(){}.getType());
+	    // getEntityType.put("placement_slots", new TypeToken<JsonResponse<PlacementSlot>>(){}.getType());
+	    getEntityType.put("publishers", new TypeToken<JsonResponse<Publisher>>(){}.getType());
+	    getEntityType.put("publisher_sites", new TypeToken<JsonResponse<PublisherSite>>(){}.getType());
+	    // getEntityType.put("site_lists", new TypeToken<JsonResponse<SiteList>>(){}.getType());
+	    // getEntityType.put("site_placements", new TypeToken<JsonResponse<SitePlacement>>(){}.getType());
+	    getEntityType.put("strategies", new TypeToken<JsonResponse<Strategy>>(){}.getType());
+	    getEntityType.put("strategy_concepts", new TypeToken<JsonResponse<StrategyConcept>>(){}.getType());
+	    getEntityType.put("strategy_day_parts", new TypeToken<JsonResponse<StrategyDayPart>>(){}.getType());
+	    getEntityType.put("strategy_domain_restrictions", new TypeToken<JsonResponse<StrategyDomain>>(){}.getType());
+	    getEntityType.put("strategy_supply_sources", new TypeToken<JsonResponse<StrategySupplySource>>(){}.getType());
+	    // getEntityType.put("supply_sources", "SupplySource");
+	    getEntityType.put("users", new TypeToken<JsonResponse<User>>(){}.getType());
+	    //getEntityType.put("target_dimensions", "TargetDimension");
+	    //getEntityType.put("target_values", "TargetValue");
+	    //getEntityType.put("permissions", "Permission");
+	    //getEntityType.put("reports", "Report");
+	    //getEntityType.put("vendors", "Vendor");
+	    //getEntityType.put("vendor_contracts", "VendorContract");
+	    //getEntityType.put("vendor_domains", "VendorDomain");
+	    //getEntityType.put("vendor_pixels", "VendorPixel");
+	    //getEntityType.put("vendor_pixel_domains", "VendorPixelDomain");
+	    //getEntityType.put("verticals", "Vertical");
+		
+
+		getListoFEntityType.put("ad_servers", new TypeToken<JsonResponse<ArrayList<AdServer>>>(){}.getType());
+		getListoFEntityType.put("advertisers", new TypeToken<JsonResponse<ArrayList<Advertiser>>>(){}.getType());
+		getListoFEntityType.put("agencies", new TypeToken<JsonResponse<ArrayList<Agency>>>(){}.getType());
+		// getListoFEntityType.put("atomic_creatives", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		// getListoFEntityType.put("audience_segments", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		getListoFEntityType.put("campaigns", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		// getListoFEntityType.put("concepts", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		// getListoFEntityType.put("creatives", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		
+		getListoFEntityType.put("ad_servers", new TypeToken<JsonResponse<ArrayList<AdServer>>>(){}.getType());
+		getListoFEntityType.put("advertisers", new TypeToken<JsonResponse<ArrayList<Advertiser>>>(){}.getType());
+		getListoFEntityType.put("agencies", new TypeToken<JsonResponse<ArrayList<Agency>>>(){}.getType());
+	    // getListoFEntityType.put("atomic_creatives", new TypeToken<JsonResponse<ArrayList<atomic_creative>>>(){}.getType());
+	    // getListoFEntityType.put("audience_segments", new TypeToken<JsonResponse<ArrayList<audience_segments>>>(){}.getType());
+	    getListoFEntityType.put("campaigns", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+	    getListoFEntityType.put("concepts", new TypeToken<JsonResponse<ArrayList<Concept>>>(){}.getType());
+	    // getListoFEntityType.put("creatives", new TypeToken<JsonResponse<ArrayList<Creative>>>(){}.getType());
+	    // getListoFEntityType.put("creative_approvals", new TypeToken<JsonResponse<ArrayList<creative_approvals>>>(){}.getType());
+	    getListoFEntityType.put("deals", new TypeToken<JsonResponse<ArrayList<Deal>>>(){}.getType());
+	    getListoFEntityType.put("organizations", new TypeToken<JsonResponse<ArrayList<Organization>>>(){}.getType());
+	    getListoFEntityType.put("pixels", new TypeToken<JsonResponse<ArrayList<ChildPixel>>>(){}.getType());
+	    // getListoFEntityType.put("pixel_bundles", new TypeToken<JsonResponse<ArrayList<PixelBundle>>>(){}.getType());
+	    getListoFEntityType.put("pixel_providers", new TypeToken<JsonResponse<ArrayList<PixelProvider>>>(){}.getType());
+	    // getListoFEntityType.put("placement_slots", new TypeToken<JsonResponse<ArrayList<PlacementSlot>>>(){}.getType());
+	    getListoFEntityType.put("publishers", new TypeToken<JsonResponse<ArrayList<Publisher>>>(){}.getType());
+	    getListoFEntityType.put("publisher_sites", new TypeToken<JsonResponse<ArrayList<PublisherSite>>>(){}.getType());
+	    // getListoFEntityType.put("site_lists", new TypeToken<JsonResponse<ArrayList<SiteList>>>(){}.getType());
+	    // getListoFEntityType.put("site_placements", new TypeToken<JsonResponse<ArrayList<SitePlacement>>>(){}.getType());
+	    getListoFEntityType.put("strategies", new TypeToken<JsonResponse<ArrayList<Strategy>>>(){}.getType());
+	    getListoFEntityType.put("strategy_concepts", new TypeToken<JsonResponse<ArrayList<StrategyConcept>>>(){}.getType());
+	    getListoFEntityType.put("strategy_day_parts", new TypeToken<JsonResponse<ArrayList<StrategyDayPart>>>(){}.getType());
+	    getListoFEntityType.put("strategy_domain_restrictions", new TypeToken<JsonResponse<ArrayList<StrategyDomain>>>(){}.getType());
+	    getListoFEntityType.put("strategy_supply_sources", new TypeToken<JsonResponse<ArrayList<StrategySupplySource>>>(){}.getType());
+	    // getListoFEntityType.put("supply_sources", "SupplySource");
+	    getListoFEntityType.put("users", new TypeToken<JsonResponse<ArrayList<User>>>(){}.getType());
+	    //getListoFEntityType.put("target_dimensions", "TargetDimension");
+	    //getListoFEntityType.put("target_values", "TargetValue");
+	    //getListoFEntityType.put("permissions", "Permission");
+	    //getListoFEntityType.put("reports", "Report");
+	    //getListoFEntityType.put("vendors", "Vendor");
+	    //getListoFEntityType.put("vendor_contracts", "VendorContract");
+	    //getListoFEntityType.put("vendor_domains", "VendorDomain");
+	    //getListoFEntityType.put("vendor_pixels", "VendorPixel");
+	    //getListoFEntityType.put("vendor_pixel_domains", "VendorPixelDomain");
+	    //getListoFEntityType.put("verticals", "Vertical");
 		
 		//required for converting requested string path names to entity names when collection demended
 		pathToCollectionEntity.put("ad_servers", "AdServer");
@@ -49,7 +168,7 @@ public final class Constants {
 	    pathToCollectionEntity.put("vendor_pixel_domains", "VendorPixelDomain");
 	    pathToCollectionEntity.put("verticals", "Vertical");
 	    
-	    //Required for converting entity names to path names
+	    //Required for converting entity names to path names [to form paths.]
 	    entityPaths.put("AdServer", "ad_servers");
 	    entityPaths.put("Advertiser", "advertisers");
 	    entityPaths.put("Agency", "agencies");

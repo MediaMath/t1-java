@@ -1,6 +1,6 @@
 package com.mediamath.jterminalone.models;
 
-public class Permission {
+public class Permission implements T1Entity {
 
 	// private String type; // seems duplicate one private one local
 	private String advertiser;

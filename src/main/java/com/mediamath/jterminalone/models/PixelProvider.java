@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class PixelProvider {
+public class PixelProvider implements T1Entity {
 	public enum executors {
 		MEDIAMATH, UDI
 	};

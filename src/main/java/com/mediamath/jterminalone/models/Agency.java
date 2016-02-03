@@ -3,7 +3,7 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 import java.util.List;
 
-public class Agency {
+public class Agency implements T1Entity {
 
 	private boolean allow_x_adv_optimization;
 	private boolean billing_contact_id;

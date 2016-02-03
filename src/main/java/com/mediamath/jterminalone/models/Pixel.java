@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Pixel {
+public class Pixel implements T1Entity {
 
 	public enum pixel_types {
 		creative, event, data, segment

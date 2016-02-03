@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class StrategyDayPart {
+public class StrategyDayPart implements T1Entity {
 
 	private Date created_on;
 	private String days;

@@ -1,5 +1,5 @@
 package com.mediamath.jterminalone.models;
 
-public class User {
+public class User implements T1Entity {
 
 }

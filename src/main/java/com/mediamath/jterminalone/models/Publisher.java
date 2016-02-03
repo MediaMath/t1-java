@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Publisher {
+public class Publisher implements T1Entity {
 
 	private Date created_on;
 	private int id;

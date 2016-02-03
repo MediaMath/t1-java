@@ -1,20 +1,12 @@
 package com.mediamath.jterminalone;
 
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.google.gson.reflect.TypeToken;
-import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.JsonResponse;
-import com.mediamath.jterminalone.utils.T1JsonToObjParser;
 
 import junit.framework.TestCase;
 
@@ -46,19 +38,16 @@ public class BasicTest extends TestCase {
 									.setInclude(new ConditionQuery("vertical"))
 									.build();
 		
-		String uri = jt1.get(query);
+		JsonResponse<?> jsonresponse = null;
 		
-		String response = jt1.connection.get(uri, jt1.getUser());
+		jsonresponse = jt1.get(query);
 		
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		Type JsonResponseType = new TypeToken<JsonResponse<Advertiser>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithSortByUsingQueryCriteria() throws JsonParseException, JsonMappingException, IOException {
+	public void testBaiscGetWithSortByUsingQueryCriteria() {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
@@ -67,22 +56,24 @@ public class BasicTest extends TestCase {
 									.setSortby("-id")
 									.build();
 		
-		String uri = jt1.get(query);
+		JsonResponse<?> jsonresponse = null;
 		
-		String response = jt1.connection.get(uri, jt1.getUser());
-/*		
+		jsonresponse = jt1.get(query);
+		
+		/*String response = jt1.connection.get(uri, jt1.getUser());
+		
 		JavaType javaType = mapper.getTypeFactory().constructParametricType(AgentResponse.class, Map.class);
 		mapper.readValue(out, javaType);
-		*/
-/*		
+		
+		
 		ObjectMapper mapper = new ObjectMapper();
 		Type JsonResType = new TypeToken<List<Advertiser>>(){}.getType();
 		JavaType jtype = mapper.getTypeFactory().constructParametricType(JsonResponse.class, JsonResType);
 		JsonResponse<List<Advertiser>> adv = mapper.readValue(response, jtype);
-		*/
+		
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);*/
 		assertNotNull(jsonresponse);
 	
 	}
@@ -92,18 +83,12 @@ public class BasicTest extends TestCase {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
-		QueryCriteria query = QueryCriteria.builder()
-									.setCollection("advertisers")
-									.setPageLimit(40)
-									.build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(40).build();
 		
-		String uri = jt1.get(query);
+		JsonResponse<?> jsonresponse = null;
 		
-		String response = jt1.connection.get(uri, jt1.getUser());
+		jsonresponse = jt1.get(query);
 		
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
@@ -118,13 +103,10 @@ public class BasicTest extends TestCase {
 									.setPageOffset(300)
 									.build();
 		
-		String uri = jt1.get(query);
+		JsonResponse<?> jsonresponse = null;
 		
-		String response = jt1.connection.get(uri, jt1.getUser());
+		jsonresponse = jt1.get(query);
 		
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}
@@ -141,13 +123,10 @@ public class BasicTest extends TestCase {
 									.setPageLimit(100)
 									.build();
 		
-		String uri = jt1.get(query);
+		JsonResponse<?> jsonresponse = null;
 		
-		String response = jt1.connection.get(uri, jt1.getUser());
+		jsonresponse = jt1.get(query);
 		
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		Type JsonResponseType = new TypeToken<JsonResponse<List<Advertiser>>>(){}.getType();
-		JsonResponse<?> jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
 		assertNotNull(jsonresponse);
 	
 	}

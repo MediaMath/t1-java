@@ -1,6 +1,6 @@
 package com.mediamath.jterminalone.models;
 
-public class StrategySupplySource {
+public class StrategySupplySource implements T1Entity {
 
 	private int id;
 	private int strategy_id;

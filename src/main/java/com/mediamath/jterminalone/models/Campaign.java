@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Campaign {
+public class Campaign implements T1Entity {
 
 	public enum conv {
 		every, one, variable

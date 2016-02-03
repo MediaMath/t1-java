@@ -1,6 +1,6 @@
 package com.mediamath.jterminalone.models;
 
-public class AdServer {
+public class AdServer implements T1Entity {
 
 	private int id;
 	private String name;

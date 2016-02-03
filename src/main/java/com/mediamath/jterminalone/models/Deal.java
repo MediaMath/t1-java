@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Deal {
+public class Deal implements T1Entity {
 
 	public enum deal_sources {
 		USER, INTERNAL

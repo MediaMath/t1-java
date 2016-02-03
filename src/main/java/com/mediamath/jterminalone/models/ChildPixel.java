@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class ChildPixel {
+public class ChildPixel implements T1Entity {
 
 	private int bundle_id;
 	private Date created_on;

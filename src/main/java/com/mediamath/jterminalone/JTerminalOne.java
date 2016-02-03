@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.utils.Constants;
+import com.mediamath.jterminalone.utils.T1JsonToObjParser;
 
 /**
  * handles the authentication, session, entity
@@ -91,7 +94,7 @@ public class JTerminalOne {
 		this.setUser(map);
 	}
 	
-	public String get(QueryCriteria query) {
+	public JsonResponse<? extends T1Entity> get(QueryCriteria query) {
 		StringBuffer path=new StringBuffer("");
 		String childPath = "";
 		StringBuffer includePath = new StringBuffer("");
@@ -99,6 +102,8 @@ public class JTerminalOne {
 		//param collection String example "advertisers"
 		if(!query.collection.equals(null)){
 			path.append(query.collection);
+		} else {
+			throw new IllegalArgumentException("please specify: collection");
 		}
 		
 		//param entity Int example ID 12121
@@ -195,7 +200,29 @@ public class JTerminalOne {
 			}
 		}//end pageoffset
 		
-		return jt1Service.constructURL(path);
+
+		
+		
+		// get the data from t1 servers.
+		String finalPath = jt1Service.constructURL(path);
+		String response = this.connection.get(finalPath, this.getUser());
+
+		// parse the data to entities.
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		int result = parser.getJsonElementType(response);
+		Type JsonResponseType = null;
+		JsonResponse<? extends T1Entity> jsonresponse = null;
+		if(query.collection != null) {
+			if (result != 0) {
+				if (result == 1) {
+					JsonResponseType = Constants.getEntityType.get(query.collection);
+				} else if (result == 2) {
+					JsonResponseType = Constants.getListoFEntityType.get(query.collection);
+				}
+				jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+			}
+		}
+		return jsonresponse;
 	}
 	
 

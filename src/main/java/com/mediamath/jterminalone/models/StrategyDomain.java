@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class StrategyDomain {
+public class StrategyDomain implements T1Entity {
 
 	public enum restrictions {
 		INCLUDE, EXCLUDE

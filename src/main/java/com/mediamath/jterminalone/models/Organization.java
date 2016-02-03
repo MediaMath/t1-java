@@ -2,7 +2,7 @@ package com.mediamath.jterminalone.models;
 
 import java.util.Date;
 
-public class Organization {
+public class Organization implements T1Entity {
 
 	private String address_1;
 	private String address_2;
