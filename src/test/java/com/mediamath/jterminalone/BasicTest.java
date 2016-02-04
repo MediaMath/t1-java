@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 public class BasicTest extends TestCase {
 
-	@Test
+/*	@Test
 	public void testJTerminalOneStringStringString() {
 		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, t1.isAuthenticated());
@@ -24,7 +24,7 @@ public class BasicTest extends TestCase {
 		JTerminalOne t1 = new JTerminalOne();
 		boolean isAuthenticated = t1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, isAuthenticated);
-	}
+	}*/
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() {
@@ -35,9 +35,14 @@ public class BasicTest extends TestCase {
 									.setCollection("advertisers")
 									.setEntity(154161)
 									.setInclude(new ConditionQuery("agency", "organization"))
-									.setInclude(new ConditionQuery("ad_server"))
-									.setInclude(new ConditionQuery("vertical"))
 									.build();
+		
+		
+		query = QueryCriteria.builder(query)
+							.setInclude(new ConditionQuery("ad_server"))
+							.setInclude(new ConditionQuery("vertical"))
+							.build();
+
 		
 		JsonResponse<?> jsonresponse = null;
 		
@@ -47,14 +52,14 @@ public class BasicTest extends TestCase {
 	
 	}
 	
-	@Test
+/*	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setSortby("-id")
+									.setSortBy("-id")
 									.build();
 		
 		JsonResponse<?> jsonresponse = null;
@@ -177,7 +182,7 @@ public class BasicTest extends TestCase {
 	
 	}
 	
-	/*@Test
+	@Test
 	public void testBaiscGetWithFind2() {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
@@ -199,6 +204,6 @@ public class BasicTest extends TestCase {
 		
 		assertNotNull(jsonresponse);
 	
-	}*/
-	
+	}
+*/	
 }

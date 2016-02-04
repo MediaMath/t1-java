@@ -51,7 +51,7 @@ public class QueryCriteria {
 		
 		includeConditionList = builder.includeConditionList;
 		
-		sortBy = builder.sortby;
+		sortBy = builder.sortBy;
 		
 		if(builder.pageLimit > 0){
 			pageLimit = builder.pageLimit;
@@ -84,6 +84,10 @@ public class QueryCriteria {
 		return new Builder();
 	}
 	
+	public static Builder builder(QueryCriteria oldQueryCriteria) {
+		return new Builder(oldQueryCriteria);
+	}
+	
 	public static class Builder {
 	
 		private String collection = null; 
@@ -94,7 +98,7 @@ public class QueryCriteria {
 		
 		List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 		
-		private String sortby = null;
+		private String sortBy = null;
 		
 		private int pageLimit;
 		
@@ -122,6 +126,45 @@ public class QueryCriteria {
 		
 		private Builder() {}
 		
+		private Builder(QueryCriteria old) {
+			
+			collection = old.collection;
+			
+			entity = old.entity;
+			
+			child = old.child;
+			
+			includeConditionList = old.includeConditionList;
+			
+			sortBy = old.sortBy;
+			
+			if(old.pageLimit > 0){
+				pageLimit = old.pageLimit;
+			}
+			
+			parent = old.parent;
+			
+			full = old.full;
+			
+			pageOffset = old.pageOffset;
+			
+			limit = old.limit;
+			
+			query = old.query;
+			
+			queryParam = old.queryParam;
+			
+			queryParamValueStr = old.queryParamValueStr;
+
+			queryParamValueBoolean = old.queryParamValueBoolean;
+			
+			queryParamValueNumber = old.queryParamValueNumber;
+			
+			queryParamValueList = old.queryParamValueList;
+			
+			queryOperator = old.queryOperator;
+		}
+		
 		public Builder setCollection(String value) {
 			collection = value;
 			return this;
@@ -142,8 +185,8 @@ public class QueryCriteria {
 			return this;
 		}
 		
-		public Builder setSortby(String sortby) {
-			this.sortby = sortby;
+		public Builder setSortBy(String sortBy) {
+			this.sortBy = sortBy;
 			return this;
 		}
 
