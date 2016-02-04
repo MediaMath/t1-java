@@ -1,7 +1,9 @@
 package com.mediamath.jterminalone;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -13,7 +15,7 @@ import junit.framework.TestCase;
 
 public class BasicTest extends TestCase {
 
-/*	@Test
+	@Test
 	public void testJTerminalOneStringStringString() {
 		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, t1.isAuthenticated());
@@ -24,7 +26,7 @@ public class BasicTest extends TestCase {
 		JTerminalOne t1 = new JTerminalOne();
 		boolean isAuthenticated = t1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, isAuthenticated);
-	}*/
+	}
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() {
@@ -52,7 +54,7 @@ public class BasicTest extends TestCase {
 	
 	}
 	
-/*	@Test
+	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
@@ -205,5 +207,5 @@ public class BasicTest extends TestCase {
 		assertNotNull(jsonresponse);
 	
 	}
-*/	
+	
 }
