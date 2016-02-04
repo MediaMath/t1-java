@@ -1,5 +1,7 @@
 package com.mediamath.jterminalone.models;
 
+import java.util.ArrayList;
+
 import com.google.gson.annotations.SerializedName;
 
 public class JsonResponse<T> {
@@ -11,18 +13,18 @@ public class JsonResponse<T> {
 	@SerializedName("data")
 	T data;
 
-	@SerializedName("error")
-	String error;
+	@SerializedName("errors")
+	ArrayList<T1Error> errors;
 
 	@SerializedName("meta")
 	T1Meta meta;
-
-	public String getError() {
-		return error;
+	
+	public ArrayList<T1Error> getErrors() {
+		return errors;
 	}
 
-	public void setError(String error) {
-		this.error = error;
+	public void setErrors(ArrayList<T1Error> errors) {
+		this.errors = errors;
 	}
 
 	public T getData() {

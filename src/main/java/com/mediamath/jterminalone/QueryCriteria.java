@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mediamath.jterminalone.utils.ConditionQuery;
+import com.mediamath.jterminalone.utils.FullParamValues;
+import com.mediamath.jterminalone.utils.QueryParamValues;
+
 public class QueryCriteria {
 	
 	String collection = null; 
@@ -23,23 +27,25 @@ public class QueryCriteria {
 	
 	long parent = 0;
 	
-	String full = null;
-	
 	Map<String, Long> limit = new HashMap<String, Long>();
 	
 	String query=null;
 	
-	String queryParam = null;
+	String queryParamName = null;
 	
-	String queryParamValueStr = null;
+/*	String queryParamValueStr = null;
 
 	boolean queryParamValueBoolean;
 	
 	Number queryParamValueNumber = null;
 	
-	List<Object> queryParamValueList = new ArrayList<Object>();
+	List<Object> queryParamValueList = new ArrayList<Object>();*/
 	
-	String queryOperator = null;
+	String queryOperator = null; 
+	
+	QueryParamValues queryParams= null;
+	
+	FullParamValues full = null;
 	
 	public QueryCriteria(Builder builder) {
 		
@@ -51,7 +57,7 @@ public class QueryCriteria {
 		
 		includeConditionList = builder.includeConditionList;
 		
-		sortBy = builder.sortby;
+		sortBy = builder.sortBy;
 		
 		if(builder.pageLimit > 0){
 			pageLimit = builder.pageLimit;
@@ -59,29 +65,34 @@ public class QueryCriteria {
 		
 		parent = builder.parent;
 		
-		full = builder.full;
-		
 		pageOffset = builder.pageOffset;
 		
 		limit = builder.limit;
 		
 		query=builder.query;
 		
-		queryParam = builder.queryParam;
+		queryParamName = builder.queryParamName;
 		
-		queryParamValueStr = builder.queryParamValueStr;
+		full = builder.full;
+		queryParams = builder.queryParams;
+		
+/*		queryParamValueStr = builder.queryParamValueStr;
 
 		queryParamValueBoolean = builder.queryParamValueBoolean;
 		
 		queryParamValueNumber = builder.queryParamValueNumber;
 		
-		queryParamValueList = builder.queryParamValueList;
+		queryParamValueList = builder.queryParamValueList;*/
 		
 		queryOperator = builder.queryOperator;
 	}
 	
 	public static Builder builder() {
 		return new Builder();
+	}
+	
+	public static Builder builder(QueryCriteria oldQueryCriteria) {
+		return new Builder(oldQueryCriteria);
 	}
 	
 	public static class Builder {
@@ -94,13 +105,11 @@ public class QueryCriteria {
 		
 		List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 		
-		private String sortby = null;
+		private String sortBy = null;
 		
 		private int pageLimit;
 		
 		private long parent;
-		
-		private String full = null;
 		
 		private int pageOffset;
 		
@@ -108,19 +117,64 @@ public class QueryCriteria {
 		
 		private String query=null;
 		
-		private String queryParam = null;
+		private String queryParamName = null;
 		
-		private String queryParamValueStr = null;
+/*		private String queryParamValueStr = null;
 
 		private boolean queryParamValueBoolean;
 		
 		private Number queryParamValueNumber=null;
 		
-		private List<Object> queryParamValueList = new ArrayList<Object>();
+		private List<Object> queryParamValueList = new ArrayList<Object>();*/
 		
 		private String queryOperator = null;
 		
+		private QueryParamValues queryParams= null;
+		
+		private FullParamValues full = null;
+		
 		private Builder() {}
+		
+		private Builder(QueryCriteria old) {
+			
+			collection = old.collection;
+			
+			entity = old.entity;
+			
+			child = old.child;
+			
+			includeConditionList = old.includeConditionList;
+			
+			sortBy = old.sortBy;
+			
+			if(old.pageLimit > 0){
+				pageLimit = old.pageLimit;
+			}
+			
+			parent = old.parent;
+			
+			full = old.full;
+			
+			pageOffset = old.pageOffset;
+			
+			limit = old.limit;
+			
+			query = old.query;
+			
+			queryParamName = old.queryParamName;
+			
+/*			queryParamValueStr = old.queryParamValueStr;
+
+			queryParamValueBoolean = old.queryParamValueBoolean;
+			
+			queryParamValueNumber = old.queryParamValueNumber;
+			
+			queryParamValueList = old.queryParamValueList;*/
+			
+			queryOperator = old.queryOperator;
+			
+			queryParams  = old.queryParams;
+		}
 		
 		public Builder setCollection(String value) {
 			collection = value;
@@ -142,8 +196,8 @@ public class QueryCriteria {
 			return this;
 		}
 		
-		public Builder setSortby(String sortby) {
-			this.sortby = sortby;
+		public Builder setSortBy(String sortBy) {
+			this.sortBy = sortBy;
 			return this;
 		}
 
@@ -157,7 +211,7 @@ public class QueryCriteria {
 			return this;
 		}
 
-		public Builder setFull(String full) {
+		public Builder setFull(FullParamValues full) {
 			this.full = full;
 			return this;
 		}
@@ -182,28 +236,8 @@ public class QueryCriteria {
 			return this;
 		}
 
-		public Builder setQueryParam(String queryParam) {
-			this.queryParam = queryParam;
-			return this;
-		}
-		
-		public Builder setQueryParamValueStr(String queryParamValueStr) {
-			this.queryParamValueStr = queryParamValueStr;
-			return this;
-		}
-
-		public Builder setQueryParamValueBoolean(boolean queryParamValueBoolean) {
-			this.queryParamValueBoolean = queryParamValueBoolean;
-			return this;
-		}
-
-		public Builder setQueryParamValueNumber(Number queryParamValueNumber) {
-			this.queryParamValueNumber = queryParamValueNumber;
-			return this;
-		}
-
-		public Builder setQueryParamValueList(List<Object> queryParamValueList) {
-			this.queryParamValueList = queryParamValueList;
+		public Builder setQueryParamName(String queryParamName) {
+			this.queryParamName = queryParamName;
 			return this;
 		}
 
@@ -211,6 +245,12 @@ public class QueryCriteria {
 			this.queryOperator = queryOperator;
 			return this;
 		}
+		
+		public Builder setQueryParams(QueryParamValues queryParams) {
+			this.queryParams = queryParams;
+			return this;
+		}
+
 
 		public QueryCriteria build() {
 			return new QueryCriteria(this);

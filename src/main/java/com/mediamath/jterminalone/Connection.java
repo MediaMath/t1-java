@@ -10,11 +10,13 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.utils.Utility;
 
 /**
@@ -45,12 +47,16 @@ public class Connection {
 	 * @param uri
 	 * @param data
 	 * @return
+	 * @throws ClientException 
 	 */
 	// TODO refactor this.
-	public String post(String url, Object data, HashMap<String, HashMap<String, String>> userMap) {
+	public String post(String url, Object data, HashMap<String, HashMap<String, String>> userMap) throws ClientException {
+		
+		if(data == null) {
+			throw new ClientException("No Post Data");
+		}
 		
 		Client client = ClientBuilder.newClient(new ClientConfig());
-
 		
 		logger.info("Target URL: " + url);
 
@@ -83,7 +89,7 @@ public class Connection {
 	 */
 	public String get(String url, HashMap<String, HashMap<String, String>> userMap) {
 		
-		String response = null;
+		Response response = null;
 		
 		Client client = ClientBuilder.newClient(new ClientConfig());
 
@@ -101,9 +107,9 @@ public class Connection {
 			}
 		}
 
-		response = invocationBuilder.get(String.class);
-
-		return response;
+		response = invocationBuilder.get();
+		
+		return response.readEntity(String.class);
 	}
 
 }

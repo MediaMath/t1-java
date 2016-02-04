@@ -1,5 +1,6 @@
 package com.mediamath.jterminalone.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Organization implements T1Entity {
@@ -23,6 +24,7 @@ public class Organization implements T1Entity {
 	private String tag_ruleset;
 	private Date updated_on;
 	private boolean use_evidon_optout;
+	private ArrayList<String> org_type;
 	private int version;
 	private String zip;
 
@@ -192,6 +194,14 @@ public class Organization implements T1Entity {
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	public ArrayList<String> getOrg_type() {
+		return org_type;
+	}
+
+	public void setOrg_type(ArrayList<String> org_type) {
+		this.org_type = org_type;
 	}
 
 }
