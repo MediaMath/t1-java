@@ -29,32 +29,6 @@ public class Advertiser implements T1Entity {
 	private int vertical_id;
 	private List<Agency> agency;
 	
-	
-	public Advertiser(int id, float ad_server_fee, int ad_server_id, String ad_server_password,
-			String ad_server_username, int agency_id, boolean allow_x_strat_optimization, int billing_contact_id,
-			Date created_on, String domain, dmp_settings dmp_enabled, boolean minimize_multi_ads, String name,
-			int sales_contact_id, boolean status, Date updated_on, int version, int vertical_id) {
-		super();
-		this.id = id;
-		this.ad_server_fee = ad_server_fee;
-		this.ad_server_id = ad_server_id;
-		this.ad_server_password = ad_server_password;
-		this.ad_server_username = ad_server_username;
-		this.agency_id = agency_id;
-		this.allow_x_strat_optimization = allow_x_strat_optimization;
-		this.billing_contact_id = billing_contact_id;
-		this.created_on = created_on;
-		this.domain = domain;
-		this.dmp_enabled = dmp_enabled;
-		this.minimize_multi_ads = minimize_multi_ads;
-		this.name = name;
-		this.sales_contact_id = sales_contact_id;
-		this.status = status;
-		this.updated_on = updated_on;
-		this.version = version;
-		this.vertical_id = vertical_id;
-	}
-
 	public int getId() {
 		return id;
 	}
