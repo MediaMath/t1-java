@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.mediamath.jterminalone.Exceptions.ClientException;
+import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.utils.Filters;
 
@@ -17,19 +19,26 @@ public class BasicTest extends TestCase {
 
 	@Test
 	public void testJTerminalOneStringStringString() {
-		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
-		assertEquals(true, t1.isAuthenticated());
+		JTerminalOne t1;
+		try {
+			t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+			assertEquals(true, t1.isAuthenticated());
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Test
-	public void testJTerminalOneAuthenticate() {
+	public void testJTerminalOneAuthenticate() throws ClientException {
 		JTerminalOne t1 = new JTerminalOne();
 		boolean isAuthenticated = t1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, isAuthenticated);
 	}
 
 	@Test
-	public void testBaiscGetWithChildUsingQueryCriteria() {
+	public void testBaiscGetWithChildUsingQueryCriteria() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
 		
@@ -48,14 +57,19 @@ public class BasicTest extends TestCase {
 		
 		JsonResponse<?> jsonresponse = null;
 		
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithSortByUsingQueryCriteria() {
+	public void testBaiscGetWithSortByUsingQueryCriteria() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
@@ -66,14 +80,19 @@ public class BasicTest extends TestCase {
 		
 		JsonResponse<?> jsonresponse = null;
 		
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithPageLimit() {
+	public void testBaiscGetWithPageLimit() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
@@ -81,13 +100,18 @@ public class BasicTest extends TestCase {
 		
 		JsonResponse<?> jsonresponse = null;
 		
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	@Test
-	public void testBaiscGetWithPageLimitOffset() {
+	public void testBaiscGetWithPageLimitOffset() throws ClientException  {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		
@@ -99,14 +123,19 @@ public class BasicTest extends TestCase {
 		
 		JsonResponse<?> jsonresponse = null;
 		
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithLimit() {
+	public void testBaiscGetWithLimit() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -119,14 +148,19 @@ public class BasicTest extends TestCase {
 		
 		JsonResponse<?> jsonresponse = null;
 		
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithQuery() {
+	public void testBaiscGetWithQuery() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -137,14 +171,19 @@ public class BasicTest extends TestCase {
 									.setPageLimit(100)
 									.build();
 		JsonResponse<?> jsonresponse = null;
-		jsonresponse = jt1.get(query);
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 		
 	}
 	
 	@Test
-	public void testBaiscGetWithFind() {
+	public void testBaiscGetWithFind() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -157,14 +196,19 @@ public class BasicTest extends TestCase {
 									.setPageLimit(100)
 									.build();
 		JsonResponse<?> jsonresponse = null;
-		jsonresponse = jt1.find(query);
+		try {
+			jsonresponse = jt1.find(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithFind1() {
+	public void testBaiscGetWithFind1() throws ClientException {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -178,14 +222,19 @@ public class BasicTest extends TestCase {
 									.build();
 		
 		JsonResponse<?> jsonresponse = null;
-		jsonresponse = jt1.find(query);
+		try {
+			jsonresponse = jt1.find(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	
 	}
 	
 	@Test
-	public void testBaiscGetWithFind2() {
+	public void testBaiscGetWithFind2() throws ClientException  {
 		JTerminalOne jt1 = new JTerminalOne();
 		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -202,7 +251,12 @@ public class BasicTest extends TestCase {
 									.setPageLimit(100)
 									.build();
 		JsonResponse<?> jsonresponse = null;
-		jsonresponse = jt1.find(query);
+		try {
+			jsonresponse = jt1.find(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(jsonresponse);
 	

@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.jterminalone.Exceptions.ClientException;
+import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.Exceptions.T1Exception;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.service.JT1Service;
@@ -61,12 +64,18 @@ public class JTerminalOne {
 
 	/**
 	 * the other constructor, tries to connect with the credentials provided.
+	 * @throws ClientException 
 	 * 
 	 */
-	public JTerminalOne(String username, String password, String api_key) {
+	public JTerminalOne(String username, String password, String api_key) throws ClientException {
 		this();
 		
-		if(username.isEmpty() || password.isEmpty() || api_key.isEmpty()) {
+		if(api_key == null || api_key.isEmpty()) {
+			logger.error("Environment does not exist");
+			throw new ClientException("Please Provide Valid Enviornment");
+		}
+		
+		if(username.isEmpty() || password.isEmpty()) {
 			logger.error("Please provide valid credentials.");
 			throw new IllegalStateException();
 		}
@@ -95,9 +104,12 @@ public class JTerminalOne {
 		this.setUser(map);
 	}
 	
-	public JsonResponse<? extends T1Entity> get(QueryCriteria query) {
+	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
+		
 		StringBuffer path=new StringBuffer("");
+		
 		String childPath = "";
+		
 		StringBuffer includePath = new StringBuffer("");
 		
 		//param collection String example "advertisers"
@@ -111,8 +123,6 @@ public class JTerminalOne {
 		if(query.entity > 0){
 			path.append("/"+String.valueOf(query.entity));
 		}
-		
-
 		
 		//param child String example: acl, permissions
 		if(query.child!=null){
@@ -180,7 +190,7 @@ public class JTerminalOne {
 		
 		//param pageLimit, should not be > 100 example: page_limit=30
 		if(query.pageLimit > 100){
-			//TODO throw clientexception
+			throw new ClientException("Page_Limit parameter should not exceed 100");
 		}
 		else{
 			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
@@ -221,14 +231,18 @@ public class JTerminalOne {
 		int result = parser.getJsonElementType(response);
 		Type JsonResponseType = null;
 		JsonResponse<? extends T1Entity> jsonresponse = null;
+		
 		if(query.collection != null) {
+			
 			if (result != 0) {
 				if (result == 1) {
 					JsonResponseType = Constants.getEntityType.get(query.collection);
 				} else if (result == 2) {
 					JsonResponseType = Constants.getListoFEntityType.get(query.collection);
 				}
+
 				jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+				
 			}
 		}
 		return jsonresponse;
@@ -239,12 +253,15 @@ public class JTerminalOne {
 	 * 
 	 * @param query
 	 * @return
+	 * @throws ParseException 
+	 * @throws ClientException 
 	 */
-	public JsonResponse<? extends T1Entity> find(QueryCriteria query) {
+	public JsonResponse<? extends T1Entity> find(QueryCriteria query) throws ClientException, ParseException  {
+		
 		StringBuffer qParamVal = new StringBuffer();
 		
 		qParamVal.append(query.queryParam);
-		qParamVal.append(query.queryOperator);
+		//qParamVal.append(query.queryOperator);
 
 		//If operator is IN ie. when IN query, then check list provided and validate list for numbers and string only
 		if(query.queryOperator.equalsIgnoreCase(Filters.IN)){
@@ -281,8 +298,6 @@ public class JTerminalOne {
 
 		query.query =  qParamVal.toString();
 		
-
-		
 		return this.get(query);
 		
 	}
@@ -293,14 +308,17 @@ public class JTerminalOne {
 	 * 
 	 * @return boolean isauthenticated.
 	 */
-	public boolean authenticate(String username, String password, String api_key) {
+	public boolean authenticate(String username, String password, String api_key) throws ClientException {
 
 		// TODO validate
 		logger.info("Authenticating.");
 		
 		Form form = jt1Service.getLoginFormData(username, password, api_key);
 		String url = jt1Service.constructURL(new StringBuffer("login"));
-		String response = connection.post(url, form, null);
+		String response = null;
+		
+		response = connection.post(url, form, null);
+		
 		getUserSessionInfo(response);
 
 		// TODO handle Exception
