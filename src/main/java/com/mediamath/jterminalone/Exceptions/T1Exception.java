@@ -4,9 +4,9 @@ public class T1Exception extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String code = ""; 
+	private String code; 
 	
-	private String message = ""; 
+	private String message;
 	
 	public T1Exception() {
 		 super();

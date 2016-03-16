@@ -27,7 +27,7 @@ public class Advertiser implements T1Entity {
 	private Date updated_on;
 	private int version;
 	private int vertical_id;
-	private List<Agency> agency;
+	private Agency agency;
 	
 	public int getId() {
 		return id;
@@ -173,13 +173,11 @@ public class Advertiser implements T1Entity {
 		this.vertical_id = vertical_id;
 	}
 
-	public List<Agency> getAgency() {
+	public Agency getAgency() {
 		return agency;
 	}
 
-	public void setAgency(List<Agency> agency) {
+	public void setAgency(Agency agency) {
 		this.agency = agency;
 	}
-
-
 }

@@ -15,6 +15,7 @@ import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.Exceptions.T1Exception;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
+import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.utils.Constants;
 import com.mediamath.jterminalone.utils.Filters;
@@ -225,28 +226,71 @@ public class JTerminalOne {
 		// get the data from t1 servers.
 		String finalPath = jt1Service.constructURL(path);
 		String response = this.connection.get(finalPath, this.getUser());
-
+		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		int result = parser.getJsonElementType(response);
-		Type JsonResponseType = null;
-		JsonResponse<? extends T1Entity> jsonresponse = null;
+		try{
+			jsonResponse = parseResponse(query, response);
+			jsonResponse = checkResponseEntities(jsonResponse);
 		
-		if(query.collection != null) {
+		} catch (ParseException e) {
 			
-			if (result != 0) {
-				if (result == 1) {
-					JsonResponseType = Constants.getEntityType.get(query.collection);
-				} else if (result == 2) {
-					JsonResponseType = Constants.getListoFEntityType.get(query.collection);
+			throw new ClientException("Unable to parse the response");
+		
+		}
+		
+		// filter and validate data
+		
+		
+		
+		return jsonResponse;
+	}
+	
+	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) {
+		
+		if(jsonResponse != null) {
+			StringBuffer strbuff = new StringBuffer();
+			if(jsonResponse.getErrors() != null) {
+				for(T1Error error: jsonResponse.getErrors()) {
+					if(error.getMessage() != null) {
+						
+						strbuff.append(error.getMessage());
+					}
 				}
-
-				jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
-				
 			}
 		}
-		return jsonresponse;
+		
+		return jsonResponse;
 	}
+
+/**
+ * parses the response to objects.
+ * 
+ * @param query
+ * @param response
+ * @return
+ * @throws ParseException
+ */
+private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
+	T1JsonToObjParser parser = new T1JsonToObjParser();
+	int result = parser.getJsonElementType(response);
+	Type JsonResponseType = null;
+	JsonResponse<? extends T1Entity> jsonresponse = null;
+	
+	if(query.collection != null) {
+		
+		if (result != 0) {
+			if (result == 1) {
+				JsonResponseType = Constants.getEntityType.get(query.collection);
+			} else if (result == 2) {
+				JsonResponseType = Constants.getListoFEntityType.get(query.collection);
+			}
+
+			jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+			
+		}
+	}
+	return jsonresponse;
+}
 	
 	
 	/** Find method alternative to query of get

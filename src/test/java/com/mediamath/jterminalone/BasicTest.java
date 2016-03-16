@@ -167,6 +167,7 @@ public class BasicTest extends TestCase {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
+									.setInclude(new ConditionQuery("agency", "organization"))
 									.setQuery("agency_id%3E=109308")
 									.setPageLimit(100)
 									.build();
