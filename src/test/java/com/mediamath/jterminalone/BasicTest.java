@@ -203,8 +203,11 @@ public class BasicTest extends TestCase {
 			jsonresponse = jt1.find(query);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new AssertionError();
+			
 		}
+		
+		
 		
 		assertNotNull(jsonresponse);
 	
