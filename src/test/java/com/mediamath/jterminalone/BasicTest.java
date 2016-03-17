@@ -11,7 +11,9 @@ import org.junit.Test;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Filters;
+import com.mediamath.jterminalone.utils.QueryParamValues;
 
 import junit.framework.TestCase;
 
@@ -191,9 +193,9 @@ public class BasicTest extends TestCase {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setQueryParam("agency_id")
+									.setQueryParams(new QueryParamValues("agency_id"))
 									.setQueryOperator(Filters.GREATER_OR_EQUAL)
-									.setQueryParamValueNumber(109308)
+									.setQueryParams(new QueryParamValues(109308))
 									.setPageLimit(100)
 									.build();
 		JsonResponse<?> jsonresponse = null;
@@ -216,9 +218,9 @@ public class BasicTest extends TestCase {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setQueryParam("name")
+									.setQueryParams(new QueryParamValues("name"))
 									.setQueryOperator(Filters.EQUALS)
-									.setQueryParamValueStr("Retirement")
+									.setQueryParams(new QueryParamValues("Retirement"))
 									.setPageLimit(100)
 									.build();
 		
@@ -246,9 +248,9 @@ public class BasicTest extends TestCase {
 		qParams.add(150994);
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setQueryParam("name")
+									.setQueryParams(new QueryParamValues("name"))
 									.setQueryOperator(Filters.IN)
-									.setQueryParamValueList(qParams)
+									.setQueryParams(new QueryParamValues(qParams))
 									.setPageLimit(100)
 									.build();
 		JsonResponse<?> jsonresponse = null;

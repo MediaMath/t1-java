@@ -12,11 +12,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
-import com.mediamath.jterminalone.Exceptions.T1Exception;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.service.JT1Service;
+import com.mediamath.jterminalone.service.JTerminalOneService;
+import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Constants;
 import com.mediamath.jterminalone.utils.Filters;
 import com.mediamath.jterminalone.utils.T1JsonToObjParser;
@@ -43,6 +44,7 @@ public class JTerminalOne {
 	 */
 	private JT1Service jt1Service =null;
 	
+	private JTerminalOneService jTerminalOneService=null;
 	/*
 	 * maintains user session
 	 */
@@ -61,6 +63,7 @@ public class JTerminalOne {
 		logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
 		jt1Service = new JT1Service();
+		jTerminalOneService = new JTerminalOneService();
 	}
 
 	/**
@@ -127,15 +130,7 @@ public class JTerminalOne {
 		
 		//param child String example: acl, permissions
 		if(query.child!=null){
-			HashMap<String, Integer> childMap = Constants.childPaths.get(query.child);
-			for(String s : childMap.keySet()){
-				if(s.equalsIgnoreCase("target_dimensions")){
-					childPath += "?target_dimensions="+String.valueOf(childMap.get("target_dimensions"));
-				}
-				else{
-					childPath +="?"+query.child;
-				}
-			}
+			childPath = jTerminalOneService.constructChildPath(query.child);
 			if(!path.toString().equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
 				path.append(childPath);
 			}
@@ -156,23 +151,7 @@ public class JTerminalOne {
 		
 		//param include
 		if(query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
-			for(ConditionQuery conditionquery : query.includeConditionList) {
-				if(includePath.toString().equalsIgnoreCase("")) {
-					if(conditionquery.getInclude() != null) {
-						includePath.append("?with=" + conditionquery.getInclude());
-						if(conditionquery.getWith() != null) {
-							includePath.append("," + conditionquery.getWith());
-						}
-					}
-				} else {
-					if(conditionquery.getInclude() != null) {
-						includePath.append("&with=" + conditionquery.getInclude());
-						if(conditionquery.getWith() != null) {
-							includePath.append("," + conditionquery.getInclude());
-						}
-					}
-				}
-			}
+			includePath = jTerminalOneService.constructIncludePath(query.includeConditionList);
 			
 			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
 				path.append(includePath.toString());
@@ -189,28 +168,21 @@ public class JTerminalOne {
 			}
 		}//end sortby
 		
-		//param pageLimit, should not be > 100 example: page_limit=30
+		//param pageLimit should not be > 100 example: page_limit=30 
+		//and param pageOffset, should be > 0 example: page_offset=10 
 		if(query.pageLimit > 100){
 			throw new ClientException("Page_Limit parameter should not exceed 100");
 		}
 		else{
+			String pagePath = "";
+			pagePath = jTerminalOneService.constructPaginationPath(query.pageLimit, query.pageOffset);
 			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-				path.append("&page_limit="+String.valueOf(query.pageLimit));
+				path.append("&"+pagePath);
 			}
 			else{
-				path.append("?page_limit="+String.valueOf(query.pageLimit));
+				path.append("?"+pagePath);
 			}
 		}//end pageLimit
-		
-		//param pageOffset, should not be > 100 example: page_offset=100
-		if(query.pageOffset>0){
-			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-				path.append("&page_offset="+String.valueOf(query.pageOffset));
-			}
-			else{
-				path.append("?page_offset="+String.valueOf(query.pageOffset));
-			}
-		}//end pageoffset
 		
 		//param QUERY example 
 		if(query.query!=null){
@@ -304,18 +276,14 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 		
 		StringBuffer qParamVal = new StringBuffer();
 		
-		qParamVal.append(query.queryParam);
-		//qParamVal.append(query.queryOperator);
-
-		//If operator is IN ie. when IN query, then check list provided and validate list for numbers and string only
 		if(query.queryOperator.equalsIgnoreCase(Filters.IN)){
-			if(query.queryParamValueList==null || (query.queryParamValueList!=null && query.queryParamValueList.size() <1)){
+			if(query.queryParams.getListValue()==null || (query.queryParams.getListValue()!=null && query.queryParams.getListValue().size() <1)){
 				//TODO raise TypeError
 			}else{
 				qParamVal.append("(");
-				if(query.queryParamValueList.get(0) instanceof String || query.queryParamValueList.get(0) instanceof Number){
+				if(query.queryParams.getListValue().get(0) instanceof String || query.queryParams.getListValue().get(0) instanceof Number){
 					String prefix = "";
-					for(Object obj : query.queryParamValueList){
+					for(Object obj : query.queryParams.getListValue()){
 						qParamVal.append(prefix);
 						qParamVal.append(String.valueOf(obj));
 						prefix = ",";
@@ -326,21 +294,28 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 				
 				qParamVal.append(")");
 			}
-		} 
-		else if(query.queryParamValueStr!=null){
-			qParamVal.append(query.queryParamValueStr);
+		}else{
+			qParamVal.append(query.queryParamName);
+			qParamVal.append(query.queryOperator);
+			
+			if(query.queryParams.getStrValue()!=null){
+				qParamVal.append(query.queryParams.getStrValue());
+			}
+			else if(query.queryParams.getNumberValue() != null){
+				qParamVal.append(query.queryParams.getNumberValue());
+			}
+			else if(query.queryParams.getBoolValue()==true){
+				qParamVal.append(1);
+			}
+			else if(query.queryParams.getBoolValue()==false){
+				qParamVal.append(0);
+			}
+	
 		}
-		else if(query.queryParamValueNumber != null){
-			qParamVal.append(query.queryParamValueNumber);
-		}
-		else if(query.queryParamValueBoolean==true){
-			qParamVal.append(1);
-		}
-		else if(query.queryParamValueBoolean==false){
-			qParamVal.append(0);
-		}
-
+		
 		query.query =  qParamVal.toString();
+		
+	
 		
 		return this.get(query);
 		
