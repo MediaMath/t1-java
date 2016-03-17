@@ -217,20 +217,27 @@ public class JTerminalOne {
 		return jsonResponse;
 	}
 	
-	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) {
+	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
 		
 		if(jsonResponse != null) {
-			StringBuffer strbuff = new StringBuffer();
+			StringBuffer strbuff = null;
+			
 			if(jsonResponse.getErrors() != null) {
+				
 				for(T1Error error: jsonResponse.getErrors()) {
 					if(error.getMessage() != null) {
-						
-						strbuff.append(error.getMessage());
+						if(strbuff == null){ 
+							strbuff = new StringBuffer(error.getMessage());
+						} else {
+							strbuff.append(", " + error.getMessage());
+						}
 					}
 				}
+				// throw the error to client
+				throw new ClientException(strbuff.toString());
 			}
 		}
-		
+		// else return the object
 		return jsonResponse;
 	}
 
