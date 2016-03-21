@@ -193,7 +193,7 @@ public class BasicTest extends TestCase {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setQueryParams(new QueryParamValues("agency_id"))
+									.setQueryParamName("agency_id")
 									.setQueryOperator(Filters.GREATER_OR_EQUAL)
 									.setQueryParams(new QueryParamValues(109308))
 									.setPageLimit(100)
@@ -221,7 +221,7 @@ public class BasicTest extends TestCase {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
-									.setQueryParams(new QueryParamValues("name"))
+									.setQueryParamName("name")
 									.setQueryOperator(Filters.EQUALS)
 									.setQueryParams(new QueryParamValues("Retirement"))
 									.setPageLimit(100)
