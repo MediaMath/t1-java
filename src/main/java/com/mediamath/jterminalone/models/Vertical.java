@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Vertical implements T1Entity {
 
+	private static final String entityName = "Vertical";
+	
 	private int id;
     private String name;
     private Date created_on;
@@ -39,7 +41,8 @@ public class Vertical implements T1Entity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-    
-    
+	public String getEntityname() {
+		return entityName;
+	}
 	
 }

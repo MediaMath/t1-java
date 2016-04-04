@@ -1,5 +1,7 @@
 package com.mediamath.jterminalone.models;
 
+import java.util.List;
+
 public class T1Error {
 	
 	String type;
@@ -7,6 +9,10 @@ public class T1Error {
 	String field;
 	
 	String message;
+	
+	String content;
+	
+	List<FieldError> fieldError;
 
 	public String getMessage() {
 		return message;
@@ -30,6 +36,22 @@ public class T1Error {
 
 	public void setField(String field) {
 		this.field = field;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public List<FieldError> getFieldError() {
+		return fieldError;
+	}
+
+	public void setFieldError(List<FieldError> fieldError) {
+		this.fieldError = fieldError;
 	}
 	
 

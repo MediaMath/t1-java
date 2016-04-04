@@ -1,6 +1,8 @@
 package com.mediamath.jterminalone.models;
 
 public class StrategySupplySource implements T1Entity {
+	
+	private static final String entityName = "StrategySupplySource";
 
 	private int id;
 	private int strategy_id;
@@ -37,6 +39,10 @@ public class StrategySupplySource implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

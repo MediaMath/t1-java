@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class VendorPixelDomain implements T1Entity {
+	
+	private static final String entityName = "VendorPixelDomain";
 
 	private Date created_on;
     private String domain;
@@ -45,6 +47,9 @@ public class VendorPixelDomain implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
 	
     

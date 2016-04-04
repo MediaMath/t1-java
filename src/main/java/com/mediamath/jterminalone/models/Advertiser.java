@@ -1,9 +1,10 @@
 package com.mediamath.jterminalone.models;
 
 import java.util.Date;
-import java.util.List;
 
 public class Advertiser implements T1Entity {
+	
+	private static final String entityName = "Advertiser" ;
 
 	public enum dmp_settings {
 		inherits, disabled
@@ -179,5 +180,9 @@ public class Advertiser implements T1Entity {
 
 	public void setAgency(Agency agency) {
 		this.agency = agency;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 }

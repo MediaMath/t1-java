@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class Strategy implements T1Entity {
+	
+	private static final String entityName = "Strategy";
 
 	public enum aud_seg_exc {
 		AND, OR
@@ -425,6 +427,10 @@ public class Strategy implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

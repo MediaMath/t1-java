@@ -1,6 +1,8 @@
 package com.mediamath.jterminalone.models;
 
 public class TargetValue implements T1Entity {
+	
+	private static final String entityName = "TargetValue";
 
 	 private String _type;
 	 private String code;
@@ -50,6 +52,9 @@ public class TargetValue implements T1Entity {
 	}
 	public void setValue(int value) {
 		this.value = value;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
 	
      

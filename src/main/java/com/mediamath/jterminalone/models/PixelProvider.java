@@ -3,6 +3,9 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class PixelProvider implements T1Entity {
+	
+	private static final String entityName = "PixelProvider";
+	
 	public enum executors {
 		MEDIAMATH, UDI
 	};
@@ -96,6 +99,10 @@ public class PixelProvider implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

@@ -27,19 +27,34 @@ import com.mediamath.jterminalone.models.User;
 
 public final class Constants {
 
+	//required for converting requested string path names to entity names when collection demended
 	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String,String>();
+	
+	//Required for converting entity names to path names [to form paths.]
 	public static HashMap<String, String> entityPaths = new HashMap<String,String>();
+	
+	//Required for Identifying entity based on requiested path/entity string
 	public static HashMap<String, String> pathToEntity = new HashMap<String,String>();
+	
 	public static HashMap<String, Integer> childPathSub = new HashMap<String, Integer>();
+	
 	public static HashMap<String, HashMap<String, Integer>> childPaths = new HashMap<String, HashMap<String, Integer>>();
+	
+	//TODO: clean up
+	//get the type of entity.. required for parsing.
 	public static HashMap<String, Type> getEntityType = new HashMap<String, Type>();
+
+	//TODO: clean up
+	//get the type of list of entity.. required for parsing.
 	public static HashMap<String, Type> getListoFEntityType = new HashMap<String, Type>();
 		
+
 	static{
 		
 		getEntityType.put("ad_servers", new TypeToken<JsonResponse<AdServer>>(){}.getType());
 		getEntityType.put("advertisers", new TypeToken<JsonResponse<Advertiser>>(){}.getType());
 		getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>(){}.getType());
+		getEntityType.put("agency", new TypeToken<JsonResponse<Agency>>(){}.getType());
 		// getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		// getEntityType.put("audience_segments", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());

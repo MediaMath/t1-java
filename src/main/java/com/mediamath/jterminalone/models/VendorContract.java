@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class VendorContract implements T1Entity {
+	
+	private static final String entityName = "VendorContract";
 
 	private int campaign_id;
 	private Date created_on;
@@ -66,6 +68,9 @@ public class VendorContract implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
 	
     

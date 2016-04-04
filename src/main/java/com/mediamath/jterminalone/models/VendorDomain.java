@@ -3,8 +3,9 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class VendorDomain implements T1Entity {
-
 	
+	private static final String entityName = "VendorDomain";
+
 	private boolean allow_subdomain_match;
 	private Date created_on;
 	private String domain;
@@ -53,6 +54,9 @@ public class VendorDomain implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
 	
 	

@@ -14,6 +14,14 @@ public class Utility {
 	private static final Logger logger = LoggerFactory.getLogger(JTerminalOne.class);
 
 	private static Properties vConfigProp = new Properties();
+	
+	public static String getOnOrOff(boolean bool) {
+		String response = "off";
+		if(bool) {
+			response = "on";
+		}
+		return response;
+	}
 
 	public static Properties loadConfigProperty() {
 		if (vConfigProp.isEmpty()) {

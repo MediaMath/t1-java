@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class SitePlacement implements T1Entity {
+	
+	private static final String entityName = "SitePlacement";
 
 	public enum dealSources  {USER, INTERNAL};
 	public enum mediaTypes  {display, video, mobile};
@@ -84,6 +86,9 @@ public class SitePlacement implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
 	
 	

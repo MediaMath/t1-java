@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class PublisherSite implements T1Entity {
+	
+	private static final String entityName = "PublisherSite";
 
 	private Date created_on;
 	private int id;
@@ -57,6 +59,10 @@ public class PublisherSite implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

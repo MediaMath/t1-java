@@ -1,6 +1,8 @@
 package com.mediamath.jterminalone.models;
 
 public class Permission implements T1Entity {
+	
+	private static final String entityName = "Permission";
 
 	// private String type; // seems duplicate one private one local
 	private String advertiser;
@@ -137,6 +139,10 @@ public class Permission implements T1Entity {
 
 	public void setScope(String scope) {
 		this.scope = scope;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

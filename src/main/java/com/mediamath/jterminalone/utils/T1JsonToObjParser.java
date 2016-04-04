@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
@@ -14,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.models.JsonPostResponse;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
 
@@ -67,6 +69,17 @@ public class T1JsonToObjParser {
 		}
 		return jsonResponse;
 	}
+	
+	public JsonPostResponse parsePOSTResponseTOObj(String jsonPostResponseString) {
+		JsonPostResponse response = null;
+		GsonBuilder builder = new GsonBuilder();
+		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+		Gson gson = builder.create();
+		response = gson.fromJson(jsonPostResponseString, JsonPostResponse.class);
+		
+		return response;
+	}
+	
 
 }
 

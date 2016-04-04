@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class Campaign implements T1Entity {
+	
+	private static final String entityName = "Campaign";
 
 	public enum conv {
 		every, one, variable
@@ -414,6 +416,10 @@ public class Campaign implements T1Entity {
 
 	public void setZone_name(String zone_name) {
 		this.zone_name = zone_name;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

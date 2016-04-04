@@ -3,7 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class Creative implements T1Entity {
-
+	
+	private static final String entityName = "Creative";
 	
 	 private int atomic_creative_id;
      private Date created_on;
@@ -53,6 +54,9 @@ public class Creative implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
      
      

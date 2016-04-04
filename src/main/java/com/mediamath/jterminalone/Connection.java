@@ -50,7 +50,7 @@ public class Connection {
 	 * @throws ClientException 
 	 */
 	// TODO refactor this.
-	public String post(String url, Object data, HashMap<String, HashMap<String, String>> userMap) throws ClientException {
+	public String post(String url, Form data, HashMap<String, HashMap<String, String>> userMap) throws ClientException {
 		
 		if(data == null) {
 			throw new ClientException("No Post Data");
@@ -71,14 +71,14 @@ public class Connection {
 			}
 		}
 
-		Form form = null;
-		if (data instanceof Form) {
-			form = (Form) data;
-		}
-
-		String response = invocationBuilder.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED),String.class);
-
-		return response;
+		Response response = null;
+		
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		
+		return response.readEntity(String.class);
+		
+		//response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED),String.class);
+		//return response;
 	}
 
 	/**handles GET requests

@@ -12,12 +12,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.Data;
+import com.mediamath.jterminalone.models.JsonPostResponse;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.models.T1Error;
+import com.mediamath.jterminalone.models.T1Property;
+import com.mediamath.jterminalone.models.helper.AgencyHelper;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.service.JTerminalOneService;
-import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Constants;
 import com.mediamath.jterminalone.utils.Filters;
 import com.mediamath.jterminalone.utils.T1JsonToObjParser;
@@ -43,6 +47,7 @@ public class JTerminalOne {
 	 * service object.
 	 */
 	private JT1Service jt1Service =null;
+	
 	
 	private JTerminalOneService jTerminalOneService=null;
 	/*
@@ -81,7 +86,7 @@ public class JTerminalOne {
 		
 		if(username.isEmpty() || password.isEmpty()) {
 			logger.error("Please provide valid credentials.");
-			throw new IllegalStateException();
+			throw new ClientException("Please Provide Valid Username and Password.");
 		}
 
 		logger.info("Loading Environment - Authenticating.");
@@ -108,6 +113,70 @@ public class JTerminalOne {
 		this.setUser(map);
 	}
 	
+	
+	/**
+	 * saves the given entity.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public JsonResponse<? extends T1Entity> save(Agency entity) throws ClientException, ParseException {
+		JsonResponse<? extends T1Entity>  responseentity = null;
+		if(entity != null) {
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, AgencyHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse respfinal = parser.parsePOSTResponseTOObj(response);
+
+			Data d = new Data();
+			for(T1Property p : respfinal.getEntity().getProp()) {
+				d.getData().put(p.getName(), p.getValue());
+			}
+			d.getData().put("name", respfinal.getEntity().getName());
+			d.getData().put("entity_type", respfinal.getEntity().getType());
+			d.getData().put("id", respfinal.getEntity().getId());
+			d.getData().put("version", String.valueOf(respfinal.getEntity().getVersion()));
+			
+			
+			Gson g = new Gson();
+			String s = g.toJson(d);
+			
+			// update the existing object. or create new object.
+			responseentity = parseResponse(s, respfinal.getEntity().getType());
+			
+			System.out.println("tmp");
+			
+			return responseentity;
+		}
+		return responseentity;
+	}
+	
+
+	
+	/**
+	 * Get.
+	 * 
+	 * @param query
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
 		
 		StringBuffer path=new StringBuffer("");
@@ -249,6 +318,37 @@ public class JTerminalOne {
  * @return
  * @throws ParseException
  */
+	//TODO
+private JsonResponse<? extends T1Entity> parseResponse(String response, String entityType) throws ParseException {
+	T1JsonToObjParser parser = new T1JsonToObjParser();
+	int result = parser.getJsonElementType(response);
+	Type JsonResponseType = null;
+	JsonResponse<? extends T1Entity> jsonresponse = null;
+	
+	if(entityType != null) {
+		
+		if (result != 0) {
+			if (result == 1) {
+				JsonResponseType = Constants.getEntityType.get(entityType);
+			} else if (result == 2) {
+				JsonResponseType = Constants.getListoFEntityType.get(entityType);
+			}
+
+			jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+			
+		}
+	}
+	return jsonresponse;
+}
+
+/**
+ * parses the response to objects.
+ * 
+ * @param query
+ * @param response
+ * @return
+ * @throws ParseException
+ */
 private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
 	T1JsonToObjParser parser = new T1JsonToObjParser();
 	int result = parser.getJsonElementType(response);
@@ -270,6 +370,7 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	}
 	return jsonresponse;
 }
+
 	
 	
 	/** Find method alternative to query of get
@@ -358,11 +459,11 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	/*
 	 * getters and setters
 	 */
-	public HashMap<String, HashMap<String, String>> getUser() {
+	private HashMap<String, HashMap<String, String>> getUser() {
 		return user;
 	}
 
-	public void setUser(HashMap<String, HashMap<String, String>> user) {
+	private void setUser(HashMap<String, HashMap<String, String>> user) {
 		this.user = user;
 	}
 

@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class Pixel implements T1Entity {
+	
+	private static final String entityName = "Pixel";
 
 	public enum pixel_types {
 		creative, event, data, segment
@@ -262,6 +264,10 @@ public class Pixel implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

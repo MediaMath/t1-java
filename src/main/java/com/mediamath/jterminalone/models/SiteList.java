@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class SiteList implements T1Entity {
+	
+	private static final String entityName = "SiteList";
 
 	public enum restrictions {INCLUDE, EXCLUDE};
 	
@@ -68,6 +70,9 @@ public class SiteList implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
     
     

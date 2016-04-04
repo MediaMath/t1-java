@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class Deal implements T1Entity {
+	
+	private static final String entityName = "Deal";
 
 	public enum deal_sources {
 		USER, INTERNAL
@@ -208,6 +210,10 @@ public class Deal implements T1Entity {
 
 	public void setZone_name(String zone_name) {
 		this.zone_name = zone_name;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

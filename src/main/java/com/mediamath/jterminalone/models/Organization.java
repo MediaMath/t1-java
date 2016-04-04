@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Organization implements T1Entity {
+	
+	private static final String entityName = "Organization";
 
 	private String address_1;
 	private String address_2;
@@ -202,6 +204,10 @@ public class Organization implements T1Entity {
 
 	public void setOrg_type(ArrayList<String> org_type) {
 		this.org_type = org_type;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.mediamath.jterminalone.models;
 
 public class TargetDimension implements T1Entity {
+	
+	private static final String entityName = "TargetDimension";
 
 	private String type;
 	private String exclude;
@@ -28,6 +30,10 @@ public class TargetDimension implements T1Entity {
 
 	public void setInclude(String include) {
 		this.include = include;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }

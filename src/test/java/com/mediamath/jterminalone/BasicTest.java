@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.models.Agency;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Filters;
@@ -18,7 +19,24 @@ import com.mediamath.jterminalone.utils.QueryParamValues;
 import junit.framework.TestCase;
 
 public class BasicTest extends TestCase {
+	
+	@Test
+	public void testPost() throws ClientException {
+		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Agency agency = new Agency();
+		agency.setName("Nitesh6");
+		agency.setOrganization_id(100048);
 
+		try {
+			t1.save(agency);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	@Test
 	public void testJTerminalOneStringStringString() {
 		JTerminalOne t1;

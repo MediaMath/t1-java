@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class AudienceSegment implements T1Entity {
+	
+	private static final String entityName = "AudienceSegment";
 
 	
 	private int audience_vendor_id;
@@ -109,6 +111,9 @@ public class AudienceSegment implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
     
     

@@ -2,6 +2,8 @@ package com.mediamath.jterminalone.models;
 
 public class AdServer implements T1Entity {
 
+	private static final String entityName = "AdServer";
+	
 	private int id;
 	private String name;
 	private int version;
@@ -37,4 +39,8 @@ public class AdServer implements T1Entity {
 		this.version = version;
 	}
 
+	public String getEntityname() {
+		return entityName;
+	}
+	
 }

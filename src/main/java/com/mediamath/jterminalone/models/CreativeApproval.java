@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class CreativeApproval implements T1Entity {
+	
+	private static final String entityName = "CreativeApproval";
 
 	private String additional_detail;
 	private String approval_status;
@@ -80,6 +82,9 @@ public class CreativeApproval implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	public String getEntityname() {
+		return entityName;
 	}
     
     

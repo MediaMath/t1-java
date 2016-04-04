@@ -1,28 +1,37 @@
 package com.mediamath.jterminalone.models;
 
 import java.util.Date;
-import java.util.List;
 
 public class Agency implements T1Entity {
 
+	private static final String entityName = "Agency";
+
 	private boolean allow_x_adv_optimization;
-	private boolean billing_contact_id;
-	private Date created_on;
+	private boolean allow_x_adv_pixels;
+	private int billing_contact_id;
+	private String dmp_enabled;
+	private String created_on;
 	private int id;
 	private String logo;
 	private String name;
 	private int organization_id;
 	private int sales_contact_id;
 	private boolean status;
-	private Date updated_on;
+	private String updated_on;
 	private int version;
+	private int traffic_contact_id;
 	Organization organization;
+	
+	public Agency(){}
 
-	public Agency(boolean allow_x_adv_optimization, boolean billing_contact_id, Date created_on, int id, String logo,
-			String name, int organization_id, int sales_contact_id, boolean status, Date updated_on, int version) {
+	public Agency(boolean allow_x_adv_optimization, boolean allow_x_adv_pixels, int billing_contact_id,
+			String dmp_enabled, String created_on, int id, String logo, String name, int organization_id,
+			int sales_contact_id, boolean status, String updated_on, int version, int traffic_contact_id) {
 		super();
 		this.allow_x_adv_optimization = allow_x_adv_optimization;
+		this.allow_x_adv_pixels = allow_x_adv_pixels;
 		this.billing_contact_id = billing_contact_id;
+		this.dmp_enabled = dmp_enabled;
 		this.created_on = created_on;
 		this.id = id;
 		this.logo = logo;
@@ -32,6 +41,7 @@ public class Agency implements T1Entity {
 		this.status = status;
 		this.updated_on = updated_on;
 		this.version = version;
+		this.traffic_contact_id = traffic_contact_id;
 	}
 
 	public boolean isAllow_x_adv_optimization() {
@@ -42,19 +52,19 @@ public class Agency implements T1Entity {
 		this.allow_x_adv_optimization = allow_x_adv_optimization;
 	}
 
-	public boolean isBilling_contact_id() {
+	public int getBilling_contact_id() {
 		return billing_contact_id;
 	}
 
-	public void setBilling_contact_id(boolean billing_contact_id) {
+	public void setBilling_contact_id(int billing_contact_id) {
 		this.billing_contact_id = billing_contact_id;
 	}
 
-	public Date getCreated_on() {
+	public String getCreated_on() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreated_on(String created_on) {
 		this.created_on = created_on;
 	}
 
@@ -106,11 +116,11 @@ public class Agency implements T1Entity {
 		this.status = status;
 	}
 
-	public Date getUpdated_on() {
+	public String getUpdated_on() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdated_on(String updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -129,6 +139,35 @@ public class Agency implements T1Entity {
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
+
+	public String getEntityname() {
+		return entityName;
+	}
+
+	public boolean isAllow_x_adv_pixels() {
+		return allow_x_adv_pixels;
+	}
+
+	public void setAllow_x_adv_pixels(boolean allow_x_adv_pixels) {
+		this.allow_x_adv_pixels = allow_x_adv_pixels;
+	}
+
+	public String getDmp_enabled() {
+		return dmp_enabled;
+	}
+
+	public void setDmp_enabled(String dmp_enabled) {
+		this.dmp_enabled = dmp_enabled;
+	}
+
+	public int getTraffic_contact_id() {
+		return traffic_contact_id;
+	}
+
+	public void setTraffic_contact_id(int traffic_contact_id) {
+		this.traffic_contact_id = traffic_contact_id;
+	}
+	
 
 
 }

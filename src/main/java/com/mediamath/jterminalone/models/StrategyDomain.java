@@ -3,6 +3,8 @@ package com.mediamath.jterminalone.models;
 import java.util.Date;
 
 public class StrategyDomain implements T1Entity {
+	
+	private static final String entityName = "StrategyDomain";
 
 	public enum restrictions {
 		INCLUDE, EXCLUDE
@@ -70,6 +72,10 @@ public class StrategyDomain implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public String getEntityname() {
+		return entityName;
 	}
 
 }
