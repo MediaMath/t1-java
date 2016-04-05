@@ -115,15 +115,18 @@ public class JTerminalOne {
 	
 	
 	/**
-	 * saves the given entity.
+	 * saves the given Agency.
 	 * 
 	 * @param entity
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
-	public JsonResponse<? extends T1Entity> save(Agency entity) throws ClientException, ParseException {
-		JsonResponse<? extends T1Entity>  responseentity = null;
+	public Agency save(Agency entity) throws ClientException, ParseException {
+		Agency agency = null;
+		
 		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
 			// detect
 			String entityName = entity.getEntityname();
 			// form a path
@@ -142,29 +145,29 @@ public class JTerminalOne {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse respfinal = parser.parsePOSTResponseTOObj(response);
+			JsonPostResponse jsonPostResponse = parser.parsePOSTResponseTOObj(response);
 
-			Data d = new Data();
-			for(T1Property p : respfinal.getEntity().getProp()) {
-				d.getData().put(p.getName(), p.getValue());
+			Data data = new Data();
+			for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+				data.getData().put(p.getName(), p.getValue());
 			}
-			d.getData().put("name", respfinal.getEntity().getName());
-			d.getData().put("entity_type", respfinal.getEntity().getType());
-			d.getData().put("id", respfinal.getEntity().getId());
-			d.getData().put("version", String.valueOf(respfinal.getEntity().getVersion()));
-			
-			
+			data.getData().put("name", jsonPostResponse.getEntity().getName());
+			data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+			data.getData().put("id", jsonPostResponse.getEntity().getId());
+			data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+			// parse data to json.
 			Gson g = new Gson();
-			String s = g.toJson(d);
-			
+			String s = g.toJson(data);
 			// update the existing object. or create new object.
-			responseentity = parseResponse(s, respfinal.getEntity().getType());
+			finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
 			
-			System.out.println("tmp");
+			//TODO throw errors if any
 			
-			return responseentity;
+			if(finalJsonResponse.getData() instanceof Agency) {
+				agency = (Agency) finalJsonResponse.getData();
+			}
 		}
-		return responseentity;
+		return agency;
 	}
 	
 

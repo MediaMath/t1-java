@@ -29,7 +29,7 @@ public class BasicTest extends TestCase {
 		agency.setOrganization_id(100048);
 
 		try {
-			t1.save(agency);
+			agency = t1.save(agency);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
