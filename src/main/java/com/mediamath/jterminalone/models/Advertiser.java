@@ -9,6 +9,24 @@ public class Advertiser implements T1Entity {
 	public enum dmp_settings {
 		inherits, disabled
 	};
+	
+	public enum freq_ints {
+		hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
+		String val;
+		freq_ints(String s){
+			val=s;
+		}
+	}; // should be not-applicable
+
+	public enum freq_types {
+		even("even"), asap("asap"), no_limit("no-limit");
+		String val;
+		freq_types(String s){
+			val=s;
+		}
+	}; // should be no-limit
+
+	
 
 	private int id;
 	private float ad_server_fee;
@@ -21,6 +39,9 @@ public class Advertiser implements T1Entity {
 	private Date created_on;
 	private String domain;
 	private dmp_settings dmp_enabled;
+	private freq_types frequency_type;
+	private freq_ints frequency_interval;
+	private int frequency_amount;
 	private boolean minimize_multi_ads;
 	private String name;
 	private int sales_contact_id;
@@ -116,6 +137,30 @@ public class Advertiser implements T1Entity {
 
 	public void setDmp_enabled(dmp_settings dmp_enabled) {
 		this.dmp_enabled = dmp_enabled;
+	}
+
+	public freq_types getFrequency_type() {
+		return frequency_type;
+	}
+
+	public void setFrequency_type(freq_types frequency_type) {
+		this.frequency_type = frequency_type;
+	}
+
+	public freq_ints getFrequency_interval() {
+		return frequency_interval;
+	}
+
+	public void setFrequency_interval(freq_ints frequency_interval) {
+		this.frequency_interval = frequency_interval;
+	}
+
+	public int getFrequency_amount() {
+		return frequency_amount;
+	}
+
+	public void setFrequency_amount(int frequency_amount) {
+		this.frequency_amount = frequency_amount;
 	}
 
 	public boolean isMinimize_multi_ads() {

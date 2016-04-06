@@ -15,12 +15,21 @@ public class Strategy implements T1Entity {
 	};
 
 	public enum freq_int {
-		hour, day, week, month, campaign, not_applicable
-	}; // supposed to be not-applicable
+		hour("hour"), day("day"), week("week"), month("month"),campaign("campaign"), not_applicable("not-applcable");
+		String val;
+		freq_int(String s){
+			val=s;
+		}
+	}; // should be not-applicable
 
 	public enum freq_type {
-		even, asap, no_limit
-	}; // supposed to be no-limit
+		even("even"), asap("asap"), no_limit("no-limit");
+		String val;
+		freq_type(String s){
+			val=s;
+		}
+	}; // should be no-limit
+
 
 	public enum goal_type {
 		spend, reach, cpc, cpe, cpa, roi
@@ -56,10 +65,10 @@ public class Strategy implements T1Entity {
 	private boolean bid_price_is_media_only;
 	private float budget;
 	private int campaign_id;
-	private Date created_on;
+	private String created_on;
 	private String description;
 	private float effective_goal_value;
-	private Date end_date;
+	private String end_date;
 	private String feature_compatibility;
 	private int frequency_amount;
 	private freq_int frequency_interval;
@@ -74,6 +83,7 @@ public class Strategy implements T1Entity {
 	private float pacing_amount;
 	private pac_int pacing_interval;
 	private pac_type pacing_type;
+	private float roi_target;
 	private String pixel_target_expr;
 	private boolean run_on_all_exchanges;
 	private boolean run_on_all_pmp;
@@ -82,16 +92,17 @@ public class Strategy implements T1Entity {
 	private boolean run_on_streaming;
 	private boolean site_restriction_transparent_urls;
 	private site_selec site_selectiveness;
-	private Date start_date;
+	private String start_date;
 	private boolean status;
 	private supply_type supply_type;
 	private type type;
-	private Date updated_on;
+	private String updated_on;
 	private boolean use_campaign_end;
 	private boolean use_campaign_start;
 	private boolean use_mm_freq;
 	private boolean use_optimization;
 	private int version;
+	private String zone_name;
 
 	public aud_seg_exc getAudience_segment_exclude_op() {
 		return audience_segment_exclude_op;
@@ -141,11 +152,11 @@ public class Strategy implements T1Entity {
 		this.campaign_id = campaign_id;
 	}
 
-	public Date getCreated_on() {
+	public String getCreated_on() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreated_on(String created_on) {
 		this.created_on = created_on;
 	}
 
@@ -165,11 +176,11 @@ public class Strategy implements T1Entity {
 		this.effective_goal_value = effective_goal_value;
 	}
 
-	public Date getEnd_date() {
+	public String getEnd_date() {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end_date) {
+	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
 
@@ -349,11 +360,11 @@ public class Strategy implements T1Entity {
 		this.site_selectiveness = site_selectiveness;
 	}
 
-	public Date getStart_date() {
+	public String getStart_date() {
 		return start_date;
 	}
 
-	public void setStart_date(Date start_date) {
+	public void setStart_date(String start_date) {
 		this.start_date = start_date;
 	}
 
@@ -381,11 +392,11 @@ public class Strategy implements T1Entity {
 		this.type = type;
 	}
 
-	public Date getUpdated_on() {
+	public String getUpdated_on() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdated_on(String updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -433,4 +444,20 @@ public class Strategy implements T1Entity {
 		return entityName;
 	}
 
+	public float getRoi_target() {
+		return roi_target;
+	}
+
+	public void setRoi_target(float roi_target) {
+		this.roi_target = roi_target;
+	}
+
+	public String getZone_name() {
+		return zone_name;
+	}
+
+	public void setZone_name(String zone_name) {
+		this.zone_name = zone_name;
+	}
+	
 }

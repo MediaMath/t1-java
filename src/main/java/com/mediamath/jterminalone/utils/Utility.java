@@ -22,6 +22,14 @@ public class Utility {
 		}
 		return response;
 	}
+	
+	public static String getOneOrZero(boolean bool) {
+		String response = "0";
+		if(bool) {
+			response = "1";
+		}
+		return response;
+	}
 
 	public static Properties loadConfigProperty() {
 		if (vConfigProp.isEmpty()) {
