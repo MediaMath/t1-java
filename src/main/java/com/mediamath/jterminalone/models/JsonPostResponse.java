@@ -1,7 +1,5 @@
 package com.mediamath.jterminalone.models;
 
-import java.util.List;
-
 public class JsonPostResponse {
 	
 	String etag;
@@ -12,9 +10,15 @@ public class JsonPostResponse {
 	
 	T1Error error;
 	
-	List<T1Error> errors;
+	Object errors;
 	
 	EntityInfo entity;
+	
+	public JsonPostResponse() {}
+	
+	public JsonPostResponse(Object errors) {
+		this.setErrors(errors);
+	}
 
 
 	public String getEtag() {
@@ -57,12 +61,12 @@ public class JsonPostResponse {
 	}
 
 
-	public List<T1Error> getErrors() {
+	public Object getErrors() {
 		return errors;
 	}
 
 
-	public void setErrors(List<T1Error> errors) {
+	public void setErrors(Object errors) {
 		this.errors = errors;
 	}
 

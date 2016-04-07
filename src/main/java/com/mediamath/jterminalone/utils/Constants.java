@@ -58,6 +58,7 @@ public final class Constants {
 		// getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		// getEntityType.put("audience_segments", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		getEntityType.put("campaign", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		// getEntityType.put("concepts", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		// getEntityType.put("creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		

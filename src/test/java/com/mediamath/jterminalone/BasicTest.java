@@ -2,6 +2,7 @@ package com.mediamath.jterminalone;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Filters;
@@ -21,20 +23,47 @@ import junit.framework.TestCase;
 public class BasicTest extends TestCase {
 	
 	@Test
-	public void testPost() throws ClientException {
+	public void testAgencyPost() throws ClientException {
 		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Agency agency = new Agency();
 		agency.setName("Nitesh6");
 		agency.setOrganization_id(100048);
-
 		try {
 			agency = t1.save(agency);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	}
+	
+	@Test
+	public void testCampaignPost() throws ClientException {
+		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Campaign camp = new Campaign();
+		camp.setName("NitCamp");
+		camp.setAd_server_fee(10.0f);
+		camp.setAd_server_id(9);
+		camp.setAdvertiser_id(154359);
+		camp.setConversion_type("variable");
+		camp.setConversion_variable_minutes(1);
+		camp.setEnd_date(new Date());
+		camp.setGoal_type(Campaign.goal_types.cpa);
+		camp.setGoal_value(100);
+		camp.setService_type(Campaign.serv_types.SELF);
+		camp.setStart_date(new Date());
+		camp.setTotal_budget(100);
+		camp.setUse_mm_freq(false);
+		camp.setMerit_pixel_id(3);
+		
+		try {
+			camp = t1.save(camp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("tmpe");
 	}
 	
 	@Test

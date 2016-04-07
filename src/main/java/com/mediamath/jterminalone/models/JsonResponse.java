@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 public class JsonResponse<T> {
+	
+	public JsonResponse() {}
 
 	public JsonResponse(T datavalue) {
 		this.data = datavalue;

@@ -1,25 +1,37 @@
 package com.mediamath.jterminalone;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.models.AdServer;
 import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.models.Data;
+import com.mediamath.jterminalone.models.FieldError;
 import com.mediamath.jterminalone.models.JsonPostResponse;
 import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.models.Status;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.models.T1Property;
 import com.mediamath.jterminalone.models.helper.AgencyHelper;
+import com.mediamath.jterminalone.models.helper.CampaignHelper;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.service.JTerminalOneService;
 import com.mediamath.jterminalone.utils.Constants;
@@ -145,33 +157,238 @@ public class JTerminalOne {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-
-			Data data = new Data();
-			for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-				data.getData().put(p.getName(), p.getValue());
-			}
-			data.getData().put("name", jsonPostResponse.getEntity().getName());
-			data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-			data.getData().put("id", jsonPostResponse.getEntity().getId());
-			data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-			// parse data to json.
-			Gson g = new Gson();
-			String s = g.toJson(data);
-			// update the existing object. or create new object.
-			finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+			JsonPostResponse jsonPostResponse =  null;
 			
-			//TODO throw errors if any
+			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
-			if(finalJsonResponse.getData() instanceof Agency) {
-				agency = (Agency) finalJsonResponse.getData();
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof Agency) {
+					agency = (Agency) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
 			}
+			
 		}
 		return agency;
 	}
 	
-
 	
+	public Campaign save(Campaign entity) throws ParseException, ClientException {
+		Campaign campaign = null;
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+				uri.append("/margins");
+			}
+			String path = jt1Service.constructURL(uri);
+			//post
+			String response = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
+			JsonPostResponse jsonPostResponse =  null;
+			jsonPostResponse = jsonPostErrorResponseParser(response); 
+			if (jsonPostResponse == null) {
+				// parse response
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+
+				Data data = new Data();
+				if (jsonPostResponse.getEntity() != null) {
+
+					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
+						data.getData().put(p.getName(), p.getValue());
+					}
+
+					data.getData().put("name", jsonPostResponse.getEntity().getName());
+					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+					data.getData().put("id", jsonPostResponse.getEntity().getId());
+					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+
+					// parse data to json.
+					Gson g = new Gson();
+					String s = g.toJson(data);
+
+					// update the existing object. or create new object.
+					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+
+					if (finalJsonResponse.getData() instanceof Campaign) {
+						campaign = (Campaign) finalJsonResponse.getData();
+					}
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+		}
+		return campaign;
+	}
+
+	/**
+	 * @param jsonPostResponse
+	 * @throws ClientException
+	 */
+	private void throwExceptions(JsonPostResponse jsonPostResponse) throws ClientException {
+	
+		StringBuffer strbuff = null;
+
+		if (jsonPostResponse.getError() != null) {
+			T1Error error = jsonPostResponse.getError();
+
+			if (error.getContent() != null) {
+				strbuff = new StringBuffer("Content: " + error.getContent());
+			}
+
+			if (error.getField() != null) {
+				if (strbuff == null) {
+					strbuff = new StringBuffer("Field: " + error.getField());
+				} else {
+					strbuff.append(", " + "Field: " + error.getField());
+				}
+			}
+
+			if (error.getMessage() != null) {
+				if (strbuff == null) {
+					strbuff = new StringBuffer("Message: " + error.getMessage());
+				} else {
+					strbuff.append(", " + "Message: " + error.getMessage());
+				}
+			}
+
+			if (error.getType() != null) {
+				if (strbuff == null) {
+					strbuff = new StringBuffer("Type: " + error.getType());
+				} else {
+					strbuff.append(", " + "Type: " + error.getType());
+				}
+			}
+		}
+
+		if (jsonPostResponse.getErrors() != null) {
+			if (jsonPostResponse.getErrors() instanceof ArrayList) {
+				@SuppressWarnings("unchecked")
+				ArrayList<T1Error> al = (ArrayList<T1Error>) jsonPostResponse.getErrors();
+				for (T1Error error : al) {
+					if (error.getMessage() != null) {
+						if (strbuff == null) {
+							strbuff = new StringBuffer(error.getMessage());
+						} else {
+							strbuff.append(", " + error.getMessage());
+						}
+					}
+					if (error.getFieldError() != null) {
+						for (FieldError fe : error.getFieldError()) {
+							if (strbuff == null) {
+								strbuff = new StringBuffer("Name: " + fe.getName() + ", Code: " + fe.getCode()
+										+ ", Error: " + fe.getError());
+							} else {
+								strbuff.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode()
+										+ ", Error: " + fe.getError());
+							}
+						}
+					}
+				}
+			} else {
+
+				T1Error error = (T1Error) jsonPostResponse.getErrors();
+
+				if (error.getMessage() != null) {
+					if (strbuff == null) {
+						strbuff = new StringBuffer(error.getMessage());
+					} else {
+						strbuff.append(", " + error.getMessage());
+					}
+				}
+				if (error.getFieldError() != null) {
+					for (FieldError fe : error.getFieldError()) {
+						if (strbuff == null) {
+							strbuff = new StringBuffer("Name: " + fe.getName() + ", Code: " + fe.getCode()
+									+ ", Error: " + fe.getError());
+						} else {
+							strbuff.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode()
+									+ ", Error: " + fe.getError());
+						}
+					}
+				}
+			}
+		}
+		// throw the error to client
+		throw new ClientException(strbuff.toString());
+	}
+
+	/**
+	 * @param responseStr
+	 */
+	private JsonPostResponse jsonPostErrorResponseParser(String responseStr) {
+		JsonParser parser1 = new JsonParser();
+		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
+		
+		JsonElement errorsElement = obj.get("errors");
+		JsonElement errorElement = obj.get("error");
+		JsonElement statusElement = obj.get("status");
+		JsonElement calledOnElement = obj.get("called_on");
+		
+		JsonPostResponse response = null;
+		
+		if(errorsElement != null || errorElement != null ) {
+			response = new JsonPostResponse();
+
+			GsonBuilder builder = new GsonBuilder();
+			builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+			Gson g = builder.create();
+
+			if (errorsElement != null) {
+				if (errorsElement.isJsonNull()) {
+
+				} else if (errorsElement.isJsonObject()) {
+					T1Error errors = g.fromJson(errorsElement, T1Error.class);
+					response.setErrors(errors);
+
+				} else {
+					Type t =  new TypeToken<ArrayList<T1Error>>(){}.getType();
+					List<T1Error> errors = g.fromJson(errorsElement, t);
+					response.setErrors(errors);
+				}
+			}
+
+			if (errorElement != null) {
+				T1Error error = g.fromJson(errorElement, T1Error.class);
+				response.setError(error);
+			}
+
+			if (statusElement != null) {
+				Status status = g.fromJson(statusElement, Status.class);
+				response.setStatus(status);
+			}
+			if (calledOnElement != null) {
+				String calledOnStr = g.fromJson(calledOnElement, String.class);
+				response.setCalled_on(calledOnStr);
+			}
+		}
+		
+		return response;
+	}
+
+
 	/**
 	 * Get.
 	 * 

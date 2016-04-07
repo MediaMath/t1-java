@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -71,16 +72,16 @@ public class T1JsonToObjParser {
 	}
 	
 	public JsonPostResponse parsePOSTResponseTOObj(String jsonPostResponseString) {
+		
 		JsonPostResponse response = null;
 		GsonBuilder builder = new GsonBuilder();
 		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+		//builder.registerTypeAdapter(JsonPostResponse.class, new CustomInstanceCreatorPost()).create();
 		Gson gson = builder.create();
 		response = gson.fromJson(jsonPostResponseString, JsonPostResponse.class);
 		
 		return response;
 	}
-	
-
 }
 
 class CustomInstanceCreator implements InstanceCreator<JsonResponse<?>> {

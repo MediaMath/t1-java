@@ -55,9 +55,8 @@ public class Campaign implements T1Entity {
 	private String io_reference_num;
 	private Date initial_start_date;
 	private float margin_pct;
-	private int margin_pixel_id;
+	private int merit_pixel_id;
 	private String name;
-	private float pricing_alert;
 	private int pc_window_minutes;
 	private float pv_pct;
 	private int pv_window_minutes;
@@ -274,28 +273,12 @@ public class Campaign implements T1Entity {
 		this.margin_pct = margin_pct;
 	}
 
-	public int getMargin_pixel_id() {
-		return margin_pixel_id;
-	}
-
-	public void setMargin_pixel_id(int margin_pixel_id) {
-		this.margin_pixel_id = margin_pixel_id;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public float getPricing_alert() {
-		return pricing_alert;
-	}
-
-	public void setPricing_alert(float pricing_alert) {
-		this.pricing_alert = pricing_alert;
 	}
 
 	public int getPc_window_minutes() {
@@ -420,6 +403,14 @@ public class Campaign implements T1Entity {
 
 	public String getEntityname() {
 		return entityName;
+	}
+
+	public int getMerit_pixel_id() {
+		return merit_pixel_id;
+	}
+
+	public void setMerit_pixel_id(int merit_pixel_id) {
+		this.merit_pixel_id = merit_pixel_id;
 	}
 
 }
