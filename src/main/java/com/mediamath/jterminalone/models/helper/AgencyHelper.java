@@ -3,6 +3,7 @@ package com.mediamath.jterminalone.models.helper;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.jterminalone.Exceptions.T1Exception;
+import com.mediamath.jterminalone.Exceptions.ValidationException;
 import com.mediamath.jterminalone.models.Agency;
 import com.mediamath.jterminalone.utils.Utility;
 
@@ -15,15 +16,18 @@ public class AgencyHelper  {
 */
 	}
 
-	public static void validateRequiredFields() throws T1Exception {
-/*		if (name == null || name.isEmpty()) {
+	public static void validateRequiredFields(Agency entity) throws T1Exception {
+		if (entity.getName() == null || entity.getName().isEmpty()) {
 			throw new ValidationException("please enter a name for the agency");
-		} else if (name.length() > 64) {
+		} else if (entity.getName().length() > 64) {
 			throw new ValidationException("please make sure name does not exceed 64 characters.");
 		}
-		if (organization_id == 0 || organization_id <= 0) {
+		if (entity.getOrganization_id() <= 0) {
 			throw new ValidationException("please enter a valid organization id");
-		}*/
+		}
+		if(entity.getId()  > 0 && entity.getVersion() <=0){
+			throw new ValidationException("Version is required for Updates");
+		}
 		
 	}
 

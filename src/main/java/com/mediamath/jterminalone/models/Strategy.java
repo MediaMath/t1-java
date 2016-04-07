@@ -1,7 +1,5 @@
 package com.mediamath.jterminalone.models;
 
-import java.util.Date;
-
 public class Strategy implements T1Entity {
 	
 	private static final String entityName = "Strategy";
