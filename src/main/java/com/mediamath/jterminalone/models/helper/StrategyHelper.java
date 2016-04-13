@@ -94,6 +94,8 @@ public class StrategyHelper {
 		} else if (entity.getName().length() > 64) {
 			throw new ValidationException("please make sure name does not exceed 64 characters.");
 		}
+		
+		
 		if(entity.getSite_selectiveness()==null){
 			entity.setSite_selectiveness(site_selec.REDUCED);
 		}

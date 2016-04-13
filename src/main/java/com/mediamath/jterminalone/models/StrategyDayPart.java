@@ -5,9 +5,11 @@ import java.util.Date;
 public class StrategyDayPart implements T1Entity {
 	
 	private static final String entityName = "StrategyDayPart";
-
+	public enum daysEnum {M,T,W,R,F,S,U};
+	
+	
 	private Date created_on;
-	private String days;
+	private daysEnum days;
 	private int end_hour;
 	private int id;
 	private int start_hour;
@@ -25,11 +27,11 @@ public class StrategyDayPart implements T1Entity {
 		this.created_on = created_on;
 	}
 
-	public String getDays() {
+	public daysEnum getDays() {
 		return days;
 	}
 
-	public void setDays(String days) {
+	public void setDays(daysEnum days) {
 		this.days = days;
 	}
 

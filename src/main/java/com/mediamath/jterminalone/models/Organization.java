@@ -26,10 +26,13 @@ public class Organization implements T1Entity {
 	private String tag_ruleset;
 	private Date updated_on;
 	private boolean use_evidon_optout;
-	private ArrayList<String> org_type;
+	private ArrayList<String> org_type = new ArrayList<String>();
 	private int version;
 	private String zip;
-
+	private String billing_country_code;
+	private boolean override_suspicious_traffic_filter;
+	private int suspicious_traffic_filter_level;
+	
 	public String getAddress_1() {
 		return address_1;
 	}
@@ -205,9 +208,37 @@ public class Organization implements T1Entity {
 	public void setOrg_type(ArrayList<String> org_type) {
 		this.org_type = org_type;
 	}
+	
+	
+
+	public String getBilling_country_code() {
+		return billing_country_code;
+	}
+
+	public void setBilling_country_code(String billing_country_code) {
+		this.billing_country_code = billing_country_code;
+	}
+
+	public boolean isOverride_suspicious_traffic_filter() {
+		return override_suspicious_traffic_filter;
+	}
+
+	public void setOverride_suspicious_traffic_filter(boolean override_suspicious_traffic_filter) {
+		this.override_suspicious_traffic_filter = override_suspicious_traffic_filter;
+	}
+
+	public int getSuspicious_traffic_filter_level() {
+		return suspicious_traffic_filter_level;
+	}
+
+	public void setSuspicious_traffic_filter_level(int suspicious_traffic_filter_level) {
+		this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
+	}
 
 	public String getEntityname() {
 		return entityName;
 	}
+	
+	
 
 }

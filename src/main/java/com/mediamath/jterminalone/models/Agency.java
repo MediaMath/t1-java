@@ -1,13 +1,11 @@
 package com.mediamath.jterminalone.models;
 
-import java.util.Date;
-
 public class Agency implements T1Entity {
 
 	private static final String entityName = "Agency";
 
-	private boolean allow_x_adv_optimization;
-	private boolean allow_x_adv_pixels;
+	private boolean allow_x_adv_optimization =false;
+	private boolean allow_x_adv_pixels = false;
 	private int billing_contact_id;
 	private String dmp_enabled;
 	private String created_on;

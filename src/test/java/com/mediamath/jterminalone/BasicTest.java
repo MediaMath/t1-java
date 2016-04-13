@@ -11,9 +11,16 @@ import org.junit.Test;
 
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
+import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
 import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.models.Organization;
+import com.mediamath.jterminalone.models.Strategy;
+import com.mediamath.jterminalone.models.Strategy.freq_int;
+import com.mediamath.jterminalone.models.Strategy.freq_type;
+import com.mediamath.jterminalone.models.Strategy.goal_type;
+import com.mediamath.jterminalone.models.Strategy.type;
 import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Filters;
 import com.mediamath.jterminalone.utils.QueryParamValues;
@@ -64,6 +71,75 @@ public class BasicTest extends TestCase {
 			e.printStackTrace();
 		}
 		System.out.println("tmpe");
+	}
+	
+	@Test
+	public void testAdvertiserPost() throws ClientException {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		Advertiser adv = new Advertiser();
+		adv.setAd_server_id(9);
+		adv.setAgency_id(109308);
+		adv.setDomain("http://www.advertiser.com");
+		adv.setName("ABC Advertisers");
+		adv.setVertical_id(11);
+		try{
+			adv = jt1.save(adv);
+		}catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testStrategyPost() throws ClientException {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		Strategy str = new Strategy();
+		str.setName("ABC Advertisers");
+		str.setBudget(100.12f);
+		str.setCampaign_id(233131);
+		str.setFrequency_type(freq_type.asap);
+		str.setFrequency_amount(10);
+		str.setFrequency_interval(freq_int.day);
+		str.setGoal_type(goal_type.reach);
+		str.setGoal_value(12.12f);
+		str.setMax_bid(10f);
+		str.setPacing_amount(10f);
+		str.setType(type.REM);
+		
+		try{
+			str = jt1.save(str);
+		}catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testOrganizationPost() throws ClientException {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		Organization org = new Organization();
+		org.setName("ABC Advertisers");
+		org.setAddress_1("First Lane, New York");
+		org.setCity("New York");
+		org.setState("NY");
+		org.setContact_name("Michele");
+		org.setZip("800293");
+		org.setCountry("USA");
+		org.setMm_contact_name("Mark");
+		org.setPhone("408 345 7758");
+		
+		try{
+			org = jt1.save(org);
+		}catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

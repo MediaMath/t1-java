@@ -19,19 +19,25 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
-import com.mediamath.jterminalone.models.AdServer;
+import com.mediamath.jterminalone.Exceptions.T1Exception;
+import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
 import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.models.Data;
 import com.mediamath.jterminalone.models.FieldError;
 import com.mediamath.jterminalone.models.JsonPostResponse;
 import com.mediamath.jterminalone.models.JsonResponse;
+import com.mediamath.jterminalone.models.Organization;
 import com.mediamath.jterminalone.models.Status;
+import com.mediamath.jterminalone.models.Strategy;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.models.T1Property;
+import com.mediamath.jterminalone.models.helper.AdvertiserHelper;
 import com.mediamath.jterminalone.models.helper.AgencyHelper;
 import com.mediamath.jterminalone.models.helper.CampaignHelper;
+import com.mediamath.jterminalone.models.helper.OrganizationHelper;
+import com.mediamath.jterminalone.models.helper.StrategyHelper;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.service.JTerminalOneService;
 import com.mediamath.jterminalone.utils.Constants;
@@ -186,6 +192,191 @@ public class JTerminalOne {
 		}
 		return agency;
 	}
+	
+	/**
+	 * saves the given Advertiser.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public Advertiser save(Advertiser entity) throws ClientException, ParseException {
+		Advertiser advertiser = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, AdvertiserHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof Advertiser) {
+					advertiser = (Advertiser) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return advertiser;
+	}
+	
+	
+	/**
+	 * saves the given Strategy.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public Strategy save(Strategy entity) throws ClientException, ParseException {
+		Strategy strategy = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof Strategy) {
+					strategy = (Strategy) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return strategy;
+	}
+	
+	/**
+	 * saves the given Strategy.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public Organization save(Organization entity) throws ClientException, ParseException {
+		Organization org = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, OrganizationHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof Organization) {
+					org = (Organization) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return org;
+	}
+	
 	
 	
 	public Campaign save(Campaign entity) throws ParseException, ClientException {
