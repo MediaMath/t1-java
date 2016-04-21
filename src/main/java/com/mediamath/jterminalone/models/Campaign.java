@@ -1,6 +1,10 @@
 package com.mediamath.jterminalone.models;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Campaign implements T1Entity {
 	
@@ -72,6 +76,20 @@ public class Campaign implements T1Entity {
 	private boolean use_mm_freq;
 	private int version;
 	private String zone_name;
+	private Map<Date, Double> margins = new HashMap<Date, Double>();
+	
+	
+	public void setMargins(Date date, Double doubleval) {
+		margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());
+	}
+	
+	public void resetMargins(){
+		margins.clear();
+	}
+	
+	public Map<Date, Double> getMargins() {
+		return this.margins;
+	}
 
 	public float getAd_server_fee() {
 		return ad_server_fee;

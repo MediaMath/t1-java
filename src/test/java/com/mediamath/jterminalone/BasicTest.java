@@ -2,6 +2,7 @@ package com.mediamath.jterminalone;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -390,5 +391,32 @@ public class BasicTest extends TestCase {
 		assertNotNull(jsonresponse);
 	
 	}
+	
+	public void testCampaignMarginPost() throws ClientException {
+		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Campaign camp = new Campaign();
+		camp.setId(233131);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		camp.setMargins(cal.getTime(), (double) 5.02145);
+		cal.add(Calendar.DATE, -2);
+		camp.setMargins(cal.getTime(), (double) 10.01);
+		cal.add(Calendar.DATE, -3);
+		camp.setMargins(cal.getTime(), (double) 11.5656665);
+		cal.add(Calendar.DATE, -4);
+		camp.setMargins(cal.getTime(), (double) 12.25);
+		cal.add(Calendar.DATE, -5);
+		camp.setMargins(cal.getTime(), (double) 13.1);
+		
+		try {
+			camp = t1.save(camp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("tmpe");
+	}
+
 	
 }

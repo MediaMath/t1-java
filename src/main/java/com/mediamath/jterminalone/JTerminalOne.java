@@ -389,7 +389,7 @@ public class JTerminalOne {
 			// form a path
 			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
 			
-			if (entity.getId() > 0) {
+			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
 				uri.append("/margins");
@@ -431,7 +431,7 @@ public class JTerminalOne {
 				throwExceptions(jsonPostResponse);
 			}
 		}
-		return campaign;
+		return campaign == null ? entity : campaign;
 	}
 
 	/**
