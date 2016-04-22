@@ -10,9 +10,9 @@ import com.mediamath.jterminalone.utils.Utility;
 
 public class CampaignHelper  {
 
-	private static final String YYYY_MM_DDTHH_MM_SS = "YYYY-MM-DD'T'HH:MM:SS.SSSX";
+	private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 	
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS);
+	private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
 	public static void validateFields() throws T1Exception {
 /*		if (sales_contact_id < 0) {
@@ -59,8 +59,6 @@ public class CampaignHelper  {
 			String endDate = sdf.format(entity.getEnd_date());
 			campaignForm.param("end_date", endDate);
 		}
-		
-		//campaignForm.param("end_date", "2016-04-25T15:28:05+0000");
 		
 		campaignForm.param("goal_type", String.valueOf(entity.getGoal_type()));		
 		

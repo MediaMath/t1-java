@@ -59,8 +59,15 @@ public class BasicTest extends TestCase {
 		camp.setGoal_type(Campaign.goal_types.cpe);
 		camp.setGoal_value(100);
 		camp.setService_type(Campaign.serv_types.SELF);
-		camp.setEnd_date(new Date());
+		
+		Calendar cal = Calendar.getInstance();
+		cal.roll(Calendar.DATE, true);
+		Date endd = cal.getTime();
+		
+		camp.setEnd_date(endd);
+		
 		camp.setStart_date(new Date());
+		
 		camp.setPc_window_minutes(1);
 		camp.setSpend_cap_amount(10);
 		camp.setTotal_budget(100);
