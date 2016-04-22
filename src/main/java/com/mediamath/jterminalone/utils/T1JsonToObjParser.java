@@ -22,6 +22,7 @@ import com.mediamath.jterminalone.models.T1Entity;
 
 public class T1JsonToObjParser {
 	
+	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final Logger logger = LoggerFactory.getLogger(T1JsonToObjParser.class);
 	
 	public int getJsonElementType(String response) {
@@ -62,7 +63,10 @@ public class T1JsonToObjParser {
 	public JsonResponse<? extends T1Entity> parseJsonToObj(String jsonstr, Type vClassType) throws ParseException {
 		JsonResponse<? extends T1Entity> jsonResponse = null;
 		try {
-			Gson gson = new GsonBuilder().registerTypeAdapter(JsonResponse.class, new CustomInstanceCreator()).create();
+			Gson gson = new GsonBuilder()
+								.registerTypeAdapter(JsonResponse.class, new CustomInstanceCreator())
+								.setDateFormat(YYYY_MM_DD_T_HH_MM_SS)
+								.create();
 			jsonResponse = gson.fromJson(jsonstr, vClassType);
 		} catch(JsonParseException parseException) {
 			logger.error("Parse Exception");
@@ -76,6 +80,7 @@ public class T1JsonToObjParser {
 		JsonPostResponse response = null;
 		GsonBuilder builder = new GsonBuilder();
 		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
 		//builder.registerTypeAdapter(JsonPostResponse.class, new CustomInstanceCreatorPost()).create();
 		Gson gson = builder.create();
 		response = gson.fromJson(jsonPostResponseString, JsonPostResponse.class);

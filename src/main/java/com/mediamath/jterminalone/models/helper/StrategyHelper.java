@@ -117,12 +117,30 @@ public class StrategyHelper {
 	
 	public static Form getForm(Strategy entity) {
 		Form strategyForm = new Form();
-		strategyForm.param("audience_segment_exclude_op", entity.getAudience_segment_exclude_op().toString());
-		strategyForm.param("audience_segment_include_op", entity.getAudience_segment_include_op().toString());
-		strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBid_aggresiveness()));
+		
+		if(entity.getAudience_segment_exclude_op() != null) {
+			strategyForm.param("audience_segment_exclude_op", entity.getAudience_segment_exclude_op().toString());
+		}
+		
+		if(entity.getAudience_segment_include_op() != null) {
+			strategyForm.param("audience_segment_include_op", entity.getAudience_segment_include_op().toString());
+		}
+		
+		if(entity.getBid_aggresiveness() > 0){
+			strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBid_aggresiveness()));
+		}
+		
+		
 		strategyForm.param("bid_price_is_media_only", Utility.getOneOrZero(entity.isBid_price_is_media_only()));
-		strategyForm.param("budget", String.valueOf(entity.getBudget()));
-		strategyForm.param("campaign_id", String.valueOf(entity.getCampaign_id()));
+		
+		if(entity.getBudget() > 0) {
+			strategyForm.param("budget", String.valueOf(entity.getBudget()));
+		}
+		
+		if(entity.getCampaign_id() > 0)  {
+			strategyForm.param("campaign_id", String.valueOf(entity.getCampaign_id()));
+		}
+		
 		if(entity.getCreated_on() != null){
 			strategyForm.param("created_on", entity.getCreated_on());
 		}

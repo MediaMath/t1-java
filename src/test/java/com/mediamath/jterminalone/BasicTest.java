@@ -46,24 +46,26 @@ public class BasicTest extends TestCase {
 	}
 	
 	@Test
-	public void testCampaignPost() throws ClientException {
+	public void testCampaignPost() throws ClientException, java.text.ParseException {
 		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Campaign camp = new Campaign();
 		camp.setName("NitCamp");
 		camp.setAd_server_fee(10.0f);
 		camp.setAd_server_id(9);
-		camp.setAdvertiser_id(154359);
+		camp.setAdvertiser_id(122631);
 		camp.setConversion_type("variable");
 		camp.setConversion_variable_minutes(1);
-		camp.setEnd_date(new Date());
-		camp.setGoal_type(Campaign.goal_types.cpa);
+		camp.setGoal_type(Campaign.goal_types.cpe);
 		camp.setGoal_value(100);
 		camp.setService_type(Campaign.serv_types.SELF);
+		camp.setEnd_date(new Date());
 		camp.setStart_date(new Date());
+		camp.setPc_window_minutes(1);
+		camp.setSpend_cap_amount(10);
 		camp.setTotal_budget(100);
 		camp.setUse_mm_freq(false);
-		camp.setMerit_pixel_id(3);
+		camp.setMerit_pixel_id(800781);
 		
 		try {
 			camp = t1.save(camp);
@@ -71,7 +73,7 @@ public class BasicTest extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("tmpe");
+		
 	}
 	
 	@Test

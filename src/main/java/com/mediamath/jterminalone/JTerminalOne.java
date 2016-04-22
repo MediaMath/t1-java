@@ -72,7 +72,11 @@ public class JTerminalOne {
 	 * maintains user session
 	 */
 	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
-	
+
+	/**
+	 * date format
+	 */
+	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	
 	/*
 	 * is authenticated? 
@@ -545,6 +549,8 @@ public class JTerminalOne {
 
 			GsonBuilder builder = new GsonBuilder();
 			builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+			builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+			
 			Gson g = builder.create();
 
 			if (errorsElement != null) {

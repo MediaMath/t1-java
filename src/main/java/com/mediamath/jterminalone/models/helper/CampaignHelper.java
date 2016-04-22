@@ -1,5 +1,7 @@
 package com.mediamath.jterminalone.models.helper;
 
+import java.text.SimpleDateFormat;
+
 import javax.ws.rs.core.Form;
 
 import com.mediamath.jterminalone.Exceptions.T1Exception;
@@ -7,6 +9,10 @@ import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.utils.Utility;
 
 public class CampaignHelper  {
+
+	private static final String YYYY_MM_DDTHH_MM_SS = "YYYY-MM-DD'T'HH:MM:SS.SSSX";
+	
+	private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS);
 
 	public static void validateFields() throws T1Exception {
 /*		if (sales_contact_id < 0) {
@@ -48,8 +54,13 @@ public class CampaignHelper  {
 		campaignForm.param("conversion_type", entity.getConversion_type());
 		
 		campaignForm.param("conversion_variable_minutes", String.valueOf(entity.getConversion_variable_minutes()));
+
+		if(entity.getEnd_date() != null) {
+			String endDate = sdf.format(entity.getEnd_date());
+			campaignForm.param("end_date", endDate);
+		}
 		
-		campaignForm.param("end_date", String.valueOf(entity.getEnd_date()));
+		//campaignForm.param("end_date", "2016-04-25T15:28:05+0000");
 		
 		campaignForm.param("goal_type", String.valueOf(entity.getGoal_type()));		
 		
@@ -57,7 +68,13 @@ public class CampaignHelper  {
 		
 		campaignForm.param("service_type", String.valueOf(entity.getService_type()));
 		
-		campaignForm.param("start_date", String.valueOf(entity.getStart_date()));
+		
+		if(entity.getStart_date() != null) {
+			String startDate = sdf.format(entity.getStart_date());
+			campaignForm.param("start_date", startDate);
+		}
+		
+		//campaignForm.param("start_date", "2016-04-23T15:28:05+0000");
 		
 		campaignForm.param("total_budget", String.valueOf(entity.getTotal_budget()));
 		
