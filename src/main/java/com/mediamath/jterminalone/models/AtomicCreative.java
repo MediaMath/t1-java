@@ -31,7 +31,7 @@ public class AtomicCreative implements T1Entity {
 	};
 
 	public enum tagTypes {
-		SCRIPT, IFRAME, NOSCRIPT
+		IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME,IMG
 	};
 
 	private int advertiser_id;

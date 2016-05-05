@@ -14,7 +14,9 @@ import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.AtomicCreative;
 import com.mediamath.jterminalone.models.Campaign;
+import com.mediamath.jterminalone.models.Concept;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.Organization;
 import com.mediamath.jterminalone.models.Strategy;
@@ -450,7 +452,51 @@ public class BasicTest extends TestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("tmpe");
+		
+	}
+	
+	public void testConceptPost() throws ClientException {
+		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Concept camp = new Concept();
+		camp.setAdvertiser_id(122631);
+		camp.setName("TestConcept1");
+		camp.setStatus(true);
+		
+		
+		try {
+			camp = t1.save(camp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void testAtomicCreatives() throws ClientException {
+		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		AtomicCreative ac = new AtomicCreative();
+		ac.setAd_server_type(ac.getAd_server_type().DART);
+		ac.setAdvertiser_id(150577);
+		ac.setConcept_id(622519);
+		ac.setExternal_identifier("1234567890abcd");
+		ac.setFile_type(ac.getFile_type().jpeg);
+		ac.setHeight(72);
+		ac.setName("MyTestAtomicCreative");
+		ac.setTag("https://ad.doubleclick.net;sz=1x1;ord=[RANDOM_NUMBER]?");
+		ac.setTag_type(ac.getTag_type().IMG);
+		ac.setTpas_ad_tag_name("Sample IMG TAG");
+		ac.setWidth(72);
+		
+
+		try {
+			ac = t1.save(ac);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	

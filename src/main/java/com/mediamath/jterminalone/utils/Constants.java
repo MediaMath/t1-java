@@ -8,9 +8,13 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.models.AdServer;
 import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.AtomicCreative;
+import com.mediamath.jterminalone.models.AudienceSegment;
 import com.mediamath.jterminalone.models.Campaign;
 import com.mediamath.jterminalone.models.ChildPixel;
 import com.mediamath.jterminalone.models.Concept;
+import com.mediamath.jterminalone.models.Creative;
+import com.mediamath.jterminalone.models.CreativeApproval;
 import com.mediamath.jterminalone.models.Deal;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.Organization;
@@ -54,10 +58,16 @@ public final class Constants {
 		
 		getEntityType.put("ad_servers", new TypeToken<JsonResponse<AdServer>>(){}.getType());
 		getEntityType.put("advertisers", new TypeToken<JsonResponse<Advertiser>>(){}.getType());
+		getEntityType.put("advertiser", new TypeToken<JsonResponse<Advertiser>>(){}.getType());
+		
 		getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>(){}.getType());
 		getEntityType.put("agency", new TypeToken<JsonResponse<Agency>>(){}.getType());
-		// getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<Campaign>>(){}.getType());
-		// getEntityType.put("audience_segments", new TypeToken<JsonResponse<Campaign>>(){}.getType());
+		
+		getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<AtomicCreative>>(){}.getType());
+		getEntityType.put("atomic_creative", new TypeToken<JsonResponse<AtomicCreative>>(){}.getType());
+		
+		getEntityType.put("audience_segments", new TypeToken<JsonResponse<AudienceSegment>>(){}.getType());
+		
 		getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		getEntityType.put("campaign", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 		// getEntityType.put("concepts", new TypeToken<JsonResponse<Campaign>>(){}.getType());
@@ -70,8 +80,11 @@ public final class Constants {
 	    // getEntityType.put("audience_segments", new TypeToken<JsonResponse<audience_segments>>(){}.getType());
 	    getEntityType.put("campaigns", new TypeToken<JsonResponse<Campaign>>(){}.getType());
 	    getEntityType.put("concepts", new TypeToken<JsonResponse<Concept>>(){}.getType());
-	    // getEntityType.put("creatives", new TypeToken<JsonResponse<Creative>>(){}.getType());
-	    // getEntityType.put("creative_approvals", new TypeToken<JsonResponse<creative_approvals>>(){}.getType());
+	    getEntityType.put("concept", new TypeToken<JsonResponse<Concept>>(){}.getType());
+	    
+	    getEntityType.put("creatives", new TypeToken<JsonResponse<Creative>>(){}.getType());
+	    getEntityType.put("creative_approvals", new TypeToken<JsonResponse<CreativeApproval>>(){}.getType());
+	    
 	    getEntityType.put("deals", new TypeToken<JsonResponse<Deal>>(){}.getType());
 	    getEntityType.put("organizations", new TypeToken<JsonResponse<Organization>>(){}.getType());
 	    getEntityType.put("pixels", new TypeToken<JsonResponse<ChildPixel>>(){}.getType());

@@ -23,7 +23,9 @@ import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
 import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
+import com.mediamath.jterminalone.models.AtomicCreative;
 import com.mediamath.jterminalone.models.Campaign;
+import com.mediamath.jterminalone.models.Concept;
 import com.mediamath.jterminalone.models.Data;
 import com.mediamath.jterminalone.models.FieldError;
 import com.mediamath.jterminalone.models.JsonPostResponse;
@@ -39,7 +41,9 @@ import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.models.T1Property;
 import com.mediamath.jterminalone.models.helper.AdvertiserHelper;
 import com.mediamath.jterminalone.models.helper.AgencyHelper;
+import com.mediamath.jterminalone.models.helper.AtomicCreativeHelper;
 import com.mediamath.jterminalone.models.helper.CampaignHelper;
+import com.mediamath.jterminalone.models.helper.ConceptHelper;
 import com.mediamath.jterminalone.models.helper.OrganizationHelper;
 import com.mediamath.jterminalone.models.helper.PixelHelper;
 import com.mediamath.jterminalone.models.helper.StrategyConceptHelper;
@@ -631,6 +635,135 @@ public class JTerminalOne {
 			}
 		}
 		return campaign == null ? entity : campaign;
+	}
+	
+	/**
+	 * saves concepts
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws ParseException
+	 * @throws ClientException
+	 */
+	public Concept save(Concept entity) throws ParseException, ClientException {
+		Concept concept = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			
+			String path = jt1Service.constructURL(uri);
+			//post
+			String response = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
+		
+			JsonPostResponse jsonPostResponse =  null;
+			jsonPostResponse = jsonPostErrorResponseParser(response); 
+			
+			if (jsonPostResponse == null) {
+				// parse response
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+
+				Data data = new Data();
+				if (jsonPostResponse.getEntity() != null) {
+
+					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
+						data.getData().put(p.getName(), p.getValue());
+					}
+
+					data.getData().put("name", jsonPostResponse.getEntity().getName());
+					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+					data.getData().put("id", jsonPostResponse.getEntity().getId());
+					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+
+					// parse data to json.
+					Gson g = new Gson();
+					String s = g.toJson(data);
+
+					// update the existing object. or create new object.
+					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+
+					if (finalJsonResponse.getData() instanceof Concept) {
+						concept = (Concept) finalJsonResponse.getData();
+					}
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+		}
+		return concept == null ? entity : concept;
+	}
+	
+	/**
+	 * saves Atomic Creative
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws ParseException
+	 * @throws ClientException
+	 */
+	public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
+		AtomicCreative atomicCreative = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			
+			String path = jt1Service.constructURL(uri);
+			//post
+			String response = this.connection.post(path, AtomicCreativeHelper.getForm(entity), this.user);
+		
+			JsonPostResponse jsonPostResponse =  null;
+			jsonPostResponse = jsonPostErrorResponseParser(response); 
+			
+			if (jsonPostResponse == null) {
+				// parse response
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+
+				Data data = new Data();
+				if (jsonPostResponse.getEntity() != null) {
+
+					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
+						data.getData().put(p.getName(), p.getValue());
+					}
+
+					data.getData().put("name", jsonPostResponse.getEntity().getName());
+					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+					data.getData().put("id", jsonPostResponse.getEntity().getId());
+					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+
+					// parse data to json.
+					Gson g = new Gson();
+					String s = g.toJson(data);
+
+					// update the existing object. or create new object.
+					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+
+					if (finalJsonResponse.getData() instanceof AtomicCreative) {
+						atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+					}
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+		}
+		return atomicCreative == null ? entity : atomicCreative;
+	}
+	
+	/**
+	 * saves creative upload for 3pas bulk update
+	 */
+	public void saveCreativeUpload() {
+		
 	}
 
 	/**
