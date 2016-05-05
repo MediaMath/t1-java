@@ -14,6 +14,7 @@ import com.mediamath.jterminalone.models.Concept;
 import com.mediamath.jterminalone.models.Deal;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.Organization;
+import com.mediamath.jterminalone.models.Pixel;
 import com.mediamath.jterminalone.models.PixelProvider;
 import com.mediamath.jterminalone.models.Publisher;
 import com.mediamath.jterminalone.models.PublisherSite;
@@ -74,7 +75,8 @@ public final class Constants {
 	    getEntityType.put("deals", new TypeToken<JsonResponse<Deal>>(){}.getType());
 	    getEntityType.put("organizations", new TypeToken<JsonResponse<Organization>>(){}.getType());
 	    getEntityType.put("pixels", new TypeToken<JsonResponse<ChildPixel>>(){}.getType());
-	    // getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<PixelBundle>>(){}.getType());
+	    getEntityType.put("pixel_bundle", new TypeToken<JsonResponse<Pixel>>(){}.getType());
+	    getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<Pixel>>(){}.getType());
 	    getEntityType.put("pixel_providers", new TypeToken<JsonResponse<PixelProvider>>(){}.getType());
 	    // getEntityType.put("placement_slots", new TypeToken<JsonResponse<PlacementSlot>>(){}.getType());
 	    getEntityType.put("publishers", new TypeToken<JsonResponse<Publisher>>(){}.getType());

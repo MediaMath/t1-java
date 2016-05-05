@@ -13,13 +13,14 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.jterminalone.Exceptions.ClientException;
 import com.mediamath.jterminalone.Exceptions.ParseException;
-import com.mediamath.jterminalone.Exceptions.T1Exception;
 import com.mediamath.jterminalone.models.Advertiser;
 import com.mediamath.jterminalone.models.Agency;
 import com.mediamath.jterminalone.models.Campaign;
@@ -28,8 +29,11 @@ import com.mediamath.jterminalone.models.FieldError;
 import com.mediamath.jterminalone.models.JsonPostResponse;
 import com.mediamath.jterminalone.models.JsonResponse;
 import com.mediamath.jterminalone.models.Organization;
+import com.mediamath.jterminalone.models.Pixel;
 import com.mediamath.jterminalone.models.Status;
 import com.mediamath.jterminalone.models.Strategy;
+import com.mediamath.jterminalone.models.StrategyConcept;
+import com.mediamath.jterminalone.models.StrategySupplySource;
 import com.mediamath.jterminalone.models.T1Entity;
 import com.mediamath.jterminalone.models.T1Error;
 import com.mediamath.jterminalone.models.T1Property;
@@ -37,7 +41,10 @@ import com.mediamath.jterminalone.models.helper.AdvertiserHelper;
 import com.mediamath.jterminalone.models.helper.AgencyHelper;
 import com.mediamath.jterminalone.models.helper.CampaignHelper;
 import com.mediamath.jterminalone.models.helper.OrganizationHelper;
+import com.mediamath.jterminalone.models.helper.PixelHelper;
+import com.mediamath.jterminalone.models.helper.StrategyConceptHelper;
 import com.mediamath.jterminalone.models.helper.StrategyHelper;
+import com.mediamath.jterminalone.models.helper.StrategySupplySourceHelper;
 import com.mediamath.jterminalone.service.JT1Service;
 import com.mediamath.jterminalone.service.JTerminalOneService;
 import com.mediamath.jterminalone.utils.Constants;
@@ -281,12 +288,80 @@ public class JTerminalOne {
 				uri.append(entity.getId());
 			}
 			
+			if (entity.getId() > 0 && entity.getDomain_restrictions().size() > 0) {
+				uri.append("/domain_restrictions");
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			String response = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				if(jsonPostResponse.getEntity()!=null){
+					for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+						data.getData().put(p.getName(), p.getValue());
+					}
+					data.getData().put("name", jsonPostResponse.getEntity().getName());
+					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+					data.getData().put("id", jsonPostResponse.getEntity().getId());
+					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+					
+					Gson g = new Gson();
+					String s = g.toJson(data);
+
+					// parse data to json.
+					finalJsonResponse = parseResponse(s, (jsonPostResponse.getEntity() !=null) ? jsonPostResponse.getEntity().getType() : null);
+					// update the existing object. or create new object.
+					if(finalJsonResponse.getData() instanceof Strategy) {
+						strategy = (Strategy) finalJsonResponse.getData();
+					}
+				}
+				
+				
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return ((strategy==null) ? entity : strategy);
+	}
+	
+	/**
+	 * saves the given Strategy Concepts.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public StrategyConcept save(StrategyConcept entity) throws ClientException, ParseException {
+		StrategyConcept strategyConcept = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
 			String path = jt1Service.constructURL(uri);
 
 			//post
 			//Form agencyForm = AgencyHelper.getForm(entity);
 			//TODO: check.
-			String response = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
+			String response = this.connection.post(path, StrategyConceptHelper.getForm(entity), this.user);
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
@@ -309,19 +384,80 @@ public class JTerminalOne {
 				String s = g.toJson(data);
 				// update the existing object. or create new object.
 				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
-				if(finalJsonResponse.getData() instanceof Strategy) {
-					strategy = (Strategy) finalJsonResponse.getData();
+				if(finalJsonResponse.getData() instanceof StrategyConcept) {
+					strategyConcept = (StrategyConcept) finalJsonResponse.getData();
 				}
 			} else {
 				throwExceptions(jsonPostResponse);
 			}
 			
 		}
-		return strategy;
+		return strategyConcept;
 	}
 	
 	/**
-	 * saves the given Strategy.
+	 * saves the given Strategy Supply Sources.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public StrategySupplySource save(StrategySupplySource entity) throws ClientException, ParseException {
+		StrategySupplySource strategySupplySource = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, StrategySupplySourceHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof StrategySupplySource) {
+					strategySupplySource = (StrategySupplySource) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return strategySupplySource;
+	}
+	
+	/**
+	 * saves the given Organization.
 	 * 
 	 * @param entity
 	 * @throws ClientException 
@@ -381,7 +517,66 @@ public class JTerminalOne {
 		return org;
 	}
 	
-	
+	/**
+	 * saves the given Pixel.
+	 * 
+	 * @param entity
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public Pixel save(Pixel entity) throws ClientException, ParseException {
+		Pixel px = null;
+		
+		if(entity != null) {
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+			
+			// detect
+			String entityName = entity.getEntityname();
+			// form a path
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = jt1Service.constructURL(uri);
+
+			//post
+			//Form agencyForm = AgencyHelper.getForm(entity);
+			//TODO: check.
+			String response = this.connection.post(path, PixelHelper.getForm(entity), this.user);
+			
+			// parse response
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse =  null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if(jsonPostResponse == null) {
+				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				Data data = new Data();
+				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+					data.getData().put(p.getName(), p.getValue());
+				}
+				data.getData().put("name", jsonPostResponse.getEntity().getName());
+				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+				data.getData().put("id", jsonPostResponse.getEntity().getId());
+				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				Gson g = new Gson();
+				String s = g.toJson(data);
+				// update the existing object. or create new object.
+				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				if(finalJsonResponse.getData() instanceof Pixel) {
+					px = (Pixel) finalJsonResponse.getData();
+				}
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+			
+		}
+		return px;
+	}
 	
 	public Campaign save(Campaign entity) throws ParseException, ClientException {
 		Campaign campaign = null;
@@ -560,10 +755,22 @@ public class JTerminalOne {
 					T1Error errors = g.fromJson(errorsElement, T1Error.class);
 					response.setErrors(errors);
 
-				} else {
-					Type t =  new TypeToken<ArrayList<T1Error>>(){}.getType();
-					List<T1Error> errors = g.fromJson(errorsElement, t);
-					response.setErrors(errors);
+				} else if (errorsElement.isJsonArray()) {
+					JsonArray array = errorsElement.getAsJsonArray();
+					JsonArray newArray = new JsonArray();
+					
+					for(int i = 0; i < array.size(); i++) {
+						if(!(array.get(i) instanceof JsonPrimitive)) {
+							newArray.add(array.get(i));
+							
+						}
+					}
+					if(newArray.size() > 0) {
+						errorsElement = newArray;
+						Type t =  new TypeToken<ArrayList<T1Error>>(){}.getType();
+						List<T1Error> errors = g.fromJson(errorsElement, t);
+						response.setErrors(errors);
+					}
 				}
 			}
 

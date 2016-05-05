@@ -22,6 +22,8 @@ import com.mediamath.jterminalone.models.Strategy.freq_int;
 import com.mediamath.jterminalone.models.Strategy.freq_type;
 import com.mediamath.jterminalone.models.Strategy.goal_type;
 import com.mediamath.jterminalone.models.Strategy.type;
+import com.mediamath.jterminalone.models.StrategyDomain;
+import com.mediamath.jterminalone.models.StrategyDomain.restrictions;
 import com.mediamath.jterminalone.utils.ConditionQuery;
 import com.mediamath.jterminalone.utils.Filters;
 import com.mediamath.jterminalone.utils.QueryParamValues;
@@ -114,11 +116,35 @@ public class BasicTest extends TestCase {
 		str.setFrequency_type(freq_type.asap);
 		str.setFrequency_amount(10);
 		str.setFrequency_interval(freq_int.day);
-		str.setGoal_type(goal_type.reach);
+		str.setGoal_type(goal_type.spend);
 		str.setGoal_value(12.12f);
 		str.setMax_bid(10f);
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
+		str.setUse_campaign_start(false);
+		str.setStart_date("2016-05-10T21:42:29+0000");
+		str.setUse_campaign_end(false);
+		str.setEnd_date("2016-10-10T21:42:29+0000");
+		try{
+			str = jt1.save(str);
+		}catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testStrategyDomainRestrictionPost() throws ClientException {
+		JTerminalOne jt1 = new JTerminalOne();
+		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		Strategy str = new Strategy();
+		str.setId(1089192);	
+		List<StrategyDomain> sdList = new ArrayList<StrategyDomain>();
+		
+		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
+		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
+		str.setDomain_restrictions(sdList);
 		
 		try{
 			str = jt1.save(str);

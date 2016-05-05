@@ -85,29 +85,57 @@ public class OrganizationHelper {
 	public static Form getForm(Organization entity) {
 		Gson g= new Gson();
 		Form orgForm = new Form();
-		
-		orgForm.param("name", entity.getName());
+		if(entity.getName()!=null){
+			orgForm.param("name", entity.getName());
+		}
 		orgForm.param("status", Utility.getOnOrOff(entity.isStatus()));
+		
 		if(entity.getContact_name()!=null){
 			orgForm.param("contact_name", entity.getContact_name());
 		}
 		
-		orgForm.param("address_1", entity.getAddress_1());
-		orgForm.param("address_2", entity.getAddress_2());
-		orgForm.param("city", entity.getCity());
-		orgForm.param("state", entity.getState());
-		orgForm.param("zip", entity.getZip());
-		orgForm.param("country", entity.getCountry());
-		orgForm.param("phone", entity.getPhone());
-		orgForm.param("mm_contact_name", entity.getMm_contact_name());
+		if(entity.getAddress_1()!=null){
+			orgForm.param("address_1", entity.getAddress_1());
+		}
+		if(entity.getAddress_2()!=null){
+			orgForm.param("address_2", entity.getAddress_2());
+		}
+		if(entity.getCity()!=null){
+			orgForm.param("city", entity.getCity());
+		}
+		if(entity.getState()!=null){
+			orgForm.param("state", entity.getState());
+		}
+		if(entity.getZip()!=null){
+			orgForm.param("zip", entity.getZip());
+		}
+		if(entity.getCountry()!=null){
+			orgForm.param("country", entity.getCountry());
+		}
+		if(entity.getPhone()!=null){
+			orgForm.param("phone", entity.getPhone());
+		}
+		if(entity.getMm_contact_name()!=null){
+			orgForm.param("mm_contact_name", entity.getMm_contact_name());
+		}
+		
 		orgForm.param("allow_x_agency_pixels", Utility.getOnOrOff(entity.isAllow_x_agency_pixels()));
 		orgForm.param("use_evidon_optout", Utility.getOnOrOff(entity.isUse_evidon_optout()));
 		orgForm.param("allow_byo_price", Utility.getOnOrOff(entity.isAllow_byo_price()));
-		orgForm.param("currency_code", entity.getCurency_code());
+		if(entity.getCurency_code()!=null){
+			orgForm.param("currency_code", entity.getCurency_code());
+		}
+		
 		orgForm.param("adx_seat_account_id", String.valueOf(entity.getAdx_seat_account_id()));
-		orgForm.param("billing_country_code", entity.getBilling_country_code());
+		if(entity.getBilling_country_code()!=null){
+			orgForm.param("billing_country_code", entity.getBilling_country_code());
+		}
+		
 		orgForm.param("override_suspicious_traffic_filter", Utility.getOnOrOff(entity.isOverride_suspicious_traffic_filter()));
-		orgForm.param("suspicious_traffic_filter_level", String.valueOf(entity.getSuspicious_traffic_filter_level()));
+		if(entity.getSuspicious_traffic_filter_level()>0){
+			orgForm.param("suspicious_traffic_filter_level", String.valueOf(entity.getSuspicious_traffic_filter_level()));
+		}
+		
 		//TODO check how to pass array to form
 		orgForm.param("org_type", g.toJson(entity.getOrg_type()));
 		

@@ -1,5 +1,8 @@
 package com.mediamath.jterminalone.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Strategy implements T1Entity {
 	
 	private static final String entityName = "Strategy";
@@ -101,6 +104,8 @@ public class Strategy implements T1Entity {
 	private boolean use_optimization;
 	private int version;
 	private String zone_name;
+	
+	List<StrategyDomain> domain_restrictions= new ArrayList<StrategyDomain>();
 
 	public aud_seg_exc getAudience_segment_exclude_op() {
 		return audience_segment_exclude_op;
@@ -456,6 +461,14 @@ public class Strategy implements T1Entity {
 
 	public void setZone_name(String zone_name) {
 		this.zone_name = zone_name;
+	}
+
+	public List<StrategyDomain> getDomain_restrictions() {
+		return domain_restrictions;
+	}
+
+	public void setDomain_restrictions(List<StrategyDomain> domain_restrictions) {
+		this.domain_restrictions = domain_restrictions;
 	}
 	
 }

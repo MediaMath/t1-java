@@ -17,6 +17,14 @@ public class StrategyDomain implements T1Entity {
 	private int strategy_id;
 	private Date updated_on;
 	private int version;
+	
+	
+
+	public StrategyDomain(String domain, restrictions restriction) {
+		super();
+		this.domain = domain;
+		this.restriction = restriction;
+	}
 
 	public Date getCreated_at() {
 		return created_at;

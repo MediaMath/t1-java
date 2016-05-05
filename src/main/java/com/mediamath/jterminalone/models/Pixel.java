@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Pixel implements T1Entity {
 	
-	private static final String entityName = "Pixel";
+	private static final String entityName = "PixelBundle";
 
 	public enum pixel_types {
 		creative, event, data, segment
@@ -21,6 +21,10 @@ public class Pixel implements T1Entity {
 	public enum tag_types {
 		dfa, uat, image, iframe, js
 	};
+	
+	public enum roi_fields{
+		S1,S2,V1,V2
+	}
 
 	private int advertiser_id;
 	private int agency_id;
@@ -28,6 +32,8 @@ public class Pixel implements T1Entity {
 	private float cost_cpts;
 	private float cost_pct_cpm;
 	private Date created_on;
+	private roi_fields currency;
+	private String currency_fixed;
 	private boolean eligible;
 	private String external_identifier;
 	private int id;
@@ -36,6 +42,7 @@ public class Pixel implements T1Entity {
 	private pixel_types pixel_type;
 	private pricing pricing;
 	private int provider_id;
+	private roi_fields revenue;
 	private int rmx_conversion_minutes;
 	private rmx_conv_types rmx_conversion_type;
 	private boolean rmx_friendly;
@@ -270,4 +277,29 @@ public class Pixel implements T1Entity {
 		return entityName;
 	}
 
+	public roi_fields getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(roi_fields currency) {
+		this.currency = currency;
+	}
+
+	public String getCurrency_fixed() {
+		return currency_fixed;
+	}
+
+	public void setCurrency_fixed(String currency_fixed) {
+		this.currency_fixed = currency_fixed;
+	}
+
+	public roi_fields getRevenue() {
+		return revenue;
+	}
+
+	public void setRevenue(roi_fields revenue) {
+		this.revenue = revenue;
+	}
+
+	
 }
