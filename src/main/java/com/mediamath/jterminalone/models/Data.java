@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Data {
 	
-		Map<String, String> data = new HashMap<>();
+		Map<String, String> data = new HashMap<String, String>();
 
 		public Map<String, String> getData() {
 			return data;

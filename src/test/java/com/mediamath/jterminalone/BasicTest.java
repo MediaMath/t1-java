@@ -89,8 +89,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testAdvertiserPost() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Advertiser adv = new Advertiser();
 		adv.setAd_server_id(9);
@@ -108,8 +107,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testStrategyPost() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
@@ -137,8 +135,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testStrategyDomainRestrictionPost() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);	
@@ -158,8 +155,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testOrganizationPost() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Organization org = new Organization();
 		org.setName("ABC Advertisers");
@@ -195,15 +191,14 @@ public class BasicTest extends TestCase {
 
 	@Test
 	public void testJTerminalOneAuthenticate() throws ClientException {
-		JTerminalOne t1 = new JTerminalOne();
-		boolean isAuthenticated = t1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		boolean isAuthenticated = jt1.isAuthenticated();
 		assertEquals(true, isAuthenticated);
 	}
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -233,8 +228,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -256,8 +250,7 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(40).build();
 		
@@ -275,8 +268,7 @@ public class BasicTest extends TestCase {
 	}
 	@Test
 	public void testBaiscGetWithPageLimitOffset() throws ClientException  {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -299,8 +291,8 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithLimit() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
@@ -324,8 +316,9 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithQuery() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
@@ -348,8 +341,8 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithFind() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
@@ -376,8 +369,9 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithFind1() throws ClientException {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder()
@@ -402,8 +396,8 @@ public class BasicTest extends TestCase {
 	
 	@Test
 	public void testBaiscGetWithFind2() throws ClientException  {
-		JTerminalOne jt1 = new JTerminalOne();
-		jt1.authenticate("jitendra.chaudhari@xoriant.com", "xoriant123#", "kdcvkmat98dk7atjx5evsb6d");
+		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		List<Object> qParams = new ArrayList<Object>();
@@ -474,6 +468,7 @@ public class BasicTest extends TestCase {
 	}
 	
 	public void testAtomicCreatives() throws ClientException {
+		
 		JTerminalOne t1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		AtomicCreative ac = new AtomicCreative();
