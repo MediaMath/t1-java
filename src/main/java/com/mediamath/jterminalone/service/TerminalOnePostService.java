@@ -131,12 +131,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			// detect
-			/*String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -146,9 +141,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, AdvertiserHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -188,12 +180,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -252,12 +239,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-		/*	// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -267,9 +249,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, StrategyConceptHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -309,12 +288,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -324,9 +298,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, StrategySupplySourceHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -366,12 +337,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -381,9 +347,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, OrganizationHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -424,12 +387,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -439,9 +397,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, PixelHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -480,12 +435,7 @@ public class TerminalOnePostService {
 		Campaign campaign = null;
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
@@ -538,12 +488,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			String path = jt1Service.constructURL(uri);
@@ -593,12 +538,7 @@ public class TerminalOnePostService {
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-			
-			/*// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
-			
+
 			StringBuffer uri = getURI(entity);
 			
 			String path = jt1Service.constructURL(uri);
