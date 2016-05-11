@@ -86,7 +86,10 @@ public final class Constants {
 	    getEntityType.put("creative_approvals", new TypeToken<JsonResponse<CreativeApproval>>(){}.getType());
 	    
 	    getEntityType.put("deals", new TypeToken<JsonResponse<Deal>>(){}.getType());
+	    
 	    getEntityType.put("organizations", new TypeToken<JsonResponse<Organization>>(){}.getType());
+	    getEntityType.put("organization", new TypeToken<JsonResponse<Organization>>(){}.getType());
+	    
 	    getEntityType.put("pixels", new TypeToken<JsonResponse<ChildPixel>>(){}.getType());
 	    getEntityType.put("pixel_bundle", new TypeToken<JsonResponse<Pixel>>(){}.getType());
 	    getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<Pixel>>(){}.getType());

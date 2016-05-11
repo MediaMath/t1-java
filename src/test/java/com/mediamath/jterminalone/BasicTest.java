@@ -122,9 +122,9 @@ public class BasicTest extends TestCase {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
-		str.setStart_date("2016-05-10T21:42:29+0000");
+		str.setStart_date("2016-05-11T21:42:29+0000");
 		str.setUse_campaign_end(false);
-		str.setEnd_date("2016-10-10T21:42:29+0000");
+		str.setEnd_date("2016-10-12T21:42:29+0000");
 		try{
 			str = jt1.save(str);
 		}catch (ParseException e) {
@@ -158,13 +158,17 @@ public class BasicTest extends TestCase {
 		JTerminalOne jt1 = new JTerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		Organization org = new Organization();
+		org.setId(100048);
+		ArrayList<String> listOrgType = new ArrayList<String>();
+		listOrgType.add("buyer");
+		org.setOrg_type(listOrgType);
 		org.setName("ABC Advertisers");
 		org.setAddress_1("First Lane, New York");
 		org.setCity("New York");
 		org.setState("NY");
 		org.setContact_name("Michele");
 		org.setZip("800293");
-		org.setCountry("USA");
+		org.setCountry("US");
 		org.setMm_contact_name("Mark");
 		org.setPhone("408 345 7758");
 		

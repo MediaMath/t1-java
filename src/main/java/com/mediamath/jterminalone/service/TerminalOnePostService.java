@@ -76,7 +76,6 @@ public class TerminalOnePostService {
 		return uri;
 	}
 	
-	
 	public Agency save(Agency entity) throws ClientException, ParseException {
 		Agency agency = null;
 		
@@ -101,20 +100,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof Agency) {
 					agency = (Agency) finalJsonResponse.getData();
 				}
@@ -124,6 +110,35 @@ public class TerminalOnePostService {
 			
 		}
 		return agency;
+	}
+
+	/**
+	 * @param response
+	 * @param parser
+	 * @return
+	 * @throws ParseException
+	 */
+	private JsonResponse<? extends T1Entity> parseData(String response, T1JsonToObjParser parser)
+			throws ParseException {
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
+		JsonPostResponse jsonPostResponse;
+		jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+		Data data = new Data();
+		if(jsonPostResponse.getEntity()!=null){
+			for(T1Property p : jsonPostResponse.getEntity().getProp()) {
+				data.getData().put(p.getName(), p.getValue());
+			}
+			data.getData().put("name", jsonPostResponse.getEntity().getName());
+			data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
+			data.getData().put("id", jsonPostResponse.getEntity().getId());
+			data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+			// parse data to json.
+			Gson g = new Gson();
+			String s = g.toJson(data);
+			// update the existing object. or create new object.
+			finalJsonResponse = parseResponse(s, (jsonPostResponse.getEntity() !=null) ? jsonPostResponse.getEntity().getType() : null);
+		}
+		return finalJsonResponse;
 	}
 	
 	public Advertiser save(Advertiser entity) throws ClientException, ParseException {
@@ -150,20 +165,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof Advertiser) {
 					advertiser = (Advertiser) finalJsonResponse.getData();
 				}
@@ -203,29 +205,15 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				if(jsonPostResponse.getEntity()!=null){
-					for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-						data.getData().put(p.getName(), p.getValue());
-					}
-					data.getData().put("name", jsonPostResponse.getEntity().getName());
-					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-					data.getData().put("id", jsonPostResponse.getEntity().getId());
-					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
+				// parse data to json.
+				finalJsonResponse = parseData(response, parser);
 					
-					Gson g = new Gson();
-					String s = g.toJson(data);
-
-					// parse data to json.
-					finalJsonResponse = parseResponse(s, (jsonPostResponse.getEntity() !=null) ? jsonPostResponse.getEntity().getType() : null);
-					// update the existing object. or create new object.
+				// update the existing object. or create new object.
+				if(finalJsonResponse != null) {
 					if(finalJsonResponse.getData() instanceof Strategy) {
 						strategy = (Strategy) finalJsonResponse.getData();
 					}
 				}
-				
-				
 			} else {
 				throwExceptions(jsonPostResponse);
 			}
@@ -258,20 +246,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof StrategyConcept) {
 					strategyConcept = (StrategyConcept) finalJsonResponse.getData();
 				}
@@ -307,20 +282,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof StrategySupplySource) {
 					strategySupplySource = (StrategySupplySource) finalJsonResponse.getData();
 				}
@@ -356,20 +318,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof Organization) {
 					org = (Organization) finalJsonResponse.getData();
 				}
@@ -406,20 +355,7 @@ public class TerminalOnePostService {
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
 			if(jsonPostResponse == null) {
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-				Data data = new Data();
-				for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-					data.getData().put(p.getName(), p.getValue());
-				}
-				data.getData().put("name", jsonPostResponse.getEntity().getName());
-				data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-				data.getData().put("id", jsonPostResponse.getEntity().getId());
-				data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-				// parse data to json.
-				Gson g = new Gson();
-				String s = g.toJson(data);
-				// update the existing object. or create new object.
-				finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
+				finalJsonResponse = parseData(response, parser);
 				if(finalJsonResponse.getData() instanceof Pixel) {
 					px = (Pixel) finalJsonResponse.getData();
 				}
@@ -433,45 +369,26 @@ public class TerminalOnePostService {
 	
 	public Campaign save(Campaign entity) throws ParseException, ClientException {
 		Campaign campaign = null;
-		if(entity != null) {
-			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+		if (entity != null) {
+			JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
 			StringBuffer uri = getURI(entity);
-			
+
 			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
 				uri.append("/margins");
 			}
 			String path = jt1Service.constructURL(uri);
-			//post
+			// post
 			String response = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
-			JsonPostResponse jsonPostResponse =  null;
-			jsonPostResponse = jsonPostErrorResponseParser(response); 
+
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse = jsonPostErrorResponseParser(response);
 			if (jsonPostResponse == null) {
 				// parse response
-				T1JsonToObjParser parser = new T1JsonToObjParser();
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-
-				Data data = new Data();
-				if (jsonPostResponse.getEntity() != null) {
-
-					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
-						data.getData().put(p.getName(), p.getValue());
-					}
-
-					data.getData().put("name", jsonPostResponse.getEntity().getName());
-					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-					data.getData().put("id", jsonPostResponse.getEntity().getId());
-					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-
-					// parse data to json.
-					Gson g = new Gson();
-					String s = g.toJson(data);
-
-					// update the existing object. or create new object.
-					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
-
+				finalJsonResponse = parseData(response, parser);
+				if(finalJsonResponse != null) {
 					if (finalJsonResponse.getData() instanceof Campaign) {
 						campaign = (Campaign) finalJsonResponse.getData();
 					}
@@ -485,47 +402,28 @@ public class TerminalOnePostService {
 	
 	public Concept save(Concept entity) throws ParseException, ClientException {
 		Concept concept = null;
-		
-		if(entity != null) {
-			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+
+		if (entity != null) {
+			JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
 			StringBuffer uri = getURI(entity);
-			
+
 			String path = jt1Service.constructURL(uri);
-			//post
+			// post
 			String response = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
-		
-			JsonPostResponse jsonPostResponse =  null;
-			jsonPostResponse = jsonPostErrorResponseParser(response); 
-			
+
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse = null;
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+
 			if (jsonPostResponse == null) {
 				// parse response
-				T1JsonToObjParser parser = new T1JsonToObjParser();
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
+				finalJsonResponse = parseData(response, parser);
 
-				Data data = new Data();
-				if (jsonPostResponse.getEntity() != null) {
-
-					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
-						data.getData().put(p.getName(), p.getValue());
-					}
-
-					data.getData().put("name", jsonPostResponse.getEntity().getName());
-					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-					data.getData().put("id", jsonPostResponse.getEntity().getId());
-					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-
-					// parse data to json.
-					Gson g = new Gson();
-					String s = g.toJson(data);
-
-					// update the existing object. or create new object.
-					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
-
-					if (finalJsonResponse.getData() instanceof Concept) {
-						concept = (Concept) finalJsonResponse.getData();
-					}
+				if (finalJsonResponse.getData() instanceof Concept) {
+					concept = (Concept) finalJsonResponse.getData();
 				}
+
 			} else {
 				throwExceptions(jsonPostResponse);
 			}
@@ -535,47 +433,28 @@ public class TerminalOnePostService {
 	
 	public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
 		AtomicCreative atomicCreative = null;
-		
-		if(entity != null) {
-			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+
+		if (entity != null) {
+			JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
 			StringBuffer uri = getURI(entity);
-			
+
 			String path = jt1Service.constructURL(uri);
-			//post
+			// post
 			String response = this.connection.post(path, AtomicCreativeHelper.getForm(entity), this.user);
-		
-			JsonPostResponse jsonPostResponse =  null;
-			jsonPostResponse = jsonPostErrorResponseParser(response); 
-			
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostResponse jsonPostResponse = null;
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+
 			if (jsonPostResponse == null) {
-				// parse response
-				T1JsonToObjParser parser = new T1JsonToObjParser();
-				jsonPostResponse = parser.parsePOSTResponseTOObj(response);
 
-				Data data = new Data();
-				if (jsonPostResponse.getEntity() != null) {
+				// update the existing object. or create new object.
+				finalJsonResponse = parseData(response, parser);
 
-					for (T1Property p : jsonPostResponse.getEntity().getProp()) {
-						data.getData().put(p.getName(), p.getValue());
-					}
-
-					data.getData().put("name", jsonPostResponse.getEntity().getName());
-					data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-					data.getData().put("id", jsonPostResponse.getEntity().getId());
-					data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-
-					// parse data to json.
-					Gson g = new Gson();
-					String s = g.toJson(data);
-
-					// update the existing object. or create new object.
-					finalJsonResponse = parseResponse(s, jsonPostResponse.getEntity().getType());
-
-					if (finalJsonResponse.getData() instanceof AtomicCreative) {
-						atomicCreative = (AtomicCreative) finalJsonResponse.getData();
-					}
+				if (finalJsonResponse.getData() instanceof AtomicCreative) {
+					atomicCreative = (AtomicCreative) finalJsonResponse.getData();
 				}
+
 			} else {
 				throwExceptions(jsonPostResponse);
 			}

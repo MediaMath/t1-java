@@ -137,7 +137,7 @@ public class OrganizationHelper {
 		}
 		
 		//TODO check how to pass array to form
-		orgForm.param("org_type", g.toJson(entity.getOrg_type()));
+		orgForm.param("org_type", (entity.getOrg_type().size() > 0) ? entity.getOrg_type().get(0).toString() : "buyer");
 		
 		return orgForm;
 	}
