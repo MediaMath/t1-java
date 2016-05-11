@@ -68,16 +68,23 @@ public class TerminalOnePostService {
 	}
 	
 	
+	private <T extends T1Entity> StringBuffer getURI(T entity) {
+		//detect
+		String entityName = entity.getEntityname();
+		//form the path
+		StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+		return uri;
+	}
+	
+	
 	public Agency save(Agency entity) throws ClientException, ParseException {
 		Agency agency = null;
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
-			String entityName = entity.getEntityname();
-			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -85,9 +92,6 @@ public class TerminalOnePostService {
 			
 			String path = jt1Service.constructURL(uri);
 
-			//post
-			//Form agencyForm = AgencyHelper.getForm(entity);
-			//TODO: check.
 			String response = this.connection.post(path, AgencyHelper.getForm(entity), this.user);
 			
 			// parse response
@@ -129,9 +133,12 @@ public class TerminalOnePostService {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
 			// detect
-			String entityName = entity.getEntityname();
+			/*String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -182,10 +189,13 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -243,10 +253,13 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+		/*	// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -297,10 +310,13 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -351,10 +367,13 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -406,10 +425,13 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
+			
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
@@ -459,10 +481,12 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
 				uri.append("/");
@@ -515,10 +539,12 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
 			
 			String path = jt1Service.constructURL(uri);
 			//post
@@ -568,10 +594,12 @@ public class TerminalOnePostService {
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 			
-			// detect
+			/*// detect
 			String entityName = entity.getEntityname();
 			// form a path
-			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+			StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));*/
+			
+			StringBuffer uri = getURI(entity);
 			
 			String path = jt1Service.constructURL(uri);
 			//post
