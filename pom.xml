@@ -52,7 +52,7 @@
 							<!-- MainClass in mainfest make a executable jar -->
 							<archive>
 								<manifest>
-									<mainClass>com.mediamath.jterminalone.JTerminalOne</mainClass>
+									<mainClass>com.mediamath.terminalone.TerminalOne</mainClass>
 								</manifest>
 							</archive>
 
@@ -112,7 +112,7 @@
 							<!-- MainClass in mainfest make a executable jar -->
 							<archive>
 								<manifest>
-									<mainClass>com.mediamath.jterminalone.JTerminalOne</mainClass>
+									<mainClass>com.mediamath.terminalone.TerminalOne</mainClass>
 								</manifest>
 							</archive>
 
