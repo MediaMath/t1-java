@@ -6,6 +6,7 @@ import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.Exceptions.T1Exception;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.utils.Utility;
 
 public class CampaignHelper  {
@@ -39,8 +40,20 @@ public class CampaignHelper  {
 
 		campaignForm.param("name", entity.getName());
 		
-		if(entity.getAd_server_fee() >= 0) { 
-			campaignForm.param("ad_server_fee", String.valueOf(entity.getAd_server_fee()));
+		if(entity.getAd_server_fee().size() > 0) { 
+			campaignForm.param("ad_server_fee", String.valueOf(entity.getAd_server_fee().get(0).getValue()));
+		}
+		
+		if(entity.getTotal_budget().size() > 0) {
+			campaignForm.param("total_budget", String.valueOf(entity.getTotal_budget().get(0).getValue()));		
+		}
+		
+		if(entity.getSpend_cap_amount().size() > 0){
+			campaignForm.param("spend_cap_amount", String.valueOf(entity.getSpend_cap_amount().get(0).getValue()));
+		}
+		
+		if(entity.getGoal_value().size() > 0) {
+			campaignForm.param("goal_value", String.valueOf(entity.getGoal_value().get(0).getValue()));
 		}
 		
 		if(entity.getAd_server_id() >= 0) {
@@ -62,8 +75,7 @@ public class CampaignHelper  {
 		
 		campaignForm.param("goal_type", String.valueOf(entity.getGoal_type()));		
 		
-		campaignForm.param("goal_value", String.valueOf(entity.getGoal_value()));
-		
+
 		campaignForm.param("service_type", String.valueOf(entity.getService_type()));
 		
 		
@@ -72,9 +84,7 @@ public class CampaignHelper  {
 			campaignForm.param("start_date", startDate);
 		}
 		
-		//campaignForm.param("start_date", "2016-04-23T15:28:05+0000");
-		
-		campaignForm.param("total_budget", String.valueOf(entity.getTotal_budget()));
+	
 		
 		campaignForm.param("use_mm_freq", Utility.getOnOrOff(entity.isUse_mm_freq()));
 		
@@ -150,10 +160,7 @@ public class CampaignHelper  {
 		if(entity.getPv_window_minutes() > 0) {
 			campaignForm.param("pv_window_minutes", String.valueOf(entity.getPv_window_minutes()));
 		}
-		
-		if(entity.getSpend_cap_amount() > 0){
-			campaignForm.param("spend_cap_amount", String.valueOf(entity.getSpend_cap_amount()));
-		}
+
 		
 		
 		campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(entity.isSpend_cap_automatic()));

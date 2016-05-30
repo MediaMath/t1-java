@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,14 +15,24 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.mediamath.terminalone.Exceptions.ParseException;
-import com.mediamath.terminalone.models.JsonPostResponse;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.ThreePassCreativeUpload;
+
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 public class T1JsonToObjParser {
 	
 	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final Logger logger = LoggerFactory.getLogger(T1JsonToObjParser.class);
+	
+	public JsonElement getDataFromResponse(String response) {
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(response).getAsJsonObject();
+		JsonElement element = obj.get("data");
+		return element;
+	}
 	
 	public int getJsonElementType(String response) {
 		int isArrayObj = 0; // 0 = null
@@ -75,17 +84,26 @@ public class T1JsonToObjParser {
 		return jsonResponse;
 	}
 	
-	public JsonPostResponse parsePOSTResponseTOObj(String jsonPostResponseString) {
+	public ThreePassCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
 		
-		JsonPostResponse response = null;
+		ThreePassCreativeUpload response = null;
 		GsonBuilder builder = new GsonBuilder();
 		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
 		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
-		//builder.registerTypeAdapter(JsonPostResponse.class, new CustomInstanceCreatorPost()).create();
 		Gson gson = builder.create();
-		response = gson.fromJson(jsonPostResponseString, JsonPostResponse.class);
-		
+		response = gson.fromJson(json3PasCreativeResponseString, ThreePassCreativeUpload.class);
 		return response;
+	}
+
+	public TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadResponseTOObj(String jsonT1CAUesponse) {
+		TOneASCreativeAssetsUpload response = null;
+		GsonBuilder builder = new GsonBuilder();
+		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+		Gson gson = builder.create();
+		response = gson.fromJson(jsonT1CAUesponse, TOneASCreativeAssetsUpload.class);
+		return response;
+		
 	}
 }
 

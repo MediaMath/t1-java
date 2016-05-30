@@ -95,11 +95,16 @@ public final class Constants {
 	    getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<Pixel>>(){}.getType());
 	    getEntityType.put("pixel_providers", new TypeToken<JsonResponse<PixelProvider>>(){}.getType());
 	    // getEntityType.put("placement_slots", new TypeToken<JsonResponse<PlacementSlot>>(){}.getType());
+	    
 	    getEntityType.put("publishers", new TypeToken<JsonResponse<Publisher>>(){}.getType());
 	    getEntityType.put("publisher_sites", new TypeToken<JsonResponse<PublisherSite>>(){}.getType());
+	    
 	    // getEntityType.put("site_lists", new TypeToken<JsonResponse<SiteList>>(){}.getType());
 	    // getEntityType.put("site_placements", new TypeToken<JsonResponse<SitePlacement>>(){}.getType());
+	    
 	    getEntityType.put("strategies", new TypeToken<JsonResponse<Strategy>>(){}.getType());
+	    getEntityType.put("strategy", new TypeToken<JsonResponse<Strategy>>(){}.getType());
+	    
 	    getEntityType.put("strategy_concepts", new TypeToken<JsonResponse<StrategyConcept>>(){}.getType());
 	    getEntityType.put("strategy_day_parts", new TypeToken<JsonResponse<StrategyDayPart>>(){}.getType());
 	    getEntityType.put("strategy_domain_restrictions", new TypeToken<JsonResponse<StrategyDomain>>(){}.getType());

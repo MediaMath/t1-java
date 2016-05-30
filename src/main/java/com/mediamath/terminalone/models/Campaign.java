@@ -2,6 +2,7 @@ package com.mediamath.terminalone.models;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class Campaign implements T1Entity {
 		SELF, MANAGED
 	};
 
-	private float ad_server_fee;
+	private ArrayList<T1Cost> ad_server_fee = new ArrayList<T1Cost>();
 	private int ad_server_id;
 	private String ad_server_password;
 	private String ad_server_username;
@@ -52,7 +53,7 @@ public class Campaign implements T1Entity {
 	private float goal_alert;
 	private goal_cats goal_category;
 	private goal_types goal_type;
-	private float goal_value;
+	private ArrayList<T1Cost> goal_value = new ArrayList<T1Cost>();
 	private boolean has_custom_attribution;
 	private int id;
 	private String io_name;
@@ -65,12 +66,12 @@ public class Campaign implements T1Entity {
 	private float pv_pct;
 	private int pv_window_minutes;
 	private serv_types service_type;
-	private float spend_cap_amount;
+	private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
 	private boolean spend_cap_automatic;
 	private boolean spend_cap_enabled;
 	private Date start_date;
 	private boolean status;
-	private float total_budget;
+	private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
 	private Date updated_on;
 	private boolean use_default_ad_server;
 	private boolean use_mm_freq;
@@ -89,14 +90,6 @@ public class Campaign implements T1Entity {
 	
 	public Map<Date, Double> getMargins() {
 		return this.margins;
-	}
-
-	public float getAd_server_fee() {
-		return ad_server_fee;
-	}
-
-	public void setAd_server_fee(float ad_server_fee) {
-		this.ad_server_fee = ad_server_fee;
 	}
 
 	public int getAd_server_id() {
@@ -235,14 +228,6 @@ public class Campaign implements T1Entity {
 		this.goal_type = goal_type;
 	}
 
-	public float getGoal_value() {
-		return goal_value;
-	}
-
-	public void setGoal_value(float goal_value) {
-		this.goal_value = goal_value;
-	}
-
 	public boolean isHas_custom_attribution() {
 		return has_custom_attribution;
 	}
@@ -331,14 +316,6 @@ public class Campaign implements T1Entity {
 		this.service_type = service_type;
 	}
 
-	public float getSpend_cap_amount() {
-		return spend_cap_amount;
-	}
-
-	public void setSpend_cap_amount(float spend_cap_amount) {
-		this.spend_cap_amount = spend_cap_amount;
-	}
-
 	public boolean isSpend_cap_automatic() {
 		return spend_cap_automatic;
 	}
@@ -371,14 +348,7 @@ public class Campaign implements T1Entity {
 		this.status = status;
 	}
 
-	public float getTotal_budget() {
-		return total_budget;
-	}
-
-	public void setTotal_budget(float total_budget) {
-		this.total_budget = total_budget;
-	}
-
+	
 	public Date getUpdated_on() {
 		return updated_on;
 	}
@@ -430,5 +400,79 @@ public class Campaign implements T1Entity {
 	public void setMerit_pixel_id(int merit_pixel_id) {
 		this.merit_pixel_id = merit_pixel_id;
 	}
+
+	public ArrayList<T1Cost> getTotal_budget() {
+		return total_budget;
+	}
+
+	public void setTotal_budget(double value, String currency_code) {
+		this.total_budget.clear();
+		if(value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
+			
+			if(currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
+		
+			this.total_budget.add(cost);
+		} 
+	}
+
+	public ArrayList<T1Cost> getAd_server_fee() {
+		return ad_server_fee;
+	}
+
+	public void setAd_server_fee(double value, String currency_code) {
+		this.ad_server_fee.clear();
+		if(value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
+			
+			if(currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
+		
+			this.ad_server_fee.add(cost);
+		} 
+	}
+
+	public ArrayList<T1Cost> getSpend_cap_amount() {
+		return spend_cap_amount;
+	}
+
+	public void setSpend_cap_amount(double value, String currency_code) {
+		this.spend_cap_amount.clear();
+		if(value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
+			
+			if(currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
+		
+			this.spend_cap_amount.add(cost);
+		} 
+	}
+
+	public ArrayList<T1Cost> getGoal_value() {
+		return goal_value;
+	}
+
+	public void setGoal_value(double value, String currency_code) {
+		this.goal_value.clear();
+		if(value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
+			
+			if(currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
+		
+			this.goal_value.add(cost);
+		} 
+	}
+
+
 
 }

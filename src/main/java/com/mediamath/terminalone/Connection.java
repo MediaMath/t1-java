@@ -13,10 +13,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mediamath.terminalone.Exceptions.ClientException;
+import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.utils.Utility;
 
 /**
@@ -50,7 +53,7 @@ public class Connection {
 	 * @throws ClientException 
 	 */
 	// TODO refactor this.
-	public String post(String url, Form data, HashMap<String, HashMap<String, String>> userMap) throws ClientException {
+	public String post(String url, Form data, T1Response userMap) throws ClientException {
 		
 		if(data == null) {
 			throw new ClientException("No Post Data");
@@ -61,13 +64,24 @@ public class Connection {
 		logger.info("Target URL: " + url);
 
 		WebTarget webTarget = client.target(url);
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+		Invocation.Builder invocationBuilder = webTarget.request();	//(MediaType.APPLICATION_JSON);
 		invocationBuilder.header("User-Agent", userAgent);
+		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 
 		// if session is available, then send it in the request.
-		if (userMap != null && !userMap.isEmpty()) {
+		/*if (userMap != null && !userMap.isEmpty()) {
 			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
 				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
+			}
+		}*/
+		
+		if (userMap != null ) {
+			if (userMap.getData() != null 
+					&& userMap.getData().getSession() != null 
+					&& userMap.getData().getSession().getSessionid() != null 
+					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
+				
+				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
 			}
 		}
 
@@ -81,13 +95,63 @@ public class Connection {
 		//return response;
 	}
 
+	/**
+	 * Multipart post.
+	 * 
+	 * @param url
+	 * @param data
+	 * @param userMap
+	 * @return
+	 * @throws ClientException
+	 */
+	public String post(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
+		if(data == null) {
+			throw new ClientException("No Post Data");
+		}
+		
+		Client client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+		
+		logger.info("Target URL: " + url);
+
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request();
+		invocationBuilder.header("User-Agent", userAgent);
+		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
+		
+		// if session is available, then send it in the request.
+/*		if (userMap != null && !userMap.isEmpty()) {
+			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
+				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
+			}
+		}*/
+		
+		if (userMap != null ) {
+			if (userMap.getData() != null 
+					&& userMap.getData().getSession() != null 
+					&& userMap.getData().getSession().getSessionid() != null 
+					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
+				
+				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+			}
+		}
+
+		Response response = null;
+		
+		response = invocationBuilder.post(Entity.entity(data,  data.getMediaType()));
+		
+		return response.readEntity(String.class);
+		
+		
+	}
+	
+	
 	/**handles GET requests
 	 * 
 	 * @param uri
 	 * @param userMap
 	 * @return
 	 */
-	public String get(String url, HashMap<String, HashMap<String, String>> userMap) {
+	public String get(String url, T1Response userMap) {
 		
 		Response response = null;
 		
@@ -101,9 +165,19 @@ public class Connection {
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 		
 		// if session is available, then send it in the request.
-		if (userMap != null && !userMap.isEmpty()) {
+		/*if (userMap != null ) {
 			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
 				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
+			}
+		}*/
+		
+		if (userMap != null ) {
+			if (userMap.getData() != null 
+					&& userMap.getData().getSession() != null 
+					&& userMap.getData().getSession().getSessionid() != null 
+					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
+				
+				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
 			}
 		}
 

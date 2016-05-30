@@ -6,7 +6,7 @@ import java.util.List;
 public class Strategy implements T1Entity {
 	
 	private static final String entityName = "Strategy";
-
+	
 	public enum aud_seg_exc {
 		AND, OR
 	};

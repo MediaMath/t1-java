@@ -1,6 +1,7 @@
 package com.mediamath.terminalone;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,8 +11,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.mediamath.terminalone.QueryCriteria;
-import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
@@ -28,6 +27,9 @@ import com.mediamath.terminalone.models.Strategy.goal_type;
 import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePassCreativeUpload;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.QueryParamValues;
@@ -57,13 +59,13 @@ public class BasicTest extends TestCase {
 		
 		Campaign camp = new Campaign();
 		camp.setName("NitCamp");
-		camp.setAd_server_fee(10.0f);
+		camp.setAd_server_fee(10.01, null);
 		camp.setAd_server_id(9);
 		camp.setAdvertiser_id(122631);
 		camp.setConversion_type("variable");
 		camp.setConversion_variable_minutes(1);
 		camp.setGoal_type(Campaign.goal_types.cpe);
-		camp.setGoal_value(100);
+		camp.setGoal_value(100,null);
 		camp.setService_type(Campaign.serv_types.SELF);
 		
 		Calendar cal = Calendar.getInstance();
@@ -75,8 +77,8 @@ public class BasicTest extends TestCase {
 		camp.setStart_date(new Date());
 		
 		camp.setPc_window_minutes(1);
-		camp.setSpend_cap_amount(10);
-		camp.setTotal_budget(100);
+		camp.setSpend_cap_amount(10,null);
+		camp.setTotal_budget(100, null);
 		camp.setUse_mm_freq(false);
 		camp.setMerit_pixel_id(800781);
 		
@@ -129,6 +131,7 @@ public class BasicTest extends TestCase {
 		str.setEnd_date("2016-10-12T21:42:29+0000");
 		try{
 			str = jt1.save(str);
+			System.out.println(str);
 		}catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -367,10 +370,7 @@ public class BasicTest extends TestCase {
 			
 		}
 		
-		
-		
 		assertNotNull(jsonresponse);
-	
 	}
 	
 	@Test
@@ -499,6 +499,33 @@ public class BasicTest extends TestCase {
 		}
 		
 	}
+	
+	public void test3pasCreativeUpload() throws ClientException, IOException {
+		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		// 3pas first call
+		ThreePassCreativeUpload response = t1.save3pasCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
+		
+		
+		// 3pas second call 
+		ThreePasCreativeBatchApprove batchApprove = new ThreePasCreativeBatchApprove();
 
+		batchApprove.setBatchId(response.getBatch().getId());
+		batchApprove.setAdvertiser_id("154397");
+		batchApprove.setBatchIndex("1", null, null);
+		batchApprove.setBatchIndex("4", null, null);
+		batchApprove.setBatchIndex("5", null, null);
+		
+		t1.save3pasCreativeUploadBatch(batchApprove);
+	}
+	
+	public void testT1ASCreativeAssetUpload() throws ClientException, IOException {
+		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		TOneASCreativeAssetsUpload response = t1.saveT1ASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+		
+		assertNotNull(response);
+		
+	}
 	
 }

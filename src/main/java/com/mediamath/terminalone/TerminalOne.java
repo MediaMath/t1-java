@@ -1,5 +1,6 @@
 package com.mediamath.terminalone;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
@@ -25,8 +26,12 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
-import com.mediamath.terminalone.service.T1Service;
+import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePassCreativeUpload;
 import com.mediamath.terminalone.service.PostService;
+import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
@@ -51,7 +56,7 @@ public class TerminalOne {
 	/*
 	 * service object.
 	 */
-	private T1Service jt1Service =null;
+	private T1Service jt1Service = null;
 	
 	private PostService postService = null;
 	
@@ -59,7 +64,9 @@ public class TerminalOne {
 	/*
 	 * maintains user session
 	 */
-	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
+	//private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
+	
+	private T1Response user = null;
 
 	/*
 	 * is authenticated? 
@@ -116,9 +123,12 @@ public class TerminalOne {
 	 */
 	private void getUserSessionInfo(String response) {
 		Gson gson = new Gson();
-		Type stringStringMap = new TypeToken<HashMap<String, HashMap<String, String>>>() {}.getType();
-		HashMap<String, HashMap<String, String>> map = gson.fromJson(response, stringStringMap);
-		this.setUser(map);
+		T1Response resp = null;
+		
+		Type responseTypeInfo = new TypeToken<T1Response>() {}.getType();
+		resp = gson.fromJson(response, responseTypeInfo);
+		this.setUser(resp);
+		
 	}
 	
 	
@@ -275,6 +285,30 @@ public class TerminalOne {
 		}
 		return atomicCreative;
 	}
+	
+	public ThreePassCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+		ThreePassCreativeUpload response = null;
+		if(isAuthenticated()) {
+			response = postService.save3pasCreativeUpload(filePath, fileName, name);
+		}
+		return response;
+	}
+	
+
+	public void save3pasCreativeUploadBatch(ThreePasCreativeBatchApprove batchApprove) throws ClientException, IOException {
+		if(isAuthenticated()) {
+			postService.save3pasCreativeUploadBatch(batchApprove);
+		}
+	}
+	
+	public TOneASCreativeAssetsUpload saveT1ASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+		TOneASCreativeAssetsUpload response = null;
+		if(isAuthenticated()) {
+			response = postService.saveT1asCreativeAssets(filePath, fileName, name);
+		}
+		return response;
+	}
+	
 	
 	/**
 	 * Get.
@@ -538,16 +572,19 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	/*
 	 * getters and setters
 	 */
-	private HashMap<String, HashMap<String, String>> getUser() {
-		return user;
-	}
 
-	private void setUser(HashMap<String, HashMap<String, String>> user) {
-		this.user = user;
-	}
 
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
+
+	public T1Response getUser() {
+		return user;
+	}
+
+	public void setUser(T1Response user) {
+		this.user = user;
+	}
+
 	
 }

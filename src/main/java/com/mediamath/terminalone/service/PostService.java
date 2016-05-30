@@ -1,10 +1,13 @@
 package com.mediamath.terminalone.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,19 +28,21 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.FieldError;
-import com.mediamath.terminalone.models.JsonPostResponse;
+import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
-import com.mediamath.terminalone.models.Status;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
-import com.mediamath.terminalone.models.T1Property;
+import com.mediamath.terminalone.models.T1Meta;
+import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePassCreativeUpload;
 import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
@@ -48,6 +53,7 @@ import com.mediamath.terminalone.models.helper.PixelHelper;
 import com.mediamath.terminalone.models.helper.StrategyConceptHelper;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
+import com.mediamath.terminalone.models.helper.ThreePasCreativeUploadBatchHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
@@ -59,7 +65,9 @@ public class PostService {
 	
 	private Connection connection = null; 
 	
-	private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String,String>>();
+	//private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String,String>>();
+	private T1Response user = null;
+	
 	
 	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	
@@ -67,7 +75,7 @@ public class PostService {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PostService(Connection pConnection, HashMap<String, HashMap<String, String>> pUser) {
+	public PostService(Connection pConnection, T1Response pUser) {
 		this.connection = pConnection;
 		this.user = pUser;
 	}
@@ -80,8 +88,9 @@ public class PostService {
 		StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
 		return uri;
 	}
-	
+
 	public Agency save(Agency entity) throws ClientException, ParseException {
+	
 		Agency agency = null;
 		
 		if(entity != null) {
@@ -100,52 +109,50 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof Agency) {
-					agency = (Agency) finalJsonResponse.getData();
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						agency = (Agency) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 			
 		}
 		return agency;
 	}
 
-	/**
-	 * @param response
-	 * @param parser
-	 * @return
-	 * @throws ParseException
-	 */
-	private JsonResponse<? extends T1Entity> parseData(String response, T1JsonToObjParser parser)
-			throws ParseException {
-		JsonResponse<? extends T1Entity> finalJsonResponse = null;
-		JsonPostResponse jsonPostResponse;
-		jsonPostResponse = parser.parsePOSTResponseTOObj(response);
-		Data data = new Data();
-		if(jsonPostResponse.getEntity()!=null){
-			for(T1Property p : jsonPostResponse.getEntity().getProp()) {
-				data.getData().put(p.getName(), p.getValue());
+	private <T extends T1Entity> JsonResponse<? extends T1Entity> parsePostData(String response, T1JsonToObjParser parser, T entity ) 
+	throws ParseException {
+	
+		// parse the string to gson objs
+		JsonResponse<? extends T1Entity>  finalJsonResponse= null; 
+		JsonElement element = parser.getDataFromResponse(response);
+		if(element != null) {
+			if(element.isJsonArray()) {
+				// do something
+				JsonArray jarray = element.getAsJsonArray();
+				
+				
+			} else if (element.isJsonObject()) {
+				JsonObject obj = element.getAsJsonObject();
+				JsonElement entityTypeElement = obj.get("entity_type");
+				String entityType =entityTypeElement.getAsString();
+				System.out.println(entityType);
+				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
 			}
-			data.getData().put("name", jsonPostResponse.getEntity().getName());
-			data.getData().put("entity_type", jsonPostResponse.getEntity().getType());
-			data.getData().put("id", jsonPostResponse.getEntity().getId());
-			data.getData().put("version", String.valueOf(jsonPostResponse.getEntity().getVersion()));
-			// parse data to json.
-			Gson g = new Gson();
-			String s = g.toJson(data);
-			// update the existing object. or create new object.
-			finalJsonResponse = parseResponse(s, (jsonPostResponse.getEntity() !=null) ? jsonPostResponse.getEntity().getType() : null);
+		} else if(element == null) {
+			finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+			if(finalJsonResponse != null) {
+				finalJsonResponse.setData(null);
+			}
 		}
 		return finalJsonResponse;
 	}
-	
+
 	public Advertiser save(Advertiser entity) throws ClientException, ParseException {
 		Advertiser advertiser = null;
 		
@@ -165,17 +172,17 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof Advertiser) {
-					advertiser = (Advertiser) finalJsonResponse.getData();
+
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						advertiser = (Advertiser) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 			
 		}
@@ -205,23 +212,21 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				// parse data to json.
-				finalJsonResponse = parseData(response, parser);
-					
-				// update the existing object. or create new object.
-				if(finalJsonResponse != null) {
-					if(finalJsonResponse.getData() instanceof Strategy) {
+
+			if(!response.isEmpty()) {
+				
+				// parse error
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
 						strategy = (Strategy) finalJsonResponse.getData();
 					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
+			
 			
 		}
 		return ((strategy==null) ? entity : strategy);
@@ -246,7 +251,7 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
+		/*	JsonPostResponse jsonPostResponse =  null;
 			
 			jsonPostResponse = jsonPostErrorResponseParser(response);
 			
@@ -257,6 +262,18 @@ public class PostService {
 				}
 			} else {
 				throwExceptions(jsonPostResponse);
+			}*/
+			
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						strategyConcept = (StrategyConcept) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
+				}
 			}
 			
 		}
@@ -282,18 +299,19 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof StrategySupplySource) {
-					strategySupplySource = (StrategySupplySource) finalJsonResponse.getData();
+
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						strategySupplySource = (StrategySupplySource) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
+			
 			
 		}
 		return strategySupplySource;
@@ -318,17 +336,16 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof Organization) {
-					org = (Organization) finalJsonResponse.getData();
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						org = (Organization) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 			
 		}
@@ -355,17 +372,17 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof Pixel) {
-					px = (Pixel) finalJsonResponse.getData();
+
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						px = (Pixel) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 			
 		}
@@ -389,17 +406,17 @@ public class PostService {
 			String response = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
 
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse = jsonPostErrorResponseParser(response);
-			if (jsonPostResponse == null) {
-				// parse response
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse != null) {
-					if (finalJsonResponse.getData() instanceof Campaign) {
+
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
 						campaign = (Campaign) finalJsonResponse.getData();
 					}
+				} else {
+					throwExceptions(error);
 				}
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 		}
 		return campaign == null ? entity : campaign;
@@ -418,19 +435,18 @@ public class PostService {
 			String response = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
 
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse = null;
-			jsonPostResponse = jsonPostErrorResponseParser(response);
 
-			if (jsonPostResponse == null) {
-				// parse response
-				finalJsonResponse = parseData(response, parser);
-
-				if (finalJsonResponse.getData() instanceof Concept) {
-					concept = (Concept) finalJsonResponse.getData();
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						concept = (Concept) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-
-			} else {
-				throwExceptions(jsonPostResponse);
+				
 			}
 		}
 		return concept == null ? entity : concept;
@@ -448,20 +464,17 @@ public class PostService {
 			// post
 			String response = this.connection.post(path, AtomicCreativeHelper.getForm(entity), this.user);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostResponse jsonPostResponse = null;
-			jsonPostResponse = jsonPostErrorResponseParser(response);
 
-			if (jsonPostResponse == null) {
-
-				// update the existing object. or create new object.
-				finalJsonResponse = parseData(response, parser);
-
-				if (finalJsonResponse.getData() instanceof AtomicCreative) {
-					atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
 				}
-
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 		}
 		return atomicCreative == null ? entity : atomicCreative;
@@ -469,21 +482,181 @@ public class PostService {
 	
 	
 	/**
+	 * 
+	 * @param filePath
+	 * @param name
+	 * @throws ClientException
+	 * @throws IOException
+	 */
+	public ThreePassCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+		
+		ThreePassCreativeUpload threePassCreativeUploadResponse = null;
+		
+		if(filePath != null && name != null && fileName != null) {
+			 
+			// formt the url
+			StringBuffer uri = new StringBuffer("creatives/upload");
+			String path = t1Service.constructURL(uri);
+
+			//form the data
+			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
+																	.field("name", name)
+																	.bodyPart(filePart);
+			
+			String response = this.connection.post(path, multipart, this.user);
+			System.out.println(response);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			
+			// parse
+			// create object and send the response to user.
+			if(response != null && !response.isEmpty()) {
+				threePassCreativeUploadResponse = parse3PasCreativeUploadData(response, parser);
+			}
+			
+			formDataMultiPart.close();
+			multipart.close();
+		} else {
+			throw new ClientException("please enter a valid filename and file path");
+		}
+		
+		return threePassCreativeUploadResponse;
+	}
+	
+	/**
+	 * parser for 3PAS creative upload.
+	 * 
+	 * @param response
+	 * @param parser
+	 * @return
+	 */
+	private ThreePassCreativeUpload parse3PasCreativeUploadData(String response, T1JsonToObjParser parser) {
+		ThreePassCreativeUpload finalResponse = null;
+		finalResponse = parser.parse3PasCreativeUploadResponseTOObj(response);
+		return finalResponse;
+	}
+	
+	/**
+	 * handles second call for 3PAS Creative Upload
+	 * @param entity
+	 * @throws ClientException
+	 * @throws IOException
+	 */
+	//TODO work on return type, create a dto, fix the parser for valid response.
+	@SuppressWarnings("unused")
+	public void save3pasCreativeUploadBatch(ThreePasCreativeBatchApprove entity) throws ClientException, IOException {
+		FormDataMultiPart formData = new FormDataMultiPart();
+
+		if (entity != null) {
+			
+			StringBuffer uri = new StringBuffer("creatives/upload/");
+			
+			
+			if(entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
+				uri.append(entity.getBatchId());
+			}
+			
+			String path = t1Service.constructURL(uri);
+			System.out.println(path);
+			
+			
+			ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
+			
+			String response = this.connection.post(path, formData, this.user);
+			
+			System.out.println("response: " + response);
+			
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostErrorResponse jsonPostResponse = null;
+			
+			jsonPostResponse = jsonPostErrorResponseParser(response);
+			
+			if (jsonPostResponse == null) {
+				System.out.println("no errors found");
+				/*	// update the existing object. or create new object.
+				//parseData(response, parser);
+
+				if (finalJsonResponse.getData() instanceof AtomicCreative) {
+					atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+				}
+			 */
+			} else {
+				throwExceptions(jsonPostResponse);
+			}
+		}
+		
+		if(formData != null) {
+			formData.close();
+		}
+			
+	}
+
+	/**
+	 * saves T1AS Creative Assets
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 * @param name
+	 * @return 
+	 * @throws ClientException 
+	 * @throws IOException 
+	 */
+	public TOneASCreativeAssetsUpload saveT1asCreativeAssets(String filePath, String fileName, String name) throws ClientException, IOException {
+		TOneASCreativeAssetsUpload assetsUploadResponse = null;
+		if(filePath != null && name != null && fileName != null) {
+			 
+			// formt the url
+			StringBuffer uri = new StringBuffer("creative_assets/upload");
+			String path = t1Service.constructURL(uri);
+
+			//form the data
+			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
+																	.field("name", name)
+																	.bodyPart(filePart);
+			
+			String response = this.connection.post(path, multipart, this.user);
+			System.out.println(response);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			
+			// parse
+			// create object and send the response to user.
+			if(response != null && !response.isEmpty()) {
+				assetsUploadResponse = parseTOneASCreativeAssetsUploadData(response, parser);
+			}
+			
+			formDataMultiPart.close();
+			multipart.close();
+		} else {
+			throw new ClientException("please enter a valid filename and file path");
+		}
+		return assetsUploadResponse;
+	}
+	
+	
+	private TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadData(String response, T1JsonToObjParser parser) {
+		TOneASCreativeAssetsUpload finalResponse = null;
+		finalResponse = parser.parseTOneASCreativeAssetsUploadResponseTOObj(response);
+		return finalResponse;
+	}
+
+	/**
 	 * @param responseStr
 	 */
-	private JsonPostResponse jsonPostErrorResponseParser(String responseStr) {
+	private JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr) {
 		JsonParser parser1 = new JsonParser();
 		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
 		
 		JsonElement errorsElement = obj.get("errors");
 		JsonElement errorElement = obj.get("error");
-		JsonElement statusElement = obj.get("status");
-		JsonElement calledOnElement = obj.get("called_on");
+		JsonElement metaElement = obj.get("meta");
 		
-		JsonPostResponse response = null;
+		JsonPostErrorResponse response = null;
 		
 		if(errorsElement != null || errorElement != null ) {
-			response = new JsonPostResponse();
+			response = new JsonPostErrorResponse();
 
 			GsonBuilder builder = new GsonBuilder();
 			builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -522,57 +695,22 @@ public class PostService {
 				response.setError(error);
 			}
 
-			if (statusElement != null) {
-				Status status = g.fromJson(statusElement, Status.class);
-				response.setStatus(status);
+			if(metaElement != null) {
+				T1Meta meta = g.fromJson(metaElement, T1Meta.class);
+				response.setMeta(meta);
 			}
-			if (calledOnElement != null) {
-				String calledOnStr = g.fromJson(calledOnElement, String.class);
-				response.setCalled_on(calledOnStr);
-			}
+			
+		
 		}
 		
 		return response;
 	}
 	
-	
-	/**
-	 * parses the response to objects.
-	 * 
-	 * @param query
-	 * @param response
-	 * @return
-	 * @throws ParseException
-	 */
-		//TODO
-	private JsonResponse<? extends T1Entity> parseResponse(String response, String entityType) throws ParseException {
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-		int result = parser.getJsonElementType(response);
-		Type JsonResponseType = null;
-		JsonResponse<? extends T1Entity> jsonresponse = null;
-		
-		if(entityType != null) {
-			
-			if (result != 0) {
-				if (result == 1) {
-					JsonResponseType = Constants.getEntityType.get(entityType);
-				} else if (result == 2) {
-					JsonResponseType = Constants.getListoFEntityType.get(entityType);
-				}
-
-				jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
-				
-			}
-		}
-		return jsonresponse;
-	}
-	
-	
 	/**
 	 * @param jsonPostResponse
 	 * @throws ClientException
 	 */
-	private void throwExceptions(JsonPostResponse jsonPostResponse) throws ClientException {
+	private void throwExceptions(JsonPostErrorResponse jsonPostResponse) throws ClientException {
 	
 		StringBuffer strbuff = null;
 
@@ -660,5 +798,5 @@ public class PostService {
 		throw new ClientException(strbuff.toString());
 	}
 
-
+	
 }
