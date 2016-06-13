@@ -1,6 +1,5 @@
 package com.mediamath.terminalone;
 
-import java.util.HashMap;
 import java.util.Properties;
 
 import javax.ws.rs.client.Client;

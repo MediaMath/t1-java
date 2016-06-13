@@ -244,7 +244,7 @@ public class StrategyHelper {
 			}
 			
 			strategyForm.param("use_mm_freq", Utility.getOnOrOff(false));
-			if(!entity.getGoal_type().equals(goal_type.spend)){
+			if(entity.getGoal_type()!=null && !entity.getGoal_type().equals(goal_type.spend)){
 				strategyForm.param("use_optimization", Utility.getOnOrOff(entity.isUse_optimization()));
 			}
 			if(entity.getVersion() > 0) {
