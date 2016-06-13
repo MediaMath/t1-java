@@ -5,17 +5,17 @@ import javax.ws.rs.core.Form;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.mediamath.terminalone.Exceptions.T1Exception;
-import com.mediamath.terminalone.models.BatchIndex;
-import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchIndex;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 
 public class ThreePasCreativeUploadBatchHelper {
 	
-	public static void validateRequiredFields(ThreePasCreativeBatchApprove entity) throws T1Exception {
+	public static void validateRequiredFields(ThreePASCreativeBatchApprove entity) throws T1Exception {
 		
 		
 	}
 	
-	public static Form getForm(ThreePasCreativeBatchApprove entity) {
+	public static Form getForm(ThreePASCreativeBatchApprove entity) {
 		Form creativeBatchForm = new Form();
 		
 		if(entity.getAdvertiser_id() != null && !entity.getAdvertiser_id().isEmpty()) {
@@ -23,7 +23,7 @@ public class ThreePasCreativeUploadBatchHelper {
 		}
 		
 		if(entity.getBatch() != null) {
-			for(BatchIndex batchIndex : entity.getBatch()) {
+			for(ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
 				if(batchIndex.getBatch_index() != null && !batchIndex.getBatch_index().isEmpty()) {
 					creativeBatchForm.param("batch_index", batchIndex.getBatch_index());
 					
@@ -41,14 +41,14 @@ public class ThreePasCreativeUploadBatchHelper {
 		return creativeBatchForm;
 	}
 	
-	public static void getMultiPartForm(ThreePasCreativeBatchApprove entity, FormDataMultiPart formDataMultiPart) {
+	public static void getMultiPartForm(ThreePASCreativeBatchApprove entity, FormDataMultiPart formDataMultiPart) {
 		
 		if(entity.getAdvertiser_id() != null && !entity.getAdvertiser_id().isEmpty()) {
 			formDataMultiPart = formDataMultiPart.field("advertiser_id", entity.getAdvertiser_id());
 		}
 		
 		if(entity.getBatch() != null) {
-			for(BatchIndex batchIndex : entity.getBatch()) {
+			for(ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
 				if(batchIndex.getBatch_index() != null && !batchIndex.getBatch_index().isEmpty()) {
 					
 					formDataMultiPart = formDataMultiPart.field("batch_index", batchIndex.getBatch_index());

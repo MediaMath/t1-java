@@ -26,10 +26,12 @@ import com.mediamath.terminalone.models.Strategy.freq_type;
 import com.mediamath.terminalone.models.Strategy.goal_type;
 import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
+import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePassCreativeUpload;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.QueryParamValues;
@@ -504,14 +506,14 @@ public class BasicTest extends TestCase {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		// 3pas first call
-		ThreePassCreativeUpload response = t1.save3pasCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
+		ThreePASCreativeUpload response = t1.save3pasCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
 		
 		
 		// 3pas second call 
-		ThreePasCreativeBatchApprove batchApprove = new ThreePasCreativeBatchApprove();
+		ThreePASCreativeBatchApprove batchApprove = new ThreePASCreativeBatchApprove();
 
 		batchApprove.setBatchId(response.getBatch().getId());
-		batchApprove.setAdvertiser_id("154397");
+		batchApprove.setAdvertiser_id("154408");
 		batchApprove.setBatchIndex("1", null, null);
 		batchApprove.setBatchIndex("4", null, null);
 		batchApprove.setBatchIndex("5", null, null);
@@ -519,13 +521,24 @@ public class BasicTest extends TestCase {
 		t1.save3pasCreativeUploadBatch(batchApprove);
 	}
 	
-	public void testT1ASCreativeAssetUpload() throws ClientException, IOException {
+	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		TOneASCreativeAssetsUpload response = t1.saveT1ASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
 		
 		assertNotNull(response);
 		
+		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove(); 
+		creativeAssetsApprove.create(false, 
+				"154408", 
+				"http://ad.vendor.com/clicktracker/?id=1234", 
+				"http://theactuallandingpage.com", 
+				"BBVA_CaminoaleÔxito_160x600.swf", 
+				"BBVA_CaminoaleÔxito_160x600.swf", 
+				"665888");
+		
+		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
+		assertNotNull(secondresponse.getData());
 	}
 	
 }

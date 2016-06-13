@@ -1,6 +1,8 @@
 package com.mediamath.terminalone.models;
 
-public class ThreePassCreativeUpload {
+public class ThreePASCreativeUpload implements T1Entity {
+	private static final String entityName = "ThreePASCreativeUpload";
+	
 	ThreePASCreativeBatch batch;
 
 	public ThreePASCreativeBatch getBatch() {
@@ -9,6 +11,11 @@ public class ThreePassCreativeUpload {
 
 	public void setBatch(ThreePASCreativeBatch batch) {
 		this.batch = batch;
+	}
+
+	@Override
+	public String getEntityname() {
+		return entityName;
 	}
 	
 }

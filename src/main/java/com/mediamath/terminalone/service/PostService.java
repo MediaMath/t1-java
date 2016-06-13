@@ -41,8 +41,10 @@ import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePassCreativeUpload;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
@@ -53,6 +55,7 @@ import com.mediamath.terminalone.models.helper.PixelHelper;
 import com.mediamath.terminalone.models.helper.StrategyConceptHelper;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
+import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.ThreePasCreativeUploadBatchHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
@@ -488,9 +491,9 @@ public class PostService {
 	 * @throws ClientException
 	 * @throws IOException
 	 */
-	public ThreePassCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+	public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
 		
-		ThreePassCreativeUpload threePassCreativeUploadResponse = null;
+		ThreePASCreativeUpload threePassCreativeUploadResponse = null;
 		
 		if(filePath != null && name != null && fileName != null) {
 			 
@@ -531,11 +534,12 @@ public class PostService {
 	 * @param parser
 	 * @return
 	 */
-	private ThreePassCreativeUpload parse3PasCreativeUploadData(String response, T1JsonToObjParser parser) {
-		ThreePassCreativeUpload finalResponse = null;
+	private ThreePASCreativeUpload parse3PasCreativeUploadData(String response, T1JsonToObjParser parser) {
+		ThreePASCreativeUpload finalResponse = null;
 		finalResponse = parser.parse3PasCreativeUploadResponseTOObj(response);
 		return finalResponse;
 	}
+	
 	
 	/**
 	 * handles second call for 3PAS Creative Upload
@@ -545,7 +549,7 @@ public class PostService {
 	 */
 	//TODO work on return type, create a dto, fix the parser for valid response.
 	@SuppressWarnings("unused")
-	public void save3pasCreativeUploadBatch(ThreePasCreativeBatchApprove entity) throws ClientException, IOException {
+	public void save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove entity) throws ClientException, IOException {
 		FormDataMultiPart formData = new FormDataMultiPart();
 
 		if (entity != null) {
@@ -555,34 +559,34 @@ public class PostService {
 			
 			if(entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
 				uri.append(entity.getBatchId());
-			}
-			
-			String path = t1Service.constructURL(uri);
-			System.out.println(path);
-			
-			
-			ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
-			
-			String response = this.connection.post(path, formData, this.user);
-			
-			System.out.println("response: " + response);
-			
-			T1JsonToObjParser parser = new T1JsonToObjParser();
-			JsonPostErrorResponse jsonPostResponse = null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if (jsonPostResponse == null) {
-				System.out.println("no errors found");
-				/*	// update the existing object. or create new object.
-				//parseData(response, parser);
 
-				if (finalJsonResponse.getData() instanceof AtomicCreative) {
-					atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+				String path = t1Service.constructURL(uri);
+				System.out.println(path);
+				
+				
+				ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
+				
+				String response = this.connection.post(path, formData, this.user);
+				
+				System.out.println("response: " + response);
+				
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+				JsonPostErrorResponse jsonPostResponse = null;
+				
+				jsonPostResponse = jsonPostErrorResponseParser(response);
+				
+				if (jsonPostResponse == null) {
+					System.out.println("COMMENTED DUE TO CLIENT EXCEPTION - ACCESS DENIED.");
+					/*	// update the existing object. or create new object.
+					//parseData(response, parser);
+	
+					if (finalJsonResponse.getData() instanceof AtomicCreative) {
+						atomicCreative = (AtomicCreative) finalJsonResponse.getData();
+					}
+				 */
+				} else {
+					throwExceptions(jsonPostResponse);
 				}
-			 */
-			} else {
-				throwExceptions(jsonPostResponse);
 			}
 		}
 		
@@ -641,6 +645,51 @@ public class PostService {
 		finalResponse = parser.parseTOneASCreativeAssetsUploadResponseTOObj(response);
 		return finalResponse;
 	}
+	
+	/**
+	 * handles second call for T1AS Creative Assets
+	 * @param entity
+	 * @throws ClientException 
+	 */
+	public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove entity) throws ClientException {
+		FormDataMultiPart formData = new FormDataMultiPart();
+		//TOneASCreativeAssetsApproveResponse response = null;
+		JsonResponse<? extends T1Entity> parsedJsonResponse = null;
+		if (entity != null) {
+			
+			
+			StringBuffer uri = new StringBuffer("creative_assets/approve");
+			
+			String path = t1Service.constructURL(uri);
+			
+			System.out.println(path);
+			
+			TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
+			
+			String jsonResponse = this.connection.post(path, formData, this.user);
+			
+			System.out.println("response: " + jsonResponse);
+			
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			JsonPostErrorResponse jsonPostErrorResponse = null;
+			
+			jsonPostErrorResponse = jsonPostErrorResponseParser(jsonResponse);
+			
+			if (jsonPostErrorResponse == null) {
+				
+				parsedJsonResponse = parser.parseTOneASCreativeAssetsApproveResponse(jsonResponse);
+				/*if (parsedJsonResponse.getData() instanceof TOneASCreativeAssetsApproveResponse) {
+					response = (TOneASCreativeAssetsApproveResponse) parsedJsonResponse.getData();
+				}*/
+				
+			} else {
+				throwExceptions(jsonPostErrorResponse);
+			}
+		}
+		return parsedJsonResponse;
+	}
+	
+
 
 	/**
 	 * @param responseStr
@@ -797,6 +846,7 @@ public class PostService {
 		// throw the error to client
 		throw new ClientException(strbuff.toString());
 	}
+
 
 	
 }

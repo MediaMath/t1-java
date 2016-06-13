@@ -2,6 +2,7 @@ package com.mediamath.terminalone.utils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +15,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Exceptions.ParseException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePassCreativeUpload;
-
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 
 public class T1JsonToObjParser {
 	
@@ -84,14 +85,14 @@ public class T1JsonToObjParser {
 		return jsonResponse;
 	}
 	
-	public ThreePassCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
+	public ThreePASCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
 		
-		ThreePassCreativeUpload response = null;
+		ThreePASCreativeUpload response = null;
 		GsonBuilder builder = new GsonBuilder();
 		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
 		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
 		Gson gson = builder.create();
-		response = gson.fromJson(json3PasCreativeResponseString, ThreePassCreativeUpload.class);
+		response = gson.fromJson(json3PasCreativeResponseString, ThreePASCreativeUpload.class);
 		return response;
 	}
 
@@ -102,6 +103,21 @@ public class T1JsonToObjParser {
 		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
 		Gson gson = builder.create();
 		response = gson.fromJson(jsonT1CAUesponse, TOneASCreativeAssetsUpload.class);
+		return response;
+		
+	}
+
+	public JsonResponse<? extends T1Entity> parseTOneASCreativeAssetsApproveResponse(String pResponse) {
+		JsonResponse<? extends T1Entity> response = null;
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+		Gson gson = builder.create();
+		
+		Type type = new TypeToken<JsonResponse<ArrayList<TOneASCreativeAssetsApproveResponse>>>(){}.getType();
+		
+		response = gson.fromJson(pResponse, type);
 		return response;
 		
 	}

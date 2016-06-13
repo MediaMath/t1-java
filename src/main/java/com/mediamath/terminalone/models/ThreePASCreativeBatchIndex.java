@@ -1,6 +1,6 @@
 package com.mediamath.terminalone.models;
 
-public class BatchIndex {
+public class ThreePASCreativeBatchIndex {
 	
 	String batch_index;
 	String conceptId;

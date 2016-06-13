@@ -2,7 +2,7 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-public class ThreePasCreativeBatchApprove implements T1Entity {
+public class ThreePASCreativeBatchApprove implements T1Entity {
 	
 	private static final String entityName = "ThreePasCreativeBatchApprove";
 
@@ -10,7 +10,7 @@ public class ThreePasCreativeBatchApprove implements T1Entity {
 	
 	String advertiser_id;
 	
-	ArrayList<BatchIndex> batch = new ArrayList<BatchIndex>();
+	ArrayList<ThreePASCreativeBatchIndex> batch = new ArrayList<ThreePASCreativeBatchIndex>();
 	
 	public String getBatchId() {
 		return batchId;
@@ -30,10 +30,10 @@ public class ThreePasCreativeBatchApprove implements T1Entity {
 
 	public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
 		
-		BatchIndex batchIndex = null;
+		ThreePASCreativeBatchIndex batchIndex = null;
 		
 		if(pBatchIndex != null && !pBatchIndex.isEmpty()) {
-			batchIndex = new BatchIndex();
+			batchIndex = new ThreePASCreativeBatchIndex();
 			
 			batchIndex.setBatch_index(pBatchIndex);
 			
@@ -56,7 +56,7 @@ public class ThreePasCreativeBatchApprove implements T1Entity {
 		return entityName;
 	}
 
-	public ArrayList<BatchIndex> getBatch() {
+	public ArrayList<ThreePASCreativeBatchIndex> getBatch() {
 		return batch;
 	}
 	

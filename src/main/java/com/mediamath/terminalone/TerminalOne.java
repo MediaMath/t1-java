@@ -28,8 +28,9 @@ import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePasCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePassCreativeUpload;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
@@ -286,8 +287,8 @@ public class TerminalOne {
 		return atomicCreative;
 	}
 	
-	public ThreePassCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
-		ThreePassCreativeUpload response = null;
+	public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+		ThreePASCreativeUpload response = null;
 		if(isAuthenticated()) {
 			response = postService.save3pasCreativeUpload(filePath, fileName, name);
 		}
@@ -295,7 +296,8 @@ public class TerminalOne {
 	}
 	
 
-	public void save3pasCreativeUploadBatch(ThreePasCreativeBatchApprove batchApprove) throws ClientException, IOException {
+	//TODO return type
+	public void save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove batchApprove) throws ClientException, IOException {
 		if(isAuthenticated()) {
 			postService.save3pasCreativeUploadBatch(batchApprove);
 		}
@@ -305,6 +307,15 @@ public class TerminalOne {
 		TOneASCreativeAssetsUpload response = null;
 		if(isAuthenticated()) {
 			response = postService.saveT1asCreativeAssets(filePath, fileName, name);
+		}
+		return response;
+	}
+	
+	
+	public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
+		JsonResponse<? extends T1Entity> response = null;
+		if(isAuthenticated()) {
+			response = postService.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		}
 		return response;
 	}
@@ -585,6 +596,5 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	public void setUser(T1Response user) {
 		this.user = user;
 	}
-
 	
 }
