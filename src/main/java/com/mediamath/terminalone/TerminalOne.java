@@ -2,7 +2,6 @@ package com.mediamath.terminalone;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 
 import javax.ws.rs.core.Form;
 
@@ -23,12 +22,13 @@ import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
+import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Response;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.service.PostService;
@@ -550,6 +550,39 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 		return this.get(query);
 		
 	}
+	
+	
+	/**
+	 *  Delete Method for strategy day parts-> budget flight -> strategy-concepts
+	 * @param T - i.e. Entity with id and extra params if required
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(StrategyConcept strategyConcept) throws ClientException, ParseException  {
+		JsonResponse<? extends T1Entity> jResponse = null;
+		if(isAuthenticated()) {
+			jResponse = postService.delete(strategyConcept);
+		}
+		return jResponse;
+	}
+
+
+	/**
+	 *  Delete Method for strategy day parts
+	 * @param T - i.e. Entity with id and extra params if required
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(StrategyDayPart strategyDayPart) throws ClientException, ParseException  {
+		JsonResponse<? extends T1Entity> jResponse = null;
+		if(isAuthenticated()) {
+			jResponse = postService.delete(strategyDayPart);
+		}
+		return jResponse;
+	}
+
 
 
 	/**

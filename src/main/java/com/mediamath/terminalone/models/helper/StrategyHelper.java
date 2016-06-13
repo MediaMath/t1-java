@@ -1,14 +1,13 @@
 package com.mediamath.terminalone.models.helper;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.Exceptions.T1Exception;
 import com.mediamath.terminalone.Exceptions.ValidationException;
 import com.mediamath.terminalone.models.Advertiser.freq_types;
+import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.aud_seg_exc;
 import com.mediamath.terminalone.models.Strategy.aud_seg_inc;
@@ -21,6 +20,7 @@ import com.mediamath.terminalone.models.Strategy.pac_type;
 import com.mediamath.terminalone.models.Strategy.site_selec;
 import com.mediamath.terminalone.models.Strategy.supply_type;
 import com.mediamath.terminalone.models.StrategyDomain;
+import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyHelper {
@@ -259,6 +259,7 @@ public class StrategyHelper {
 				strategyForm.param("type", entity.getType().toString());
 			}
 		}
+		//strategy domain restrictions
 		if(entity.getDomain_restrictions().size()>0){
 			int i=1;
 			for(StrategyDomain sd: entity.getDomain_restrictions()){
@@ -270,6 +271,40 @@ public class StrategyHelper {
 			}
 			
 		}
+		//strategy audio segments
+		if(entity.getAudience_segments().size()>0 && entity.getAudience_segment_exclude_op()!=null && entity.getAudience_segment_include_op()!=null){
+			int i=1;
+			for(Segments sd: entity.getAudience_segments()){
+				if(sd!=null){
+					strategyForm.param("segments."+String.valueOf(i)+".id", String.valueOf(sd.getId()));
+					strategyForm.param("segments."+String.valueOf(i)+".restriction", sd.getRestriction().name());
+					
+					i++;
+				}
+			}
+		}
+		//target values
+		if(entity.getTarget_values().size()>0){
+			int i=1;
+			String valueIds = "";
+			for(TargetValues tv: entity.getTarget_values()){
+				if(tv!=null){
+					strategyForm.param("dimensions."+String.valueOf(i)+".code", tv.getCode().name());
+					strategyForm.param("dimensions."+String.valueOf(i)+".restriction", tv.getRestriction().name());
+					
+					if(tv.getValue_ids().size()>0){
+						for(Integer vi: tv.getValue_ids()){
+							valueIds+=vi.toString();
+						}
+					}
+					strategyForm.param("dimensions."+String.valueOf(i)+".value_ids", valueIds);
+					
+					i++;
+				}
+			}
+		}
+
+		
 		
 		
 		return strategyForm;

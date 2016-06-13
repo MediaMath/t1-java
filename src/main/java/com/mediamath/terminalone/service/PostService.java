@@ -6,6 +6,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.Form;
+
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
@@ -35,14 +37,14 @@ import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
+import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
 import com.mediamath.terminalone.models.T1Response;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.helper.AdvertiserHelper;
@@ -207,6 +209,10 @@ public class PostService {
 			
 			if (entity.getId() > 0 && entity.getDomain_restrictions().size() > 0) {
 				uri.append("/domain_restrictions");
+			}
+			
+			if (entity.getId() > 0 && entity.getAudience_segments().size() > 0 && entity.getAudience_segment_exclude_op()!=null && entity.getAudience_segment_include_op()!=null) {
+				uri.append("/audience_segments");
 			}
 			
 			String path = t1Service.constructURL(uri);
@@ -454,6 +460,69 @@ public class PostService {
 		}
 		return concept == null ? entity : concept;
 	}
+	
+	
+	/**	Delete Strategy Concepts
+	 * 
+	 * @param strategyConcept
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(StrategyConcept strategyConcept) throws ClientException, ParseException  {
+		StringBuffer path = new StringBuffer();
+
+		if(strategyConcept.getId() > 0){
+				path.append(Constants.entityPaths.get("StrategyConcept"));
+				path.append("/");
+				path.append(strategyConcept.getId());
+				path.append("/delete");
+		}
+
+		String finalPath = t1Service.constructURL(path);
+		
+		Form strategyConceptForm = new Form();
+		
+		String response  = connection.post(finalPath, strategyConceptForm, this.user);
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		JsonResponse<? extends T1Entity> jsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_concepts"));
+		
+		
+		return jsonResponse;
+	}
+	
+	/**	Delete Strategy Day Parts
+	 * 
+	 * @param StrategyDayPart
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(StrategyDayPart strategyDayPart) throws ClientException, ParseException  {
+		StringBuffer path = new StringBuffer();
+
+		if(strategyDayPart.getId() > 0){
+				path.append(Constants.entityPaths.get("strategyDayPart"));
+				path.append("/");
+				path.append(strategyDayPart.getId());
+				path.append("/delete");
+		}
+
+		String finalPath = t1Service.constructURL(path);
+		
+		Form strategyConceptForm = new Form();
+		if(strategyDayPart.getVersion() > 0){
+			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
+		}
+		
+		String response  = connection.post(finalPath, strategyConceptForm, this.user);
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		JsonResponse<? extends T1Entity> jsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
+		
+		
+		return jsonResponse;
+	}
+
 	
 	public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
 		AtomicCreative atomicCreative = null;

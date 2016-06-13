@@ -20,16 +20,19 @@ import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
+import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freq_int;
 import com.mediamath.terminalone.models.Strategy.freq_type;
 import com.mediamath.terminalone.models.Strategy.goal_type;
 import com.mediamath.terminalone.models.Strategy.type;
+import com.mediamath.terminalone.models.StrategyConcept;
+import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
-import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.utils.ConditionQuery;
@@ -141,6 +144,27 @@ public class BasicTest extends TestCase {
 	}
 	
 	@Test
+	public void testStrategyAudioSegmentsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Strategy str = new Strategy();
+		str.setId(1089192);	
+		str.setAudience_segment_exclude_op(Strategy.aud_seg_exc.OR);
+		str.setAudience_segment_include_op(Strategy.aud_seg_inc.OR);
+		List<Segments> asList = new ArrayList<Segments>();
+		
+		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.aud_seg_exc.OR, Segments.aud_seg_inc.OR));
+		str.setAudience_segments(asList);
+		try{
+			str = jt1.save(str);
+			System.out.println(str);
+		}catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	public void testStrategyDomainRestrictionPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -198,6 +222,35 @@ public class BasicTest extends TestCase {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	
+	@Test
+	public void testStrategyConceptDelete(){
+		TerminalOne T1;
+		StrategyConcept sc = new StrategyConcept();
+		sc.setId(2903693);
+		try {
+			T1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+			JsonResponse jr = T1.delete(sc);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testStrategyDayPartDelete(){
+		TerminalOne T1;
+		StrategyDayPart sc = new StrategyDayPart();
+		sc.setId(626678);
+		try {
+			T1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+			JsonResponse<? extends T1Entity> jr = T1.delete(sc);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test

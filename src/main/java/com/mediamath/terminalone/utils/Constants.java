@@ -27,6 +27,8 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.TargetDimension;
+import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 
 
@@ -111,8 +113,8 @@ public final class Constants {
 	    getEntityType.put("strategy_supply_sources", new TypeToken<JsonResponse<StrategySupplySource>>(){}.getType());
 	    // getEntityType.put("supply_sources", "SupplySource");
 	    getEntityType.put("users", new TypeToken<JsonResponse<User>>(){}.getType());
-	    //getEntityType.put("target_dimensions", "TargetDimension");
-	    //getEntityType.put("target_values", "TargetValue");
+	    getEntityType.put("target_dimensions", new TypeToken<JsonResponse<TargetDimension>>(){}.getType());
+	    getEntityType.put("target_values", new TypeToken<JsonResponse<TargetValues>>(){}.getType());
 	    //getEntityType.put("permissions", "Permission");
 	    //getEntityType.put("reports", "Report");
 	    //getEntityType.put("vendors", "Vendor");

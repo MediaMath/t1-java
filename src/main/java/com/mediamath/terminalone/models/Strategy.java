@@ -106,6 +106,8 @@ public class Strategy implements T1Entity {
 	private String zone_name;
 	
 	List<StrategyDomain> domain_restrictions= new ArrayList<StrategyDomain>();
+	List<Segments> audience_segments= new ArrayList<Segments>();
+	List<TargetValues> target_values= new ArrayList<TargetValues>();
 
 	public aud_seg_exc getAudience_segment_exclude_op() {
 		return audience_segment_exclude_op;
@@ -470,5 +472,23 @@ public class Strategy implements T1Entity {
 	public void setDomain_restrictions(List<StrategyDomain> domain_restrictions) {
 		this.domain_restrictions = domain_restrictions;
 	}
+
+	public List<Segments> getAudience_segments() {
+		return audience_segments;
+	}
+
+	public void setAudience_segments(List<Segments> audience_segments) {
+		this.audience_segments = audience_segments;
+	}
+
+	public List<TargetValues> getTarget_values() {
+		return target_values;
+	}
+
+	public void setTarget_values(List<TargetValues> target_values) {
+		this.target_values = target_values;
+	}
+	
+	
 	
 }
