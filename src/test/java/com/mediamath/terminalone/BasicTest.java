@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Test;
 
 import com.mediamath.terminalone.Exceptions.ClientException;
@@ -42,6 +43,11 @@ import com.mediamath.terminalone.utils.QueryParamValues;
 import junit.framework.TestCase;
 
 public class BasicTest extends TestCase {
+
+	@After
+	public final void tearDown() throws InterruptedException { 
+		Thread.sleep(10000);
+	}
 	
 	@Test
 	public void testAgencyPost() throws ClientException {

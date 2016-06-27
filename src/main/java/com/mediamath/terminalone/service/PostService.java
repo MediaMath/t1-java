@@ -869,7 +869,7 @@ public class PostService {
 				for (T1Error error : al) {
 					if (error.getMessage() != null) {
 						if (strbuff == null) {
-							strbuff = new StringBuffer(error.getMessage());
+							strbuff = new StringBuffer(error.getMessage()); //add error field
 						} else {
 							strbuff.append(", " + error.getMessage());
 						}

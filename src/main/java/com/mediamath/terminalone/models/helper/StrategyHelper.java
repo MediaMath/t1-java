@@ -127,10 +127,10 @@ public class StrategyHelper {
 		Form strategyForm = new Form();
 		if(entity.getDomain_restrictions().size() <=0){
 			if(entity.getAudience_segment_exclude_op()!=null){
-				strategyForm.param("audience_segment_exclude_op", entity.getAudience_segment_exclude_op().toString());
+				strategyForm.param("exclude_op", entity.getAudience_segment_exclude_op().toString());
 			}
 			if(entity.getAudience_segment_include_op()!=null){
-				strategyForm.param("audience_segment_include_op", entity.getAudience_segment_include_op().toString());
+				strategyForm.param("include_op", entity.getAudience_segment_include_op().toString());
 			}
 			if(entity.getBid_aggresiveness()>0f){
 				strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBid_aggresiveness()));
