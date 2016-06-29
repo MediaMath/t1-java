@@ -31,6 +31,7 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
@@ -60,6 +61,7 @@ public class TerminalOne {
 	private T1Service jt1Service = null;
 	
 	private PostService postService = null;
+	private GetService getService = null;
 	
 	
 	/*
@@ -113,6 +115,7 @@ public class TerminalOne {
 		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 		postService = new PostService(connection, user);
+		getService  = new GetService();
 		authenticated = true;
 		
 	}
@@ -331,90 +334,7 @@ public class TerminalOne {
 	 */
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
 		
-		StringBuffer path=new StringBuffer("");
-		
-		String childPath = "";
-		
-		StringBuffer includePath = new StringBuffer("");
-		
-		//param collection String example "advertisers"
-		if(!query.collection.equals(null)){
-			path.append(query.collection);
-		} else {
-			throw new IllegalArgumentException("please specify: collection");
-		}
-		
-		//param entity Int example ID 12121
-		if(query.entity > 0){
-			path.append("/"+String.valueOf(query.entity));
-		}
-		
-		//param child String example: acl, permissions
-		if(query.child!=null){
-			childPath = jt1Service.constructChildPath(query.child);
-			if(!path.toString().equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
-				path.append(childPath);
-			}
-		} //end of child
-		
-		//param limit, should be key=value pair. example organization : 123456
-		if(query.limit.size()>0){
-			path.append("/limit/");
-			for(String s : query.limit.keySet()){
-				if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-					//TODO raise error
-				}
-				if(!path.toString().equalsIgnoreCase("")){
-					path.append(s+"="+String.valueOf(query.limit.get(s)));
-				}
-			}
-		}
-		
-		//param include
-		if(query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
-			includePath = jt1Service.constructIncludePath(query.includeConditionList);
-			
-			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
-				path.append(includePath.toString());
-			}
-		}//end of include
-		
-		//param sortby example: sortby=id
-		if(query.sortBy!=null){
-			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-				path.append("&sort_by="+query.sortBy);
-			}
-			else{
-				path.append("?sort_by="+query.sortBy);
-			}
-		}//end sortby
-		
-		//param pageLimit should not be > 100 example: page_limit=30 
-		//and param pageOffset, should be > 0 example: page_offset=10 
-		if(query.pageLimit > 100){
-			throw new ClientException("Page_Limit parameter should not exceed 100");
-		}
-		else{
-			String pagePath = "";
-			pagePath = jt1Service.constructPaginationPath(query.pageLimit, query.pageOffset);
-			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-				path.append("&"+pagePath);
-			}
-			else{
-				path.append("?"+pagePath);
-			}
-		}//end pageLimit
-		
-		//param QUERY example 
-		if(query.query!=null){
-			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
-				path.append("&q="+query.query);
-			}
-			else{
-				path.append("?q="+query.query);
-			}
-		}
-		
+		StringBuffer path= getService.get(query);
 		
 		// get the data from t1 servers.
 		String finalPath = jt1Service.constructURL(path);
@@ -503,50 +423,8 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	 * @throws ClientException 
 	 */
 	public JsonResponse<? extends T1Entity> find(QueryCriteria query) throws ClientException, ParseException  {
-		
-		StringBuffer qParamVal = new StringBuffer();
-		
-		if(query.queryOperator.equalsIgnoreCase(Filters.IN)){
-			if(query.queryParams.getListValue()==null || (query.queryParams.getListValue()!=null && query.queryParams.getListValue().size() <1)){
-				//TODO raise TypeError
-			}else{
-				qParamVal.append("(");
-				if(query.queryParams.getListValue().get(0) instanceof String || query.queryParams.getListValue().get(0) instanceof Number){
-					String prefix = "";
-					for(Object obj : query.queryParams.getListValue()){
-						qParamVal.append(prefix);
-						qParamVal.append(String.valueOf(obj));
-						prefix = ",";
-					}
-				}else{
-					//TODO raise typeError
-				}
-				
-				qParamVal.append(")");
-			}
-		}else{
-			qParamVal.append(query.queryParamName);
-			qParamVal.append(query.queryOperator);
-			
-			if(query.queryParams.getStrValue()!=null){
-				qParamVal.append(query.queryParams.getStrValue());
-			}
-			else if(query.queryParams.getNumberValue() != null){
-				qParamVal.append(query.queryParams.getNumberValue());
-			}
-			else if(query.queryParams.getBoolValue()==true){
-				qParamVal.append(1);
-			}
-			else if(query.queryParams.getBoolValue()==false){
-				qParamVal.append(0);
-			}
-	
-		}
-		
-		query.query =  qParamVal.toString();
-		
-	
-		
+		String qParamVal = getService.find(query);
+		query.query = qParamVal;		
 		return this.get(query);
 		
 	}

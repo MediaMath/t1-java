@@ -11,27 +11,27 @@ import com.mediamath.terminalone.utils.QueryParamValues;
 
 public class QueryCriteria {
 	
-	String collection = null; 
+	public String collection = null; 
 	
-	long entity = 0; 
+	public long entity = 0; 
 	
-	String child = null; 
+	public String child = null; 
 	
-	List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+	public List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 	
-	String sortBy = null;
+	public String sortBy = null;
 	
-	int pageLimit = 100;
+	public int pageLimit = 100;
 	
-	int pageOffset = 0;
+	public int pageOffset = 0;
 	
-	long parent = 0;
+	public long parent = 0;
 	
-	Map<String, Long> limit = new HashMap<String, Long>();
+	public Map<String, Long> limit = new HashMap<String, Long>();
 	
-	String query=null;
+	public String query=null;
 	
-	String queryParamName = null;
+	public String queryParamName = null;
 	
 /*	String queryParamValueStr = null;
 
@@ -41,11 +41,11 @@ public class QueryCriteria {
 	
 	List<Object> queryParamValueList = new ArrayList<Object>();*/
 	
-	String queryOperator = null; 
+	public String queryOperator = null; 
 	
-	QueryParamValues queryParams= null;
+	public QueryParamValues queryParams= null;
 	
-	FullParamValues full = null;
+	public FullParamValues full = null;
 	
 	public QueryCriteria(Builder builder) {
 		
