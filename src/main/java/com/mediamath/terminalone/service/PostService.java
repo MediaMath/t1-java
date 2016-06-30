@@ -146,7 +146,7 @@ public class PostService {
 				JsonObject obj = element.getAsJsonObject();
 				JsonElement entityTypeElement = obj.get("entity_type");
 				String entityType =entityTypeElement.getAsString();
-				System.out.println(entityType);
+				//System.out.println(entityType);
 				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
 			}
 		} else if(element == null) {
@@ -578,7 +578,7 @@ public class PostService {
 																	.bodyPart(filePart);
 			
 			String response = this.connection.post(path, multipart, this.user);
-			System.out.println(response);
+			//System.out.println(response);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse
@@ -630,14 +630,14 @@ public class PostService {
 				uri.append(entity.getBatchId());
 
 				String path = t1Service.constructURL(uri);
-				System.out.println(path);
-				
+				//TODO remove.
+				//System.out.println(path);
 				
 				ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
 				
 				String response = this.connection.post(path, formData, this.user);
 				
-				System.out.println("response: " + response);
+				//System.out.println("response: " + response);
 				
 				T1JsonToObjParser parser = new T1JsonToObjParser();
 				JsonPostErrorResponse jsonPostResponse = null;
@@ -645,7 +645,7 @@ public class PostService {
 				jsonPostResponse = jsonPostErrorResponseParser(response);
 				
 				if (jsonPostResponse == null) {
-					System.out.println("COMMENTED DUE TO CLIENT EXCEPTION - ACCESS DENIED.");
+					//System.out.println("COMMENTED DUE TO CLIENT EXCEPTION - ACCESS DENIED.");
 					/*	// update the existing object. or create new object.
 					//parseData(response, parser);
 	
@@ -691,7 +691,7 @@ public class PostService {
 																	.bodyPart(filePart);
 			
 			String response = this.connection.post(path, multipart, this.user);
-			System.out.println(response);
+			//System.out.println(response);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse
@@ -731,13 +731,13 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 			
-			System.out.println(path);
+			//System.out.println(path);
 			
 			TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
 			
 			String jsonResponse = this.connection.post(path, formData, this.user);
 			
-			System.out.println("response: " + jsonResponse);
+			//System.out.println("response: " + jsonResponse);
 			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			JsonPostErrorResponse jsonPostErrorResponse = null;
@@ -758,8 +758,6 @@ public class PostService {
 		return parsedJsonResponse;
 	}
 	
-
-
 	/**
 	 * @param responseStr
 	 */
@@ -915,6 +913,8 @@ public class PostService {
 		// throw the error to client
 		throw new ClientException(strbuff.toString());
 	}
+
+
 
 
 	

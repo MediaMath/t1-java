@@ -74,7 +74,9 @@ public class BasicTest extends TestCase {
 		camp.setService_type(Campaign.serv_types.SELF);
 		
 		Calendar cal = Calendar.getInstance();
+		
 		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
 		Date endd = cal.getTime();
 		
 		camp.setEnd_date(endd);
@@ -255,8 +257,8 @@ public class BasicTest extends TestCase {
 
 	@Test
 	public void testJTerminalOneAuthenticate() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
-		boolean isAuthenticated = jt1.isAuthenticated();
+		TerminalOne jt1 = new TerminalOne();
+		boolean isAuthenticated = jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");;
 		assertEquals(true, isAuthenticated);
 	}
 
@@ -583,7 +585,7 @@ public class BasicTest extends TestCase {
 		
 		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove(); 
 		creativeAssetsApprove.create(false, 
-				"154408", 
+				"165615", 
 				"http://ad.vendor.com/clicktracker/?id=1234", 
 				"http://theactuallandingpage.com", 
 				"BBVA_CaminoaleÔxito_160x600.swf", 
@@ -593,5 +595,16 @@ public class BasicTest extends TestCase {
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
 	}
+	
+	/*public void testCreateVideoCreative() throws ClientException, IOException {
+		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		VideoCreative videoCreative = new VideoCreative();
+		
+		t1.saveVideoCreative(videoCreative);
+		
+		
+	}*/
+	
 	
 }

@@ -35,7 +35,6 @@ import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
-import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
 /**
@@ -61,6 +60,7 @@ public class TerminalOne {
 	private T1Service jt1Service = null;
 	
 	private PostService postService = null;
+	
 	private GetService getService = null;
 	
 	
@@ -80,11 +80,11 @@ public class TerminalOne {
 	/**
 	 * Default Constructor
 	 */
-	/*public terminalone() {
+	public TerminalOne() {
 		logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
-		jt1Service = new JT1Service();
-	}*/
+		jt1Service = new T1Service();
+	}
 
 	/**
 	 * the other constructor, tries to connect with the credentials provided.
@@ -92,20 +92,12 @@ public class TerminalOne {
 	 * 
 	 */
 	public TerminalOne(String username, String password, String api_key) throws ClientException {
-		//this();
-		logger.info("Loading Environment - setting up connection.");
+		this();
+		/*	logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
-		jt1Service = new T1Service();
+		jt1Service = new T1Service();*/
 		
-		if(api_key == null || api_key.isEmpty()) {
-			logger.error("Environment does not exist");
-			throw new ClientException("Please Provide Valid Enviornment");
-		}
-		
-		if(username.isEmpty() || password.isEmpty()) {
-			logger.error("Please provide valid credentials.");
-			throw new ClientException("Please Provide Valid Username and Password.");
-		}
+		validateLoginCredentials(username, password, api_key);
 
 		logger.info("Loading Environment - Authenticating.");
 		Form form = jt1Service.getLoginFormData(username, password, api_key);
@@ -116,8 +108,62 @@ public class TerminalOne {
 		getUserSessionInfo(response);
 		postService = new PostService(connection, user);
 		getService  = new GetService();
-		authenticated = true;
 		
+		if(this.getUser() != null && this.getUser().getData() != null) {
+			if(this.getUser().getData().getSession() != null && this.getUser().getData().getSession().getSessionid() != null 
+					&& !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+				this.authenticated = true;
+			}
+		}
+		
+	}
+
+	/**
+	 * @param username
+	 * @param password
+	 * @param api_key
+	 * @throws ClientException
+	 */
+	private void validateLoginCredentials(String username, String password, String api_key) throws ClientException {
+		if(api_key == null || api_key.isEmpty()) {
+			logger.error("Environment does not exist");
+			throw new ClientException("Please Provide Valid Enviornment");
+		}
+		
+		if(username.isEmpty() || password.isEmpty()) {
+			logger.error("Please provide valid credentials.");
+			throw new ClientException("Please Provide Valid Username and Password.");
+		}
+	}
+	
+	/**
+	 * basic authentication method.
+	 * 
+	 * @return boolean isauthenticated.
+	 */
+	public boolean authenticate(String username, String password, String api_key) throws ClientException {
+
+		// TODO validate
+		logger.info("Authenticating.");
+		validateLoginCredentials(username, password, api_key);
+		
+		Form form = jt1Service.getLoginFormData(username, password, api_key);
+		String url = jt1Service.constructURL(new StringBuffer("login"));
+		String response = connection.post(url, form, null);
+		
+		getUserSessionInfo(response);
+		
+		postService = new PostService(connection, user);
+		getService  = new GetService();
+		
+		if(this.getUser() != null && this.getUser().getData() != null) {
+			if(this.getUser().getData().getSession() != null && this.getUser().getData().getSession().getSessionid() != null 
+					&& !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+				this.authenticated = true;
+			}
+		}
+		
+		return isAuthenticated();
 	}
 
 	/**
@@ -323,7 +369,6 @@ public class TerminalOne {
 		return response;
 	}
 	
-	
 	/**
 	 * Get.
 	 * 
@@ -462,40 +507,9 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	}
 
 
-
-	/**
-	 * basic authentication method.
-	 * 
-	 * @return boolean isauthenticated.
-	 *//*
-	public boolean authenticate(String username, String password, String api_key) throws ClientException {
-
-		// TODO validate
-		logger.info("Authenticating.");
-		
-		Form form = jt1Service.getLoginFormData(username, password, api_key);
-		String url = jt1Service.constructURL(new StringBuffer("login"));
-		String response = null;
-		
-		response = connection.post(url, form, null);
-		
-		getUserSessionInfo(response);
-		
-		postService = new TerminalOnePostService(connection, user);
-		
-		// TODO handle Exception
-		if (response != null && !response.isEmpty())
-			return true;
-		else
-			return false;
-
-	}*/
-
 	/*
 	 * getters and setters
 	 */
-
-
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
