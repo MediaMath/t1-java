@@ -522,4 +522,7 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 		this.user = user;
 	}
 	
+	public void setAuthenticated(boolean b) {
+		this.authenticated = true;
+	}
 }

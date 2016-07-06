@@ -1,6 +1,8 @@
 package com.mediamath.terminalone;
 
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,7 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
@@ -31,17 +39,87 @@ import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.service.GetService;
+import com.mediamath.terminalone.service.PostService;
+import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
-import junit.framework.TestCase;
+@RunWith(MockitoJUnitRunner.class)
+public class BasicTest {
 
-public class BasicTest extends TestCase {
+	@Mock
+	T1Service t1servicemock;
+	
+	@Mock
+	PostService postservicemock;
+	
+	@Mock
+	GetService getservicemock;
+	
+	@Mock
+	Connection connectionmock;
+	
+	@InjectMocks
+	TerminalOne t1 = new TerminalOne();
+
+	@After
+	public final void tearDown() throws InterruptedException {
+		Thread.sleep(5000);
+	}
+	
+	@Test
+	public void testAgencyPostWithMocks() throws Exception {	
+		t1.setAuthenticated(true);
+		Agency agency = new Agency();
+		agency.setName("agency_name");
+		agency.setOrganization_id(100048);
+		Mockito.when(postservicemock.save(agency)).thenReturn(agency);
+		try {
+			agency = t1.save(agency);
+			Mockito.verify(postservicemock).save(agency);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotNull(agency);
+		assertEquals("agency_name", agency.getName());
+		assertEquals(100048, agency.getOrganization_id());
+	}
+	
+	@Test
+	public void testAdvertiserGettWithMocks() throws ClientException, ParseException {
+		
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("advertisers?null"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615}],"
+														+ "\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers"
+														+ "?page_offset=40&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=40\",\"etag\" : \"e2fae343fdc5b6aeb4f782c9ea31860c64ec47c9\","
+														+ "\"count\" : 1,\"called_on\" : \"2016-07-01T15:25:07+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 437}}");
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(1).build();
+		
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+		ArrayList<Advertiser> advertisers= ((ArrayList<Advertiser>)jsonresponse.getData());
+		assertEquals(165615, advertisers.get(0).getId());
+		assertNotNull(jsonresponse.getMeta());
+	}
 	
 	@Test
 	public void testAgencyPost() throws ClientException {
