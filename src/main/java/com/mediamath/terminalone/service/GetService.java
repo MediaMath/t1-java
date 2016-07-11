@@ -43,6 +43,10 @@ public class GetService {
 		//param child String example: acl, permissions
 		if(query.child!=null){
 			childPath = constructChildPath(query.child);
+			//if child path is not available then add child in GET URL
+			if(childPath.equalsIgnoreCase("") && (query.child!=null && !query.child.equalsIgnoreCase(""))){
+				childPath = "/"+query.child;
+			}
 			if(!path.toString().equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")){
 				path.append(childPath);
 			}
