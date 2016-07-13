@@ -40,7 +40,7 @@ public class Connection {
 	 * 
 	 */
 	public Connection() {
-		userAgent = configprop.getProperty("useragent");
+		userAgent = generateUserAgent();
 	}
 
 	/**
@@ -183,6 +183,11 @@ public class Connection {
 		response = invocationBuilder.get();
 		
 		return response.readEntity(String.class);
+	}
+
+	private String generateUserAgent(){
+		String version = configprop.getProperty("version");
+		return "t1-java/"+version+" java-client/"+System.getProperty("java.version");
 	}
 
 }
