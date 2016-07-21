@@ -47,6 +47,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.VideoCreative;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
@@ -59,6 +61,7 @@ import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.ThreePasCreativeUploadBatchHelper;
+import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
@@ -361,7 +364,6 @@ public class PostService {
 		return org;
 	}
 	
-	
 	public Pixel save(Pixel entity) throws ClientException, ParseException {
 		Pixel px = null;
 		
@@ -459,6 +461,38 @@ public class PostService {
 			}
 		}
 		return concept == null ? entity : concept;
+	}
+	
+	public VideoCreativeResponse save(VideoCreative entity) throws ClientException {
+		VideoCreativeResponse videoCreative = null;
+		if(entity != null) {
+			
+			String videoCreativePath = t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives";
+			
+			System.out.println(VideoCreativeHelper.getJson(entity));
+			
+			String response =  this.connection.post(videoCreativePath, VideoCreativeHelper.getJson(entity), this.user);
+			
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			
+			System.out.println(response);
+			
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
+					if(parsedVideoCreativeResponse != null 
+							&& parsedVideoCreativeResponse.getCreativeId() != null 
+							&& !parsedVideoCreativeResponse.getCreativeId().isEmpty()) {
+						videoCreative = parsedVideoCreativeResponse;
+					}
+				} else {
+					throwExceptions(error);
+				}
+			}
+				
+		}
+		return videoCreative;
 	}
 	
 	
@@ -726,7 +760,6 @@ public class PostService {
 		JsonResponse<? extends T1Entity> parsedJsonResponse = null;
 		if (entity != null) {
 			
-			
 			StringBuffer uri = new StringBuffer("creative_assets/approve");
 			
 			String path = t1Service.constructURL(uri);
@@ -785,8 +818,22 @@ public class PostService {
 
 				} else if (errorsElement.isJsonObject()) {
 					T1Error errors = g.fromJson(errorsElement, T1Error.class);
-					response.setErrors(errors);
+					// specific to video creatives
+					if(errors != null 
+							&& errors.getContent() == null 
+							&& errors.getField() == null 
+							&& errors.getFieldError() == null 
+							&& errors.getMessage() == null) {
+						
+						GsonBuilder videoBuilder = new GsonBuilder();
+						videoBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+						videoBuilder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+						
+						Gson vidgson = videoBuilder.create();
 
+						errors = vidgson.fromJson(errorsElement, T1Error.class);
+					}
+					response.setErrors(errors);
 				} else if (errorsElement.isJsonArray()) {
 					JsonArray array = errorsElement.getAsJsonArray();
 					JsonArray newArray = new JsonArray();
@@ -913,9 +960,5 @@ public class PostService {
 		// throw the error to client
 		throw new ClientException(strbuff.toString());
 	}
-
-
-
-
 	
 }

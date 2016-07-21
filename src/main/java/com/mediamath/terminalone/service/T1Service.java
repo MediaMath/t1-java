@@ -27,11 +27,12 @@ public class T1Service {
 	private String URL =null;
 	private String api_base = null;
 	private String path_mgmt = null;
-
+	private String videoCreativeURL = null;
 	
 	public T1Service(){
 		this.api_base = configprop.getProperty("api_base");
 		this.path_mgmt = configprop.getProperty("path_mgmt");
+		this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
 	}
 	
 	public String getURL() {
@@ -83,6 +84,14 @@ public class T1Service {
 		form.param("api_key", api_key);
 		
 		return form;
+	}
+
+	public String getVideoCreativeURL() {
+		return videoCreativeURL;
+	}
+
+	public void setVideoCreativeURL(String videoCreativeURL) {
+		this.videoCreativeURL = videoCreativeURL;
 	}
 	
 	

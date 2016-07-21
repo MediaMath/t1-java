@@ -1,6 +1,6 @@
 package com.mediamath.terminalone.models;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class T1Error {
 	
@@ -12,8 +12,8 @@ public class T1Error {
 	
 	String content;
 	
-	List<FieldError> fieldError;
-
+	ArrayList<FieldError> fieldError;
+	
 	public String getMessage() {
 		return message;
 	}
@@ -46,13 +46,12 @@ public class T1Error {
 		this.content = content;
 	}
 
-	public List<FieldError> getFieldError() {
+	public ArrayList<FieldError> getFieldError() {
 		return fieldError;
 	}
 
-	public void setFieldError(List<FieldError> fieldError) {
+	public void setFieldError(ArrayList<FieldError> fieldError) {
 		this.fieldError = fieldError;
 	}
-	
 
 }

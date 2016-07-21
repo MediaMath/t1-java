@@ -22,6 +22,7 @@ import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 
 public class T1JsonToObjParser {
 	
@@ -121,6 +122,19 @@ public class T1JsonToObjParser {
 		return response;
 		
 	}
+	
+	public VideoCreativeResponse parseVideoCreative(String pResponse) {
+		VideoCreativeResponse response = null;
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+		Gson gson = builder.create();
+		
+		response = gson.fromJson(pResponse, VideoCreativeResponse.class);
+		
+		return response;
+	}
+	
 }
 
 class CustomInstanceCreator implements InstanceCreator<JsonResponse<?>> {

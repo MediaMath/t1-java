@@ -40,7 +40,7 @@ public class Connection {
 	 * 
 	 */
 	public Connection() {
-		userAgent = generateUserAgent();
+		userAgent = configprop.getProperty("useragent");
 	}
 
 	/**
@@ -68,12 +68,6 @@ public class Connection {
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 
 		// if session is available, then send it in the request.
-		/*if (userMap != null && !userMap.isEmpty()) {
-			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
-				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
-			}
-		}*/
-		
 		if (userMap != null ) {
 			if (userMap.getData() != null 
 					&& userMap.getData().getSession() != null 
@@ -118,12 +112,6 @@ public class Connection {
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 		
 		// if session is available, then send it in the request.
-/*		if (userMap != null && !userMap.isEmpty()) {
-			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
-				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
-			}
-		}*/
-		
 		if (userMap != null ) {
 			if (userMap.getData() != null 
 					&& userMap.getData().getSession() != null 
@@ -142,6 +130,48 @@ public class Connection {
 		
 		
 	}
+	
+	/**
+	 * Application / Json POST.
+	 * 
+	 * @param url
+	 * @param data
+	 * @param userMap
+	 * @return
+	 * @throws ClientException
+	 */
+	public String post(String url, String data, T1Response userMap) throws ClientException {
+		if(data == null) {
+			throw new ClientException("No Post Data");
+		}
+		
+		Client client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+		
+		logger.info("Target URL: " + url);
+
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request();
+		invocationBuilder.header("User-Agent", userAgent);
+		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
+		
+		// if session is available, then send it in the request.
+		if (userMap != null ) {
+			if (userMap.getData() != null 
+					&& userMap.getData().getSession() != null 
+					&& userMap.getData().getSession().getSessionid() != null 
+					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
+				
+				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+			}
+		}
+
+		Response response = null;
+		
+		response = invocationBuilder.post(Entity.entity(data,  MediaType.APPLICATION_JSON ));
+		
+		return response.readEntity(String.class);
+	}
+	
 	
 	
 	/**handles GET requests
@@ -183,11 +213,6 @@ public class Connection {
 		response = invocationBuilder.get();
 		
 		return response.readEntity(String.class);
-	}
-
-	private String generateUserAgent(){
-		String version = configprop.getProperty("version");
-		return "t1-java/"+version+" java-client/"+System.getProperty("java.version");
 	}
 
 }

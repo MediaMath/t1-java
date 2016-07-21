@@ -31,6 +31,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.VideoCreative;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
@@ -67,8 +69,6 @@ public class TerminalOne {
 	/*
 	 * maintains user session
 	 */
-	//private HashMap<String, HashMap<String, String>> user = new HashMap<String, HashMap<String, String>>();
-	
 	private T1Response user = null;
 
 	/*
@@ -93,9 +93,7 @@ public class TerminalOne {
 	 */
 	public TerminalOne(String username, String password, String api_key) throws ClientException {
 		this();
-		/*	logger.info("Loading Environment - setting up connection.");
-		connection = new Connection();
-		jt1Service = new T1Service();*/
+
 		
 		validateLoginCredentials(username, password, api_key);
 
@@ -369,6 +367,16 @@ public class TerminalOne {
 		return response;
 	}
 	
+	
+	public VideoCreativeResponse saveVideoCreatives(VideoCreative videoCreative) throws ClientException {
+		VideoCreativeResponse response = null;
+		if(isAuthenticated()) {
+			 response = postService.save(videoCreative);
+		}
+		return response;
+	}
+	
+	
 	/**
 	 * Get.
 	 * 
@@ -428,35 +436,35 @@ public class TerminalOne {
 	}
 
 
-/**
- * parses the response to objects.
- * 
- * @param query
- * @param response
- * @return
- * @throws ParseException
- */
-private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
-	T1JsonToObjParser parser = new T1JsonToObjParser();
-	int result = parser.getJsonElementType(response);
-	Type JsonResponseType = null;
-	JsonResponse<? extends T1Entity> jsonresponse = null;
-	
-	if(query.collection != null) {
+	/**
+	 * parses the response to objects.
+	 * 
+	 * @param query
+	 * @param response
+	 * @return
+	 * @throws ParseException
+	 */
+	private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		int result = parser.getJsonElementType(response);
+		Type JsonResponseType = null;
+		JsonResponse<? extends T1Entity> jsonresponse = null;
 		
-		if (result != 0) {
-			if (result == 1) {
-				JsonResponseType = Constants.getEntityType.get(query.collection);
-			} else if (result == 2) {
-				JsonResponseType = Constants.getListoFEntityType.get(query.collection);
-			}
-
-			jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+		if(query.collection != null) {
 			
+			if (result != 0) {
+				if (result == 1) {
+					JsonResponseType = Constants.getEntityType.get(query.collection);
+				} else if (result == 2) {
+					JsonResponseType = Constants.getListoFEntityType.get(query.collection);
+				}
+	
+				jsonresponse = parser.parseJsonToObj(response, JsonResponseType);
+				
+			}
 		}
+		return jsonresponse;
 	}
-	return jsonresponse;
-}
 
 	
 	
@@ -521,8 +529,12 @@ private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, Stri
 	public void setUser(T1Response user) {
 		this.user = user;
 	}
-	
+
 	public void setAuthenticated(boolean b) {
-		this.authenticated = true;
+		this.authenticated = b;
+		
 	}
+
+
+	
 }

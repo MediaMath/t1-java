@@ -6,6 +6,8 @@ public class Status {
 
 	String content;
 	
+	String message;
+	
 	public String getCode() {
 		return code;
 	}
@@ -20,6 +22,14 @@ public class Status {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 }

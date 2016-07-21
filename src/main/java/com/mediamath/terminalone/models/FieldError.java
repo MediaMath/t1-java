@@ -7,6 +7,8 @@ public class FieldError {
 	String name;
 	
 	String code;
+	
+	String message;
 
 	public String getError() {
 		return error;
@@ -30,6 +32,14 @@ public class FieldError {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 }
