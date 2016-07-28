@@ -88,6 +88,7 @@ public class PostMockTests {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testAdvertiserGettWithMocks() throws ClientException, ParseException {
 		
@@ -111,7 +112,7 @@ public class PostMockTests {
 		
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
-		ArrayList<Advertiser> advertisers= ((ArrayList<Advertiser>)jsonresponse.getData());
+		ArrayList<Advertiser> advertisers= ((ArrayList<Advertiser>) jsonresponse.getData());
 		assertEquals(165615, advertisers.get(0).getId());
 		assertNotNull(jsonresponse.getMeta());
 	}

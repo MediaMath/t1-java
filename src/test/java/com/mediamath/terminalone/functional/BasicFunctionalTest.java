@@ -1,4 +1,4 @@
-package com.mediamath.terminalone;
+package com.mediamath.terminalone.functional;
 
 
 import static org.junit.Assert.assertEquals;
@@ -15,6 +15,8 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Test;
 
+import com.mediamath.terminalone.QueryCriteria;
+import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
@@ -39,13 +41,11 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
-public class BasicTest {
+public class BasicFunctionalTest {
 
 
 	@After

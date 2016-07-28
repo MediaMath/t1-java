@@ -52,6 +52,7 @@ public class GetMockTests {
 		Thread.sleep(5000);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testAdvertiserGettWithMocks() throws ClientException, ParseException {
 		
@@ -126,6 +127,7 @@ public class GetMockTests {
 		}
 
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteriaWithMock() throws ClientException, ParseException {
 		t1.setAuthenticated(true);
@@ -156,6 +158,7 @@ public class GetMockTests {
 		assertNotNull(jsonresponse.getMeta());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithPageLimitWithMock() throws ClientException, ParseException {
 		t1.setAuthenticated(true);

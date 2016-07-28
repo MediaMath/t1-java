@@ -2,6 +2,7 @@ package com.mediamath.terminalone;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import javax.ws.rs.core.Form;
 
@@ -75,8 +76,7 @@ public class TerminalOne {
 	 * is authenticated? 
 	 */
 	private boolean authenticated = false;
-
-	
+		
 	/**
 	 * Default Constructor
 	 */
@@ -374,6 +374,12 @@ public class TerminalOne {
 			 response = postService.save(videoCreative);
 		}
 		return response;
+	}
+	
+	public void saveVideoCreativeAssetUpload(String key, String filename) {
+		if(isAuthenticated()) {
+			postService.saveVideoCreativeAssetUpload(key, filename);
+		}
 	}
 	
 	

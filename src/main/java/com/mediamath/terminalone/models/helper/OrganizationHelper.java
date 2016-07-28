@@ -72,7 +72,7 @@ public class OrganizationHelper {
 			entity.setBilling_country_code("US");;
 		}
 		
-		if(entity.getSuspicious_traffic_filter_level() <0 || entity.getSuspicious_traffic_filter_level() >100){
+		if(entity.getSuspicious_traffic_filter_level() < 0 || entity.getSuspicious_traffic_filter_level() > 100){
 			entity.setSuspicious_traffic_filter_level(25);
 		}
 		

@@ -67,16 +67,7 @@ public class Connection {
 		invocationBuilder.header("User-Agent", userAgent);
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 
-		// if session is available, then send it in the request.
-		if (userMap != null ) {
-			if (userMap.getData() != null 
-					&& userMap.getData().getSession() != null 
-					&& userMap.getData().getSession().getSessionid() != null 
-					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
-				
-				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
-			}
-		}
+		userSessionCheck(userMap, invocationBuilder);
 
 		Response response = null;
 		
@@ -111,16 +102,7 @@ public class Connection {
 		invocationBuilder.header("User-Agent", userAgent);
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 		
-		// if session is available, then send it in the request.
-		if (userMap != null ) {
-			if (userMap.getData() != null 
-					&& userMap.getData().getSession() != null 
-					&& userMap.getData().getSession().getSessionid() != null 
-					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
-				
-				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
-			}
-		}
+		userSessionCheck(userMap, invocationBuilder);
 
 		Response response = null;
 		
@@ -154,16 +136,7 @@ public class Connection {
 		invocationBuilder.header("User-Agent", userAgent);
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 		
-		// if session is available, then send it in the request.
-		if (userMap != null ) {
-			if (userMap.getData() != null 
-					&& userMap.getData().getSession() != null 
-					&& userMap.getData().getSession().getSessionid() != null 
-					&& !userMap.getData().getSession().getSessionid().isEmpty()) {
-				
-				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
-			}
-		}
+		userSessionCheck(userMap, invocationBuilder);
 
 		Response response = null;
 		
@@ -193,13 +166,14 @@ public class Connection {
 		invocationBuilder.header("User-Agent", userAgent);
 		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
 		
-		// if session is available, then send it in the request.
-		/*if (userMap != null ) {
-			if (!userMap.get("session").isEmpty() && userMap.get("session").get("sessionid") != null) {
-				invocationBuilder.cookie("adama_session", userMap.get("session").get("sessionid"));
-			}
-		}*/
+		userSessionCheck(userMap, invocationBuilder);
+
+		response = invocationBuilder.get();
 		
+		return response.readEntity(String.class);
+	}
+
+	private void userSessionCheck(T1Response userMap, Invocation.Builder invocationBuilder) {
 		if (userMap != null ) {
 			if (userMap.getData() != null 
 					&& userMap.getData().getSession() != null 
@@ -209,10 +183,6 @@ public class Connection {
 				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
 			}
 		}
-
-		response = invocationBuilder.get();
-		
-		return response.readEntity(String.class);
 	}
 
 }

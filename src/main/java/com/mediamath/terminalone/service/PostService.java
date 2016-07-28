@@ -464,18 +464,22 @@ public class PostService {
 	}
 	
 	public VideoCreativeResponse save(VideoCreative entity) throws ClientException {
+		
 		VideoCreativeResponse videoCreative = null;
+		
 		if(entity != null) {
 			
-			String videoCreativePath = t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives";
+			StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives");
 			
-			System.out.println(VideoCreativeHelper.getJson(entity));
+			if(entity.getCreativeId() > 0) {
+				path.append("/" + entity.getCreativeId());
+			}
+			
+			String videoCreativePath = path.toString(); 
 			
 			String response =  this.connection.post(videoCreativePath, VideoCreativeHelper.getJson(entity), this.user);
 			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-			
-			System.out.println(response);
 			
 			if(!response.isEmpty()) {
 				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
@@ -791,6 +795,12 @@ public class PostService {
 		return parsedJsonResponse;
 	}
 	
+	public void saveVideoCreativeAssetUpload(String key, String filename) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	/**
 	 * @param responseStr
 	 */
@@ -960,5 +970,7 @@ public class PostService {
 		// throw the error to client
 		throw new ClientException(strbuff.toString());
 	}
+
+
 	
 }
