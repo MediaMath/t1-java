@@ -62,6 +62,7 @@ public class BasicFunctionalTest {
 		agency.setOrganization_id(100048);
 		try {
 			agency = t1.save(agency);
+			System.out.println(agency.getId());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -335,6 +336,7 @@ public class BasicFunctionalTest {
 		
 		try {
 			jsonresponse = jt1.get(query);
+			System.out.println(jsonresponse.getData());
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

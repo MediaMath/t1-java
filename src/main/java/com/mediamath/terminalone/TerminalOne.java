@@ -376,13 +376,6 @@ public class TerminalOne {
 		return response;
 	}
 	
-	public void saveVideoCreativeAssetUpload(String key, String filename) {
-		if(isAuthenticated()) {
-			postService.saveVideoCreativeAssetUpload(key, filename);
-		}
-	}
-	
-	
 	/**
 	 * Get.
 	 * 

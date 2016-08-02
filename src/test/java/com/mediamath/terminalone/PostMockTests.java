@@ -305,13 +305,12 @@ public class PostMockTests {
 		
 		assertNotNull(org);
 		assertEquals(100048, org.getId());
-		
 	}
-	
-	//TODO post mocks
 
+	@Test
 	public void testCampaignMarginPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+
+		t1.setAuthenticated(true);
 		
 		Campaign camp = new Campaign();
 		camp.setId(233131);
@@ -328,7 +327,9 @@ public class PostMockTests {
 		camp.setMargins(cal.getTime(), (double) 13.1);
 		
 		try {
+			Mockito.when(postservicemock.save(camp)).thenReturn(camp);
 			camp = t1.save(camp);
+			Mockito.verify(postservicemock).save(camp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -337,16 +338,18 @@ public class PostMockTests {
 	}
 	
 	public void testConceptPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		t1.setAuthenticated(true);
 		
 		Concept camp = new Concept();
 		camp.setAdvertiser_id(122631);
 		camp.setName("TestConcept1");
 		camp.setStatus(true);
 		
-		
 		try {
+			Mockito.when(postservicemock.save(camp)).thenReturn(camp);
 			camp = t1.save(camp);
+			Mockito.verify(postservicemock).save(camp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -356,7 +359,7 @@ public class PostMockTests {
 	
 	public void testAtomicCreatives() throws ClientException {
 		
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		t1.setAuthenticated(true);
 		
 		AtomicCreative ac = new AtomicCreative();
 		ac.setAd_server_type(ac.getAd_server_type().DART);
@@ -373,7 +376,9 @@ public class PostMockTests {
 		
 
 		try {
+			Mockito.when(postservicemock.save(ac)).thenReturn(ac);
 			ac = t1.save(ac);
+			Mockito.verify(postservicemock).save(ac);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -381,6 +386,7 @@ public class PostMockTests {
 		
 	}
 	
+	/*
 	public void test3pasCreativeUpload() throws ClientException, IOException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -419,6 +425,6 @@ public class PostMockTests {
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
 	}
-	
+	*/
 	
 }

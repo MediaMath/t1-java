@@ -795,11 +795,6 @@ public class PostService {
 		return parsedJsonResponse;
 	}
 	
-	public void saveVideoCreativeAssetUpload(String key, String filename) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	
 	/**
 	 * @param responseStr
