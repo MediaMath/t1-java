@@ -134,7 +134,6 @@ public class T1JsonToObjParser {
 		
 		return response;
 	}
-	
 }
 
 class CustomInstanceCreator implements InstanceCreator<JsonResponse<?>> {

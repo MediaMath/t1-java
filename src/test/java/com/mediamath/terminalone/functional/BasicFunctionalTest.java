@@ -54,6 +54,19 @@ public class BasicFunctionalTest {
 	}
 	
 	@Test
+	public void testJTerminalOneStringStringString() {
+		TerminalOne t1;
+		try {
+			t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
+			assertEquals(true, t1.isAuthenticated());
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
 	public void testAgencyPost() throws ClientException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -224,20 +237,6 @@ public class BasicFunctionalTest {
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
-	public void testJTerminalOneStringStringString() {
-		TerminalOne t1;
-		try {
-			t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
-			assertEquals(true, t1.isAuthenticated());
-		} catch (ClientException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
 	
 	@Test
 	public void testStrategyConceptDelete(){

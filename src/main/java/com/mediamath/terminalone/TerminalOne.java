@@ -2,7 +2,6 @@ package com.mediamath.terminalone;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 import javax.ws.rs.core.Form;
 
@@ -34,8 +33,10 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
+import com.mediamath.terminalone.service.ReportService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
@@ -60,12 +61,13 @@ public class TerminalOne {
 	/*
 	 * service object.
 	 */
-	private T1Service jt1Service = null;
+	private T1Service tOneService = null;
 	
 	private PostService postService = null;
 	
 	private GetService getService = null;
 	
+	private ReportService reportService = null;
 	
 	/*
 	 * maintains user session
@@ -76,14 +78,14 @@ public class TerminalOne {
 	 * is authenticated? 
 	 */
 	private boolean authenticated = false;
-		
+	
 	/**
 	 * Default Constructor
 	 */
 	public TerminalOne() {
 		logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
-		jt1Service = new T1Service();
+		tOneService = new T1Service();
 	}
 
 	/**
@@ -98,14 +100,15 @@ public class TerminalOne {
 		validateLoginCredentials(username, password, api_key);
 
 		logger.info("Loading Environment - Authenticating.");
-		Form form = jt1Service.getLoginFormData(username, password, api_key);
+		Form form = tOneService.getLoginFormData(username, password, api_key);
 
 		logger.info("Loading Environment - Authenticating.");
-		String url = jt1Service.constructURL(new StringBuffer("login"));
+		String url = tOneService.constructURL(new StringBuffer("login"));
 		String response = connection.post(url, form, null);
 		getUserSessionInfo(response);
 		postService = new PostService(connection, user);
 		getService  = new GetService();
+		reportService = new ReportService();
 		
 		if(this.getUser() != null && this.getUser().getData() != null) {
 			if(this.getUser().getData().getSession() != null && this.getUser().getData().getSession().getSessionid() != null 
@@ -145,14 +148,15 @@ public class TerminalOne {
 		logger.info("Authenticating.");
 		validateLoginCredentials(username, password, api_key);
 		
-		Form form = jt1Service.getLoginFormData(username, password, api_key);
-		String url = jt1Service.constructURL(new StringBuffer("login"));
+		Form form = tOneService.getLoginFormData(username, password, api_key);
+		String url = tOneService.constructURL(new StringBuffer("login"));
 		String response = connection.post(url, form, null);
 		
 		getUserSessionInfo(response);
 		
 		postService = new PostService(connection, user);
 		getService  = new GetService();
+		reportService = new ReportService();
 		
 		if(this.getUser() != null && this.getUser().getData() != null) {
 			if(this.getUser().getData().getSession() != null && this.getUser().getData().getSession().getSessionid() != null 
@@ -176,7 +180,7 @@ public class TerminalOne {
 		Type responseTypeInfo = new TypeToken<T1Response>() {}.getType();
 		resp = gson.fromJson(response, responseTypeInfo);
 		this.setUser(resp);
-		
+
 	}
 	
 	
@@ -389,7 +393,7 @@ public class TerminalOne {
 		StringBuffer path= getService.get(query);
 		
 		// get the data from t1 servers.
-		String finalPath = jt1Service.constructURL(path);
+		String finalPath = tOneService.constructURL(path);
 		String response = this.connection.get(finalPath, this.getUser());
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
@@ -404,12 +408,26 @@ public class TerminalOne {
 		}
 		
 		// filter and validate data
-		
-		
-		
 		return jsonResponse;
 	}
 	
+	
+	/**
+	 * GET Reports
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public JsonResponse<? extends T1Entity> getMeta() {
+		JsonResponse<? extends T1Entity> jsonResponse = null;
+		StringBuffer path = reportService.getMetaURI();
+		String finalPath = tOneService.constructReportingURL(path);
+		String response = this.connection.get(finalPath, this.getUser());
+		jsonResponse = reportService.parseMetaResponse(response);
+		return jsonResponse;
+	}
+	
+
 	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
 		
 		if(jsonResponse != null) {
@@ -533,6 +551,7 @@ public class TerminalOne {
 		this.authenticated = b;
 		
 	}
+
 
 
 	
