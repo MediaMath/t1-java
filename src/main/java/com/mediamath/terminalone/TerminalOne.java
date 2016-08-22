@@ -33,7 +33,6 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.ReportService;
@@ -427,6 +426,21 @@ public class TerminalOne {
 		return jsonResponse;
 	}
 	
+	/**
+	 * App Transparency Report.
+	 * 
+	 */
+	public void getAppTransparencyReport(ReportCriteria report) {
+		// form the path
+		report.setReportName("app_transparency");
+		
+		StringBuffer path = reportService.getReportURI(report);
+		System.out.println(path.toString());
+		//String finalPath = tOneService.constructReportingURL(path);
+		//String response = this.connection.get(finalPath, this.getUser());
+		
+	}
+	
 
 	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
 		
@@ -552,7 +566,4 @@ public class TerminalOne {
 		
 	}
 
-
-
-	
 }

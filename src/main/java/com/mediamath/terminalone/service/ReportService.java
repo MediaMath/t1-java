@@ -4,15 +4,16 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.reporting.ReportFilter;
 import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
 
@@ -34,6 +35,68 @@ public class ReportService {
 		return path;
 	}
 	
+	public StringBuffer getReportURI(ReportCriteria report) {
+		StringBuffer path = null;
+		
+		if(report != null) {
+			
+			path = new StringBuffer(report.getReportName());
+			
+			// dimensions
+			if(report.getDimensions() != null && report.getDimensions().size() > 0) {
+				if(path.indexOf("?") == -1) {
+					path.append("?");
+				} else {
+					path.append("&");
+				}
+			
+				StringBuffer buffer = new StringBuffer();
+				for(String dimension: report.getDimensions()) {
+					if(buffer.length() == 0) {
+						buffer.append("dimensions=" + dimension);
+					} else {
+						buffer.append(","+ dimension);
+					}
+				}
+				path.append(buffer.toString());
+			}
+			
+			// filters
+			if(report.getFilters() != null && report.getFilters().size() > 0 && !report.getFilters().isEmpty()) {
+				if(path.indexOf("?") == -1) {
+					path.append("?");
+				} 
+				
+				StringBuffer buffer = new StringBuffer();
+				for(ReportFilter f : report.getFilters()) {
+					if(f.getKey() != null 
+						&& f.getOperator() != null 
+						&& f.getValue() != null 
+						&& !f.getKey().isEmpty() 
+						&& !f.getOperator().isEmpty() 
+						&& !f.getValue().isEmpty()) {
+						path.append("&");
+						path.append(f.getKey() + f.getOperator() + f.getValue());
+						
+					}
+				}
+				
+			}
+
+			// metrics
+			
+			
+			// precision
+			if(report.getPrecision() > 0) {
+				path.append("&" + String.valueOf(report.getPrecision()));
+			}
+			
+		}
+		
+		return path;
+	}
+
+	
 	
 	public JsonResponse<? extends T1Entity> parseMetaResponse(String response) {
 		JsonParser parser = new JsonParser();
@@ -52,7 +115,7 @@ public class ReportService {
 			GsonBuilder builder = new GsonBuilder();
 			builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
 			Gson g = builder.create();
-
+			
 			for(Entry<String, JsonElement> a: reportsObj.entrySet()) {
 				String key = a.getKey();
 				MetaData value = g.fromJson(a.getValue(), type);
@@ -64,5 +127,7 @@ public class ReportService {
 		
 		return finalResponse;
 	}
+
+
 
 }
