@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
 import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
@@ -64,10 +65,11 @@ public class ReportService {
 			// filters
 			if(report.getFilters() != null && report.getFilters().size() > 0 && !report.getFilters().isEmpty()) {
 				if(path.indexOf("?") == -1) {
-					path.append("?");
-				} 
+					path.append("?filter=");
+				} else {
+					path.append("&filter=");
+				}
 				
-				StringBuffer buffer = new StringBuffer();
 				for(ReportFilter f : report.getFilters()) {
 					if(f.getKey() != null 
 						&& f.getOperator() != null 
@@ -75,16 +77,53 @@ public class ReportService {
 						&& !f.getKey().isEmpty() 
 						&& !f.getOperator().isEmpty() 
 						&& !f.getValue().isEmpty()) {
+
 						path.append("&");
 						path.append(f.getKey() + f.getOperator() + f.getValue());
 						
 					}
 				}
-				
 			}
 
-			// metrics
+			//having.
+			if(report.getHaving() != null && !report.getHaving().isEmpty()) {
+				if(path.indexOf("?") == -1) {
+					path.append("?having=");
+				} else {
+					path.append("&having=");
+				}
+				for(Having having: report.getHaving())  {
+					if(having.getKey() != null
+							&& having.getOperator() != null
+							&& having.getValue() != null
+							&& !having.getKey().isEmpty()
+							&& !having.getOperator().isEmpty()
+							&& !having.getValue().isEmpty()) {
+						
+						path.append("&");
+						path.append(having.getKey() + having.getOperator() + having.getValue());
+					}
+				}
+			}
 			
+			// metrics
+			if(report.getMetrics() != null && report.getMetrics().size() > 0 && !report.getMetrics().isEmpty()) {
+				if(path.indexOf("?") == -1) {
+					path.append("?");
+				} else {
+					path.append("&");
+				}
+				
+				StringBuffer buffer = new StringBuffer(); 
+				for(String metric : report.getMetrics()) {
+					if(buffer.length() == 0) {
+						buffer.append("metrics=" + metric);
+					} else {
+						buffer.append(","+ metric);
+					}
+				}
+				path.append(buffer);
+			}
 			
 			// precision
 			if(report.getPrecision() > 0) {

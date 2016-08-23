@@ -46,14 +46,27 @@ public class ReportingFunctionalTest {
 			assertEquals(true, t1.isAuthenticated());
 			
 			ReportCriteria report = new ReportCriteria();
+
+			//set dimensions
 			report.setDimension("hello");
 			report.setDimension("world");
 			report.setDimension("how");
 			report.setDimension("are");
 			report.setDimension("you");
+			//set filters			
 			report.setFilter("key1", "=", "val1,val2");
 			report.setFilter("key2", "=", "val1");
 			report.setFilter("key3", "=", "\"val1,val2\"");
+			// set metrics
+			report.setMetric("metric1");
+			report.setMetric("metric2");
+			report.setMetric("metric3");
+			// set having
+			report.setHaving("key1", "=", "val1,val2");
+			report.setHaving("key2", "=", "val1,val2");
+			report.setHaving("key3", "=", "val1");
+			
+			
 			
 			t1.getAppTransparencyReport(report);
 			

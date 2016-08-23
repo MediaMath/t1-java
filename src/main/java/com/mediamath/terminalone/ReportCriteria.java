@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
 
 public class ReportCriteria {
@@ -18,7 +19,8 @@ public class ReportCriteria {
 	
 	ArrayList<ReportFilter> filters = new ArrayList<ReportFilter>();
 
-	private HashMap<String, String> having = new HashMap<String, String>();
+	//private HashMap<String, String> having = new HashMap<String, String>();
+	ArrayList<Having> having = new ArrayList<Having>();
 	
 	private String time_field;
 	
@@ -124,14 +126,6 @@ public class ReportCriteria {
 		this.precision = precision;
 	}
 	
-	public HashMap<String, String> getHaving() {
-		return having;
-	}
-
-	public void setHaving(HashMap<String, String> having) {
-		this.having = having;
-	}
-
 	public Date getStart_date() {
 		return start_date;
 	}
@@ -164,6 +158,24 @@ public class ReportCriteria {
 			filter.setValue(value);
 			this.filters.add(filter);
 		}
+	}
+	
+	public void setHaving(String key, String operator, String value) {
+		if(!key.isEmpty() && !operator.isEmpty() && !value.isEmpty()) {
+			Having having = new Having();
+			having.setKey(key);
+			having.setOperator(operator);
+			having.setValue(value);
+			this.having.add(having);
+		}
+	}
+
+	public ArrayList<Having> getHaving() {
+		return having;
+	}
+
+	public void setHaving(ArrayList<Having> having) {
+		this.having = having;
 	}
 
 }
