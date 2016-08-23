@@ -433,12 +433,16 @@ public class TerminalOne {
 	public void getAppTransparencyReport(ReportCriteria report) {
 		// form the path
 		report.setReportName("app_transparency");
-		
+		getReport(report);
+	}
+	
+	private void getReport(ReportCriteria report) {
+
 		StringBuffer path = reportService.getReportURI(report);
 		System.out.println(path.toString());
 		//String finalPath = tOneService.constructReportingURL(path);
 		//String response = this.connection.get(finalPath, this.getUser());
-		
+				
 	}
 	
 
