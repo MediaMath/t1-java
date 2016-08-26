@@ -2,7 +2,6 @@ package com.mediamath.terminalone;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
@@ -19,22 +18,31 @@ public class ReportCriteria {
 	
 	ArrayList<ReportFilter> filters = new ArrayList<ReportFilter>();
 
-	//private HashMap<String, String> having = new HashMap<String, String>();
 	ArrayList<Having> having = new ArrayList<Having>();
 	
-	private String time_field;
+	/*private String time_field;
 	
-	private String time_aggregation;
+	private String time_aggregation;*/
 	
-	private ArrayList<String> time_rollups = new ArrayList<String>();
+	//private ArrayList<String> time_rollups = new ArrayList<String>();
 	
-	private ArrayList<String> time_windows = new ArrayList<String>();
+	private String time_rollup;
+	
+	//private ArrayList<String> time_windows = new ArrayList<String>();
+	
+	private String time_window;
 	
 	private String timezone;
 	
 	private Date start_date;
 	
 	private Date end_date;
+	
+	private String page_limit;
+	
+	private String page_offset;
+	
+	private ArrayList<String> order = new ArrayList<String>();
 	
 	// Getters & Setters
 	public void setDimension(String dimension){
@@ -70,7 +78,7 @@ public class ReportCriteria {
 		this.metrics = metrics;
 	}
 
-	public String getTime_field() {
+/*	public String getTime_field() {
 		return time_field;
 	}
 
@@ -84,21 +92,9 @@ public class ReportCriteria {
 
 	public void setTime_aggregation(String time_aggregation) {
 		this.time_aggregation = time_aggregation;
-	}
+	}*/
 
-	public ArrayList<String> getTime_rollups() {
-		return time_rollups;
-	}
-	
-	public void setTime_rollup(String rollup) {
-		this.time_rollups.add(rollup);
-	}
-
-	public void setTime_rollups(ArrayList<String> time_rollups) {
-		this.time_rollups = time_rollups;
-	}
-
-	public ArrayList<String> getTime_windows() {
+/*	public ArrayList<String> getTime_windows() {
 		return time_windows;
 	}
 	
@@ -108,7 +104,7 @@ public class ReportCriteria {
 
 	public void setTime_windows(ArrayList<String> time_windows) {
 		this.time_windows = time_windows;
-	}
+	}*/
 
 	public String getTimezone() {
 		return timezone;
@@ -176,6 +172,50 @@ public class ReportCriteria {
 
 	public void setHaving(ArrayList<Having> having) {
 		this.having = having;
+	}
+
+	public String getTime_rollup() {
+		return time_rollup;
+	}
+
+	public void setTime_rollup(String time_rollup) {
+		this.time_rollup = time_rollup;
+	}
+
+	public String getTime_window() {
+		return time_window;
+	}
+
+	public void setTime_window(String time_window) {
+		this.time_window = time_window;
+	}
+
+	public ArrayList<String> getOrder() {
+		return order;
+	}
+
+	public void setOrder(ArrayList<String> order) {
+		this.order = order;
+	}
+	
+	public void setOrder(String order) {
+		this.order.add(order);
+	}
+
+	public String getPage_limit() {
+		return page_limit;
+	}
+
+	public void setPage_limit(String page_limit) {
+		this.page_limit = page_limit;
+	}
+
+	public String getPage_offset() {
+		return page_offset;
+	}
+
+	public void setPage_offset(String page_offset) {
+		this.page_offset = page_offset;
 	}
 
 }

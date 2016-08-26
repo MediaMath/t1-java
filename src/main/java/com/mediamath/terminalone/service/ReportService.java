@@ -1,6 +1,10 @@
 package com.mediamath.terminalone.service;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -36,9 +40,9 @@ public class ReportService {
 		return path;
 	}
 	
-	public StringBuffer getReportURI(ReportCriteria report) {
+	public StringBuffer getReportURI(ReportCriteria report) throws UnsupportedEncodingException {
 		StringBuffer path = null;
-		
+		// System.out.println(path.substring(0, path.indexOf("?") + 1) + URLEncoder.encode(path.substring(path.indexOf("?") + 1), "UTF-8"));
 		if(report != null) {
 			
 			path = new StringBuffer(report.getReportName());
@@ -46,20 +50,22 @@ public class ReportService {
 			// dimensions
 			if(report.getDimensions() != null && report.getDimensions().size() > 0) {
 				if(path.indexOf("?") == -1) {
-					path.append("?");
+					path.append("?dimensions=");
 				} else {
-					path.append("&");
+					path.append("&dimensions=");
 				}
 			
 				StringBuffer buffer = new StringBuffer();
 				for(String dimension: report.getDimensions()) {
 					if(buffer.length() == 0) {
-						buffer.append("dimensions=" + dimension);
+						buffer.append(dimension);
 					} else {
 						buffer.append(","+ dimension);
 					}
 				}
-				path.append(buffer.toString());
+				
+				// Encode
+				path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
 			}
 			
 			// filters
@@ -70,6 +76,8 @@ public class ReportService {
 					path.append("&filter=");
 				}
 				
+				int i = 0;
+				StringBuffer buffer = new StringBuffer();
 				for(ReportFilter f : report.getFilters()) {
 					if(f.getKey() != null 
 						&& f.getOperator() != null 
@@ -78,11 +86,15 @@ public class ReportService {
 						&& !f.getOperator().isEmpty() 
 						&& !f.getValue().isEmpty()) {
 
-						path.append("&");
-						path.append(f.getKey() + f.getOperator() + f.getValue());
-						
+						buffer.append(f.getKey() + f.getOperator() + f.getValue());
+						if(i != report.getFilters().size() - 1) {
+							buffer.append("&");
+						}
+						i++;
 					}
 				}
+				//encode
+				path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
 			}
 
 			//having.
@@ -92,6 +104,9 @@ public class ReportService {
 				} else {
 					path.append("&having=");
 				}
+				
+				StringBuffer buffer = new StringBuffer();
+				int i = 0;
 				for(Having having: report.getHaving())  {
 					if(having.getKey() != null
 							&& having.getOperator() != null
@@ -99,31 +114,106 @@ public class ReportService {
 							&& !having.getKey().isEmpty()
 							&& !having.getOperator().isEmpty()
 							&& !having.getValue().isEmpty()) {
+												
+						buffer.append(having.getKey() + having.getOperator() + having.getValue());
 						
-						path.append("&");
-						path.append(having.getKey() + having.getOperator() + having.getValue());
+						if(i != report.getHaving().size() - 1) {
+							buffer.append("&");
+						}
+						i++;
 					}
 				}
+				//encode
+				path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
 			}
 			
 			// metrics
 			if(report.getMetrics() != null && report.getMetrics().size() > 0 && !report.getMetrics().isEmpty()) {
 				if(path.indexOf("?") == -1) {
-					path.append("?");
+					path.append("?metrics=");
 				} else {
-					path.append("&");
+					path.append("&metrics=");
 				}
 				
 				StringBuffer buffer = new StringBuffer(); 
 				for(String metric : report.getMetrics()) {
 					if(buffer.length() == 0) {
-						buffer.append("metrics=" + metric);
+						buffer.append(metric);
 					} else {
 						buffer.append(","+ metric);
 					}
 				}
+				path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+			}
+			
+			//time rollup.
+			if(report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
+				uriAppender(path);
+				
+				path.append("time_rollup=" + report.getTime_rollup());
+			}
+		
+			//time_ window || start_date || end_date
+			if(report.getTime_window() != null 
+					&& !report.getTime_window().isEmpty()
+					&& report.getStart_date() == null
+					&& report.getEnd_date() == null) {
+				
+				uriAppender(path);
+				
+				path.append("time_window=" + report.getTime_window());
+				
+				
+			} else if(report.getTime_window() == null 
+					&& report.getStart_date() != null 
+					&& report.getEnd_date() != null) {
+				
+				uriAppender(path);
+				
+				Date startDate = report.getStart_date();
+				Date endDate = report.getEnd_date();
+				
+				
+				//TODO check documentation for other date formats 
+				SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd");
+				String sDate = df.format(startDate);
+				String eDate = df.format(endDate);
+				
+				path.append("start_date=" + sDate);
+				path.append("&end_date=" + eDate);
+				
+			}
+			
+			//order
+			if(report.getOrder() != null && report.getOrder().size() > 0 && !report.getOrder().isEmpty()) {
+				uriAppender(path);
+				
+				StringBuffer buffer = new StringBuffer(); 
+				for(String order : report.getOrder()) {
+					if(buffer.length() == 0) {
+						buffer.append("order=" + order);
+					} else {
+						buffer.append(","+ order);
+					}
+				}
 				path.append(buffer);
 			}
+			
+			//pagelimit & page offset
+			if(report.getPage_limit() != null 
+					&& !report.getPage_limit().isEmpty()
+					&& (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
+				uriAppender(path);
+				path.append("page_limit="+ report.getPage_limit());
+			} else if(report.getPage_offset() != null 
+					&& !report.getPage_offset().isEmpty()
+					&& report.getPage_limit() != null 
+					&& !report.getPage_limit().isEmpty()) {
+				uriAppender(path);
+				path.append("page_limit="+ report.getPage_limit());
+				path.append("&page_offset=" + report.getPage_offset());
+			}
+			
 			
 			// precision
 			if(report.getPrecision() > 0) {
@@ -133,6 +223,14 @@ public class ReportService {
 		}
 		
 		return path;
+	}
+
+	private void uriAppender(StringBuffer path) {
+		if(path.indexOf("?") == -1) {
+			path.append("?");
+		} else {
+			path.append("&");
+		}
 	}
 
 	

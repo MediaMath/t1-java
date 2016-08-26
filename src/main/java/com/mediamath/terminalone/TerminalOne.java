@@ -1,7 +1,9 @@
 package com.mediamath.terminalone;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 
 import javax.ws.rs.core.Form;
 
@@ -33,6 +35,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.ReportService;
@@ -428,22 +431,28 @@ public class TerminalOne {
 	
 	/**
 	 * App Transparency Report.
+	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
-	public void getAppTransparencyReport(ReportCriteria report) {
+	public void getReport(Reports report, ReportCriteria criteria) {
 		// form the path
-		report.setReportName("app_transparency");
-		getReport(report);
-	}
-	
-	private void getReport(ReportCriteria report) {
-
-		StringBuffer path = reportService.getReportURI(report);
-		System.out.println(path.toString());
-		//String finalPath = tOneService.constructReportingURL(path);
+		criteria.setReportName(report.getReportName());
+		
+		StringBuffer path = null;
+		try {
+			path = reportService.getReportURI(criteria);
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}
+		
+		String finalPath = tOneService.constructReportingURL(path);
+		logger.info(finalPath);
+		
 		//String response = this.connection.get(finalPath, this.getUser());
-				
+		
 	}
+
 	
 
 	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {

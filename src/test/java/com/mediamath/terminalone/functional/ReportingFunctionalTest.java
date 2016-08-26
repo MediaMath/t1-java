@@ -3,6 +3,10 @@ package com.mediamath.terminalone.functional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -10,6 +14,7 @@ import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.reporting.Reports;
 
 
 public class ReportingFunctionalTest {
@@ -39,7 +44,7 @@ public class ReportingFunctionalTest {
 	}
 	
 	@Test
-	public void testAppTransparencyReport() {
+	public void testPerformanceReport() throws ParseException {
 		TerminalOne t1;
 		try{
 			t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
@@ -47,31 +52,38 @@ public class ReportingFunctionalTest {
 			
 			ReportCriteria report = new ReportCriteria();
 
-			//set dimensions
-			report.setDimension("hello");
-			report.setDimension("world");
-			report.setDimension("how");
-			report.setDimension("are");
-			report.setDimension("you");
-			//set filters			
-			report.setFilter("key1", "=", "val1,val2");
-			report.setFilter("key2", "=", "val1");
-			report.setFilter("key3", "=", "\"val1,val2\"");
-			// set metrics
-			report.setMetric("metric1");
-			report.setMetric("metric2");
-			report.setMetric("metric3");
+			report.setDimension("advertiser_name");
+			report.setDimension("campaign_id");
+			report.setDimension("campaign_name");
+			report.setFilter("organization_id", "=", "100001");
+			report.setMetric("impressions");
+			report.setMetric("clicks");
+			report.setMetric("total_conversions");
+			report.setMetric("media_cost");
+			report.setMetric("total_spend");
+			
 			// set having
-			report.setHaving("key1", "=", "val1,val2");
-			report.setHaving("key2", "=", "val1,val2");
-			report.setHaving("key3", "=", "val1");
+			//report.setHaving("key1", "=", "val1,val2");
+			
+			// set time_rollup
+			report.setTime_rollup("by_day");
+			// set time_window.
+			//report.setTime_window("last_60_days");
+			
+			// start date & end_date
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+			String dateInString = "06-02-2015 10:20:56";
+			String endDateInString = "16-04-2015 10:20:56";
+			Date stateDate = sdf.parse(dateInString);
+			Date endDate = sdf.parse(endDateInString);
+			
+			report.setStart_date(stateDate);
+			report.setEnd_date(endDate);
 			
 			
+			t1.getReport(Reports.PERFORMANCE, report);
 			
-			t1.getAppTransparencyReport(report);
-			
-			JsonResponse<?> jsonresponse = null;
-		}catch(ClientException e) {
+		} catch(ClientException e) {
 			
 		}
 		
