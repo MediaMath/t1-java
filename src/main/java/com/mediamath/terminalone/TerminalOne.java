@@ -439,12 +439,8 @@ public class TerminalOne {
 		criteria.setReportName(report.getReportName());
 		
 		StringBuffer path = null;
-		try {
-			path = reportService.getReportURI(criteria);
-		} catch (UnsupportedEncodingException e) {
-			
-			e.printStackTrace();
-		}
+		
+		path = reportService.getReportURI(criteria);
 		
 		String finalPath = tOneService.constructReportingURL(path);
 		logger.info(finalPath);

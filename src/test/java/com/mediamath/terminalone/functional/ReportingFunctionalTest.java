@@ -55,7 +55,7 @@ public class ReportingFunctionalTest {
 			report.setDimension("advertiser_name");
 			report.setDimension("campaign_id");
 			report.setDimension("campaign_name");
-			report.setFilter("organization_id", "=", "100001");
+			report.setFilter("organization_id", "=", "100048");
 			report.setMetric("impressions");
 			report.setMetric("clicks");
 			report.setMetric("total_conversions");
