@@ -67,5 +67,15 @@ public class Utility {
 	public static Properties getConfigProperties() {
 		return vConfigProp; 
 	}
+	
+	
+	public static void logStackTrace(Exception pEx) {
+		StringBuilder vStrBuffer = new StringBuilder(pEx.getMessage());
+		StackTraceElement[] vStactTraceElements = pEx.getStackTrace();
+		for (StackTraceElement vSte : vStactTraceElements) {
+			vStrBuffer.append(vSte.toString());
+		}
+		logger.error(vStrBuffer.toString());
+	}
 
 }

@@ -1,5 +1,12 @@
 package com.mediamath.terminalone.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
@@ -8,21 +15,43 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.ReportCriteria;
+import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.reporting.Having;
+import com.mediamath.terminalone.models.reporting.ReportError;
+import com.mediamath.terminalone.models.reporting.ReportErrorEntityInfo;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
+import com.mediamath.terminalone.models.reporting.ReportStatus;
+import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
+import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
+import com.mediamath.terminalone.utils.Utility;
 
 public class ReportService {
+	
+	private static final String YYYY_MM_DD_HH_MM_SS = "yyyy_MM_dd_hh_mm_ss";
+
+	private static final Logger logger = LoggerFactory.getLogger(ReportService.class);
 
 	private static final String META = "meta";
 
@@ -154,21 +183,16 @@ public class ReportService {
 
 					path.append("time_window=" + report.getTime_window());
 
-				} else if (report.getTime_window() == null && report.getStart_date() != null
-						&& report.getEnd_date() != null) {
+				} else if (report.getTime_window() == null 
+						&& report.getStart_date() != null
+						&& !report.getStart_date().isEmpty()
+						&& report.getEnd_date() != null
+						&& !report.getEnd_date().isEmpty()) {
 
 					uriAppender(path);
 
-					Date startDate = report.getStart_date();
-					Date endDate = report.getEnd_date();
-
-					// TODO check documentation for other date formats
-					SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd");
-					String sDate = df.format(startDate);
-					String eDate = df.format(endDate);
-
-					path.append("start_date=" + sDate);
-					path.append("&end_date=" + eDate);
+					path.append("start_date=" + report.getStart_date());
+					path.append("&end_date=" + report.getEnd_date());
 
 				}
 
@@ -221,8 +245,6 @@ public class ReportService {
 			path.append("&");
 		}
 	}
-
-	
 	
 	public JsonResponse<? extends T1Entity> parseMetaResponse(String response) {
 		JsonParser parser = new JsonParser();
@@ -255,5 +277,132 @@ public class ReportService {
 	}
 
 
+	public void getReportData(Reports report, String finalPath, Connection connection, T1Response user)
+	throws  ClientException {
+		
+		Response response = connection.getReportData(finalPath, user);
+		
+		if(response.getMediaType().getType().equals("text") 
+				&& response.getMediaType().getSubtype().equals("xml")
+				&& response.getStatus() != 200)  {
+			
+			try {
+				
+				ObjectMapper xmlMapper = new XmlMapper();
+				String error = response.readEntity(String.class);
+				ReportError re = xmlMapper.readValue(error, ReportError.class);
+				throwReportError(re);
+
+			} catch (JsonParseException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("Json Parse Exception Occured");
+			} catch (JsonMappingException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("Json Mapping Exception Occured");
+			} catch (IOException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("IO Exception Occured");
+			}
+		
+		} else if(response.getMediaType().getType().equals("text") 
+				&& response.getMediaType().getSubtype().equals("csv")
+				&& response.getStatus() == 200){
+			try {
+				InputStream responseStream = response.readEntity(InputStream.class);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
+				SimpleDateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+				
+				File dir = new File("reports");
+
+				if(!dir.exists()) {
+					dir.mkdir();
+				} 
+				
+				File file = new File("reports/" + report.getReportName() + "_" + df.format(new Date()) + ".csv");
+				FileWriter writer = new FileWriter(file);
+				BufferedWriter bw = new BufferedWriter(writer);
+
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					bw.write(line);
+					bw.newLine();
+				}
+
+				bw.close();
+				reader.close();
+				
+			} catch (IOException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("IO Exception Occured while saving the report");
+			}
+		}
+	}
+	
+	public ReportValidationResponse validateReportData(Reports report, String finalPath, Connection connection, T1Response user)
+	throws  ClientException {
+
+		Response response = connection.getReportData(finalPath, user);
+		ReportValidationResponse re = null;
+		
+		if(response.getMediaType().getType().equals("text") 
+				&& response.getMediaType().getSubtype().equals("xml")) {
+			
+			try {
+				
+				ObjectMapper xmlMapper = new XmlMapper();
+				String error = response.readEntity(String.class);
+				re = xmlMapper.readValue(error, ReportValidationResponse.class);
+
+			} catch (JsonParseException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("Json Parse Exception Occured");
+			} catch (JsonMappingException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("Json Mapping Exception Occured");
+			} catch (IOException e) {
+				Utility.logStackTrace(e);
+				throw new ClientException("IO Exception Occured");
+			}
+			
+		}
+		return re; 
+	}
+
+	private void throwReportError(ReportError re) throws ClientException {
+		if(re != null) {
+			StringBuffer buffer = new StringBuffer();
+			if(re.getEntity() != null && re.getEntity().length > 0) {
+				for(ReportErrorEntityInfo rentity : re.getEntity())	{
+					if(rentity.getId()!= null 
+							&& rentity.getType() != null
+							&& !rentity.getId().isEmpty()
+							&& !rentity.getType().isEmpty()) {
+						
+						buffer.append("Entity[ ID: " + rentity.getId() + ", Type: " + rentity.getType() + " ]");	
+					}
+					
+				}
+				
+			}
+			
+			if(re.getStatus() != null && re.getStatus().length > 0) {
+				for(ReportStatus stats : re.getStatus()) {
+					if(stats.getCode() != null 
+							&& !stats.getCode().isEmpty() 
+							&& stats.getReason() != null 
+							&& !stats.getReason().isEmpty()
+							&& stats.getValue() != null 
+							&& !stats.getValue().isEmpty()) {
+						
+						buffer.append("Status[ Code: " + stats.getCode() + ", Reason: " + stats.getReason() + ", value: " + stats.getValue() + " ]");
+						
+					}
+				}
+			}
+			throw new ClientException(buffer.toString()); 
+		}
+		
+	}
 
 }

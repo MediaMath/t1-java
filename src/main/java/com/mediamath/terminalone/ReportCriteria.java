@@ -20,23 +20,15 @@ public class ReportCriteria {
 
 	ArrayList<Having> having = new ArrayList<Having>();
 	
-	/*private String time_field;
-	
-	private String time_aggregation;*/
-	
-	//private ArrayList<String> time_rollups = new ArrayList<String>();
-	
 	private String time_rollup;
-	
-	//private ArrayList<String> time_windows = new ArrayList<String>();
 	
 	private String time_window;
 	
 	private String timezone;
 	
-	private Date start_date;
+	private String start_date;
 	
-	private Date end_date;
+	private String end_date;
 	
 	private String page_limit;
 	
@@ -78,34 +70,6 @@ public class ReportCriteria {
 		this.metrics = metrics;
 	}
 
-/*	public String getTime_field() {
-		return time_field;
-	}
-
-	public void setTime_field(String time_field) {
-		this.time_field = time_field;
-	}
-
-	public String getTime_aggregation() {
-		return time_aggregation;
-	}
-
-	public void setTime_aggregation(String time_aggregation) {
-		this.time_aggregation = time_aggregation;
-	}*/
-
-/*	public ArrayList<String> getTime_windows() {
-		return time_windows;
-	}
-	
-	public void setTime_window(String window) {
-		this.time_windows.add(window);
-	}
-
-	public void setTime_windows(ArrayList<String> time_windows) {
-		this.time_windows = time_windows;
-	}*/
-
 	public String getTimezone() {
 		return timezone;
 	}
@@ -122,22 +86,6 @@ public class ReportCriteria {
 		this.precision = precision;
 	}
 	
-	public Date getStart_date() {
-		return start_date;
-	}
-
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
-	}
-
-	public Date getEnd_date() {
-		return end_date;
-	}
-
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
-	}
-
 	public ArrayList<ReportFilter> getFilters() {
 		return filters;
 	}
@@ -216,6 +164,22 @@ public class ReportCriteria {
 
 	public void setPage_offset(String page_offset) {
 		this.page_offset = page_offset;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+
+	public String getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
 	}
 
 }

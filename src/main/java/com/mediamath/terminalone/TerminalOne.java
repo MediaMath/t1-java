@@ -1,9 +1,9 @@
 package com.mediamath.terminalone;
 
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.net.URLEncoder;
 
 import javax.ws.rs.core.Form;
 
@@ -35,6 +35,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
@@ -431,10 +432,12 @@ public class TerminalOne {
 	
 	/**
 	 * App Transparency Report.
+	 * @throws IOException 
+	 * @throws ClientException 
 	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
-	public void getReport(Reports report, ReportCriteria criteria) {
+	public void getReport(Reports report, ReportCriteria criteria) throws ClientException {
 		// form the path
 		criteria.setReportName(report.getReportName());
 		
@@ -443,11 +446,26 @@ public class TerminalOne {
 		path = reportService.getReportURI(criteria);
 		
 		String finalPath = tOneService.constructReportingURL(path);
-		logger.info(finalPath);
 		
-		//String response = this.connection.get(finalPath, this.getUser());
+		reportService.getReportData(report, finalPath, connection, user);
 		
 	}
+	
+	public ReportValidationResponse validateReport(Reports report, ReportCriteria criteria) throws ClientException {
+		
+		criteria.setReportName(report.getReportName() + "/validate");
+		
+		StringBuffer path = null;
+		
+		path = reportService.getReportURI(criteria);
+		
+		String finalPath = tOneService.constructReportingURL(path);
+		
+		ReportValidationResponse validationResponse = reportService.validateReportData(report, finalPath, connection, user);
+		
+		return validationResponse;
+	}
+
 
 	
 

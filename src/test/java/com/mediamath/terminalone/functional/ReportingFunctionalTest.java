@@ -36,11 +36,9 @@ public class ReportingFunctionalTest {
 			jsonresponse = t1.getMeta();
 			
 			assertNotNull(jsonresponse);
-			
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	@Test
@@ -77,8 +75,8 @@ public class ReportingFunctionalTest {
 			Date stateDate = sdf.parse(dateInString);
 			Date endDate = sdf.parse(endDateInString);
 			
-			report.setStart_date(stateDate);
-			report.setEnd_date(endDate);
+			/*report.setStart_date(stateDate);
+			report.setEnd_date(endDate);*/
 			
 			
 			t1.getReport(Reports.PERFORMANCE, report);

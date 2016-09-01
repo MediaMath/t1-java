@@ -1,5 +1,6 @@
 package com.mediamath.terminalone;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.ws.rs.client.Client;
@@ -171,6 +172,33 @@ public class Connection {
 		response = invocationBuilder.get();
 		
 		return response.readEntity(String.class);
+	}
+	
+	/**handles GET requests
+	 * 
+	 * @param uri
+	 * @param userMap
+	 * @return
+	 */
+	public Response getReportData(String url, T1Response userMap) {
+		
+		Response response = null;
+		
+		Client client = ClientBuilder.newClient(new ClientConfig());
+
+		logger.info("Target URL: " + url);
+
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request();
+		invocationBuilder.header("User-Agent", userAgent);
+		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
+		
+		userSessionCheck(userMap, invocationBuilder);
+
+		response = invocationBuilder.get();
+
+		//return response.readEntity(InputStream.class);
+		return response;
 	}
 
 	private void userSessionCheck(T1Response userMap, Invocation.Builder invocationBuilder) {
