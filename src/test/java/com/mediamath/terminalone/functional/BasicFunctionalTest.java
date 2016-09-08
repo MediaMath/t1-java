@@ -43,6 +43,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
+import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
 public class BasicFunctionalTest {
@@ -404,6 +405,111 @@ public class BasicFunctionalTest {
 									.setInclude(new ConditionQuery("agency", "organization"))
 									.setQuery("agency_id%3E=109308")
 									.setPageLimit(100)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		
+	}
+	
+	@Test
+	public void testBaiscGetWithGetAll() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setGetAll(true)
+									.setSortBy("-updated_on")
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		
+	}
+	
+	@Test
+	public void testBaiscGetWithFullBoolean() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setFull(fpv)
+									.setSortBy("-updated_on")
+									.setPageLimit(1)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		
+	}
+	
+	@Test
+	public void testBaiscGetWithFullString() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		FullParamValues fpv = new FullParamValues();
+		fpv.setStrValue("agency");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setFull(fpv)
+									.setSortBy("-updated_on")
+									.setPageLimit(10)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		
+	}
+	
+	@Test
+	public void testBaiscGetWithFullList() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		FullParamValues fpv = new FullParamValues();
+		List<String> newList = new ArrayList<String>();
+		newList.add("campaign");
+		newList.add("advertiser");
+		fpv.setListValue(newList);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setFull(fpv)
+									.setSortBy("-updated_on")
+									.setPageLimit(1)
 									.build();
 		JsonResponse<?> jsonresponse = null;
 		try {

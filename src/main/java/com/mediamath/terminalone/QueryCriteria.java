@@ -25,6 +25,8 @@ public class QueryCriteria {
 	
 	public int pageOffset = 0;
 	
+	public boolean getAll;
+	
 	public long parent = 0;
 	
 	public Map<String, Long> limit = new HashMap<String, Long>();
@@ -66,6 +68,8 @@ public class QueryCriteria {
 		parent = builder.parent;
 		
 		pageOffset = builder.pageOffset;
+		
+		getAll = builder.getAll;
 		
 		limit = builder.limit;
 		
@@ -112,6 +116,8 @@ public class QueryCriteria {
 		private long parent;
 		
 		private int pageOffset;
+		
+		private boolean getAll;
 		
 		private Map<String, Long> limit = new HashMap<String, Long>();
 		
@@ -218,6 +224,11 @@ public class QueryCriteria {
 
 		public Builder setPageOffset(int pageOffset) {
 			this.pageOffset = pageOffset;
+			return this;
+		}
+		
+		public Builder setGetAll(boolean getAll) {
+			this.getAll = getAll;
 			return this;
 		}
 
