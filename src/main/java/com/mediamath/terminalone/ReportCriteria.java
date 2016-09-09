@@ -1,7 +1,6 @@
 package com.mediamath.terminalone;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
@@ -16,9 +15,9 @@ public class ReportCriteria {
 	
 	private ArrayList<String> metrics = new ArrayList<String>();
 	
-	ArrayList<ReportFilter> filters = new ArrayList<ReportFilter>();
+	private ArrayList<ReportFilter> filters = new ArrayList<ReportFilter>();
 
-	ArrayList<Having> having = new ArrayList<Having>();
+	private ArrayList<Having> having = new ArrayList<Having>();
 	
 	private String time_rollup;
 	

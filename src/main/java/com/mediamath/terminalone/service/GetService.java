@@ -76,7 +76,7 @@ public class GetService {
 		
 		//param sortby example: sortby=id
 		if(query.sortBy!=null){
-			if(!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
 				path.append("&sort_by="+query.sortBy);
 			}
 			else{
@@ -84,13 +84,26 @@ public class GetService {
 			}
 		}//end sortby
 		
+		//param get_all, get_all=True removes the need to worry about pagination
+		if(query.getAll){
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&get_all="+query.getAll);
+			}
+			else{
+				path.append("?get_all="+query.getAll);
+			}
+		}
+		
 		//param pageLimit should not be > 100 example: page_limit=30 
 		//and param pageOffset, should be > 0 example: page_offset=10 
 		if(query.pageLimit > 100){
 			throw new ClientException("Page_Limit parameter should not exceed 100");
 		}
-		else{
+		else if(!query.getAll){
 			String pagePath = "";
+			if(query.pageLimit>0 && query.pageOffset > 0){
+				query.getAll=false;
+			}
 			pagePath = constructPaginationPath(query.pageLimit, query.pageOffset);
 			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
 				path.append("&"+pagePath);
@@ -99,6 +112,28 @@ public class GetService {
 				path.append("?"+pagePath);
 			}
 		}//end pageLimit
+		
+		
+		
+		//param full can be string, list<String>, boolean
+		StringBuffer fullPath = new StringBuffer("");
+		if(query.full!=null){
+			if(query.full.getListValue().size()>0){
+				fullPath.append(constructFullPath(query.full.getListValue()));
+			}else if(query.full.getBoolValue()){
+				fullPath.append("*");
+			}else if(query.full.getStrValue()!=null){
+				fullPath.append(query.full.getStrValue());
+			}
+			
+			if(!path.toString().equalsIgnoreCase("") && path.indexOf("?")!=-1){
+				path.append("&full="+fullPath);
+			}
+			else{
+				path.append("?full="+fullPath);
+			}
+		}
+		
 		
 		//param QUERY example 
 		if(query.query!=null){
@@ -205,6 +240,21 @@ public class GetService {
 			}
 			
 			return includePath;
+		}
+		
+		private StringBuffer constructFullPath(List<String> fullList){
+			StringBuffer fullListPath=new StringBuffer("");
+			for(String fullStr: fullList){
+				if(fullListPath.toString().equalsIgnoreCase("")){
+					fullListPath.append(fullStr);
+				}else{
+					fullListPath.append(",");
+					fullListPath.append(fullStr);
+				}
+			}
+			
+			
+			return fullListPath;
 		}
 		
 		private String constructPaginationPath(int pageLimit, int pageOffset){
