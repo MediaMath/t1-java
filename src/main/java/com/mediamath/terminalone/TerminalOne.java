@@ -37,6 +37,7 @@ import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
+import com.mediamath.terminalone.models.reporting.meta.MetaData;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.ReportService;
@@ -429,6 +430,24 @@ public class TerminalOne {
 		jsonResponse = reportService.parseMetaResponse(response);
 		return jsonResponse;
 	}
+	
+	
+	public MetaData getReportsMeta(Reports report) {
+		
+		StringBuffer reportName = new StringBuffer(report.getReportNameWithMeta());
+		
+		//form url
+		String finalPath = tOneService.constructReportingURL(reportName);
+		
+		//get data
+		String response = this.connection.get(finalPath, this.getUser());
+		
+		// parse
+		MetaData metaResponse = reportService.parseReportMetaResponse(response);
+		
+		return metaResponse;
+	}
+	
 	
 	/**
 	 * App Transparency Report.

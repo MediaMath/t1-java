@@ -14,7 +14,7 @@ public class MetaData {
 	String Version;
 	String currency;
 	String data_retention;
-	MetaStructure structure;
+	MetaStructure structure = new MetaStructure();
 	String time_aggregations;
 	ArrayList<String> time_rollups;
 	ArrayList<String> time_windows;

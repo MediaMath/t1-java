@@ -45,6 +45,12 @@ import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.Meta;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
+import com.mediamath.terminalone.models.reporting.meta.MetaDimensionData;
+import com.mediamath.terminalone.models.reporting.meta.MetaDimensions;
+import com.mediamath.terminalone.models.reporting.meta.MetaMetrics;
+import com.mediamath.terminalone.models.reporting.meta.MetricsData;
+import com.mediamath.terminalone.models.reporting.meta.TimeField;
+import com.mediamath.terminalone.models.reporting.meta.TimeInterval;
 import com.mediamath.terminalone.utils.Utility;
 
 public class ReportService {
@@ -275,6 +281,72 @@ public class ReportService {
 		
 		return finalResponse;
 	}
+	
+	public MetaData parseReportMetaResponse(String response) {
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+		Gson g = builder.create();
+		MetaData data = g.fromJson(response, MetaData.class);
+		
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(response).getAsJsonObject();
+		JsonElement reportsElement = obj.get("structure");
+		
+		JsonObject dimensionObj = reportsElement.getAsJsonObject().get("dimensions").getAsJsonObject();
+		JsonObject metricsObj = reportsElement.getAsJsonObject().get("metrics").getAsJsonObject();
+		JsonObject timefieldObj = reportsElement.getAsJsonObject().get("time_field").getAsJsonObject();
+		
+		// dimensions
+		if(dimensionObj != null) {
+			MetaDimensions dimensions = new MetaDimensions();
+			HashMap<String, MetaDimensionData> dimensionsInfoMap = new HashMap<String, MetaDimensionData>();			
+			
+			for(Entry<String, JsonElement> a: dimensionObj.entrySet()) {
+				String key = a.getKey();
+				MetaDimensionData value = g.fromJson(a.getValue(), MetaDimensionData.class);
+				dimensionsInfoMap.put(key, value);
+			}
+			
+			dimensions.setDimensionsInfoMap(dimensionsInfoMap);
+			data.getStructure().setDimensions(dimensions);
+		}
+		
+		// metrics
+		if(metricsObj != null) {
+			MetaMetrics metrics = new MetaMetrics();
+			HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
+			
+			for(Entry<String, JsonElement> a: metricsObj.entrySet()) {
+				String key = a.getKey();
+				MetricsData value = g.fromJson(a.getValue(), MetricsData.class);
+				metricsMap.put(key, value);
+			}
+			
+			
+			metrics.setMetricsMap(metricsMap);
+			data.getStructure().setMetrics(metrics);
+		}
+
+		//time_field
+		if(timefieldObj != null) {
+			
+			TimeField timefield = new TimeField();
+			HashMap<String, TimeInterval> timeFieldMap = new HashMap<String, TimeInterval>();
+			
+			for(Entry<String, JsonElement> a: timefieldObj.entrySet()) {
+				String key = a.getKey();
+				TimeInterval value = g.fromJson(a.getValue(), TimeInterval.class);
+				timeFieldMap.put(key, value);
+			}
+			
+			timefield.setData(timeFieldMap);
+			data.getStructure().setTime_field(timefield);
+		}
+		
+		return data;
+		//end
+	}
 
 
 	public void getReportData(Reports report, String finalPath, Connection connection, T1Response user)
@@ -404,5 +476,7 @@ public class ReportService {
 		}
 		
 	}
+
+	
 
 }

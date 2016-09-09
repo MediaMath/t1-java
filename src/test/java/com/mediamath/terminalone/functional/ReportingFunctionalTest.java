@@ -15,6 +15,7 @@ import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
+import com.mediamath.terminalone.models.reporting.meta.MetaData;
 
 
 public class ReportingFunctionalTest {
@@ -36,6 +37,25 @@ public class ReportingFunctionalTest {
 			jsonresponse = t1.getMeta();
 			
 			assertNotNull(jsonresponse);
+			
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
+	public void testReportsMeta() {
+		TerminalOne t1;
+		
+		try {
+			t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
+			assertEquals(true, t1.isAuthenticated());
+			
+			JsonResponse<?> jsonresponse = null;
+			MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
+			
+			assertNotNull(metaResponse);
 			
 		} catch (ClientException e) {
 			e.printStackTrace();
