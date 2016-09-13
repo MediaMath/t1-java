@@ -351,11 +351,13 @@ public class TerminalOne {
 	}
 	
 
-	//TODO return type
-	public void save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove batchApprove) throws ClientException, IOException {
+
+	public JsonResponse<? extends T1Entity> save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 		if(isAuthenticated()) {
-			postService.save3pasCreativeUploadBatch(batchApprove);
+				finalJsonResponse = postService.save3pasCreativeUploadBatch(batchApprove);
 		}
+		return finalJsonResponse;
 	}
 	
 	public TOneASCreativeAssetsUpload saveT1ASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {

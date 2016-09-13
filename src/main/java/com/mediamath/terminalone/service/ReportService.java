@@ -77,8 +77,7 @@ public class ReportService {
 	
 	public StringBuffer getReportURI(ReportCriteria report) {
 		StringBuffer path = null;
-		// System.out.println(path.substring(0, path.indexOf("?") + 1) +
-		// URLEncoder.encode(path.substring(path.indexOf("?") + 1), "UTF-8"));
+
 		if (report != null) {
 
 			path = new StringBuffer(report.getReportName());

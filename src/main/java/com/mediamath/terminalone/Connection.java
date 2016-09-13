@@ -41,7 +41,7 @@ public class Connection {
 	 * 
 	 */
 	public Connection() {
-		userAgent = configprop.getProperty("useragent");
+		userAgent = generateUserAgent();
 	}
 
 	/**
@@ -211,6 +211,11 @@ public class Connection {
 				invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
 			}
 		}
+	}
+	
+	private String generateUserAgent(){
+		String version = configprop.getProperty("version");
+		return "t1-java/"+version+" java-client/"+System.getProperty("java.version");
 	}
 
 }

@@ -137,25 +137,44 @@ public class PostService {
 	throws ParseException {
 	
 		// parse the string to gson objs
-		JsonResponse<? extends T1Entity>  finalJsonResponse= null; 
+		JsonResponse<? extends T1Entity>  finalJsonResponse= null;
 		JsonElement element = parser.getDataFromResponse(response);
 		if(element != null) {
 			if(element.isJsonArray()) {
 				// do something
-				JsonArray jarray = element.getAsJsonArray();
+				JsonArray dataList = element.getAsJsonArray();
 				
+				String entityType; 
+				if(dataList.size() > 0) {
+					JsonElement data = dataList.get(0);
+					if(data != null) {
+						JsonObject dataObj = data.getAsJsonObject();
+						if(dataObj != null) {
+							JsonElement entityTypeElem = dataObj.get("entity_type");
+							if(entityTypeElem != null) {
+								entityType = entityTypeElem.getAsString();
+								if(entityType != null && !entityType.isEmpty()) {
+									if(Constants.getListoFEntityType.get(entityType) != null) {
+										finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
+									}
+								}
+							}
+						}
+					}
+				}
 				
 			} else if (element.isJsonObject()) {
 				JsonObject obj = element.getAsJsonObject();
 				JsonElement entityTypeElement = obj.get("entity_type");
 				String entityType =entityTypeElement.getAsString();
-				//System.out.println(entityType);
 				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
 			}
 		} else if(element == null) {
-			finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
-			if(finalJsonResponse != null) {
-				finalJsonResponse.setData(null);
+			if(entity != null) {
+				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+				if(finalJsonResponse != null) {
+					finalJsonResponse.setData(null);
+				}
 			}
 		}
 		return finalJsonResponse;
@@ -263,19 +282,7 @@ public class PostService {
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
-		/*	JsonPostResponse jsonPostResponse =  null;
-			
-			jsonPostResponse = jsonPostErrorResponseParser(response);
-			
-			if(jsonPostResponse == null) {
-				finalJsonResponse = parseData(response, parser);
-				if(finalJsonResponse.getData() instanceof StrategyConcept) {
-					strategyConcept = (StrategyConcept) finalJsonResponse.getData();
-				}
-			} else {
-				throwExceptions(jsonPostResponse);
-			}*/
-			
+
 			if(!response.isEmpty()) {
 				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
 				if(error == null) {
@@ -616,7 +623,6 @@ public class PostService {
 																	.bodyPart(filePart);
 			
 			String response = this.connection.post(path, multipart, this.user);
-			//System.out.println(response);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse
@@ -653,54 +659,36 @@ public class PostService {
 	 * @param entity
 	 * @throws ClientException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
-	//TODO work on return type, create a dto, fix the parser for valid response.
-	@SuppressWarnings("unused")
-	public void save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove entity) throws ClientException, IOException {
+	public JsonResponse<? extends T1Entity> save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove entity) throws ClientException, IOException, ParseException {
 		FormDataMultiPart formData = new FormDataMultiPart();
-
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 		if (entity != null) {
 			
 			StringBuffer uri = new StringBuffer("creatives/upload/");
 			
-			
 			if(entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
 				uri.append(entity.getBatchId());
-
 				String path = t1Service.constructURL(uri);
-				//TODO remove.
-				//System.out.println(path);
-				
 				ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
-				
 				String response = this.connection.post(path, formData, this.user);
-				
-				//System.out.println("response: " + response);
 				
 				T1JsonToObjParser parser = new T1JsonToObjParser();
 				JsonPostErrorResponse jsonPostResponse = null;
 				
 				jsonPostResponse = jsonPostErrorResponseParser(response);
-				
 				if (jsonPostResponse == null) {
-					//System.out.println("COMMENTED DUE TO CLIENT EXCEPTION - ACCESS DENIED.");
-					/*	// update the existing object. or create new object.
-					//parseData(response, parser);
-	
-					if (finalJsonResponse.getData() instanceof AtomicCreative) {
-						atomicCreative = (AtomicCreative) finalJsonResponse.getData();
-					}
-				 */
+					finalJsonResponse = parsePostData(response, parser, null);
 				} else {
 					throwExceptions(jsonPostResponse);
 				}
 			}
 		}
-		
 		if(formData != null) {
 			formData.close();
 		}
-			
+		return finalJsonResponse;
 	}
 
 	/**
@@ -729,7 +717,6 @@ public class PostService {
 																	.bodyPart(filePart);
 			
 			String response = this.connection.post(path, multipart, this.user);
-			//System.out.println(response);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse

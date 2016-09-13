@@ -41,6 +41,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.VideoCreative;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -604,6 +606,7 @@ public class BasicFunctionalTest {
 	
 	}
 	
+	@Test
 	public void testCampaignMarginPost() throws ClientException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -630,6 +633,7 @@ public class BasicFunctionalTest {
 		
 	}
 	
+	@Test
 	public void testConceptPost() throws ClientException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -648,6 +652,7 @@ public class BasicFunctionalTest {
 		
 	}
 	
+	@Test
 	public void testAtomicCreatives() throws ClientException {
 		
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
@@ -675,7 +680,8 @@ public class BasicFunctionalTest {
 		
 	}
 	
-	public void test3pasCreativeUpload() throws ClientException, IOException {
+	@Test
+	public void test3pasCreativeUpload() throws ClientException, IOException, ParseException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
 		// 3pas first call
@@ -686,14 +692,18 @@ public class BasicFunctionalTest {
 		ThreePASCreativeBatchApprove batchApprove = new ThreePASCreativeBatchApprove();
 
 		batchApprove.setBatchId(response.getBatch().getId());
-		batchApprove.setAdvertiser_id("154408");
+		batchApprove.setAdvertiser_id("165615");
 		batchApprove.setBatchIndex("1", null, null);
 		batchApprove.setBatchIndex("4", null, null);
-		batchApprove.setBatchIndex("5", null, null);
+		batchApprove.setBatchIndex("3", null, null);
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 		
-		t1.save3pasCreativeUploadBatch(batchApprove);
+		finalJsonResponse = t1.save3pasCreativeUploadBatch(batchApprove);
+		
+		assertNotNull(finalJsonResponse);
 	}
 	
+	@Test
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		

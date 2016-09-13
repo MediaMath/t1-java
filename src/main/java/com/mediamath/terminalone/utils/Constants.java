@@ -128,7 +128,8 @@ public final class Constants {
 		getListoFEntityType.put("ad_servers", new TypeToken<JsonResponse<ArrayList<AdServer>>>(){}.getType());
 		getListoFEntityType.put("advertisers", new TypeToken<JsonResponse<ArrayList<Advertiser>>>(){}.getType());
 		getListoFEntityType.put("agencies", new TypeToken<JsonResponse<ArrayList<Agency>>>(){}.getType());
-		// getListoFEntityType.put("atomic_creatives", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
+		getListoFEntityType.put("atomic_creatives", new TypeToken<JsonResponse<ArrayList<AtomicCreative>>>(){}.getType());
+		getListoFEntityType.put("atomic_creative", new TypeToken<JsonResponse<ArrayList<AtomicCreative>>>(){}.getType());
 		// getListoFEntityType.put("audience_segments", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
 		getListoFEntityType.put("campaigns", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
 		// getListoFEntityType.put("concepts", new TypeToken<JsonResponse<ArrayList<Campaign>>>(){}.getType());
