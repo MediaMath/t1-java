@@ -57,16 +57,10 @@ public class BasicFunctionalTest {
 	}
 	
 	@Test
-	public void testJTerminalOneStringStringString() {
+	public void testJTerminalOneStringStringString() throws ClientException {
 		TerminalOne t1;
-		try {
-			t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
-			assertEquals(true, t1.isAuthenticated());
-		} catch (ClientException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
+		assertEquals(true, t1.isAuthenticated());
 	}
 	
 	@Test

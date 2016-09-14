@@ -79,6 +79,28 @@ public class Connection {
 		//response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED),String.class);
 		//return response;
 	}
+	
+	public Response loginPost(String url, Form data, T1Response userMap) throws ClientException {
+		if(data == null) {
+			throw new ClientException("No Post Data");
+		}
+		
+		Client client = ClientBuilder.newClient(new ClientConfig());
+		
+		logger.info("Target URL: " + url);
+
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request();	//(MediaType.APPLICATION_JSON);
+		invocationBuilder.header("User-Agent", userAgent);
+		invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
+
+		userSessionCheck(userMap, invocationBuilder);
+
+		Response response = null;
+		
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
 
 	/**
 	 * Multipart post.

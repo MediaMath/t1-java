@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,10 +106,11 @@ public class TerminalOne {
 
 		logger.info("Loading Environment - Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, api_key);
-
-		logger.info("Loading Environment - Authenticating.");
 		String url = tOneService.constructURL(new StringBuffer("login"));
-		String response = connection.post(url, form, null);
+		Response loginResponse = connection.loginPost(url, form, null);
+		parseLoginError(loginResponse);
+		String response = loginResponse.readEntity(String.class);
+		
 		getUserSessionInfo(response);
 		postService = new PostService(connection, user);
 		getService  = new GetService();
@@ -121,6 +123,13 @@ public class TerminalOne {
 			}
 		}
 		
+	}
+
+	private void parseLoginError(Response response) throws ClientException {
+		if(response.getStatus() == 403) {
+			logger.error("Authentication Failed: please provide valid credentials for the given environment");
+			throw new ClientException("Authentication Failed: please provide valid credentials for the given environment");
+		}
 	}
 
 	/**
@@ -154,10 +163,12 @@ public class TerminalOne {
 		
 		Form form = tOneService.getLoginFormData(username, password, api_key);
 		String url = tOneService.constructURL(new StringBuffer("login"));
-		String response = connection.post(url, form, null);
+
+		Response loginResponse = connection.loginPost(url, form, null);
+		parseLoginError(loginResponse);
+		String response = loginResponse.readEntity(String.class);
 		
 		getUserSessionInfo(response);
-		
 		postService = new PostService(connection, user);
 		getService  = new GetService();
 		reportService = new ReportService();
