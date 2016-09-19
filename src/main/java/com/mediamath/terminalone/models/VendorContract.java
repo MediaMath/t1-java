@@ -15,6 +15,10 @@ public class VendorContract implements T1Entity {
     private boolean use_mm_contract;
     private int vendor_id;
     private int version;
+    
+    private Campaign campaign;
+    private Vendor vendor;
+    
 	public int getCampaign_id() {
 		return campaign_id;
 	}
@@ -68,6 +72,20 @@ public class VendorContract implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	
+	public Campaign getCampaign() {
+		return campaign;
+	}
+	public void setCampaign(Campaign campaign) {
+		this.campaign = campaign;
+	}
+	public Vendor getVendor() {
+		return vendor;
+	}
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
 	}
 	public String getEntityname() {
 		return entityName;

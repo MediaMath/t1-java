@@ -43,6 +43,10 @@ public class Deal implements T1Entity {
 	private Date updated_on;
 	private int version;
 	private String zone_name;
+	
+	private Advertiser advertiser;
+	private Publisher publisher;
+	private SupplySource supply_source;
 
 	public int getAdvertiser_id() {
 		return advertiser_id;
@@ -210,6 +214,31 @@ public class Deal implements T1Entity {
 
 	public void setZone_name(String zone_name) {
 		this.zone_name = zone_name;
+	}
+
+	public Advertiser getAdvertiser() {
+		return advertiser;
+	}
+
+	public void setAdvertiser(Advertiser advertiser) {
+		this.advertiser = advertiser;
+	}
+	
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public SupplySource getSupply_source() {
+		return supply_source;
+	}
+
+	public void setSupply_source(SupplySource supply_source) {
+		this.supply_source = supply_source;
 	}
 
 	public String getEntityname() {

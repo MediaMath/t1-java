@@ -18,6 +18,8 @@ public class StrategyDayPart implements T1Entity {
 	private Date udpated_on;
 	private boolean user_time;
 	private int version;
+	
+	private Strategy strategy;
 
 	public Date getCreated_on() {
 		return created_on;
@@ -97,6 +99,15 @@ public class StrategyDayPart implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
 	}
 
 	public String getEntityname() {

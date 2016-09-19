@@ -18,7 +18,10 @@ public class Agency implements T1Entity {
 	private String updated_on;
 	private int version;
 	private int traffic_contact_id;
-	Organization organization;
+	private Organization organization;
+	private Contact billing_contact;
+	private Contact sales_contact;
+	private Contact traffic_contact;
 	
 	public Agency(){}
 
@@ -136,6 +139,30 @@ public class Agency implements T1Entity {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	public Contact getBilling_contact() {
+		return billing_contact;
+	}
+
+	public void setBilling_contact(Contact billing_contact) {
+		this.billing_contact = billing_contact;
+	}
+
+	public Contact getSales_contact() {
+		return sales_contact;
+	}
+
+	public void setSales_contact(Contact sales_contact) {
+		this.sales_contact = sales_contact;
+	}
+
+	public Contact getTraffic_contact() {
+		return traffic_contact;
+	}
+
+	public void setTraffic_contact(Contact traffic_contact) {
+		this.traffic_contact = traffic_contact;
 	}
 
 	public String getEntityname() {

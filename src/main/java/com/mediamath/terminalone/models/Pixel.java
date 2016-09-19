@@ -56,6 +56,10 @@ public class Pixel implements T1Entity {
 	private String type;
 	private Date updated_on;
 	private int version;
+	
+	private Advertiser advertiser;
+	private Agency agency;
+	private PixelProvider provider;
 
 	public int getAdvertiser_id() {
 		return advertiser_id;
@@ -301,5 +305,30 @@ public class Pixel implements T1Entity {
 		this.revenue = revenue;
 	}
 
+	public Advertiser getAdvertiser() {
+		return advertiser;
+	}
+
+	public void setAdvertiser(Advertiser advertiser) {
+		this.advertiser = advertiser;
+	}
+
+	public Agency getAgency() {
+		return agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
+	public PixelProvider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(PixelProvider provider) {
+		this.provider = provider;
+	}
+
+	
 	
 }

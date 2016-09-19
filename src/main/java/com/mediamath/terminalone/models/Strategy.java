@@ -105,6 +105,8 @@ public class Strategy implements T1Entity {
 	private int version;
 	private String zone_name;
 	
+	private Campaign campaign;
+	
 	List<StrategyDomain> domain_restrictions= new ArrayList<StrategyDomain>();
 	List<Segments> audience_segments= new ArrayList<Segments>();
 	List<TargetValues> target_values= new ArrayList<TargetValues>();
@@ -487,6 +489,14 @@ public class Strategy implements T1Entity {
 
 	public void setTarget_values(List<TargetValues> target_values) {
 		this.target_values = target_values;
+	}
+
+	public Campaign getCampaign() {
+		return campaign;
+	}
+
+	public void setCampaign(Campaign campaign) {
+		this.campaign = campaign;
 	}
 	
 	

@@ -14,6 +14,9 @@ public class StrategyConcept implements T1Entity {
 	private Date updated_on;
 	private int version;
 
+	private Concept concept;
+	private Strategy strategy;
+	
 	public int getConcept_id() {
 		return concept_id;
 	}
@@ -68,6 +71,23 @@ public class StrategyConcept implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+
+	public Concept getConcept() {
+		return concept;
+	}
+
+	public void setConcept(Concept concept) {
+		this.concept = concept;
+	}
+
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
 	}
 
 	public String getEntityname() {

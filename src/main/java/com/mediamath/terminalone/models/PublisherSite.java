@@ -12,6 +12,8 @@ public class PublisherSite implements T1Entity {
 	private int publisher_id;
 	private Date updated_on;
 	private int version;
+	
+	private Publisher publisher;
 
 	public Date getCreated_on() {
 		return created_on;
@@ -59,6 +61,15 @@ public class PublisherSite implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	public String getEntityname() {

@@ -11,6 +11,9 @@ public class TargetValue implements T1Entity {
      private String name;
      private int target_dimension_id;
      private int value;
+     
+     private TargetDimension target_dimension;
+     
 	public String get_type() {
 		return _type;
 	}
@@ -52,6 +55,15 @@ public class TargetValue implements T1Entity {
 	}
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	
+	
+	public TargetDimension getTarget_dimension() {
+		return target_dimension;
+	}
+	public void setTarget_dimension(TargetDimension target_dimension) {
+		this.target_dimension = target_dimension;
 	}
 	public String getEntityname() {
 		return entityName;

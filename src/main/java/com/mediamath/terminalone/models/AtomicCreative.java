@@ -75,6 +75,11 @@ public class AtomicCreative implements T1Entity {
 	private Date updated_on;
 	private int version;
 	private int width;
+	
+	private Advertiser advertiser;
+	private Concept concept;
+	private CreativeApproval creative_approvals;
+	private Creative creative;
 
 	public int getAdvertiser_id() {
 		return advertiser_id;
@@ -402,6 +407,39 @@ public class AtomicCreative implements T1Entity {
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	
+
+	public Advertiser getAdvertiser() {
+		return advertiser;
+	}
+
+	public void setAdvertiser(Advertiser advertiser) {
+		this.advertiser = advertiser;
+	}
+
+	public Concept getConcept() {
+		return concept;
+	}
+
+	public void setConcept(Concept concept) {
+		this.concept = concept;
+	}
+
+	public CreativeApproval getCreative_approvals() {
+		return creative_approvals;
+	}
+
+	public void setCreative_approvals(CreativeApproval creative_approvals) {
+		this.creative_approvals = creative_approvals;
+	}
+
+	public Creative getCreative() {
+		return creative;
+	}
+
+	public void setCreative(Creative creative) {
+		this.creative = creative;
 	}
 
 	public String getEntityname() {

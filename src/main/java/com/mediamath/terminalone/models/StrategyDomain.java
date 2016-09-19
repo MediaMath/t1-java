@@ -18,7 +18,7 @@ public class StrategyDomain implements T1Entity {
 	private Date updated_on;
 	private int version;
 	
-	
+	private Strategy strategy;
 
 	public StrategyDomain(String domain, restrictions restriction) {
 		super();
@@ -80,6 +80,15 @@ public class StrategyDomain implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
 	}
 
 	public String getEntityname() {

@@ -8,6 +8,9 @@ public class StrategySupplySource implements T1Entity {
 	private int strategy_id;
 	private int supply_source_id;
 	private int version;
+	
+	private Strategy strategy;
+	private SupplySource supply_source;
 
 	public int getId() {
 		return id;
@@ -39,6 +42,23 @@ public class StrategySupplySource implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+
+	public SupplySource getSupply_source() {
+		return supply_source;
+	}
+
+	public void setSupply_source(SupplySource supply_source) {
+		this.supply_source = supply_source;
 	}
 
 	public String getEntityname() {

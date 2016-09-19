@@ -50,6 +50,10 @@ public class Advertiser implements T1Entity {
 	private int version;
 	private int vertical_id;
 	private Agency agency;
+	private Contact billing_contact;
+	private Contact sales_contact;
+	private Vertical vertical;
+	
 	
 	public int getId() {
 		return id;
@@ -225,6 +229,30 @@ public class Advertiser implements T1Entity {
 
 	public void setAgency(Agency agency) {
 		this.agency = agency;
+	}
+	
+	public Contact getBilling_contact() {
+		return billing_contact;
+	}
+
+	public void setBilling_contact(Contact billing_contact) {
+		this.billing_contact = billing_contact;
+	}
+
+	public Contact getSales_contact() {
+		return sales_contact;
+	}
+
+	public void setSales_contact(Contact sales_contact) {
+		this.sales_contact = sales_contact;
+	}
+
+	public Vertical getVertical() {
+		return vertical;
+	}
+
+	public void setVertical(Vertical vertical) {
+		this.vertical = vertical;
 	}
 
 	public String getEntityname() {

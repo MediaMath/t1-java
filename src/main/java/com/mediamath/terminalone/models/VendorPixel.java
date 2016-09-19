@@ -14,6 +14,10 @@ public class VendorPixel implements T1Entity {
     private String tag_type;
     private Date updated_on;
     private int version;
+    
+    private Creative creative;
+    
+    
 	public Date getCreated_on() {
 		return created_on;
 	}
@@ -61,6 +65,13 @@ public class VendorPixel implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public Creative getCreative() {
+		return creative;
+	}
+	public void setCreative(Creative creative) {
+		this.creative = creative;
 	}
 	public String getEntityname() {
 		return entityName;

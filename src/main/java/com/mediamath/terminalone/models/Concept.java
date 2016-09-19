@@ -13,6 +13,8 @@ public class Concept implements T1Entity {
 	private boolean status;
 	private Date updated_on;
 	private int version;
+	
+	private Advertiser advertiser;
 
 	public int getAdvertiser_id() {
 		return advertiser_id;
@@ -68,6 +70,15 @@ public class Concept implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+
+	public Advertiser getAdvertiser() {
+		return advertiser;
+	}
+
+	public void setAdvertiser(Advertiser advertiser) {
+		this.advertiser = advertiser;
 	}
 
 	public String getEntityname() {

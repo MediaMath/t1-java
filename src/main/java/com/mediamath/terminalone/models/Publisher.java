@@ -12,6 +12,8 @@ public class Publisher implements T1Entity {
 	private int organization_id;
 	private Date updated_on;
 	private int version;
+	
+	private Organization organization;
 
 	public Date getCreated_on() {
 		return created_on;
@@ -65,4 +67,12 @@ public class Publisher implements T1Entity {
 		return entityName;
 	}
 
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	
 }

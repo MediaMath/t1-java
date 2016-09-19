@@ -15,6 +15,8 @@ public class ChildPixel implements T1Entity {
 	private String tag;
 	private Date updated_on;
 	private int version;
+	
+	private Pixel pixel_bundle;
 
 	public int getBundle_id() {
 		return bundle_id;
@@ -86,6 +88,14 @@ public class ChildPixel implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public Pixel getPixel_bundle() {
+		return pixel_bundle;
+	}
+
+	public void setPixel_bundle(Pixel pixel_bundle) {
+		this.pixel_bundle = pixel_bundle;
 	}
 
 	public String getEntityname() {

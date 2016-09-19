@@ -20,7 +20,10 @@ public class PixelProvider implements T1Entity {
 	private Date updated_on;
 	private int vendor_id;
 	private int version;
-
+	
+	private Agency agency;
+	private Vendor vendor;
+	
 	public int getAgency_id() {
 		return agency_id;
 	}
@@ -105,4 +108,22 @@ public class PixelProvider implements T1Entity {
 		return entityName;
 	}
 
+	public Agency getAgency() {
+		return agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
+	public Vendor getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+	
+	
+	
 }

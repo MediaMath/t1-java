@@ -13,6 +13,8 @@ public class VendorDomain implements T1Entity {
 	private Date updated_on;
 	private int vendor_id;
 	private int version;
+	
+	
 	public boolean isAllow_subdomain_match() {
 		return allow_subdomain_match;
 	}

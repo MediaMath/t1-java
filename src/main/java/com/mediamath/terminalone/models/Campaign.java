@@ -79,6 +79,9 @@ public class Campaign implements T1Entity {
 	private String zone_name;
 	private Map<Date, Double> margins = new HashMap<Date, Double>();
 	
+	private Advertiser advertiser;
+	private AdServer ad_server;
+	private Pixel merit_pixel;
 	
 	public void setMargins(Date date, Double doubleval) {
 		margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());
@@ -403,6 +406,33 @@ public class Campaign implements T1Entity {
 
 	public ArrayList<T1Cost> getTotal_budget() {
 		return total_budget;
+	}
+	
+	
+
+	public Advertiser getAdvertiser() {
+		return advertiser;
+	}
+
+	public void setAdvertiser(Advertiser advertiser) {
+		this.advertiser = advertiser;
+	}
+
+	public AdServer getAd_server() {
+		return ad_server;
+	}
+
+	public void setAd_server(AdServer ad_server) {
+		this.ad_server = ad_server;
+	}
+	
+
+	public Pixel getMerit_pixel() {
+		return merit_pixel;
+	}
+
+	public void setMerit_pixel(Pixel merit_pixel) {
+		this.merit_pixel = merit_pixel;
 	}
 
 	public void setTotal_budget(double value, String currency_code) {

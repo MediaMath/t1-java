@@ -22,6 +22,8 @@ public class AudienceSegment implements T1Entity {
     private int uniques;
     private Date updated_on;
     private int version;
+    
+    
 	public int getAudience_vendor_id() {
 		return audience_vendor_id;
 	}

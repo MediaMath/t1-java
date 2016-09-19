@@ -12,6 +12,10 @@ public class VendorPixelDomain implements T1Entity {
     private int vendor_domain_id;
     private int vendor_pixel_id;
     private int version;
+    
+    private VendorDomain vendor_domain;
+    private VendorPixel vendor_pixel;
+    
 	public Date getCreated_on() {
 		return created_on;
 	}
@@ -47,6 +51,19 @@ public class VendorPixelDomain implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public VendorDomain getVendor_domain() {
+		return vendor_domain;
+	}
+	public void setVendor_domain(VendorDomain vendor_domain) {
+		this.vendor_domain = vendor_domain;
+	}
+	public VendorPixel getVendor_pixel() {
+		return vendor_pixel;
+	}
+	public void setVendor_pixel(VendorPixel vendor_pixel) {
+		this.vendor_pixel = vendor_pixel;
 	}
 	public String getEntityname() {
 		return entityName;

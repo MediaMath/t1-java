@@ -17,6 +17,9 @@ public class SiteList implements T1Entity {
     private boolean status;
     private Date updated_on;
     private int version;
+    
+    private Organization organization;
+    
 	public Date getCreated_on() {
 		return created_on;
 	}
@@ -70,6 +73,13 @@ public class SiteList implements T1Entity {
 	}
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 	public String getEntityname() {
 		return entityName;

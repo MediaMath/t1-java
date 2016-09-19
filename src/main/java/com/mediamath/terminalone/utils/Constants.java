@@ -13,6 +13,7 @@ import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Contact;
 import com.mediamath.terminalone.models.Creative;
 import com.mediamath.terminalone.models.CreativeApproval;
 import com.mediamath.terminalone.models.Deal;
@@ -115,6 +116,9 @@ public final class Constants {
 	    getEntityType.put("users", new TypeToken<JsonResponse<User>>(){}.getType());
 	    getEntityType.put("target_dimensions", new TypeToken<JsonResponse<TargetDimension>>(){}.getType());
 	    getEntityType.put("target_values", new TypeToken<JsonResponse<TargetValues>>(){}.getType());
+	    getEntityType.put("sales_contact", new TypeToken<JsonResponse<Contact>>(){}.getType());
+	    getEntityType.put("billing_contact", new TypeToken<JsonResponse<Contact>>(){}.getType());
+	    getEntityType.put("traffic_contact", new TypeToken<JsonResponse<Contact>>(){}.getType());
 	    //getEntityType.put("permissions", "Permission");
 	    //getEntityType.put("reports", "Report");
 	    //getEntityType.put("vendors", "Vendor");

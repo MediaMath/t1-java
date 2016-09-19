@@ -1,6 +1,7 @@
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class Vendor implements T1Entity {
 	
@@ -28,6 +29,9 @@ public class Vendor implements T1Entity {
 	private vendorTypes vendor_type;
 	private int version;
 	private float wholesale_price;
+	
+	private List<VendorContract> vendor_contracts;
+	private List<VendorDomain> vendor_domains;
 
 	public boolean isAdx_approved() {
 		return adx_approved;
@@ -171,6 +175,23 @@ public class Vendor implements T1Entity {
 
 	public void setWholesale_price(float wholesale_price) {
 		this.wholesale_price = wholesale_price;
+	}
+	
+
+	public List<VendorContract> getVendor_contracts() {
+		return vendor_contracts;
+	}
+
+	public void setVendor_contracts(List<VendorContract> vendor_contracts) {
+		this.vendor_contracts = vendor_contracts;
+	}
+
+	public List<VendorDomain> getVendor_domains() {
+		return vendor_domains;
+	}
+
+	public void setVendor_domains(List<VendorDomain> vendor_domains) {
+		this.vendor_domains = vendor_domains;
 	}
 
 	public String getEntityname() {
