@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
@@ -470,6 +471,11 @@ public class PostService {
 		return concept == null ? entity : concept;
 	}
 	
+	
+	public void get(long creativeId) {
+		
+	}
+	
 	public VideoCreativeResponse save(VideoCreative entity) throws ClientException {
 		
 		VideoCreativeResponse videoCreative = null;
@@ -506,7 +512,80 @@ public class PostService {
 		return videoCreative;
 	}
 	
+	@Deprecated
+	public VideoCreativeResponse getVideoCreativeUploadToken(VideoCreativeResponse videoCreative) throws ParseException {
+		VideoCreativeResponse parsedResponse = null;
+		if (videoCreative != null 
+				&& videoCreative.getCreativeId() != null
+				&& !videoCreative.getCreativeId().isEmpty()) {
+
+			StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives" + "/" + videoCreative.getCreativeId() + "/upload");
+			
+			logger.info(path.toString());
+			
+			String response = this.connection.get(path.toString(), this.user);
+			//System.out.println(response);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			parsedResponse = parser.parseVideoCreative(response);
+			parsedResponse.setCreativeId(videoCreative.getCreativeId());
+		}
+
+		return parsedResponse;
+
+	}
 	
+	/**
+	 * legacy way to upload video creative.
+	 * @param filePath
+	 * @param videoCreativeResponse
+	 * @throws ClientException
+	 */
+	public void uploadVideoCreative(String filePath, String fileName, VideoCreativeResponse videoCreativeResponse) throws ClientException {
+		if(filePath != null 
+				&& !filePath.isEmpty() 
+				&& videoCreativeResponse != null 
+				&& videoCreativeResponse.getCreativeId() != null
+				&& !videoCreativeResponse.getCreativeId().isEmpty()
+				&& fileName != null
+				&& !fileName.isEmpty()
+
+				// legacy code required key and host from the previous response.
+				/*&& videoCreativeResponse.getKey() != null 
+				&& !videoCreativeResponse.getKey().isEmpty()
+				&& videoCreativeResponse.getUploader() != null 
+				&& videoCreativeResponse.getUploader().getHost() != null
+				&& !videoCreativeResponse.getUploader().getHost().isEmpty()*/
+		) {
+			
+/*			StringBuffer path = new StringBuffer("https://");
+			path.append(videoCreativeResponse.getUploader().getHost());
+			String finalPath = path.toString();
+*/			
+			StringBuffer path = new StringBuffer(t1Service.getApi_base() 
+													+ t1Service.getVideoCreativeURL() 
+													+ "/creatives" 
+													+ "/" 
+													+ videoCreativeResponse.getCreativeId() 
+													+ "/upload?fileName="
+													+ fileName);
+			
+			String finalPath = path.toString();
+			
+			System.out.println(finalPath);
+			
+			//post binary
+			
+			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
+			
+			String response = this.connection.post(finalPath, multipart, this.user);
+			
+			System.out.println(response);
+		}
+	}
+	
+
 	/**	Delete Strategy Concepts
 	 * 
 	 * @param strategyConcept

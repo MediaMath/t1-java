@@ -4,6 +4,10 @@ public class VideoCreativeResponse {
 	
 	String creativeId;
 	
+	String key;
+	
+	VideoCreativeUploader uploader;
+	
 	Status status;
 	
 	public Status getStatus() {
@@ -20,6 +24,22 @@ public class VideoCreativeResponse {
 
 	public void setCreativeId(String creativeId) {
 		this.creativeId = creativeId;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public VideoCreativeUploader getUploader() {
+		return uploader;
+	}
+
+	public void setUploader(VideoCreativeUploader uploader) {
+		this.uploader = uploader;
 	}
 	
 }

@@ -398,6 +398,45 @@ public class TerminalOne {
 	}
 	
 	/**
+	 * upload video creative.
+	 * 
+	 * @param filePath
+	 * @param response
+	 * @throws ClientException 
+	 */
+	public void uploadVideoCreative(String filePath, String fileName, VideoCreativeResponse response) throws ClientException {
+		if(isAuthenticated()) {
+			if(filePath != null 
+					&& !filePath.isEmpty()
+					&& fileName != null
+					&& !fileName.isEmpty()
+					&& response != null 
+					&& response.getCreativeId() != null
+					&& !response.getCreativeId().isEmpty()) {
+				
+				postService.uploadVideoCreative(filePath, fileName, response);
+			}
+		}
+	}
+	
+	/**
+	 * second call to get the upload token for video creative.
+	 * 
+	 * @param videoCreative
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException 
+	 */
+	@Deprecated
+	public VideoCreativeResponse getVideoCreativesUploadToken(VideoCreativeResponse videoCreative) throws ClientException, ParseException {
+		VideoCreativeResponse response = null;
+		if(isAuthenticated()) {
+			 response = postService.getVideoCreativeUploadToken(videoCreative);
+		}
+		return response;
+	}
+	
+	/**
 	 * Get.
 	 * 
 	 * @param query

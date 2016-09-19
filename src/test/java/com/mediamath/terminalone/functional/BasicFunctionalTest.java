@@ -47,6 +47,7 @@ import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 public class BasicFunctionalTest {
 
@@ -59,7 +60,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testJTerminalOneStringStringString() throws ClientException {
 		TerminalOne t1;
-		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
+		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, t1.isAuthenticated());
 	}
 	
@@ -79,6 +80,7 @@ public class BasicFunctionalTest {
 		}
 	}
 	
+	@Test
 	public void testCampaignPost() throws ClientException, java.text.ParseException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		
@@ -599,7 +601,7 @@ public class BasicFunctionalTest {
 		assertNotNull(jsonresponse);
 	
 	}
-	
+	//check
 	@Test
 	public void testCampaignMarginPost() throws ClientException {
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
@@ -620,6 +622,7 @@ public class BasicFunctionalTest {
 		
 		try {
 			camp = t1.save(camp);
+			System.out.println(camp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -639,6 +642,7 @@ public class BasicFunctionalTest {
 		
 		try {
 			camp = t1.save(camp);
+			System.out.println(camp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -667,6 +671,7 @@ public class BasicFunctionalTest {
 
 		try {
 			ac = t1.save(ac);
+			System.out.println(ac);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -719,12 +724,13 @@ public class BasicFunctionalTest {
 	}
 	
 	/**
-	 * this test will only work on production.
+	 * this test will only work on production. t1.mediamath.com
 	 * @throws ClientException
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
-	/*@Test
-	public void testVideoCreative() throws ClientException, IOException {
+	@Test
+	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
 		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
 		
@@ -742,10 +748,19 @@ public class BasicFunctionalTest {
 		
 		VideoCreativeResponse response = t1.saveVideoCreatives(videoCreative);
 		
+		// depricated step; fethching the upload token
+		// response = t1.getVideoCreativesUploadToken(response);
+		
+		//upload the file.
+		String filePath = "C:\\Users\\chauhan_n\\Desktop\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
+		t1.uploadVideoCreative(filePath, fileName, response);
+		
+		
 		assertNotNull(response);
 		assertNotNull(response.getCreativeId());
 		
-	}*/
+	}
 	
 	
 }

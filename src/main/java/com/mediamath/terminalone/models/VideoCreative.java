@@ -5,20 +5,20 @@ import java.util.ArrayList;
 public class VideoCreative {
 	
 	private String name;
-	private Long startTime;
+	private long startTime;
 	private String landingUrl;
 	private String customVAST;
 	private ArrayList<Long> vendors = new ArrayList<Long>();
-	private Integer advertiser;
+	private long advertiser;
 	private boolean desktopEncoding;
-	private Long endTime;
-	private Integer skippableDuration;
+	private long endTime;
+	private Integer skippableDuration; // null = non skippable as per documentation. 
 	private boolean mobileEncoding;
-	private Integer concept;
+	private long concept;
 	private String clickthroughUrl;
 	private boolean active;
 	private eventPixelsEnum eventPixels;
-	private Integer creativeId;
+	private long creativeId;
 	
 	public enum eventPixelsEnum {
 		
@@ -82,11 +82,11 @@ public class VideoCreative {
 		this.vendors.add(pVendor);
 	}
 
-	public int getAdvertiser() {
+	public long getAdvertiser() {
 		return advertiser;
 	}
 
-	public void setAdvertiser(int advertiser) {
+	public void setAdvertiser(long advertiser) {
 		this.advertiser = advertiser;
 	}
 
@@ -122,11 +122,11 @@ public class VideoCreative {
 		this.mobileEncoding = mobileEncoding;
 	}
 
-	public int getConcept() {
+	public long getConcept() {
 		return concept;
 	}
 
-	public void setConcept(int concept) {
+	public void setConcept(long concept) {
 		this.concept = concept;
 	}
 
@@ -154,11 +154,11 @@ public class VideoCreative {
 		this.eventPixels = eventPixels;
 	}
 
-	public int getCreativeId() {
+	public long getCreativeId() {
 		return creativeId;
 	}
 
-	public void setCreativeId(int creativeId) {
+	public void setCreativeId(long creativeId) {
 		this.creativeId = creativeId;
 	}
 
