@@ -70,7 +70,7 @@ public class BasicFunctionalTest {
 		testConfig.load(input);
 		user = testConfig.getProperty("username");
 		password = testConfig.getProperty("password");
-		api_key = testConfig.getProperty("sandbox_api_key");
+		api_key = testConfig.getProperty("api_key");
 	}
 	
 	@After
@@ -839,9 +839,9 @@ public class BasicFunctionalTest {
 		videoCreative.setEndTime(1470009600);
 		videoCreative.setConcept(847527);
 		videoCreative.setClickthroughUrl("http://www.somedomain.com");
-		videoCreative.setVendors(847527);
+	/*	videoCreative.setVendors(847527);
 		videoCreative.setVendors(847528);
-		videoCreative.setVendors(847529);
+		videoCreative.setVendors(847529);*/
 		
 		VideoCreativeResponse response = t1.saveVideoCreatives(videoCreative);
 		
