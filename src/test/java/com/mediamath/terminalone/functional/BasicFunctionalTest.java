@@ -2,17 +2,22 @@ package com.mediamath.terminalone.functional;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -47,11 +52,27 @@ import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 public class BasicFunctionalTest {
 
 
+	private static Properties testConfig = new Properties();
+	
+	private static String user = null;
+	
+	private static String password = null;
+	
+	private static String api_key = null;
+	
+	@BeforeClass
+	public static void init() throws Exception{
+		InputStream input = BasicFunctionalTest.class.getClassLoader().getResourceAsStream("test.properties");
+		testConfig.load(input);
+		user = testConfig.getProperty("username");
+		password = testConfig.getProperty("password");
+		api_key = testConfig.getProperty("sandbox_api_key");
+	}
+	
 	@After
 	public final void tearDown() throws InterruptedException {
 		Thread.sleep(5000);
@@ -66,7 +87,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testAgencyPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Agency agency = new Agency();
 		agency.setName("Nitesh6");
@@ -82,7 +103,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testCampaignPost() throws ClientException, java.text.ParseException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Campaign camp = new Campaign();
 		camp.setName("NitCamp");
@@ -123,7 +144,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testAdvertiserPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Advertiser adv = new Advertiser();
 		adv.setAd_server_id(9);
@@ -141,7 +162,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
@@ -171,7 +192,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyAudioSegmentsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);	
@@ -192,7 +213,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyDomainRestrictionPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);	
@@ -212,7 +233,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testOrganizationPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Organization org = new Organization();
 		org.setId(100048);
@@ -243,9 +264,9 @@ public class BasicFunctionalTest {
 		StrategyConcept sc = new StrategyConcept();
 		sc.setId(2903693);
 		try {
-			T1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+			T1 = new TerminalOne(user, password,api_key);
 			JsonResponse jr = T1.delete(sc);
-		} catch (ClientException | ParseException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -257,7 +278,7 @@ public class BasicFunctionalTest {
 		StrategyDayPart sc = new StrategyDayPart();
 		sc.setId(626678);
 		try {
-			T1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+			T1 = new TerminalOne(user, password,api_key);
 			JsonResponse<? extends T1Entity> jr = T1.delete(sc);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -268,13 +289,13 @@ public class BasicFunctionalTest {
 	@Test
 	public void testJTerminalOneAuthenticate() throws ClientException {
 		TerminalOne jt1 = new TerminalOne();
-		boolean isAuthenticated = jt1.authenticate("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");;
+		boolean isAuthenticated = jt1.authenticate(user, password,api_key);;
 		assertEquals(true, isAuthenticated);
 	}
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -299,12 +320,35 @@ public class BasicFunctionalTest {
 		}
 		
 		assertNotNull(jsonresponse);
+		Advertiser advertiser =  (Advertiser) jsonresponse.getData();
+		assertNotNull (advertiser.getAgency());
+		assertNotNull (advertiser.getVertical_id());
+		assertNotNull (advertiser.getAgency());
+		
+		query = QueryCriteria.builder()
+				.setCollection("advertisers")
+				.setEntity(154161)
+				.build();
 	
+
+		jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		advertiser =  (Advertiser) jsonresponse.getData();
+		assertNull (advertiser.getAgency());
+		assertNull (advertiser.getVertical_id());
 	}
 	
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -326,7 +370,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(40).build();
 		
@@ -341,34 +385,87 @@ public class BasicFunctionalTest {
 		}
 		
 		assertNotNull(jsonresponse);
-	
-	}
-	@Test
-	public void testBaiscGetWithPageLimitOffset() throws ClientException  {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertEquals(40,advertisers.size());
 		
-		QueryCriteria query = QueryCriteria.builder()
-									.setCollection("advertisers")
-									.setPageLimit(40)
-									.setPageOffset(300)
-									.build();
+		query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(50).build();
 		
-		JsonResponse<?> jsonresponse = null;
+		jsonresponse = null;
 		
 		try {
 			jsonresponse = jt1.get(query);
+			System.out.println(jsonresponse.getData());
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		assertNotNull(jsonresponse);
+		advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertEquals(50,advertisers.size());
+		
+		// Default page limit is 100
+		query = QueryCriteria.builder().setCollection("advertisers").build();
+		
+		jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+			System.out.println(jsonresponse.getData());
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertEquals(100,advertisers.size());
+	}
+	
+	@Test
+	public void testBaiscGetWithPageLimitOffset() throws ClientException  {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		
+		// default page offset is 0
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setPageLimit(40)
+									.build();
+		
+		JsonResponse<?> jsonresponse_0_to_40 = null;
+		
+		try {
+			jsonresponse_0_to_40 = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse_0_to_40);
+		
+		query = QueryCriteria.builder()
+				.setCollection("advertisers")
+				.setPageLimit(40)
+				.setPageOffset(40)
+				.build();
+		
+		JsonResponse<?> jsonresponse_40_to_80 = null;
+		
+		try {
+			jsonresponse_40_to_80 = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse_0_to_40);
+		assertFalse(jsonresponse_40_to_80.equals(jsonresponse_0_to_40));
 	
 	}
 	
 	@Test
 	public void testBaiscGetWithLimit() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -394,7 +491,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithQuery() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -419,7 +516,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithGetAll() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -443,7 +540,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullBoolean() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -469,7 +566,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullString() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		FullParamValues fpv = new FullParamValues();
 		fpv.setStrValue("agency");
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -495,7 +592,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullList() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		FullParamValues fpv = new FullParamValues();
 		List<String> newList = new ArrayList<String>();
 		newList.add("campaign");
@@ -523,7 +620,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithFind() throws ClientException {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -549,7 +646,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFind1() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -575,7 +672,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithFind2() throws ClientException  {
-		TerminalOne jt1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -604,7 +701,7 @@ public class BasicFunctionalTest {
 	//check
 	@Test
 	public void testCampaignMarginPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Campaign camp = new Campaign();
 		camp.setId(233131);
@@ -632,7 +729,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testConceptPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Concept camp = new Concept();
 		camp.setAdvertiser_id(122631);
@@ -653,7 +750,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testAtomicCreatives() throws ClientException {
 		
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		AtomicCreative ac = new AtomicCreative();
 		ac.setAd_server_type(ac.getAd_server_type().DART);
@@ -681,7 +778,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void test3pasCreativeUpload() throws ClientException, IOException, ParseException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		// 3pas first call
 		ThreePASCreativeUpload response = t1.save3pasCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
@@ -704,7 +801,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		TOneASCreativeAssetsUpload response = t1.saveT1ASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
 		
@@ -732,7 +829,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","ys7ph5479kfrkpeb747mpgu3");
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
