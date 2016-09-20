@@ -34,7 +34,6 @@ public class VideoCreativeHelper {
 				Gson g= new Gson();
 				String vendors = g.toJson(entity.getVendors());
 				form.param("vendors", vendors);
-				System.out.println(vendors);
 			}
 			
 			if(entity.getAdvertiser() > 0) {

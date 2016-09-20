@@ -1,5 +1,9 @@
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
+
+import com.google.gson.annotations.SerializedName;
+
 public class VideoCreativeResponse {
 	
 	String creativeId;
@@ -9,6 +13,9 @@ public class VideoCreativeResponse {
 	VideoCreativeUploader uploader;
 	
 	Status status;
+	
+	@SerializedName("errors")
+	ArrayList<T1Error> errors;
 	
 	public Status getStatus() {
 		return status;
@@ -40,6 +47,14 @@ public class VideoCreativeResponse {
 
 	public void setUploader(VideoCreativeUploader uploader) {
 		this.uploader = uploader;
+	}
+
+	public ArrayList<T1Error> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(ArrayList<T1Error> errors) {
+		this.errors = errors;
 	}
 	
 }

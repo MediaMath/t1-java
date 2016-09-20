@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
@@ -50,6 +49,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
@@ -524,7 +524,6 @@ public class PostService {
 			logger.info(path.toString());
 			
 			String response = this.connection.get(path.toString(), this.user);
-			//System.out.println(response);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			parsedResponse = parser.parseVideoCreative(response);
 			parsedResponse.setCreativeId(videoCreative.getCreativeId());
@@ -534,55 +533,67 @@ public class PostService {
 
 	}
 	
+	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
+		VideoCreativeUploadStatus uploadStatus = null;
+		if(creativeId != null && !creativeId.isEmpty()) {
+			StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives" + "/" + creativeId + "/status");
+			logger.info(path.toString());
+			String response = this.connection.get(path.toString(), this.user);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			uploadStatus = parser.parseVideoCreativeUploadStatus(response);
+		}
+		return uploadStatus;
+	}
+	
 	/**
 	 * legacy way to upload video creative.
 	 * @param filePath
 	 * @param videoCreativeResponse
 	 * @throws ClientException
 	 */
-	public void uploadVideoCreative(String filePath, String fileName, VideoCreativeResponse videoCreativeResponse) throws ClientException {
+	public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName, String creativeId) throws ClientException {
+		
+		VideoCreativeResponse videoCreative = null;
+		
 		if(filePath != null 
 				&& !filePath.isEmpty() 
-				&& videoCreativeResponse != null 
-				&& videoCreativeResponse.getCreativeId() != null
-				&& !videoCreativeResponse.getCreativeId().isEmpty()
+				&& creativeId != null 
+				&& !creativeId.isEmpty() 
 				&& fileName != null
-				&& !fileName.isEmpty()
+				&& !fileName.isEmpty()) {
+	
 
-				// legacy code required key and host from the previous response.
-				/*&& videoCreativeResponse.getKey() != null 
-				&& !videoCreativeResponse.getKey().isEmpty()
-				&& videoCreativeResponse.getUploader() != null 
-				&& videoCreativeResponse.getUploader().getHost() != null
-				&& !videoCreativeResponse.getUploader().getHost().isEmpty()*/
-		) {
-			
-/*			StringBuffer path = new StringBuffer("https://");
-			path.append(videoCreativeResponse.getUploader().getHost());
-			String finalPath = path.toString();
-*/			
 			StringBuffer path = new StringBuffer(t1Service.getApi_base() 
 													+ t1Service.getVideoCreativeURL() 
 													+ "/creatives" 
 													+ "/" 
-													+ videoCreativeResponse.getCreativeId() 
+													+ creativeId 
 													+ "/upload?fileName="
 													+ fileName);
 			
 			String finalPath = path.toString();
 			
-			System.out.println(finalPath);
-			
-			//post binary
-			
+			//post binary only
 			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
 			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
 			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
 			
 			String response = this.connection.post(finalPath, multipart, this.user);
-			
-			System.out.println(response);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				if(error == null) {
+					VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
+					if(parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
+						parsedVideoCreativeResponse.setCreativeId(creativeId);
+						videoCreative = parsedVideoCreativeResponse;
+					}
+				} else {
+					throwExceptions(error);
+				}
+			}
 		}
+		return videoCreative;
 	}
 	
 
@@ -834,13 +845,9 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 			
-			//System.out.println(path);
-			
 			TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
 			
 			String jsonResponse = this.connection.post(path, formData, this.user);
-			
-			//System.out.println("response: " + jsonResponse);
 			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			JsonPostErrorResponse jsonPostErrorResponse = null;

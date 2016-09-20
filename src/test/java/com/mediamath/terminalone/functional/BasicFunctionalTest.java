@@ -48,6 +48,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -843,20 +844,26 @@ public class BasicFunctionalTest {
 		videoCreative.setVendors(847528);
 		videoCreative.setVendors(847529);*/
 		
-		VideoCreativeResponse response = t1.saveVideoCreatives(videoCreative);
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 		
 		// depricated step; fethching the upload token
 		// response = t1.getVideoCreativesUploadToken(response);
 		
 		//upload the file.
 		String filePath = "C:\\Users\\chauhan_n\\Desktop\\t1attachements\\blah1234.flv";
+		//String filePath = "C:\\Users\\chauhan_n\\Desktop\\t1attachements\\progit.pdf";
 		String fileName = "blah1234.flv";
-		t1.uploadVideoCreative(filePath, fileName, response);
+		//String fileName = "progit.pdf";
+		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
 		
+		//check video creative status
+		VideoCreativeUploadStatus uploadStatus = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
 		
-		assertNotNull(response);
-		assertNotNull(response.getCreativeId());
+		assertNotNull(saveResponse);
+		assertNotNull(saveResponse.getCreativeId());
 		
+		assertNotNull(uploadResponse);
+		assertNotNull(uploadResponse.getStatus());
 	}
 	
 	

@@ -36,6 +36,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
 import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
@@ -404,19 +405,30 @@ public class TerminalOne {
 	 * @param response
 	 * @throws ClientException 
 	 */
-	public void uploadVideoCreative(String filePath, String fileName, VideoCreativeResponse response) throws ClientException {
+	public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName, String creativeId) throws ClientException {
+		VideoCreativeResponse response = null;
 		if(isAuthenticated()) {
 			if(filePath != null 
 					&& !filePath.isEmpty()
 					&& fileName != null
 					&& !fileName.isEmpty()
-					&& response != null 
-					&& response.getCreativeId() != null
-					&& !response.getCreativeId().isEmpty()) {
+					&& creativeId != null
+					&& !creativeId.isEmpty()) {
 				
-				postService.uploadVideoCreative(filePath, fileName, response);
+				response = postService.uploadVideoCreative(filePath, fileName, creativeId);
 			}
 		}
+		return response;
+	}
+	
+	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
+		VideoCreativeUploadStatus response = null;
+		if(isAuthenticated()) {
+			if(creativeId != null && !creativeId.isEmpty()) {
+				response = postService.getVideoCreativeUploadStatus(creativeId);
+			}
+		}
+		return response;
 	}
 	
 	/**
