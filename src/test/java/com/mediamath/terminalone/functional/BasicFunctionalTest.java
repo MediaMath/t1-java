@@ -65,6 +65,8 @@ public class BasicFunctionalTest {
 	
 	private static String api_key = null;
 	
+	private static String production_key = null;
+	
 	@BeforeClass
 	public static void init() throws Exception{
 		InputStream input = BasicFunctionalTest.class.getClassLoader().getResourceAsStream("test.properties");
@@ -72,6 +74,7 @@ public class BasicFunctionalTest {
 		user = testConfig.getProperty("username");
 		password = testConfig.getProperty("password");
 		api_key = testConfig.getProperty("api_key");
+		production_key = testConfig.getProperty("production_api_key");
 	}
 	
 	@After
@@ -830,7 +833,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,production_key);
 		
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
