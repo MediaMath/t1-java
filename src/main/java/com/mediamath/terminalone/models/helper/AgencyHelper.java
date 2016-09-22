@@ -24,13 +24,6 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class AgencyHelper  {
 
-	public static void validateFields() throws T1Exception {
-/*		if (sales_contact_id < 0) {
-			throw new ValidationException("please enter a valid sales contact id");
-		}
-*/
-	}
-
 	public static void validateRequiredFields(Agency entity) throws T1Exception {
 		if (entity.getName() == null || entity.getName().isEmpty()) {
 			throw new ValidationException("please enter a name for the agency");

@@ -68,7 +68,7 @@ public class Connection {
 	 * 
 	 * @param uri
 	 * @param data
-	 * @return
+	 * @return String
 	 * @throws ClientException 
 	 */
 	public String post(String url, Form data, T1Response userMap) throws ClientException {
@@ -114,6 +114,15 @@ public class Connection {
 		return response.readEntity(String.class);
 	}
 	
+	/**
+	 * POST method used especially for Login functionality
+	 * 
+	 * @param url
+	 * @param data
+	 * @param userMap
+	 * @return Response
+	 * @throws ClientException
+	 */
 	public Response loginPost(String url, Form data, T1Response userMap) throws ClientException {
 
 		if (data == null) {
@@ -159,12 +168,12 @@ public class Connection {
 	}
 
 	/**
-	 * Multipart post.
+	 * POST multipart data.
 	 * 
 	 * @param url
 	 * @param data
 	 * @param userMap
-	 * @return
+	 * @return String
 	 * @throws ClientException
 	 */
 	public String post(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
@@ -220,7 +229,7 @@ public class Connection {
 	 * @param url
 	 * @param data
 	 * @param userMap
-	 * @return
+	 * @return String
 	 * @throws ClientException
 	 */
 	public String post(String url, String data, T1Response userMap) throws ClientException {
@@ -271,11 +280,12 @@ public class Connection {
 	
 	
 	
-	/**handles GET requests
+	/**
+	 * handles GET requests
 	 * 
 	 * @param uri
 	 * @param userMap
-	 * @return
+	 * @return String
 	 */
 	public String get(String url, T1Response userMap) {
 		Response response = null;
@@ -313,6 +323,13 @@ public class Connection {
 		return response.readEntity(String.class);
 	}
 	
+	/**
+	 * Secured GET method.
+	 * 
+	 * @param url
+	 * @param userMap
+	 * @return String
+	 */
 	public String secureGet(String url, T1Response userMap) {
 		Response response = null;
 		Client client = null;
@@ -349,6 +366,15 @@ public class Connection {
 		return response.readEntity(String.class);
 	}
 	
+	/**
+	 * Secured POST method.
+	 * 
+	 * @param url
+	 * @param data
+	 * @param userMap
+	 * @return String
+	 * @throws ClientException
+	 */
 	public String securePost(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
 		
 		if(data == null) {
@@ -399,11 +425,12 @@ public class Connection {
 	}
 	
 	
-	/**handles GET requests
+	/**
+	 * handles GET requests for Reports.
 	 * 
 	 * @param uri
 	 * @param userMap
-	 * @return
+	 * @return Response
 	 */
 	public Response getReportData(String url, T1Response userMap) {
 

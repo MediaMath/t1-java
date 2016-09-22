@@ -208,9 +208,9 @@ public class PostMockTests {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
-		str.setStart_date("2016-05-13T21:42:29+0000");
+		//str.setStart_date("2016-05-13T21:42:29+0000");
 		str.setUse_campaign_end(false);
-		str.setEnd_date("2016-10-12T21:42:29+0000");
+	//	str.setEnd_date("2016-10-12T21:42:29+0000");
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);
 			str = t1.save(str);

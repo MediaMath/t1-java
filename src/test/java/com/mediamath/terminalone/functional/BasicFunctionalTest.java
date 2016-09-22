@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -171,7 +172,7 @@ public class BasicFunctionalTest {
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
 		str.setBudget(100.12f);
-		str.setCampaign_id(233131);
+		str.setCampaign_id(267886);
 		str.setFrequency_type(freq_type.asap);
 		str.setFrequency_amount(10);
 		str.setFrequency_interval(freq_int.day);
@@ -181,12 +182,25 @@ public class BasicFunctionalTest {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
-		str.setStart_date("2016-05-13T21:42:29+0000");
 		str.setUse_campaign_end(false);
-		str.setEnd_date("2016-10-12T21:42:29+0000");
+		
+	//	str.setStart_date("2016-09-22T21:42:29+0000");
+		
+	//	str.setEnd_date("2016-10-15T21:42:29+0000");
+		//				 2016-10-22T16:28:35+0530
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
+		
+		str.setEnd_date(endd);
+		
+		str.setStart_date(new Date());
+		
+		
+		
 		try{
 			str = jt1.save(str);
-			System.out.println(str);
 		}catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
