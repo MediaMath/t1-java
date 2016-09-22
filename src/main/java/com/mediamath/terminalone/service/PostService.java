@@ -825,7 +825,7 @@ public class PostService {
 		return parsedJsonResponse;
 	}
 	
-	private JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr) {
+	public JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr) {
 		JsonParser parser1 = new JsonParser();
 		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
 		
@@ -892,7 +892,7 @@ public class PostService {
 				T1Meta meta = g.fromJson(metaElement, T1Meta.class);
 				if(meta.getStatus().equals("denied")) {
 					errorResponse.setMeta(meta);	
-				} else {
+				} else if(errorsElement == null || errorElement == null ){
 					errorResponse = null;
 				}
 			}
@@ -903,7 +903,7 @@ public class PostService {
 		return errorResponse;
 	}
 	
-	private void throwExceptions(JsonPostErrorResponse jsonPostResponse) throws ClientException {
+	public void throwExceptions(JsonPostErrorResponse jsonPostResponse) throws ClientException {
 	
 		StringBuffer strbuff = null;
 
