@@ -172,7 +172,7 @@ public class BasicFunctionalTest {
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
 		str.setBudget(100.12f);
-		str.setCampaign_id(267886);
+		str.setCampaign_id(267881);
 		str.setFrequency_type(freq_type.asap);
 		str.setFrequency_amount(10);
 		str.setFrequency_interval(freq_int.day);
@@ -197,8 +197,6 @@ public class BasicFunctionalTest {
 		
 		str.setStart_date(new Date());
 		
-		
-		
 		try{
 			str = jt1.save(str);
 		}catch (ParseException e) {
@@ -213,12 +211,12 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
-		str.setId(1377524);	
+		str.setId(1377457);	
 		str.setAudience_segment_exclude_op(Strategy.aud_seg_exc.OR);
 		str.setAudience_segment_include_op(Strategy.aud_seg_inc.OR);
 		List<Segments> asList = new ArrayList<Segments>();
 		
-		asList.add(new Segments(1538368, Segments.restrictions.INCLUDE, Segments.aud_seg_exc.OR, Segments.aud_seg_inc.OR));
+		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.aud_seg_exc.OR, Segments.aud_seg_inc.OR));
 		str.setAudience_segments(asList);
 		try{
 			str = jt1.save(str);

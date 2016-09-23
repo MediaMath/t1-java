@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
@@ -124,12 +125,14 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 			
-			String response = this.connection.post(path, AgencyHelper.getForm(entity), this.user);
+			Response responseObj = this.connection.post(path, AgencyHelper.getForm(entity), this.user);
+			
+			String response = responseObj.readEntity(String.class);
 			
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -206,13 +209,13 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, AdvertiserHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, AdvertiserHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -230,10 +233,8 @@ public class PostService {
 	public Strategy save(Strategy entity) throws ClientException, ParseException {
 		
 		Strategy strategy = null;
-		
+		JsonResponse<? extends T1Entity>  finalJsonResponse = null;
 		if(entity != null) {
-			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
-
 			StringBuffer uri = getURI(entity);
 			
 			if (entity.getId() > 0) {
@@ -251,18 +252,16 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				
 				// parse error
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
-					
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
 						strategy = (Strategy) finalJsonResponse.getData();
 					} 
@@ -272,7 +271,7 @@ public class PostService {
 				}
 			}
 		}
-		return ((strategy==null) ? entity : strategy);
+		return strategy;
 	}
 	
 	public StrategyConcept save(StrategyConcept entity) throws ClientException, ParseException {
@@ -291,13 +290,13 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, StrategyConceptHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, StrategyConceptHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -329,12 +328,12 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, StrategySupplySourceHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, StrategySupplySourceHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -366,12 +365,12 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, OrganizationHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, OrganizationHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -402,13 +401,13 @@ public class PostService {
 			
 			String path = t1Service.constructURL(uri);
 
-			String response = this.connection.post(path, PixelHelper.getForm(entity), this.user);
-			
+			Response responseObj = this.connection.post(path, PixelHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			// parse response
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -440,12 +439,13 @@ public class PostService {
 			}
 			String path = t1Service.constructURL(uri);
 			
-			String response = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
-
+			Response responseObj = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -470,12 +470,12 @@ public class PostService {
 
 			String path = t1Service.constructURL(uri);
 			// post
-			String response = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
-
+			Response responseObj = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -505,12 +505,13 @@ public class PostService {
 
 			String videoCreativePath = path.toString();
 
-			String response = this.connection.post(videoCreativePath, VideoCreativeHelper.getJson(entity), this.user);
-
+			Response responseObj = this.connection.post(videoCreativePath, VideoCreativeHelper.getJson(entity), this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if (!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if (error == null) {
 					VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
 					if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getCreativeId() != null
@@ -586,10 +587,12 @@ public class PostService {
 			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
 			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
 			
-			String response = this.connection.post(finalPath, multipart, this.user);
+			Response responseObj = this.connection.post(finalPath, multipart, this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
 					if(parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
@@ -619,7 +622,9 @@ public class PostService {
 		
 		Form strategyConceptForm = new Form();
 		
-		String response  = connection.post(finalPath, strategyConceptForm, this.user);
+		Response responseObj  = connection.post(finalPath, strategyConceptForm, this.user);
+		String response = responseObj.readEntity(String.class);
+		
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		JsonResponse<? extends T1Entity> jsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_concepts"));
 		
@@ -644,7 +649,9 @@ public class PostService {
 			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
 		}
 		
-		String response  = connection.post(finalPath, strategyConceptForm, this.user);
+		Response responseObj  = connection.post(finalPath, strategyConceptForm, this.user);
+		String response = responseObj.readEntity(String.class);
+		
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		JsonResponse<? extends T1Entity> jsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
 		
@@ -663,11 +670,13 @@ public class PostService {
 
 			String path = t1Service.constructURL(uri);
 			// post
-			String response = this.connection.post(path, AtomicCreativeHelper.getForm(entity), this.user);
+			Response responseObj = this.connection.post(path, AtomicCreativeHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 
 			if(!response.isEmpty()) {
-				JsonPostErrorResponse error = jsonPostErrorResponseParser(response);
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
@@ -698,7 +707,9 @@ public class PostService {
 																	.field("name", name)
 																	.bodyPart(filePart);
 			
-			String response = this.connection.post(path, multipart, this.user);
+			Response responseObj = this.connection.post(path, multipart, this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse
@@ -734,12 +745,13 @@ public class PostService {
 				uri.append(entity.getBatchId());
 				String path = t1Service.constructURL(uri);
 				ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
-				String response = this.connection.post(path, formData, this.user);
+				Response responseObj = this.connection.post(path, formData, this.user);
+				String response = responseObj.readEntity(String.class);
 				
 				T1JsonToObjParser parser = new T1JsonToObjParser();
 				JsonPostErrorResponse jsonPostResponse = null;
 				
-				jsonPostResponse = jsonPostErrorResponseParser(response);
+				jsonPostResponse = jsonPostErrorResponseParser(response,responseObj);
 				if (jsonPostResponse == null) {
 					finalJsonResponse = parsePostData(response, parser, null);
 				} else {
@@ -768,7 +780,9 @@ public class PostService {
 																	.field("name", name)
 																	.bodyPart(filePart);
 			
-			String response = this.connection.post(path, multipart, this.user);
+			Response responseObj = this.connection.post(path, multipart, this.user);
+			String response = responseObj.readEntity(String.class);
+			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			
 			// parse
@@ -804,12 +818,13 @@ public class PostService {
 			
 			TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
 			
-			String jsonResponse = this.connection.post(path, formData, this.user);
+			Response responseObj = this.connection.post(path, formData, this.user);
+			String jsonResponse = responseObj.readEntity(String.class);
 			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			JsonPostErrorResponse jsonPostErrorResponse = null;
 			
-			jsonPostErrorResponse = jsonPostErrorResponseParser(jsonResponse);
+			jsonPostErrorResponse = jsonPostErrorResponseParser(jsonResponse,responseObj);
 			
 			if (jsonPostErrorResponse == null) {
 				
@@ -826,6 +841,10 @@ public class PostService {
 	}
 	
 	public JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr) {
+		return jsonPostErrorResponseParser(responseStr, null);
+	}
+	
+	public JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr, Response responseObj) {
 		JsonParser parser1 = new JsonParser();
 		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
 		
@@ -835,7 +854,7 @@ public class PostService {
 		
 		JsonPostErrorResponse errorResponse = null;
 		
-		if(errorsElement != null || errorElement != null || metaElement != null) {
+		if(errorsElement != null || errorElement != null || (responseObj != null && responseObj.getStatus() == 403 && metaElement != null )) {
 			errorResponse = new JsonPostErrorResponse();
 			GsonBuilder builder = new GsonBuilder();
 			builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -889,15 +908,11 @@ public class PostService {
 			}
 
 			if(metaElement != null) {
-				T1Meta meta = g.fromJson(metaElement, T1Meta.class);
-				if(meta.getStatus().equals("denied")) {
+				if(responseObj.getStatus() == 403) {
+					T1Meta meta = g.fromJson(metaElement, T1Meta.class);
 					errorResponse.setMeta(meta);	
-				} else if(errorsElement == null || errorElement == null ){
-					errorResponse = null;
-				}
+				} 
 			}
-			
-		
 		}
 		
 		return errorResponse;
@@ -993,7 +1008,7 @@ public class PostService {
 				if (strbuff == null) {
 					strbuff = new StringBuffer(jsonPostResponse.getMeta().getStatus());
 				} else {
-					strbuff.append(", " + jsonPostResponse.getMeta().getStatus());
+					strbuff.append(", Status: " + jsonPostResponse.getMeta().getStatus());
 				}
 			}
 		}

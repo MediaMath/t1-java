@@ -108,7 +108,7 @@ public class TerminalOne {
 		logger.info("Loading Environment - Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, api_key);
 		String url = tOneService.constructURL(new StringBuffer("login"));
-		Response loginResponse = connection.loginPost(url, form, null);
+		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
 		
@@ -166,7 +166,7 @@ public class TerminalOne {
 		Form form = tOneService.getLoginFormData(username, password, api_key);
 		String url = tOneService.constructURL(new StringBuffer("login"));
 
-		Response loginResponse = connection.loginPost(url, form, null);
+		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
 		
