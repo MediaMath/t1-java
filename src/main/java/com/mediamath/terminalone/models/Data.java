@@ -20,7 +20,21 @@ import java.util.Map;
 
 public class Data {
 	
+		public class enabled{
+			String active;
+
+			public String getActive() {
+				return active;
+			}
+
+			public void setActive(String active) {
+				this.active = active;
+			}
+			
+		}
+	
 		Map<String, String> data = new HashMap<String, String>();
+		public enabled enabled;
 
 		public Map<String, String> getData() {
 			return data;
@@ -28,6 +42,15 @@ public class Data {
 
 		public void setData(Map<String, String> data) {
 			this.data = data;
+		}
+
+		public enabled getEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(enabled enabled) {
+			this.enabled = enabled;
 		} 
 	
+		
 }

@@ -209,11 +209,19 @@ public class GetService {
 	private String constructChildPath(String child) {
 		String childPath = "";
 		HashMap<String, Integer> childMap = Constants.childPaths.get(child);
-		for (String s : childMap.keySet()) {
-			if (s.equalsIgnoreCase("target_dimensions")) {
-				childPath += "?target_dimensions=" + String.valueOf(childMap.get("target_dimensions"));
-			} else {
-				childPath += "?" + child;
+		if(childMap!=null){
+			for (String s : childMap.keySet()) {
+				/*if (s.equalsIgnoreCase("target_dimensions")) {
+					childPath += "?target_dimensions=" + String.valueOf(childMap.get("target_dimensions"));
+				} else {
+					childPath += "?" + child;
+				}*/
+				
+				if(childMap.get(s) > 0){
+					childPath += "/"+s+"/"+childMap.get(s);
+				}else{
+					childPath += "/"+s;
+				}
 			}
 		}
 

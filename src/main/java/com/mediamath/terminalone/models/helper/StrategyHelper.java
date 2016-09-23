@@ -147,7 +147,7 @@ public class StrategyHelper {
 	
 	public static Form getForm(Strategy entity) {
 		Form strategyForm = new Form();
-		if(entity.getDomain_restrictions().size() <=0){
+		if(entity.getStrategy_domain_restrictions().size() <=0){
 			if(entity.getAudience_segment_exclude_op()!=null){
 				strategyForm.param("exclude_op", entity.getAudience_segment_exclude_op().toString());
 			}
@@ -283,9 +283,9 @@ public class StrategyHelper {
 			}
 		}
 		//strategy domain restrictions
-		if(entity.getDomain_restrictions().size()>0){
+		if(entity.getStrategy_domain_restrictions().size()>0){
 			int i=1;
-			for(StrategyDomain sd: entity.getDomain_restrictions()){
+			for(StrategyDomain sd: entity.getStrategy_domain_restrictions()){
 				if(sd!=null){
 					strategyForm.param("domains."+String.valueOf(i)+".domain", sd.getDomain());
 					strategyForm.param("domains."+String.valueOf(i)+".restriction", sd.getRestriction().name());

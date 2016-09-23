@@ -258,7 +258,7 @@ public class PostMockTests {
 		
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
 		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
-		str.setDomain_restrictions(sdList);
+		str.setStrategy_domain_restrictions(sdList);
 		
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);

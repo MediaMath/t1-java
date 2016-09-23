@@ -120,12 +120,14 @@ public class Strategy implements T1Entity {
 	private boolean use_optimization;
 	private int version;
 	private String zone_name;
+	private Aggregate aggregate;
 	
 	private Campaign campaign;
 	
-	List<StrategyDomain> domain_restrictions= new ArrayList<StrategyDomain>();
+	List<StrategyDomain> strategy_domain_restrictions= new ArrayList<StrategyDomain>();
 	List<Segments> audience_segments= new ArrayList<Segments>();
 	List<TargetValues> target_values= new ArrayList<TargetValues>();
+	List<Concept> concepts = new ArrayList<Concept>();
 
 	public aud_seg_exc getAudience_segment_exclude_op() {
 		return audience_segment_exclude_op;
@@ -411,12 +413,12 @@ public class Strategy implements T1Entity {
 		this.zone_name = zone_name;
 	}
 
-	public List<StrategyDomain> getDomain_restrictions() {
-		return domain_restrictions;
+	public List<StrategyDomain> getStrategy_domain_restrictions() {
+		return strategy_domain_restrictions;
 	}
 
-	public void setDomain_restrictions(List<StrategyDomain> domain_restrictions) {
-		this.domain_restrictions = domain_restrictions;
+	public void setStrategy_domain_restrictions(List<StrategyDomain> strategy_domain_restrictions) {
+		this.strategy_domain_restrictions = strategy_domain_restrictions;
 	}
 
 	public List<Segments> getAudience_segments() {
@@ -441,6 +443,14 @@ public class Strategy implements T1Entity {
 
 	public void setCampaign(Campaign campaign) {
 		this.campaign = campaign;
+	}
+
+	public List<Concept> getConcepts() {
+		return concepts;
+	}
+
+	public void setConcepts(List<Concept> concepts) {
+		this.concepts = concepts;
 	}
 
 	public Date getEnd_date() {
@@ -551,4 +561,14 @@ public class Strategy implements T1Entity {
 		currency.setValue(roi_target);
 		this.roi_target.add(currency);
 	}
+
+	public Aggregate getAggregate() {
+		return aggregate;
+	}
+
+	public void setAggregate(Aggregate aggregate) {
+		this.aggregate = aggregate;
+	}
+	
+	
 }

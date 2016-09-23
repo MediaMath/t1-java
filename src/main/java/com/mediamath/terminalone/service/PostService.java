@@ -242,7 +242,7 @@ public class PostService {
 				uri.append(entity.getId());
 			}
 			
-			if (entity.getId() > 0 && entity.getDomain_restrictions().size() > 0) {
+			if (entity.getId() > 0 && entity.getStrategy_domain_restrictions().size() > 0) {
 				uri.append("/domain_restrictions");
 			}
 			

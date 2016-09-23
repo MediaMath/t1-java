@@ -36,6 +36,9 @@ public class JsonResponse<T> {
 	@SerializedName("meta")
 	T1Meta meta;
 	
+	@SerializedName("entity_type")
+	String entity_type;
+	
 	public ArrayList<T1Error> getErrors() {
 		return errors;
 	}
@@ -59,5 +62,15 @@ public class JsonResponse<T> {
 	public void setMeta(T1Meta meta) {
 		this.meta = meta;
 	}
+
+	public String getEntity_type() {
+		return entity_type;
+	}
+
+	public void setEntity_type(String entity_type) {
+		this.entity_type = entity_type;
+	}
+	
+	
 
 }
