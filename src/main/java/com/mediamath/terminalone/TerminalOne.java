@@ -48,6 +48,7 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -99,7 +100,8 @@ public class TerminalOne {
 	}
 
 	/**
-	 * the other constructor, tries to connect with the credentials provided.
+	 * constructor, tries to connect with the credentials provided.
+	 * 
 	 * @throws ClientException 
 	 * 
 	 */
@@ -139,6 +141,8 @@ public class TerminalOne {
 
 	/**
 	 * 
+	 * private method to validate login credentials.
+	 * 
 	 * @param username
 	 * @param password
 	 * @param api_key
@@ -159,7 +163,7 @@ public class TerminalOne {
 	/**
 	 * used to authenticate using given credentials.
 	 * 
-	 * @return boolean isauthenticated.
+	 * @return boolean
 	 */
 	public boolean authenticate(String username, String password, String api_key) throws ClientException {
 
@@ -206,9 +210,10 @@ public class TerminalOne {
 	
 	
 	/**
-	 * saves the given Agency.
+	 * saves Agency.
 	 * 
-	 * @param entity
+	 * @return Agency
+	 * @param  Agency
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -221,9 +226,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Advertiser.
+	 * saves Advertiser.
 	 * 
-	 * @param entity
+	 * @return Advertiser
+	 * @param  Advertiser
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -237,9 +243,10 @@ public class TerminalOne {
 	
 	
 	/**
-	 * saves the given Strategy.
+	 * saves Strategy.
 	 * 
-	 * @param entity
+	 * @return Strategy
+	 * @param  Strategy
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -252,9 +259,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Strategy Concepts.
+	 * saves Strategy Concepts.
 	 * 
-	 * @param entity
+	 * @return StrategyConcept
+	 * @param  StrategyConcept
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -267,9 +275,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Strategy Supply Sources.
+	 * saves Strategy Supply Sources.
 	 * 
-	 * @param entity
+	 * @return StrategySupplySource
+	 * @param  StrategySupplySource
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -282,9 +291,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Organization.
+	 * saves Organization.
 	 * 
-	 * @param entity
+	 * @return Organization
+	 * @param  Organization
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -297,9 +307,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Pixel.
+	 * saves Pixel.
 	 * 
-	 * @param entity
+	 * @return Pixel
+	 * @param  Pixel
 	 * @throws ClientException 
 	 * @throws ParseException 
 	 */
@@ -312,10 +323,11 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given Campaign.
+	 * saves Campaign.
 	 * 
-	 * @param entity
-	 * @return
+	 * @return Campaign
+	 * @param T1Entity Campaign
+	 * @return Campaign
 	 * @throws ParseException
 	 * @throws ClientException
 	 */
@@ -328,10 +340,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves concepts
+	 * saves Concepts
 	 * 
-	 * @param entity
-	 * @return
+	 * @param  Concept
+	 * @return Concept
 	 * @throws ParseException
 	 * @throws ClientException
 	 */
@@ -346,8 +358,8 @@ public class TerminalOne {
 	/**
 	 * saves Atomic Creative
 	 * 
-	 * @param entity
-	 * @return
+	 * @param  AtomicCreative
+	 * @return AtomicCreative
 	 * @throws ParseException
 	 * @throws ClientException
 	 */
@@ -363,9 +375,15 @@ public class TerminalOne {
 	 * 
 	 * saves 3pas creative upload file.
 	 * 
-	 * @param filePath
-	 * @param fileName
-	 * @param name
+	 * first call to upload the file.
+	 * 
+	 * example:
+	 *  <i>save3pasCreativeUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile" ,"samplefile");</i>
+	 * 
+	 * 
+	 * @param String filePath
+	 * @param String fileName
+	 * @param String name
 	 * @return
 	 * @throws ClientException
 	 * @throws IOException
@@ -381,10 +399,12 @@ public class TerminalOne {
 
 	/**
 	 * 
-	 * this API call in the Bulk 3PAS process saves particular creatives out of a given batch to the T1 database.
+	 * this API call in the Bulk 3PAS process saves particular creative out of a given batch to the T1 database.
 	 * 
-	 * @param batchApprove
-	 * @return
+	 * second call to save the 3pas creative upload
+	 * 
+	 * @param  ThreePASCreativeBatchApprove
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws IOException
 	 * @throws ParseException
@@ -399,12 +419,17 @@ public class TerminalOne {
 	
 	/**
 	 * 
-	 * saves the upload to T1AS.
+	 * saves upload to T1AS.
 	 * 
-	 * @param filePath
-	 * @param fileName
-	 * @param name
-	 * @return
+	 * first call to upload the file.
+	 * 
+	 * example:
+	 *  <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile" ,"samplefile");</i>
+	 * 
+	 * @param  String filePath
+	 * @param  String fileName
+	 * @param  String name
+	 * @return TOneASCreativeAssetsUpload
 	 * @throws ClientException
 	 * @throws IOException
 	 */
@@ -417,10 +442,10 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * Second T1AS API call, approves the upload done previously.
+	 * Second call, Approves the upload done in the first call.
 	 * 
-	 * @param creativeAssetsApprove
-	 * @return
+	 * @param  TOneASCreativeAssetsApprove
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 */
 	public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
@@ -432,10 +457,9 @@ public class TerminalOne {
 	}
 	
 	/**
+	 * First Call to Create a Video Creative.
 	 * 
-	 * first call to create a video creative.
-	 * 
-	 * @param videoCreative
+	 * @param  VideoCreative
 	 * @return VideoCreativeResponse
 	 * @throws ClientException
 	 */
@@ -450,8 +474,10 @@ public class TerminalOne {
 	/**
 	 * second call to upload video creative media using the creativeId.
 	 * 
-	 * @param filePath
-	 * @param response
+	 * @param  filePath
+	 * @param  fileName
+	 * @param  String creativeId
+	 * @param  response
 	 * @throws ClientException 
 	 * @return VideoCreativeResponse
 	 */
@@ -472,10 +498,9 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * 
 	 * Check the status of the uploaded video creative.
 	 * 
-	 * @param creativeId
+	 * @param String creativeId
 	 * @return VideoCreativeUploadStatus
 	 */
 	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
@@ -489,7 +514,6 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * 
 	 * second call to get the upload token for video creative.
 	 * 
 	 * @deprecated
@@ -510,7 +534,7 @@ public class TerminalOne {
 	/**
 	 * Get.
 	 * 
-	 * @param QueryCriteria
+	 * @param  QueryCriteria
 	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
@@ -540,10 +564,9 @@ public class TerminalOne {
 	
 	
 	/**
-	 * GET meta of reports available.
+	 * GET meta of all the reports available.
 	 * 
-	 * @param query
-	 * @return
+	 * @return JsonResponse<? extends T1Entity>
 	 */
 	public JsonResponse<? extends T1Entity> getMeta() {
 		JsonResponse<? extends T1Entity> jsonResponse = null;
@@ -556,8 +579,10 @@ public class TerminalOne {
 	
 
 	/**
-	 * get meta data for a specific report.
-	 * @param report
+	 * GET meta data for a specific report.
+	 * 
+	 * @return MetaData
+	 * @param  Reports
 	 * @return MetaData
 	 */
 	public MetaData getReportsMeta(Reports report) {
@@ -570,10 +595,10 @@ public class TerminalOne {
 	
 	
 	/**
-	 * Get a specific report.
+	 * GET a specific report.
 	 * 
-	 * @param Reports
-	 * @param ReportCriteria
+	 * @param  Reports
+	 * @param  ReportCriteria
 	 * @throws IOException 
 	 * @throws ClientException 
 	 * @throws UnsupportedEncodingException 
@@ -589,10 +614,10 @@ public class TerminalOne {
 	
 	
 	/**
-	 * validates a given report.
+	 * Validates a given Report.
 	 * 
-	 * @param report
-	 * @param criteria
+	 * @param  Reports
+	 * @param  ReportCriteria
 	 * @return ReportValidationResponse
 	 * @throws ClientException
 	 */
@@ -634,7 +659,7 @@ public class TerminalOne {
 	 * @return
 	 * @throws ParseException
 	 */
-/*	private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
+	/*private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		int result = parser.getJsonElementType(response);
 		Type JsonResponseType = null;
@@ -656,11 +681,12 @@ public class TerminalOne {
 		return jsonresponse;
 	}*/
 	
-	/**parses the response to objects.
+	/**
+	 * parses the response to objects.
 	 * 
-	 * @param response
-	 * @param query
-	 * @return
+	 * @param  String response
+	 * @param  QueryCriteria query
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ParseException
 	 * @throws ClientException
 	 */
@@ -727,9 +753,10 @@ public class TerminalOne {
 
 	
 	
-	/** Find method alternative to query of get
+	/** 
+	 * Find method, alternative to get method.
 	 * 
-	 * @param query
+	 * @param  QueryCriteria
 	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ParseException 
 	 * @throws ClientException 
@@ -745,7 +772,7 @@ public class TerminalOne {
 	/**
 	 * Delete Method for strategy day parts-> budget flight -> strategy-concepts
 	 * 
-	 * @param T - i.e. Entity with id and extra params if required
+	 * @param  T - i.e. Entity with id and extra params if required
 	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
@@ -760,10 +787,9 @@ public class TerminalOne {
 
 
 	/**
-	 * <h1>Delete Method for Strategy Day Parts</h1>
+	 * Delete Method for Strategy Day Parts
 	 * 
-	 * 
-	 * @param T - i.e. Entity with id and extra params if required
+	 * @param  T - i.e. Entity with id and extra params if required
 	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
