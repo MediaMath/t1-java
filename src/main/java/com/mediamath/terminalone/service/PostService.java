@@ -387,7 +387,7 @@ public class PostService {
 	
 	public Pixel save(Pixel entity) throws ClientException, ParseException {
 	
-		Pixel px = null;
+		Pixel pixel = null;
 		
 		if(entity != null) {
 			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
@@ -411,7 +411,7 @@ public class PostService {
 				if(error == null) {
 					finalJsonResponse = parsePostData(response, parser, entity);
 					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
-						px = (Pixel) finalJsonResponse.getData();
+						pixel = (Pixel) finalJsonResponse.getData();
 					}
 				} else {
 					throwExceptions(error);
@@ -419,7 +419,7 @@ public class PostService {
 			}
 			
 		}
-		return px;
+		return pixel;
 	}
 	
 	public Campaign save(Campaign entity) throws ParseException, ClientException {
@@ -456,7 +456,7 @@ public class PostService {
 				}
 			}
 		}
-		return campaign == null ? entity : campaign;
+		return campaign;
 	}
 	
 	public Concept save(Concept entity) throws ParseException, ClientException {
@@ -487,7 +487,7 @@ public class PostService {
 				
 			}
 		}
-		return concept == null ? entity : concept;
+		return concept;
 	}
 	
 	public VideoCreativeResponse save(VideoCreative entity) throws ClientException {
@@ -687,7 +687,7 @@ public class PostService {
 				}
 			}
 		}
-		return atomicCreative == null ? entity : atomicCreative;
+		return atomicCreative;
 	}
 	
 	public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
@@ -810,29 +810,22 @@ public class PostService {
 		FormDataMultiPart formData = new FormDataMultiPart();
 		//TOneASCreativeAssetsApproveResponse response = null;
 		JsonResponse<? extends T1Entity> parsedJsonResponse = null;
+
 		if (entity != null) {
-			
 			StringBuffer uri = new StringBuffer("creative_assets/approve");
-			
 			String path = t1Service.constructURL(uri);
-			
 			TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
-			
 			Response responseObj = this.connection.post(path, formData, this.user);
 			String jsonResponse = responseObj.readEntity(String.class);
-			
 			T1JsonToObjParser parser = new T1JsonToObjParser();
 			JsonPostErrorResponse jsonPostErrorResponse = null;
-			
 			jsonPostErrorResponse = jsonPostErrorResponseParser(jsonResponse,responseObj);
 			
 			if (jsonPostErrorResponse == null) {
-				
 				parsedJsonResponse = parser.parseTOneASCreativeAssetsApproveResponse(jsonResponse);
 				/*if (parsedJsonResponse.getData() instanceof TOneASCreativeAssetsApproveResponse) {
 					response = (TOneASCreativeAssetsApproveResponse) parsedJsonResponse.getData();
 				}*/
-				
 			} else {
 				throwExceptions(jsonPostErrorResponse);
 			}
