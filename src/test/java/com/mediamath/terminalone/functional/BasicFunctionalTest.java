@@ -959,7 +959,7 @@ public class BasicFunctionalTest {
 	}
 	
 	@Test
-	public void testGetForStrategyChildBrowserWithMocks() throws ClientException {
+	public void testGetForStrategyChildBrowser() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
