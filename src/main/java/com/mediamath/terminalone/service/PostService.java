@@ -361,6 +361,8 @@ public class PostService {
 			if (entity.getId() > 0) {
 				uri.append("/");
 				uri.append(entity.getId());
+			}else{
+				throw new ClientException("Can not update Organization, ID not found!!");
 			}
 			
 			String path = t1Service.constructURL(uri);
