@@ -31,7 +31,6 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
@@ -68,10 +67,10 @@ public class Connection {
 	 * 
 	 * @param uri
 	 * @param data
-	 * @return
+	 * @return String
 	 * @throws ClientException 
 	 */
-	public String post(String url, Form data, T1Response userMap) throws ClientException {
+	public Response post(String url, Form data, T1Response userMap) throws ClientException {
 		
 		if (data == null) {
 			throw new ClientException("No Post Data");
@@ -111,63 +110,20 @@ public class Connection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return response.readEntity(String.class);
-	}
-	
-	public Response loginPost(String url, Form data, T1Response userMap) throws ClientException {
-
-		if (data == null) {
-			throw new ClientException("No Post Data");
-		}
-
-		Response response = null;
-		Client client = null;
-		HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
-
-		try {
-			
-			SSLContext sc = SSLContext.getInstance("SSL");
-			if (sc != null) {
-				TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-				sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			} else if (sc == null) {
-				// java 8 specific routine
-				sc = SSLContext.getDefault();
-			}
-
-			client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid).build();
-
-			logger.info("Target URL: " + url);
-
-			WebTarget webTarget = client.target(url);
-			Invocation.Builder invocationBuilder = webTarget.request(); // (MediaType.APPLICATION_JSON);
-			invocationBuilder.header("User-Agent", userAgent);
-			invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-			userSessionCheck(userMap, invocationBuilder);
-
-			response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//return response.readEntity(String.class);
 		return response;
 	}
-
+	
 	/**
-	 * Multipart post.
+	 * POST multipart data.
 	 * 
 	 * @param url
 	 * @param data
 	 * @param userMap
-	 * @return
+	 * @return String
 	 * @throws ClientException
 	 */
-	public String post(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
+	public Response post(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
 		if (data == null) {
 			throw new ClientException("No Post Data");
 		}
@@ -210,7 +166,8 @@ public class Connection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return response.readEntity(String.class);
+		//return response.readEntity(String.class);
+		return response;
 
 	}
 	
@@ -220,10 +177,10 @@ public class Connection {
 	 * @param url
 	 * @param data
 	 * @param userMap
-	 * @return
+	 * @return String
 	 * @throws ClientException
 	 */
-	public String post(String url, String data, T1Response userMap) throws ClientException {
+	public Response post(String url, String data, T1Response userMap) throws ClientException {
 		if (data == null) {
 			throw new ClientException("No Post Data");
 		}
@@ -266,16 +223,18 @@ public class Connection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return response.readEntity(String.class);
+		//return response.readEntity(String.class);
+		return response;
 	}
 	
 	
 	
-	/**handles GET requests
+	/**
+	 * handles GET requests
 	 * 
 	 * @param uri
 	 * @param userMap
-	 * @return
+	 * @return String
 	 */
 	public String get(String url, T1Response userMap) {
 		Response response = null;
@@ -313,97 +272,12 @@ public class Connection {
 		return response.readEntity(String.class);
 	}
 	
-	public String secureGet(String url, T1Response userMap) {
-		Response response = null;
-		Client client = null;
-		HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
-		try {
-			SSLContext sc = SSLContext.getInstance("SSL");
-			
-			if(sc != null) {
-				TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-				sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			} else if(sc == null) {
-				// java 8 specific routine
-				sc = SSLContext.getDefault();
-			}
-			
-			client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid).build();
-			WebTarget webTarget = client.target(url);
-			Invocation.Builder invocationBuilder = webTarget.request();
-			invocationBuilder.header("User-Agent", userAgent);
-			invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
-			
-			userSessionCheck(userMap, invocationBuilder);
-			
-			response = invocationBuilder.get();
-
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		catch (KeyManagementException e) {
-			e.printStackTrace();
-		}
-		
-		return response.readEntity(String.class);
-	}
-	
-	public String securePost(String url, FormDataMultiPart data, T1Response userMap) throws ClientException {
-		
-		if(data == null) {
-			throw new ClientException("No Post Data");
-		}
-		
-		Response response = null;
-		Client client = null;
-		HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
-
-		try {
-			SSLContext sc = SSLContext.getInstance("SSL");
-			if (sc != null) {
-				TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-				sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			} else if (sc == null) {
-				// java 8 specific routine
-				sc = SSLContext.getDefault();
-			}
-
-			client = ClientBuilder.newBuilder()
-						.sslContext(sc)
-						.hostnameVerifier(allHostsValid)
-						.register(MultiPartFeature.class)
-						.build();
-			
-			logger.info("Target URL: " + url);
-
-			WebTarget webTarget = client.target(url);
-			Invocation.Builder invocationBuilder = webTarget.request();
-			invocationBuilder.header("User-Agent", userAgent);
-			invocationBuilder.header("Accept","application/vnd.mediamath.v1+json");
-			
-			userSessionCheck(userMap, invocationBuilder);
-			response = invocationBuilder.post(Entity.entity(data,  data.getMediaType()));
-
-			
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return response.readEntity(String.class);
-
-	}
-	
-	
-	/**handles GET requests
+	/**
+	 * handles GET requests for Reports.
 	 * 
 	 * @param uri
 	 * @param userMap
-	 * @return
+	 * @return Response
 	 */
 	public Response getReportData(String url, T1Response userMap) {
 

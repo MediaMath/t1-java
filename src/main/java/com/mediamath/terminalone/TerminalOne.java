@@ -27,6 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
@@ -35,6 +38,8 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Data;
+import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
@@ -43,7 +48,6 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -69,19 +73,10 @@ import com.mediamath.terminalone.utils.T1JsonToObjParser;
  */
 public class TerminalOne {
 
-	/*
-	 * logger
-	 */
 	private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
-	/*
-	 * connection object
-	 */
 	public Connection connection = null;
 
-	/*
-	 * service object.
-	 */
 	private T1Service tOneService = null;
 	
 	private PostService postService = null;
@@ -95,14 +90,8 @@ public class TerminalOne {
 	 */
 	private T1Response user = null;
 
-	/*
-	 * is authenticated? 
-	 */
 	private boolean authenticated = false;
 	
-	/**
-	 * Default Constructor
-	 */
 	public TerminalOne() {
 		logger.info("Loading Environment - setting up connection.");
 		connection = new Connection();
@@ -123,7 +112,7 @@ public class TerminalOne {
 		logger.info("Loading Environment - Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, api_key);
 		String url = tOneService.constructURL(new StringBuffer("login"));
-		Response loginResponse = connection.loginPost(url, form, null);
+		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
 		
@@ -149,6 +138,7 @@ public class TerminalOne {
 	}
 
 	/**
+	 * 
 	 * @param username
 	 * @param password
 	 * @param api_key
@@ -167,7 +157,7 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * basic authentication method.
+	 * used to authenticate using given credentials.
 	 * 
 	 * @return boolean isauthenticated.
 	 */
@@ -180,7 +170,7 @@ public class TerminalOne {
 		Form form = tOneService.getLoginFormData(username, password, api_key);
 		String url = tOneService.constructURL(new StringBuffer("login"));
 
-		Response loginResponse = connection.loginPost(url, form, null);
+		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
 		
@@ -322,7 +312,7 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * saves the given campaign.
+	 * saves the given Campaign.
 	 * 
 	 * @param entity
 	 * @return
@@ -369,6 +359,17 @@ public class TerminalOne {
 		return atomicCreative;
 	}
 	
+	/**
+	 * 
+	 * saves 3pas creative upload file.
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 * @param name
+	 * @return
+	 * @throws ClientException
+	 * @throws IOException
+	 */
 	public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
 		ThreePASCreativeUpload response = null;
 		if(isAuthenticated()) {
@@ -378,7 +379,16 @@ public class TerminalOne {
 	}
 	
 
-
+	/**
+	 * 
+	 * this API call in the Bulk 3PAS process saves particular creatives out of a given batch to the T1 database.
+	 * 
+	 * @param batchApprove
+	 * @return
+	 * @throws ClientException
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public JsonResponse<? extends T1Entity> save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
 		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 		if(isAuthenticated()) {
@@ -387,6 +397,17 @@ public class TerminalOne {
 		return finalJsonResponse;
 	}
 	
+	/**
+	 * 
+	 * saves the upload to T1AS.
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 * @param name
+	 * @return
+	 * @throws ClientException
+	 * @throws IOException
+	 */
 	public TOneASCreativeAssetsUpload saveT1ASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {
 		TOneASCreativeAssetsUpload response = null;
 		if(isAuthenticated()) {
@@ -395,7 +416,13 @@ public class TerminalOne {
 		return response;
 	}
 	
-	
+	/**
+	 * Second T1AS API call, approves the upload done previously.
+	 * 
+	 * @param creativeAssetsApprove
+	 * @return
+	 * @throws ClientException
+	 */
 	public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
 		JsonResponse<? extends T1Entity> response = null;
 		if(isAuthenticated()) {
@@ -404,7 +431,14 @@ public class TerminalOne {
 		return response;
 	}
 	
-	
+	/**
+	 * 
+	 * first call to create a video creative.
+	 * 
+	 * @param videoCreative
+	 * @return VideoCreativeResponse
+	 * @throws ClientException
+	 */
 	public VideoCreativeResponse saveVideoCreatives(VideoCreative videoCreative) throws ClientException {
 		VideoCreativeResponse response = null;
 		if(isAuthenticated()) {
@@ -414,11 +448,12 @@ public class TerminalOne {
 	}
 	
 	/**
-	 * upload video creative.
+	 * second call to upload video creative media using the creativeId.
 	 * 
 	 * @param filePath
 	 * @param response
 	 * @throws ClientException 
+	 * @return VideoCreativeResponse
 	 */
 	public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName, String creativeId) throws ClientException {
 		VideoCreativeResponse response = null;
@@ -436,6 +471,13 @@ public class TerminalOne {
 		return response;
 	}
 	
+	/**
+	 * 
+	 * Check the status of the uploaded video creative.
+	 * 
+	 * @param creativeId
+	 * @return VideoCreativeUploadStatus
+	 */
 	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
 		VideoCreativeUploadStatus response = null;
 		if(isAuthenticated()) {
@@ -447,10 +489,12 @@ public class TerminalOne {
 	}
 	
 	/**
+	 * 
 	 * second call to get the upload token for video creative.
 	 * 
+	 * @deprecated
 	 * @param videoCreative
-	 * @return
+	 * @return VideoCreativeResponse
 	 * @throws ClientException
 	 * @throws ParseException 
 	 */
@@ -466,8 +510,8 @@ public class TerminalOne {
 	/**
 	 * Get.
 	 * 
-	 * @param query
-	 * @return
+	 * @param QueryCriteria
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
 	 */
@@ -481,8 +525,8 @@ public class TerminalOne {
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try{
-			jsonResponse = parseResponse(query, response);
-			jsonResponse = checkResponseEntities(jsonResponse);
+			jsonResponse = parseGetData(response,query);
+			//jsonResponse = checkResponseEntities(jsonResponse);
 		
 		} catch (ParseException e) {
 			
@@ -496,7 +540,7 @@ public class TerminalOne {
 	
 	
 	/**
-	 * GET Reports
+	 * GET meta of reports available.
 	 * 
 	 * @param query
 	 * @return
@@ -510,70 +554,61 @@ public class TerminalOne {
 		return jsonResponse;
 	}
 	
-	
+
+	/**
+	 * get meta data for a specific report.
+	 * @param report
+	 * @return MetaData
+	 */
 	public MetaData getReportsMeta(Reports report) {
-		
 		StringBuffer reportName = new StringBuffer(report.getReportNameWithMeta());
-		
-		//form url
 		String finalPath = tOneService.constructReportingURL(reportName);
-		
-		//get data
 		String response = this.connection.get(finalPath, this.getUser());
-		
-		// parse
 		MetaData metaResponse = reportService.parseReportMetaResponse(response);
-		
 		return metaResponse;
 	}
 	
 	
 	/**
-	 * App Transparency Report.
+	 * Get a specific report.
+	 * 
+	 * @param Reports
+	 * @param ReportCriteria
 	 * @throws IOException 
 	 * @throws ClientException 
 	 * @throws UnsupportedEncodingException 
 	 * 
 	 */
 	public void getReport(Reports report, ReportCriteria criteria) throws ClientException {
-		// form the path
 		criteria.setReportName(report.getReportName());
-		
 		StringBuffer path = null;
-		
 		path = reportService.getReportURI(criteria);
-		
 		String finalPath = tOneService.constructReportingURL(path);
-		
 		reportService.getReportData(report, finalPath, connection, user);
-		
 	}
 	
+	
+	/**
+	 * validates a given report.
+	 * 
+	 * @param report
+	 * @param criteria
+	 * @return ReportValidationResponse
+	 * @throws ClientException
+	 */
 	public ReportValidationResponse validateReport(Reports report, ReportCriteria criteria) throws ClientException {
-		
 		criteria.setReportName(report.getReportName() + "/validate");
-		
 		StringBuffer path = null;
-		
 		path = reportService.getReportURI(criteria);
-		
 		String finalPath = tOneService.constructReportingURL(path);
-		
 		ReportValidationResponse validationResponse = reportService.validateReportData(report, finalPath, connection, user);
-		
 		return validationResponse;
 	}
 
-
-	
-
-	private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
-		
+	/*private JsonResponse<? extends T1Entity> checkResponseEntities(JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
 		if(jsonResponse != null) {
 			StringBuffer strbuff = null;
-			
 			if(jsonResponse.getErrors() != null) {
-				
 				for(T1Error error: jsonResponse.getErrors()) {
 					if(error.getMessage() != null) {
 						if(strbuff == null){ 
@@ -589,8 +624,7 @@ public class TerminalOne {
 		}
 		// else return the object
 		return jsonResponse;
-	}
-
+	}*/
 
 	/**
 	 * parses the response to objects.
@@ -600,7 +634,7 @@ public class TerminalOne {
 	 * @return
 	 * @throws ParseException
 	 */
-	private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
+/*	private JsonResponse<? extends T1Entity> parseResponse(QueryCriteria query, String response) throws ParseException {
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		int result = parser.getJsonElementType(response);
 		Type JsonResponseType = null;
@@ -620,14 +654,83 @@ public class TerminalOne {
 			}
 		}
 		return jsonresponse;
+	}*/
+	
+	/**parses the response to objects.
+	 * 
+	 * @param response
+	 * @param query
+	 * @return
+	 * @throws ParseException
+	 * @throws ClientException
+	 */
+	private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response,  QueryCriteria query) throws ParseException, ClientException {
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+				// parse the string to gson objs
+				JsonResponse<? extends T1Entity>  finalJsonResponse= null;
+				JsonPostErrorResponse jsonPostErrorResponse = null;
+				
+				//check whether error present
+				jsonPostErrorResponse = postService.jsonPostErrorResponseParser(response);
+				//if no error
+				if(jsonPostErrorResponse==null)
+				{
+						JsonElement element = parser.getDataFromResponse(response);
+						if(element != null) {
+							if(element.isJsonArray()) {
+								// do something
+								JsonArray dataList = element.getAsJsonArray();
+								
+								String entityType; 
+								if(dataList.size() > 0) {
+									JsonElement data = dataList.get(0);
+									if(data != null) {
+										JsonObject dataObj = data.getAsJsonObject();
+										if(dataObj != null) {
+											JsonElement entityTypeElem = dataObj.get("entity_type");
+											if(entityTypeElem != null) {
+												entityType = entityTypeElem.getAsString();
+												if(entityType != null && !entityType.isEmpty()) {
+													if(Constants.getListoFEntityType.get(entityType) != null) {
+														finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
+													}
+												}
+											}
+										}
+									}
+								}
+								
+							} else if (element.isJsonObject()) {
+								JsonObject obj = element.getAsJsonObject();
+								JsonElement entityTypeElement = obj.get("entity_type");
+								String entityType =(entityTypeElement!=null) ? entityTypeElement.getAsString() : null;
+								if(entityType!=null && !entityType.equalsIgnoreCase("")){
+									finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
+								}else{
+									finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>(){}.getType());
+								}
+							}
+						} else if(element == null) {
+							if(query.collection != null) {
+								finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(query.collection.toLowerCase()));
+								if(finalJsonResponse != null) {
+									finalJsonResponse.setData(null);
+								}
+							}
+						}
+				}else{
+					postService.throwExceptions(jsonPostErrorResponse);
+				}
+				return finalJsonResponse;
 	}
+
 
 	
 	
 	/** Find method alternative to query of get
 	 * 
 	 * @param query
-	 * @return
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ParseException 
 	 * @throws ClientException 
 	 */
@@ -640,9 +743,10 @@ public class TerminalOne {
 	
 	
 	/**
-	 *  Delete Method for strategy day parts-> budget flight -> strategy-concepts
+	 * Delete Method for strategy day parts-> budget flight -> strategy-concepts
+	 * 
 	 * @param T - i.e. Entity with id and extra params if required
-	 * @return
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
 	 */
@@ -656,9 +760,11 @@ public class TerminalOne {
 
 
 	/**
-	 *  Delete Method for strategy day parts
+	 * <h1>Delete Method for Strategy Day Parts</h1>
+	 * 
+	 * 
 	 * @param T - i.e. Entity with id and extra params if required
-	 * @return
+	 * @return JsonResponse<? extends T1Entity>
 	 * @throws ClientException
 	 * @throws ParseException
 	 */
@@ -671,8 +777,10 @@ public class TerminalOne {
 	}
 
 
-	/*
-	 * getters and setters
+	/**
+	 * checks if the user is authenticated.
+	 * 
+	 * @return boolean
 	 */
 	public boolean isAuthenticated() {
 		return authenticated;

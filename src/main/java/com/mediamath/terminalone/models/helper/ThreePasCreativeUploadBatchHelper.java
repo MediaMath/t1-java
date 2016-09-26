@@ -19,16 +19,10 @@ import javax.ws.rs.core.Form;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
-import com.mediamath.terminalone.Exceptions.T1Exception;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchIndex;
 import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
+import com.mediamath.terminalone.models.ThreePASCreativeBatchIndex;
 
 public class ThreePasCreativeUploadBatchHelper {
-	
-	public static void validateRequiredFields(ThreePASCreativeBatchApprove entity) throws T1Exception {
-		
-		
-	}
 	
 	public static Form getForm(ThreePASCreativeBatchApprove entity) {
 		Form creativeBatchForm = new Form();

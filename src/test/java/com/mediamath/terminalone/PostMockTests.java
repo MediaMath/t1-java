@@ -88,34 +88,7 @@ public class PostMockTests {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testAdvertiserGettWithMocks() throws ClientException, ParseException {
-		
-		t1.setAuthenticated(true);
-		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("advertisers?null"));
-		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615}],"
-														+ "\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers"
-														+ "?page_offset=40&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=40\",\"etag\" : \"e2fae343fdc5b6aeb4f782c9ea31860c64ec47c9\","
-														+ "\"count\" : 1,\"called_on\" : \"2016-07-01T15:25:07+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 437}}");
-		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(1).build();
-		
-		JsonResponse<?> jsonresponse = null;
-		
-		try {
-			jsonresponse = t1.get(query);
-			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
-		} catch (ClientException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		assertNotNull(jsonresponse);
-		assertNotNull(jsonresponse.getData());
-		ArrayList<Advertiser> advertisers= ((ArrayList<Advertiser>) jsonresponse.getData());
-		assertEquals(165615, advertisers.get(0).getId());
-		assertNotNull(jsonresponse.getMeta());
-	}
+	
 	
 	@Test
 	public void testCampaignPostWithMocks() throws ClientException, java.text.ParseException {
@@ -208,9 +181,9 @@ public class PostMockTests {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
-		str.setStart_date("2016-05-13T21:42:29+0000");
+		//str.setStart_date("2016-05-13T21:42:29+0000");
 		str.setUse_campaign_end(false);
-		str.setEnd_date("2016-10-12T21:42:29+0000");
+	//	str.setEnd_date("2016-10-12T21:42:29+0000");
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);
 			str = t1.save(str);
@@ -258,7 +231,7 @@ public class PostMockTests {
 		
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
 		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
-		str.setDomain_restrictions(sdList);
+		str.setStrategy_domain_restrictions(sdList);
 		
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);

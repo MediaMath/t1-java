@@ -78,12 +78,6 @@ public class ReportService {
 
 	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	
-	/**
-	 * construct path for the requested report.
-	 * 
-	 * @param meta
-	 * @return
-	 */
 	public StringBuffer getMetaURI() {
 		StringBuffer path = new StringBuffer();
 		path.append(META);
@@ -490,7 +484,4 @@ public class ReportService {
 		}
 		
 	}
-
-	
-
 }

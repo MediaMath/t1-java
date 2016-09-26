@@ -51,11 +51,6 @@ public class T1Service {
 		this.reportingURL = configprop.getProperty("reportingURL");
 	}
 	
-	/**Construct Full URL by joining api_base, mgt_path and path created in TerminalOne Service
-	 * 
-	 * @param path
-	 * @return
-	 */
 	public String constructURL(StringBuffer path){
 		String url = api_base + path_mgmt + "/" + path.toString();
 		return url;
@@ -66,13 +61,6 @@ public class T1Service {
 		return url;
 	}
 	
-	/**Construct form data required for login purpose
-	 * 
-	 * @param username
-	 * @param password
-	 * @param api_key
-	 * @return
-	 */
 	public Form getLoginFormData(String username, String password, String api_key){
 		
 		Form form = new Form();

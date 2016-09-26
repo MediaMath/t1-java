@@ -20,13 +20,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
+import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
+import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -341,6 +346,225 @@ public class GetMockTests {
 		
 		assertNotNull(jsonresponse);
 	
+	}
+	
+	@Test
+	public void testGetWithFullBooleanWithMocks() throws ClientException, ParseException  {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("campaigns?sort_by=-updated_on&page_limit=1&full=*"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\" : [{\"use_mm_freq\" : false,\"spend_cap_type\" : \"no-limit\",\"zone_name\" : \"America/New_York\",\"frequency_interval\" : \"not-applicable\",\"updated_on\" : \"2016-07-20T06:28:04+0000\","
+				+"\"use_default_ad_server\" : false,\"initial_start_date\" : \"2016-07-20T06:28:07+0000\",\"restrict_targeting_to_deterministic_id\" : false,\"created_on\" : \"2016-07-20T06:28:04+0000\",\"id\" : 266952,"
+				+"\"total_budget\":[{\"currency_code\" : \"USD\",\"value\" : 100}],\"goal_alert\" : 0,\"service_type\" : \"SELF\",\"currency_code\" : \"USD\",\"ad_server_fee\":[{\"currency_code\" : \"USD\",\"value\" : 10.01}],"
+				+"\"has_custom_attribution\" : false,\"name\" : \"NitCamp 266952\",\"ad_server_id\" : 9,\"frequency_amount\" : 0,\"restrict_targeting_to_same_device_id\" : false,\"suspicious_traffic_filter_level\" : 25,"
+				+"\"end_date\" : \"2016-08-21T06:28:07+0000\",\"frequency_optimization\" : false,\"advertiser_id\" : 122631,\"conversion_variable_minutes\" : 1,\"minimize_multi_ads\" : false,\"status\" : false,\"goal_type\" : \"cpe\","
+				+"\"frequency_type\" : \"no-limit\",\"margin_pct\" : 0,\"dcs_data_is_campaign_level\" : false,\"impression_cap_type\" : \"no-limit\",\"goal_value\":[{\"currency_code\" : \"USD\",\"value\" : 100}],"
+				+"\"spend_cap_amount\" : [{\"currency_code\" : \"USD\",\"value\" : 10}],\"entity_type\" : \"campaign\",\"pc_window_minutes\" : 1,\"start_date\" : \"2016-07-20T06:28:07+0000\",\"override_suspicious_traffic_filter\" : false,"
+				+"\"spend_cap_enabled\" : false,\"version\" : 0,\"agency_fee_pct\" : 0,\"impression_cap_automatic\" : false,\"spend_cap_automatic\" : false,\"conversion_type\" : \"variable\",\"merit_pixel_id\" : 800781,\"pv_pct\" : 100}],"
+				+"\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/campaigns?page_offset=1&sort_by=-updated_on&full=*&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=1\",\"etag\" : \"cda36b62cea24758c4738e1bb8693f9eb344cbe2\","
+				+"\"count\" : 1,\"called_on\" : \"2016-09-12T09:26:11+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 2224}}");
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setFull(fpv).setSortBy("-updated_on").setPageLimit(1).build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+		ArrayList<Campaign> campaigns= ((ArrayList<Campaign>)jsonresponse.getData());
+	}
+	
+	@Test
+	public void testBaiscGetWithFullStringWithMocks() throws ClientException, ParseException  {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\" : [{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266952\",\"id\" : 266952},{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266857\",\"id\" : 266857},{\"entity_type\" : \"campaign\","
+				+"\"name\" : \"NitCamp 266851\",\"id\" : 266851},{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266850\",\"id\" : 266850},{\"entity_type\" : \"campaign\",\"name\" : \"campaign dupe\",\"id\" : 266846}],"
+				+"\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/campaigns?page_offset=10&sort_by=-updated_on&full=agency&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=10\","
+				+"\"etag\" : \"ae1576d736beea65fe66beb1c59a2d7aae27333a\",\"count\" : 10,\"called_on\" : \"2016-09-14T10:01:45+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 2224}}");
+		FullParamValues fpv = new FullParamValues();
+		fpv.setStrValue("agency");
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setFull(fpv)
+									.setSortBy("-updated_on")
+									.setPageLimit(10)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+		ArrayList<Campaign> campaigns= ((ArrayList<Campaign>)jsonresponse.getData());
+	}
+	
+	@Test
+	public void testBaiscGetWithFullListWithMocks() throws ClientException, ParseException  {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\": [{\"use_mm_freq\": false,\"spend_cap_type\": \"no-limit\",\"zone_name\": \"America/New_York\",\"frequency_interval\": \"not-applicable\",\"updated_on\": \"2016-09-19T07:53:07+0000\",\"use_default_ad_server\": false,"
+				+"\"initial_start_date\": \"2016-09-19T07:54:56+0000\",\"restrict_targeting_to_deterministic_id\": false,\"created_on\": \"2016-09-19T07:53:07+0000\",\"id\": 267886,\"total_budget\": [{\"currency_code\": \"USD\",\"value\": 100}],"
+				+"\"goal_alert\": 0,\"service_type\": \"SELF\",\"currency_code\": \"USD\",\"ad_server_fee\": [{\"currency_code\": \"USD\",\"value\": 10.01}],\"has_custom_attribution\": false,\"name\": \"NitCamp 267886\",\"ad_server_id\": 9,"
+				+"\"frequency_amount\": 0,\"restrict_targeting_to_same_device_id\": false,\"suspicious_traffic_filter_level\": 25,\"end_date\": \"2016-10-20T07:54:56+0000\",\"frequency_optimization\": false,\"advertiser_id\": 122631,"
+				+"\"conversion_variable_minutes\": 1,\"minimize_multi_ads\": false,\"status\": false,\"goal_type\": \"cpe\",\"frequency_type\": \"no-limit\",\"margin_pct\": 0,\"dcs_data_is_campaign_level\": false,\"impression_cap_type\": \"no-limit\","
+				+"\"goal_value\": [{\"currency_code\": \"USD\",\"value\": 100}],\"spend_cap_amount\": [{\"currency_code\": \"USD\",\"value\": 10}],\"entity_type\": \"campaign\",\"pc_window_minutes\": 1,\"start_date\": \"2016-09-19T07:54:56+0000\","
+				+"\"override_suspicious_traffic_filter\": false,\"spend_cap_enabled\": false,\"version\": 0,\"agency_fee_pct\": 0,\"impression_cap_automatic\": false,\"spend_cap_automatic\": false,\"conversion_type\": \"variable\","
+				+"\"merit_pixel_id\": 800781,\"pv_pct\": 100}],\"meta\": {\"next_page\": \"https://t1sandbox-origin.mediamath.com/api/v2.0/campaigns?page_offset=1&sort_by=-updated_on&full=campaign%2Cadvertiser&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=1\","
+				+"\"etag\": \"e25035a72158e56d83910320528a3614eb7ae489\",\"count\": 1,\"called_on\": \"2016-09-20T07:41:49+0000\",\"status\": \"ok\",\"offset\": 0,\"total_count\": 2225}}");
+		FullParamValues fpv = new FullParamValues();
+		List<String> newList = new ArrayList<String>();
+		newList.add("campaign");
+		newList.add("advertiser");
+		fpv.setListValue(newList);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setFull(fpv).setSortBy("-updated_on").setPageLimit(1).build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+		ArrayList<Campaign> campaigns= ((ArrayList<Campaign>)jsonresponse.getData());
+	}
+	
+	@Test
+	public void testGetWithChildByUsingQC() throws ClientException, ParseException {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("strategies/1377524/domain_restrictions?page_limit=1"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\" : {\"run_on_streaming\" : false,\"use_mm_freq\" : false, \"run_on_display\" : false,\"zone_name\" : \"America/New_York\",\"updated_on\" : \"2016-09-22T04:25:57+0000\",\"frequency_interval\" : \"day\",\"campaign_id\" : 267886,\"targeting_segment_exclude_op\" : \"OR\",\"created_on\" : \"2016-09-22T04:25:57+0000\",\"targeting_segment_include_op\" : \"OR\","
+				+"\"run_on_all_pmp\" : false,\"id\" : 1377524,\"impression_pacing_interval\" : \"day\",\"currency_code\" : \"USD\",\"use_campaign_start\" : false,\"name\" : \"ABC Advertisers\",\"frequency_amount\" : 10,\"end_date\" : \"2016-10-23T04:27:40+0000\",\"type\" : \"REM\",\"pixel_target_expr\" : \"\", \"impression_pacing_type\" : \"no-limit\",\"bid_price_is_media_only\" : false,"
+				+"\"frequency_optimization\" : false,\"supply_type\" : \"RTB\",\"strategy_domain_restrictions\" : [{\"strategy_id\" : 1377524,\"rel\" : \"strategy_domain_restrictions\",\"version\" : 0,\"name\" : \"Strategy Domain Restrictions #19556457\",\"updated_on\" : \"2016-09-22T10:24:40+0000\",\"domain\" : \"google.com\",\"created_at\" : \"2016-09-22T10:24:40+0000\",\"entity_type\" : \"strategy_domain_restriction\","
+				+"\"target_type\" : \"DOMAIN\",\"id\" : 19556457,\"restriction\" : \"INCLUDE\"},{\"strategy_id\" : 1377524,\"rel\" : \"strategy_domain_restrictions\",\"version\" : 0,\"name\" : \"Strategy Domain Restrictions #19556458\",\"updated_on\" : \"2016-09-22T10:24:40+0000\",\"domain\" : \"yahoo.com\",\"created_at\" : \"2016-09-22T10:24:40+0000\",\"entity_type\" : \"strategy_domain_restriction\",\"target_type\" : \"DOMAIN\","
+				+"\"id\" : 19556458,\"restriction\" : \"EXCLUDE\"}],\"pacing_type\" : \"even\",\"goal_type\" : \"spend\",\"frequency_type\" : \"asap\",\"status\" : false,\"budget\" : [{\"currency_code\" : \"USD\",\"value\" : 100.12}],\"effective_goal_value\" : [{\"currency_code\" : \"USD\",\"value\" : \"12.1200\"}],\"goal_value\" : [{\"currency_code\" : \"USD\",\"value\" : 12.12}],\"pacing_amount\" : [{\"currency_code\" : \"USD\",\"value\" : 10}],"
+				+"\"site_restriction_transparent_urls\" : false,\"media_type\" : \"DISPLAY\",\"entity_type\" : \"strategy\",\"start_date\" : \"2016-09-22T04:27:40+0000\",\"run_on_mobile\" : false,\"use_optimization\" : false,\"max_bid\" : [{\"currency_code\" : \"USD\",\"value\" : 10}],\"audience_segment_include_op\" : \"OR\",\"bid_aggressiveness\" : 50,\"version\" : 4,\"run_on_all_exchanges\" : false,"
+				+"\"audience_segment_exclude_op\" : \"OR\",\"site_selectiveness\" : \"REDUCED\",\"use_campaign_end\" : false,\"pacing_interval\" : \"day\"},\"meta\" : {\"etag\" : \"16db9fe4c3f1882061cd34551b2b473e71e75433\",\"called_on\" : \"2016-09-23T06:50:03+0000\",\"status\" : \"ok\"}}"
+					);
+		
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1377524)
+				.setChild("domain_restrictions")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Strategy strategy = (Strategy) jsonresponse.getData();
+		assertNotNull(strategy);
+		assertEquals(1377524, strategy.getId());
+		assertNotNull(strategy.getStrategy_domain_restrictions());
+	}
+	
+	public void testGetWithStrategyConceptUsingMocks() throws ClientException, ParseException {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("strategies/1376198/concepts"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\": [{\"advertiser_id\": 147142,\"created_on\": \"2016-05-12T18:22:16+0000\",\"status\": true,\"version\": 0,\"entity_type\": \"concept\",\"name\": \"this is me\",\"id\": 786680,\"updated_on\": \"2016-05-12T18:22:16+0000\"},"
+				+"\"meta\": {\"etag\": \"76a511898da9c214283e71f3ef78f172e6cbed78\",\"count\": 1,\"called_on\": \"2016-09-23T10:10:16+0000\",\"status\": \"ok\",\"offset\": 0,\"total_count\": 1}}");
+		
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("concepts")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		ArrayList<Concept> concept = (ArrayList<Concept>) jsonresponse.getData();
+		assertNotNull(concept);
+		assertNotNull(concept.get(0));
+	}
+	
+	public void testGetWithStrategyTotalSpendUsingMocks() throws ClientException, ParseException {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("strategies/1376198/total_spend"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\": {\"entity_type\": \"strategy\",\"name\": \"Sajeela Test Strategy 1 - fod\",\"aggregate\": {\"function\": \"sum\",\"value\": 0,\"name\": \"total_spend\"},\"id\": 1376198},"
+				+"\"meta\": {\"status\": \"ok\"}");
+		
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("concepts")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		ArrayList<Concept> concept = (ArrayList<Concept>) jsonresponse.getData();
+		assertNotNull(concept);
+		assertNotNull(concept.get(0));
+	}
+
+	public void testGetWithStrategyChildBrowserUsingMocks() throws ClientException, ParseException {
+		t1.setAuthenticated(true);
+		Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))) .thenReturn( new StringBuffer("strategies/1376198/target_dimensions/4"));
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1Response.class))).thenReturn("{\"data\": {\"enabled\": {\"active\": true}},\"meta\": {\"status\": \"ok\"}}");
+		
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("browser")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1Response.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Data data = (Data) jsonresponse.getData();
+		assertNotNull(data);
+		assertNotNull(data.enabled.getActive());
 	}
 	
 	

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -29,6 +30,7 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
@@ -171,7 +173,7 @@ public class BasicFunctionalTest {
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
 		str.setBudget(100.12f);
-		str.setCampaign_id(233131);
+		str.setCampaign_id(267881);
 		str.setFrequency_type(freq_type.asap);
 		str.setFrequency_amount(10);
 		str.setFrequency_interval(freq_int.day);
@@ -181,12 +183,23 @@ public class BasicFunctionalTest {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
-		str.setStart_date("2016-05-13T21:42:29+0000");
 		str.setUse_campaign_end(false);
-		str.setEnd_date("2016-10-12T21:42:29+0000");
+		
+	//	str.setStart_date("2016-09-22T21:42:29+0000");
+		
+	//	str.setEnd_date("2016-10-15T21:42:29+0000");
+		//				 2016-10-22T16:28:35+0530
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
+		
+		str.setEnd_date(endd);
+		
+		str.setStart_date(new Date());
+		
 		try{
 			str = jt1.save(str);
-			System.out.println(str);
 		}catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -199,7 +212,7 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
-		str.setId(1089192);	
+		str.setId(1377457);	
 		str.setAudience_segment_exclude_op(Strategy.aud_seg_exc.OR);
 		str.setAudience_segment_include_op(Strategy.aud_seg_inc.OR);
 		List<Segments> asList = new ArrayList<Segments>();
@@ -225,7 +238,7 @@ public class BasicFunctionalTest {
 		
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
 		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
-		str.setDomain_restrictions(sdList);
+		str.setStrategy_domain_restrictions(sdList);
 		
 		try{
 			str = jt1.save(str);
@@ -347,7 +360,7 @@ public class BasicFunctionalTest {
 		assertNotNull(jsonresponse);
 		advertiser =  (Advertiser) jsonresponse.getData();
 		assertNull (advertiser.getAgency());
-		assertNull (advertiser.getVertical_id());
+		assertNotNull (advertiser.getVertical_id());
 	}
 	
 	@Test
@@ -867,6 +880,107 @@ public class BasicFunctionalTest {
 		
 		assertNotNull(uploadResponse);
 		assertNotNull(uploadResponse.getStatus());
+	}
+	
+	@Test
+	public void testGetWithChildByUsingQC() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1377524)
+				.setChild("domain_restrictions")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Strategy strategy = (Strategy) jsonresponse.getData();
+		assertNotNull(strategy);
+		assertEquals(1377524, strategy.getId());
+		assertNotNull(strategy.getStrategy_domain_restrictions());
+		
+	}
+	
+	@Test
+	public void testGetForStrategyConceptsByUsingQC() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("concepts")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		ArrayList<Concept> concept = (ArrayList<Concept>) jsonresponse.getData();
+		assertNotNull(concept);
+		assertNotNull(concept.get(0));
+		
+	}
+	
+	@Test
+	public void testGetForStrategyTotalSpend() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("total_spend")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Strategy strategy = (Strategy) jsonresponse.getData();
+		assertNotNull(strategy);
+		assertNotNull(strategy.getAggregate());
+		
+	}
+	
+	@Test
+	public void testGetForStrategyChildBrowser() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("browser")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Data data = (Data) jsonresponse.getData();
+		assertNotNull(data);
+		assertNotNull(data.enabled.getActive());
+		
 	}
 	
 	

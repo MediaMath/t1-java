@@ -30,25 +30,6 @@ public class CampaignHelper  {
 	
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
-	public static void validateFields() throws T1Exception {
-/*		if (sales_contact_id < 0) {
-			throw new ValidationException("please enter a valid sales contact id");
-		}
-*/
-	}
-
-	public static void validateRequiredFields() throws T1Exception {
-/*		if (name == null || name.isEmpty()) {
-			throw new ValidationException("please enter a name for the agency");
-		} else if (name.length() > 64) {
-			throw new ValidationException("please make sure name does not exceed 64 characters.");
-		}
-		if (organization_id == 0 || organization_id <= 0) {
-			throw new ValidationException("please enter a valid organization id");
-		}*/
-		
-	}
-
 	public static Form getForm(Campaign entity) {
 
 		Form campaignForm = new Form();
