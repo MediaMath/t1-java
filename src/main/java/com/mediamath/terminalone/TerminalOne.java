@@ -376,15 +376,15 @@ public class TerminalOne {
 	 * saves 3pas creative upload file.
 	 * 
 	 * first call to upload the file.
-	 * 
-	 * example:
+	 * <br><br>
+	 * example:<br><br>
 	 *  <i>save3pasCreativeUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile" ,"samplefile");</i>
 	 * 
 	 * 
 	 * @param String filePath
 	 * @param String fileName
 	 * @param String name
-	 * @return
+	 * @return ThreePASCreativeUpload
 	 * @throws ClientException
 	 * @throws IOException
 	 */
@@ -422,8 +422,8 @@ public class TerminalOne {
 	 * saves upload to T1AS.
 	 * 
 	 * first call to upload the file.
-	 * 
-	 * example:
+	 * <br><br>
+	 * example: <br><br>
 	 *  <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile" ,"samplefile");</i>
 	 * 
 	 * @param  String filePath
@@ -474,10 +474,9 @@ public class TerminalOne {
 	/**
 	 * second call to upload video creative media using the creativeId.
 	 * 
-	 * @param  filePath
-	 * @param  fileName
+	 * @param  String filePath
+	 * @param  String fileName
 	 * @param  String creativeId
-	 * @param  response
 	 * @throws ClientException 
 	 * @return VideoCreativeResponse
 	 */
@@ -517,7 +516,7 @@ public class TerminalOne {
 	 * second call to get the upload token for video creative.
 	 * 
 	 * @deprecated
-	 * @param videoCreative
+	 * @param  VideoCreativeResponse
 	 * @return VideoCreativeResponse
 	 * @throws ClientException
 	 * @throws ParseException 
