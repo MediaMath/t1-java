@@ -46,7 +46,7 @@ Java SDK for MediaMath Platform APIs
 
 	The return type of the save method can be the same Type of Entity as passed into the argument OR it will be a null or in some special cases it will be `JsonResponse<? extends T1Entity>`
 
-	####Video Creatives
+-	####Video Creatives
 	
 	uploading a video creative is broken down into two steps.
 	- first call creates a video creative and it returns a creative id.
@@ -83,7 +83,7 @@ Java SDK for MediaMath Platform APIs
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
 
-	####3PAS Creative Upload
+-	####3PAS Creative Upload
 	the 3PAS creative upload is broken down into two steps as shown below.
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
@@ -111,11 +111,12 @@ Java SDK for MediaMath Platform APIs
 	the setBatchIndex method takes in 3 parametes: batch index, concept id, click url
 	the concept id and click_url are associated to the specific batch index.
 
-		batchApprove.setBatchIndex(pBatchIndex, concept, click_url)
+	>batchApprove.setBatchIndex(pBatchIndex, concept, click_url)
 	
 	the second call returns `JsonResponse<? extends T1Entity>`.
 
-	####T1AS Creative Upload
+
+-	####T1AS Creative Upload
 	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
@@ -146,4 +147,66 @@ Java SDK for MediaMath Platform APIs
 	
 		TOneASCreativeAssetsApprove.create(boolean is_https, String advertiserid, String landingPage, String click_url, String primary, String backup, String concept)
 
-	the second call returns the `JsonResponse<? extends T1Entity>` object in response which contans the appropriate status. 
+	the second call returns the `JsonResponse<? extends T1Entity>` object in response which contans the appropriate status.
+
+
+### Reporting
+
+The Reports API on TerminalOne Platform allows advertisers to access, query and aggregate reporting data
+	
+There are two types of requests that can be made against Reports API: requests for metadata information, and requests for data retrieval. All data retrieval requests are performed synchronously.
+
+- ####Get the meta data on number of the reports supported by the API
+
+		t1 = new TerminalOne(user, password, api_key);
+		JsonResponse<? extends T1Entity> jsonresponse = t1.getMeta();
+	
+	the above code snippets fetches all the supported reports information
+	it returns a Meta object containing all the meta data.
+
+- ####Get Individual Report Definition
+	
+	you can get meta data for each report as shown below.
+	
+		t1 = new TerminalOne(user, password, api_key);
+		MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
+
+	getReportsMeta takes in Reports enum; select a desired report from the enum
+
+	the method returns a MetaData object which contains meta data like dimension and metrics for the specified report. 
+
+- ####Get Report Data
+	retrieve report data as shown below.
+	> t1.getReport(Reports.PERFORMANCE, report);
+
+	this method takes in a Reports enum and a ReportCriteria criteria object.
+
+	the Report Criteria is used set the filters, dimensions and metrics parameters to query the reporting api, as shown below.
+	
+		ReportCriteria report = new ReportCriteria();
+		report.setDimension("advertiser_name");
+		report.setDimension("campaign_id");
+		report.setDimension("campaign_name");
+		report.setFilter("organization_id", "=", "100000");
+		report.setMetric("impressions");
+		report.setMetric("clicks");
+		report.setMetric("total_conversions");
+		report.setMetric("media_cost");
+		report.setMetric("total_spend");
+		report.setTime_rollup("by_day");
+ 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String stateDate = df.format(df.parse(dateInString));
+		String endDate = df.format(df.parse(endDateInString));
+		report.setStart_date(stateDate);
+		report.setEnd_date(endDate);
+
+	the start date and end date can be specified in the following formats.
+	- month - YYYY-MM
+	- day - YYYY-MM-DD
+	- hour - YYYY-MM-DDThh
+	- minute - YYYY-MM-DDThh:mi
+	- second - YYYY-MM-DDThh:mi:ss
+
+	the response is always a .csv file which is created at
+	`reports/performance_2016_09_27_11_12_02.csv`

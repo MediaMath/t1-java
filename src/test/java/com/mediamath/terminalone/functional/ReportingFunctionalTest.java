@@ -70,12 +70,8 @@ public class ReportingFunctionalTest {
 		try {
 			t1 = new TerminalOne(user, password, api_key);
 			assertEquals(true, t1.isAuthenticated());
-
-			JsonResponse<?> jsonresponse = null;
 			MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
-
 			assertNotNull(metaResponse);
-
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}
