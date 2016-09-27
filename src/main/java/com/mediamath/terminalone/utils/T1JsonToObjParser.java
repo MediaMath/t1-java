@@ -100,7 +100,6 @@ public class T1JsonToObjParser {
 	}
 
 	public ThreePASCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
-
 		ThreePASCreativeUpload response = null;
 		GsonBuilder builder = new GsonBuilder();
 		builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -118,7 +117,6 @@ public class T1JsonToObjParser {
 		Gson gson = builder.create();
 		response = gson.fromJson(jsonT1CAUesponse, TOneASCreativeAssetsUpload.class);
 		return response;
-
 	}
 
 	public JsonResponse<? extends T1Entity> parseTOneASCreativeAssetsApproveResponse(String pResponse) {
