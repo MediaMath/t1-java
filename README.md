@@ -46,7 +46,7 @@ Java SDK for MediaMath Platform APIs
 
 	The return type of the save method can be the same Type of Entity as passed into the argument OR it will be a null or in some special cases it will be `JsonResponse<? extends T1Entity>`
 
--	####Video Creatives
+- ####Video Creatives
 	
 	uploading a video creative is broken down into two steps.
 	- first call creates a video creative and it returns a creative id.
@@ -83,7 +83,7 @@ Java SDK for MediaMath Platform APIs
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
 
--	####3PAS Creative Upload
+- ####3PAS Creative Upload
 	the 3PAS creative upload is broken down into two steps as shown below.
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
@@ -116,7 +116,7 @@ Java SDK for MediaMath Platform APIs
 	the second call returns `JsonResponse<? extends T1Entity>`.
 
 
--	####T1AS Creative Upload
+- ####T1AS Creative Upload
 	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
