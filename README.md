@@ -23,6 +23,197 @@ Java SDK for MediaMath Platform APIs
 		TerminalOne one = new TerminalOne();
 	 	one.authenticate(username, password, key) 
 
+
+###Fetching Entities and Collections
+Using **get** method of TerminalOne we can fetch entities and collections.
+
+
+		TerminalOne one = new TerminalOne();
+		one.get(QueryCriteria query)	
+
+Returns: If single entity is specified, returns a single entity object. If multiple entities, generator yielding each entity.
+
+**QueryCriteria** class has parameters as below:
+
+ 		
+ - **collection**: T1 collection i.e. entity to fetch, like "advertisers","campaigns"
+ 
+ 		Example: query.setCollection("campaigns");
+ 
+-  **entity**: Integer ID of entity being retrieved from T1
+ 		
+ 		Example: query.setEntity(12312);
+ 
+-  **child**: Child object of a particular entity, e.g. "dma", "acl","margins"
+ 
+ 		Example: query.setChild("browser");
+ 
+-  **sortBy:** sort order. Default "id". e.g. "-id", "name"
+ 
+ 
+ 		Example: query.setSortBy("id"); //ascending
+ 				 query.setSortBy("-id"); //descending
+ 
+-  **parent:** Integer ID of entity. When set, it returns entities with this parent id.
+ 		
+ 		Example: query.setParent(Long.valueOf(111555)); //requires long value
+ 
+ 
+-  **limit:** to query the entity. Its a Map of name-value pair of size 1.
+
+		Example: Map<String, Long> limitMap = new HashMap<String, Long>();
+				 limitMap.put("agency", Long.valueOf(111555));
+				 query.setLimit(limitMap);
+ 
+ 
+-  **full:** When retrieving multiple entities, specifies which types to return     the full record. It can accept values as boolean(true/false), String or List of Strings.
+
+		Example: 1. As Boolean
+				 	query.setFull(new FullParamValues().setBoolValue(true));
+			
+				 2. As String 
+					query.setFull(new FullParamValues().setStrValue("agency"))
+
+				 3. As List of Strings
+					List<String> fullList = new ArrayList<String>();
+					fullList.add("campaign");
+					fullList.add("advertiser");
+					query.setFull(new FullParamValues().setListValue(fullList))
+
+- **pageLimit** and **pageOffset**:  handles pagination. 
+ 
+ 	*pageLimit* specifies how many entities to return at a time, default and max of 100.
+
+	*pageOffset* specifies which entity to start at for that page.
+
+
+		Example: query.setPageLimit(10);
+				 query.setPageLimit(10).setPageOffset(200);
+
+- **getAll:** Boolean(true/false) whether to retrieve all results for a query or just a single page. Mutually exclusive with pageLimit/pageOffset.
+
+		Example:query.setGetAll(true);
+
+-  **include:** String/List of relations to include in query.
+
+		Example: 1. As String
+					query.setInclude(new ConditionQuery("agency"));	
+				 2. As List of lateral (non-hierarchical) relations
+				    query.setInclude(new ConditionQuery("agency","organization"));
+				 3.As List of list/strings of hierarchical relations
+					query.setInclude(new ConditionQuery("ad_server"))
+						 .setInclude(new ConditionQuery("vertical"))
+-  **query:** String search parameters. Invoked by **`find`**. 
+		
+		Example: query.setQuery("agency_id%3E=109308");
+
+
+We can use different combinations of these parameters to extract expected result. Here are some complete examples.
+
+		    TerminalOne one = new TerminalOne();
+    
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")		//collection
+    								.setEntity(154161)		//entity
+    								.build();			
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")
+    								.setEntity(154161)
+    								.setInclude(new ConditionQuery("agency", "organization"))  		
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")
+    								.setPageLimit(40)		//pageLimit
+    								.setPageOffset(100)		//pageOffset
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		Map<String, Long> limitList = new HashMap<String, Long>();
+    		limitList.put("agency", Long.valueOf(111555));
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")		 
+    								.setLimit(limitList)		//limit
+    								.setGetAll(true)		//getAll
+    								.setSortBy("-updated_on")
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("strategies")
+    								.setEntity(1376198)
+    								.setChild("browser")
+    								.setPageLimit(1)
+    								.build();
+     
+    
+### Searching for entities
+Limiting entities by relation ID is one way to limit entities, but we can also search with more intricate queries using **`find`**:
+
+		TerminalOne one = new TerminalOne();
+		one.find(QueryCriteria query);
+
+Here QueryCriteria has 3 parameters
+
+1. queryParamName: String query parameter name
+2. queryOperator: arithmetic operator like < > = !=. 
+		
+	It handled by Fileters object constants-
+
+	- IN
+	- NULL
+	- NOT_NULL
+	- EQUALS
+	- NOT_EQUALS
+	- GREATER
+	- GREATER_OR_EQUAL
+	- LESS
+	- LESS_OR_EQUAL
+	- CASE_INS_STRING
+
+3. queryParams : values to pass to queryParameter. It can be Boolean, String, 					Number or any List
+
+		Example: 1. queryParam As Number   
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParamName("agency_id")
+									.setQueryOperator(Filters.GREATER_OR_EQUAL)
+									.setQueryParams(new QueryParamValues(109308))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+				2. queryParam as String
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParamName("name")
+									.setQueryOperator(Filters.EQUALS)
+									.setQueryParams(new QueryParamValues("Retirement"))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+				3. queryParam as List, to be used as IN query
+				//form list
+				List<Object> inQueryParams = new ArrayList<Object>();
+				inQueryParams.add(154121);
+				inQueryParams.add(153226);
+				inQueryParams.add(150994);
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParams(new QueryParamValues("name"))
+									.setQueryOperator(Filters.IN)
+									.setQueryParams(new QueryParamValues(inQueryParams))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+*TerminalOne.find(QueryCriteria q)* method can be used as a helper method to *TerminalOne.get(QueryCriteria q)* method and all get related QueryCriteria parameters can be used along with find() parameters. 
+
+
 ### How to Post
 	 
 -	you need to import the Entities from the package `com.mediamath.terminalone.models.*;`
