@@ -23,9 +23,200 @@ Java SDK for MediaMath Platform APIs
 		TerminalOne one = new TerminalOne();
 	 	one.authenticate(username, password, key) 
 
+
+###Fetching Entities and Collections
+Using **get** method of TerminalOne we can fetch entities and collections.
+
+
+		TerminalOne one = new TerminalOne();
+		one.get(QueryCriteria query)	
+
+Returns: If single entity is specified, returns a single entity object. If multiple entities, generator yielding each entity.
+
+**QueryCriteria** class has parameters as below:
+
+ 		
+ - **collection**: T1 collection i.e. entity to fetch, like "advertisers","campaigns"
+ 
+ 		Example: query.setCollection("campaigns");
+ 
+-  **entity**: Integer ID of entity being retrieved from T1
+ 		
+ 		Example: query.setEntity(12312);
+ 
+-  **child**: Child object of a particular entity, e.g. "dma", "acl","margins"
+ 
+ 		Example: query.setChild("browser");
+ 
+-  **sortBy:** sort order. Default "id". e.g. "-id", "name"
+ 
+ 
+ 		Example: query.setSortBy("id"); //ascending
+ 				 query.setSortBy("-id"); //descending
+ 
+-  **parent:** Integer ID of entity. When set, it returns entities with this parent id.
+ 		
+ 		Example: query.setParent(Long.valueOf(111555)); //requires long value
+ 
+ 
+-  **limit:** to query the entity. Its a Map of name-value pair of size 1.
+
+		Example: Map<String, Long> limitMap = new HashMap<String, Long>();
+				 limitMap.put("agency", Long.valueOf(111555));
+				 query.setLimit(limitMap);
+ 
+ 
+-  **full:** When retrieving multiple entities, specifies which types to return     the full record. It can accept values as boolean(true/false), String or List of Strings.
+
+		Example: 1. As Boolean
+				 	query.setFull(new FullParamValues().setBoolValue(true));
+			
+				 2. As String 
+					query.setFull(new FullParamValues().setStrValue("agency"))
+
+				 3. As List of Strings
+					List<String> fullList = new ArrayList<String>();
+					fullList.add("campaign");
+					fullList.add("advertiser");
+					query.setFull(new FullParamValues().setListValue(fullList))
+
+- **pageLimit** and **pageOffset**:  handles pagination. 
+ 
+ 	*pageLimit* specifies how many entities to return at a time, default and max of 100.
+
+	*pageOffset* specifies which entity to start at for that page.
+
+
+		Example: query.setPageLimit(10);
+				 query.setPageLimit(10).setPageOffset(200);
+
+- **getAll:** Boolean(true/false) whether to retrieve all results for a query or just a single page. Mutually exclusive with pageLimit/pageOffset.
+
+		Example:query.setGetAll(true);
+
+-  **include:** String/List of relations to include in query.
+
+		Example: 1. As String
+					query.setInclude(new ConditionQuery("agency"));	
+				 2. As List of lateral (non-hierarchical) relations
+				    query.setInclude(new ConditionQuery("agency","organization"));
+				 3.As List of list/strings of hierarchical relations
+					query.setInclude(new ConditionQuery("ad_server"))
+						 .setInclude(new ConditionQuery("vertical"))
+-  **query:** String search parameters. Invoked by **`find`**. 
+		
+		Example: query.setQuery("agency_id%3E=109308");
+
+
+We can use different combinations of these parameters to extract expected result. Here are some complete examples.
+
+		    TerminalOne one = new TerminalOne();
+    
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")		//collection
+    								.setEntity(154161)		//entity
+    								.build();			
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")
+    								.setEntity(154161)
+    								.setInclude(new ConditionQuery("agency", "organization"))  		
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")
+    								.setPageLimit(40)		//pageLimit
+    								.setPageOffset(100)		//pageOffset
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		Map<String, Long> limitList = new HashMap<String, Long>();
+    		limitList.put("agency", Long.valueOf(111555));
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("advertisers")		 
+    								.setLimit(limitList)		//limit
+    								.setGetAll(true)		//getAll
+    								.setSortBy("-updated_on")
+    								.build();
+    		JsonResponse<?> jsonresponse = one.get(query);
+    		------------------------------------------------------------
+    		QueryCriteria query = QueryCriteria.builder()
+    								.setCollection("strategies")
+    								.setEntity(1376198)
+    								.setChild("browser")
+    								.setPageLimit(1)
+    								.build();
+     
+    
+### Searching for entities
+Limiting entities by relation ID is one way to limit entities, but we can also search with more intricate queries using **`find`**:
+
+		TerminalOne one = new TerminalOne();
+		one.find(QueryCriteria query);
+
+Here QueryCriteria has 3 parameters
+
+1. queryParamName: String query parameter name
+2. queryOperator: arithmetic operator like < > = !=. 
+		
+	It handled by Fileters object constants-
+
+	- IN
+	- NULL
+	- NOT_NULL
+	- EQUALS
+	- NOT_EQUALS
+	- GREATER
+	- GREATER_OR_EQUAL
+	- LESS
+	- LESS_OR_EQUAL
+	- CASE_INS_STRING
+
+3. queryParams : values to pass to queryParameter. It can be Boolean, String, 					Number or any List
+
+		Example: 1. queryParam As Number   
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParamName("agency_id")
+									.setQueryOperator(Filters.GREATER_OR_EQUAL)
+									.setQueryParams(new QueryParamValues(109308))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+				2. queryParam as String
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParamName("name")
+									.setQueryOperator(Filters.EQUALS)
+									.setQueryParams(new QueryParamValues("Retirement"))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+				3. queryParam as List, to be used as IN query
+				//form list
+				List<Object> inQueryParams = new ArrayList<Object>();
+				inQueryParams.add(154121);
+				inQueryParams.add(153226);
+				inQueryParams.add(150994);
+				QueryCriteria query = QueryCriteria.builder()
+									.setCollection("advertisers")
+									.setQueryParams(new QueryParamValues("name"))
+									.setQueryOperator(Filters.IN)
+									.setQueryParams(new QueryParamValues(inQueryParams))
+									.setPageLimit(100)
+									.build();
+				JsonResponse<?> jsonresponse = one.find(query);
+
+*TerminalOne.find(QueryCriteria q)* method can be used as a helper method to *TerminalOne.get(QueryCriteria q)* method and all get related QueryCriteria parameters can be used along with find() parameters. 
+
+
 ### How to Post
 	 
--	You need to import the Entities from the package `com.mediamath.terminalone.models.*;`
+-	you need to import the Entities from the package `com.mediamath.terminalone.models.*;`
 
 	######Example
 		
@@ -48,11 +239,11 @@ Java SDK for MediaMath Platform APIs
 
 - ####Video Creatives
 	
-	Uploading a video creative is broken down into two steps.
+	uploading a video creative is broken down into two steps.
 	- first call creates a video creative and it returns a creative id.
 	- second call uploads the file using the creative id received from the first step.
 
-	First call requires a `VideoCreative` entity as an input param.
+	first call requires a `VideoCreative` entity as an input param.
 
 	#######Example
 
@@ -70,21 +261,21 @@ Java SDK for MediaMath Platform APIs
 		VideoCreativeResponse videoCreativeResponse = t1.saveVideoCreatives(videoCreative);
   
 
-	The second call requires the creative id received from the step above. this will return a new `VideoCreativeResponse` with appropriate status.
+	the second call requires the creative id received from the step above. this will return a new `VideoCreativeResponse` with appropriate status.
 	
 		String filePath = "C:\\dir1\\subdir1\\file1234.flv";
 		String fileName = "file1234.flv";
 		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, videoCreativeResponse.getCreativeId());
 	
 	
-	You can also check the upload status by calling 
+	you can also check the upload status by calling 
 		
 		VideoCreativeUploadStatus uploadStatus = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
 
 - ####3PAS Creative Upload
-	The 3PAS creative upload is broken down into two steps as shown below.
+	the 3PAS creative upload is broken down into two steps as shown below.
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
@@ -103,11 +294,11 @@ Java SDK for MediaMath Platform APIs
 		
 		JsonResponse<? extends T1Entity> finalJsonResponse = t1.save3pasCreativeUploadBatch(batchApprove);
 
-	The first step is responsible to upload the creative to 3PAS 
+	the first step is responsible to upload the creative to 3PAS 
 	it takes in filePath, fileName, and a Name parameter as its inputs
 	and returns a `ThreePASCreativeUpload` response.
 
-	The second call takes in `ThreePASCreativeBatchApprove` as its input parameter
+	the second call takes in `ThreePASCreativeBatchApprove` as its input parameter
 	the setBatchIndex method takes in 3 parametes: batch index, concept id, click url
 	the concept id and click_url are associated to the specific batch index.
 
@@ -117,7 +308,7 @@ Java SDK for MediaMath Platform APIs
 
 
 - ####T1AS Creative Upload
-	The T1AS Creative upload is done in 2 steps
+	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
 	#######Example
@@ -140,14 +331,14 @@ Java SDK for MediaMath Platform APIs
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 
 
-	The first call to save T1AS Creative Assets uploads the file and returns the `TOneASCreativeAssetsApprove` obj in response.
+	the first call to save T1AS Creative Assets uploads the file and returns the `TOneASCreativeAssetsApprove` obj in response.
 
-	The second call to T1AS requires a `TOneASCreativeAssetsApprove`
+	the second call to T1AS requires a `TOneASCreativeAssetsApprove`
 	whose create method requires the following parameters
 	
 		TOneASCreativeAssetsApprove.create(boolean is_https, String advertiserid, String landingPage, String click_url, String primary, String backup, String concept)
 
-	The second call returns the `JsonResponse<? extends T1Entity>` object in response which contans the appropriate status.
+	the second call returns the `JsonResponse<? extends T1Entity>` object in response which contans the appropriate status.
 
 
 ### Reporting
@@ -161,27 +352,27 @@ There are two types of requests that can be made against Reports API: requests f
 		t1 = new TerminalOne(user, password, api_key);
 		JsonResponse<? extends T1Entity> jsonresponse = t1.getMeta();
 	
-	The above code snippets fetches all the supported reports information
+	the above code snippets fetches all the supported reports information
 	it returns a Meta object containing all the meta data.
 
 - ####Get Individual Report Definition
 	
-	You can get meta data for each report as shown below.
+	you can get meta data for each report as shown below.
 	
 		t1 = new TerminalOne(user, password, api_key);
 		MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
 
 	getReportsMeta takes in Reports enum; select a desired report from the enum
 
-	The method returns a MetaData object which contains meta data like dimension and metrics for the specified report. 
+	the method returns a MetaData object which contains meta data like dimension and metrics for the specified report. 
 
 - ####Get Report Data
-	Retrieve report data as shown below.
+	retrieve report data as shown below.
 	> t1.getReport(Reports.PERFORMANCE, report);
 
-	This method takes in a Reports enum and a ReportCriteria criteria object.
+	this method takes in a Reports enum and a ReportCriteria criteria object.
 
-	The Report Criteria is used set the filters, dimensions and metrics parameters to query the reporting api, as shown below.
+	the Report Criteria is used set the filters, dimensions and metrics parameters to query the reporting api, as shown below.
 	
 		ReportCriteria report = new ReportCriteria();
 		report.setDimension("advertiser_name");
@@ -201,12 +392,12 @@ There are two types of requests that can be made against Reports API: requests f
 		report.setStart_date(stateDate);
 		report.setEnd_date(endDate);
 
-	The start date and end date can be specified in the following formats.
+	the start date and end date can be specified in the following formats.
 	- month - YYYY-MM
 	- day - YYYY-MM-DD
 	- hour - YYYY-MM-DDThh
 	- minute - YYYY-MM-DDThh:mi
 	- second - YYYY-MM-DDThh:mi:ss
 
-	The response is always a .csv file which is created at
+	the response is always a .csv file which is created at
 	`reports/performance_2016_09_27_11_12_02.csv`
