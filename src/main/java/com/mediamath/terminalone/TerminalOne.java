@@ -291,6 +291,21 @@ public class TerminalOne {
 	}
 	
 	/**
+	 * 
+	 * @param StrategyDayPart
+	 * @return StrategyDayPart
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
+		StrategyDayPart strategy = null;
+		if(isAuthenticated()) {
+			strategy = postService.save(entity);
+		}
+		return strategy;
+	}
+	
+	/**
 	 * saves Organization.
 	 * 
 	 * @return Organization
