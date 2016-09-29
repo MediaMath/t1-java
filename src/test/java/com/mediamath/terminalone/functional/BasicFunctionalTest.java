@@ -26,21 +26,25 @@ import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
+import com.mediamath.terminalone.models.AdServer;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.CreativeApproval;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
+import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freq_int;
 import com.mediamath.terminalone.models.Strategy.freq_type;
 import com.mediamath.terminalone.models.Strategy.goal_type;
 import com.mediamath.terminalone.models.Strategy.type;
+import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
@@ -1229,7 +1233,7 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
-				.setEntity(1376198)
+				.setEntity(1377457)
 				.setChild("audience_segments")
 				.setPageLimit(1)
 				.build();
@@ -1244,10 +1248,34 @@ public class BasicFunctionalTest {
 		}
 		
 		assertNotNull(jsonresponse);
-		Data data = (Data) jsonresponse.getData();
+		List<StrategyAudienceSegment> data = (List<StrategyAudienceSegment>) jsonresponse.getData();
 		assertNotNull(data);
-		assertTrue(data.enabled.getActive()=="true");
 
+	}
+	
+	@Test
+	public void testGetForStrategyChildDayParts() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("day_parts")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<StrategyDayPart> day_parts = (List<StrategyDayPart>) jsonresponse.getData();
+		assertNotNull(day_parts);
+		assertTrue(day_parts.size() >0);
 	}
 	
 	@Test
@@ -1297,6 +1325,29 @@ public class BasicFunctionalTest {
 	}
 	
 	@Test
+	public void testGetForPixelBundles() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("pixel_bundles")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<Pixel> pixel_bundles = (List<Pixel>) jsonresponse.getData();
+		assertNotNull(pixel_bundles);
+		assertTrue(pixel_bundles.size() >0);
+	}
+	
+	@Test
 	public void testGetForStrategySupplySources() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		Map<String, Long> limitList = new HashMap<String, Long>();
@@ -1320,6 +1371,125 @@ public class BasicFunctionalTest {
 		List<StrategySupplySource> strategy_supply_sources = (List<StrategySupplySource>) jsonresponse.getData();
 		assertNotNull(strategy_supply_sources);
 		assertTrue(strategy_supply_sources.size() >0);
+	}
+	
+	@Test
+	public void testGetForConcepts() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("concepts")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<Concept> concepts = (List<Concept>) jsonresponse.getData();
+		assertNotNull(concepts);
+		assertTrue(concepts.size() >0);
+	}
+	
+	@Test
+	public void testGetForAtomicCreatives() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("atomic_creatives")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<AtomicCreative> atomic_creatives = (List<AtomicCreative>) jsonresponse.getData();
+		assertNotNull(atomic_creatives);
+		assertTrue(atomic_creatives.size() >0);
+	}
+	
+	@Test
+	public void testGetForAtomicCreativesWithCreativeApprovals() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("atomic_creatives")
+				.setInclude(new ConditionQuery("creative_approvals"))
+				.setEntity(2691868)
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		AtomicCreative atomic_creative = (AtomicCreative) jsonresponse.getData();
+		assertNotNull(atomic_creative);
+		assertNotNull(atomic_creative.getCreative_approvals());
+	}
+	
+	@Test
+	public void testGetCreativeApprovalsAsChild() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("atomic_creatives")
+				.setEntity(2691868)
+				.setChild("creative_approvals")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<CreativeApproval> creatoveApproval = (List<CreativeApproval>) jsonresponse.getData();
+		assertNotNull(creatoveApproval);
+		assertTrue(creatoveApproval.size()>0);
+	}
+	
+	@Test
+	public void testGetForAdservers() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("ad_servers")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<AdServer> adservers = (List<AdServer>) jsonresponse.getData();
+		assertNotNull(adservers);
+		assertTrue(adservers.size() >0);
 	}
 	
 	
