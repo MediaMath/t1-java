@@ -291,6 +291,21 @@ public class TerminalOne {
 	}
 	
 	/**
+	 * 
+	 * @param StrategyDayPart
+	 * @return StrategyDayPart
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
+		StrategyDayPart strategy = null;
+		if(isAuthenticated()) {
+			strategy = postService.save(entity);
+		}
+		return strategy;
+	}
+	
+	/**
 	 * saves Organization.
 	 * 
 	 * @return Organization
@@ -696,7 +711,7 @@ public class TerminalOne {
 				JsonPostErrorResponse jsonPostErrorResponse = null;
 				
 				//check whether error present
-				jsonPostErrorResponse = postService.jsonPostErrorResponseParser(response);
+				jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
 				//if no error
 				if(jsonPostErrorResponse==null)
 				{
@@ -723,7 +738,11 @@ public class TerminalOne {
 											}
 										}
 									}
-								}
+								}else {
+							         if(query.collection != null) {
+							             finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+							            }
+							    }
 								
 							} else if (element.isJsonObject()) {
 								JsonObject obj = element.getAsJsonObject();

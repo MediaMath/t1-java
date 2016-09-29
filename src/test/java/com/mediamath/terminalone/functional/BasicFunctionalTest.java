@@ -47,6 +47,7 @@ import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
+import com.mediamath.terminalone.models.StrategyDayPart.daysEnum;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
@@ -335,6 +336,27 @@ public class BasicFunctionalTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testStrategyDayParts() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		
+		StrategyDayPart strategyDayPart = new StrategyDayPart();
+		
+		strategyDayPart.setDays(daysEnum.W);
+		strategyDayPart.setEnd_hour(15);
+		strategyDayPart.setStart_hour(10);
+		strategyDayPart.setStrategy_id(1368325);
+		strategyDayPart.setUser_time(true);
+		strategyDayPart.setVersion(1);
+		
+		try {
+			strategyDayPart = jt1.save(strategyDayPart);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Test

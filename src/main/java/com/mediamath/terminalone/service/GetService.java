@@ -15,17 +15,35 @@
  ******************************************************************************/
 package com.mediamath.terminalone.service;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.ws.rs.core.Response;
+
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.Exceptions.ClientException;
 import com.mediamath.terminalone.Exceptions.ParseException;
+import com.mediamath.terminalone.models.JsonPostErrorResponse;
+import com.mediamath.terminalone.models.T1Error;
+import com.mediamath.terminalone.models.T1Meta;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.Filters;
 
 public class GetService {
+	
+	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 	
 	public StringBuffer get(QueryCriteria query) throws ClientException, ParseException {
 		
@@ -281,4 +299,77 @@ public class GetService {
 		return pagePath;
 	}
 
+	public JsonPostErrorResponse jsonGetErrorResponseParser(String responseStr) {
+		JsonParser parser1 = new JsonParser();
+		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
+		
+		JsonElement errorsElement = obj.get("errors");
+		JsonElement errorElement = obj.get("error");
+		JsonElement metaElement = obj.get("meta");
+		
+		JsonPostErrorResponse errorResponse = null;
+		
+		if(errorsElement != null || errorElement != null) {
+			errorResponse = new JsonPostErrorResponse();
+			GsonBuilder builder = new GsonBuilder();
+			builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
+			builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+			
+			Gson g = builder.create();
+
+			if (errorsElement != null) {
+				if (errorsElement.isJsonNull()) {
+
+				} else if (errorsElement.isJsonObject()) {
+					T1Error errors = g.fromJson(errorsElement, T1Error.class);
+					// specific to video creatives
+					if(errors != null 
+							&& errors.getContent() == null 
+							&& errors.getField() == null 
+							&& errors.getFieldError() == null 
+							&& errors.getMessage() == null) {
+						
+						GsonBuilder videoBuilder = new GsonBuilder();
+						videoBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+						videoBuilder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+						
+						Gson vidgson = videoBuilder.create();
+
+						errors = vidgson.fromJson(errorsElement, T1Error.class);
+					}
+					errorResponse.setErrors(errors);
+				} else if (errorsElement.isJsonArray()) {
+					JsonArray array = errorsElement.getAsJsonArray();
+					JsonArray newArray = new JsonArray();
+					
+					for(int i = 0; i < array.size(); i++) {
+						if(!(array.get(i) instanceof JsonPrimitive)) {
+							newArray.add(array.get(i));
+							
+						}
+					}
+					if(newArray.size() > 0) {
+						errorsElement = newArray;
+						Type t =  new TypeToken<ArrayList<T1Error>>(){}.getType();
+						List<T1Error> errors = g.fromJson(errorsElement, t);
+						errorResponse.setErrors(errors);
+					}
+				}
+			}
+
+			if (errorElement != null) {
+				T1Error error = g.fromJson(errorElement, T1Error.class);
+				errorResponse.setError(error);
+			}
+
+			if(metaElement != null) {
+				T1Meta meta = g.fromJson(metaElement, T1Meta.class);
+				errorResponse.setMeta(meta);	
+			}
+		}
+		
+		return errorResponse;
+	}
+	
+	
 }

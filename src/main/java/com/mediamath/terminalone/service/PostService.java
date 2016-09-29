@@ -74,6 +74,7 @@ import com.mediamath.terminalone.models.helper.ConceptHelper;
 import com.mediamath.terminalone.models.helper.OrganizationHelper;
 import com.mediamath.terminalone.models.helper.PixelHelper;
 import com.mediamath.terminalone.models.helper.StrategyConceptHelper;
+import com.mediamath.terminalone.models.helper.StrategyDayPartHelper;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
@@ -347,6 +348,44 @@ public class PostService {
 			
 		}
 		return strategySupplySource;
+	}
+	
+	public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
+
+		StrategyDayPart strategyDayPart = null;
+		
+		if(entity != null) {
+			
+			JsonResponse<? extends T1Entity>  finalJsonResponse = null;
+
+			StringBuffer uri = getURI(entity);
+			
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			String path = t1Service.constructURL(uri);
+
+			Response responseObj = this.connection.post(path, StrategyDayPartHelper.getForm(entity), this.user);
+			String response = responseObj.readEntity(String.class);
+			T1JsonToObjParser parser = new T1JsonToObjParser();
+
+			if(!response.isEmpty()) {
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response,responseObj);
+				if(error == null) {
+					finalJsonResponse = parsePostData(response, parser, entity);
+					if(finalJsonResponse != null && finalJsonResponse.getData() != null) {
+						strategyDayPart = (StrategyDayPart) finalJsonResponse.getData();
+					}
+				} else {
+					throwExceptions(error);
+				}
+			}
+			
+			
+		}
+		return strategyDayPart;
 	}
 	
 	public Organization save(Organization entity) throws ClientException, ParseException {
@@ -903,7 +942,7 @@ public class PostService {
 			}
 
 			if(metaElement != null) {
-				if(responseObj.getStatus() == 403) {
+				if(responseObj!=null && responseObj.getStatus() == 403) {
 					T1Meta meta = g.fromJson(metaElement, T1Meta.class);
 					errorResponse.setMeta(meta);	
 				} 
