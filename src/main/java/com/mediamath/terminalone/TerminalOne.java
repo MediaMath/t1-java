@@ -696,7 +696,7 @@ public class TerminalOne {
 				JsonPostErrorResponse jsonPostErrorResponse = null;
 				
 				//check whether error present
-				jsonPostErrorResponse = postService.jsonPostErrorResponseParser(response);
+				jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
 				//if no error
 				if(jsonPostErrorResponse==null)
 				{
@@ -723,7 +723,11 @@ public class TerminalOne {
 											}
 										}
 									}
-								}
+								}else {
+							         if(query.collection != null) {
+							             finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+							            }
+							    }
 								
 							} else if (element.isJsonObject()) {
 								JsonObject obj = element.getAsJsonObject();

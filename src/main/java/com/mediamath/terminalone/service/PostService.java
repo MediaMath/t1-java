@@ -903,7 +903,7 @@ public class PostService {
 			}
 
 			if(metaElement != null) {
-				if(responseObj.getStatus() == 403) {
+				if(responseObj!=null && responseObj.getStatus() == 403) {
 					T1Meta meta = g.fromJson(metaElement, T1Meta.class);
 					errorResponse.setMeta(meta);	
 				} 
