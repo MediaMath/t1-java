@@ -69,16 +69,22 @@ Returns: If single entity is specified, returns a single entity object. If multi
 -  **full:** When retrieving multiple entities, specifies which types to return     the full record. It can accept values as boolean(true/false), String or List of Strings.
 
 		Example: 1. As Boolean
-				 	query.setFull(new FullParamValues().setBoolValue(true));
+					FullParamValues fullParamvalue = new FullParamValues();
+					fullParamvalue.setBoolValue(true);	
+				 	query.setFull(fullParamvalue);
 			
-				 2. As String 
+				 2. As String
+				 	FullParamValues fullParamvalue = new FullParamValues();
+					fullParamvalue.setStrValue("agency"); 
 					query.setFull(new FullParamValues().setStrValue("agency"))
 
 				 3. As List of Strings
 					List<String> fullList = new ArrayList<String>();
 					fullList.add("campaign");
 					fullList.add("advertiser");
-					query.setFull(new FullParamValues().setListValue(fullList))
+					FullParamValues fullParamvalue = new FullParamValues();
+					fullParamvalue.setListValue(fullList)
+					query.setFull(fullParamvalue)
 
 - **pageLimit** and **pageOffset**:  handles pagination. 
  
