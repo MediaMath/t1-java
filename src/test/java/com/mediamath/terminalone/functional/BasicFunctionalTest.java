@@ -29,6 +29,7 @@ import com.mediamath.terminalone.Exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Data;
@@ -44,6 +45,8 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -97,7 +100,7 @@ public class BasicFunctionalTest {
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Agency agency = new Agency();
-		agency.setName("Nitesh6");
+		agency.setName("TestAgency");
 		agency.setOrganization_id(100048);
 		try {
 			agency = t1.save(agency);
@@ -106,6 +109,25 @@ public class BasicFunctionalTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("agencies")
+									.setEntity(agency.getId())
+									.setGetAll(true)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Agency agencyCreated = (Agency)jsonresponse.getData();
+		assertEquals("TestAgency", agencyCreated.getName());
+		assertEquals(100048, agencyCreated.getOrganization_id());
+		
 	}
 	
 	@Test
@@ -113,7 +135,7 @@ public class BasicFunctionalTest {
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		Campaign camp = new Campaign();
-		camp.setName("NitCamp");
+		camp.setName("TestCamp");
 		camp.setAd_server_fee(10.01, null);
 		camp.setAd_server_id(9);
 		camp.setAdvertiser_id(122631);
@@ -146,6 +168,26 @@ public class BasicFunctionalTest {
 			e.printStackTrace();
 		}
 		
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("campaigns")
+									.setEntity(camp.getId())
+									.setGetAll(true)
+									.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Campaign campaignCreated = (Campaign)jsonresponse.getData();
+		assertEquals("TestCamp", campaignCreated.getName());
+		assertEquals(122631, campaignCreated.getAdvertiser_id());
+		assertEquals(Campaign.goal_types.cpe, campaignCreated.getGoal_type());
+		assertEquals(Campaign.serv_types.SELF, campaignCreated.getService_type());
+		assertEquals(800781, campaignCreated.getMerit_pixel_id());	
 	}
 	
 	
@@ -157,7 +199,7 @@ public class BasicFunctionalTest {
 		adv.setAd_server_id(9);
 		adv.setAgency_id(109308);
 		adv.setDomain("http://www.advertiser.com");
-		adv.setName("ABC Advertisers");
+		adv.setName("TestAdvertiser");
 		adv.setVertical_id(11);
 		try{
 			adv = jt1.save(adv);
@@ -165,6 +207,25 @@ public class BasicFunctionalTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("advertisers")
+				.setEntity(adv.getId())
+				.setGetAll(true)
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Advertiser advertiserCreated = (Advertiser)jsonresponse.getData();
+		assertEquals("TestAdvertiser", advertiserCreated.getName());
+		assertEquals(109308, advertiserCreated.getAgency_id());
+		assertEquals(9, advertiserCreated.getAd_server_id());
+		assertEquals(11, advertiserCreated.getVertical_id());
 	}
 	
 	@Test
@@ -172,7 +233,7 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
-		str.setName("ABC Advertisers");
+		str.setName("TestStrategy");
 		str.setBudget(100.12f);
 		str.setCampaign_id(267881);
 		str.setFrequency_type(freq_type.asap);
@@ -184,6 +245,7 @@ public class BasicFunctionalTest {
 		str.setPacing_amount(10f);
 		str.setType(type.REM);
 		str.setUse_campaign_start(false);
+		str.setStart_date(new Date());
 		str.setUse_campaign_end(false);
 		
 	//	str.setStart_date("2016-09-22T21:42:29+0000");
@@ -196,20 +258,40 @@ public class BasicFunctionalTest {
 		Date endd = cal.getTime();
 		
 		str.setEnd_date(endd);
-		
-		str.setStart_date(new Date());
-		
+				
 		try{
 			str = jt1.save(str);
 		}catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(str.getId())
+				.setGetAll(true)
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Strategy strategyCreated = (Strategy)jsonresponse.getData();
+		assertEquals("TestStrategy", strategyCreated.getName());
+		assertEquals(267881, strategyCreated.getCampaign_id());
+		assertEquals(goal_type.spend, strategyCreated.getGoal_type());
+		assertEquals(type.REM,strategyCreated.getType());
+		assertEquals(freq_type.asap, strategyCreated.getFrequency_type());
+		assertEquals(freq_int.day, strategyCreated.getFrequency_interval());
 	}
 	
 	
 	@Test
-	public void testStrategyAudioSegmentsPost() throws ClientException {
+	public void testStrategyAudienceSegmentsPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
 		Strategy str = new Strategy();
@@ -227,6 +309,8 @@ public class BasicFunctionalTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		List<Segments> audienceSeg = str.getAudience_segments();
+		System.out.println(audienceSeg.get(0).getId());
 	}
 	
 	@Test
@@ -258,7 +342,7 @@ public class BasicFunctionalTest {
 		ArrayList<String> listOrgType = new ArrayList<String>();
 		listOrgType.add("buyer");
 		org.setOrg_type(listOrgType);
-		org.setName("ABC Advertisers");
+		org.setName("TestOrg");
 		org.setAddress_1("First Lane, New York");
 		org.setCity("New York");
 		org.setState("NY");
@@ -267,6 +351,7 @@ public class BasicFunctionalTest {
 		org.setCountry("US");
 		org.setMm_contact_name("Mark");
 		org.setPhone("408 345 7758");
+		org.setVersion(120);
 		
 		try{
 			org = jt1.save(org);
@@ -274,6 +359,24 @@ public class BasicFunctionalTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("organizations")
+									.setEntity(100048)
+									.build();
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Organization orgCreated = (Organization) jsonresponse.getData();
+		assertEquals(100048, orgCreated.getId());
+		assertEquals("TestOrg", orgCreated.getName());
 	}
 	
 	@Test
@@ -1017,7 +1120,7 @@ public class BasicFunctionalTest {
 		assertNotNull(strategy);
 		assertEquals(1377524, strategy.getId());
 		assertNotNull(strategy.getStrategy_domain_restrictions());
-		
+		assertEquals(2, strategy.getStrategy_domain_restrictions().size());
 	}
 	
 	@Test
@@ -1067,6 +1170,31 @@ public class BasicFunctionalTest {
 		Strategy strategy = (Strategy) jsonresponse.getData();
 		assertNotNull(strategy);
 		assertNotNull(strategy.getAggregate());
+	}
+		
+	@Test
+	public void testStrategyGetWithConcepts() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		
+		QueryCriteria query = QueryCriteria.builder()
+									.setCollection("strategies")
+									.setEntity(1377388)
+									.setInclude(new ConditionQuery("concepts"))
+									.build();
+		
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Strategy strategy = (Strategy) jsonresponse.getData();
+		assertNotNull(strategy);
+		assertNotNull(strategy.getConcepts());
 		
 	}
 	
@@ -1081,6 +1209,7 @@ public class BasicFunctionalTest {
 				.build();
 
 		JsonResponse<?> jsonresponse = null;
+		
 		try {
 			jsonresponse = jt1.get(query);
 		} catch (ClientException | ParseException e) {
@@ -1091,8 +1220,106 @@ public class BasicFunctionalTest {
 		assertNotNull(jsonresponse);
 		Data data = (Data) jsonresponse.getData();
 		assertNotNull(data);
-		assertNotNull(data.enabled.getActive());
+		assertTrue(data.enabled.getActive()=="true");
+
+	}
+	
+	@Test
+	public void testGetForStrategyChildAudienceSegments() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategies")
+				.setEntity(1376198)
+				.setChild("audience_segments")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
 		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		Data data = (Data) jsonresponse.getData();
+		assertNotNull(data);
+		assertTrue(data.enabled.getActive()=="true");
+
+	}
+	
+	@Test
+	public void testGetForSupplySources() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("supply_sources")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<SupplySource> supply_sources = (List<SupplySource>) jsonresponse.getData();
+		assertNotNull(supply_sources);
+		assertTrue(supply_sources.size() >0);
+	}
+	
+	@Test
+	public void testGetForAudienceSegments() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("audience_segments")
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<AudienceSegment> audience_segments = (List<AudienceSegment>) jsonresponse.getData();
+		assertNotNull(audience_segments);
+		assertTrue(audience_segments.size() >0);
+	}
+	
+	@Test
+	public void testGetForStrategySupplySources() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("strategy", Long.valueOf(1376337));
+		QueryCriteria query = QueryCriteria.builder()
+				.setCollection("strategy_supply_sources")
+				.setLimit(limitList)
+				.setPageLimit(1)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(jsonresponse);
+		List<StrategySupplySource> strategy_supply_sources = (List<StrategySupplySource>) jsonresponse.getData();
+		assertNotNull(strategy_supply_sources);
+		assertTrue(strategy_supply_sources.size() >0);
 	}
 	
 	
