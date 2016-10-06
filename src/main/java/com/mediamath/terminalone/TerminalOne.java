@@ -67,6 +67,16 @@ import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
+import org.apache.oltu.oauth2.client.OAuthClient;
+import org.apache.oltu.oauth2.client.URLConnectionClient;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.client.response.GitHubTokenResponse;
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.common.message.types.ResponseType;
+
 /**
  * handles the authentication, session, entity
  * retrieval, creation etc.
@@ -131,7 +141,7 @@ public class TerminalOne {
 		}
 		
 	}
-
+	
 	private void parseLoginError(Response response) throws ClientException {
 		if(response.getStatus() == 403) {
 			logger.error("Authentication Failed: please provide valid credentials for the given environment");
@@ -151,7 +161,7 @@ public class TerminalOne {
 	private void validateLoginCredentials(String username, String password, String api_key) throws ClientException {
 		if(api_key == null || api_key.isEmpty()) {
 			logger.error("Environment does not exist");
-			throw new ClientException("Please Provide Valid Enviornment");
+			throw new ClientException("Please Provide Valid API Key");
 		}
 		
 		if(username.isEmpty() || password.isEmpty()) {
@@ -191,6 +201,63 @@ public class TerminalOne {
 		}
 		
 		return isAuthenticated();
+	}
+	
+	public String getAuthorizationUrl(String redirect_uri, String api_key) throws ClientException{
+		String oauth_authorization_url = tOneService.constructOauthUrl(new StringBuffer("authorize"));
+		OAuthClientRequest request = null;
+		try{
+			request = OAuthClientRequest
+			   .authorizationLocation(oauth_authorization_url)
+			   .setClientId(api_key)
+			   .setRedirectURI(redirect_uri)
+			   .setResponseType(ResponseType.CODE.toString())
+			   .buildQueryMessage();
+		}catch(OAuthSystemException e){
+			throw new ClientException("Unable to get OAuth authorization URL: "+e.getMessage());
+		}
+		return request.getLocationUri();
+	}
+	
+	public OAuthJSONAccessTokenResponse getOauthToken(String code, String api_key, String secret, String redirect_uri) throws ClientException{
+		String oauth_token_url = tOneService.constructOauthUrl(new StringBuffer("token"));
+		try{
+			OAuthClientRequest request = OAuthClientRequest
+                .tokenLocation(oauth_token_url)
+                .setGrantType(GrantType.AUTHORIZATION_CODE)
+                .setClientId(api_key)
+                .setClientSecret(secret)
+                .setRedirectURI(redirect_uri)
+                .setCode(code)
+                .buildQueryMessage();
+			OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+			OAuthJSONAccessTokenResponse oAuthResponse = oAuthClient.accessToken(request, OAuthJSONAccessTokenResponse.class);
+			return oAuthResponse;
+		}catch(OAuthSystemException e){
+			throw new ClientException("Unable to get OAuth token: "+e.getMessage());
+		}catch(OAuthProblemException e){
+			throw new ClientException("Unable to get OAuth token: "+e.getMessage());
+		}
+	}
+	
+	public OAuthJSONAccessTokenResponse refreshOauthToken(String refresh_token, String api_key, String secret) throws ClientException{
+		String oauth_token_url = tOneService.constructOauthUrl(new StringBuffer("token"));
+		try{
+			OAuthClientRequest request = OAuthClientRequest
+                .tokenLocation(oauth_token_url)
+                .setGrantType(GrantType.REFRESH_TOKEN)
+                .setClientId(api_key)
+                .setClientSecret(secret)
+                .setRefreshToken(refresh_token)
+                .buildQueryMessage();
+			OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+			OAuthJSONAccessTokenResponse oAuthResponse = oAuthClient.accessToken(request, OAuthJSONAccessTokenResponse.class);
+			return oAuthResponse;
+		}catch(OAuthSystemException e){
+			throw new ClientException("Unable to refresh OAuth token: "+e.getMessage());
+		}catch(OAuthProblemException e){
+			throw new ClientException("Unable to refresh OAuth token: "+e.getMessage());
+		}
 	}
 
 	/**
