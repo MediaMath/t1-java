@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
+import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -60,6 +62,7 @@ import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.models.helper.OAuthTokenResponse;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -78,6 +81,10 @@ public class BasicFunctionalTest {
 	
 	private static String production_key = null;
 	
+	private static String oauth_key = null;
+	
+	private static String oauth_secret = null;
+	
 	@BeforeClass
 	public static void init() throws Exception{
 		InputStream input = BasicFunctionalTest.class.getClassLoader().getResourceAsStream("test.properties");
@@ -86,6 +93,8 @@ public class BasicFunctionalTest {
 		password = testConfig.getProperty("password");
 		api_key = testConfig.getProperty("sandbox_api_key");
 		production_key = testConfig.getProperty("production_api_key");
+		oauth_key = testConfig.getProperty("oauth_api_key");
+		oauth_secret = testConfig.getProperty("oauth_secret");
 	}
 	
 	@After
@@ -99,6 +108,41 @@ public class BasicFunctionalTest {
 		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#","e34f74vnubr9uxasz2n7bdfv");
 		assertEquals(true, t1.isAuthenticated());
 	}
+	
+	@Test
+	public void testOAuthHGetAuthorizationUrl() throws ClientException {
+		TerminalOne t1 = new TerminalOne();
+		String authorizationUrl = t1.getAuthorizationUrl("https://blog.mediamath.com/", oauth_key);
+		String expectedAuthorizationUrl = "https://api.mediamath.com/oauth2/v1.0/authorize";
+		System.out.println("Auth URL:"+authorizationUrl);
+		assertTrue(authorizationUrl.contains(expectedAuthorizationUrl));
+	}
+	
+	/* Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL */
+	@Test
+	public void testOAuthHGetToken() throws ClientException {
+		TerminalOne t1 = new TerminalOne();
+		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("khxg27pd2wbva3vm4278vqmy", oauth_key, oauth_secret, "https://blog.mediamath.com/");
+		assertNotNull(oauthResponse);
+	}
+	
+	/* Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL */
+	@Test
+	public void testOAuthHRefreshToken() throws ClientException {
+		TerminalOne t1 = new TerminalOne();
+		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("yfdwzubxjghhaxjsh7hb3u8v", oauth_key, oauth_secret, "https://blog.mediamath.com/");
+		assertNotNull(oauthResponse);
+		String refreshToken = oauthResponse.getRefreshToken();
+		String accessToken = oauthResponse.getAccessToken();
+		Long expiresIn = oauthResponse.getExpiresIn();
+		OAuthJSONAccessTokenResponse refreshOauthTokenResponse = t1.refreshOauthToken(refreshToken, oauth_key, oauth_secret);
+		assertNotNull(refreshOauthTokenResponse);
+		String accessTokenAfterRefresh = refreshOauthTokenResponse.getAccessToken();
+		Long expiresInAfterRefresh= refreshOauthTokenResponse.getExpiresIn();
+		assertFalse(accessToken.equals(accessTokenAfterRefresh));
+		
+	}
+	
 	
 	@Test
 	public void testAgencyPost() throws ClientException {
