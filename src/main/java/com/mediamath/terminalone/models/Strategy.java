@@ -102,6 +102,8 @@ public class Strategy implements T1Entity {
 	private pac_type pacing_type;
 	private ArrayList<Currency> roi_target = new ArrayList<Currency>();
 	private String pixel_target_expr;
+	private ArrayList<Integer> includePixels = new ArrayList<Integer>();
+	private ArrayList<Integer> excludePixels = new ArrayList<Integer>();
 	private boolean run_on_all_exchanges;
 	private boolean run_on_all_pmp;
 	private boolean run_on_display;
@@ -568,6 +570,30 @@ public class Strategy implements T1Entity {
 
 	public void setAggregate(Aggregate aggregate) {
 		this.aggregate = aggregate;
+	}
+
+	public ArrayList<Integer> getIncludePixels() {
+		return includePixels;
+	}
+
+	public void setIncludePixels(ArrayList<Integer> includePixels) {
+		this.includePixels = includePixels;
+	}
+	
+	public void setIncludePixels(Integer pixelId) {
+		this.includePixels.add(pixelId);
+	}
+
+	public ArrayList<Integer> getExcludePixels() {
+		return excludePixels;
+	}
+
+	public void setExcludePixels(ArrayList<Integer> excludePixels) {
+		this.excludePixels = excludePixels;
+	}
+	
+	public void setExcludePixels(Integer pixelId) {
+		this.excludePixels.add(pixelId);
 	}
 	
 	

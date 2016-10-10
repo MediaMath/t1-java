@@ -237,11 +237,49 @@ public class StrategyHelper {
 				strategyForm.param("pacing_interval", String.valueOf(entity.getPacing_interval()));
 			}
 			if(entity.getPacing_type()!=null){
-			strategyForm.param("pacing_type", String.valueOf(entity.getPacing_type()));
+				strategyForm.param("pacing_type", String.valueOf(entity.getPacing_type()));
 			}
 			
-			if(entity.getPixel_target_expr()!=null){
-				strategyForm.param("pixel_target_expr", String.valueOf(entity.getPixel_target_expr()));
+			
+			StringBuffer pixelTargetExpression = new StringBuffer();
+			StringBuffer includePixels = new StringBuffer();
+			StringBuffer excludePixels = new StringBuffer();
+			
+			if(entity.getIncludePixels() != null && entity.getIncludePixels().size() > 0) {
+				includePixels.append("(");
+				int size = entity.getIncludePixels().size() - 1;
+				for(Integer i: entity.getIncludePixels()) {
+					if(size != 0) {
+						includePixels.append("[" + String.valueOf(i) + "] AND ");
+						size --;
+					} else {
+						includePixels.append("[" + String.valueOf(i) + "]");
+					}
+				}
+				includePixels.append(")");
+				pixelTargetExpression.append(includePixels.toString());
+			}
+			
+			if(entity.getExcludePixels() != null && entity.getExcludePixels().size() > 0) {
+				excludePixels.append("(");
+				int size = entity.getExcludePixels().size() - 1;
+				for(Integer i: entity.getExcludePixels()) {
+					if(size != 0) {
+						excludePixels.append("[" + String.valueOf(i) + "] OR ");
+						size --;
+					} else {
+						excludePixels.append("[" + String.valueOf(i) + "]");
+					}
+				}
+				excludePixels.append(")");
+				
+				if(pixelTargetExpression.length() > 0 ) {
+					pixelTargetExpression.append(" AND NOT " + excludePixels.toString());
+				}
+			}
+			
+			if(pixelTargetExpression.length() > 0) {
+				strategyForm.param("pixel_target_expr", pixelTargetExpression.toString());
 			}
 			
 			if(entity.getRoi_target() != null && entity.getRoi_target().size() > 0 && entity.getRoi_target().get(0).getValue() > 0){

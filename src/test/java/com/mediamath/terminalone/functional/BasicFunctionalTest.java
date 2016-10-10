@@ -271,6 +271,36 @@ public class BasicFunctionalTest {
 	}
 	
 	@Test
+	public void testPixelTargetingToStrategy() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		
+		Strategy str = new Strategy();
+		str.setId(1089192);
+		
+		//include
+		str.setIncludePixels(154481);
+		str.setIncludePixels(153998);
+		str.setIncludePixels(153980);
+		str.setIncludePixels(153558);
+		
+		//exclude
+		str.setExcludePixels(153443);
+		str.setExcludePixels(153442);
+		str.setExcludePixels(153125);
+		str.setExcludePixels(153124);
+		str.setExcludePixels(152996);
+		
+		try {
+			jt1.save(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
 	public void testOrganizationPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password,api_key);
 		
