@@ -40,6 +40,7 @@ public class T1Service {
 	private String path_mgmt = null;
 	private String videoCreativeURL = null;
 	private String reportingURL = null;
+	private String oauthURL = null;
 
 	/**
 	 * constructor
@@ -49,6 +50,7 @@ public class T1Service {
 		this.path_mgmt = configprop.getProperty("path_mgmt");
 		this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
 		this.reportingURL = configprop.getProperty("reportingURL");
+		this.oauthURL = configprop.getProperty("oauthURL");
 	}
 	
 	public String constructURL(StringBuffer path){
@@ -58,6 +60,11 @@ public class T1Service {
 	
 	public String constructReportingURL(StringBuffer path) {
 		String url = api_base + reportingURL + "/" + path.toString();
+		return url;
+	}
+	
+	public String constructOauthUrl(StringBuffer path) {
+		String url = api_base + oauthURL + "/" + path.toString();
 		return url;
 	}
 	
