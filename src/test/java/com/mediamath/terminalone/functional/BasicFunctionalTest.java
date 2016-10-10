@@ -26,8 +26,8 @@ import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.TerminalOne;
-import com.mediamath.terminalone.Exceptions.ClientException;
-import com.mediamath.terminalone.Exceptions.ParseException;
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.AdServer;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;

@@ -31,7 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.mediamath.terminalone.Exceptions.ParseException;
+import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;

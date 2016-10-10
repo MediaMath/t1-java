@@ -36,7 +36,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mediamath.terminalone.Exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.utils.Utility;
 

@@ -13,29 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
+
+package com.mediamath.terminalone.exceptions;
 
 public class InvalidLoginException extends T1Exception {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private String credentials;
-	
-	private String code;
-	
-	private String message;
-		
-	public InvalidLoginException(String code, String message, String credentials) {
-		super(code, message);
-		this.code = code;
-		this.message = message;
-		this.credentials = credentials;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Invalid Login Exception: " + this.code + ": " + this.message + ", " + this.credentials;
-	}
+  private String credentials;
+
+  private String code;
+
+  private String message;
+
+
+  /**
+   * Constructor for Invalid Login Exceptions 
+   * @param code indicates the the error code.
+   * @param message the error message string. 
+   * @param credentials the credentials used.
+   */
+  public InvalidLoginException(String code, String message, String credentials) {
+    super(code, message);
+    this.code = code;
+    this.message = message;
+    this.credentials = credentials;
+  }
+
+  @Override
+  public String toString() {
+    return "Invalid Login Exception: " + this.code + ": " + this.message + ", " + this.credentials;
+  }
 
 }

@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
 
-public class ValidationException extends T1Exception {
+package com.mediamath.terminalone.exceptions;
 
-	private static final long serialVersionUID = 1L;
+public class ParseException extends T1Exception {
 
-	public ValidationException(String message) {
-		super(message);
-	}
-	
-	
+  private static final long serialVersionUID = 1L;
+
+  private String message;
+
+  public ParseException(String message) {
+    super(message);
+  }
+
+  public ParseException(Exception exception) {
+    super(exception);
+  }
+
+  @Override
+  public String toString() {
+    return "Parse Exception: " + message;
+  }
+
 }

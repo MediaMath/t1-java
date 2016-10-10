@@ -47,7 +47,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.ReportCriteria;
-import com.mediamath.terminalone.Exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Response;

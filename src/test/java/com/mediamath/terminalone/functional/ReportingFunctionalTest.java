@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.TerminalOne;
-import com.mediamath.terminalone.Exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
