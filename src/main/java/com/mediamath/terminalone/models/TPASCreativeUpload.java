@@ -13,20 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+public class TPASCreativeUpload implements T1Entity {
+  private static final String entityName = "TPASCreativeUpload";
 
-public class ThreePASCreativePlacementInvalid {
+  TPASCreativeBatch batch;
 
-	ArrayList<ThreePASCreativeBatchPlacement> placement;
+  public TPASCreativeBatch getBatch() {
+    return batch;
+  }
 
-	public ArrayList<ThreePASCreativeBatchPlacement> getPlacement() {
-		return placement;
-	}
+  public void setBatch(TPASCreativeBatch batch) {
+    this.batch = batch;
+  }
 
-	public void setPlacement(ArrayList<ThreePASCreativeBatchPlacement> placement) {
-		this.placement = placement;
-	}
-	
+  @Override
+  public String getEntityname() {
+    return entityName;
+  }
+
 }

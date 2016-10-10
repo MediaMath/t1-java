@@ -13,28 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+package com.mediamath.terminalone.models;
 
-import javax.net.ssl.X509TrustManager;
+import java.util.ArrayList;
 
-public class InsecureTrustManager implements X509TrustManager {
+public class TPASCreativePlacementValid {
 
-	@Override
-	public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+  ArrayList<TPASCreativeBatchPlacement> placement;
 
-	}
+  public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
+    return placement;
+  }
 
-	@Override
-	public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-
-	}
-
-	@Override
-	public X509Certificate[] getAcceptedIssuers() {
-		return new X509Certificate[0];
-	}
+  public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
+    this.placement = placement;
+  }
 
 }

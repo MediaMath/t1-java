@@ -13,36 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeBatchIndex {
-	
-	String batch_index;
-	String conceptId;
-	String click_url;
+package com.mediamath.terminalone.exceptions;
 
-	public String getConceptId() {
-		return conceptId;
-	}
+public class AuthenticationException extends T1Exception {
 
-	public void setConceptId(String conceptId) {
-		this.conceptId = conceptId;
-	}
+  private static final long serialVersionUID = 1L;
 
-	public String getClick_url() {
-		return click_url;
-	}
+  public AuthenticationException() {}
 
-	public void setClick_url(String click_url) {
-		this.click_url = click_url;
-	}
-
-	public String getBatch_index() {
-		return batch_index;
-	}
-
-	public void setBatch_index(String batch_index) {
-		this.batch_index = batch_index;
-	}
+  public AuthenticationException(String message) {
+    super(message);
+  }
 
 }

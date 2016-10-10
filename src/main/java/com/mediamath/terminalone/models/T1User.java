@@ -13,29 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+public class T1User {
 
-public class ThreePASCreativeBatchPlacements {
+  T1Data data;
 
-	ArrayList<ThreePASCreativePlacementInvalid> invalid;
-	ArrayList<ThreePASCreativePlacementValid> valid;
+  T1Meta meta;
 
-	public ArrayList<ThreePASCreativePlacementInvalid> getInvalid() {
-		return invalid;
-	}
+  String token;
 
-	public void setInvalid(ArrayList<ThreePASCreativePlacementInvalid> invalid) {
-		this.invalid = invalid;
-	}
+  public String getToken() {
+    return token;
+  }
 
-	public ArrayList<ThreePASCreativePlacementValid> getValid() {
-		return valid;
-	}
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-	public void setValid(ArrayList<ThreePASCreativePlacementValid> valid) {
-		this.valid = valid;
-	}
+  public T1Data getData() {
+    return data;
+  }
+
+  public void setData(T1Data data) {
+    this.data = data;
+  }
+
+  public T1Meta getMeta() {
+    return meta;
+  }
+
+  public void setMeta(T1Meta meta) {
+    this.meta = meta;
+  }
 
 }

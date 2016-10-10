@@ -13,82 +13,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class PublisherSite implements T1Entity {
-	
-	private static final String entityName = "PublisherSite";
 
-	private Date created_on;
-	private int id;
-	private String name;
-	private int publisher_id;
-	private Date updated_on;
-	private int version;
-	
-	private Publisher publisher;
+  private static final String entityName = "PublisherSite";
 
-	public Date getCreated_on() {
-		return created_on;
-	}
+  private Date created_on;
+  private int id;
+  private String name;
+  private int publisher_id;
+  private Date updated_on;
+  private int version;
 
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
-	}
+  private Publisher publisher;
 
-	public int getId() {
-		return id;
-	}
+  public Date getCreatedOn() {
+    return created_on;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getPublisher_id() {
-		return publisher_id;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setPublisher_id(int publisher_id) {
-		this.publisher_id = publisher_id;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public Date getUpdated_on() {
-		return updated_on;
-	}
+  public int getPublisherId() {
+    return publisher_id;
+  }
 
-	public void setUpdated_on(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setPublisherId(int publisher_id) {
+    this.publisher_id = publisher_id;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public Publisher getPublisher() {
-		return publisher;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setPublisher(Publisher publisher) {
-		this.publisher = publisher;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public Publisher getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

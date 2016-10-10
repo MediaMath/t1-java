@@ -13,23 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
+
+package com.mediamath.terminalone.exceptions;
 
 public class AuthenticationException extends T1Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public AuthenticationException() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public AuthenticationException(String message) {
-		super(message);
-	}
-	
-	
+  private static final long serialVersionUID = 1L;
+
+  public AuthenticationException() {}
+
+  public AuthenticationException(String message) {
+    super(message);
+  }
 
 }

@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.reporting.meta;
 
 import java.util.HashMap;
 
 public class MetaMetrics {
-	
-	HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
 
-	public HashMap<String, MetricsData> getMetricsMap() {
-		return metricsMap;
-	}
+  HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
 
-	public void setMetricsMap(HashMap<String, MetricsData> metricsMap) {
-		this.metricsMap = metricsMap;
-	}
+  public HashMap<String, MetricsData> getMetricsMap() {
+    return metricsMap;
+  }
+
+  public void setMetricsMap(HashMap<String, MetricsData> metricsMap) {
+    this.metricsMap = metricsMap;
+  }
 
 }

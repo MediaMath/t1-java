@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLSession;
+package com.mediamath.terminalone.exceptions;
 
-public class InsecureHostnameVerifier implements HostnameVerifier {
+public class ValidationException extends T1Exception {
 
-	@Override
-	public boolean verify(String arg0, SSLSession arg1) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+  private static final long serialVersionUID = 1L;
 
+  public ValidationException(String message) {
+    super(message);
+  }
 }

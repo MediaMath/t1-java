@@ -13,61 +13,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class VideoCreativeUploadInfo {
 
-	private String status;
-	
-	private long size;
-	
-	private long percent;
-	
-	private String name;
-	
-	private ArrayList<String> mirrorPath = new ArrayList<String>();
+  private String status;
 
-	public String getStatus() {
-		return status;
-	}
+  private long size;
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  private long percent;
 
-	public long getSize() {
-		return size;
-	}
+  private String name;
 
-	public void setSize(long size) {
-		this.size = size;
-	}
+  private ArrayList<String> mirrorPath = new ArrayList<String>();
 
-	public long getPercent() {
-		return percent;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public void setPercent(long percent) {
-		this.percent = percent;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public long getSize() {
+    return size;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setSize(long size) {
+    this.size = size;
+  }
 
-	public ArrayList<String> getMirrorPath() {
-		return mirrorPath;
-	}
+  public long getPercent() {
+    return percent;
+  }
 
-	public void setMirrorPath(ArrayList<String> mirrorPath) {
-		this.mirrorPath = mirrorPath;
-	}
+  public void setPercent(long percent) {
+    this.percent = percent;
+  }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public ArrayList<String> getMirrorPath() {
+    return mirrorPath;
+  }
+
+  public void setMirrorPath(ArrayList<String> mirrorPath) {
+    this.mirrorPath = mirrorPath;
+  }
 
 }

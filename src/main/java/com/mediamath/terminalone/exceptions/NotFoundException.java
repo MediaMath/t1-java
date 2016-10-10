@@ -13,24 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeUpload implements T1Entity {
-	private static final String entityName = "ThreePASCreativeUpload";
-	
-	ThreePASCreativeBatch batch;
+package com.mediamath.terminalone.exceptions;
 
-	public ThreePASCreativeBatch getBatch() {
-		return batch;
-	}
+public class NotFoundException extends T1Exception {
 
-	public void setBatch(ThreePASCreativeBatch batch) {
-		this.batch = batch;
-	}
+  private static final long serialVersionUID = 1L;
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
-	
+  public NotFoundException() {}
+
+  public NotFoundException(String message) {
+    super(message);
+  }
+
 }

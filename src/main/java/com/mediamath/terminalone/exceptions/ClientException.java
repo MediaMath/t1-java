@@ -13,38 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.models;
 
-public class ThreePASCreativesBatchUpload {
-	
-	private ThreePASCreativeBatch batch;
-	
-	private String called_on;
-	
-	private Status status;
+package com.mediamath.terminalone.exceptions;
 
-	public ThreePASCreativeBatch getBatch() {
-		return batch;
-	}
+public class ClientException extends T1Exception {
 
-	public void setBatch(ThreePASCreativeBatch batch) {
-		this.batch = batch;
-	}
+  private static final long serialVersionUID = 1L;
 
-	public String getCalled_on() {
-		return called_on;
-	}
+  private String message;
 
-	public void setCalled_on(String called_on) {
-		this.called_on = called_on;
-	}
+  public ClientException(String message) {
+    super(message);
+    this.message = message;
+  }
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+  @Override
+  public String toString() {
+    return "Client Excpetion: " + message;
+  }
 
 }

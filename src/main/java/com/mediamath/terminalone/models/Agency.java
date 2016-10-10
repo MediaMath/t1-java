@@ -13,201 +13,220 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class Agency implements T1Entity {
 
-	private static final String entityName = "Agency";
+  private static final String entityName = "Agency";
 
-	private boolean allow_x_adv_optimization =false;
-	private boolean allow_x_adv_pixels = false;
-	private int billing_contact_id;
-	private String dmp_enabled;
-	private String created_on;
-	private int id;
-	private String logo;
-	private String name;
-	private int organization_id;
-	private int sales_contact_id;
-	private boolean status;
-	private String updated_on;
-	private int version;
-	private int traffic_contact_id;
-	private Organization organization;
-	private Contact billing_contact;
-	private Contact sales_contact;
-	private Contact traffic_contact;
-	
-	public Agency(){}
+  private boolean allow_x_adv_optimization = false;
+  private boolean allow_x_adv_pixels = false;
+  private int billing_contact_id;
+  private String dmp_enabled;
+  private String created_on;
+  private int id;
+  private String logo;
+  private String name;
+  private int organization_id;
+  private int sales_contact_id;
+  private boolean status;
+  private String updated_on;
+  private int version;
+  private int traffic_contact_id;
+  private Organization organization;
+  private Contact billing_contact;
+  private Contact sales_contact;
+  private Contact traffic_contact;
 
-	public Agency(boolean allow_x_adv_optimization, boolean allow_x_adv_pixels, int billing_contact_id,
-			String dmp_enabled, String created_on, int id, String logo, String name, int organization_id,
-			int sales_contact_id, boolean status, String updated_on, int version, int traffic_contact_id) {
-		super();
-		this.allow_x_adv_optimization = allow_x_adv_optimization;
-		this.allow_x_adv_pixels = allow_x_adv_pixels;
-		this.billing_contact_id = billing_contact_id;
-		this.dmp_enabled = dmp_enabled;
-		this.created_on = created_on;
-		this.id = id;
-		this.logo = logo;
-		this.name = name;
-		this.organization_id = organization_id;
-		this.sales_contact_id = sales_contact_id;
-		this.status = status;
-		this.updated_on = updated_on;
-		this.version = version;
-		this.traffic_contact_id = traffic_contact_id;
-	}
+  public Agency() {
+  }
 
-	public boolean isAllow_x_adv_optimization() {
-		return allow_x_adv_optimization;
-	}
+  /**
+   *  Agency constructor with all the fields.
+   *  
+   * @param allow_x_adv_optimization
+   * @param allow_x_adv_pixels
+   * @param billing_contact_id
+   * @param dmp_enabled
+   * @param created_on
+   * @param id
+   * @param logo
+   * @param name
+   * @param organization_id
+   * @param sales_contact_id
+   * @param status
+   * @param updated_on
+   * @param version
+   * @param traffic_contact_id
+   */
+  public Agency(boolean allow_x_adv_optimization, boolean allow_x_adv_pixels,
+      int billing_contact_id, String dmp_enabled, String created_on, int id, String logo,
+      String name, int organization_id, int sales_contact_id, boolean status, String updated_on,
+      int version, int traffic_contact_id) {
+    super();
+    this.allow_x_adv_optimization = allow_x_adv_optimization;
+    this.allow_x_adv_pixels = allow_x_adv_pixels;
+    this.billing_contact_id = billing_contact_id;
+    this.dmp_enabled = dmp_enabled;
+    this.created_on = created_on;
+    this.id = id;
+    this.logo = logo;
+    this.name = name;
+    this.organization_id = organization_id;
+    this.sales_contact_id = sales_contact_id;
+    this.status = status;
+    this.updated_on = updated_on;
+    this.version = version;
+    this.traffic_contact_id = traffic_contact_id;
+  }
 
-	public void setAllow_x_adv_optimization(boolean allow_x_adv_optimization) {
-		this.allow_x_adv_optimization = allow_x_adv_optimization;
-	}
+  public boolean isAllowXAdvOptimization() {
+    return allow_x_adv_optimization;
+  }
 
-	public int getBilling_contact_id() {
-		return billing_contact_id;
-	}
+  public void setAllowXAdvOptimization(boolean allow_x_adv_optimization) {
+    this.allow_x_adv_optimization = allow_x_adv_optimization;
+  }
 
-	public void setBilling_contact_id(int billing_contact_id) {
-		this.billing_contact_id = billing_contact_id;
-	}
+  public int getBillingContactId() {
+    return billing_contact_id;
+  }
 
-	public String getCreated_on() {
-		return created_on;
-	}
+  public void setBillingContactId(int billing_contact_id) {
+    this.billing_contact_id = billing_contact_id;
+  }
 
-	public void setCreated_on(String created_on) {
-		this.created_on = created_on;
-	}
+  public String getCreatedOn() {
+    return created_on;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public void setCreatedOn(String created_on) {
+    this.created_on = created_on;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getLogo() {
-		return logo;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
+  public String getLogo() {
+    return logo;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public void setLogo(String logo) {
+    this.logo = logo;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public int getOrganization_id() {
-		return organization_id;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setOrganization_id(int organization_id) {
-		this.organization_id = organization_id;
-	}
+  public int getOrganizationId() {
+    return organization_id;
+  }
 
-	public int getSales_contact_id() {
-		return sales_contact_id;
-	}
+  public void setOrganizationId(int organization_id) {
+    this.organization_id = organization_id;
+  }
 
-	public void setSales_contact_id(int sales_contact_id) {
-		this.sales_contact_id = sales_contact_id;
-	}
+  public int getSalesContactId() {
+    return sales_contact_id;
+  }
 
-	public boolean isStatus() {
-		return status;
-	}
+  public void setSalesContactId(int sales_contact_id) {
+    this.sales_contact_id = sales_contact_id;
+  }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+  public boolean isStatus() {
+    return status;
+  }
 
-	public String getUpdated_on() {
-		return updated_on;
-	}
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
 
-	public void setUpdated_on(String updated_on) {
-		this.updated_on = updated_on;
-	}
+  public String getUpdatedOn() {
+    return updated_on;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public void setUpdatedOn(String updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+  public Organization getOrganization() {
+    return organization;
+  }
 
-	public Contact getBilling_contact() {
-		return billing_contact;
-	}
+  public void setOrganization(Organization organization) {
+    this.organization = organization;
+  }
 
-	public void setBilling_contact(Contact billing_contact) {
-		this.billing_contact = billing_contact;
-	}
+  public Contact getBillingContact() {
+    return billing_contact;
+  }
 
-	public Contact getSales_contact() {
-		return sales_contact;
-	}
+  public void setBillingContact(Contact billing_contact) {
+    this.billing_contact = billing_contact;
+  }
 
-	public void setSales_contact(Contact sales_contact) {
-		this.sales_contact = sales_contact;
-	}
+  public Contact getSalesContact() {
+    return sales_contact;
+  }
 
-	public Contact getTraffic_contact() {
-		return traffic_contact;
-	}
+  public void setSalesContact(Contact sales_contact) {
+    this.sales_contact = sales_contact;
+  }
 
-	public void setTraffic_contact(Contact traffic_contact) {
-		this.traffic_contact = traffic_contact;
-	}
+  public Contact getTrafficContact() {
+    return traffic_contact;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public void setTrafficContact(Contact traffic_contact) {
+    this.traffic_contact = traffic_contact;
+  }
 
-	public boolean isAllow_x_adv_pixels() {
-		return allow_x_adv_pixels;
-	}
+  public String getEntityname() {
+    return entityName;
+  }
 
-	public void setAllow_x_adv_pixels(boolean allow_x_adv_pixels) {
-		this.allow_x_adv_pixels = allow_x_adv_pixels;
-	}
+  public boolean isAllowXAdvPixels() {
+    return allow_x_adv_pixels;
+  }
 
-	public String getDmp_enabled() {
-		return dmp_enabled;
-	}
+  public void setAllowXAdvPixels(boolean allow_x_adv_pixels) {
+    this.allow_x_adv_pixels = allow_x_adv_pixels;
+  }
 
-	public void setDmp_enabled(String dmp_enabled) {
-		this.dmp_enabled = dmp_enabled;
-	}
+  public String getDmpEnabled() {
+    return dmp_enabled;
+  }
 
-	public int getTraffic_contact_id() {
-		return traffic_contact_id;
-	}
+  public void setDmpEnabled(String dmp_enabled) {
+    this.dmp_enabled = dmp_enabled;
+  }
 
-	public void setTraffic_contact_id(int traffic_contact_id) {
-		this.traffic_contact_id = traffic_contact_id;
-	}
-	
+  public int getTrafficContactId() {
+    return traffic_contact_id;
+  }
 
+  public void setTrafficContactId(int traffic_contact_id) {
+    this.traffic_contact_id = traffic_contact_id;
+  }
 
 }

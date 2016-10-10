@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
+
+package com.mediamath.terminalone.exceptions;
 
 public class NotFoundException extends T1Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public NotFoundException() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public NotFoundException(String message) {
-		super(message);
-	}
+  private static final long serialVersionUID = 1L;
+
+  public NotFoundException() {}
+
+  public NotFoundException(String message) {
+    super(message);
+  }
 
 }

@@ -13,27 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.reporting.meta;
 
 public class TimeInterval {
 
-	String name;
-	String type;
+  String name;
+  
+  String type;
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
 }

@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
+
+package com.mediamath.terminalone.exceptions;
 
 public class ApiException extends T1Exception {
 
-	private static final long serialVersionUID = 1L;
-	
-	public ApiException() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public ApiException(String message) {
-		super(message);
-	}
+  private static final long serialVersionUID = 1L;
+
+  public ApiException() {}
+
+  public ApiException(String message) {
+    super(message);
+  }
 
 }

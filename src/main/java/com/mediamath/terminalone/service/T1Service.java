@@ -13,109 +13,142 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.service;
+
+import com.mediamath.terminalone.utils.Utility;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
 import javax.ws.rs.core.Form;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.mediamath.terminalone.utils.Utility;
-
-
-/** Service to support terminalone class
+/**
+ * Service to support terminalone class.
  * 
  * @author chaudhari_j
  *
  */
 public class T1Service {
 
-	private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
+  private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
 
-	private static Properties configprop = Utility.loadConfigProperty();
-	private String URL =null;
-	private String api_base = null;
-	private String path_mgmt = null;
-	private String videoCreativeURL = null;
-	private String reportingURL = null;
-	private String oauthURL = null;
+  private static Properties configprop = Utility.loadConfigProperty();
 
-	/**
-	 * constructor
-	 */
-	public T1Service(){
-		this.api_base = configprop.getProperty("api_base");
-		this.path_mgmt = configprop.getProperty("path_mgmt");
-		this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
-		this.reportingURL = configprop.getProperty("reportingURL");
-		this.oauthURL = configprop.getProperty("oauthURL");
-	}
-	
-	public String constructURL(StringBuffer path){
-		String url = api_base + path_mgmt + "/" + path.toString();
-		return url;
-	}
-	
-	public String constructReportingURL(StringBuffer path) {
-		String url = api_base + reportingURL + "/" + path.toString();
-		return url;
-	}
-	
-	public String constructOauthUrl(StringBuffer path) {
-		String url = api_base + oauthURL + "/" + path.toString();
-		return url;
-	}
-	
-	public Form getLoginFormData(String username, String password, String api_key){
-		
-		Form form = new Form();
-		form.param("user", username);
-		form.param("password", password);
-		form.param("api_key", api_key);
-		
-		return form;
-	}
+  private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
 
-	public String getVideoCreativeURL() {
-		return videoCreativeURL;
-	}
+  private String URL = null;
 
-	public void setVideoCreativeURL(String videoCreativeURL) {
-		this.videoCreativeURL = videoCreativeURL;
-	}
+  private String apiBase = null;
 
-	public String getURL() {
-		return URL;
-	}
+  private String pathMgmt = null;
 
-	public void setURL(String uRL) {
-		URL = uRL;
-	}
-	
-	public String getApi_base() {
-		return api_base;
-	}
+  private String videoCreativeURL = null;
 
-	public void setApi_base(String api_base) {
-		this.api_base = api_base;
-	}
+  private String reportingURL = null;
 
-	public String getPath_mgmt() {
-		return path_mgmt;
-	}
+  private String oauthURL = null;
 
-	public void setPath_mgmt(String path_mgmt) {
-		this.path_mgmt = path_mgmt;
-	}
+  /**
+   * constructor.
+   */
+  public T1Service() {
+    this.apiBase = configprop.getProperty("api_base");
+    this.pathMgmt = configprop.getProperty("path_mgmt");
+    this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
+    this.reportingURL = configprop.getProperty("reportingURL");
+    this.oauthURL = configprop.getProperty("oauthURL");
 
-	public String getReportingURL() {
-		return reportingURL;
-	}
+  }
 
-	public void setReportingURL(String reportingURL) {
-		this.reportingURL = reportingURL;
-	}
+  /**
+   * constructs a url for a given path.
+   * 
+   * @param path
+   *          requires a path uri.
+   * 
+   * @return String object.
+   */
+  public String constructUrl(StringBuffer path) {
+    String url = apiBase + pathMgmt + "/" + path.toString();
+    return url;
+  }
+
+  public String constructReportingUrl(StringBuffer path) {
+    String url = apiBase + reportingURL + "/" + path.toString();
+    return url;
+  }
+
+  public String constructOauthUrl(StringBuffer path) {
+    String url = apiBase + oauthURL + "/" + path.toString();
+    return url;
+  }
+
+  /**
+   * gets form object of login related information.
+   * 
+   * @param username
+   *          requires a valid username.
+   * @param password
+   *          requires a valid password.
+   * @param apiKey
+   *          requires a valid environment api key.
+   * @return Form object.
+   */
+  public Form getLoginFormData(String username, String password, String apiKey) {
+
+    Form form = new Form();
+    form.param("user", username);
+    form.param("password", password);
+    form.param("api_key", apiKey);
+
+    return form;
+  }
+
+  public String getVideoCreativeURL() {
+    return videoCreativeURL;
+  }
+
+  public void setVideoCreativeURL(String videoCreativeURL) {
+    this.videoCreativeURL = videoCreativeURL;
+  }
+
+  public String getURL() {
+    return URL;
+  }
+
+  public void setURL(String uRL) {
+    URL = uRL;
+  }
+
+  public String getApi_base() {
+    return apiBase;
+  }
+
+  public void setApiBase(String apiBase) {
+    this.apiBase = apiBase;
+  }
+
+  public String getPathMgmt() {
+    return pathMgmt;
+  }
+
+  public void setPathMgmt(String pathMgmt) {
+    this.pathMgmt = pathMgmt;
+  }
+
+  public String getReportingURL() {
+    return reportingURL;
+  }
+
+  public void setReportingURL(String reportingURL) {
+    this.reportingURL = reportingURL;
+  }
+
+  public static Properties getEntityReadOnlyFields() {
+    return entityReadOnlyFields;
+  }
 
 }

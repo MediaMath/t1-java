@@ -13,251 +13,251 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class Deal implements T1Entity {
-	
-	private static final String entityName = "Deal";
 
-	public enum deal_sources {
-		USER, INTERNAL
-	};
+  private static final String entityName = "Deal";
 
-	public enum media_types {
-		DISPLAY, VIDEO
-	};
+  public enum dealSources {
+    USER, INTERNAL
+  };
 
-	public enum price_methods {
-		CPM
-	};
+  public enum mediaTypes {
+    DISPLAY, VIDEO
+  };
 
-	public enum price_types {
-		FIXED, FLOOR
-	};
+  public enum priceMethods {
+    CPM
+  };
 
-	private int advertiser_id;
-	private Date created_on;
-	private String currency_code;
-	private String deal_identifier;
-	private deal_sources deal_source;
-	private String description;
-	private Date end_datetime;
-	private int id;
-	private media_types media_type;
-	private String name;
-	private boolean partner_sourced;
-	private float price;
-	private price_methods price_method;
-	private price_types price_type;
-	private int publisher_id;
-	private Date start_datetime;
-	private boolean status;
-	private int supply_source_id;
-	private Date updated_on;
-	private int version;
-	private String zone_name;
-	
-	private Advertiser advertiser;
-	private Publisher publisher;
-	private SupplySource supply_source;
+  public enum priceTypes {
+    FIXED, FLOOR
+  };
 
-	public int getAdvertiser_id() {
-		return advertiser_id;
-	}
+  private int advertiser_id;
+  private Date created_on;
+  private String currency_code;
+  private String deal_identifier;
+  private dealSources deal_source;
+  private String description;
+  private Date end_datetime;
+  private int id;
+  private mediaTypes media_type;
+  private String name;
+  private boolean partner_sourced;
+  private float price;
+  private priceMethods price_method;
+  private priceTypes price_type;
+  private int publisher_id;
+  private Date start_datetime;
+  private boolean status;
+  private int supply_source_id;
+  private Date updated_on;
+  private int version;
+  private String zone_name;
 
-	public void setAdvertiser_id(int advertiser_id) {
-		this.advertiser_id = advertiser_id;
-	}
+  private Advertiser advertiser;
+  private Publisher publisher;
+  private SupplySource supply_source;
 
-	public Date getCreated_on() {
-		return created_on;
-	}
+  public int getAdvertiserId() {
+    return advertiser_id;
+  }
 
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
-	}
+  public void setAdvertiserId(int advertiser_id) {
+    this.advertiser_id = advertiser_id;
+  }
 
-	public String getCurrency_code() {
-		return currency_code;
-	}
+  public Date getCreatedOn() {
+    return created_on;
+  }
 
-	public void setCurrency_code(String currency_code) {
-		this.currency_code = currency_code;
-	}
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
 
-	public String getDeal_identifier() {
-		return deal_identifier;
-	}
+  public String getCurrencyCode() {
+    return currency_code;
+  }
 
-	public void setDeal_identifier(String deal_identifier) {
-		this.deal_identifier = deal_identifier;
-	}
+  public void setCurrencyCode(String currency_code) {
+    this.currency_code = currency_code;
+  }
 
-	public deal_sources getDeal_source() {
-		return deal_source;
-	}
+  public String getDealIdentifier() {
+    return deal_identifier;
+  }
 
-	public void setDeal_source(deal_sources deal_source) {
-		this.deal_source = deal_source;
-	}
+  public void setDealIdentifier(String deal_identifier) {
+    this.deal_identifier = deal_identifier;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public dealSources getDealSource() {
+    return deal_source;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public void setDealSource(dealSources deal_source) {
+    this.deal_source = deal_source;
+  }
 
-	public Date getEnd_datetime() {
-		return end_datetime;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public void setEnd_datetime(Date end_datetime) {
-		this.end_datetime = end_datetime;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public Date getEndDatetime() {
+    return end_datetime;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setEndDatetime(Date end_datetime) {
+    this.end_datetime = end_datetime;
+  }
 
-	public media_types getMedia_type() {
-		return media_type;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setMedia_type(media_types media_type) {
-		this.media_type = media_type;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public mediaTypes getMediaType() {
+    return media_type;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setMediaType(mediaTypes media_type) {
+    this.media_type = media_type;
+  }
 
-	public boolean isPartner_sourced() {
-		return partner_sourced;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setPartner_sourced(boolean partner_sourced) {
-		this.partner_sourced = partner_sourced;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public float getPrice() {
-		return price;
-	}
+  public boolean isPartnerSourced() {
+    return partner_sourced;
+  }
 
-	public void setPrice(float price) {
-		this.price = price;
-	}
+  public void setPartnerSourced(boolean partner_sourced) {
+    this.partner_sourced = partner_sourced;
+  }
 
-	public price_methods getPrice_method() {
-		return price_method;
-	}
+  public float getPrice() {
+    return price;
+  }
 
-	public void setPrice_method(price_methods price_method) {
-		this.price_method = price_method;
-	}
+  public void setPrice(float price) {
+    this.price = price;
+  }
 
-	public price_types getPrice_type() {
-		return price_type;
-	}
+  public priceMethods getPriceMethod() {
+    return price_method;
+  }
 
-	public void setPrice_type(price_types price_type) {
-		this.price_type = price_type;
-	}
+  public void setPriceMethod(priceMethods price_method) {
+    this.price_method = price_method;
+  }
 
-	public int getPublisher_id() {
-		return publisher_id;
-	}
+  public priceTypes getPriceType() {
+    return price_type;
+  }
 
-	public void setPublisher_id(int publisher_id) {
-		this.publisher_id = publisher_id;
-	}
+  public void setPriceType(priceTypes price_type) {
+    this.price_type = price_type;
+  }
 
-	public Date getStart_datetime() {
-		return start_datetime;
-	}
+  public int getPublisherId() {
+    return publisher_id;
+  }
 
-	public void setStart_datetime(Date start_datetime) {
-		this.start_datetime = start_datetime;
-	}
+  public void setPublisherId(int publisher_id) {
+    this.publisher_id = publisher_id;
+  }
 
-	public boolean isStatus() {
-		return status;
-	}
+  public Date getStartDatetime() {
+    return start_datetime;
+  }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+  public void setStartDatetime(Date start_datetime) {
+    this.start_datetime = start_datetime;
+  }
 
-	public int getSupply_source_id() {
-		return supply_source_id;
-	}
+  public boolean isStatus() {
+    return status;
+  }
 
-	public void setSupply_source_id(int supply_source_id) {
-		this.supply_source_id = supply_source_id;
-	}
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
 
-	public Date getUpdated_on() {
-		return updated_on;
-	}
+  public int getSupplySourceId() {
+    return supply_source_id;
+  }
 
-	public void setUpdated_on(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setSupplySourceId(int supply_source_id) {
+    this.supply_source_id = supply_source_id;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public String getZone_name() {
-		return zone_name;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setZone_name(String zone_name) {
-		this.zone_name = zone_name;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public Advertiser getAdvertiser() {
-		return advertiser;
-	}
+  public String getZoneName() {
+    return zone_name;
+  }
 
-	public void setAdvertiser(Advertiser advertiser) {
-		this.advertiser = advertiser;
-	}
-	
+  public void setZoneName(String zone_name) {
+    this.zone_name = zone_name;
+  }
 
-	public Publisher getPublisher() {
-		return publisher;
-	}
+  public Advertiser getAdvertiser() {
+    return advertiser;
+  }
 
-	public void setPublisher(Publisher publisher) {
-		this.publisher = publisher;
-	}
+  public void setAdvertiser(Advertiser advertiser) {
+    this.advertiser = advertiser;
+  }
 
-	public SupplySource getSupply_source() {
-		return supply_source;
-	}
+  public Publisher getPublisher() {
+    return publisher;
+  }
 
-	public void setSupply_source(SupplySource supply_source) {
-		this.supply_source = supply_source;
-	}
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public SupplySource getSupplySource() {
+    return supply_source;
+  }
+
+  public void setSupplySource(SupplySource supply_source) {
+    this.supply_source = supply_source;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

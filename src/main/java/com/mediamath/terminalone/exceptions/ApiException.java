@@ -13,28 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.models;
 
-public class T1Response {
-	
-	T1Data data;
-	
-	T1Meta meta;
+package com.mediamath.terminalone.exceptions;
 
-	public T1Data getData() {
-		return data;
-	}
+public class ApiException extends T1Exception {
 
-	public void setData(T1Data data) {
-		this.data = data;
-	}
+  private static final long serialVersionUID = 1L;
 
-	public T1Meta getMeta() {
-		return meta;
-	}
+  public ApiException() {}
 
-	public void setMeta(T1Meta meta) {
-		this.meta = meta;
-	}
-	
+  public ApiException(String message) {
+    super(message);
+  }
+
 }

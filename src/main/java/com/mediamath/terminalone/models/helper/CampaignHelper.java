@@ -13,181 +13,171 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.helper;
 
 import java.text.SimpleDateFormat;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.Exceptions.T1Exception;
 import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.utils.Utility;
 
-public class CampaignHelper  {
+public class CampaignHelper {
 
-	private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-	
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-	public static Form getForm(Campaign entity) {
+  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
-		Form campaignForm = new Form();
+  /**
+   * creates a Campaign Form object.
+   * 
+   * @param entity
+   *          expects Campaign
+   * @return Form object.
+   */
+  public static Form getForm(Campaign entity) {
 
-		campaignForm.param("name", entity.getName());
-		
-		if(entity.getAd_server_fee().size() > 0) { 
-			campaignForm.param("ad_server_fee", String.valueOf(entity.getAd_server_fee().get(0).getValue()));
-		}
-		
-		if(entity.getTotal_budget().size() > 0) {
-			campaignForm.param("total_budget", String.valueOf(entity.getTotal_budget().get(0).getValue()));		
-		}
-		
-		if(entity.getSpend_cap_amount().size() > 0){
-			campaignForm.param("spend_cap_amount", String.valueOf(entity.getSpend_cap_amount().get(0).getValue()));
-		}
-		
-		if(entity.getGoal_value().size() > 0) {
-			campaignForm.param("goal_value", String.valueOf(entity.getGoal_value().get(0).getValue()));
-		}
-		
-		if(entity.getAd_server_id() >= 0) {
-			campaignForm.param("ad_server_id", String.valueOf(entity.getAd_server_id()));	
-		}
-		
-		if(entity.getAd_server_id() > 0) {
-			campaignForm.param("advertiser_id", String.valueOf(entity.getAdvertiser_id()));
-		}
-		
-		campaignForm.param("conversion_type", entity.getConversion_type());
-		
-		campaignForm.param("conversion_variable_minutes", String.valueOf(entity.getConversion_variable_minutes()));
+    Form campaignForm = new Form();
 
-		if(entity.getEnd_date() != null) {
-			String endDate = sdf.format(entity.getEnd_date());
-			campaignForm.param("end_date", endDate);
-		}
-		
-		campaignForm.param("goal_type", String.valueOf(entity.getGoal_type()));		
-		
+    campaignForm.param("name", entity.getName());
 
-		campaignForm.param("service_type", String.valueOf(entity.getService_type()));
-		
-		
-		if(entity.getStart_date() != null) {
-			String startDate = sdf.format(entity.getStart_date());
-			campaignForm.param("start_date", startDate);
-		}
-		
-	
-		
-		campaignForm.param("use_mm_freq", Utility.getOnOrOff(entity.isUse_mm_freq()));
-		
-		if(entity.getAd_server_password() != null) {
-			campaignForm.param("ad_server_password", entity.getAd_server_password());
-		}
-		
-		if(entity.getAd_server_username() != null) {
-			campaignForm.param("ad_server_username", entity.getAd_server_username());
-		}
-		
-		if(entity.getAgency_fee_pct() > 0) {
-			campaignForm.param("agency_fee_pct", String.valueOf(entity.getAgency_fee_pct()));
-		}
-		
-		if(entity.getCurrency_code() != null) {
-			campaignForm.param("currency_code", entity.getCurrency_code());
-		}
-		
-		campaignForm.param("dcs_data_is_campaign_level", Utility.getOnOrOff(entity.isDcs_data_is_campaign_level()));
-		
-		// check null
-		if(entity.getFrequency_amount() >= 0) {
-			campaignForm.param("frequency_amount", String.valueOf(entity.getFrequency_amount()));
-		}
-		
-		if(entity.getFrequency_interval() != null){
-			campaignForm.param("frequency_interval", String.valueOf(entity.getFrequency_interval()));
-		}
-		
-		if(entity.getFrequency_type() != null ) {
-			campaignForm.param("frequency_type", String.valueOf(entity.getFrequency_type()));
-		}
-		
-		if(entity.getGoal_alert() >= 0) {
-			campaignForm.param("goal_alert", String.valueOf(entity.getGoal_alert()));
-		}
-		
-		if(entity.getGoal_category() != null) {
-			campaignForm.param("goal_category", String.valueOf(entity.getGoal_category()));
-		}
-		
-		campaignForm.param("has_custom_attribution", Utility.getOnOrOff(entity.isHas_custom_attribution()));
-		
-		if(entity.getIo_name() != null) {
-			campaignForm.param("io_name", entity.getIo_name());
-		}
-		
-		if(entity.getIo_reference_num() != null) {
-			campaignForm.param("io_reference_num", entity.getIo_reference_num());
-		}
-		
-		if(entity.getInitial_start_date() != null) {
-			campaignForm.param("initial_start_date", String.valueOf(entity.getInitial_start_date()));
-		}
-		
-		if(entity.getMargin_pct() >= 0) {
-			campaignForm.param("margin_pct", String.valueOf(entity.getMargin_pct()));
-		}
-		
-		if(entity.getMerit_pixel_id() > 0) {
-			campaignForm.param("merit_pixel_id", String.valueOf(entity.getMerit_pixel_id()));
-		}
-		
-		if(entity.getPc_window_minutes() > 0) {
-			campaignForm.param("pc_window_minutes", String.valueOf(entity.getPc_window_minutes()));
-		}
-		
-		if(entity.getPv_pct() > 0) {
-			campaignForm.param("pv_pct", String.valueOf(entity.getPv_pct()));
-		}
-		
-		if(entity.getPv_window_minutes() > 0) {
-			campaignForm.param("pv_window_minutes", String.valueOf(entity.getPv_window_minutes()));
-		}
+    if (entity.getAdServerFee().size() > 0) {
+      campaignForm.param("ad_server_fee",
+          String.valueOf(entity.getAdServerFee().get(0).getValue()));
+    }
 
-		
-		
-		campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(entity.isSpend_cap_automatic()));
-		
-		campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(entity.isSpend_cap_enabled()));
-		
-		campaignForm.param("use_default_ad_server", Utility.getOnOrOff(entity.isUse_default_ad_server()));
-		
-		if(entity.getZone_name() != null){
-			campaignForm.param("zone_name", entity.getZone_name());
-		}
-		
-		if(entity.getCreated_on() != null){
-			campaignForm.param("created_on", entity.getCreated_on().toString());
-		}
-		
-		if(entity.getId() > 0) {
-			campaignForm.param("id", String.valueOf(entity.getId()));
-		}
-		
-		campaignForm.param("status", Utility.getOnOrOff(entity.isStatus()));
-		
-		if(entity.getVersion() > 0) {
-			campaignForm.param("version", String.valueOf(entity.getVersion()));
-		}
-		
-		if(entity.getUpdated_on() != null) {
-			campaignForm.param("updated_on", String.valueOf(entity.getUpdated_on()));
-		}
-		
-		return campaignForm;
-	}
+    if (entity.getTotalBudget().size() > 0) {
+      campaignForm.param("total_budget", String.valueOf(entity.getTotalBudget().get(0).getValue()));
+    }
 
+    if (entity.getSpendCapAmount().size() > 0) {
+      campaignForm.param("spend_cap_amount",
+          String.valueOf(entity.getSpendCapAmount().get(0).getValue()));
+    }
+
+    if (entity.getGoalValue().size() > 0) {
+      campaignForm.param("goal_value", String.valueOf(entity.getGoalValue().get(0).getValue()));
+    }
+
+    if (entity.getAdServerId() >= 0) {
+      campaignForm.param("ad_server_id", String.valueOf(entity.getAdServerId()));
+    }
+
+    if (entity.getAdServerId() > 0) {
+      campaignForm.param("advertiser_id", String.valueOf(entity.getAdvertiserId()));
+    }
+
+    campaignForm.param("conversion_type", entity.getConversionType());
+
+    campaignForm.param("conversion_variable_minutes",
+        String.valueOf(entity.getConversionVariableMinutes()));
+
+    if (entity.getEndDate() != null) {
+      String endDate = sdf.format(entity.getEndDate());
+      campaignForm.param("end_date", endDate);
+    }
+
+    campaignForm.param("goal_type", String.valueOf(entity.getGoalType()));
+
+    campaignForm.param("service_type", String.valueOf(entity.getServiceType()));
+
+    if (entity.getStartDate() != null) {
+      String startDate = sdf.format(entity.getStartDate());
+      campaignForm.param("start_date", startDate);
+    }
+
+    campaignForm.param("use_mm_freq", Utility.getOnOrOff(entity.isUseMmFreq()));
+
+    if (entity.getAdServerPassword() != null) {
+      campaignForm.param("ad_server_password", entity.getAdServerPassword());
+    }
+
+    if (entity.getAdServerUsername() != null) {
+      campaignForm.param("ad_server_username", entity.getAdServerUsername());
+    }
+
+    if (entity.getAgencyFeePct() > 0) {
+      campaignForm.param("agency_fee_pct", String.valueOf(entity.getAgencyFeePct()));
+    }
+
+    if (entity.getCurrencyCode() != null) {
+      campaignForm.param("currency_code", entity.getCurrencyCode());
+    }
+
+    campaignForm.param("dcs_data_is_campaign_level",
+        Utility.getOnOrOff(entity.isDcsDataIsCampaignLevel()));
+
+    // check null
+    if (entity.getFrequencyAmount() >= 0) {
+      campaignForm.param("frequency_amount", String.valueOf(entity.getFrequencyAmount()));
+    }
+
+    if (entity.getFrequencyInterval() != null) {
+      campaignForm.param("frequency_interval", String.valueOf(entity.getFrequencyInterval()));
+    }
+
+    if (entity.getFrequencyType() != null) {
+      campaignForm.param("frequency_type", String.valueOf(entity.getFrequencyType()));
+    }
+
+    if (entity.getGoalAlert() >= 0) {
+      campaignForm.param("goal_alert", String.valueOf(entity.getGoalAlert()));
+    }
+
+    if (entity.getGoalCategory() != null) {
+      campaignForm.param("goal_category", String.valueOf(entity.getGoalCategory()));
+    }
+
+    campaignForm.param("has_custom_attribution",
+        Utility.getOnOrOff(entity.isHasCustomAttribution()));
+
+    if (entity.getIoName() != null) {
+      campaignForm.param("io_name", entity.getIoName());
+    }
+
+    if (entity.getIoReferenceNum() != null) {
+      campaignForm.param("io_reference_num", entity.getIoReferenceNum());
+    }
+
+    if (entity.getMarginPct() >= 0) {
+      campaignForm.param("margin_pct", String.valueOf(entity.getMarginPct()));
+    }
+
+    if (entity.getMeritPixelId() > 0) {
+      campaignForm.param("merit_pixel_id", String.valueOf(entity.getMeritPixelId()));
+    }
+
+    if (entity.getPcWindowMinutes() > 0) {
+      campaignForm.param("pc_window_minutes", String.valueOf(entity.getPcWindowMinutes()));
+    }
+
+    if (entity.getPvPct() > 0) {
+      campaignForm.param("pv_pct", String.valueOf(entity.getPvPct()));
+    }
+
+    if (entity.getPvWindowMinutes() > 0) {
+      campaignForm.param("pv_window_minutes", String.valueOf(entity.getPvWindowMinutes()));
+    }
+
+    campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(entity.isSpendCapAutomatic()));
+
+    campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(entity.isSpendCapEnabled()));
+
+    campaignForm.param("use_default_ad_server", Utility.getOnOrOff(entity.isUseDefaultAdServer()));
+
+    if (entity.getZoneName() != null) {
+      campaignForm.param("zone_name", entity.getZoneName());
+    }
+
+    campaignForm.param("status", Utility.getOnOrOff(entity.isStatus()));
+
+    if (entity.getVersion() >= 0) {
+      campaignForm.param("version", String.valueOf(entity.getVersion()));
+    }
+
+    Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
+
+    return finalCampaignForm;
+  }
 }

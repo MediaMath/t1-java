@@ -13,63 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeCreativeAsset {
+public class TPASCreativeBatchIndex {
 
-	String url;
-	String type;
-	String ext;
-	String size;
-	String width;
-	String height;
+  String batch_index;
+  String conceptId;
+  String click_url;
 
-	public String getUrl() {
-		return url;
-	}
+  public String getConceptId() {
+    return conceptId;
+  }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+  public void setConceptId(String conceptId) {
+    this.conceptId = conceptId;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getClickUrl() {
+    return click_url;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public void setClickUrl(String click_url) {
+    this.click_url = click_url;
+  }
 
-	public String getExt() {
-		return ext;
-	}
+  public String getBatchIndex() {
+    return batch_index;
+  }
 
-	public void setExt(String ext) {
-		this.ext = ext;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getWidth() {
-		return width;
-	}
-
-	public void setWidth(String width) {
-		this.width = width;
-	}
-
-	public String getHeight() {
-		return height;
-	}
-
-	public void setHeight(String height) {
-		this.height = height;
-	}
+  public void setBatchIndex(String batch_index) {
+    this.batch_index = batch_index;
+  }
 
 }

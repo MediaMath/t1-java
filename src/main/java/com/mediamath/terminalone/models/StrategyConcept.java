@@ -13,100 +13,127 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class StrategyConcept implements T1Entity {
-	
-	private static final String entityName = "StrategyConcept";
 
-	private int concept_id;
-	private Date created_on;
-	private int id;
-	private boolean status;
-	private int strategy_id;
-	private Date updated_on;
-	private int version;
+  private static final String entityName = "StrategyConcept";
 
-	private Concept concept;
-	private Strategy strategy;
-	
-	public int getConcept_id() {
-		return concept_id;
-	}
+  private int advertiser_id;
+  private int concept_id;
+  private Date created_on;
+  private int id;
+  private boolean status;
+  private int strategy_id;
+  private Date updated_on;
+  private int version;
+  String weighting;
+  String name;
 
-	public void setConcept_id(int concept_id) {
-		this.concept_id = concept_id;
-	}
+  private Concept concept;
+  private Strategy strategy;
 
-	public Date getCreated_on() {
-		return created_on;
-	}
+  public int getConceptId() {
+    return concept_id;
+  }
 
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
-	}
+  public void setConceptId(int concept_id) {
+    this.concept_id = concept_id;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public Date getCreatedOn() {
+    return created_on;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
 
-	public boolean isStatus() {
-		return status;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getStrategy_id() {
-		return strategy_id;
-	}
+  public boolean isStatus() {
+    return status;
+  }
 
-	public void setStrategy_id(int strategy_id) {
-		this.strategy_id = strategy_id;
-	}
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
 
-	public Date getUpdated_on() {
-		return updated_on;
-	}
+  public int getStrategyId() {
+    return strategy_id;
+  }
 
-	public void setUpdated_on(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setStrategyId(int strategy_id) {
+    this.strategy_id = strategy_id;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public Concept getConcept() {
-		return concept;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setConcept(Concept concept) {
-		this.concept = concept;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public Strategy getStrategy() {
-		return strategy;
-	}
+  public Concept getConcept() {
+    return concept;
+  }
 
-	public void setStrategy(Strategy strategy) {
-		this.strategy = strategy;
-	}
+  public void setConcept(Concept concept) {
+    this.concept = concept;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public Strategy getStrategy() {
+    return strategy;
+  }
+
+  public void setStrategy(Strategy strategy) {
+    this.strategy = strategy;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
+
+  public int getAdvertiserId() {
+    return advertiser_id;
+  }
+
+  public void setAdvertiserId(int advertiserId) {
+    this.advertiser_id = advertiserId;
+  }
+
+  public String getWeighting() {
+    return weighting;
+  }
+
+  public void setWeighting(String weighting) {
+    this.weighting = weighting;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }
