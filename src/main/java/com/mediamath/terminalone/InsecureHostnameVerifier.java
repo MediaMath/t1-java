@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone;
 
 import javax.net.ssl.HostnameVerifier;
@@ -20,10 +21,10 @@ import javax.net.ssl.SSLSession;
 
 public class InsecureHostnameVerifier implements HostnameVerifier {
 
-	@Override
-	public boolean verify(String arg0, SSLSession arg1) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+  @Override
+  public boolean verify(String arg0, SSLSession arg1) {
+    // TODO Auto-generated method stub
+    return true;
+  }
 
 }

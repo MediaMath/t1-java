@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.reporting;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -20,38 +21,37 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 public class ReportStatus {
 
-	@JacksonXmlProperty(isAttribute = true)
-	private String code;
-	
-	@JacksonXmlProperty(isAttribute = true)
-	private String reason;
-	
-	@JacksonXmlText(value = true)
-	private String value;
+  @JacksonXmlProperty(isAttribute = true)
+  private String code;
 
-	public String getCode() {
-		return code;
-	}
+  @JacksonXmlProperty(isAttribute = true)
+  private String reason;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+  @JacksonXmlText(value = true)
+  private String value;
 
-	public String getReason() {
-		return reason;
-	}
+  public String getCode() {
+    return code;
+  }
 
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-	public String getValue() {
-		return value;
-	}
+  public String getReason() {
+    return reason;
+  }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
+
 }

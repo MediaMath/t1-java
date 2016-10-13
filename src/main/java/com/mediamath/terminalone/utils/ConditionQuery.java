@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.utils;
 
 public class ConditionQuery {
-	
-	private String include;
-	
-	private String with;
-	
-	public ConditionQuery(String include) {
-		this.include = include;
-	}
-	
-	public ConditionQuery(String include, String with) {
-		this.include = include;
-		this.with = with;
-	}
 
-	public String getInclude() {
-		return include;
-	}
+  private String include;
 
-	public String getWith() {
-		return with;
-	}
+  private String with;
+
+  public ConditionQuery(String include) {
+    this.include = include;
+  }
+
+  public ConditionQuery(String include, String with) {
+    this.include = include;
+    this.with = with;
+  }
+
+  public String getInclude() {
+    return include;
+  }
+
+  public String getWith() {
+    return with;
+  }
 
 }

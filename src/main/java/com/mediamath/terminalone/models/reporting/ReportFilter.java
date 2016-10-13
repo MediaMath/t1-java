@@ -13,38 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.reporting;
 
 public class ReportFilter {
 
-	String key;
-	
-	String operator;
-	
-	String value;
+  String key;
 
-	public String getKey() {
-		return key;
-	}
+  String operator;
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+  String value;
 
-	public String getValue() {
-		return value;
-	}
+  public String getKey() {
+    return key;
+  }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+  public void setKey(String key) {
+    this.key = key;
+  }
 
-	public String getOperator() {
-		return operator;
-	}
+  public String getValue() {
+    return value;
+  }
 
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-	
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  public String getOperator() {
+    return operator;
+  }
+
+  public void setOperator(String operator) {
+    this.operator = operator;
+  }
+
 }

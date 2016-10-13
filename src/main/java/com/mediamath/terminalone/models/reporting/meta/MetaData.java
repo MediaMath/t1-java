@@ -13,130 +13,143 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.models.reporting.meta;
 
-import java.util.ArrayList;
+package com.mediamath.terminalone.models.reporting.meta;
 
 import com.mediamath.terminalone.models.reporting.meta.MetaStructure;
 
+import java.util.ArrayList;
+
 public class MetaData {
 
-	String Description;
-	String Name;
-	String Type;
-	String URI_Data;
-	String URI_Meta;
-	String Version;
-	String currency;
-	String data_retention;
-	MetaStructure structure = new MetaStructure();
-	String time_aggregations;
-	ArrayList<String> time_rollups;
-	ArrayList<String> time_windows;
-	String timezone;
+  String Description;
 
-	public String getDescription() {
-		return Description;
-	}
+  String Name;
 
-	public void setDescription(String description) {
-		Description = description;
-	}
+  String Type;
 
-	public String getName() {
-		return Name;
-	}
+  String URI_Data;
 
-	public void setName(String name) {
-		Name = name;
-	}
+  String URI_Meta;
 
-	public String getURI_Data() {
-		return URI_Data;
-	}
+  String Version;
 
-	public void setURI_Data(String uRI_Data) {
-		URI_Data = uRI_Data;
-	}
+  String currency;
 
-	public String getURI_Meta() {
-		return URI_Meta;
-	}
+  String data_retention;
 
-	public void setURI_Meta(String uRI_Meta) {
-		URI_Meta = uRI_Meta;
-	}
+  MetaStructure structure = new MetaStructure();
 
-	public String getVersion() {
-		return Version;
-	}
+  String time_aggregations;
 
-	public void setVersion(String version) {
-		Version = version;
-	}
+  ArrayList<String> time_rollups;
 
-	public String getType() {
-		return Type;
-	}
+  ArrayList<String> time_windows;
 
-	public void setType(String type) {
-		Type = type;
-	}
+  String timezone;
 
-	public String getCurrency() {
-		return currency;
-	}
+  public String getDescription() {
+    return Description;
+  }
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
+  public void setDescription(String description) {
+    Description = description;
+  }
 
-	public String getData_retention() {
-		return data_retention;
-	}
+  public String getName() {
+    return Name;
+  }
 
-	public void setData_retention(String data_retention) {
-		this.data_retention = data_retention;
-	}
+  public void setName(String name) {
+    Name = name;
+  }
 
-	public MetaStructure getStructure() {
-		return structure;
-	}
+  public String getURI_Data() {
+    return URI_Data;
+  }
 
-	public void setStructure(MetaStructure structure) {
-		this.structure = structure;
-	}
+  public void setURI_Data(String uRI_Data) {
+    URI_Data = uRI_Data;
+  }
 
-	public String getTime_aggregations() {
-		return time_aggregations;
-	}
+  public String getURI_Meta() {
+    return URI_Meta;
+  }
 
-	public void setTime_aggregations(String time_aggregations) {
-		this.time_aggregations = time_aggregations;
-	}
+  public void setURI_Meta(String uRI_Meta) {
+    URI_Meta = uRI_Meta;
+  }
 
-	public ArrayList<String> getTime_rollups() {
-		return time_rollups;
-	}
+  public String getVersion() {
+    return Version;
+  }
 
-	public void setTime_rollups(ArrayList<String> time_rollups) {
-		this.time_rollups = time_rollups;
-	}
+  public void setVersion(String version) {
+    Version = version;
+  }
 
-	public ArrayList<String> getTime_windows() {
-		return time_windows;
-	}
+  public String getType() {
+    return Type;
+  }
 
-	public void setTime_windows(ArrayList<String> time_windows) {
-		this.time_windows = time_windows;
-	}
+  public void setType(String type) {
+    Type = type;
+  }
 
-	public String getTimezone() {
-		return timezone;
-	}
+  public String getCurrency() {
+    return currency;
+  }
 
-	public void setTimezone(String timezone) {
-		this.timezone = timezone;
-	}
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+
+  public String getData_retention() {
+    return data_retention;
+  }
+
+  public void setData_retention(String data_retention) {
+    this.data_retention = data_retention;
+  }
+
+  public MetaStructure getStructure() {
+    return structure;
+  }
+
+  public void setStructure(MetaStructure structure) {
+    this.structure = structure;
+  }
+
+  public String getTime_aggregations() {
+    return time_aggregations;
+  }
+
+  public void setTime_aggregations(String time_aggregations) {
+    this.time_aggregations = time_aggregations;
+  }
+
+  public ArrayList<String> getTime_rollups() {
+    return time_rollups;
+  }
+
+  public void setTime_rollups(ArrayList<String> time_rollups) {
+    this.time_rollups = time_rollups;
+  }
+
+  public ArrayList<String> getTime_windows() {
+    return time_windows;
+  }
+
+  public void setTime_windows(ArrayList<String> time_windows) {
+    this.time_windows = time_windows;
+  }
+
+  public String getTimezone() {
+    return timezone;
+  }
+
+  public void setTimezone(String timezone) {
+    this.timezone = timezone;
+  }
 
 }

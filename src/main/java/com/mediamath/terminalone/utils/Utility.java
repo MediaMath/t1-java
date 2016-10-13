@@ -13,84 +13,101 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.mediamath.terminalone.TerminalOne;
-
 public class Utility {
-	
-	private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-	private static Properties vConfigProp = new Properties();
-	
-	public static String getOnOrOff(boolean bool) {
-		String response = "off";
-		if(bool) {
-			response = "on";
-		}
-		return response;
-	}
-	
-	public static String getOneOrZero(boolean bool) {
-		String response = "0";
-		if(bool) {
-			response = "1";
-		}
-		return response;
-	}
+  private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-	public static Properties loadConfigProperty() {
-		if (vConfigProp.isEmpty()) {
-			InputStream input = null;
-			try {
-				String filename = "config.properties";
-				input = Utility.class.getClassLoader().getResourceAsStream(filename);
-				if (input == null) {
-					logger.info("Unable to load the configurations");
-					// TODO throw exception
-					return null;
-				}
+  private static Properties vConfigProp = new Properties();
 
-				vConfigProp.load(input);
+  /**
+   * gets String "on" or "off" based on the boolean value supplied.
+   * 
+   * @param bool
+   *          requires a boolean value.
+   * @return String either "on" or "off"
+   */
+  public static String getOnOrOff(boolean bool) {
+    String response = "off";
+    if (bool) {
+      response = "on";
+    }
+    return response;
+  }
 
-			} catch (IOException e) {
-				// TODO handle exceptions
-				e.printStackTrace();
-			} finally {
-				if (input != null) {
-					try {
-						input.close();
-					} catch (IOException e) {
-						
-						// TODO handle exception
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+  /**
+   * gets String value of "0" or "1" based on the boolean value supplied.
+   * 
+   * @param bool
+   *          requires a boolean value.
+   * @return String object.
+   */
+  public static String getOneOrZero(boolean bool) {
+    String response = "0";
+    if (bool) {
+      response = "1";
+    }
+    return response;
+  }
 
-		return vConfigProp;
-	}
-	
-	public static Properties getConfigProperties() {
-		return vConfigProp; 
-	}
-	
-	
-	public static void logStackTrace(Exception pEx) {
-		StringBuilder vStrBuffer = new StringBuilder(pEx.getMessage());
-		StackTraceElement[] vStactTraceElements = pEx.getStackTrace();
-		for (StackTraceElement vSte : vStactTraceElements) {
-			vStrBuffer.append(vSte.toString());
-		}
-		logger.error(vStrBuffer.toString());
-	}
+  /**
+   * this utility is used to load the config by reading the property files.
+   * 
+   * @return Properties object.
+   */
+  public static Properties loadConfigProperty() {
+    if (vConfigProp.isEmpty()) {
+      InputStream input = null;
+      try {
+        String filename = "config.properties";
+        input = Utility.class.getClassLoader().getResourceAsStream(filename);
+        if (input == null) {
+          logger.info("Unable to load the configurations");
+          return null;
+        }
+        vConfigProp.load(input);
+      } catch (IOException ioException) {
+        logStackTrace(ioException);
+      } finally {
+        if (input != null) {
+          try {
+            input.close();
+          } catch (IOException ioException) {
+            logStackTrace(ioException);
+          }
+        }
+      }
+    }
+
+    return vConfigProp;
+  }
+
+  public static Properties getConfigProperties() {
+    return vConfigProp;
+  }
+
+  /**
+   * this utility takes in the Exception object and logs the entire stact tracer to the logger.
+   * 
+   * @param exception
+   *          Exception object.
+   */
+  public static void logStackTrace(Exception exception) {
+    StringBuilder strBuffer = new StringBuilder(exception.getMessage());
+    StackTraceElement[] stactTraceElements = exception.getStackTrace();
+    for (StackTraceElement ste : stactTraceElements) {
+      strBuffer.append(ste.toString());
+    }
+    logger.error(strBuffer.toString());
+  }
 
 }
