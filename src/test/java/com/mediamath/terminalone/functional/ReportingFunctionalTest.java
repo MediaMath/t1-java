@@ -116,10 +116,10 @@ public class ReportingFunctionalTest {
 		String dateInString = "2015-02-06";
 		String endDateInString = "2015-04-16";
 
-		String stateDate = df.format(df.parse(dateInString));
+		String startDate = df.format(df.parse(dateInString));
 		String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(stateDate);
+		report.setStart_date(startDate);
 		report.setEnd_date(endDate);
 
 		t1.getReport(Reports.PERFORMANCE, report);
@@ -163,10 +163,10 @@ public class ReportingFunctionalTest {
 		String dateInString = "2015-02-06";
 		String endDateInString = "2015-04-16";
 
-		String stateDate = df.format(df.parse(dateInString));
+		String startDate = df.format(df.parse(dateInString));
 		String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(stateDate);
+		report.setStart_date(startDate);
 		report.setEnd_date(endDate);
 
 		ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
