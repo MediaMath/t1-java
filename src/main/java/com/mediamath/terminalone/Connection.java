@@ -20,6 +20,7 @@ import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.utils.Utility;
 
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
@@ -72,7 +73,7 @@ public class Connection {
    *          requires a Form data object.
    * @param userMap
    *          requires a valid user login session.
-   * @return Reponse object.
+   * @return Response object.
    * @throws ClientException
    *           throws a client exception.
    */
@@ -83,37 +84,19 @@ public class Connection {
     }
 
     Response response = null;
-    Client client = null;
-    HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
+    Client client = ClientBuilder.newClient(new ClientConfig());
 
-    try {
-      SSLContext sc = SSLContext.getInstance("SSL");
-      if (sc != null) {
-        TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-      } else if (sc == null) {
-        // java 8 specific routine
-        sc = SSLContext.getDefault();
-      }
+    logger.info("Target URL: " + url);
 
-      client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid).build();
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request(); // (MediaType.APPLICATION_JSON);
+    invocationBuilder.header("User-Agent", userAgent);
+    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
 
-      logger.info("Target URL: " + url);
+    userSessionCheck(userMap, invocationBuilder);
 
-      WebTarget webTarget = client.target(url);
-      Invocation.Builder invocationBuilder = webTarget.request(); // (MediaType.APPLICATION_JSON);
-      invocationBuilder.header("User-Agent", userAgent);
-      invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
+    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 
-      userSessionCheck(userMap, invocationBuilder);
-
-      response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-
-    } catch (NoSuchAlgorithmException noSuchAlgoException) {
-      Utility.logStackTrace(noSuchAlgoException);
-    } catch (KeyManagementException keyManagementException) {
-      Utility.logStackTrace(keyManagementException);
-    }
     // return response.readEntity(String.class);
     return response;
   }
@@ -139,37 +122,20 @@ public class Connection {
 
     Response response = null;
     Client client = null;
-    HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
 
-    try {
-      SSLContext sc = SSLContext.getInstance("SSL");
-      if (sc != null) {
-        TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-      } else if (sc == null) {
-        // java 8 specific routine
-        sc = SSLContext.getDefault();
-      }
+    client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
 
-      client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid)
-          .register(MultiPartFeature.class).build();
+    logger.info("Target URL: " + url);
 
-      logger.info("Target URL: " + url);
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request();
+    invocationBuilder.header("User-Agent", userAgent);
+    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
 
-      WebTarget webTarget = client.target(url);
-      Invocation.Builder invocationBuilder = webTarget.request();
-      invocationBuilder.header("User-Agent", userAgent);
-      invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
+    userSessionCheck(userMap, invocationBuilder);
 
-      userSessionCheck(userMap, invocationBuilder);
+    response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
 
-      response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
-
-    } catch (NoSuchAlgorithmException noSuchAlgoException) {
-      Utility.logStackTrace(noSuchAlgoException);
-    } catch (KeyManagementException keyManagementException) {
-      Utility.logStackTrace(keyManagementException);
-    }
     // return response.readEntity(String.class);
     return response;
 
@@ -195,37 +161,19 @@ public class Connection {
 
     Response response = null;
     Client client = null;
-    HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
+    client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
 
-    try {
-      SSLContext sc = SSLContext.getInstance("SSL");
-      if (sc != null) {
-        TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-      } else if (sc == null) {
-        // java 8 specific routine
-        sc = SSLContext.getDefault();
-      }
+    logger.info("Target URL: " + url);
 
-      client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid)
-          .register(MultiPartFeature.class).build();
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request();
+    invocationBuilder.header("User-Agent", userAgent);
+    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
 
-      logger.info("Target URL: " + url);
+    userSessionCheck(userMap, invocationBuilder);
 
-      WebTarget webTarget = client.target(url);
-      Invocation.Builder invocationBuilder = webTarget.request();
-      invocationBuilder.header("User-Agent", userAgent);
-      invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
+    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
 
-      userSessionCheck(userMap, invocationBuilder);
-
-      response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
-
-    } catch (NoSuchAlgorithmException noSuchAlgoException) {
-      Utility.logStackTrace(noSuchAlgoException);
-    } catch (KeyManagementException keyManagementException) {
-      Utility.logStackTrace(keyManagementException);
-    }
     // return response.readEntity(String.class);
     return response;
   }
@@ -242,35 +190,19 @@ public class Connection {
   public String get(String url, T1Response userMap) {
     Response response = null;
     Client client = null;
-    HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
-    try {
-      SSLContext sc = SSLContext.getInstance("SSL");
+    client = ClientBuilder.newClient(new ClientConfig());
 
-      if (sc != null) {
-        TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-      } else if (sc == null) {
-        // java 8 specific routine
-        sc = SSLContext.getDefault();
-      }
+    logger.info("Target URL: " + url);
 
-      client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid).build();
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request();
+    invocationBuilder.header("User-Agent", userAgent);
+    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
 
-      logger.info("Target URL: " + url);
+    userSessionCheck(userMap, invocationBuilder);
 
-      WebTarget webTarget = client.target(url);
-      Invocation.Builder invocationBuilder = webTarget.request();
-      invocationBuilder.header("User-Agent", userAgent);
-      invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
+    response = invocationBuilder.get();
 
-      userSessionCheck(userMap, invocationBuilder);
-
-      response = invocationBuilder.get();
-    } catch (NoSuchAlgorithmException noSuchAlgoException) {
-      Utility.logStackTrace(noSuchAlgoException);
-    } catch (KeyManagementException keyManagementException) {
-      Utility.logStackTrace(keyManagementException);
-    }
     return response.readEntity(String.class);
   }
 
@@ -287,35 +219,18 @@ public class Connection {
 
     Response response = null;
     Client client = null;
-    HostnameVerifier allHostsValid = new InsecureHostnameVerifier();
-    try {
-      SSLContext sc = SSLContext.getInstance("SSL");
 
-      if (sc != null) {
-        TrustManager[] trustAllCerts = { new InsecureTrustManager() };
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-      } else if (sc == null) {
-        // java 8 specific routine
-        sc = SSLContext.getDefault();
-      }
+    client = ClientBuilder.newClient(new ClientConfig());
+    logger.info("Target URL: " + url);
 
-      client = ClientBuilder.newBuilder().sslContext(sc).hostnameVerifier(allHostsValid).build();
-      logger.info("Target URL: " + url);
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request();
+    invocationBuilder.header("User-Agent", userAgent);
+    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
 
-      WebTarget webTarget = client.target(url);
-      Invocation.Builder invocationBuilder = webTarget.request();
-      invocationBuilder.header("User-Agent", userAgent);
-      invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
+    userSessionCheck(userMap, invocationBuilder);
 
-      userSessionCheck(userMap, invocationBuilder);
-
-      response = invocationBuilder.get();
-    } catch (NoSuchAlgorithmException noSuchAlgoException) {
-      Utility.logStackTrace(noSuchAlgoException);
-    } catch (KeyManagementException keyManagementException) {
-      Utility.logStackTrace(keyManagementException);
-    }
-
+    response = invocationBuilder.get();
     return response;
   }
 

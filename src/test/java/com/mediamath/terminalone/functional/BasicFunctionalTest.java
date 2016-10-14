@@ -123,10 +123,10 @@ public class BasicFunctionalTest {
 		TerminalOne t1 = new TerminalOne();
 		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("khxg27pd2wbva3vm4278vqmy", oauth_key, oauth_secret, "https://blog.mediamath.com/");
 		assertNotNull(oauthResponse);
-	}
+	}*/
 	
-	 Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL 
-	@Test
+	// Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL 
+	/*@Test
 	public void testOAuthHRefreshToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
 		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("yfdwzubxjghhaxjsh7hb3u8v", oauth_key, oauth_secret, "https://blog.mediamath.com/");
@@ -633,7 +633,7 @@ public class BasicFunctionalTest {
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
-	@Test
+	/*@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
 		TerminalOne t1 = new TerminalOne(user, password,production_key);
@@ -646,9 +646,9 @@ public class BasicFunctionalTest {
 		videoCreative.setEndTime(1470009600);
 		videoCreative.setConcept(847527);
 		videoCreative.setClickthroughUrl("http://www.somedomain.com");
-	/*	videoCreative.setVendors(847527);
+		videoCreative.setVendors(847527);
 		videoCreative.setVendors(847528);
-		videoCreative.setVendors(847529);*/
+		videoCreative.setVendors(847529);
 		
 		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 		
@@ -671,7 +671,7 @@ public class BasicFunctionalTest {
 		assertNotNull(uploadResponse);
 		assertNotNull(uploadResponse.getStatus());
 	}
-
+*/
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() throws ClientException {
@@ -1369,7 +1369,7 @@ public class BasicFunctionalTest {
 		assertNotNull(jsonresponse);
 		List<StrategyDayPart> day_parts = (List<StrategyDayPart>) jsonresponse.getData();
 		assertNotNull(day_parts);
-		assertTrue(day_parts.size() >0);
+		assertTrue(day_parts.size() > 0);
 	}
 	
 	@Test
