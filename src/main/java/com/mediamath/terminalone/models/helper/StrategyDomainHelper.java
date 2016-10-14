@@ -46,7 +46,7 @@ public class StrategyDomainHelper {
       throw new ValidationException("please add restrictions");
     }
 
-    if (entity.getStrategy_id() <= 0) {
+    if (entity.getStrategyId() <= 0) {
       throw new ValidationException("please enter a valid strategy id");
     }
 
@@ -68,16 +68,16 @@ public class StrategyDomainHelper {
       strategyDomainForm.param("domain", String.valueOf(entity.getDomain()));
     }
 
-    if (entity.getStrategy_id() > 0) {
-      strategyDomainForm.param("strategy_id", String.valueOf(entity.getStrategy_id()));
+    if (entity.getStrategyId() > 0) {
+      strategyDomainForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
     if (entity.getRestriction() != null) {
       strategyDomainForm.param("restriction", entity.getRestriction().name());
     }
 
-    if (entity.getCreated_at() != null) {
-      String createdAt = sdf.format(entity.getCreated_at());
+    if (entity.getCreatedAt() != null) {
+      String createdAt = sdf.format(entity.getCreatedAt());
       strategyDomainForm.param("created_at", createdAt);
     }
 
@@ -85,8 +85,8 @@ public class StrategyDomainHelper {
       if (entity.getVersion() > 0) {
         strategyDomainForm.param("restriction", String.valueOf(entity.getVersion()));
       }
-      if (entity.getUpdated_on() != null) {
-        String updatedOn = sdf.format(entity.getUpdated_on());
+      if (entity.getUpdatedOn() != null) {
+        String updatedOn = sdf.format(entity.getUpdatedOn());
         strategyDomainForm.param("updated_on", updatedOn);
       }
 

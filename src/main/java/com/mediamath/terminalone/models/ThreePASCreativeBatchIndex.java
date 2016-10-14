@@ -29,19 +29,19 @@ public class ThreePASCreativeBatchIndex {
 		this.conceptId = conceptId;
 	}
 
-	public String getClick_url() {
+	public String getClickUrl() {
 		return click_url;
 	}
 
-	public void setClick_url(String click_url) {
+	public void setClickUrl(String click_url) {
 		this.click_url = click_url;
 	}
 
-	public String getBatch_index() {
+	public String getBatchIndex() {
 		return batch_index;
 	}
 
-	public void setBatch_index(String batch_index) {
+	public void setBatchIndex(String batch_index) {
 		this.batch_index = batch_index;
 	}
 

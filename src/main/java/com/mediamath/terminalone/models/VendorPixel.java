@@ -33,16 +33,16 @@ public class VendorPixel implements T1Entity {
     private Creative creative;
     
     
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public int getCreative_id() {
+	public int getCreativeId() {
 		return creative_id;
 	}
-	public void setCreative_id(int creative_id) {
+	public void setCreativeId(int creative_id) {
 		this.creative_id = creative_id;
 	}
 	public int getId() {
@@ -51,10 +51,10 @@ public class VendorPixel implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSet_by() {
+	public String getSetBy() {
 		return set_by;
 	}
-	public void setSet_by(String set_by) {
+	public void setSetBy(String set_by) {
 		this.set_by = set_by;
 	}
 	public String getTag() {
@@ -63,16 +63,16 @@ public class VendorPixel implements T1Entity {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	public String getTag_type() {
+	public String getTagType() {
 		return tag_type;
 	}
-	public void setTag_type(String tag_type) {
+	public void setTagType(String tag_type) {
 		this.tag_type = tag_type;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

@@ -38,7 +38,7 @@ public class SiteListHelper {
       throw new ValidationException("please make sure name does not exceed 64 characters.");
     }
 
-    if (entity.getOrganization_id() <= 0) {
+    if (entity.getOrganizationId() <= 0) {
       throw new ValidationException("please enter a valid Organization id");
     }
 
@@ -71,8 +71,8 @@ public class SiteListHelper {
       strategyConceptForm.param("restriction", String.valueOf(entity.getRestriction()));
     }
 
-    if (entity.getOrganization_id() > 0) {
-      strategyConceptForm.param("organization_id", String.valueOf(entity.getOrganization_id()));
+    if (entity.getOrganizationId() > 0) {
+      strategyConceptForm.param("organization_id", String.valueOf(entity.getOrganizationId()));
     }
 
     strategyConceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));

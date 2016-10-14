@@ -40,11 +40,11 @@ public class MetaStructure {
     this.metrics = metrics;
   }
 
-  public TimeField getTime_field() {
+  public TimeField getTimeField() {
     return time_field;
   }
 
-  public void setTime_field(TimeField time_field) {
+  public void setTimeField(TimeField time_field) {
     this.time_field = time_field;
   }
 

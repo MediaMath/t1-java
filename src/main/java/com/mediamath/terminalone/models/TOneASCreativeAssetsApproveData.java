@@ -31,11 +31,11 @@ public class TOneASCreativeAssetsApproveData {
 
 	String concept;
 
-	public boolean isIs_https() {
+	public boolean isHttps() {
 		return is_https;
 	}
 
-	public void setIs_https(boolean is_https) {
+	public void setIsHttps(boolean is_https) {
 		this.is_https = is_https;
 	}
 
@@ -55,11 +55,11 @@ public class TOneASCreativeAssetsApproveData {
 		this.landingPage = landingPage;
 	}
 
-	public String getClick_url() {
+	public String getClickUrl() {
 		return click_url;
 	}
 
-	public void setClick_url(String click_url) {
+	public void setClickUrl(String click_url) {
 		this.click_url = click_url;
 	}
 

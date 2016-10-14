@@ -31,11 +31,11 @@ public class ThreePASCreativesBatchUpload {
 		this.batch = batch;
 	}
 
-	public String getCalled_on() {
+	public String getCalledOn() {
 		return called_on;
 	}
 
-	public void setCalled_on(String called_on) {
+	public void setCalledOn(String called_on) {
 		this.called_on = called_on;
 	}
 

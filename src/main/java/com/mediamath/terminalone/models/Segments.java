@@ -21,20 +21,20 @@ public class Segments {
 		INCLUDE, EXCLUDE
 	};
 	
-	public enum aud_seg_exc {
+	public enum audSegExc {
 		AND, OR
 	};
 
-	public enum aud_seg_inc {
+	public enum audSegInc {
 		AND, OR
 	};
 	
 	private int id;
 	private restrictions restriction;
-	private aud_seg_exc exclude;
-	private aud_seg_inc include;
+	private audSegExc exclude;
+	private audSegInc include;
 	
-	public Segments(int id, restrictions restriction, aud_seg_exc exclude, aud_seg_inc include) {
+	public Segments(int id, restrictions restriction, audSegExc exclude, audSegInc include) {
 		this.id = id;
 		this.restriction = restriction;
 		this.exclude = exclude;
@@ -52,16 +52,16 @@ public class Segments {
 	public void setRestriction(restrictions restriction) {
 		this.restriction = restriction;
 	}
-	public aud_seg_exc getExclude() {
+	public audSegExc getExclude() {
 		return exclude;
 	}
-	public void setExclude(aud_seg_exc exclude) {
+	public void setExclude(audSegExc exclude) {
 		this.exclude = exclude;
 	}
-	public aud_seg_inc getInclude() {
+	public audSegInc getInclude() {
 		return include;
 	}
-	public void setInclude(aud_seg_inc include) {
+	public void setInclude(audSegInc include) {
 		this.include = include;
 	}
 	

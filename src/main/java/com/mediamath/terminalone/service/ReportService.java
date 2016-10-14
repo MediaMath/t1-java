@@ -381,7 +381,7 @@ public class ReportService {
       }
 
       timefield.setData(timeFieldMap);
-      data.getStructure().setTime_field(timefield);
+      data.getStructure().setTimeField(timefield);
     }
 
     return data;

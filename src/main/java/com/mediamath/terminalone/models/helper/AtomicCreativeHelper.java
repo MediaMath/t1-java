@@ -56,79 +56,79 @@ public class AtomicCreativeHelper {
 
     atomicCreativeForm.param("name", entity.getName());
 
-    if (entity.getAdvertiser_id() > 0) {
-      atomicCreativeForm.param("advertiser_id", String.valueOf(entity.getAdvertiser_id()));
+    if (entity.getAdvertiserId() > 0) {
+      atomicCreativeForm.param("advertiser_id", String.valueOf(entity.getAdvertiserId()));
     }
 
-    if (entity.getAd_format() != null) {
-      atomicCreativeForm.param("ad_format", entity.getAd_format().toString());
+    if (entity.getAdFormat() != null) {
+      atomicCreativeForm.param("ad_format", entity.getAdFormat().toString());
     }
 
-    if (entity.getAd_server_type() != null) {
-      atomicCreativeForm.param("ad_server_type", entity.getAd_server_type().toString());
+    if (entity.getAdServerType() != null) {
+      atomicCreativeForm.param("ad_server_type", entity.getAdServerType().toString());
     }
 
-    if (entity.getApproval_status() != null) {
-      atomicCreativeForm.param("approval_status", entity.getApproval_status().toString());
+    if (entity.getApprovalStatus() != null) {
+      atomicCreativeForm.param("approval_status", entity.getApprovalStatus().toString());
     }
 
-    if (entity.getBuild_date() != null) {
-      String buildDate = sdf.format(entity.getBuild_date());
+    if (entity.getBuildDate() != null) {
+      String buildDate = sdf.format(entity.getBuildDate());
       atomicCreativeForm.param("build_date", buildDate);
     }
 
-    if (entity.getBuild_errors() != null && !entity.getBuild_errors().isEmpty()) {
-      atomicCreativeForm.param("build_errors", entity.getBuild_errors());
+    if (entity.getBuildErrors() != null && !entity.getBuildErrors().isEmpty()) {
+      atomicCreativeForm.param("build_errors", entity.getBuildErrors());
     }
 
     atomicCreativeForm.param("built", Utility.getOnOrOff(entity.isBuilt()));
 
-    if (entity.getBuilt_by_user_id() > 0) {
-      atomicCreativeForm.param("built_by_user_id", String.valueOf(entity.getBuilt_by_user_id()));
+    if (entity.getBuiltByUserId() > 0) {
+      atomicCreativeForm.param("built_by_user_id", String.valueOf(entity.getBuiltByUserId()));
     }
     
-    if (entity.getClick_through_url() != null && !entity.getClick_through_url().isEmpty()) {
-      atomicCreativeForm.param("click_through_url", entity.getClick_through_url());
+    if (entity.getClickThroughUrl() != null && !entity.getClickThroughUrl().isEmpty()) {
+      atomicCreativeForm.param("click_through_url", entity.getClickThroughUrl());
     }
 
-    if (entity.getClick_url() != null && !entity.getClick_url().isEmpty()) {
-      atomicCreativeForm.param("click_url", entity.getClick_url());
+    if (entity.getClickUrl() != null && !entity.getClickUrl().isEmpty()) {
+      atomicCreativeForm.param("click_url", entity.getClickUrl());
     }
 
-    if (entity.getConcept_id() > 0) {
-      atomicCreativeForm.param("concept_id", String.valueOf(entity.getConcept_id()));
+    if (entity.getConceptId() > 0) {
+      atomicCreativeForm.param("concept_id", String.valueOf(entity.getConceptId()));
     }
 
-    if (entity.getCreative_import_file_id() > 0 ) {
-      atomicCreativeForm.param("creative_import_file_id", String.valueOf(entity.getCreative_import_file_id()));
+    if (entity.getCreativeImportFileId() > 0 ) {
+      atomicCreativeForm.param("creative_import_file_id", String.valueOf(entity.getCreativeImportFileId()));
     }
 
-    if (entity.getEdited_tag() != null && !entity.getEdited_tag().isEmpty()) {
-      atomicCreativeForm.param("edited_tag", entity.getEdited_tag());
+    if (entity.getEditedTag() != null && !entity.getEditedTag().isEmpty()) {
+      atomicCreativeForm.param("edited_tag", entity.getEditedTag());
     }
 
-    if (entity.getEnd_date() != null) {
-      String endDate = sdf.format(entity.getEnd_date());
+    if (entity.getEndDate() != null) {
+      String endDate = sdf.format(entity.getEndDate());
       atomicCreativeForm.param("end_date", endDate);
     }
 
-    if (entity.getExpansion_direction() != null) {
-      atomicCreativeForm.param("expansion_direction", entity.getExpansion_direction().toString());
+    if (entity.getExpansionDirection() != null) {
+      atomicCreativeForm.param("expansion_direction", entity.getExpansionDirection().toString());
     }
 
-    if (entity.getExpansion_trigger() != null) {
-      atomicCreativeForm.param("expansion_trigger", entity.getExpansion_trigger().toString());
+    if (entity.getExpansionTrigger() != null) {
+      atomicCreativeForm.param("expansion_trigger", entity.getExpansionTrigger().toString());
     }
 
-    if (entity.getExternal_identifier() != null && !entity.getExternal_identifier().isEmpty()) {
-      atomicCreativeForm.param("external_identifier", entity.getExternal_identifier());
+    if (entity.getExternalIdentifier() != null && !entity.getExternalIdentifier().isEmpty()) {
+      atomicCreativeForm.param("external_identifier", entity.getExternalIdentifier());
     }
 
-    if (entity.getFile_type() != null) {
-      atomicCreativeForm.param("file_type", entity.getFile_type().toString());
+    if (entity.getFileType() != null) {
+      atomicCreativeForm.param("file_type", entity.getFileType().toString());
     }
 
-    atomicCreativeForm.param("has_sound", Utility.getOnOrOff(entity.isHas_sound()));
+    atomicCreativeForm.param("has_sound", Utility.getOnOrOff(entity.isHasSound()));
 
     if (entity.getHeight() > 0) {
       atomicCreativeForm.param("height", String.valueOf(entity.getHeight()));
@@ -138,30 +138,30 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("id", String.valueOf(entity.getId()));
     }
 
-    atomicCreativeForm.param("is_https", Utility.getOnOrOff(entity.isIs_https()));
+    atomicCreativeForm.param("is_https", Utility.getOnOrOff(entity.isIsHttps()));
 
-    atomicCreativeForm.param("is_multi_creative", Utility.getOnOrOff(entity.isIs_multi_creative()));
+    atomicCreativeForm.param("is_multi_creative", Utility.getOnOrOff(entity.isIsMultiCreative()));
 
-    if (entity.getMedia_type() != null) {
-      atomicCreativeForm.param("media_type", entity.getMedia_type().toString());
+    if (entity.getMediaType() != null) {
+      atomicCreativeForm.param("media_type", entity.getMediaType().toString());
     }
 
     if (entity.getName() != null && !entity.getName().isEmpty()) {
       atomicCreativeForm.param("name", entity.getName());
     }
 
-    if (entity.getRejected_reason() != null && !entity.getRejected_reason().isEmpty()) {
-      atomicCreativeForm.param("rejected_reason", entity.getRejected_reason());
+    if (entity.getRejectedReason() != null && !entity.getRejectedReason().isEmpty()) {
+      atomicCreativeForm.param("rejected_reason", entity.getRejectedReason());
     }
 
-    atomicCreativeForm.param("rich_media", Utility.getOnOrOff(entity.isRich_media()));
+    atomicCreativeForm.param("rich_media", Utility.getOnOrOff(entity.isRichMedia()));
 
-    if (entity.getRich_media_provider() != null && !entity.getRich_media_provider().isEmpty()) {
-      atomicCreativeForm.param("rich_media_provider", entity.getRich_media_provider());
+    if (entity.getRichMediaProvider() != null && !entity.getRichMediaProvider().isEmpty()) {
+      atomicCreativeForm.param("rich_media_provider", entity.getRichMediaProvider());
     }
 
-    if (entity.getStart_date() != null) {
-      String startDate = sdf.format(entity.getStart_date());
+    if (entity.getStartDate() != null) {
+      String startDate = sdf.format(entity.getStartDate());
       atomicCreativeForm.param("start_date", startDate);
     }
 
@@ -173,16 +173,16 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("tag", entity.getTag());
     }
 
-    if (entity.getTag_type() != null) {
-      atomicCreativeForm.param("tag_type", entity.getTag_type().toString());
+    if (entity.getTagType() != null) {
+      atomicCreativeForm.param("tag_type", entity.getTagType().toString());
     }
 
-    if (entity.getTpas_ad_tag() != null && !entity.getTpas_ad_tag().isEmpty()) {
-      atomicCreativeForm.param("tpas_ad_tag", entity.getTpas_ad_tag());
+    if (entity.getTpasAdTag() != null && !entity.getTpasAdTag().isEmpty()) {
+      atomicCreativeForm.param("tpas_ad_tag", entity.getTpasAdTag());
     }
 
-    if (entity.getTpas_ad_tag_name() != null && !entity.getTpas_ad_tag_name().isEmpty()) {
-      atomicCreativeForm.param("tpas_ad_tag_name", entity.getTpas_ad_tag_name());
+    if (entity.getTpasAdTagName() != null && !entity.getTpasAdTagName().isEmpty()) {
+      atomicCreativeForm.param("tpas_ad_tag_name", entity.getTpasAdTagName());
     }
 
     if (entity.getType() != null && !entity.getType().isEmpty()) {

@@ -35,37 +35,37 @@ public class CreativeApproval implements T1Entity {
 	public String getAdditional_detail() {
 		return additional_detail;
 	}
-	public void setAdditional_detail(String additional_detail) {
+	public void setAdditionalDetail(String additional_detail) {
 		this.additional_detail = additional_detail;
 	}
-	public String getApproval_status() {
+	public String getApprovalStatus() {
 		return approval_status;
 	}
-	public void setApproval_status(String approval_status) {
+	public void setApprovalStatus(String approval_status) {
 		this.approval_status = approval_status;
 	}
-	public int getAtomic_creative_id() {
+	public int getAtomicCreativeId() {
 		return atomic_creative_id;
 	}
-	public void setAtomic_creative_id(int atomic_creative_id) {
+	public void setAtomicCreativeId(int atomic_creative_id) {
 		this.atomic_creative_id = atomic_creative_id;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public int getCreative_import_file_id() {
+	public int getCreativeImportFileId() {
 		return creative_import_file_id;
 	}
-	public void setCreative_import_file_id(int creative_import_file_id) {
+	public void setCreativeImportFileId(int creative_import_file_id) {
 		this.creative_import_file_id = creative_import_file_id;
 	}
-	public String getExternal_identifier() {
+	public String getExternalIdentifier() {
 		return external_identifier;
 	}
-	public void setExternal_identifier(String external_identifier) {
+	public void setExternalIdentifier(String external_identifier) {
 		this.external_identifier = external_identifier;
 	}
 	public int getId() {
@@ -74,22 +74,22 @@ public class CreativeApproval implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getRejected_reason() {
+	public String getRejectedReason() {
 		return rejected_reason;
 	}
-	public void setRejected_reason(String rejected_reason) {
+	public void setRejectedReason(String rejected_reason) {
 		this.rejected_reason = rejected_reason;
 	}
-	public int getSupply_source_id() {
+	public int getSupplySourceId() {
 		return supply_source_id;
 	}
-	public void setSupply_source_id(int supply_source_id) {
+	public void setSupplySourceId(int supply_source_id) {
 		this.supply_source_id = supply_source_id;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

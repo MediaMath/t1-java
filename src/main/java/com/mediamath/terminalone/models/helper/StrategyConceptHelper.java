@@ -35,11 +35,11 @@ public class StrategyConceptHelper {
    */
   public static void validateRequiredFields(StrategyConcept entity) throws T1Exception {
     
-    if (entity.getConcept_id() <= 0) {
+    if (entity.getConceptId() <= 0) {
       throw new ValidationException("please enter a valid concept id");
     }
 
-    if (entity.getStrategy_id() <= 0) {
+    if (entity.getStrategyId() <= 0) {
       throw new ValidationException("please enter a valid strategy id");
     }
 
@@ -58,12 +58,12 @@ public class StrategyConceptHelper {
   public static Form getForm(StrategyConcept entity) {
     Form strategyConceptForm = new Form();
 
-    if (entity.getConcept_id() > 0) {
-      strategyConceptForm.param("concept_id", String.valueOf(entity.getConcept_id()));
+    if (entity.getConceptId() > 0) {
+      strategyConceptForm.param("concept_id", String.valueOf(entity.getConceptId()));
     }
 
-    if (entity.getStrategy_id() > 0) {
-      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategy_id()));
+    if (entity.getStrategyId() > 0) {
+      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
     strategyConceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));

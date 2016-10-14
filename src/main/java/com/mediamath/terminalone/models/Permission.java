@@ -60,75 +60,75 @@ public class Permission implements T1Entity {
 		this.organization = organization;
 	}
 
-	public int getEdit_data_definition() {
+	public int getEditDataDefinition() {
 		return edit_data_definition;
 	}
 
-	public void setEdit_data_definition(int edit_data_definition) {
+	public void setEditDataDefinition(int edit_data_definition) {
 		this.edit_data_definition = edit_data_definition;
 	}
 
-	public int getView_data_definition() {
+	public int getViewDataDefinition() {
 		return view_data_definition;
 	}
 
-	public void setView_data_definition(int view_data_definition) {
+	public void setViewDataDefinition(int view_data_definition) {
 		this.view_data_definition = view_data_definition;
 	}
 
-	public int getEdit_segments() {
+	public int getEditSegments() {
 		return edit_segments;
 	}
 
-	public void setEdit_segments(int edit_segments) {
+	public void setEditSegments(int edit_segments) {
 		this.edit_segments = edit_segments;
 	}
 
-	public int getEdit_campaigns() {
+	public int getEditCampaigns() {
 		return edit_campaigns;
 	}
 
-	public void setEdit_campaigns(int edit_campaigns) {
+	public void setEditCampaigns(int edit_campaigns) {
 		this.edit_campaigns = edit_campaigns;
 	}
 
-	public int getAccess_internal_fees() {
+	public int getAccessInternalFees() {
 		return access_internal_fees;
 	}
 
-	public void setAccess_internal_fees(int access_internal_fees) {
+	public void setAccessInternalFees(int access_internal_fees) {
 		this.access_internal_fees = access_internal_fees;
 	}
 
-	public int getEdit_margins_and_performance() {
+	public int getEditMarginsAndPerformance() {
 		return edit_margins_and_performance;
 	}
 
-	public void setEdit_margins_and_performance(int edit_margins_and_performance) {
+	public void setEditMarginsAndPerformance(int edit_margins_and_performance) {
 		this.edit_margins_and_performance = edit_margins_and_performance;
 	}
 
-	public int getView_organizations() {
+	public int getViewOrganizations() {
 		return view_organizations;
 	}
 
-	public void setView_organizations(int view_organizations) {
+	public void setViewOrganizations(int view_organizations) {
 		this.view_organizations = view_organizations;
 	}
 
-	public int getView_segments() {
+	public int getViewSegments() {
 		return view_segments;
 	}
 
-	public void setView_segments(int view_segments) {
+	public void setViewSegments(int view_segments) {
 		this.view_segments = view_segments;
 	}
 
-	public int getView_dmp_reports() {
+	public int getViewDmpReports() {
 		return view_dmp_reports;
 	}
 
-	public void setView_dmp_reports(int view_dmp_reports) {
+	public void setViewDmpReports(int view_dmp_reports) {
 		this.view_dmp_reports = view_dmp_reports;
 	}
 

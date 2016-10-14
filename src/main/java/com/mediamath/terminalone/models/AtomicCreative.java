@@ -96,51 +96,51 @@ public class AtomicCreative implements T1Entity {
 	private CreativeApproval creative_approvals;
 	private Creative creative;
 
-	public int getAdvertiser_id() {
+	public int getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(int advertiser_id) {
+	public void setAdvertiserId(int advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
-	public adFormats getAd_format() {
+	public adFormats getAdFormat() {
 		return ad_format;
 	}
 
-	public void setAd_format(adFormats ad_format) {
+	public void setAdFormat(adFormats ad_format) {
 		this.ad_format = ad_format;
 	}
 
-	public adServers getAd_server_type() {
+	public adServers getAdServerType() {
 		return ad_server_type;
 	}
 
-	public void setAd_server_type(adServers ad_server_type) {
+	public void setAdServerType(adServers ad_server_type) {
 		this.ad_server_type = ad_server_type;
 	}
 
-	public String getApproval_status() {
+	public String getApprovalStatus() {
 		return approval_status;
 	}
 
-	public void setApproval_status(String approval_status) {
+	public void setApprovalStatus(String approval_status) {
 		this.approval_status = approval_status;
 	}
 
-	public Date getBuild_date() {
+	public Date getBuildDate() {
 		return build_date;
 	}
 
-	public void setBuild_date(Date build_date) {
+	public void setBuildDate(Date build_date) {
 		this.build_date = build_date;
 	}
 
-	public String getBuild_errors() {
+	public String getBuildErrors() {
 		return build_errors;
 	}
 
-	public void setBuild_errors(String build_errors) {
+	public void setBuildErrors(String build_errors) {
 		this.build_errors = build_errors;
 	}
 
@@ -152,107 +152,107 @@ public class AtomicCreative implements T1Entity {
 		this.built = built;
 	}
 
-	public int getBuilt_by_user_id() {
+	public int getBuiltByUserId() {
 		return built_by_user_id;
 	}
 
-	public void setBuilt_by_user_id(int built_by_user_id) {
+	public void setBuiltByUserId(int built_by_user_id) {
 		this.built_by_user_id = built_by_user_id;
 	}
 
-	public String getClick_through_url() {
+	public String getClickThroughUrl() {
 		return click_through_url;
 	}
 
-	public void setClick_through_url(String click_through_url) {
+	public void setClickThroughUrl(String click_through_url) {
 		this.click_through_url = click_through_url;
 	}
 
-	public String getClick_url() {
+	public String getClickUrl() {
 		return click_url;
 	}
 
-	public void setClick_url(String click_url) {
+	public void setClickUrl(String click_url) {
 		this.click_url = click_url;
 	}
 
-	public int getConcept_id() {
+	public int getConceptId() {
 		return concept_id;
 	}
 
-	public void setConcept_id(int concept_id) {
+	public void setConceptId(int concept_id) {
 		this.concept_id = concept_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public int getCreative_import_file_id() {
+	public int getCreativeImportFileId() {
 		return creative_import_file_id;
 	}
 
-	public void setCreative_import_file_id(int creative_import_file_id) {
+	public void setCreativeImportFileId(int creative_import_file_id) {
 		this.creative_import_file_id = creative_import_file_id;
 	}
 
-	public String getEdited_tag() {
+	public String getEditedTag() {
 		return edited_tag;
 	}
 
-	public void setEdited_tag(String edited_tag) {
+	public void setEditedTag(String edited_tag) {
 		this.edited_tag = edited_tag;
 	}
 
-	public Date getEnd_date() {
+	public Date getEndDate() {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end_date) {
+	public void setEndDate(Date end_date) {
 		this.end_date = end_date;
 	}
 
-	public expandDir getExpansion_direction() {
+	public expandDir getExpansionDirection() {
 		return expansion_direction;
 	}
 
-	public void setExpansion_direction(expandDir expansion_direction) {
+	public void setExpansionDirection(expandDir expansion_direction) {
 		this.expansion_direction = expansion_direction;
 	}
 
-	public expandTrig getExpansion_trigger() {
+	public expandTrig getExpansionTrigger() {
 		return expansion_trigger;
 	}
 
-	public void setExpansion_trigger(expandTrig expansion_trigger) {
+	public void setExpansionTrigger(expandTrig expansion_trigger) {
 		this.expansion_trigger = expansion_trigger;
 	}
 
-	public String getExternal_identifier() {
+	public String getExternalIdentifier() {
 		return external_identifier;
 	}
 
-	public void setExternal_identifier(String external_identifier) {
+	public void setExternalIdentifier(String external_identifier) {
 		this.external_identifier = external_identifier;
 	}
 
-	public fileTypes getFile_type() {
+	public fileTypes getFileType() {
 		return file_type;
 	}
 
-	public void setFile_type(fileTypes file_type) {
+	public void setFileType(fileTypes file_type) {
 		this.file_type = file_type;
 	}
 
-	public boolean isHas_sound() {
+	public boolean isHasSound() {
 		return has_sound;
 	}
 
-	public void setHas_sound(boolean has_sound) {
+	public void setHasSound(boolean has_sound) {
 		this.has_sound = has_sound;
 	}
 
@@ -272,35 +272,35 @@ public class AtomicCreative implements T1Entity {
 		this.id = id;
 	}
 
-	public boolean isIs_https() {
+	public boolean isIsHttps() {
 		return is_https;
 	}
 
-	public void setIs_https(boolean is_https) {
+	public void setIsHttps(boolean is_https) {
 		this.is_https = is_https;
 	}
 
-	public boolean isIs_multi_creative() {
+	public boolean isIsMultiCreative() {
 		return is_multi_creative;
 	}
 
-	public void setIs_multi_creative(boolean is_multi_creative) {
+	public void setIsMultiCreative(boolean is_multi_creative) {
 		this.is_multi_creative = is_multi_creative;
 	}
 
-	public Date getLast_modified() {
+	public Date getLastModified() {
 		return last_modified;
 	}
 
-	public void setLast_modified(Date last_modified) {
+	public void setLastModified(Date last_modified) {
 		this.last_modified = last_modified;
 	}
 
-	public mediaTypes getMedia_type() {
+	public mediaTypes getMediaType() {
 		return media_type;
 	}
 
-	public void setMedia_type(mediaTypes media_type) {
+	public void setMediaType(mediaTypes media_type) {
 		this.media_type = media_type;
 	}
 
@@ -312,35 +312,35 @@ public class AtomicCreative implements T1Entity {
 		this.name = name;
 	}
 
-	public String getRejected_reason() {
+	public String getRejectedReason() {
 		return rejected_reason;
 	}
 
-	public void setRejected_reason(String rejected_reason) {
+	public void setRejectedReason(String rejected_reason) {
 		this.rejected_reason = rejected_reason;
 	}
 
-	public boolean isRich_media() {
+	public boolean isRichMedia() {
 		return rich_media;
 	}
 
-	public void setRich_media(boolean rich_media) {
+	public void setRichMedia(boolean rich_media) {
 		this.rich_media = rich_media;
 	}
 
-	public String getRich_media_provider() {
+	public String getRichMediaProvider() {
 		return rich_media_provider;
 	}
 
-	public void setRich_media_provider(String rich_media_provider) {
+	public void setRichMediaProvider(String rich_media_provider) {
 		this.rich_media_provider = rich_media_provider;
 	}
 
-	public Date getStart_date() {
+	public Date getStartDate() {
 		return start_date;
 	}
 
-	public void setStart_date(Date start_date) {
+	public void setStartDate(Date start_date) {
 		this.start_date = start_date;
 	}
 
@@ -368,27 +368,27 @@ public class AtomicCreative implements T1Entity {
 		this.tag = tag;
 	}
 
-	public tagTypes getTag_type() {
+	public tagTypes getTagType() {
 		return tag_type;
 	}
 
-	public void setTag_type(tagTypes tag_type) {
+	public void setTagType(tagTypes tag_type) {
 		this.tag_type = tag_type;
 	}
 
-	public String getTpas_ad_tag() {
+	public String getTpasAdTag() {
 		return tpas_ad_tag;
 	}
 
-	public void setTpas_ad_tag(String tpas_ad_tag) {
+	public void setTpasAdTag(String tpas_ad_tag) {
 		this.tpas_ad_tag = tpas_ad_tag;
 	}
 
-	public String getTpas_ad_tag_name() {
+	public String getTpasAdTagName() {
 		return tpas_ad_tag_name;
 	}
 
-	public void setTpas_ad_tag_name(String tpas_ad_tag_name) {
+	public void setTpasAdTagName(String tpas_ad_tag_name) {
 		this.tpas_ad_tag_name = tpas_ad_tag_name;
 	}
 
@@ -400,11 +400,11 @@ public class AtomicCreative implements T1Entity {
 		this.type = type;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -441,11 +441,11 @@ public class AtomicCreative implements T1Entity {
 		this.concept = concept;
 	}
 
-	public CreativeApproval getCreative_approvals() {
+	public CreativeApproval getCreativeApprovals() {
 		return creative_approvals;
 	}
 
-	public void setCreative_approvals(CreativeApproval creative_approvals) {
+	public void setCreativeApprovals(CreativeApproval creative_approvals) {
 		this.creative_approvals = creative_approvals;
 	}
 

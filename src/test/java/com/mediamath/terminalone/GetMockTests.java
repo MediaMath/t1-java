@@ -481,7 +481,7 @@ public class GetMockTests {
 		Strategy strategy = (Strategy) jsonresponse.getData();
 		assertNotNull(strategy);
 		assertEquals(1377524, strategy.getId());
-		assertNotNull(strategy.getStrategy_domain_restrictions());
+		assertNotNull(strategy.getStrategyDomainRestrictions());
 	}
 	
 	public void testGetWithStrategyConceptUsingMocks() throws ClientException, ParseException {

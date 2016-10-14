@@ -37,15 +37,15 @@ public class StrategyDayPartHelper {
       throw new ValidationException("please enter a valid Day");
     }
 
-    if (entity.getEnd_hour() < 0 || entity.getEnd_hour() > 23) {
+    if (entity.getEndHour() < 0 || entity.getEndHour() > 23) {
       throw new ValidationException("please enter a valid End Hour");
     }
 
-    if (entity.getStart_hour() < 0 || entity.getStart_hour() > 23) {
+    if (entity.getStartHour() < 0 || entity.getStartHour() > 23) {
       throw new ValidationException("please enter a valid Start Hour");
     }
 
-    if (entity.getStrategy_id() <= 0) {
+    if (entity.getStrategyId() <= 0) {
       throw new ValidationException("please enter a valid strategy id");
     }
 
@@ -65,19 +65,19 @@ public class StrategyDayPartHelper {
 
     strategyConceptForm.param("days", String.valueOf(entity.getDays()));
 
-    if (entity.getEnd_hour() > 0 && entity.getEnd_hour() < 23) {
-      strategyConceptForm.param("end_hour", String.valueOf(entity.getEnd_hour()));
+    if (entity.getEndHour() > 0 && entity.getEndHour() < 23) {
+      strategyConceptForm.param("end_hour", String.valueOf(entity.getEndHour()));
     }
 
-    if (entity.getStart_hour() > 0 && entity.getStart_hour() < 23) {
-      strategyConceptForm.param("start_hour", String.valueOf(entity.getStart_hour()));
+    if (entity.getStartHour() > 0 && entity.getStartHour() < 23) {
+      strategyConceptForm.param("start_hour", String.valueOf(entity.getStartHour()));
     }
 
-    if (entity.getStrategy_id() > 0) {
-      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategy_id()));
+    if (entity.getStrategyId() > 0) {
+      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
-    strategyConceptForm.param("user_time", Utility.getOnOrOff(entity.isUser_time()));
+    strategyConceptForm.param("user_time", Utility.getOnOrOff(entity.isUserTime()));
 
     if (entity.getVersion() > 0) {
       strategyConceptForm.param("version", String.valueOf(entity.getVersion()));

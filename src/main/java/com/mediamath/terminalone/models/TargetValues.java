@@ -45,10 +45,10 @@ public class TargetValues implements T1Entity {
      private List<Integer> value_ids = new ArrayList<Integer>();
      
      
-	public String get_type() {
+	public String getType() {
 		return _type;
 	}
-	public void set_type(String _type) {
+	public void setType(String _type) {
 		this._type = _type;
 	}
 	public codes getCode() {
@@ -63,10 +63,10 @@ public class TargetValues implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public boolean isIs_targetable() {
+	public boolean isTargetable() {
 		return is_targetable;
 	}
-	public void setIs_targetable(boolean is_targetable) {
+	public void setIsTargetable(boolean is_targetable) {
 		this.is_targetable = is_targetable;
 	}
 	public String getName() {
@@ -75,10 +75,10 @@ public class TargetValues implements T1Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getTarget_dimension_id() {
+	public int getTargetDimensionId() {
 		return target_dimension_id;
 	}
-	public void setTarget_dimension_id(int target_dimension_id) {
+	public void setTargetDimensionId(int target_dimension_id) {
 		this.target_dimension_id = target_dimension_id;
 	}
 	public int getValue() {
@@ -102,10 +102,10 @@ public class TargetValues implements T1Entity {
 	public void setOperation(oper operation) {
 		this.operation = operation;
 	}
-	public List<Integer> getValue_ids() {
+	public List<Integer> getValueIds() {
 		return value_ids;
 	}
-	public void setValue_ids(List<Integer> value_ids) {
+	public void setValueIds(List<Integer> value_ids) {
 		this.value_ids = value_ids;
 	}
 	

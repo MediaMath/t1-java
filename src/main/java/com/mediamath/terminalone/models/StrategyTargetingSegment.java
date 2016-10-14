@@ -36,25 +36,25 @@ public class StrategyTargetingSegment implements T1Entity {
 	private Strategy strategy;
 	
 	
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
 
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
 
 
-	public String getGroup_identifier() {
+	public String getGroupIdentifier() {
 		return group_identifier;
 	}
 
 
 
-	public void setGroup_identifier(String group_identifier) {
+	public void setGroupIdentifier(String group_identifier) {
 		this.group_identifier = group_identifier;
 	}
 
@@ -96,25 +96,25 @@ public class StrategyTargetingSegment implements T1Entity {
 
 
 
-	public int getStrategy_id() {
+	public int getStrategyId() {
 		return strategy_id;
 	}
 
 
 
-	public void setStrategy_id(int strategy_id) {
+	public void setStrategyId(int strategy_id) {
 		this.strategy_id = strategy_id;
 	}
 
 
 
-	public int getTargeting_segment_id() {
+	public int getTargetingSegmentId() {
 		return targeting_segment_id;
 	}
 
 
 
-	public void setTargeting_segment_id(int targeting_segment_id) {
+	public void setTargetingSegmentId(int targeting_segment_id) {
 		this.targeting_segment_id = targeting_segment_id;
 	}
 
@@ -132,25 +132,26 @@ public class StrategyTargetingSegment implements T1Entity {
 
 
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
+	
 
 
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
 
 
-	public float getUser_cpm() {
+	public float getUserCpm() {
 		return user_cpm;
 	}
 
 
 
-	public void setUser_cpm(float user_cpm) {
+	public void setUserCpm(float user_cpm) {
 		this.user_cpm = user_cpm;
 	}
 

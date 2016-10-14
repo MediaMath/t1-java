@@ -64,19 +64,19 @@ public class MetaData {
     Name = name;
   }
 
-  public String getURI_Data() {
+  public String getURIData() {
     return URI_Data;
   }
 
-  public void setURI_Data(String uRI_Data) {
+  public void setURIData(String uRI_Data) {
     URI_Data = uRI_Data;
   }
 
-  public String getURI_Meta() {
+  public String getURIMeta() {
     return URI_Meta;
   }
 
-  public void setURI_Meta(String uRI_Meta) {
+  public void setURIMeta(String uRI_Meta) {
     URI_Meta = uRI_Meta;
   }
 
@@ -104,11 +104,11 @@ public class MetaData {
     this.currency = currency;
   }
 
-  public String getData_retention() {
+  public String getDataRetention() {
     return data_retention;
   }
 
-  public void setData_retention(String data_retention) {
+  public void setDataRetention(String data_retention) {
     this.data_retention = data_retention;
   }
 
@@ -120,27 +120,27 @@ public class MetaData {
     this.structure = structure;
   }
 
-  public String getTime_aggregations() {
+  public String getTimeAggregations() {
     return time_aggregations;
   }
 
-  public void setTime_aggregations(String time_aggregations) {
+  public void setTimeAggregations(String time_aggregations) {
     this.time_aggregations = time_aggregations;
   }
 
-  public ArrayList<String> getTime_rollups() {
+  public ArrayList<String> getTimeRollups() {
     return time_rollups;
   }
 
-  public void setTime_rollups(ArrayList<String> time_rollups) {
+  public void setTimeRollups(ArrayList<String> time_rollups) {
     this.time_rollups = time_rollups;
   }
 
-  public ArrayList<String> getTime_windows() {
+  public ArrayList<String> getTimeWindows() {
     return time_windows;
   }
 
-  public void setTime_windows(ArrayList<String> time_windows) {
+  public void setTimeWindows(ArrayList<String> time_windows) {
     this.time_windows = time_windows;
   }
 

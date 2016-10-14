@@ -238,13 +238,13 @@ public class PostService {
         uri.append(entity.getId());
       }
 
-      if (entity.getId() > 0 && entity.getStrategy_domain_restrictions().size() > 0) {
+      if (entity.getId() > 0 && entity.getStrategyDomainRestrictions().size() > 0) {
         uri.append("/domain_restrictions");
       }
 
-      if (entity.getId() > 0 && entity.getAudience_segments().size() > 0
-          && entity.getAudience_segment_exclude_op() != null
-          && entity.getAudience_segment_include_op() != null) {
+      if (entity.getId() > 0 && entity.getAudienceSegments().size() > 0
+          && entity.getAudienceSegmentExcludeOp() != null
+          && entity.getAudienceSegmentIncludeOp() != null) {
         uri.append("/audience_segments");
       }
 

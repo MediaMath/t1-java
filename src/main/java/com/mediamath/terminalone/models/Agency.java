@@ -60,27 +60,27 @@ public class Agency implements T1Entity {
 		this.traffic_contact_id = traffic_contact_id;
 	}
 
-	public boolean isAllow_x_adv_optimization() {
+	public boolean isAllowXAdvOptimization() {
 		return allow_x_adv_optimization;
 	}
 
-	public void setAllow_x_adv_optimization(boolean allow_x_adv_optimization) {
+	public void setAllowXAdvOptimization(boolean allow_x_adv_optimization) {
 		this.allow_x_adv_optimization = allow_x_adv_optimization;
 	}
 
-	public int getBilling_contact_id() {
+	public int getBillingContactId() {
 		return billing_contact_id;
 	}
 
-	public void setBilling_contact_id(int billing_contact_id) {
+	public void setBillingContactId(int billing_contact_id) {
 		this.billing_contact_id = billing_contact_id;
 	}
 
-	public String getCreated_on() {
+	public String getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(String created_on) {
+	public void setCreatedOn(String created_on) {
 		this.created_on = created_on;
 	}
 
@@ -108,19 +108,19 @@ public class Agency implements T1Entity {
 		this.name = name;
 	}
 
-	public int getOrganization_id() {
+	public int getOrganizationId() {
 		return organization_id;
 	}
 
-	public void setOrganization_id(int organization_id) {
+	public void setOrganizationId(int organization_id) {
 		this.organization_id = organization_id;
 	}
 
-	public int getSales_contact_id() {
+	public int getSalesContactId() {
 		return sales_contact_id;
 	}
 
-	public void setSales_contact_id(int sales_contact_id) {
+	public void setSalesContactId(int sales_contact_id) {
 		this.sales_contact_id = sales_contact_id;
 	}
 
@@ -132,11 +132,11 @@ public class Agency implements T1Entity {
 		this.status = status;
 	}
 
-	public String getUpdated_on() {
+	public String getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(String updated_on) {
+	public void setUpdatedOn(String updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -156,27 +156,27 @@ public class Agency implements T1Entity {
 		this.organization = organization;
 	}
 
-	public Contact getBilling_contact() {
+	public Contact getBillingContact() {
 		return billing_contact;
 	}
 
-	public void setBilling_contact(Contact billing_contact) {
+	public void setBillingContact(Contact billing_contact) {
 		this.billing_contact = billing_contact;
 	}
 
-	public Contact getSales_contact() {
+	public Contact getSalesContact() {
 		return sales_contact;
 	}
 
-	public void setSales_contact(Contact sales_contact) {
+	public void setSalesContact(Contact sales_contact) {
 		this.sales_contact = sales_contact;
 	}
 
-	public Contact getTraffic_contact() {
+	public Contact getTrafficContact() {
 		return traffic_contact;
 	}
 
-	public void setTraffic_contact(Contact traffic_contact) {
+	public void setTrafficContact(Contact traffic_contact) {
 		this.traffic_contact = traffic_contact;
 	}
 
@@ -184,27 +184,27 @@ public class Agency implements T1Entity {
 		return entityName;
 	}
 
-	public boolean isAllow_x_adv_pixels() {
+	public boolean isAllowXAdvPixels() {
 		return allow_x_adv_pixels;
 	}
 
-	public void setAllow_x_adv_pixels(boolean allow_x_adv_pixels) {
+	public void setAllowXAdvPixels(boolean allow_x_adv_pixels) {
 		this.allow_x_adv_pixels = allow_x_adv_pixels;
 	}
 
-	public String getDmp_enabled() {
+	public String getDmpEnabled() {
 		return dmp_enabled;
 	}
 
-	public void setDmp_enabled(String dmp_enabled) {
+	public void setDmpEnabled(String dmp_enabled) {
 		this.dmp_enabled = dmp_enabled;
 	}
 
-	public int getTraffic_contact_id() {
+	public int getTrafficContactId() {
 		return traffic_contact_id;
 	}
 
-	public void setTraffic_contact_id(int traffic_contact_id) {
+	public void setTrafficContactId(int traffic_contact_id) {
 		this.traffic_contact_id = traffic_contact_id;
 	}
 	

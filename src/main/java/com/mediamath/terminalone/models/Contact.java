@@ -53,16 +53,16 @@ public class Contact implements T1Entity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public String getFirst_name() {
+	public String getFirstName() {
 		return first_name;
 	}
-	public void setFirst_name(String first_name) {
+	public void setFirstName(String first_name) {
 		this.first_name = first_name;
 	}
-	public String getLast_name() {
+	public String getLastName() {
 		return last_name;
 	}
-	public void setLast_name(String last_name) {
+	public void setLastName(String last_name) {
 		this.last_name = last_name;
 	}
 	public String getTitle() {
@@ -95,16 +95,16 @@ public class Contact implements T1Entity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getAddress_1() {
+	public String getAddress1() {
 		return address_1;
 	}
-	public void setAddress_1(String address_1) {
+	public void setAddress1(String address_1) {
 		this.address_1 = address_1;
 	}
-	public String getAddress_2() {
+	public String getAddress2() {
 		return address_2;
 	}
-	public void setAddress_2(String address_2) {
+	public void setAddress2(String address_2) {
 		this.address_2 = address_2;
 	}
 	public String getCity() {
@@ -131,16 +131,16 @@ public class Contact implements T1Entity {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	

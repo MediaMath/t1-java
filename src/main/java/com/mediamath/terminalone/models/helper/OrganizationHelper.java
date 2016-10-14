@@ -40,9 +40,9 @@ public class OrganizationHelper {
       throw new ValidationException("please make sure name does not exceed 64 characters.");
     }
 
-    if (entity.getAddress_1() == null || entity.getAddress_1().isEmpty()) {
+    if (entity.getAddress1() == null || entity.getAddress1().isEmpty()) {
       throw new ValidationException("please enter a address 1 for the sitelist");
-    } else if (entity.getAddress_1().length() > 256) {
+    } else if (entity.getAddress1().length() > 256) {
       throw new ValidationException("please make sure address 1 does not exceed 256 characters.");
     }
 
@@ -76,32 +76,32 @@ public class OrganizationHelper {
       throw new ValidationException("please make sure Phone Number does not exceed 24 characters.");
     }
 
-    if (entity.getMm_contact_name() == null || entity.getMm_contact_name().isEmpty()) {
+    if (entity.getMmContactName() == null || entity.getMmContactName().isEmpty()) {
       throw new ValidationException("please enter a Contact Name for the sitelist");
-    } else if (entity.getMm_contact_name().length() > 64) {
+    } else if (entity.getMmContactName().length() > 64) {
       throw new ValidationException("please make sure Contact Name does not exceed 64 characters.");
     }
 
-    if (entity.getCurency_code() == null) {
-      entity.setCurency_code("USD");
+    if (entity.getCurencyCode() == null) {
+      entity.setCurencyCode("USD");
     }
 
-    if (entity.getAdx_seat_account_id() < 0) {
-      entity.setAdx_seat_account_id(41519752);
+    if (entity.getAdxSeatAccountId() < 0) {
+      entity.setAdxSeatAccountId(41519752);
     }
 
-    if (entity.getBilling_country_code() == null) {
-      entity.setBilling_country_code("US");
+    if (entity.getBillingCountryCode() == null) {
+      entity.setBillingCountryCode("US");
       ;
     }
 
-    if (entity.getSuspicious_traffic_filter_level() < 0
-        || entity.getSuspicious_traffic_filter_level() > 100) {
-      entity.setSuspicious_traffic_filter_level(25);
+    if (entity.getSuspiciousTrafficFilterLevel() < 0
+        || entity.getSuspiciousTrafficFilterLevel() > 100) {
+      entity.setSuspiciousTrafficFilterLevel(25);
     }
 
-    if (entity.getOrg_type().size() <= 0) {
-      entity.getOrg_type().add("buyer");
+    if (entity.getOrgType().size() <= 0) {
+      entity.getOrgType().add("buyer");
     }
 
   }
@@ -121,15 +121,15 @@ public class OrganizationHelper {
     }
     orgForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getContact_name() != null) {
-      orgForm.param("contact_name", entity.getContact_name());
+    if (entity.getContactName() != null) {
+      orgForm.param("contact_name", entity.getContactName());
     }
 
-    if (entity.getAddress_1() != null) {
-      orgForm.param("address_1", entity.getAddress_1());
+    if (entity.getAddress1() != null) {
+      orgForm.param("address_1", entity.getAddress1());
     }
-    if (entity.getAddress_2() != null) {
-      orgForm.param("address_2", entity.getAddress_2());
+    if (entity.getAddress2() != null) {
+      orgForm.param("address_2", entity.getAddress2());
     }
     if (entity.getCity() != null) {
       orgForm.param("city", entity.getCity());
@@ -146,32 +146,32 @@ public class OrganizationHelper {
     if (entity.getPhone() != null) {
       orgForm.param("phone", entity.getPhone());
     }
-    if (entity.getMm_contact_name() != null) {
-      orgForm.param("mm_contact_name", entity.getMm_contact_name());
+    if (entity.getMmContactName() != null) {
+      orgForm.param("mm_contact_name", entity.getMmContactName());
     }
 
-    orgForm.param("allow_x_agency_pixels", Utility.getOnOrOff(entity.isAllow_x_agency_pixels()));
-    orgForm.param("use_evidon_optout", Utility.getOnOrOff(entity.isUse_evidon_optout()));
-    orgForm.param("allow_byo_price", Utility.getOnOrOff(entity.isAllow_byo_price()));
-    if (entity.getCurency_code() != null) {
-      orgForm.param("currency_code", entity.getCurency_code());
+    orgForm.param("allow_x_agency_pixels", Utility.getOnOrOff(entity.isAllowXAgencyPixels()));
+    orgForm.param("use_evidon_optout", Utility.getOnOrOff(entity.isUseEvidonOptout()));
+    orgForm.param("allow_byo_price", Utility.getOnOrOff(entity.isAllowByoPrice()));
+    if (entity.getCurencyCode() != null) {
+      orgForm.param("currency_code", entity.getCurencyCode());
     }
 
-    orgForm.param("adx_seat_account_id", String.valueOf(entity.getAdx_seat_account_id()));
-    if (entity.getBilling_country_code() != null) {
-      orgForm.param("billing_country_code", entity.getBilling_country_code());
+    orgForm.param("adx_seat_account_id", String.valueOf(entity.getAdxSeatAccountId()));
+    if (entity.getBillingCountryCode() != null) {
+      orgForm.param("billing_country_code", entity.getBillingCountryCode());
     }
 
     orgForm.param("override_suspicious_traffic_filter",
-        Utility.getOnOrOff(entity.isOverride_suspicious_traffic_filter()));
-    if (entity.getSuspicious_traffic_filter_level() > 0) {
+        Utility.getOnOrOff(entity.isOverrideSuspiciousTrafficFilter()));
+    if (entity.getSuspiciousTrafficFilterLevel() > 0) {
       orgForm.param("suspicious_traffic_filter_level",
-          String.valueOf(entity.getSuspicious_traffic_filter_level()));
+          String.valueOf(entity.getSuspiciousTrafficFilterLevel()));
     }
 
     // TODO check how to pass array to form
     orgForm.param("org_type",
-        (entity.getOrg_type().size() > 0) ? entity.getOrg_type().get(0).toString() : "buyer");
+        (entity.getOrgType().size() > 0) ? entity.getOrgType().get(0).toString() : "buyer");
 
     return orgForm;
   }

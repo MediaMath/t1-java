@@ -32,11 +32,11 @@ public class StrategySupplySourceHelper {
    * @throws T1Exception exception.
    */
   public static void validateRequiredFields(StrategySupplySource entity) throws T1Exception {
-    if (entity.getSupply_source_id() <= 0) {
+    if (entity.getSupplySourceId() <= 0) {
       throw new ValidationException("please enter a valid Supply Source id");
     }
 
-    if (entity.getStrategy_id() <= 0) {
+    if (entity.getStrategyId() <= 0) {
       throw new ValidationException("please enter a valid strategy id");
     }
 
@@ -54,12 +54,12 @@ public class StrategySupplySourceHelper {
   public static Form getForm(StrategySupplySource entity) {
     Form strategyConceptForm = new Form();
 
-    if (entity.getSupply_source_id() > 0) {
-      strategyConceptForm.param("supply_source_id", String.valueOf(entity.getSupply_source_id()));
+    if (entity.getSupplySourceId() > 0) {
+      strategyConceptForm.param("supply_source_id", String.valueOf(entity.getSupplySourceId()));
     }
 
-    if (entity.getStrategy_id() > 0) {
-      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategy_id()));
+    if (entity.getStrategyId() > 0) {
+      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
     if (entity.getVersion() > 0) {

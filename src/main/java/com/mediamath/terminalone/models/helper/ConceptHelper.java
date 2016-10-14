@@ -40,7 +40,7 @@ public class ConceptHelper {
    * @throws T1Exception throws T1Exception.
    */
   public static void validateRequiredFields(Concept entity) throws T1Exception {
-    if (entity.getAdvertiser_id() < 0) {
+    if (entity.getAdvertiserId() < 0) {
       throw new ValidationException("Please Enter Advertiser ID");
     }
 
@@ -59,8 +59,8 @@ public class ConceptHelper {
 
     conceptForm.param("name", entity.getName());
 
-    if (entity.getAdvertiser_id() > 0) {
-      conceptForm.param("advertiser_id", String.valueOf(entity.getAdvertiser_id()));
+    if (entity.getAdvertiserId() > 0) {
+      conceptForm.param("advertiser_id", String.valueOf(entity.getAdvertiserId()));
     }
 
     conceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));

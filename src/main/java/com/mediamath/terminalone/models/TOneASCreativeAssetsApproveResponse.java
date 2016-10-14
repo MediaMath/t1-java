@@ -61,59 +61,59 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 		return entityName;
 	}
 
-	public String getUpdated_on() {
+	public String getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(String updated_on) {
+	public void setUpdatedOn(String updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public String getCreated_on() {
+	public String getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(String created_on) {
+	public void setCreatedOn(String created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getLast_modified() {
+	public String getLastModified() {
 		return last_modified;
 	}
 
-	public void setLast_modified(String last_modified) {
+	public void setLastModified(String last_modified) {
 		this.last_modified = last_modified;
 	}
 
-	public boolean isIs_https() {
+	public boolean isHttps() {
 		return is_https;
 	}
 
-	public void setIs_https(boolean is_https) {
+	public void setIsHttps(boolean is_https) {
 		this.is_https = is_https;
 	}
 
-	public String getAd_format() {
+	public String getAdFormat() {
 		return ad_format;
 	}
 
-	public void setAd_format(String ad_format) {
+	public void setAdFormat(String ad_format) {
 		this.ad_format = ad_format;
 	}
 
-	public String getRich_media() {
+	public String getRichMedia() {
 		return rich_media;
 	}
 
-	public void setRich_media(String rich_media) {
+	public void setRichMedia(String rich_media) {
 		this.rich_media = rich_media;
 	}
 
-	public String getExpansion_trigger() {
+	public String getExpansionTrigger() {
 		return expansion_trigger;
 	}
 
-	public void setExpansion_trigger(String expansion_trigger) {
+	public void setExpansionTrigger(String expansion_trigger) {
 		this.expansion_trigger = expansion_trigger;
 	}
 
@@ -157,43 +157,43 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 		this.t1as = t1as;
 	}
 
-	public String getFile_type() {
+	public String getFileType() {
 		return file_type;
 	}
 
-	public void setFile_type(String file_type) {
+	public void setFileType(String file_type) {
 		this.file_type = file_type;
 	}
 
-	public String getBuilt_by_user_id() {
+	public String getBuiltByUserId() {
 		return built_by_user_id;
 	}
 
-	public void setBuilt_by_user_id(String built_by_user_id) {
+	public void setBuiltByUserId(String built_by_user_id) {
 		this.built_by_user_id = built_by_user_id;
 	}
 
-	public String getExpansion_direction() {
+	public String getExpansionDirection() {
 		return expansion_direction;
 	}
 
-	public void setExpansion_direction(String expansion_direction) {
+	public void setExpansionDirection(String expansion_direction) {
 		this.expansion_direction = expansion_direction;
 	}
 
-	public String getConcept_id() {
+	public String getConceptId() {
 		return concept_id;
 	}
 
-	public void setConcept_id(String concept_id) {
+	public void setConceptId(String concept_id) {
 		this.concept_id = concept_id;
 	}
 
-	public String getAdvertiser_id() {
+	public String getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(String advertiser_id) {
+	public void setAdvertiserId(String advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
@@ -205,11 +205,11 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 		this.width = width;
 	}
 
-	public boolean isHas_sound() {
+	public boolean isHasSound() {
 		return has_sound;
 	}
 
-	public void setHas_sound(boolean has_sound) {
+	public void setHasSound(boolean has_sound) {
 		this.has_sound = has_sound;
 	}
 
@@ -221,75 +221,75 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 		this.status = status;
 	}
 
-	public String getExternal_identifier() {
+	public String getExternalIdentifier() {
 		return external_identifier;
 	}
 
-	public void setExternal_identifier(String external_identifier) {
+	public void setExternalIdentifier(String external_identifier) {
 		this.external_identifier = external_identifier;
 	}
 
-	public String getClick_through_url() {
+	public String getClickThroughUrl() {
 		return click_through_url;
 	}
 
-	public void setClick_through_url(String click_through_url) {
+	public void setClickThroughUrl(String click_through_url) {
 		this.click_through_url = click_through_url;
 	}
 
-	public String getBuild_date() {
+	public String getBuildDate() {
 		return build_date;
 	}
 
-	public void setBuild_date(String build_date) {
+	public void setBuildDate(String build_date) {
 		this.build_date = build_date;
 	}
 
-	public boolean isIs_multi_creative() {
+	public boolean isIsMultiCreative() {
 		return is_multi_creative;
 	}
 
-	public void setIs_multi_creative(boolean is_multi_creative) {
+	public void setIsMultiCreative(boolean is_multi_creative) {
 		this.is_multi_creative = is_multi_creative;
 	}
 
-	public String getEntity_type() {
+	public String getEntityType() {
 		return entity_type;
 	}
 
-	public void setEntity_type(String entity_type) {
+	public void setEntityType(String entity_type) {
 		this.entity_type = entity_type;
 	}
 
-	public String getMedia_type() {
+	public String getMediaType() {
 		return media_type;
 	}
 
-	public void setMedia_type(String media_type) {
+	public void setMediaType(String media_type) {
 		this.media_type = media_type;
 	}
 
-	public String getEdited_tag() {
+	public String getEditedTag() {
 		return edited_tag;
 	}
 
-	public void setEdited_tag(String edited_tag) {
+	public void setEditedTag(String edited_tag) {
 		this.edited_tag = edited_tag;
 	}
 
-	public String getClick_url() {
+	public String getClickUrl() {
 		return click_url;
 	}
 
-	public void setClick_url(String click_url) {
+	public void setClickUrl(String click_url) {
 		this.click_url = click_url;
 	}
 
-	public String getApproval_status() {
+	public String getApprovalStatus() {
 		return approval_status;
 	}
 
-	public void setApproval_status(String approval_status) {
+	public void setApprovalStatus(String approval_status) {
 		this.approval_status = approval_status;
 	}
 
@@ -309,35 +309,35 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 		this.height = height;
 	}
 
-	public String getTag_type() {
+	public String getTagType() {
 		return tag_type;
 	}
 
-	public void setTag_type(String tag_type) {
+	public void setTagType(String tag_type) {
 		this.tag_type = tag_type;
 	}
 
-	public String getAd_server_type() {
+	public String getAdServerType() {
 		return ad_server_type;
 	}
 
-	public void setAd_server_type(String ad_server_type) {
+	public void setAdServerType(String ad_server_type) {
 		this.ad_server_type = ad_server_type;
 	}
 
-	public String getDefault_t1as_tag() {
+	public String getDefaultT1asTag() {
 		return default_t1as_tag;
 	}
 
-	public void setDefault_t1as_tag(String default_t1as_tag) {
+	public void setDefaultT1asTag(String default_t1as_tag) {
 		this.default_t1as_tag = default_t1as_tag;
 	}
 
-	public String getTpas_ad_tag_name() {
+	public String getTpasAdTagName() {
 		return tpas_ad_tag_name;
 	}
 
-	public void setTpas_ad_tag_name(String tpas_ad_tag_name) {
+	public void setTpasAdTagName(String tpas_ad_tag_name) {
 		this.tpas_ad_tag_name = tpas_ad_tag_name;
 	}
 

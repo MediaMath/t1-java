@@ -42,8 +42,8 @@ public class TOneCreativeAssetsApproveHelper {
           int inc = i + 1;
           TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
 
-          if (data.isIs_https()) {
-            formData = formData.field("is_https", Utility.getOneOrZero(data.isIs_https()));
+          if (data.isHttps()) {
+            formData = formData.field("is_https", Utility.getOneOrZero(data.isHttps()));
           }
 
           if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
@@ -54,8 +54,8 @@ public class TOneCreativeAssetsApproveHelper {
             formData = formData.field("landingPage." + inc, data.getLandingPage());
           }
 
-          if (data.getClick_url() != null && !data.getClick_url().isEmpty()) {
-            formData = formData.field("click_url." + inc, data.getClick_url());
+          if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
+            formData = formData.field("click_url." + inc, data.getClickUrl());
           }
 
           if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {

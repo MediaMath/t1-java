@@ -35,11 +35,11 @@ public class ThreePASCreativeBatchApprove implements T1Entity {
 		this.batchId = batchId;
 	}
 
-	public String getAdvertiser_id() {
+	public String getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(String advertiser_id) {
+	public void setAdvertiserId(String advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
@@ -50,14 +50,14 @@ public class ThreePASCreativeBatchApprove implements T1Entity {
 		if(pBatchIndex != null && !pBatchIndex.isEmpty()) {
 			batchIndex = new ThreePASCreativeBatchIndex();
 			
-			batchIndex.setBatch_index(pBatchIndex);
+			batchIndex.setBatchIndex(pBatchIndex);
 			
 			if(concept != null && !concept.isEmpty()) {
 				batchIndex.setConceptId(concept);
 			}
 			
 			if(click_url != null && !click_url.isEmpty()) {
-				batchIndex.setClick_url(click_url);
+				batchIndex.setClickUrl(click_url);
 			}
 		}
 		

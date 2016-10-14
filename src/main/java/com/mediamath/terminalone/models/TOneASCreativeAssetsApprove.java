@@ -33,7 +33,7 @@ public class TOneASCreativeAssetsApprove implements T1Entity {
 	{
 		TOneASCreativeAssetsApproveData data = new TOneASCreativeAssetsApproveData();
 
-		data.setIs_https(is_https);
+		data.setIsHttps(is_https);
 
 		if (advertiserid != null && !advertiserid.isEmpty())
 			data.setAdvertiserid(advertiserid);
@@ -42,7 +42,7 @@ public class TOneASCreativeAssetsApprove implements T1Entity {
 			data.setLandingPage(landingPage);
 
 		if (click_url != null && !click_url.isEmpty())
-			data.setClick_url(click_url);
+			data.setClickUrl(click_url);
 
 		if (primary != null && !primary.isEmpty())
 			data.setPrimary(primary);

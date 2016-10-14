@@ -23,52 +23,52 @@ public class Strategy implements T1Entity {
 	
 	private static final String entityName = "Strategy";
 	
-	public enum aud_seg_exc {
+	public enum audSegExc {
 		AND, OR
 	};
 
-	public enum aud_seg_inc {
+	public enum audSegInc {
 		AND, OR
 	};
 
-	public enum freq_int {
+	public enum freqInt {
 		hour("hour"), day("day"), week("week"), month("month"),campaign("campaign"), not_applicable("not-applcable");
 		String val;
-		freq_int(String s){
+		freqInt(String s){
 			val=s;
 		}
 	}; // should be not-applicable
 
-	public enum freq_type {
+	public enum freqType {
 		even("even"), asap("asap"), no_limit("no-limit");
 		String val;
-		freq_type(String s){
+		freqType(String s){
 			val=s;
 		}
 	}; // should be no-limit
 
 
-	public enum goal_type {
+	public enum goalType {
 		spend, reach, cpc, cpe, cpa, roi
 	};
 
-	public enum media_type {
+	public enum mediaType {
 		DISPLAY, VIDEO
 	};
 
-	public enum pac_int {
+	public enum pacInt {
 		hour, day
 	};
 
-	public enum pac_type {
+	public enum pacType {
 		even, asap
 	};
 
-	public enum site_select {
+	public enum siteSelect {
 		MATHSELECT_250, EXCLUDE_UGC, ALL, REDUCED
 	};
 
-	public enum supply_type {
+	public enum supplyType {
 		RTB, RMX_API, T1_RMX
 	};
 
@@ -76,8 +76,8 @@ public class Strategy implements T1Entity {
 		REM, GBO, AUD
 	};
 
-	private aud_seg_exc audience_segment_exclude_op;
-	private aud_seg_inc audience_segment_include_op;
+	private audSegExc audience_segment_exclude_op;
+	private audSegInc audience_segment_include_op;
 	private float bid_aggresiveness;
 	private boolean bid_price_is_media_only;
 	private ArrayList<Currency> budget = new ArrayList<Currency>();
@@ -88,18 +88,18 @@ public class Strategy implements T1Entity {
 	private Date end_date;
 	private String feature_compatibility;
 	private int frequency_amount;
-	private freq_int frequency_interval;
-	private freq_type frequency_type;
-	private goal_type goal_type;
+	private freqInt frequency_interval;
+	private freqType frequency_type;
+	private goalType goal_type;
 	private ArrayList<Currency> goal_value = new ArrayList<Currency>();
 	private int id;
 	private int impression_cap;
 	private ArrayList<Currency> max_bid = new ArrayList<Currency>();
-	private media_type media_type;
+	private mediaType media_type;
 	private String name;
 	private ArrayList<Currency> pacing_amount = new ArrayList<Currency>();
-	private pac_int pacing_interval;
-	private pac_type pacing_type;
+	private pacInt pacing_interval;
+	private pacType pacing_type;
 	private ArrayList<Currency> roi_target = new ArrayList<Currency>();
 	private String pixel_target_expr;
 	private ArrayList<Integer> includePixels = new ArrayList<Integer>();
@@ -110,10 +110,10 @@ public class Strategy implements T1Entity {
 	private boolean run_on_mobile;
 	private boolean run_on_streaming;
 	private boolean site_restriction_transparent_urls;
-	private site_select site_selectiveness;
+	private siteSelect site_selectiveness;
 	private Date start_date;
 	private boolean status;
-	private supply_type supply_type;
+	private supplyType supply_type;
 	private type type;
 	private String updated_on;
 	private boolean use_campaign_end;
@@ -131,51 +131,51 @@ public class Strategy implements T1Entity {
 	List<TargetValues> target_values= new ArrayList<TargetValues>();
 	List<Concept> concepts = new ArrayList<Concept>();
 
-	public aud_seg_exc getAudience_segment_exclude_op() {
+	public audSegExc getAudienceSegmentExcludeOp() {
 		return audience_segment_exclude_op;
 	}
 
-	public void setAudience_segment_exclude_op(aud_seg_exc audience_segment_exclude_op) {
+	public void setAudienceSegmentExcludeOp(audSegExc audience_segment_exclude_op) {
 		this.audience_segment_exclude_op = audience_segment_exclude_op;
 	}
 
-	public aud_seg_inc getAudience_segment_include_op() {
+	public audSegInc getAudienceSegmentIncludeOp() {
 		return audience_segment_include_op;
 	}
 
-	public void setAudience_segment_include_op(aud_seg_inc audience_segment_include_op) {
+	public void setAudienceSegmentIncludeOp(audSegInc audience_segment_include_op) {
 		this.audience_segment_include_op = audience_segment_include_op;
 	}
 
-	public float getBid_aggresiveness() {
+	public float getBidAggresiveness() {
 		return bid_aggresiveness;
 	}
 
-	public void setBid_aggresiveness(float bid_aggresiveness) {
+	public void setBidAggresiveness(float bid_aggresiveness) {
 		this.bid_aggresiveness = bid_aggresiveness;
 	}
 
-	public boolean isBid_price_is_media_only() {
+	public boolean isBidPriceIsMediaOnly() {
 		return bid_price_is_media_only;
 	}
 
-	public void setBid_price_is_media_only(boolean bid_price_is_media_only) {
+	public void setBidPriceIsMediaOnly(boolean bid_price_is_media_only) {
 		this.bid_price_is_media_only = bid_price_is_media_only;
 	}
 
-	public int getCampaign_id() {
+	public int getCampaignId() {
 		return campaign_id;
 	}
 
-	public void setCampaign_id(int campaign_id) {
+	public void setCampaignId(int campaign_id) {
 		this.campaign_id = campaign_id;
 	}
 
-	public String getCreated_on() {
+	public String getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(String created_on) {
+	public void setCreatedOn(String created_on) {
 		this.created_on = created_on;
 	}
 
@@ -187,35 +187,35 @@ public class Strategy implements T1Entity {
 		this.description = description;
 	}
 
-	public String getFeature_compatibility() {
+	public String getFeatureCompatibility() {
 		return feature_compatibility;
 	}
 
-	public void setFeature_compatibility(String feature_compatibility) {
+	public void setFeatureCompatibility(String feature_compatibility) {
 		this.feature_compatibility = feature_compatibility;
 	}
 
-	public freq_int getFrequency_interval() {
+	public freqInt getFrequencyInterval() {
 		return frequency_interval;
 	}
 
-	public void setFrequency_interval(freq_int frequency_interval) {
+	public void setFrequencyInterval(freqInt frequency_interval) {
 		this.frequency_interval = frequency_interval;
 	}
 
-	public freq_type getFrequency_type() {
+	public freqType getFrequencyType() {
 		return frequency_type;
 	}
 
-	public void setFrequency_type(freq_type frequency_type) {
+	public void setFrequencyType(freqType frequency_type) {
 		this.frequency_type = frequency_type;
 	}
 
-	public goal_type getGoal_type() {
+	public goalType getGoalType() {
 		return goal_type;
 	}
 
-	public void setGoal_type(goal_type goal_type) {
+	public void setGoalType(goalType goal_type) {
 		this.goal_type = goal_type;
 	}
 
@@ -227,19 +227,19 @@ public class Strategy implements T1Entity {
 		this.id = id;
 	}
 
-	public int getImpression_cap() {
+	public int getImpressionCap() {
 		return impression_cap;
 	}
 
-	public void setImpression_cap(int impression_cap) {
+	public void setImpressionCap(int impression_cap) {
 		this.impression_cap = impression_cap;
 	}
 
-	public media_type getMedia_type() {
+	public mediaType getMediaType() {
 		return media_type;
 	}
 
-	public void setMedia_type(media_type media_type) {
+	public void setMediaType(mediaType media_type) {
 		this.media_type = media_type;
 	}
 
@@ -251,83 +251,83 @@ public class Strategy implements T1Entity {
 		this.name = name;
 	}
 
-	public pac_int getPacing_interval() {
+	public pacInt getPacingInterval() {
 		return pacing_interval;
 	}
 
-	public void setPacing_interval(pac_int pacing_interval) {
+	public void setPacingInterval(pacInt pacing_interval) {
 		this.pacing_interval = pacing_interval;
 	}
 
-	public pac_type getPacing_type() {
+	public pacType getPacingType() {
 		return pacing_type;
 	}
 
-	public void setPacing_type(pac_type pacing_type) {
+	public void setPacingType(pacType pacing_type) {
 		this.pacing_type = pacing_type;
 	}
 
-	public String getPixel_target_expr() {
+	public String getPixelTargetExpr() {
 		return pixel_target_expr;
 	}
 
-	public void setPixel_target_expr(String pixel_target_expr) {
+	public void setPixelTargetExpr(String pixel_target_expr) {
 		this.pixel_target_expr = pixel_target_expr;
 	}
 
-	public boolean isRun_on_all_exchanges() {
+	public boolean isRunOnAllExchanges() {
 		return run_on_all_exchanges;
 	}
 
-	public void setRun_on_all_exchanges(boolean run_on_all_exchanges) {
+	public void setRunOnAllExchanges(boolean run_on_all_exchanges) {
 		this.run_on_all_exchanges = run_on_all_exchanges;
 	}
 
-	public boolean isRun_on_all_pmp() {
+	public boolean isRunOnAllPmp() {
 		return run_on_all_pmp;
 	}
 
-	public void setRun_on_all_pmp(boolean run_on_all_pmp) {
+	public void setRunOnAllPmp(boolean run_on_all_pmp) {
 		this.run_on_all_pmp = run_on_all_pmp;
 	}
 
-	public boolean isRun_on_display() {
+	public boolean isRunOnDisplay() {
 		return run_on_display;
 	}
 
-	public void setRun_on_display(boolean run_on_display) {
+	public void setRunOnDisplay(boolean run_on_display) {
 		this.run_on_display = run_on_display;
 	}
 
-	public boolean isRun_on_mobile() {
+	public boolean isRunOnMobile() {
 		return run_on_mobile;
 	}
 
-	public void setRun_on_mobile(boolean run_on_mobile) {
+	public void setRunOnMobile(boolean run_on_mobile) {
 		this.run_on_mobile = run_on_mobile;
 	}
 
-	public boolean isRun_on_streaming() {
+	public boolean isRunOnStreaming() {
 		return run_on_streaming;
 	}
 
-	public void setRun_on_streaming(boolean run_on_streaming) {
+	public void setRunOnStreaming(boolean run_on_streaming) {
 		this.run_on_streaming = run_on_streaming;
 	}
 
-	public boolean isSite_restriction_transparent_urls() {
+	public boolean isSiteRestrictionTransparentUrls() {
 		return site_restriction_transparent_urls;
 	}
 
-	public void setSite_restriction_transparent_urls(boolean site_restriction_transparent_urls) {
+	public void setSiteRestrictionTransparentUrls(boolean site_restriction_transparent_urls) {
 		this.site_restriction_transparent_urls = site_restriction_transparent_urls;
 	}
 
-	public site_select getSite_selectiveness() {
+	public siteSelect getSiteSelectiveness() {
 		return site_selectiveness;
 	}
 
-	public void setSite_selectiveness(site_select site_selectiveness) {
+	public void setSiteSelectiveness(siteSelect site_selectiveness) {
 		this.site_selectiveness = site_selectiveness;
 	}
 
@@ -339,11 +339,11 @@ public class Strategy implements T1Entity {
 		this.status = status;
 	}
 
-	public supply_type getSupply_type() {
+	public supplyType getSupplyType() {
 		return supply_type;
 	}
 
-	public void setSupply_type(supply_type supply_type) {
+	public void setSupplyType(supplyType supply_type) {
 		this.supply_type = supply_type;
 	}
 
@@ -355,43 +355,43 @@ public class Strategy implements T1Entity {
 		this.type = type;
 	}
 
-	public String getUpdated_on() {
+	public String getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(String updated_on) {
+	public void setUpdatedOn(String updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public boolean isUse_campaign_end() {
+	public boolean isUseCampaignEnd() {
 		return use_campaign_end;
 	}
 
-	public void setUse_campaign_end(boolean use_campaign_end) {
+	public void setUseCampaignEnd(boolean use_campaign_end) {
 		this.use_campaign_end = use_campaign_end;
 	}
 
-	public boolean isUse_campaign_start() {
+	public boolean isUseCampaignStart() {
 		return use_campaign_start;
 	}
 
-	public void setUse_campaign_start(boolean use_campaign_start) {
+	public void setUseCampaignStart(boolean use_campaign_start) {
 		this.use_campaign_start = use_campaign_start;
 	}
 
-	public boolean isUse_mm_freq() {
+	public boolean isUseMmFreq() {
 		return use_mm_freq;
 	}
 
-	public void setUse_mm_freq(boolean use_mm_freq) {
+	public void setUseMmFreq(boolean use_mm_freq) {
 		this.use_mm_freq = use_mm_freq;
 	}
 
-	public boolean isUse_optimization() {
+	public boolean isUseOptimization() {
 		return use_optimization;
 	}
 
-	public void setUse_optimization(boolean use_optimization) {
+	public void setUseOptimization(boolean use_optimization) {
 		this.use_optimization = use_optimization;
 	}
 
@@ -407,35 +407,35 @@ public class Strategy implements T1Entity {
 		return entityName;
 	}
 
-	public String getZone_name() {
+	public String getZoneName() {
 		return zone_name;
 	}
 
-	public void setZone_name(String zone_name) {
+	public void setZoneName(String zone_name) {
 		this.zone_name = zone_name;
 	}
 
-	public List<StrategyDomain> getStrategy_domain_restrictions() {
+	public List<StrategyDomain> getStrategyDomainRestrictions() {
 		return strategy_domain_restrictions;
 	}
 
-	public void setStrategy_domain_restrictions(List<StrategyDomain> strategy_domain_restrictions) {
+	public void setStrategyDomainRestrictions(List<StrategyDomain> strategy_domain_restrictions) {
 		this.strategy_domain_restrictions = strategy_domain_restrictions;
 	}
 
-	public List<Segments> getAudience_segments() {
+	public List<Segments> getAudienceSegments() {
 		return audience_segments;
 	}
 
-	public void setAudience_segments(List<Segments> audience_segments) {
+	public void setAudienceSegments(List<Segments> audience_segments) {
 		this.audience_segments = audience_segments;
 	}
 
-	public List<TargetValues> getTarget_values() {
+	public List<TargetValues> getTargetValues() {
 		return target_values;
 	}
 
-	public void setTarget_values(List<TargetValues> target_values) {
+	public void setTargetValues(List<TargetValues> target_values) {
 		this.target_values = target_values;
 	}
 
@@ -455,27 +455,27 @@ public class Strategy implements T1Entity {
 		this.concepts = concepts;
 	}
 
-	public Date getEnd_date() {
+	public Date getEndDate() {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end_date) {
+	public void setEndDate(Date end_date) {
 		this.end_date = end_date;
 	}
 
-	public Date getStart_date() {
+	public Date getStartDate() {
 		return start_date;
 	}
 
-	public void setStart_date(Date start_date) {
+	public void setStartDate(Date start_date) {
 		this.start_date = start_date;
 	}
 
-	public int getFrequency_amount() {
+	public int getFrequencyAmount() {
 		return frequency_amount;
 	}
 
-	public void setFrequency_amount(int frequency_amount) {
+	public void setFrequencyAmount(int frequency_amount) {
 		this.frequency_amount = frequency_amount;
 	}
 
@@ -494,71 +494,71 @@ public class Strategy implements T1Entity {
 		this.budget.add(currency);
 	}
 
-	public ArrayList<Currency> getEffective_goal_value() {
+	public ArrayList<Currency> getEffectiveGoalValue() {
 		return effective_goal_value;
 	}
 
-	public void setEffective_goal_value(ArrayList<Currency> effective_goal_value) {
+	public void setEffectiveGoalValue(ArrayList<Currency> effective_goal_value) {
 		this.effective_goal_value = effective_goal_value;
 	}
 	
-	public void setEffective_goal_value(float effective_goal_value) {
+	public void setEffectiveGoalValue(float effective_goal_value) {
 		Currency currency = new Currency();
 		currency.setValue(effective_goal_value);
 		this.effective_goal_value.add(currency);
 	}
 
-	public ArrayList<Currency> getGoal_value() {
+	public ArrayList<Currency> getGoalValue() {
 		return goal_value;
 	}
 
-	public void setGoal_value(ArrayList<Currency> goal_value) {
+	public void setGoalValue(ArrayList<Currency> goal_value) {
 		this.goal_value = goal_value;
 	}
 	
-	public void setGoal_value(float goal_value) {
+	public void setGoalValue(float goal_value) {
 		Currency currency = new Currency();
 		currency.setValue(goal_value);
 		this.goal_value.add(currency);
 	}
 
-	public ArrayList<Currency> getMax_bid() {
+	public ArrayList<Currency> getMaxBid() {
 		return max_bid;
 	}
 
-	public void setMax_bid(ArrayList<Currency> max_bid) {
+	public void setMaxBid(ArrayList<Currency> max_bid) {
 		this.max_bid = max_bid;
 	}
 	
-	public void setMax_bid(float max_bid) {
+	public void setMaxBid(float max_bid) {
 		Currency currency = new Currency();
 		currency.setValue(max_bid);
 		this.max_bid.add(currency);
 	}
 
-	public ArrayList<Currency> getPacing_amount() {
+	public ArrayList<Currency> getPacingAmount() {
 		return pacing_amount;
 	}
 
-	public void setPacing_amount(ArrayList<Currency> pacing_amount) {
+	public void setPacingAmount(ArrayList<Currency> pacing_amount) {
 		this.pacing_amount = pacing_amount;
 	}
 	
-	public void setPacing_amount(float pacing_amount) {
+	public void setPacingAmount(float pacing_amount) {
 		Currency currency = new Currency();
 		currency.setValue(pacing_amount);
 		this.pacing_amount.add(currency);
 	}
 
-	public ArrayList<Currency> getRoi_target() {
+	public ArrayList<Currency> getRoiTarget() {
 		return roi_target;
 	}
 
-	public void setRoi_target(ArrayList<Currency> roi_target) {
+	public void setRoiTarget(ArrayList<Currency> roi_target) {
 		this.roi_target = roi_target;
 	}
 
-	public void setRoi_target(float roi_target) {
+	public void setRoiTarget(float roi_target) {
 		Currency currency = new Currency();
 		currency.setValue(roi_target);
 		this.roi_target.add(currency);

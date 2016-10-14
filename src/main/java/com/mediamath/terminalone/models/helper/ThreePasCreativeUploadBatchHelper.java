@@ -34,23 +34,23 @@ public class ThreePasCreativeUploadBatchHelper {
   public static Form getForm(ThreePASCreativeBatchApprove entity) {
     Form creativeBatchForm = new Form();
 
-    if (entity.getAdvertiser_id() != null && !entity.getAdvertiser_id().isEmpty()) {
-      creativeBatchForm.param("advertiser_id", entity.getAdvertiser_id());
+    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
+      creativeBatchForm.param("advertiser_id", entity.getAdvertiserId());
     }
 
     if (entity.getBatch() != null) {
       for (ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
-        if (batchIndex.getBatch_index() != null && !batchIndex.getBatch_index().isEmpty()) {
-          creativeBatchForm.param("batch_index", batchIndex.getBatch_index());
+        if (batchIndex.getBatchIndex() != null && !batchIndex.getBatchIndex().isEmpty()) {
+          creativeBatchForm.param("batch_index", batchIndex.getBatchIndex());
 
           if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
-            creativeBatchForm.param("concept_" + batchIndex.getBatch_index(),
+            creativeBatchForm.param("concept_" + batchIndex.getBatchIndex(),
                 batchIndex.getConceptId());
           }
 
-          if (batchIndex.getClick_url() != null && !batchIndex.getClick_url().isEmpty()) {
-            creativeBatchForm.param("click_url_" + batchIndex.getBatch_index(),
-                batchIndex.getClick_url());
+          if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
+            creativeBatchForm.param("click_url_" + batchIndex.getBatchIndex(),
+                batchIndex.getClickUrl());
           }
         }
       }
@@ -70,24 +70,24 @@ public class ThreePasCreativeUploadBatchHelper {
   public static void getMultiPartForm(ThreePASCreativeBatchApprove entity,
       FormDataMultiPart formDataMultiPart) {
 
-    if (entity.getAdvertiser_id() != null && !entity.getAdvertiser_id().isEmpty()) {
-      formDataMultiPart = formDataMultiPart.field("advertiser_id", entity.getAdvertiser_id());
+    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
+      formDataMultiPart = formDataMultiPart.field("advertiser_id", entity.getAdvertiserId());
     }
 
     if (entity.getBatch() != null) {
       for (ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
-        if (batchIndex.getBatch_index() != null && !batchIndex.getBatch_index().isEmpty()) {
+        if (batchIndex.getBatchIndex() != null && !batchIndex.getBatchIndex().isEmpty()) {
 
-          formDataMultiPart = formDataMultiPart.field("batch_index", batchIndex.getBatch_index());
+          formDataMultiPart = formDataMultiPart.field("batch_index", batchIndex.getBatchIndex());
 
           if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
-            formDataMultiPart = formDataMultiPart.field("concept_" + batchIndex.getBatch_index(),
+            formDataMultiPart = formDataMultiPart.field("concept_" + batchIndex.getBatchIndex(),
                 batchIndex.getConceptId());
           }
 
-          if (batchIndex.getClick_url() != null && !batchIndex.getClick_url().isEmpty()) {
-            formDataMultiPart = formDataMultiPart.field("click_url_" + batchIndex.getBatch_index(),
-                batchIndex.getClick_url());
+          if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
+            formDataMultiPart = formDataMultiPart.field("click_url_" + batchIndex.getBatchIndex(),
+                batchIndex.getClickUrl());
           }
         }
       }

@@ -39,7 +39,7 @@ public class AgencyHelper  {
       throw new ValidationException("please make sure name does not exceed 64 characters.");
     }
     
-    if (entity.getOrganization_id() <= 0) {
+    if (entity.getOrganizationId() <= 0) {
       throw new ValidationException("please enter a valid organization id");
     }
 
@@ -60,23 +60,23 @@ public class AgencyHelper  {
     //required
     agencyForm.param("name", entity.getName());
 
-    agencyForm.param("organization_id", String.valueOf(entity.getOrganization_id()));
+    agencyForm.param("organization_id", String.valueOf(entity.getOrganizationId()));
 
     //optional
-    agencyForm.param("allow_x_adv_optimization", Utility.getOnOrOff(entity.isAllow_x_adv_optimization()));
+    agencyForm.param("allow_x_adv_optimization", Utility.getOnOrOff(entity.isAllowXAdvOptimization()));
 
-    agencyForm.param("allow_x_adv_pixels", Utility.getOnOrOff(entity.isAllow_x_adv_pixels()));
+    agencyForm.param("allow_x_adv_pixels", Utility.getOnOrOff(entity.isAllowXAdvPixels()));
 
-    if (entity.getBilling_contact_id() > 0) {
-      agencyForm.param("billing_contact_id", String.valueOf(entity.getBilling_contact_id()));
+    if (entity.getBillingContactId() > 0) {
+      agencyForm.param("billing_contact_id", String.valueOf(entity.getBillingContactId()));
     }
 
-    if (entity.getDmp_enabled() != null) {
-      agencyForm.param("dmp_enabled", entity.getDmp_enabled());
+    if (entity.getDmpEnabled() != null) {
+      agencyForm.param("dmp_enabled", entity.getDmpEnabled());
     }
 
-    if (entity.getCreated_on() != null) {
-      agencyForm.param("created_on", entity.getCreated_on().toString());
+    if (entity.getCreatedOn() != null) {
+      agencyForm.param("created_on", entity.getCreatedOn().toString());
     }
 
     if (entity.getId() > 0) {
@@ -87,8 +87,8 @@ public class AgencyHelper  {
       agencyForm.param("logo", entity.getLogo());
     }
 
-    if (entity.getSales_contact_id() > 0) {
-      agencyForm.param("sales_contact_id", String.valueOf(entity.getSales_contact_id()));
+    if (entity.getSalesContactId() > 0) {
+      agencyForm.param("sales_contact_id", String.valueOf(entity.getSalesContactId()));
     }
 
     agencyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
@@ -97,12 +97,12 @@ public class AgencyHelper  {
       agencyForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    if (entity.getTraffic_contact_id() > 0) {
-      agencyForm.param("traffic_contact_id", String.valueOf(entity.getTraffic_contact_id()));
+    if (entity.getTrafficContactId() > 0) {
+      agencyForm.param("traffic_contact_id", String.valueOf(entity.getTrafficContactId()));
     }
 
-    if (entity.getUpdated_on() != null) {
-      agencyForm.param("updated_on", String.valueOf(entity.getUpdated_on()));
+    if (entity.getUpdatedOn() != null) {
+      agencyForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
 
     return agencyForm;

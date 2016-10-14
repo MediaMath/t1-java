@@ -35,19 +35,19 @@ public class StrategySupplySource implements T1Entity {
 		this.id = id;
 	}
 
-	public int getStrategy_id() {
+	public int getStrategyId() {
 		return strategy_id;
 	}
 
-	public void setStrategy_id(int strategy_id) {
+	public void setStrategyId(int strategy_id) {
 		this.strategy_id = strategy_id;
 	}
 
-	public int getSupply_source_id() {
+	public int getSupplySourceId() {
 		return supply_source_id;
 	}
 
-	public void setSupply_source_id(int supply_source_id) {
+	public void setSupplySourceId(int supply_source_id) {
 		this.supply_source_id = supply_source_id;
 	}
 
@@ -68,11 +68,11 @@ public class StrategySupplySource implements T1Entity {
 		this.strategy = strategy;
 	}
 
-	public SupplySource getSupply_source() {
+	public SupplySource getSupplySource() {
 		return supply_source;
 	}
 
-	public void setSupply_source(SupplySource supply_source) {
+	public void setSupplySource(SupplySource supply_source) {
 		this.supply_source = supply_source;
 	}
 

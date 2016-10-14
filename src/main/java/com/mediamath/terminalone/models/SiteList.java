@@ -35,10 +35,10 @@ public class SiteList implements T1Entity {
     
     private Organization organization;
     
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 	public String getFilename() {
@@ -59,10 +59,10 @@ public class SiteList implements T1Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getOrganization_id() {
+	public int getOrganizationId() {
 		return organization_id;
 	}
-	public void setOrganization_id(int organization_id) {
+	public void setOrganizationId(int organization_id) {
 		this.organization_id = organization_id;
 	}
 	public String getRestriction() {
@@ -77,10 +77,10 @@ public class SiteList implements T1Entity {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

@@ -42,27 +42,27 @@ public class ThreePASCreativeBatchPlacement {
 		this.width = width;
 	}
 
-	public String getMedia_ext() {
+	public String getMediaExt() {
 		return media_ext;
 	}
 
-	public void setMedia_ext(String media_ext) {
+	public void setMediaExt(String media_ext) {
 		this.media_ext = media_ext;
 	}
 
-	public ArrayList<String> getConverted_tag() {
+	public ArrayList<String> getConvertedTag() {
 		return converted_tag;
 	}
 
-	public void setConverted_tag(ArrayList<String> converted_tag) {
+	public void setConvertedTag(ArrayList<String> converted_tag) {
 		this.converted_tag = converted_tag;
 	}
 
-	public String getBatch_index() {
+	public String getBatchIndex() {
 		return batch_index;
 	}
 
-	public void setBatch_index(String batch_index) {
+	public void setBatchIndex(String batch_index) {
 		this.batch_index = batch_index;
 	}
 
@@ -74,11 +74,11 @@ public class ThreePASCreativeBatchPlacement {
 		this.name = name;
 	}
 
-	public String getThird_party_uuid() {
+	public String getThirdPartyUuid() {
 		return third_party_uuid;
 	}
 
-	public void setThird_party_uuid(String third_party_uuid) {
+	public void setThirdPartyUuid(String third_party_uuid) {
 		this.third_party_uuid = third_party_uuid;
 	}
 
@@ -98,11 +98,11 @@ public class ThreePASCreativeBatchPlacement {
 		this.valid = valid;
 	}
 
-	public ArrayList<String> getRaw_tag() {
+	public ArrayList<String> getRawTag() {
 		return raw_tag;
 	}
 
-	public void setRaw_tag(ArrayList<String> raw_tag) {
+	public void setRawTag(ArrayList<String> raw_tag) {
 		this.raw_tag = raw_tag;
 	}
 
@@ -114,35 +114,35 @@ public class ThreePASCreativeBatchPlacement {
 		this.assets = assets;
 	}
 
-	public String getAd_server_type() {
+	public String getAdServerType() {
 		return ad_server_type;
 	}
 
-	public void setAd_server_type(String ad_server_type) {
+	public void setAdServerType(String ad_server_type) {
 		this.ad_server_type = ad_server_type;
 	}
 
-	public String getTag_type() {
+	public String getTagType() {
 		return tag_type;
 	}
 
-	public void setTag_type(String tag_type) {
+	public void setTagType(String tag_type) {
 		this.tag_type = tag_type;
 	}
 
-	public String getTpas_ad_tag_name() {
+	public String getTpasAdTagName() {
 		return tpas_ad_tag_name;
 	}
 
-	public void setTpas_ad_tag_name(String tpas_ad_tag_name) {
+	public void setTpasAdTagName(String tpas_ad_tag_name) {
 		this.tpas_ad_tag_name = tpas_ad_tag_name;
 	}
 
-	public String getAsset_bytes() {
+	public String getAssetBytes() {
 		return asset_bytes;
 	}
 
-	public void setAsset_bytes(String asset_bytes) {
+	public void setAssetBytes(String asset_bytes) {
 		this.asset_bytes = asset_bytes;
 	}
 

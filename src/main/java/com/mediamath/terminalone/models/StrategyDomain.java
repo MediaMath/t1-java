@@ -41,11 +41,11 @@ public class StrategyDomain implements T1Entity {
 		this.restriction = restriction;
 	}
 
-	public Date getCreated_at() {
+	public Date getCreatedAt() {
 		return created_at;
 	}
 
-	public void setCreated_at(Date created_at) {
+	public void setCreatedAt(Date created_at) {
 		this.created_at = created_at;
 	}
 
@@ -73,19 +73,19 @@ public class StrategyDomain implements T1Entity {
 		this.restriction = restriction;
 	}
 
-	public int getStrategy_id() {
+	public int getStrategyId() {
 		return strategy_id;
 	}
 
-	public void setStrategy_id(int strategy_id) {
+	public void setStrategyId(int strategy_id) {
 		this.strategy_id = strategy_id;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
