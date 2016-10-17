@@ -17,16 +17,16 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-public class ThreePASCreativePlacementValid {
+public class TPASCreativeCreativeAssets {
+
+	ArrayList<TPASCreativeCreativeAsset> asset;
+
+	public ArrayList<TPASCreativeCreativeAsset> getAsset() {
+		return asset;
+	}
+
+	public void setAsset(ArrayList<TPASCreativeCreativeAsset> asset) {
+		this.asset = asset;
+	}
 	
-	ArrayList<ThreePASCreativeBatchPlacement> placement;
-
-	public ArrayList<ThreePASCreativeBatchPlacement> getPlacement() {
-		return placement;
-	}
-
-	public void setPlacement(ArrayList<ThreePASCreativeBatchPlacement> placement) {
-		this.placement = placement;
-	}
-
 }

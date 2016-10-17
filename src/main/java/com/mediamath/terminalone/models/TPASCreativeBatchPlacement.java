@@ -17,7 +17,7 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-public class ThreePASCreativeBatchPlacement {
+public class TPASCreativeBatchPlacement {
 
 	String width;
 	String media_ext;
@@ -28,7 +28,7 @@ public class ThreePASCreativeBatchPlacement {
 	String height;
 	String valid;
 	ArrayList<String> raw_tag;
-	ThreePASCreativeCreativeAssets assets;
+	TPASCreativeCreativeAssets assets;
 	String ad_server_type;
 	String tag_type;
 	String tpas_ad_tag_name;
@@ -106,11 +106,11 @@ public class ThreePASCreativeBatchPlacement {
 		this.raw_tag = raw_tag;
 	}
 
-	public ThreePASCreativeCreativeAssets getAssets() {
+	public TPASCreativeCreativeAssets getAssets() {
 		return assets;
 	}
 
-	public void setAssets(ThreePASCreativeCreativeAssets assets) {
+	public void setAssets(TPASCreativeCreativeAssets assets) {
 		this.assets = assets;
 	}
 

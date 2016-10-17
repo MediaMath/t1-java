@@ -15,34 +15,22 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeBatchIndex {
+public class TPASCreativeUpload implements T1Entity {
+	private static final String entityName = "TPASCreativeUpload";
 	
-	String batch_index;
-	String conceptId;
-	String click_url;
+	TPASCreativeBatch batch;
 
-	public String getConceptId() {
-		return conceptId;
+	public TPASCreativeBatch getBatch() {
+		return batch;
 	}
 
-	public void setConceptId(String conceptId) {
-		this.conceptId = conceptId;
+	public void setBatch(TPASCreativeBatch batch) {
+		this.batch = batch;
 	}
 
-	public String getClickUrl() {
-		return click_url;
+	@Override
+	public String getEntityname() {
+		return entityName;
 	}
-
-	public void setClickUrl(String click_url) {
-		this.click_url = click_url;
-	}
-
-	public String getBatchIndex() {
-		return batch_index;
-	}
-
-	public void setBatchIndex(String batch_index) {
-		this.batch_index = batch_index;
-	}
-
+	
 }

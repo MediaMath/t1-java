@@ -16,22 +16,22 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchIndex;
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeBatchIndex;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import javax.ws.rs.core.Form;
 
-public class ThreePasCreativeUploadBatchHelper {
+public class TPasCreativeUploadBatchHelper {
 
   /**
-   * creates a ThreePASCreativeBatchApprove form object.
+   * creates a TPASCreativeBatchApprove form object.
    * 
    * @param entity
-   *          expects a ThreePASCreativeBatchApprove entity.
+   *          expects a TPASCreativeBatchApprove entity.
    * @return Form object.
    */
-  public static Form getForm(ThreePASCreativeBatchApprove entity) {
+  public static Form getForm(TPASCreativeBatchApprove entity) {
     Form creativeBatchForm = new Form();
 
     if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
@@ -39,7 +39,7 @@ public class ThreePasCreativeUploadBatchHelper {
     }
 
     if (entity.getBatch() != null) {
-      for (ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
+      for (TPASCreativeBatchIndex batchIndex : entity.getBatch()) {
         if (batchIndex.getBatchIndex() != null && !batchIndex.getBatchIndex().isEmpty()) {
           creativeBatchForm.param("batch_index", batchIndex.getBatchIndex());
 
@@ -63,11 +63,11 @@ public class ThreePasCreativeUploadBatchHelper {
    * Creates a MultiPart Form object
    * 
    * @param entity
-   *          expects ThreePASCreativeBatchApprove entity.
+   *          expects TPASCreativeBatchApprove entity.
    * @param formDataMultiPart
    *          expects a FormDataMultiPart object.
    */
-  public static void getMultiPartForm(ThreePASCreativeBatchApprove entity,
+  public static void getMultiPartForm(TPASCreativeBatchApprove entity,
       FormDataMultiPart formDataMultiPart) {
 
     if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
@@ -75,7 +75,7 @@ public class ThreePasCreativeUploadBatchHelper {
     }
 
     if (entity.getBatch() != null) {
-      for (ThreePASCreativeBatchIndex batchIndex : entity.getBatch()) {
+      for (TPASCreativeBatchIndex batchIndex : entity.getBatch()) {
         if (batchIndex.getBatchIndex() != null && !batchIndex.getBatchIndex().isEmpty()) {
 
           formDataMultiPart = formDataMultiPart.field("batch_index", batchIndex.getBatchIndex());

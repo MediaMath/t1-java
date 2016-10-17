@@ -42,8 +42,8 @@ import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -532,18 +532,18 @@ public class TerminalOne {
    * @param name
    *          a valid name is required.
    *          
-   * @return ThreePASCreativeUpload object.
+   * @return TPASCreativeUpload object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName,
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName,
       String name) throws ClientException, IOException {
-    ThreePASCreativeUpload response = null;
+    TPASCreativeUpload response = null;
     if (isAuthenticated()) {
-      response = postService.save3pasCreativeUpload(filePath, fileName, name);
+      response = postService.saveTPASCreativeUpload(filePath, fileName, name);
     }
     return response;
   }
@@ -553,7 +553,7 @@ public class TerminalOne {
    * database.
    * second call to save the 3pas creative upload
    * 
-   * @param batchApprove requires ThreePASCreativeBatchApprove entity. 
+   * @param batchApprove requires TPASCreativeBatchApprove entity. 
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -562,12 +562,12 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.           
    */
-  public JsonResponse<? extends T1Entity> save3pasCreativeUploadBatch(
-      ThreePASCreativeBatchApprove batchApprove)
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(
+      TPASCreativeBatchApprove batchApprove)
       throws ClientException, IOException, ParseException {
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (isAuthenticated()) {
-      finalJsonResponse = postService.save3pasCreativeUploadBatch(batchApprove);
+      finalJsonResponse = postService.saveTPASCreativeUploadBatch(batchApprove);
     }
     return finalJsonResponse;
   }
@@ -595,10 +595,10 @@ public class TerminalOne {
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public TOneASCreativeAssetsUpload saveT1ASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+  public TOneASCreativeAssetsUpload saveTOneASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {
     TOneASCreativeAssetsUpload response = null;
     if (isAuthenticated()) {
-      response = postService.saveT1asCreativeAssets(filePath, fileName, name);
+      response = postService.saveTOneASCreativeAssets(filePath, fileName, name);
     }
     return response;
   }

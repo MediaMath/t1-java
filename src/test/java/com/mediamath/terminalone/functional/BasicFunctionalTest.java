@@ -57,8 +57,8 @@ import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -588,11 +588,11 @@ public class BasicFunctionalTest {
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
 		// 3pas first call
-		ThreePASCreativeUpload response = t1.save3pasCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
+		TPASCreativeUpload response = t1.saveTPASCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
 		
 		
 		// 3pas second call 
-		ThreePASCreativeBatchApprove batchApprove = new ThreePASCreativeBatchApprove();
+		TPASCreativeBatchApprove batchApprove = new TPASCreativeBatchApprove();
 
 		batchApprove.setBatchId(response.getBatch().getId());
 		batchApprove.setAdvertiserId("165615");
@@ -601,7 +601,7 @@ public class BasicFunctionalTest {
 		batchApprove.setBatchIndex("3", null, null);
 		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 		
-		finalJsonResponse = t1.save3pasCreativeUploadBatch(batchApprove);
+		finalJsonResponse = t1.saveTPASCreativeUploadBatch(batchApprove);
 		
 		assertNotNull(finalJsonResponse);
 	}
@@ -610,7 +610,7 @@ public class BasicFunctionalTest {
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
-		TOneASCreativeAssetsUpload response = t1.saveT1ASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
 		
 		assertNotNull(response);
 		

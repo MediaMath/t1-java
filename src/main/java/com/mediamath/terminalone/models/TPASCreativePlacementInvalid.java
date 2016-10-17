@@ -15,36 +15,18 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativesBatchUpload {
+import java.util.ArrayList;
+
+public class TPASCreativePlacementInvalid {
+
+	ArrayList<TPASCreativeBatchPlacement> placement;
+
+	public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
+		return placement;
+	}
+
+	public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
+		this.placement = placement;
+	}
 	
-	private ThreePASCreativeBatch batch;
-	
-	private String called_on;
-	
-	private Status status;
-
-	public ThreePASCreativeBatch getBatch() {
-		return batch;
-	}
-
-	public void setBatch(ThreePASCreativeBatch batch) {
-		this.batch = batch;
-	}
-
-	public String getCalledOn() {
-		return called_on;
-	}
-
-	public void setCalledOn(String called_on) {
-		this.called_on = called_on;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 }

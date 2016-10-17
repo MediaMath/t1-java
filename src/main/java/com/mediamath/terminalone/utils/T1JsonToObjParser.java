@@ -31,7 +31,7 @@ import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 
@@ -132,17 +132,17 @@ public class T1JsonToObjParser {
   }
 
   /**
-   * parses 3pas creative upload response string to ThreePASCreativeUpload object.
+   * parses 3pas creative upload response string to TPASCreativeUpload object.
    * @param json3PasCreativeResponseString required response string
-   * @return ThreePASCreativeUpload object.
+   * @return TPASCreativeUpload object.
    */
-  public ThreePASCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
-    ThreePASCreativeUpload response = null;
+  public TPASCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
+    TPASCreativeUpload response = null;
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
     Gson gson = builder.create();
-    response = gson.fromJson(json3PasCreativeResponseString, ThreePASCreativeUpload.class);
+    response = gson.fromJson(json3PasCreativeResponseString, TPASCreativeUpload.class);
     return response;
   }
 

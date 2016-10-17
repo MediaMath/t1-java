@@ -15,22 +15,27 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeUpload implements T1Entity {
-	private static final String entityName = "ThreePASCreativeUpload";
-	
-	ThreePASCreativeBatch batch;
+import java.util.ArrayList;
 
-	public ThreePASCreativeBatch getBatch() {
-		return batch;
+public class TPASCreativeBatchPlacements {
+
+	ArrayList<TPASCreativePlacementInvalid> invalid;
+	ArrayList<TPASCreativePlacementValid> valid;
+
+	public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
+		return invalid;
 	}
 
-	public void setBatch(ThreePASCreativeBatch batch) {
-		this.batch = batch;
+	public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
+		this.invalid = invalid;
 	}
 
-	@Override
-	public String getEntityname() {
-		return entityName;
+	public ArrayList<TPASCreativePlacementValid> getValid() {
+		return valid;
 	}
-	
+
+	public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
+		this.valid = valid;
+	}
+
 }

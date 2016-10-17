@@ -15,50 +15,34 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeBatch {
-	private String filename;
-	private String user_id;
-	private String id;
-	private String total;
-	private ThreePASCreativeBatchPlacements placements;
+public class TPASCreativeBatchIndex {
+	
+	String batch_index;
+	String conceptId;
+	String click_url;
 
-	public String getFilename() {
-		return filename;
+	public String getConceptId() {
+		return conceptId;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setConceptId(String conceptId) {
+		this.conceptId = conceptId;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getClickUrl() {
+		return click_url;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setClickUrl(String click_url) {
+		this.click_url = click_url;
 	}
 
-	public String getId() {
-		return id;
+	public String getBatchIndex() {
+		return batch_index;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setBatchIndex(String batch_index) {
+		this.batch_index = batch_index;
 	}
 
-	public String getTotal() {
-		return total;
-	}
-
-	public void setTotal(String total) {
-		this.total = total;
-	}
-
-	public ThreePASCreativeBatchPlacements getPlacements() {
-		return placements;
-	}
-
-	public void setPlacements(ThreePASCreativeBatchPlacements placements) {
-		this.placements = placements;
-	}
 }

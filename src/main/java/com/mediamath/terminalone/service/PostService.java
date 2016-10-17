@@ -49,8 +49,8 @@ import com.mediamath.terminalone.models.T1Meta;
 import com.mediamath.terminalone.models.T1Response;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePASCreativeUpload;
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -66,7 +66,7 @@ import com.mediamath.terminalone.models.helper.StrategyDayPartHelper;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
-import com.mediamath.terminalone.models.helper.ThreePasCreativeUploadBatchHelper;
+import com.mediamath.terminalone.models.helper.TPasCreativeUploadBatchHelper;
 import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
@@ -901,7 +901,7 @@ public class PostService {
    * 
    * @param name name of 3pas upload.
    * 
-   * @return ThreePASCreativeUpload object.
+   * @return TPASCreativeUpload object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -909,10 +909,10 @@ public class PostService {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public ThreePASCreativeUpload save3pasCreativeUpload(String filePath, String fileName,
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName,
       String name) throws ClientException, IOException {
 
-    ThreePASCreativeUpload threePassCreativeUploadResponse = null;
+    TPASCreativeUpload tpasCreativeUploadResponse = null;
 
     if (filePath != null && name != null && fileName != null) {
 
@@ -934,7 +934,7 @@ public class PostService {
       // parse
       // create object and send the response to user.
       if (response != null && !response.isEmpty()) {
-        threePassCreativeUploadResponse = parse3PasCreativeUploadData(response, parser);
+        tpasCreativeUploadResponse = parseTPASCreativeUploadData(response, parser);
       }
 
       formDataMultiPart.close();
@@ -943,12 +943,12 @@ public class PostService {
       throw new ClientException("please enter a valid filename and file path");
     }
 
-    return threePassCreativeUploadResponse;
+    return tpasCreativeUploadResponse;
   }
 
-  private ThreePASCreativeUpload parse3PasCreativeUploadData(String response,
+  private TPASCreativeUpload parseTPASCreativeUploadData(String response,
       T1JsonToObjParser parser) {
-    ThreePASCreativeUpload finalResponse = null;
+    TPASCreativeUpload finalResponse = null;
     finalResponse = parser.parse3PasCreativeUploadResponseTOObj(response);
     return finalResponse;
   }
@@ -957,7 +957,7 @@ public class PostService {
    * this API call in the Bulk 3PAS process saves particular creative out of a given batch to the T1 database.
    * second call to save the 3pas creative upload
    *  
-   * @param entity requires a ThreePASCreativeBatchApprove entity.
+   * @param entity requires a TPASCreativeBatchApprove entity.
    * 
    * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T.
    * 
@@ -969,7 +969,7 @@ public class PostService {
    *           
    * @throws IOException is thrown when this method is unable to create a file containing report data.           
    */
-  public JsonResponse<? extends T1Entity> save3pasCreativeUploadBatch(ThreePASCreativeBatchApprove entity) throws ClientException, IOException, ParseException {
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove entity) throws ClientException, IOException, ParseException {
     FormDataMultiPart formData = new FormDataMultiPart();
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (entity != null) {
@@ -979,7 +979,7 @@ public class PostService {
       if (entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
         uri.append(entity.getBatchId());
         String path = t1Service.constructUrl(uri);
-        ThreePasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
+        TPasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
         Response responseObj = this.connection.post(path, formData, this.user);
         String response = responseObj.readEntity(String.class);
 
@@ -1020,7 +1020,7 @@ public class PostService {
    * 
    * @throws IOException is thrown when this method is unable to create a file containing report data.   
    */
-  public TOneASCreativeAssetsUpload saveT1asCreativeAssets(String filePath, String fileName,
+  public TOneASCreativeAssetsUpload saveTOneASCreativeAssets(String filePath, String fileName,
       String name) throws ClientException, IOException {
     TOneASCreativeAssetsUpload assetsUploadResponse = null;
     if (filePath != null && name != null && fileName != null) {
