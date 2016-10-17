@@ -398,13 +398,12 @@ public class ReportService {
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public void getReportData(Reports report, String finalPath, Connection connection,
+  public BufferedReader getReportData(Reports report, String finalPath, Connection connection,
       T1Response user) throws ClientException {
 
     Response response = connection.getReportData(finalPath, user);
-
-    if (response.getMediaType().getType().equals("text")
-        && response.getMediaType().getSubtype().equals("xml") && response.getStatus() != 200) {
+    BufferedReader reader = null;
+    if (response.getMediaType().getType().equals("text") && response.getMediaType().getSubtype().equals("xml") && response.getStatus() != 200) {
 
       try {
 
@@ -424,39 +423,11 @@ public class ReportService {
         throw new ClientException("IO Exception Occured");
       }
 
-    } else if (response.getMediaType().getType().equals("text")
-        && response.getMediaType().getSubtype().equals("csv") && response.getStatus() == 200) {
-      try {
+    } else if (response.getMediaType().getType().equals("text") && response.getMediaType().getSubtype().equals("csv") && response.getStatus() == 200) {
         InputStream responseStream = response.readEntity(InputStream.class);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(responseStream));
-        SimpleDateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
-
-        File dir = new File("reports");
-
-        if (!dir.exists()) {
-          dir.mkdir();
-        }
-
-        File file = new File(
-            "reports/" + report.getReportName() + "_" + df.format(new Date()) + ".csv");
-        FileWriter writer = new FileWriter(file);
-        BufferedWriter bw = new BufferedWriter(writer);
-
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-          bw.write(line);
-          bw.newLine();
-        }
-
-        bw.close();
-        reader.close();
-
-      } catch (IOException ioException) {
-        Utility.logStackTrace(ioException);
-        throw new ClientException("IO Exception Occured while saving the report");
-      }
+        reader = new BufferedReader(new InputStreamReader(responseStream));
     }
+    return reader;
   }
 
   /**

@@ -16,12 +16,30 @@
 
 package com.mediamath.terminalone;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
+import org.apache.oltu.oauth2.client.OAuthClient;
+import org.apache.oltu.oauth2.client.URLConnectionClient;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.oltu.oauth2.common.message.types.ResponseType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
@@ -56,27 +74,6 @@ import com.mediamath.terminalone.service.ReportService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
-
-
-import org.apache.oltu.oauth2.client.OAuthClient;
-import org.apache.oltu.oauth2.client.URLConnectionClient;
-import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
-import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
-import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.types.GrantType;
-import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
 
 
 
@@ -768,21 +765,21 @@ public class TerminalOne {
    * @param report expects a report name from the Reports enum.
    * 
    * @param criteria expects ReportCriteria entity. 
+   *
+   * @return reader BufferedReader is returned. 
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
-   * @throws IOException
-   *           a IOException is thrown when the file cannot be uploaded.
-   * 
-   * @throws UnsupportedEncodingException exception.
+   *
    * 
    */
-  public void getReport(Reports report, ReportCriteria criteria) throws ClientException {
+  public BufferedReader getReport(Reports report, ReportCriteria criteria) throws ClientException {
     criteria.setReportName(report.getReportName());
     StringBuffer path = null;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
-    reportService.getReportData(report, finalPath, connection, user);
+    BufferedReader reader = reportService.getReportData(report, finalPath, connection, user);
+    return reader;
   }
 
   /**

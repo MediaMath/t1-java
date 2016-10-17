@@ -3,6 +3,7 @@ package com.mediamath.terminalone.functional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -122,7 +123,8 @@ public class ReportingFunctionalTest {
 		report.setStart_date(startDate);
 		report.setEnd_date(endDate);
 
-		t1.getReport(Reports.PERFORMANCE, report);
+		BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+		assertNotNull(reader);
 	}
 
 	@Test
