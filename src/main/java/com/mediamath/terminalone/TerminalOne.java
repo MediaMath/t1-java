@@ -241,19 +241,19 @@ public class TerminalOne {
    * Gets OAuthTokens.
    * 
    * @param code valid code is required.
-   * @param api_key valid api key is required.
+   * @param apiKey valid api key is required.
    * @param secret valid secret key is required.
-   * @param redirect_uri a valid redirect URI is required.
+   * @param redirectUri a valid redirect URI is required.
    * @return OAuthJSONAccessTokenResponse object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public OAuthJSONAccessTokenResponse getOauthToken(String code, String api_key, String secret, String redirect_uri) throws ClientException {
-    String oauth_token_url = tOneService.constructOauthUrl(new StringBuffer("token"));
+  public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret, String redirectUri) throws ClientException {
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
     try {
-      OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauth_token_url)
-          .setGrantType(GrantType.AUTHORIZATION_CODE).setClientId(api_key).setClientSecret(secret)
-          .setRedirectURI(redirect_uri).setCode(code).buildQueryMessage();
+      OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
+          .setGrantType(GrantType.AUTHORIZATION_CODE).setClientId(apiKey).setClientSecret(secret)
+          .setRedirectURI(redirectUri).setCode(code).buildQueryMessage();
       OAuthClient oauthClient = new OAuthClient(new URLConnectionClient());
       OAuthJSONAccessTokenResponse oauthResponse = oauthClient.accessToken(request,
           OAuthJSONAccessTokenResponse.class);
@@ -268,9 +268,9 @@ public class TerminalOne {
   /**
    * method to refresh oauth token.
    * 
-   * @param refresh_token requires a refresh token.
+   * @param refreshToken requires a refresh token.
    * 
-   * @param api_key requires valid api key.
+   * @param apiKey requires valid api key.
    * 
    * @param secret requires a valid secret. 
    * 
@@ -279,12 +279,12 @@ public class TerminalOne {
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public OAuthJSONAccessTokenResponse refreshOauthToken(String refresh_token, String api_key, String secret) throws ClientException {
-    String oauth_token_url = tOneService.constructOauthUrl(new StringBuffer("token"));
+  public OAuthJSONAccessTokenResponse refreshOauthToken(String refreshToken, String apiKey, String secret) throws ClientException {
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
     try {
-      OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauth_token_url)
-          .setGrantType(GrantType.REFRESH_TOKEN).setClientId(api_key).setClientSecret(secret)
-          .setRefreshToken(refresh_token).buildQueryMessage();
+      OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
+          .setGrantType(GrantType.REFRESH_TOKEN).setClientId(apiKey).setClientSecret(secret)
+          .setRefreshToken(refreshToken).buildQueryMessage();
       OAuthClient oauthClient = new OAuthClient(new URLConnectionClient());
       OAuthJSONAccessTokenResponse oauthResponse = oauthClient.accessToken(request,
           OAuthJSONAccessTokenResponse.class);

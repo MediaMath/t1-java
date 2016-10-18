@@ -19,7 +19,6 @@ import java.util.Properties;
 import java.util.TimeZone;
 
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
-import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -59,9 +58,6 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -76,13 +72,13 @@ public class BasicFunctionalTest {
 	
 	private static String password = null;
 	
-	private static String api_key = null;
+	private static String apiKey = null;
 	
-	private static String production_key = null;
+	private static String productionKey = null;
 	
-	private static String oauth_key = null;
+	private static String oauthKey = null;
 	
-	private static String oauth_secret = null;
+	private static String oauthSecret = null;
 	
 	@BeforeClass
 	public static void init() throws Exception{
@@ -90,10 +86,10 @@ public class BasicFunctionalTest {
 		testConfig.load(input);
 		user = testConfig.getProperty("username");
 		password = testConfig.getProperty("password");
-		api_key = testConfig.getProperty("sandbox_api_key");
-		production_key = testConfig.getProperty("production_api_key");
-		oauth_key = testConfig.getProperty("oauth_api_key");
-		oauth_secret = testConfig.getProperty("oauth_secret");
+		apiKey = testConfig.getProperty("sandbox_api_key");
+		productionKey = testConfig.getProperty("production_api_key");
+		oauthKey = testConfig.getProperty("oauth_api_key");
+		oauthSecret = testConfig.getProperty("oauthSecret");
 	}
 	
 	@After
@@ -111,41 +107,41 @@ public class BasicFunctionalTest {
 	@Test
 	public void testOAuthHGetAuthorizationUrl() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		String authorizationUrl = t1.getAuthorizationUrl("https://blog.mediamath.com/", oauth_key);
+		String authorizationUrl = t1.getAuthorizationUrl("https://blog.mediamath.com/", oauthKey);
 		String expectedAuthorizationUrl = "https://api.mediamath.com/oauth2/v1.0/authorize";
 		System.out.println("Auth URL:"+authorizationUrl);
 		assertTrue(authorizationUrl.contains(expectedAuthorizationUrl));
 	}
 	
 	/* Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL */
-	/*@Test
+	@Test
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("khxg27pd2wbva3vm4278vqmy", oauth_key, oauth_secret, "https://blog.mediamath.com/");
+		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("khxg27pd2wbva3vm4278vqmy", oauthKey, oauthSecret, "https://blog.mediamath.com/");
 		assertNotNull(oauthResponse);
-	}*/
+	}
 	
 	// Can't be run from CI. Need a manual process of granting permission by hitting the authorization URL 
-	/*@Test
+	@Test
 	public void testOAuthHRefreshToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("yfdwzubxjghhaxjsh7hb3u8v", oauth_key, oauth_secret, "https://blog.mediamath.com/");
+		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("yfdwzubxjghhaxjsh7hb3u8v", oauthKey, oauthSecret, "https://blog.mediamath.com/");
 		assertNotNull(oauthResponse);
 		String refreshToken = oauthResponse.getRefreshToken();
 		String accessToken = oauthResponse.getAccessToken();
 		Long expiresIn = oauthResponse.getExpiresIn();
-		OAuthJSONAccessTokenResponse refreshOauthTokenResponse = t1.refreshOauthToken(refreshToken, oauth_key, oauth_secret);
+		OAuthJSONAccessTokenResponse refreshOauthTokenResponse = t1.refreshOauthToken(refreshToken, oauthKey, oauthSecret);
 		assertNotNull(refreshOauthTokenResponse);
 		String accessTokenAfterRefresh = refreshOauthTokenResponse.getAccessToken();
 		Long expiresInAfterRefresh= refreshOauthTokenResponse.getExpiresIn();
 		assertFalse(accessToken.equals(accessTokenAfterRefresh));
 		
-	}*/
+	}
 	
 	
 	@Test
 	public void testAgencyPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		Agency agency = new Agency();
 		agency.setName("TestAgency");
@@ -180,7 +176,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testCampaignPost() throws ClientException, java.text.ParseException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		Campaign camp = new Campaign();
 		camp.setName("TestCamp");
@@ -241,7 +237,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testAdvertiserPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Advertiser adv = new Advertiser();
 		adv.setAdServerId(9);
@@ -278,7 +274,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
 		str.setName("TestStrategy");
@@ -340,7 +336,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyAudienceSegmentsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
 		str.setId(1377457);	
@@ -363,7 +359,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyDomainRestrictionPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);	
@@ -383,7 +379,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testStrategyDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		StrategyDayPart strategyDayPart = new StrategyDayPart();
 		
@@ -405,7 +401,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testPixelTargetingToStrategy() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);
@@ -434,7 +430,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testOrganizationPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Organization org = new Organization();
 		org.setId(100048);
@@ -483,7 +479,7 @@ public class BasicFunctionalTest {
 		StrategyConcept sc = new StrategyConcept();
 		sc.setId(2903693);
 		try {
-			T1 = new TerminalOne(user, password,api_key);
+			T1 = new TerminalOne(user, password,apiKey);
 			JsonResponse jr = T1.delete(sc);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -497,7 +493,7 @@ public class BasicFunctionalTest {
 		StrategyDayPart sc = new StrategyDayPart();
 		sc.setId(952850);
 		try {
-			T1 = new TerminalOne(user, password,api_key);
+			T1 = new TerminalOne(user, password,apiKey);
 			JsonResponse<? extends T1Entity> jr = T1.delete(sc);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -508,7 +504,7 @@ public class BasicFunctionalTest {
 //check
 	@Test
 	public void testCampaignMarginPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		Campaign camp = new Campaign();
 		camp.setId(233131);
@@ -536,7 +532,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testConceptPost() throws ClientException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		Concept camp = new Concept();
 		camp.setAdvertiserId(122631);
@@ -557,7 +553,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testAtomicCreatives() throws ClientException {
 		
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		AtomicCreative ac = new AtomicCreative();
 		ac.setAdServerType(ac.getAdServerType().DART);
@@ -585,7 +581,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void test3pasCreativeUpload() throws ClientException, IOException, ParseException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		// 3pas first call
 		TPASCreativeUpload response = t1.saveTPASCreativeUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt", "ads1" ,"DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
@@ -608,7 +604,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
-		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		TerminalOne t1 = new TerminalOne(user, password,apiKey);
 		
 		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
 		
@@ -636,7 +632,7 @@ public class BasicFunctionalTest {
 	/*@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne(user, password,production_key);
+		TerminalOne t1 = new TerminalOne(user, password,productionKey);
 		
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
@@ -675,7 +671,7 @@ public class BasicFunctionalTest {
 
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteria() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -728,7 +724,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("advertisers")
@@ -750,7 +746,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setPageLimit(40).build();
 		
@@ -804,7 +800,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithPageLimitOffset() throws ClientException  {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		// default page offset is 0
 		QueryCriteria query = QueryCriteria.builder()
@@ -845,7 +841,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithLimit() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -879,7 +875,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithQuery() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		FullParamValues fpv = new FullParamValues();
 		fpv.setStrValue("advertiser");
@@ -913,7 +909,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithGetAll() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("campaigns")
@@ -952,7 +948,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullBoolean() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
 		QueryCriteria query = QueryCriteria.builder()
@@ -996,7 +992,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullString() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		FullParamValues fpv = new FullParamValues();
 		fpv.setStrValue("campaign");
 		QueryCriteria query = QueryCriteria.builder()
@@ -1040,7 +1036,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFullList() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		FullParamValues fpv = new FullParamValues();
 		List<String> newList = new ArrayList<String>();
 		newList.add("campaign");
@@ -1092,7 +1088,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithFind() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
@@ -1128,7 +1124,7 @@ public class BasicFunctionalTest {
 	@Test
 	public void testBaiscGetWithFind1() throws ClientException {
 		
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -1161,7 +1157,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testBaiscGetWithFind2() throws ClientException  {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
@@ -1197,7 +1193,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetWithChildByUsingQC() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1377524)
@@ -1223,7 +1219,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategyConceptsByUsingQC() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1376198)
@@ -1248,7 +1244,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategyTotalSpend() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1376198)
@@ -1272,7 +1268,7 @@ public class BasicFunctionalTest {
 		
 	@Test
 	public void testStrategyGetWithConcepts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		QueryCriteria query = QueryCriteria.builder()
 									.setCollection("strategies")
@@ -1298,7 +1294,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategyChildBrowser() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1376198)
@@ -1324,7 +1320,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategyChildAudienceSegments() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1377457)
@@ -1349,7 +1345,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategyChildDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("strategies")
 				.setEntity(1376198)
@@ -1374,7 +1370,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForSupplySources() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("supply_sources")
 				.setPageLimit(1)
@@ -1397,7 +1393,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForAudienceSegments() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("audience_segments")
 				.setPageLimit(1)
@@ -1420,7 +1416,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForPixelBundles() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("pixel_bundles")
 				.setPageLimit(1)
@@ -1443,7 +1439,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForStrategySupplySources() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("strategy", Long.valueOf(1376337));
 		QueryCriteria query = QueryCriteria.builder()
@@ -1469,7 +1465,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForConcepts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("concepts")
 				.setPageLimit(1)
@@ -1492,7 +1488,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForAtomicCreatives() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("atomic_creatives")
 				.setPageLimit(1)
@@ -1515,7 +1511,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForAtomicCreativesWithCreativeApprovals() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("atomic_creatives")
 				.setInclude(new ConditionQuery("creative_approvals"))
@@ -1540,7 +1536,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetCreativeApprovalsAsChild() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("atomic_creatives")
 				.setEntity(2691868)
@@ -1565,7 +1561,7 @@ public class BasicFunctionalTest {
 	
 	@Test
 	public void testGetForAdservers() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password,api_key);
+		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		QueryCriteria query = QueryCriteria.builder()
 				.setCollection("ad_servers")
 				.setPageLimit(1)
