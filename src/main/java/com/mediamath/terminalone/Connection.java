@@ -16,23 +16,8 @@
 
 package com.mediamath.terminalone;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-import com.mediamath.terminalone.models.T1User;
-import com.mediamath.terminalone.utils.Utility;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -41,6 +26,16 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.models.T1User;
+import com.mediamath.terminalone.utils.Utility;
 
 /**
  * This Class is responsible for connection to T1 servers.
@@ -65,7 +60,7 @@ public class Connection {
   }
 
   /**
-   * handles the POST operation to a given endpoint.
+   * Handles the POST operation to a given endpoint.
    * 
    * @param url
    *          api end point url.

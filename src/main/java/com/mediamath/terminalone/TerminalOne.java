@@ -18,7 +18,6 @@ package com.mediamath.terminalone;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.core.Form;

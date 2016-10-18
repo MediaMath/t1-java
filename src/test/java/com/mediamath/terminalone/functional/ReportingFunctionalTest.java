@@ -29,7 +29,7 @@ public class ReportingFunctionalTest {
 
 	private static String password = null;
 
-	private static String api_key = null;
+	private static String apiKey = null;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -37,7 +37,7 @@ public class ReportingFunctionalTest {
 		testConfig.load(input);
 		user = testConfig.getProperty("username");
 		password = testConfig.getProperty("password");
-		api_key = testConfig.getProperty("production_api_key");
+		apiKey = testConfig.getProperty("production_api_key");
 	}
 
 	@After
@@ -50,7 +50,7 @@ public class ReportingFunctionalTest {
 		TerminalOne t1;
 
 		try {
-			t1 = new TerminalOne(user, password, api_key);
+			t1 = new TerminalOne(user, password, apiKey);
 			assertEquals(true, t1.isAuthenticated());
 
 			JsonResponse<?> jsonresponse = null;
@@ -69,7 +69,7 @@ public class ReportingFunctionalTest {
 		TerminalOne t1;
 
 		try {
-			t1 = new TerminalOne(user, password, api_key);
+			t1 = new TerminalOne(user, password, apiKey);
 			assertEquals(true, t1.isAuthenticated());
 			MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
 			assertNotNull(metaResponse);
@@ -83,7 +83,7 @@ public class ReportingFunctionalTest {
 	public void testPerformanceReport() throws ParseException, ClientException {
 		TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, api_key);
+		t1 = new TerminalOne(user, password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 
 		ReportCriteria report = new ReportCriteria();
@@ -131,7 +131,7 @@ public class ReportingFunctionalTest {
 	public void testValidatePerformanceReport() throws ParseException, ClientException {
 		TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, api_key);
+		t1 = new TerminalOne(user, password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 
 		ReportCriteria report = new ReportCriteria();

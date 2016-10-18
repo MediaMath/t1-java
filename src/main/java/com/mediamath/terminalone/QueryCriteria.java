@@ -102,17 +102,8 @@ public class QueryCriteria {
     queryParamName = builder.queryParamName;
 
     full = builder.full;
-    queryParams = builder.queryParams;
 
-    /*
-     * queryParamValueStr = builder.queryParamValueStr;
-     * 
-     * queryParamValueBoolean = builder.queryParamValueBoolean;
-     * 
-     * queryParamValueNumber = builder.queryParamValueNumber;
-     * 
-     * queryParamValueList = builder.queryParamValueList;
-     */
+    queryParams = builder.queryParams;
 
     queryOperator = builder.queryOperator;
   }
@@ -151,16 +142,6 @@ public class QueryCriteria {
 
     private String queryParamName = null;
 
-    /*
-     * private String queryParamValueStr = null;
-     * 
-     * private boolean queryParamValueBoolean;
-     * 
-     * private Number queryParamValueNumber=null;
-     * 
-     * private List<Object> queryParamValueList = new ArrayList<Object>();
-     */
-
     private String queryOperator = null;
 
     private QueryParamValues queryParams = null;
@@ -197,16 +178,6 @@ public class QueryCriteria {
       query = old.query;
 
       queryParamName = old.queryParamName;
-
-      /*
-       * queryParamValueStr = old.queryParamValueStr;
-       * 
-       * queryParamValueBoolean = old.queryParamValueBoolean;
-       * 
-       * queryParamValueNumber = old.queryParamValueNumber;
-       * 
-       * queryParamValueList = old.queryParamValueList;
-       */
 
       queryOperator = old.queryOperator;
 

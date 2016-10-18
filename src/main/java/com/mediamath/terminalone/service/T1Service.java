@@ -39,9 +39,9 @@ public class T1Service {
   
   private String URL = null;
   
-  private String api_base = null;
+  private String apiBase = null;
   
-  private String path_mgmt = null;
+  private String pathMgmt = null;
   
   private String videoCreativeURL = null;
   
@@ -53,8 +53,8 @@ public class T1Service {
    * constructor.
    */
   public T1Service() {
-    this.api_base = configprop.getProperty("api_base");
-    this.path_mgmt = configprop.getProperty("path_mgmt");
+    this.apiBase = configprop.getProperty("api_base");
+    this.pathMgmt = configprop.getProperty("path_mgmt");
     this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
     this.reportingURL = configprop.getProperty("reportingURL");
     this.oauthURL = configprop.getProperty("oauthURL");
@@ -68,17 +68,17 @@ public class T1Service {
    * @return String object.
    */
   public String constructUrl(StringBuffer path) {
-    String url = api_base + path_mgmt + "/" + path.toString();
+    String url = apiBase + pathMgmt + "/" + path.toString();
     return url;
   }
 
   public String constructReportingUrl(StringBuffer path) {
-    String url = api_base + reportingURL + "/" + path.toString();
+    String url = apiBase + reportingURL + "/" + path.toString();
     return url;
   }
 
   public String constructOauthUrl(StringBuffer path) {
-    String url = api_base + oauthURL + "/" + path.toString();
+    String url = apiBase + oauthURL + "/" + path.toString();
     return url;
   }
 
@@ -118,19 +118,19 @@ public class T1Service {
   }
 
   public String getApi_base() {
-    return api_base;
+    return apiBase;
   }
 
-  public void setApi_base(String api_base) {
-    this.api_base = api_base;
+  public void setApiBase(String apiBase) {
+    this.apiBase = apiBase;
   }
 
-  public String getPath_mgmt() {
-    return path_mgmt;
+  public String getPathMgmt() {
+    return pathMgmt;
   }
 
-  public void setPath_mgmt(String path_mgmt) {
-    this.path_mgmt = path_mgmt;
+  public void setPathMgmt(String pathMgmt) {
+    this.pathMgmt = pathMgmt;
   }
 
   public String getReportingURL() {
