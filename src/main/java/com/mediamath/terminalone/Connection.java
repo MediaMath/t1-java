@@ -17,7 +17,7 @@
 package com.mediamath.terminalone;
 
 import com.mediamath.terminalone.exceptions.ClientException;
-import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.utils.Utility;
 
 import org.glassfish.jersey.client.ClientConfig;
@@ -77,7 +77,7 @@ public class Connection {
    * @throws ClientException
    *           throws a client exception.
    */
-  public Response post(String url, Form data, T1Response userMap) throws ClientException {
+  public Response post(String url, Form data, T1User userMap) throws ClientException {
 
     if (data == null) {
       throw new ClientException("No Post Data");
@@ -114,7 +114,7 @@ public class Connection {
    * @throws ClientException
    *           exception
    */
-  public Response post(String url, FormDataMultiPart data, T1Response userMap)
+  public Response post(String url, FormDataMultiPart data, T1User userMap)
       throws ClientException {
     if (data == null) {
       throw new ClientException("No Post Data");
@@ -154,7 +154,7 @@ public class Connection {
    * @throws ClientException
    *           exception.
    */
-  public Response post(String url, String data, T1Response userMap) throws ClientException {
+  public Response post(String url, String data, T1User userMap) throws ClientException {
     if (data == null) {
       throw new ClientException("No Post Data");
     }
@@ -187,7 +187,7 @@ public class Connection {
    *          requires a valid user login session.
    * @return String object.
    */
-  public String get(String url, T1Response userMap) {
+  public String get(String url, T1User userMap) {
     Response response = null;
     Client client = null;
     client = ClientBuilder.newClient(new ClientConfig());
@@ -215,7 +215,7 @@ public class Connection {
    *          requires a valid user login session.
    * @return Response object.
    */
-  public Response getReportData(String url, T1Response userMap) {
+  public Response getReportData(String url, T1User userMap) {
 
     Response response = null;
     Client client = null;
@@ -234,7 +234,7 @@ public class Connection {
     return response;
   }
 
-  private void userSessionCheck(T1Response userMap, Invocation.Builder invocationBuilder) {
+  private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
     if (userMap != null) {
       if (userMap.getData() != null && userMap.getData().getSession() != null
           && userMap.getData().getSession().getSessionid() != null

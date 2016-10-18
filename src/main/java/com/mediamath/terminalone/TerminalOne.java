@@ -57,7 +57,7 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
@@ -100,7 +100,7 @@ public class TerminalOne {
   /*
    * maintains user session
    */
-  private T1Response user = null;
+  private T1User user = null;
 
   private boolean authenticated = false;
 
@@ -120,19 +120,19 @@ public class TerminalOne {
    *           a client exception is thrown if any error occurs.
    * 
    */
-  public TerminalOne(String username, String password, String api_key) throws ClientException {
+  public TerminalOne(String username, String password, String apiKey) throws ClientException {
     this();
 
-    validateLoginCredentials(username, password, api_key);
+    validateLoginCredentials(username, password, apiKey);
 
     logger.info("Loading Environment - Authenticating.");
-    Form form = tOneService.getLoginFormData(username, password, api_key);
+    Form form = tOneService.getLoginFormData(username, password, apiKey);
     String url = tOneService.constructUrl(new StringBuffer("login"));
     Response loginResponse = connection.post(url, form, null);
     parseLoginError(loginResponse);
     String response = loginResponse.readEntity(String.class);
 
-    getUserSessionInfo(response);
+    setUserSessionInfo(response);
     postService = new PostService(connection, user);
     getService = new GetService();
     reportService = new ReportService();
@@ -198,7 +198,8 @@ public class TerminalOne {
     parseLoginError(loginResponse);
     String response = loginResponse.readEntity(String.class);
 
-    getUserSessionInfo(response);
+    setUserSessionInfo(response);
+    
     postService = new PostService(connection, user);
     getService = new GetService();
     reportService = new ReportService();
@@ -299,11 +300,11 @@ public class TerminalOne {
    * Maintains user session information.
    * 
    */
-  private void getUserSessionInfo(String response) {
+  private void setUserSessionInfo(String response) {
     Gson gson = new Gson();
-    T1Response resp = null;
+    T1User resp = null;
 
-    Type responseTypeInfo = new TypeToken<T1Response>() {
+    Type responseTypeInfo = new TypeToken<T1User>() {
     }.getType();
     resp = gson.fromJson(response, responseTypeInfo);
     this.setUser(resp);
@@ -955,11 +956,11 @@ public class TerminalOne {
     return authenticated;
   }
 
-  public T1Response getUser() {
+  public T1User getUser() {
     return user;
   }
 
-  public void setUser(T1Response user) {
+  public void setUser(T1User user) {
     this.user = user;
   }
 

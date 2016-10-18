@@ -33,7 +33,7 @@ import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportError;
 import com.mediamath.terminalone.models.reporting.ReportErrorEntityInfo;
@@ -399,7 +399,7 @@ public class ReportService {
    *           a client exception is thrown if any error occurs.
    */
   public BufferedReader getReportData(Reports report, String finalPath, Connection connection,
-      T1Response user) throws ClientException {
+      T1User user) throws ClientException {
 
     Response response = connection.getReportData(finalPath, user);
     BufferedReader reader = null;
@@ -443,7 +443,7 @@ public class ReportService {
    *           a client exception is thrown if any error occurs.
    */
   public ReportValidationResponse validateReportData(Reports report, String finalPath,
-      Connection connection, T1Response user) throws ClientException {
+      Connection connection, T1User user) throws ClientException {
 
     Response response = connection.getReportData(finalPath, user);
     ReportValidationResponse re = null;

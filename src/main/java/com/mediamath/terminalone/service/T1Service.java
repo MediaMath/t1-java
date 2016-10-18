@@ -88,15 +88,15 @@ public class T1Service {
    * 
    * @param username requires a valid username.
    * @param password requires a valid password.
-   * @param api_key requires a valid environment api key.
+   * @param apiKey requires a valid environment api key.
    * @return Form object.
    */
-  public Form getLoginFormData(String username, String password, String api_key) {
+  public Form getLoginFormData(String username, String password, String apiKey) {
 
     Form form = new Form();
     form.param("user", username);
     form.param("password", password);
-    form.param("api_key", api_key);
+    form.param("api_key", apiKey);
 
     return form;
   }

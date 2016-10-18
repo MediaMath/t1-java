@@ -35,7 +35,7 @@ import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;

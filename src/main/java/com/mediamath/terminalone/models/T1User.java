@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class T1Response {
+public class T1User {
 	
 	T1Data data;
 	

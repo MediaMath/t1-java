@@ -46,7 +46,7 @@ import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
-import com.mediamath.terminalone.models.T1Response;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
@@ -93,14 +93,14 @@ public class PostService {
 
   private Connection connection = null;
 
-  private T1Response user = null;
+  private T1User user = null;
 
   private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 
   public PostService() {
   }
 
-  public PostService(Connection connection, T1Response user) {
+  public PostService(Connection connection, T1User user) {
     this.connection = connection;
     this.user = user;
   }
