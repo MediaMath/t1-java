@@ -339,7 +339,7 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
-		str.setId(1377457);	
+		str.setId(1376197);	
 		str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
 		str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
 		List<Segments> asList = new ArrayList<Segments>();
@@ -404,20 +404,14 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
-		str.setId(1089192);
+		str.setId(1376197);
 		
 		//include
-		str.setIncludePixels(154481);
-		str.setIncludePixels(153998);
-		str.setIncludePixels(153980);
-		str.setIncludePixels(153558);
+		str.setIncludePixels(926800);
 		
 		//exclude
-		str.setExcludePixels(153443);
-		str.setExcludePixels(153442);
-		str.setExcludePixels(153125);
-		str.setExcludePixels(153124);
-		str.setExcludePixels(152996);
+		str.setExcludePixels(987860);
+		
 		
 		try {
 			jt1.save(str);
