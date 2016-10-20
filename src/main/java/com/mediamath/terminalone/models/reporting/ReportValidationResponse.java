@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models.reporting;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -21,31 +22,29 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @JacksonXmlRootElement(localName = "Result")
 public class ReportValidationResponse {
-	
-	@JacksonXmlProperty(localName = "status")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	private ReportStatus[] status;
-	
-	@JacksonXmlProperty(localName="entity")
-	@JacksonXmlElementWrapper(useWrapping = false)
-	private ReportErrorEntityInfo[] entity;
 
-	public ReportStatus[] getStatus() {
-		return status;
-	}
+  @JacksonXmlProperty(localName = "status")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  private ReportStatus[] status;
 
-	public void setStatus(ReportStatus[] status) {
-		this.status = status;
-	}
+  @JacksonXmlProperty(localName = "entity")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  private ReportErrorEntityInfo[] entity;
 
-	public ReportErrorEntityInfo[] getEntity() {
-		return entity;
-	}
+  public ReportStatus[] getStatus() {
+    return status;
+  }
 
-	public void setEntity(ReportErrorEntityInfo[] entity) {
-		this.entity = entity;
-	}
+  public void setStatus(ReportStatus[] status) {
+    this.status = status;
+  }
 
+  public ReportErrorEntityInfo[] getEntity() {
+    return entity;
+  }
+
+  public void setEntity(ReportErrorEntityInfo[] entity) {
+    this.entity = entity;
+  }
 
 }
-

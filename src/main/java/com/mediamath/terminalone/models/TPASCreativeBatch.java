@@ -15,27 +15,50 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+public class TPASCreativeBatch {
+	private String filename;
+	private String user_id;
+	private String id;
+	private String total;
+	private TPASCreativeBatchPlacements placements;
 
-public class ThreePASCreativeBatchPlacements {
-
-	ArrayList<ThreePASCreativePlacementInvalid> invalid;
-	ArrayList<ThreePASCreativePlacementValid> valid;
-
-	public ArrayList<ThreePASCreativePlacementInvalid> getInvalid() {
-		return invalid;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setInvalid(ArrayList<ThreePASCreativePlacementInvalid> invalid) {
-		this.invalid = invalid;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
-	public ArrayList<ThreePASCreativePlacementValid> getValid() {
-		return valid;
+	public String getUser_id() {
+		return user_id;
 	}
 
-	public void setValid(ArrayList<ThreePASCreativePlacementValid> valid) {
-		this.valid = valid;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public TPASCreativeBatchPlacements getPlacements() {
+		return placements;
+	}
+
+	public void setPlacements(TPASCreativeBatchPlacements placements) {
+		this.placements = placements;
+	}
 }

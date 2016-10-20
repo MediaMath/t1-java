@@ -32,19 +32,19 @@ public class StrategyConcept implements T1Entity {
 	private Concept concept;
 	private Strategy strategy;
 	
-	public int getConcept_id() {
+	public int getConceptId() {
 		return concept_id;
 	}
 
-	public void setConcept_id(int concept_id) {
+	public void setConceptId(int concept_id) {
 		this.concept_id = concept_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -64,19 +64,19 @@ public class StrategyConcept implements T1Entity {
 		this.status = status;
 	}
 
-	public int getStrategy_id() {
+	public int getStrategyId() {
 		return strategy_id;
 	}
 
-	public void setStrategy_id(int strategy_id) {
+	public void setStrategyId(int strategy_id) {
 		this.strategy_id = strategy_id;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 

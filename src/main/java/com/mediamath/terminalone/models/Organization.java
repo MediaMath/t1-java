@@ -48,43 +48,43 @@ public class Organization implements T1Entity {
 	private boolean override_suspicious_traffic_filter;
 	private int suspicious_traffic_filter_level;
 	
-	public String getAddress_1() {
+	public String getAddress1() {
 		return address_1;
 	}
 
-	public void setAddress_1(String address_1) {
+	public void setAddress1(String address_1) {
 		this.address_1 = address_1;
 	}
 
-	public String getAddress_2() {
+	public String getAddress2() {
 		return address_2;
 	}
 
-	public void setAddress_2(String address_2) {
+	public void setAddress2(String address_2) {
 		this.address_2 = address_2;
 	}
 
-	public int getAdx_seat_account_id() {
+	public int getAdxSeatAccountId() {
 		return adx_seat_account_id;
 	}
 
-	public void setAdx_seat_account_id(int adx_seat_account_id) {
+	public void setAdxSeatAccountId(int adx_seat_account_id) {
 		this.adx_seat_account_id = adx_seat_account_id;
 	}
 
-	public boolean isAllow_byo_price() {
+	public boolean isAllowByoPrice() {
 		return allow_byo_price;
 	}
 
-	public void setAllow_byo_price(boolean allow_byo_price) {
+	public void setAllowByoPrice(boolean allow_byo_price) {
 		this.allow_byo_price = allow_byo_price;
 	}
 
-	public boolean isAllow_x_agency_pixels() {
+	public boolean isAllowXAgencyPixels() {
 		return allow_x_agency_pixels;
 	}
 
-	public void setAllow_x_agency_pixels(boolean allow_x_agency_pixels) {
+	public void setAllowXAgencyPixels(boolean allow_x_agency_pixels) {
 		this.allow_x_agency_pixels = allow_x_agency_pixels;
 	}
 
@@ -96,11 +96,11 @@ public class Organization implements T1Entity {
 		this.city = city;
 	}
 
-	public String getContact_name() {
+	public String getContactName() {
 		return contact_name;
 	}
 
-	public void setContact_name(String contact_name) {
+	public void setContactName(String contact_name) {
 		this.contact_name = contact_name;
 	}
 
@@ -112,19 +112,19 @@ public class Organization implements T1Entity {
 		this.country = country;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getCurency_code() {
+	public String getCurencyCode() {
 		return curency_code;
 	}
 
-	public void setCurency_code(String curency_code) {
+	public void setCurencyCode(String curency_code) {
 		this.curency_code = curency_code;
 	}
 
@@ -136,11 +136,11 @@ public class Organization implements T1Entity {
 		this.id = id;
 	}
 
-	public String getMm_contact_name() {
+	public String getMmContactName() {
 		return mm_contact_name;
 	}
 
-	public void setMm_contact_name(String mm_contact_name) {
+	public void setMmContactName(String mm_contact_name) {
 		this.mm_contact_name = mm_contact_name;
 	}
 
@@ -176,27 +176,27 @@ public class Organization implements T1Entity {
 		this.status = status;
 	}
 
-	public String getTag_ruleset() {
+	public String getTagRuleset() {
 		return tag_ruleset;
 	}
 
-	public void setTag_ruleset(String tag_ruleset) {
+	public void setTagRuleset(String tag_ruleset) {
 		this.tag_ruleset = tag_ruleset;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public boolean isUse_evidon_optout() {
+	public boolean isUseEvidonOptout() {
 		return use_evidon_optout;
 	}
 
-	public void setUse_evidon_optout(boolean use_evidon_optout) {
+	public void setUseEvidonOptout(boolean use_evidon_optout) {
 		this.use_evidon_optout = use_evidon_optout;
 	}
 
@@ -216,37 +216,37 @@ public class Organization implements T1Entity {
 		this.zip = zip;
 	}
 
-	public ArrayList<String> getOrg_type() {
+	public ArrayList<String> getOrgType() {
 		return org_type;
 	}
 
-	public void setOrg_type(ArrayList<String> org_type) {
+	public void setOrgType(ArrayList<String> org_type) {
 		this.org_type = org_type;
 	}
 	
 	
 
-	public String getBilling_country_code() {
+	public String getBillingCountryCode() {
 		return billing_country_code;
 	}
 
-	public void setBilling_country_code(String billing_country_code) {
+	public void setBillingCountryCode(String billing_country_code) {
 		this.billing_country_code = billing_country_code;
 	}
 
-	public boolean isOverride_suspicious_traffic_filter() {
+	public boolean isOverrideSuspiciousTrafficFilter() {
 		return override_suspicious_traffic_filter;
 	}
 
-	public void setOverride_suspicious_traffic_filter(boolean override_suspicious_traffic_filter) {
+	public void setOverrideSuspiciousTrafficFilter(boolean override_suspicious_traffic_filter) {
 		this.override_suspicious_traffic_filter = override_suspicious_traffic_filter;
 	}
 
-	public int getSuspicious_traffic_filter_level() {
+	public int getSuspiciousTrafficFilterLevel() {
 		return suspicious_traffic_filter_level;
 	}
 
-	public void setSuspicious_traffic_filter_level(int suspicious_traffic_filter_level) {
+	public void setSuspiciousTrafficFilterLevel(int suspicious_traffic_filter_level) {
 		this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
 	}
 

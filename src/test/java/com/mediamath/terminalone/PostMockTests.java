@@ -3,7 +3,6 @@ package com.mediamath.terminalone;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,29 +16,22 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.mediamath.terminalone.Exceptions.ClientException;
-import com.mediamath.terminalone.Exceptions.ParseException;
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.Strategy.freq_int;
-import com.mediamath.terminalone.models.Strategy.freq_type;
-import com.mediamath.terminalone.models.Strategy.goal_type;
+import com.mediamath.terminalone.models.Strategy.freqInt;
+import com.mediamath.terminalone.models.Strategy.freqType;
+import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Response;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.ThreePASCreativeBatchApprove;
-import com.mediamath.terminalone.models.ThreePASCreativeUpload;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
@@ -73,7 +65,7 @@ public class PostMockTests {
 		t1.setAuthenticated(true);
 		Agency agency = new Agency();
 		agency.setName("agency_name");
-		agency.setOrganization_id(100048);
+		agency.setOrganizationId(100048);
 		Mockito.when(postservicemock.save(agency)).thenReturn(agency);
 		try {
 			agency = t1.save(agency);
@@ -84,7 +76,7 @@ public class PostMockTests {
 		
 		assertNotNull(agency);
 		assertEquals("agency_name", agency.getName());
-		assertEquals(100048, agency.getOrganization_id());
+		assertEquals(100048, agency.getOrganizationId());
 	}
 	
 	
@@ -97,14 +89,14 @@ public class PostMockTests {
 		
 		Campaign camp = new Campaign();
 		camp.setName("NitCamp");
-		camp.setAd_server_fee(10.01, null);
-		camp.setAd_server_id(9);
-		camp.setAdvertiser_id(122631);
-		camp.setConversion_type("variable");
-		camp.setConversion_variable_minutes(1);
-		camp.setGoal_type(Campaign.goal_types.cpe);
-		camp.setGoal_value(100,null);
-		camp.setService_type(Campaign.serv_types.SELF);
+		camp.setAdServerFee(10.01, null);
+		camp.setAdServerId(9);
+		camp.setAdvertiserId(122631);
+		camp.setConversionType("variable");
+		camp.setConversionVariableMinutes(1);
+		camp.setGoalType(Campaign.goalTypes.cpe);
+		camp.setGoalValue(100,null);
+		camp.setServiceType(Campaign.servTypes.SELF);
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -112,15 +104,15 @@ public class PostMockTests {
 		cal.roll(Calendar.MONTH, true);
 		Date endd = cal.getTime();
 		
-		camp.setEnd_date(endd);
+		camp.setEndDate(endd);
 		
-		camp.setStart_date(new Date());
+		camp.setStartDate(new Date());
 		
-		camp.setPc_window_minutes(1);
-		camp.setSpend_cap_amount(10,null);
-		camp.setTotal_budget(100, null);
-		camp.setUse_mm_freq(false);
-		camp.setMerit_pixel_id(800781);
+		camp.setPcWindowMinutes(1);
+		camp.setSpendCapAmount(10,null);
+		camp.setTotalBudget(100, null);
+		camp.setUseMmFreq(false);
+		camp.setMeritPixelId(800781);
 		try {
 			Mockito.when(postservicemock.save(camp)).thenReturn(camp);
 			camp = t1.save(camp);
@@ -141,11 +133,11 @@ public class PostMockTests {
 		t1.setAuthenticated(true);
 		
 		Advertiser adv = new Advertiser();
-		adv.setAd_server_id(9);
-		adv.setAgency_id(109308);
+		adv.setAdServerId(9);
+		adv.setAgencyId(109308);
 		adv.setDomain("http://www.advertiser.com");
 		adv.setName("ABC Advertisers");
-		adv.setVertical_id(11);
+		adv.setVerticalId(11);
 		
 		try{
 			Mockito.when(postservicemock.save(adv)).thenReturn(adv);
@@ -171,18 +163,18 @@ public class PostMockTests {
 		Strategy str = new Strategy();
 		str.setName("ABC Advertisers");
 		str.setBudget(100.12f);
-		str.setCampaign_id(233131);
-		str.setFrequency_type(freq_type.asap);
-		str.setFrequency_amount(10);
-		str.setFrequency_interval(freq_int.day);
-		str.setGoal_type(goal_type.spend);
-		str.setGoal_value(12.12f);
-		str.setMax_bid(10f);
-		str.setPacing_amount(10f);
+		str.setCampaignId(233131);
+		str.setFrequencyType(freqType.asap);
+		str.setFrequencyAmount(10);
+		str.setFrequencyInterval(freqInt.day);
+		str.setGoalType(goalType.spend);
+		str.setGoalValue(12.12f);
+		str.setMaxBid(10f);
+		str.setPacingAmount(10f);
 		str.setType(type.REM);
-		str.setUse_campaign_start(false);
+		str.setUseCampaignStart(false);
 		//str.setStart_date("2016-05-13T21:42:29+0000");
-		str.setUse_campaign_end(false);
+		str.setUseCampaignEnd(false);
 	//	str.setEnd_date("2016-10-12T21:42:29+0000");
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);
@@ -202,12 +194,12 @@ public class PostMockTests {
 		
 		Strategy str = new Strategy();
 		str.setId(1089192);	
-		str.setAudience_segment_exclude_op(Strategy.aud_seg_exc.OR);
-		str.setAudience_segment_include_op(Strategy.aud_seg_inc.OR);
+		str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
+		str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
 		List<Segments> asList = new ArrayList<Segments>();
 		
-		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.aud_seg_exc.OR, Segments.aud_seg_inc.OR));
-		str.setAudience_segments(asList);
+		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+		str.setAudienceSegments(asList);
 		
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);
@@ -231,7 +223,7 @@ public class PostMockTests {
 		
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
 		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
-		str.setStrategy_domain_restrictions(sdList);
+		str.setStrategyDomainRestrictions(sdList);
 		
 		try{
 			Mockito.when(postservicemock.save(str)).thenReturn(str);
@@ -256,15 +248,15 @@ public class PostMockTests {
 		org.setId(100048);
 		ArrayList<String> listOrgType = new ArrayList<String>();
 		listOrgType.add("buyer");
-		org.setOrg_type(listOrgType);
+		org.setOrgType(listOrgType);
 		org.setName("ABC Advertisers");
-		org.setAddress_1("First Lane, New York");
+		org.setAddress1("First Lane, New York");
 		org.setCity("New York");
 		org.setState("NY");
-		org.setContact_name("Michele");
+		org.setContactName("Michele");
 		org.setZip("800293");
 		org.setCountry("US");
-		org.setMm_contact_name("Mark");
+		org.setMmContactName("Mark");
 		org.setPhone("408 345 7758");
 		
 		try{
@@ -315,7 +307,7 @@ public class PostMockTests {
 		t1.setAuthenticated(true);
 		
 		Concept camp = new Concept();
-		camp.setAdvertiser_id(122631);
+		camp.setAdvertiserId(122631);
 		camp.setName("TestConcept1");
 		camp.setStatus(true);
 		
@@ -335,16 +327,16 @@ public class PostMockTests {
 		t1.setAuthenticated(true);
 		
 		AtomicCreative ac = new AtomicCreative();
-		ac.setAd_server_type(ac.getAd_server_type().DART);
-		ac.setAdvertiser_id(150577);
-		ac.setConcept_id(622519);
-		ac.setExternal_identifier("1234567890abcd");
-		ac.setFile_type(ac.getFile_type().jpeg);
+		ac.setAdServerType(ac.getAdServerType().DART);
+		ac.setAdvertiserId(150577);
+		ac.setConceptId(622519);
+		ac.setExternalIdentifier("1234567890abcd");
+		ac.setFileType(ac.getFileType().jpeg);
 		ac.setHeight(72);
 		ac.setName("MyTestAtomicCreative");
 		ac.setTag("https://ad.doubleclick.net;sz=1x1;ord=[RANDOM_NUMBER]?");
-		ac.setTag_type(ac.getTag_type().IMG);
-		ac.setTpas_ad_tag_name("Sample IMG TAG");
+		ac.setTagType(ac.getTagType().IMG);
+		ac.setTpasAdTagName("Sample IMG TAG");
 		ac.setWidth(72);
 		
 

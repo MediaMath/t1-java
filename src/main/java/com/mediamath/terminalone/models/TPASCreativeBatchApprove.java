@@ -17,7 +17,7 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-public class ThreePASCreativeBatchApprove implements T1Entity {
+public class TPASCreativeBatchApprove implements T1Entity {
 	
 	private static final String entityName = "ThreePasCreativeBatchApprove";
 
@@ -25,7 +25,7 @@ public class ThreePASCreativeBatchApprove implements T1Entity {
 	
 	String advertiser_id;
 	
-	ArrayList<ThreePASCreativeBatchIndex> batch = new ArrayList<ThreePASCreativeBatchIndex>();
+	ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<TPASCreativeBatchIndex>();
 	
 	public String getBatchId() {
 		return batchId;
@@ -35,29 +35,29 @@ public class ThreePASCreativeBatchApprove implements T1Entity {
 		this.batchId = batchId;
 	}
 
-	public String getAdvertiser_id() {
+	public String getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(String advertiser_id) {
+	public void setAdvertiserId(String advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
 	public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
 		
-		ThreePASCreativeBatchIndex batchIndex = null;
+		TPASCreativeBatchIndex batchIndex = null;
 		
 		if(pBatchIndex != null && !pBatchIndex.isEmpty()) {
-			batchIndex = new ThreePASCreativeBatchIndex();
+			batchIndex = new TPASCreativeBatchIndex();
 			
-			batchIndex.setBatch_index(pBatchIndex);
+			batchIndex.setBatchIndex(pBatchIndex);
 			
 			if(concept != null && !concept.isEmpty()) {
 				batchIndex.setConceptId(concept);
 			}
 			
 			if(click_url != null && !click_url.isEmpty()) {
-				batchIndex.setClick_url(click_url);
+				batchIndex.setClickUrl(click_url);
 			}
 		}
 		
@@ -71,7 +71,7 @@ public class ThreePASCreativeBatchApprove implements T1Entity {
 		return entityName;
 	}
 
-	public ArrayList<ThreePASCreativeBatchIndex> getBatch() {
+	public ArrayList<TPASCreativeBatchIndex> getBatch() {
 		return batch;
 	}
 	

@@ -39,16 +39,16 @@ public class TOneASCreativeAssetsData {
 	public void setWidth(String width) {
 		this.width = width;
 	}
-	public String getFile_size() {
+	public String getFileSize() {
 		return file_size;
 	}
-	public void setFile_size(String file_size) {
+	public void setFileSize(String file_size) {
 		this.file_size = file_size;
 	}
-	public String getFile_role() {
+	public String getFileRole() {
 		return file_role;
 	}
-	public void setFile_role(String file_role) {
+	public void setFileRole(String file_role) {
 		this.file_role = file_role;
 	}
 	public String getVersion() {
@@ -69,40 +69,40 @@ public class TOneASCreativeAssetsData {
 	public void setHeight(String height) {
 		this.height = height;
 	}
-	public String getUpdated_on() {
+	public String getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(String updated_on) {
+	public void setUpdatedOn(String updated_on) {
 		this.updated_on = updated_on;
 	}
-	public String getFile_type() {
+	public String getFileType() {
 		return file_type;
 	}
-	public void setFile_type(String file_type) {
+	public void setFileType(String file_type) {
 		this.file_type = file_type;
 	}
-	public String getFile_name() {
+	public String getFileName() {
 		return file_name;
 	}
-	public void setFile_name(String file_name) {
+	public void setFileName(String file_name) {
 		this.file_name = file_name;
 	}
-	public String getCreated_on() {
+	public String getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(String created_on) {
+	public void setCreatedOn(String created_on) {
 		this.created_on = created_on;
 	}
-	public String getAsset_url() {
+	public String getAssetUrl() {
 		return asset_url;
 	}
-	public void setAsset_url(String asset_url) {
+	public void setAssetUrl(String asset_url) {
 		this.asset_url = asset_url;
 	}
-	public String getEntity_type() {
+	public String getEntityType() {
 		return entity_type;
 	}
-	public void setEntity_type(String entity_type) {
+	public void setEntityType(String entity_type) {
 		this.entity_type = entity_type;
 	}
 	public String getId() {
@@ -111,16 +111,16 @@ public class TOneASCreativeAssetsData {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getMedia_version() {
+	public String getMediaVersion() {
 		return media_version;
 	}
-	public void setMedia_version(String media_version) {
+	public void setMediaVersion(String media_version) {
 		this.media_version = media_version;
 	}
-	public String getPrimary_asset_id() {
+	public String getPrimaryAssetId() {
 		return primary_asset_id;
 	}
-	public void setPrimary_asset_id(String primary_asset_id) {
+	public void setPrimaryAssetId(String primary_asset_id) {
 		this.primary_asset_id = primary_asset_id;
 	}
 	

@@ -15,34 +15,26 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class ThreePASCreativeBatchIndex {
+public class T1User {
 	
-	String batch_index;
-	String conceptId;
-	String click_url;
+	T1Data data;
+	
+	T1Meta meta;
 
-	public String getConceptId() {
-		return conceptId;
+	public T1Data getData() {
+		return data;
 	}
 
-	public void setConceptId(String conceptId) {
-		this.conceptId = conceptId;
+	public void setData(T1Data data) {
+		this.data = data;
 	}
 
-	public String getClick_url() {
-		return click_url;
+	public T1Meta getMeta() {
+		return meta;
 	}
 
-	public void setClick_url(String click_url) {
-		this.click_url = click_url;
+	public void setMeta(T1Meta meta) {
+		this.meta = meta;
 	}
-
-	public String getBatch_index() {
-		return batch_index;
-	}
-
-	public void setBatch_index(String batch_index) {
-		this.batch_index = batch_index;
-	}
-
+	
 }

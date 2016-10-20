@@ -3,6 +3,7 @@ package com.mediamath.terminalone.functional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ import org.junit.Test;
 
 import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.TerminalOne;
-import com.mediamath.terminalone.Exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
@@ -28,7 +29,7 @@ public class ReportingFunctionalTest {
 
 	private static String password = null;
 
-	private static String api_key = null;
+	private static String apiKey = null;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -36,7 +37,7 @@ public class ReportingFunctionalTest {
 		testConfig.load(input);
 		user = testConfig.getProperty("username");
 		password = testConfig.getProperty("password");
-		api_key = testConfig.getProperty("production_api_key");
+		apiKey = testConfig.getProperty("production_api_key");
 	}
 
 	@After
@@ -49,7 +50,7 @@ public class ReportingFunctionalTest {
 		TerminalOne t1;
 
 		try {
-			t1 = new TerminalOne(user, password, api_key);
+			t1 = new TerminalOne(user, password, apiKey);
 			assertEquals(true, t1.isAuthenticated());
 
 			JsonResponse<?> jsonresponse = null;
@@ -68,7 +69,7 @@ public class ReportingFunctionalTest {
 		TerminalOne t1;
 
 		try {
-			t1 = new TerminalOne(user, password, api_key);
+			t1 = new TerminalOne(user, password, apiKey);
 			assertEquals(true, t1.isAuthenticated());
 			MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
 			assertNotNull(metaResponse);
@@ -82,7 +83,7 @@ public class ReportingFunctionalTest {
 	public void testPerformanceReport() throws ParseException, ClientException {
 		TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, api_key);
+		t1 = new TerminalOne(user, password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 
 		ReportCriteria report = new ReportCriteria();
@@ -116,20 +117,21 @@ public class ReportingFunctionalTest {
 		String dateInString = "2015-02-06";
 		String endDateInString = "2015-04-16";
 
-		String stateDate = df.format(df.parse(dateInString));
+		String startDate = df.format(df.parse(dateInString));
 		String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(stateDate);
+		report.setStart_date(startDate);
 		report.setEnd_date(endDate);
 
-		t1.getReport(Reports.PERFORMANCE, report);
+		BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+		assertNotNull(reader);
 	}
 
 	@Test
 	public void testValidatePerformanceReport() throws ParseException, ClientException {
 		TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, api_key);
+		t1 = new TerminalOne(user, password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 
 		ReportCriteria report = new ReportCriteria();
@@ -163,10 +165,10 @@ public class ReportingFunctionalTest {
 		String dateInString = "2015-02-06";
 		String endDateInString = "2015-04-16";
 
-		String stateDate = df.format(df.parse(dateInString));
+		String startDate = df.format(df.parse(dateInString));
 		String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(stateDate);
+		report.setStart_date(startDate);
 		report.setEnd_date(endDate);
 
 		ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);

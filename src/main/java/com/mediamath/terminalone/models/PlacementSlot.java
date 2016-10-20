@@ -48,32 +48,32 @@ public class PlacementSlot implements T1Entity {
 	private int width;
 	
 	
-	public int getAd_slot() {
+	public int getAdSlot() {
 		return ad_slot;
 	}
 
 
-	public void setAd_slot(int ad_slot) {
+	public void setAdSlot(int ad_slot) {
 		this.ad_slot = ad_slot;
 	}
 
 
-	public boolean isAllow_remnant() {
+	public boolean isAllowRemnant() {
 		return allow_remnant;
 	}
 
 
-	public void setAllow_remnant(boolean allow_remnant) {
+	public void setAllowRemnant(boolean allow_remnant) {
 		this.allow_remnant = allow_remnant;
 	}
 
 
-	public String getAuction_type() {
+	public String getAuctionType() {
 		return auction_type;
 	}
 
 
-	public void setAuction_type(String auction_type) {
+	public void setAuctionType(String auction_type) {
 		this.auction_type = auction_type;
 	}
 
@@ -88,32 +88,32 @@ public class PlacementSlot implements T1Entity {
 	}
 
 
-	public float getBuy_price() {
+	public float getBuyPrice() {
 		return buy_price;
 	}
 
 
-	public void setBuy_price(float buy_price) {
+	public void setBuyPrice(float buy_price) {
 		this.buy_price = buy_price;
 	}
 
 
-	public String getBuy_price_type() {
+	public String getBuyPriceType() {
 		return buy_price_type;
 	}
 
 
-	public void setBuy_price_type(String buy_price_type) {
+	public void setBuyPriceType(String buy_price_type) {
 		this.buy_price_type = buy_price_type;
 	}
 
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -128,52 +128,52 @@ public class PlacementSlot implements T1Entity {
 	}
 
 
-	public Date getEnd_date() {
+	public Date getEndDate() {
 		return end_date;
 	}
 
 
-	public void setEnd_date(Date end_date) {
+	public void setEndDate(Date end_date) {
 		this.end_date = end_date;
 	}
 
 
-	public float getEst_volume() {
+	public float getEstVolume() {
 		return est_volume;
 	}
 
 
-	public void setEst_volume(float est_volume) {
+	public void setEstVolume(float est_volume) {
 		this.est_volume = est_volume;
 	}
 
 
-	public int getFrequency_amount() {
+	public int getFrequencyAmount() {
 		return frequency_amount;
 	}
 
 
-	public void setFrequency_amount(int frequency_amount) {
+	public void setFrequencyAmount(int frequency_amount) {
 		this.frequency_amount = frequency_amount;
 	}
 
 
-	public String getFrequency_interval() {
+	public String getFrequencyInterval() {
 		return frequency_interval;
 	}
 
 
-	public void setFrequency_interval(String frequency_interval) {
+	public void setFrequencyInterval(String frequency_interval) {
 		this.frequency_interval = frequency_interval;
 	}
 
 
-	public String getFrequency_type() {
+	public String getFrequencyType() {
 		return frequency_type;
 	}
 
 
-	public void setFrequency_type(String frequency_type) {
+	public void setFrequencyType(String frequency_type) {
 		this.frequency_type = frequency_type;
 	}
 
@@ -198,72 +198,72 @@ public class PlacementSlot implements T1Entity {
 	}
 
 
-	public float getPrm_pub_ceiling() {
+	public float getPrmPubCeiling() {
 		return prm_pub_ceiling;
 	}
 
 
-	public void setPrm_pub_ceiling(float prm_pub_ceiling) {
+	public void setPrmPubCeiling(float prm_pub_ceiling) {
 		this.prm_pub_ceiling = prm_pub_ceiling;
 	}
 
 
-	public float getPrm_pub_markup() {
+	public float getPrmPubMarkup() {
 		return prm_pub_markup;
 	}
 
 
-	public void setPrm_pub_markup(float prm_pub_markup) {
+	public void setPrmPubMarkup(float prm_pub_markup) {
 		this.prm_pub_markup = prm_pub_markup;
 	}
 
 
-	public float getSell_price() {
+	public float getSellPrice() {
 		return sell_price;
 	}
 
 
-	public void setSell_price(float sell_price) {
+	public void setSellPrice(float sell_price) {
 		this.sell_price = sell_price;
 	}
 
 
-	public String getSell_price_type() {
+	public String getSellPriceType() {
 		return sell_price_type;
 	}
 
 
-	public void setSell_price_type(String sell_price_type) {
+	public void setSellPriceType(String sell_price_type) {
 		this.sell_price_type = sell_price_type;
 	}
 
 
-	public int getSite_placement_id() {
+	public int getSitePlacementId() {
 		return site_placement_id;
 	}
 
 
-	public void setSite_placement_id(int site_placement_id) {
+	public void setSitePlacementId(int site_placement_id) {
 		this.site_placement_id = site_placement_id;
 	}
 
 
-	public Date getStart_date() {
+	public Date getStartDate() {
 		return start_date;
 	}
 
 
-	public void setStart_date(Date start_date) {
+	public void setStartDate(Date start_date) {
 		this.start_date = start_date;
 	}
 
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -278,12 +278,12 @@ public class PlacementSlot implements T1Entity {
 	}
 
 
-	public String getVolume_unit() {
+	public String getVolumeUnit() {
 		return volume_unit;
 	}
 
 
-	public void setVolume_unit(String volume_unit) {
+	public void setVolumeUnit(String volume_unit) {
 		this.volume_unit = volume_unit;
 	}
 

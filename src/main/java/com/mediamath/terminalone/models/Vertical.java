@@ -38,16 +38,16 @@ public class Vertical implements T1Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

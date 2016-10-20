@@ -33,19 +33,19 @@ public class ChildPixel implements T1Entity {
 	
 	private Pixel pixel_bundle;
 
-	public int getBundle_id() {
+	public int getBundleId() {
 		return bundle_id;
 	}
 
-	public void setBundle_id(int bundle_id) {
+	public void setBundleId(int bundle_id) {
 		this.bundle_id = bundle_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -65,19 +65,19 @@ public class ChildPixel implements T1Entity {
 		this.id = id;
 	}
 
-	public String getPixel_type() {
+	public String getPixelType() {
 		return pixel_type;
 	}
 
-	public void setPixel_type(String pixel_type) {
+	public void setPixelType(String pixel_type) {
 		this.pixel_type = pixel_type;
 	}
 
-	public int getSupply_source_id() {
+	public int getSupplySourceId() {
 		return supply_source_id;
 	}
 
-	public void setSupply_source_id(int supply_source_id) {
+	public void setSupplySourceId(int supply_source_id) {
 		this.supply_source_id = supply_source_id;
 	}
 
@@ -89,11 +89,11 @@ public class ChildPixel implements T1Entity {
 		this.tag = tag;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -105,11 +105,11 @@ public class ChildPixel implements T1Entity {
 		this.version = version;
 	}
 	
-	public Pixel getPixel_bundle() {
+	public Pixel getPixelBundle() {
 		return pixel_bundle;
 	}
 
-	public void setPixel_bundle(Pixel pixel_bundle) {
+	public void setPixelBundle(Pixel pixel_bundle) {
 		this.pixel_bundle = pixel_bundle;
 	}
 

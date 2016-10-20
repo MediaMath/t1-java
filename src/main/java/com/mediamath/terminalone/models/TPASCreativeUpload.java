@@ -13,28 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone;
+package com.mediamath.terminalone.models;
 
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+public class TPASCreativeUpload implements T1Entity {
+	private static final String entityName = "TPASCreativeUpload";
+	
+	TPASCreativeBatch batch;
 
-import javax.net.ssl.X509TrustManager;
+	public TPASCreativeBatch getBatch() {
+		return batch;
+	}
 
-public class InsecureTrustManager implements X509TrustManager {
-
-	@Override
-	public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-
+	public void setBatch(TPASCreativeBatch batch) {
+		this.batch = batch;
 	}
 
 	@Override
-	public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-
+	public String getEntityname() {
+		return entityName;
 	}
-
-	@Override
-	public X509Certificate[] getAcceptedIssuers() {
-		return new X509Certificate[0];
-	}
-
+	
 }

@@ -15,18 +15,61 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+public class TPASCreativeCreativeAsset {
 
-public class ThreePASCreativePlacementInvalid {
+	String url;
+	String type;
+	String ext;
+	String size;
+	String width;
+	String height;
 
-	ArrayList<ThreePASCreativeBatchPlacement> placement;
-
-	public ArrayList<ThreePASCreativeBatchPlacement> getPlacement() {
-		return placement;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setPlacement(ArrayList<ThreePASCreativeBatchPlacement> placement) {
-		this.placement = placement;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getExt() {
+		return ext;
+	}
+
+	public void setExt(String ext) {
+		this.ext = ext;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
 }

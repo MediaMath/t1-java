@@ -13,41 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.mediamath.terminalone.Exceptions;
 
-public class T1Exception extends Exception {
+package com.mediamath.terminalone.exceptions;
 
-	private static final long serialVersionUID = 1L;
-	
-	private String code; 
-	
-	private String message;
-	
-	public T1Exception() {
-		 super();
-	}
+public class AuthenticationException extends T1Exception {
 
-	public T1Exception(String message) {
-		 super(message);
-	}
-	
-	public T1Exception(String code, String message) {
-		super(message);
-		this.message = message;
-		this.code = code;
-	}
-	
-	public T1Exception(String message, Throwable pCause) {
-		 super(message, pCause);
-		 this.message = message;
-	}
-	
-	public T1Exception(Throwable pCause) {
-		 super(pCause);
-	}
-	
-	@Override
-	public String toString() {
-		return this.code + ": " + this.message;
-	}
+  private static final long serialVersionUID = 1L;
+
+  public AuthenticationException() {}
+
+  public AuthenticationException(String message) {
+    super(message);
+  }
+
 }

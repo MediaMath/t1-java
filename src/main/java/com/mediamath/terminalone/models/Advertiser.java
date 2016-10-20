@@ -21,22 +21,22 @@ public class Advertiser implements T1Entity {
 	
 	private static final String entityName = "Advertiser" ;
 
-	public enum dmp_settings {
+	public enum dmpSettings {
 		inherits, disabled
 	};
 	
-	public enum freq_ints {
+	public enum freqInts {
 		hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
 		String val;
-		freq_ints(String s){
+		freqInts(String s){
 			val=s;
 		}
 	}; // should be not-applicable
 
-	public enum freq_types {
+	public enum freqTypes {
 		even("even"), asap("asap"), no_limit("no-limit");
 		String val;
-		freq_types(String s){
+		freqTypes(String s){
 			val=s;
 		}
 	}; // should be no-limit
@@ -53,9 +53,9 @@ public class Advertiser implements T1Entity {
 	private int billing_contact_id;
 	private Date created_on;
 	private String domain;
-	private dmp_settings dmp_enabled;
-	private freq_types frequency_type;
-	private freq_ints frequency_interval;
+	private dmpSettings dmp_enabled;
+	private freqTypes frequency_type;
+	private freqInts frequency_interval;
 	private int frequency_amount;
 	private boolean minimize_multi_ads;
 	private String name;
@@ -78,67 +78,67 @@ public class Advertiser implements T1Entity {
 		this.id = id;
 	}
 
-	public float getAd_server_fee() {
+	public float getAdServerFee() {
 		return ad_server_fee;
 	}
 
-	public void setAd_server_fee(float ad_server_fee) {
+	public void setAdServerFee(float ad_server_fee) {
 		this.ad_server_fee = ad_server_fee;
 	}
 
-	public int getAd_server_id() {
+	public int getAdServerId() {
 		return ad_server_id;
 	}
 
-	public void setAd_server_id(int ad_server_id) {
+	public void setAdServerId(int ad_server_id) {
 		this.ad_server_id = ad_server_id;
 	}
 
-	public String getAd_server_password() {
+	public String getAdServerPassword() {
 		return ad_server_password;
 	}
 
-	public void setAd_server_password(String ad_server_password) {
+	public void setAdServerPassword(String ad_server_password) {
 		this.ad_server_password = ad_server_password;
 	}
 
-	public String getAd_server_username() {
+	public String getAdServerUsername() {
 		return ad_server_username;
 	}
 
-	public void setAd_server_username(String ad_server_username) {
+	public void setAdServerUsername(String ad_server_username) {
 		this.ad_server_username = ad_server_username;
 	}
 
-	public int getAgency_id() {
+	public int getAgencyId() {
 		return agency_id;
 	}
 
-	public void setAgency_id(int agency_id) {
+	public void setAgencyId(int agency_id) {
 		this.agency_id = agency_id;
 	}
 
-	public boolean isAllow_x_strat_optimization() {
+	public boolean isAllowXStratOptimization() {
 		return allow_x_strat_optimization;
 	}
 
-	public void setAllow_x_strat_optimization(boolean allow_x_strat_optimization) {
+	public void setAllowXStratOptimization(boolean allow_x_strat_optimization) {
 		this.allow_x_strat_optimization = allow_x_strat_optimization;
 	}
 
-	public int getBilling_contact_id() {
+	public int getBillingContactId() {
 		return billing_contact_id;
 	}
 
-	public void setBilling_contact_id(int billing_contact_id) {
+	public void setBillingContactId(int billing_contact_id) {
 		this.billing_contact_id = billing_contact_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -150,43 +150,43 @@ public class Advertiser implements T1Entity {
 		this.domain = domain;
 	}
 
-	public dmp_settings getDmp_enabled() {
+	public dmpSettings getDmpEnabled() {
 		return dmp_enabled;
 	}
 
-	public void setDmp_enabled(dmp_settings dmp_enabled) {
+	public void setDmpEnabled(dmpSettings dmp_enabled) {
 		this.dmp_enabled = dmp_enabled;
 	}
 
-	public freq_types getFrequency_type() {
+	public freqTypes getFrequencyType() {
 		return frequency_type;
 	}
 
-	public void setFrequency_type(freq_types frequency_type) {
+	public void setFrequencyType(freqTypes frequency_type) {
 		this.frequency_type = frequency_type;
 	}
 
-	public freq_ints getFrequency_interval() {
+	public freqInts getFrequencyInterval() {
 		return frequency_interval;
 	}
 
-	public void setFrequency_interval(freq_ints frequency_interval) {
+	public void setFrequencyInterval(freqInts frequency_interval) {
 		this.frequency_interval = frequency_interval;
 	}
 
-	public int getFrequency_amount() {
+	public int getFrequencyAmount() {
 		return frequency_amount;
 	}
 
-	public void setFrequency_amount(int frequency_amount) {
+	public void setFrequencyAmount(int frequency_amount) {
 		this.frequency_amount = frequency_amount;
 	}
 
-	public boolean isMinimize_multi_ads() {
+	public boolean isMinimizeMultiAds() {
 		return minimize_multi_ads;
 	}
 
-	public void setMinimize_multi_ads(boolean minimize_multi_ads) {
+	public void setMinimizeMultiAds(boolean minimize_multi_ads) {
 		this.minimize_multi_ads = minimize_multi_ads;
 	}
 
@@ -198,11 +198,11 @@ public class Advertiser implements T1Entity {
 		this.name = name;
 	}
 
-	public int getSales_contact_id() {
+	public int getSalesContactId() {
 		return sales_contact_id;
 	}
 
-	public void setSales_contact_id(int sales_contact_id) {
+	public void setSalesContactId(int sales_contact_id) {
 		this.sales_contact_id = sales_contact_id;
 	}
 
@@ -214,11 +214,11 @@ public class Advertiser implements T1Entity {
 		this.status = status;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -230,11 +230,11 @@ public class Advertiser implements T1Entity {
 		this.version = version;
 	}
 
-	public int getVertical_id() {
+	public int getVerticalId() {
 		return vertical_id;
 	}
 
-	public void setVertical_id(int vertical_id) {
+	public void setVerticalId(int vertical_id) {
 		this.vertical_id = vertical_id;
 	}
 
@@ -246,19 +246,19 @@ public class Advertiser implements T1Entity {
 		this.agency = agency;
 	}
 	
-	public Contact getBilling_contact() {
+	public Contact getBillingContact() {
 		return billing_contact;
 	}
 
-	public void setBilling_contact(Contact billing_contact) {
+	public void setBillingContact(Contact billing_contact) {
 		this.billing_contact = billing_contact;
 	}
 
-	public Contact getSales_contact() {
+	public Contact getSalesContact() {
 		return sales_contact;
 	}
 
-	public void setSales_contact(Contact sales_contact) {
+	public void setSalesContact(Contact sales_contact) {
 		this.sales_contact = sales_contact;
 	}
 

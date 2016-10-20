@@ -29,19 +29,19 @@ public class Creative implements T1Entity {
 	private String tag_type;
 	private int version;
 
-	public int getAtomic_creative_id() {
+	public int getAtomicCreativeId() {
 		return atomic_creative_id;
 	}
 
-	public void setAtomic_creative_id(int atomic_creative_id) {
+	public void setAtomicCreativeId(int atomic_creative_id) {
 		this.atomic_creative_id = atomic_creative_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -53,11 +53,11 @@ public class Creative implements T1Entity {
 		this.id = id;
 	}
 
-	public Date getLast_modified() {
+	public Date getLastModified() {
 		return last_modified;
 	}
 
-	public void setLast_modified(Date last_modified) {
+	public void setLastModified(Date last_modified) {
 		this.last_modified = last_modified;
 	}
 
@@ -69,11 +69,11 @@ public class Creative implements T1Entity {
 		this.tag = tag;
 	}
 
-	public String getTag_type() {
+	public String getTagType() {
 		return tag_type;
 	}
 
-	public void setTag_type(String tag_type) {
+	public void setTagType(String tag_type) {
 		this.tag_type = tag_type;
 	}
 

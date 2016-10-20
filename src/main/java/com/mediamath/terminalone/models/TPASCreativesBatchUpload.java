@@ -15,18 +15,36 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
-
-public class ThreePASCreativeCreativeAssets {
-
-	ArrayList<ThreePASCreativeCreativeAsset> asset;
-
-	public ArrayList<ThreePASCreativeCreativeAsset> getAsset() {
-		return asset;
-	}
-
-	public void setAsset(ArrayList<ThreePASCreativeCreativeAsset> asset) {
-		this.asset = asset;
-	}
+public class TPASCreativesBatchUpload {
 	
+	private TPASCreativeBatch batch;
+	
+	private String called_on;
+	
+	private Status status;
+
+	public TPASCreativeBatch getBatch() {
+		return batch;
+	}
+
+	public void setBatch(TPASCreativeBatch batch) {
+		this.batch = batch;
+	}
+
+	public String getCalledOn() {
+		return called_on;
+	}
+
+	public void setCalledOn(String called_on) {
+		this.called_on = called_on;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 }

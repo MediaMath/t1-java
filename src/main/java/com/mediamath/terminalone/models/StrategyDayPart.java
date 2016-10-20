@@ -36,11 +36,11 @@ public class StrategyDayPart implements T1Entity {
 	
 	private Strategy strategy;
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
@@ -52,11 +52,11 @@ public class StrategyDayPart implements T1Entity {
 		this.days = days;
 	}
 
-	public int getEnd_hour() {
+	public int getEndHour() {
 		return end_hour;
 	}
 
-	public void setEnd_hour(int end_hour) {
+	public void setEndHour(int end_hour) {
 		this.end_hour = end_hour;
 	}
 
@@ -68,11 +68,11 @@ public class StrategyDayPart implements T1Entity {
 		this.id = id;
 	}
 
-	public int getStart_hour() {
+	public int getStartHour() {
 		return start_hour;
 	}
 
-	public void setStart_hour(int start_hour) {
+	public void setStartHour(int start_hour) {
 		this.start_hour = start_hour;
 	}
 
@@ -84,27 +84,27 @@ public class StrategyDayPart implements T1Entity {
 		this.status = status;
 	}
 
-	public int getStrategy_id() {
+	public int getStrategyId() {
 		return strategy_id;
 	}
 
-	public void setStrategy_id(int strategy_id) {
+	public void setStrategyId(int strategy_id) {
 		this.strategy_id = strategy_id;
 	}
 
-	public Date getUdpated_on() {
+	public Date getUdpatedOn() {
 		return udpated_on;
 	}
 
-	public void setUdpated_on(Date udpated_on) {
+	public void setUdpatedOn(Date udpated_on) {
 		this.udpated_on = udpated_on;
 	}
 
-	public boolean isUser_time() {
+	public boolean isUserTime() {
 		return user_time;
 	}
 
-	public void setUser_time(boolean user_time) {
+	public void setUserTime(boolean user_time) {
 		this.user_time = user_time;
 	}
 

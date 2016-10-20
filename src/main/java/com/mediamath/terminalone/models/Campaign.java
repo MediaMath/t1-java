@@ -30,23 +30,23 @@ public class Campaign implements T1Entity {
 		every, one, variable
 	};
 
-	public enum freq_ints {
+	public enum freqInts {
 		hour, day, week, month, not_applicable
 	}; // should be not-applicable
 
-	public enum freq_types {
+	public enum freqTypes {
 		even, asap, no_limit
 	}; // should be no-limit
 
-	public enum goal_cats {
+	public enum goalCats {
 		audience, engagement, response, none
 	};
 
-	public enum goal_types {
+	public enum goalTypes {
 		spend, reach, cpc, cpe, cpa, roi, none
 	};
 
-	public enum serv_types {
+	public enum servTypes {
 		SELF, MANAGED
 	};
 
@@ -63,11 +63,11 @@ public class Campaign implements T1Entity {
 	private boolean dcs_data_is_campaign_level;
 	private Date end_date;
 	private int frequency_amount;
-	private freq_ints frequency_interval;
-	private freq_types frequency_type;
+	private freqInts frequency_interval;
+	private freqTypes frequency_type;
 	private float goal_alert;
-	private goal_cats goal_category;
-	private goal_types goal_type;
+	private goalCats goal_category;
+	private goalTypes goal_type;
 	private ArrayList<T1Cost> goal_value = new ArrayList<T1Cost>();
 	private boolean has_custom_attribution;
 	private int id;
@@ -80,7 +80,7 @@ public class Campaign implements T1Entity {
 	private int pc_window_minutes;
 	private float pv_pct;
 	private int pv_window_minutes;
-	private serv_types service_type;
+	private servTypes service_type;
 	private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
 	private boolean spend_cap_automatic;
 	private boolean spend_cap_enabled;
@@ -110,147 +110,147 @@ public class Campaign implements T1Entity {
 		return this.margins;
 	}
 
-	public int getAd_server_id() {
+	public int getAdServerId() {
 		return ad_server_id;
 	}
 
-	public void setAd_server_id(int ad_server_id) {
+	public void setAdServerId(int ad_server_id) {
 		this.ad_server_id = ad_server_id;
 	}
 
-	public String getAd_server_password() {
+	public String getAdServerPassword() {
 		return ad_server_password;
 	}
 
-	public void setAd_server_password(String ad_server_password) {
+	public void setAdServerPassword(String ad_server_password) {
 		this.ad_server_password = ad_server_password;
 	}
 
-	public String getAd_server_username() {
+	public String getAdServerUsername() {
 		return ad_server_username;
 	}
 
-	public void setAd_server_username(String ad_server_username) {
+	public void setAdServerUsername(String ad_server_username) {
 		this.ad_server_username = ad_server_username;
 	}
 
-	public int getAdvertiser_id() {
+	public int getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(int advertiser_id) {
+	public void setAdvertiserId(int advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
-	public float getAgency_fee_pct() {
+	public float getAgencyFeePct() {
 		return agency_fee_pct;
 	}
 
-	public void setAgency_fee_pct(float agency_fee_pct) {
+	public void setAgencyFeePct(float agency_fee_pct) {
 		this.agency_fee_pct = agency_fee_pct;
 	}
 
-	public String getConversion_type() {
+	public String getConversionType() {
 		return conversion_type;
 	}
 
-	public void setConversion_type(String conversion_type) {
+	public void setConversionType(String conversion_type) {
 		this.conversion_type = conversion_type;
 	}
 
-	public int getConversion_variable_minutes() {
+	public int getConversionVariableMinutes() {
 		return conversion_variable_minutes;
 	}
 
-	public void setConversion_variable_minutes(int conversion_variable_minutes) {
+	public void setConversionVariableMinutes(int conversion_variable_minutes) {
 		this.conversion_variable_minutes = conversion_variable_minutes;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getCurrency_code() {
+	public String getCurrencyCode() {
 		return currency_code;
 	}
 
-	public void setCurrency_code(String currency_code) {
+	public void setCurrencyCode(String currency_code) {
 		this.currency_code = currency_code;
 	}
 
-	public boolean isDcs_data_is_campaign_level() {
+	public boolean isDcsDataIsCampaignLevel() {
 		return dcs_data_is_campaign_level;
 	}
 
-	public void setDcs_data_is_campaign_level(boolean dcs_data_is_campaign_level) {
+	public void setDcsDataIsCampaignLevel(boolean dcs_data_is_campaign_level) {
 		this.dcs_data_is_campaign_level = dcs_data_is_campaign_level;
 	}
 
-	public Date getEnd_date() {
+	public Date getEndDate() {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end_date) {
+	public void setEndDate(Date end_date) {
 		this.end_date = end_date;
 	}
 
-	public int getFrequency_amount() {
+	public int getFrequencyAmount() {
 		return frequency_amount;
 	}
 
-	public void setFrequency_amount(int frequency_amount) {
+	public void setFrequencyAmount(int frequency_amount) {
 		this.frequency_amount = frequency_amount;
 	}
 
-	public freq_ints getFrequency_interval() {
+	public freqInts getFrequencyInterval() {
 		return frequency_interval;
 	}
 
-	public void setFrequency_interval(freq_ints frequency_interval) {
+	public void setFrequencyInterval(freqInts frequency_interval) {
 		this.frequency_interval = frequency_interval;
 	}
 
-	public freq_types getFrequency_type() {
+	public freqTypes getFrequencyType() {
 		return frequency_type;
 	}
 
-	public void setFrequency_type(freq_types frequency_type) {
+	public void setFrequencyType(freqTypes frequency_type) {
 		this.frequency_type = frequency_type;
 	}
 
-	public float getGoal_alert() {
+	public float getGoalAlert() {
 		return goal_alert;
 	}
 
-	public void setGoal_alert(float goal_alert) {
+	public void setGoalAlert(float goal_alert) {
 		this.goal_alert = goal_alert;
 	}
 
-	public goal_cats getGoal_category() {
+	public goalCats getGoalCategory() {
 		return goal_category;
 	}
 
-	public void setGoal_category(goal_cats goal_category) {
+	public void setGoalCategory(goalCats goal_category) {
 		this.goal_category = goal_category;
 	}
 
-	public goal_types getGoal_type() {
+	public goalTypes getGoalType() {
 		return goal_type;
 	}
 
-	public void setGoal_type(goal_types goal_type) {
+	public void setGoalType(goalTypes goal_type) {
 		this.goal_type = goal_type;
 	}
 
-	public boolean isHas_custom_attribution() {
+	public boolean isHasCustomAttribution() {
 		return has_custom_attribution;
 	}
 
-	public void setHas_custom_attribution(boolean has_custom_attribution) {
+	public void setHasCustomAttribution(boolean has_custom_attribution) {
 		this.has_custom_attribution = has_custom_attribution;
 	}
 
@@ -262,35 +262,35 @@ public class Campaign implements T1Entity {
 		this.id = id;
 	}
 
-	public String getIo_name() {
+	public String getIoName() {
 		return io_name;
 	}
 
-	public void setIo_name(String io_name) {
+	public void setIoName(String io_name) {
 		this.io_name = io_name;
 	}
 
-	public String getIo_reference_num() {
+	public String getIoReferenceNum() {
 		return io_reference_num;
 	}
 
-	public void setIo_reference_num(String io_reference_num) {
+	public void setIoReferenceNum(String io_reference_num) {
 		this.io_reference_num = io_reference_num;
 	}
 
-	public Date getInitial_start_date() {
+	public Date getInitialStartDate() {
 		return initial_start_date;
 	}
 
-	public void setInitial_start_date(Date initial_start_date) {
+	public void setInitialStartDate(Date initial_start_date) {
 		this.initial_start_date = initial_start_date;
 	}
 
-	public float getMargin_pct() {
+	public float getMarginPct() {
 		return margin_pct;
 	}
 
-	public void setMargin_pct(float margin_pct) {
+	public void setMarginPct(float margin_pct) {
 		this.margin_pct = margin_pct;
 	}
 
@@ -302,59 +302,60 @@ public class Campaign implements T1Entity {
 		this.name = name;
 	}
 
-	public int getPc_window_minutes() {
+	public int getPcWindowMinutes() {
 		return pc_window_minutes;
 	}
 
-	public void setPc_window_minutes(int pc_window_minutes) {
+	public void setPcWindowMinutes(int pc_window_minutes) {
 		this.pc_window_minutes = pc_window_minutes;
 	}
 
-	public float getPv_pct() {
+	public float getPvPct() {
 		return pv_pct;
 	}
 
-	public void setPv_pct(float pv_pct) {
+	public void setPvPct(float pv_pct) {
 		this.pv_pct = pv_pct;
 	}
 
-	public int getPv_window_minutes() {
+	public int getPvWindowMinutes() {
 		return pv_window_minutes;
 	}
 
-	public void setPv_window_minutes(int pv_window_minutes) {
+	public void setPvWindowMinutes(int pv_window_minutes) {
 		this.pv_window_minutes = pv_window_minutes;
 	}
 
-	public serv_types getService_type() {
+	public servTypes getServiceType() {
 		return service_type;
 	}
 
-	public void setService_type(serv_types service_type) {
+	public void setServiceType(servTypes service_type) {
 		this.service_type = service_type;
 	}
 
-	public boolean isSpend_cap_automatic() {
+	public boolean isSpendCapAutomatic() {
 		return spend_cap_automatic;
 	}
+	
 
-	public void setSpend_cap_automatic(boolean spend_cap_automatic) {
+	public void setSpendCapAutomatic(boolean spend_cap_automatic) {
 		this.spend_cap_automatic = spend_cap_automatic;
 	}
 
-	public boolean isSpend_cap_enabled() {
+	public boolean isSpendCapEnabled() {
 		return spend_cap_enabled;
 	}
 
-	public void setSpend_cap_enabled(boolean spend_cap_enabled) {
+	public void setSpendCapEnabled(boolean spend_cap_enabled) {
 		this.spend_cap_enabled = spend_cap_enabled;
 	}
 
-	public Date getStart_date() {
+	public Date getStartDate() {
 		return start_date;
 	}
 
-	public void setStart_date(Date start_date) {
+	public void setStartDate(Date start_date) {
 		this.start_date = start_date;
 	}
 
@@ -367,27 +368,27 @@ public class Campaign implements T1Entity {
 	}
 
 	
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public boolean isUse_default_ad_server() {
+	public boolean isUseDefaultAdServer() {
 		return use_default_ad_server;
 	}
 
-	public void setUse_default_ad_server(boolean use_default_ad_server) {
+	public void setUseDefaultAdServer(boolean use_default_ad_server) {
 		this.use_default_ad_server = use_default_ad_server;
 	}
 
-	public boolean isUse_mm_freq() {
+	public boolean isUseMmFreq() {
 		return use_mm_freq;
 	}
 
-	public void setUse_mm_freq(boolean use_mm_freq) {
+	public void setUseMmFreq(boolean use_mm_freq) {
 		this.use_mm_freq = use_mm_freq;
 	}
 
@@ -399,11 +400,11 @@ public class Campaign implements T1Entity {
 		this.version = version;
 	}
 
-	public String getZone_name() {
+	public String getZoneName() {
 		return zone_name;
 	}
 
-	public void setZone_name(String zone_name) {
+	public void setZoneName(String zone_name) {
 		this.zone_name = zone_name;
 	}
 
@@ -411,15 +412,15 @@ public class Campaign implements T1Entity {
 		return entityName;
 	}
 
-	public int getMerit_pixel_id() {
+	public int getMeritPixelId() {
 		return merit_pixel_id;
 	}
 
-	public void setMerit_pixel_id(int merit_pixel_id) {
+	public void setMeritPixelId(int merit_pixel_id) {
 		this.merit_pixel_id = merit_pixel_id;
 	}
 
-	public ArrayList<T1Cost> getTotal_budget() {
+	public ArrayList<T1Cost> getTotalBudget() {
 		return total_budget;
 	}
 	
@@ -433,24 +434,24 @@ public class Campaign implements T1Entity {
 		this.advertiser = advertiser;
 	}
 
-	public AdServer getAd_server() {
+	public AdServer getAdServer() {
 		return ad_server;
 	}
 
-	public void setAd_server(AdServer ad_server) {
+	public void setAdServer(AdServer ad_server) {
 		this.ad_server = ad_server;
 	}
 	
 
-	public Pixel getMerit_pixel() {
+	public Pixel getMeritPixel() {
 		return merit_pixel;
 	}
 
-	public void setMerit_pixel(Pixel merit_pixel) {
+	public void setMeritPixel(Pixel merit_pixel) {
 		this.merit_pixel = merit_pixel;
 	}
 
-	public void setTotal_budget(double value, String currency_code) {
+	public void setTotalBudget(double value, String currency_code) {
 		this.total_budget.clear();
 		if(value > 0) {
 			T1Cost cost = new T1Cost();
@@ -464,11 +465,11 @@ public class Campaign implements T1Entity {
 		} 
 	}
 
-	public ArrayList<T1Cost> getAd_server_fee() {
+	public ArrayList<T1Cost> getAdServerFee() {
 		return ad_server_fee;
 	}
 
-	public void setAd_server_fee(double value, String currency_code) {
+	public void setAdServerFee(double value, String currency_code) {
 		this.ad_server_fee.clear();
 		if(value > 0) {
 			T1Cost cost = new T1Cost();
@@ -482,11 +483,11 @@ public class Campaign implements T1Entity {
 		} 
 	}
 
-	public ArrayList<T1Cost> getSpend_cap_amount() {
+	public ArrayList<T1Cost> getSpendCapAmount() {
 		return spend_cap_amount;
 	}
 
-	public void setSpend_cap_amount(double value, String currency_code) {
+	public void setSpendCapAmount(double value, String currency_code) {
 		this.spend_cap_amount.clear();
 		if(value > 0) {
 			T1Cost cost = new T1Cost();
@@ -500,11 +501,11 @@ public class Campaign implements T1Entity {
 		} 
 	}
 
-	public ArrayList<T1Cost> getGoal_value() {
+	public ArrayList<T1Cost> getGoalValue() {
 		return goal_value;
 	}
 
-	public void setGoal_value(double value, String currency_code) {
+	public void setGoalValue(double value, String currency_code) {
 		this.goal_value.clear();
 		if(value > 0) {
 			T1Cost cost = new T1Cost();

@@ -31,10 +31,10 @@ public class VendorPixelDomain implements T1Entity {
     private VendorDomain vendor_domain;
     private VendorPixel vendor_pixel;
     
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 	public String getDomain() {
@@ -49,16 +49,16 @@ public class VendorPixelDomain implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getVendor_domain_id() {
+	public int getVendorDomainId() {
 		return vendor_domain_id;
 	}
-	public void setVendor_domain_id(int vendor_domain_id) {
+	public void setVendorDomainId(int vendor_domain_id) {
 		this.vendor_domain_id = vendor_domain_id;
 	}
-	public int getVendor_pixel_id() {
+	public int getVendorPixelId() {
 		return vendor_pixel_id;
 	}
-	public void setVendor_pixel_id(int vendor_pixel_id) {
+	public void setVendorPixelId(int vendor_pixel_id) {
 		this.vendor_pixel_id = vendor_pixel_id;
 	}
 	public int getVersion() {
@@ -68,16 +68,16 @@ public class VendorPixelDomain implements T1Entity {
 		this.version = version;
 	}
 	
-	public VendorDomain getVendor_domain() {
+	public VendorDomain getVendorDomain() {
 		return vendor_domain;
 	}
-	public void setVendor_domain(VendorDomain vendor_domain) {
+	public void setVendorDomain(VendorDomain vendor_domain) {
 		this.vendor_domain = vendor_domain;
 	}
-	public VendorPixel getVendor_pixel() {
+	public VendorPixel getVendorPixel() {
 		return vendor_pixel;
 	}
-	public void setVendor_pixel(VendorPixel vendor_pixel) {
+	public void setVendorPixel(VendorPixel vendor_pixel) {
 		this.vendor_pixel = vendor_pixel;
 	}
 	public String getEntityname() {

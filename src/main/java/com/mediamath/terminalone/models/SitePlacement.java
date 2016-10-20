@@ -36,28 +36,28 @@ public class SitePlacement implements T1Entity {
     private int publisher_site_id;
     private Date updated_on;
     private int version;
-	public boolean isBill_media_to_client() {
+	public boolean isBillMediaToClient() {
 		return bill_media_to_client;
 	}
-	public void setBill_media_to_client(boolean bill_media_to_client) {
+	public void setBillMediaToClient(boolean bill_media_to_client) {
 		this.bill_media_to_client = bill_media_to_client;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public dealSources getDeal_source() {
+	public dealSources getDealSource() {
 		return deal_source;
 	}
-	public void setDeal_source(dealSources deal_source) {
+	public void setDealSource(dealSources deal_source) {
 		this.deal_source = deal_source;
 	}
-	public String getDisplay_text() {
+	public String getDisplayText() {
 		return display_text;
 	}
-	public void setDisplay_text(String display_text) {
+	public void setDisplayText(String display_text) {
 		this.display_text = display_text;
 	}
 	public int getId() {
@@ -66,10 +66,10 @@ public class SitePlacement implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public mediaTypes getMedia_type() {
+	public mediaTypes getMediaType() {
 		return media_type;
 	}
-	public void setMedia_type(mediaTypes media_type) {
+	public void setMediaType(mediaTypes media_type) {
 		this.media_type = media_type;
 	}
 	public String getName() {
@@ -78,22 +78,22 @@ public class SitePlacement implements T1Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public pmpTypes getPmp_type() {
+	public pmpTypes getPmpType() {
 		return pmp_type;
 	}
-	public void setPmp_type(pmpTypes pmp_type) {
+	public void setPmpType(pmpTypes pmp_type) {
 		this.pmp_type = pmp_type;
 	}
-	public int getPublisher_site_id() {
+	public int getPublisherSiteId() {
 		return publisher_site_id;
 	}
-	public void setPublisher_site_id(int publisher_site_id) {
+	public void setPublisherSiteId(int publisher_site_id) {
 		this.publisher_site_id = publisher_site_id;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

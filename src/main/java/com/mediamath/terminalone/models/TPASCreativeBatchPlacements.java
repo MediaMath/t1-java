@@ -15,26 +15,27 @@
  ******************************************************************************/
 package com.mediamath.terminalone.models;
 
-public class T1Response {
-	
-	T1Data data;
-	
-	T1Meta meta;
+import java.util.ArrayList;
 
-	public T1Data getData() {
-		return data;
+public class TPASCreativeBatchPlacements {
+
+	ArrayList<TPASCreativePlacementInvalid> invalid;
+	ArrayList<TPASCreativePlacementValid> valid;
+
+	public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
+		return invalid;
 	}
 
-	public void setData(T1Data data) {
-		this.data = data;
+	public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
+		this.invalid = invalid;
 	}
 
-	public T1Meta getMeta() {
-		return meta;
+	public ArrayList<TPASCreativePlacementValid> getValid() {
+		return valid;
 	}
 
-	public void setMeta(T1Meta meta) {
-		this.meta = meta;
+	public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
+		this.valid = valid;
 	}
-	
+
 }

@@ -39,10 +39,10 @@ public class AudienceSegment implements T1Entity {
     private int version;
     
     
-	public int getAudience_vendor_id() {
+	public int getAudienceVendorId() {
 		return audience_vendor_id;
 	}
-	public void setAudience_vendor_id(int audience_vendor_id) {
+	public void setAudienceVendorId(int audience_vendor_id) {
 		this.audience_vendor_id = audience_vendor_id;
 	}
 	public boolean isBuyable() {
@@ -51,10 +51,10 @@ public class AudienceSegment implements T1Entity {
 	public void setBuyable(boolean buyable) {
 		this.buyable = buyable;
 	}
-	public int getChild_count() {
+	public int getChildCount() {
 		return child_count;
 	}
-	public void setChild_count(int child_count) {
+	public void setChildCount(int child_count) {
 		this.child_count = child_count;
 	}
 	public String getCode() {
@@ -63,16 +63,16 @@ public class AudienceSegment implements T1Entity {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
-	public String getFull_path() {
+	public String getFullPath() {
 		return full_path;
 	}
-	public void setFull_path(String full_path) {
+	public void setFullPath(String full_path) {
 		this.full_path = full_path;
 	}
 	public int getId() {
@@ -87,22 +87,22 @@ public class AudienceSegment implements T1Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getParent_audience_segment_id() {
+	public int getParentAudienceSegmentId() {
 		return parent_audience_segment_id;
 	}
-	public void setParent_audience_segment_id(int parent_audience_segment_id) {
+	public void setParentAudienceSegmentId(int parent_audience_segment_id) {
 		this.parent_audience_segment_id = parent_audience_segment_id;
 	}
-	public float getRetail_cpm() {
+	public float getRetailCpm() {
 		return retail_cpm;
 	}
-	public void setRetail_cpm(float retail_cpm) {
+	public void setRetailCpm(float retail_cpm) {
 		this.retail_cpm = retail_cpm;
 	}
-	public float getWholesale_cpm() {
+	public float getWholesaleCpm() {
 		return wholesale_cpm;
 	}
-	public void setWholesale_cpm(float wholesale_cpm) {
+	public void setWholesaleCpm(float wholesale_cpm) {
 		this.wholesale_cpm = wholesale_cpm;
 	}
 	public String getTag() {
@@ -117,10 +117,10 @@ public class AudienceSegment implements T1Entity {
 	public void setUniques(int uniques) {
 		this.uniques = uniques;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 	public int getVersion() {

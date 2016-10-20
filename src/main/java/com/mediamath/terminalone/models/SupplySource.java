@@ -46,11 +46,11 @@ public class SupplySource implements T1Entity {
 	private int version;
 
 	
-	public int getBidder_exchange_identifier() {
+	public int getBidderExchangeIdentifier() {
 		return bidder_exchange_identifier;
 	}
 
-	public void setBidder_exchange_identifier(int bidder_exchange_identifier) {
+	public void setBidderExchangeIdentifier(int bidder_exchange_identifier) {
 		this.bidder_exchange_identifier = bidder_exchange_identifier;
 	}
 
@@ -62,19 +62,19 @@ public class SupplySource implements T1Entity {
 		this.code = code;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getDefault_seat_identifier() {
+	public String getDefaultSeatIdentifier() {
 		return default_seat_identifier;
 	}
 
-	public void setDefault_seat_identifier(String default_seat_identifier) {
+	public void setDefaultSeatIdentifier(String default_seat_identifier) {
 		this.default_seat_identifier = default_seat_identifier;
 	}
 
@@ -86,35 +86,35 @@ public class SupplySource implements T1Entity {
 		this.distribute = distribute;
 	}
 
-	public boolean isHas_display() {
+	public boolean isHasDisplay() {
 		return has_display;
 	}
 
-	public void setHas_display(boolean has_display) {
+	public void setHasDisplay(boolean has_display) {
 		this.has_display = has_display;
 	}
 
-	public boolean isHas_mobile_display() {
+	public boolean isHasMobileDisplay() {
 		return has_mobile_display;
 	}
 
-	public void setHas_mobile_display(boolean has_mobile_display) {
+	public void setHasMobileDisplay(boolean has_mobile_display) {
 		this.has_mobile_display = has_mobile_display;
 	}
 
-	public boolean isHas_mobile_video() {
+	public boolean isHasMobileVideo() {
 		return has_mobile_video;
 	}
 
-	public void setHas_mobile_video(boolean has_mobile_video) {
+	public void setHasMobileVideo(boolean has_mobile_video) {
 		this.has_mobile_video = has_mobile_video;
 	}
 
-	public boolean isHas_video() {
+	public boolean isHasVideo() {
 		return has_video;
 	}
 
-	public void setHas_video(boolean has_video) {
+	public void setHasVideo(boolean has_video) {
 		this.has_video = has_video;
 	}
 
@@ -126,67 +126,67 @@ public class SupplySource implements T1Entity {
 		this.id = id;
 	}
 
-	public boolean isIs_proservice() {
+	public boolean isProservice() {
 		return is_proservice;
 	}
 
-	public void setIs_proservice(boolean is_proservice) {
+	public void setIsProservice(boolean is_proservice) {
 		this.is_proservice = is_proservice;
 	}
 
-	public boolean isMm_safe() {
+	public boolean isMmSafe() {
 		return mm_safe;
 	}
 
-	public void setMm_safe(boolean mm_safe) {
+	public void setMmSafe(boolean mm_safe) {
 		this.mm_safe = mm_safe;
 	}
 
-	public int getParent_supply_id() {
+	public int getParentSupplyId() {
 		return parent_supply_id;
 	}
 
-	public void setParent_supply_id(int parent_supply_id) {
+	public void setParentSupplyId(int parent_supply_id) {
 		this.parent_supply_id = parent_supply_id;
 	}
 
-	public String getPixel_tag() {
+	public String getPixelTag() {
 		return pixel_tag;
 	}
 
-	public void setPixel_tag(String pixel_tag) {
+	public void setPixelTag(String pixel_tag) {
 		this.pixel_tag = pixel_tag;
 	}
 
-	public boolean isPmp_enabled() {
+	public boolean isPmpEnabled() {
 		return pmp_enabled;
 	}
 
-	public void setPmp_enabled(boolean pmp_enabled) {
+	public void setPmpEnabled(boolean pmp_enabled) {
 		this.pmp_enabled = pmp_enabled;
 	}
 
-	public boolean isRtb_enabled() {
+	public boolean isRtbEnabled() {
 		return rtb_enabled;
 	}
 
-	public void setRtb_enabled(boolean rtb_enabled) {
+	public void setRtbEnabled(boolean rtb_enabled) {
 		this.rtb_enabled = rtb_enabled;
 	}
 
-	public String getRtb_type() {
+	public String getRtbType() {
 		return rtb_type;
 	}
 
-	public void setRtb_type(String rtb_type) {
+	public void setRtbType(String rtb_type) {
 		this.rtb_type = rtb_type;
 	}
 
-	public boolean isSeat_enabled() {
+	public boolean isSeatEnabled() {
 		return seat_enabled;
 	}
 
-	public void setSeat_enabled(boolean seat_enabled) {
+	public void setSeatEnabled(boolean seat_enabled) {
 		this.seat_enabled = seat_enabled;
 	}
 
@@ -198,27 +198,27 @@ public class SupplySource implements T1Entity {
 		this.status = status;
 	}
 
-	public String getSupply_type() {
+	public String getSupplyType() {
 		return supply_type;
 	}
 
-	public void setSupply_type(String supply_type) {
+	public void setSupplyType(String supply_type) {
 		this.supply_type = supply_type;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public boolean isUse_pool() {
+	public boolean isUsePool() {
 		return use_pool;
 	}
 
-	public void setUse_pool(boolean use_pool) {
+	public void setUsePool(boolean use_pool) {
 		this.use_pool = use_pool;
 	}
 

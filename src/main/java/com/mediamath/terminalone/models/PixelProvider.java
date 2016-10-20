@@ -39,27 +39,27 @@ public class PixelProvider implements T1Entity {
 	private Agency agency;
 	private Vendor vendor;
 	
-	public int getAgency_id() {
+	public int getAgencyId() {
 		return agency_id;
 	}
 
-	public void setAgency_id(int agency_id) {
+	public void setAgencyId(int agency_id) {
 		this.agency_id = agency_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public executors getExecution_by() {
+	public executors getExecutionBy() {
 		return execution_by;
 	}
 
-	public void setExecution_by(executors execution_by) {
+	public void setExecutionBy(executors execution_by) {
 		this.execution_by = execution_by;
 	}
 
@@ -87,27 +87,27 @@ public class PixelProvider implements T1Entity {
 		this.status = status;
 	}
 
-	public String getTaxonomy_file() {
+	public String getTaxonomyFile() {
 		return taxonomy_file;
 	}
 
-	public void setTaxonomy_file(String taxonomy_file) {
+	public void setTaxonomyFile(String taxonomy_file) {
 		this.taxonomy_file = taxonomy_file;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
-	public int getVendor_id() {
+	public int getVendorId() {
 		return vendor_id;
 	}
 
-	public void setVendor_id(int vendor_id) {
+	public void setVendorId(int vendor_id) {
 		this.vendor_id = vendor_id;
 	}
 

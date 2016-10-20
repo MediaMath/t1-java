@@ -30,16 +30,16 @@ public class VendorDomain implements T1Entity {
 	private int version;
 	
 	
-	public boolean isAllow_subdomain_match() {
+	public boolean isAllowSubdomainMatch() {
 		return allow_subdomain_match;
 	}
-	public void setAllow_subdomain_match(boolean allow_subdomain_match) {
+	public void setAllowSubdomainMatch(boolean allow_subdomain_match) {
 		this.allow_subdomain_match = allow_subdomain_match;
 	}
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 	public String getDomain() {
@@ -54,16 +54,16 @@ public class VendorDomain implements T1Entity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
-	public int getVendor_id() {
+	public int getVendorId() {
 		return vendor_id;
 	}
-	public void setVendor_id(int vendor_id) {
+	public void setVendorId(int vendor_id) {
 		this.vendor_id = vendor_id;
 	}
 	public int getVersion() {

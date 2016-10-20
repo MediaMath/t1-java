@@ -21,19 +21,19 @@ public class Deal implements T1Entity {
 	
 	private static final String entityName = "Deal";
 
-	public enum deal_sources {
+	public enum dealSources {
 		USER, INTERNAL
 	};
 
-	public enum media_types {
+	public enum mediaTypes {
 		DISPLAY, VIDEO
 	};
 
-	public enum price_methods {
+	public enum priceMethods {
 		CPM
 	};
 
-	public enum price_types {
+	public enum priceTypes {
 		FIXED, FLOOR
 	};
 
@@ -41,16 +41,16 @@ public class Deal implements T1Entity {
 	private Date created_on;
 	private String currency_code;
 	private String deal_identifier;
-	private deal_sources deal_source;
+	private dealSources deal_source;
 	private String description;
 	private Date end_datetime;
 	private int id;
-	private media_types media_type;
+	private mediaTypes media_type;
 	private String name;
 	private boolean partner_sourced;
 	private float price;
-	private price_methods price_method;
-	private price_types price_type;
+	private priceMethods price_method;
+	private priceTypes price_type;
 	private int publisher_id;
 	private Date start_datetime;
 	private boolean status;
@@ -63,43 +63,43 @@ public class Deal implements T1Entity {
 	private Publisher publisher;
 	private SupplySource supply_source;
 
-	public int getAdvertiser_id() {
+	public int getAdvertiserId() {
 		return advertiser_id;
 	}
 
-	public void setAdvertiser_id(int advertiser_id) {
+	public void setAdvertiserId(int advertiser_id) {
 		this.advertiser_id = advertiser_id;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getCurrency_code() {
+	public String getCurrencyCode() {
 		return currency_code;
 	}
 
-	public void setCurrency_code(String currency_code) {
+	public void setCurrencyCode(String currency_code) {
 		this.currency_code = currency_code;
 	}
 
-	public String getDeal_identifier() {
+	public String getDealIdentifier() {
 		return deal_identifier;
 	}
 
-	public void setDeal_identifier(String deal_identifier) {
+	public void setDealIdentifier(String deal_identifier) {
 		this.deal_identifier = deal_identifier;
 	}
 
-	public deal_sources getDeal_source() {
+	public dealSources getDealSource() {
 		return deal_source;
 	}
 
-	public void setDeal_source(deal_sources deal_source) {
+	public void setDealSource(dealSources deal_source) {
 		this.deal_source = deal_source;
 	}
 
@@ -111,11 +111,11 @@ public class Deal implements T1Entity {
 		this.description = description;
 	}
 
-	public Date getEnd_datetime() {
+	public Date getEndDatetime() {
 		return end_datetime;
 	}
 
-	public void setEnd_datetime(Date end_datetime) {
+	public void setEndDatetime(Date end_datetime) {
 		this.end_datetime = end_datetime;
 	}
 
@@ -127,11 +127,11 @@ public class Deal implements T1Entity {
 		this.id = id;
 	}
 
-	public media_types getMedia_type() {
+	public mediaTypes getMediaType() {
 		return media_type;
 	}
 
-	public void setMedia_type(media_types media_type) {
+	public void setMediaType(mediaTypes media_type) {
 		this.media_type = media_type;
 	}
 
@@ -143,11 +143,11 @@ public class Deal implements T1Entity {
 		this.name = name;
 	}
 
-	public boolean isPartner_sourced() {
+	public boolean isPartnerSourced() {
 		return partner_sourced;
 	}
 
-	public void setPartner_sourced(boolean partner_sourced) {
+	public void setPartnerSourced(boolean partner_sourced) {
 		this.partner_sourced = partner_sourced;
 	}
 
@@ -159,35 +159,35 @@ public class Deal implements T1Entity {
 		this.price = price;
 	}
 
-	public price_methods getPrice_method() {
+	public priceMethods getPriceMethod() {
 		return price_method;
 	}
 
-	public void setPrice_method(price_methods price_method) {
+	public void setPriceMethod(priceMethods price_method) {
 		this.price_method = price_method;
 	}
 
-	public price_types getPrice_type() {
+	public priceTypes getPriceType() {
 		return price_type;
 	}
 
-	public void setPrice_type(price_types price_type) {
+	public void setPriceType(priceTypes price_type) {
 		this.price_type = price_type;
 	}
 
-	public int getPublisher_id() {
+	public int getPublisherId() {
 		return publisher_id;
 	}
 
-	public void setPublisher_id(int publisher_id) {
+	public void setPublisherId(int publisher_id) {
 		this.publisher_id = publisher_id;
 	}
 
-	public Date getStart_datetime() {
+	public Date getStartDatetime() {
 		return start_datetime;
 	}
 
-	public void setStart_datetime(Date start_datetime) {
+	public void setStartDatetime(Date start_datetime) {
 		this.start_datetime = start_datetime;
 	}
 
@@ -199,19 +199,19 @@ public class Deal implements T1Entity {
 		this.status = status;
 	}
 
-	public int getSupply_source_id() {
+	public int getSupplySourceId() {
 		return supply_source_id;
 	}
 
-	public void setSupply_source_id(int supply_source_id) {
+	public void setSupplySourceId(int supply_source_id) {
 		this.supply_source_id = supply_source_id;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -223,11 +223,11 @@ public class Deal implements T1Entity {
 		this.version = version;
 	}
 
-	public String getZone_name() {
+	public String getZoneName() {
 		return zone_name;
 	}
 
-	public void setZone_name(String zone_name) {
+	public void setZoneName(String zone_name) {
 		this.zone_name = zone_name;
 	}
 
@@ -248,11 +248,11 @@ public class Deal implements T1Entity {
 		this.publisher = publisher;
 	}
 
-	public SupplySource getSupply_source() {
+	public SupplySource getSupplySource() {
 		return supply_source;
 	}
 
-	public void setSupply_source(SupplySource supply_source) {
+	public void setSupplySource(SupplySource supply_source) {
 		this.supply_source = supply_source;
 	}
 
