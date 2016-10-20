@@ -252,10 +252,11 @@ public class PostService {
         uri.append("/audience_segments");
       }
 
-      if (entity.getIncludePixels().size() > 0 || entity.getExcludePixels().size() > 0) {
-        entity.setId(0);
-      }
-
+      /*
+       * if (entity.getIncludePixels().size() > 0 || entity.getExcludePixels().size() > 0) {
+       * entity.setId(0); entity.setCreatedOn(null); entity.setAudienceSegmentIncludeOp(null);
+       * entity.setAudienceSegmentExcludeOp(null); entity.setEffectiveGoalValue(null); }
+       */
       String path = t1Service.constructUrl(uri);
 
       Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
