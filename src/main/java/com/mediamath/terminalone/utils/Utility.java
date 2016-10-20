@@ -16,12 +16,12 @@
 
 package com.mediamath.terminalone.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Utility {
 
@@ -108,6 +108,11 @@ public class Utility {
       strBuffer.append(ste.toString());
     }
     logger.error(strBuffer.toString());
+  }
+
+  public boolean isArrayOfType(Object[] array,Class<?> aClass) {
+    return array.length > 0
+            && array.getClass().getComponentType().isAssignableFrom(aClass);
   }
 
 }

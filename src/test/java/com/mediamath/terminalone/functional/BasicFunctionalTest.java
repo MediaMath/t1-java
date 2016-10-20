@@ -362,7 +362,7 @@ public class BasicFunctionalTest {
 		TerminalOne jt1 = new TerminalOne(user, password,apiKey);
 		
 		Strategy str = new Strategy();
-		str.setId(1089192);	
+		str.setId(1376197);	
 		List<StrategyDomain> sdList = new ArrayList<StrategyDomain>();
 		
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
@@ -412,6 +412,8 @@ public class BasicFunctionalTest {
 		//exclude
 		str.setExcludePixels(987860);
 		
+		str.setUseCampaignStart(true);
+		str.setUseCampaignEnd(true);
 		
 		try {
 			jt1.save(str);

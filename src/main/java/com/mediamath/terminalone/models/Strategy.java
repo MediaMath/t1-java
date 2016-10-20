@@ -130,7 +130,8 @@ public class Strategy implements T1Entity {
 	List<Segments> audience_segments= new ArrayList<Segments>();
 	List<TargetValues> target_values= new ArrayList<TargetValues>();
 	List<Concept> concepts = new ArrayList<Concept>();
-
+	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
+	
 	public audSegExc getAudienceSegmentExcludeOp() {
 		return audience_segment_exclude_op;
 	}
@@ -595,6 +596,14 @@ public class Strategy implements T1Entity {
 	public void setExcludePixels(Integer pixelId) {
 		this.excludePixels.add(pixelId);
 	}
+
+  public List<StrategyAudienceSegment> getStrategyAudienceSegments() {
+    return strategyAudienceSegments;
+  }
+
+  public void setStrategyAudienceSegments(List<StrategyAudienceSegment> strategyAudienceSegments) {
+    this.strategyAudienceSegments = strategyAudienceSegments;
+  }
 	
 	
 }

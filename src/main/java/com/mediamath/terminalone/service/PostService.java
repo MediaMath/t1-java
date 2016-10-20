@@ -40,6 +40,7 @@ import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Strategy;
+import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
@@ -75,6 +76,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 import java.io.File;
 import java.io.IOException;
@@ -226,6 +229,7 @@ public class PostService {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
+  @SuppressWarnings("rawtypes")
   public Strategy save(Strategy entity) throws ClientException, ParseException {
 
     Strategy strategy = null;
@@ -248,6 +252,10 @@ public class PostService {
         uri.append("/audience_segments");
       }
 
+      if (entity.getIncludePixels().size() > 0 || entity.getExcludePixels().size() > 0) {
+        entity.setId(0);
+      }
+
       String path = t1Service.constructUrl(uri);
 
       Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
@@ -261,9 +269,16 @@ public class PostService {
         if (error == null) {
           finalJsonResponse = parsePostData(response, parser, entity);
           if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            strategy = (Strategy) finalJsonResponse.getData();
+            if (finalJsonResponse.getData() instanceof ArrayList) {
+              List dataList = (ArrayList) finalJsonResponse.getData();
+              if (dataList.get(0) instanceof StrategyAudienceSegment) {
+                strategy = entity;
+                strategy.setStrategyAudienceSegments(dataList);
+              }
+            } else {
+              strategy = (Strategy) finalJsonResponse.getData();
+            }
           }
-
         } else {
           throwExceptions(error);
         }
