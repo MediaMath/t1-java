@@ -16,44 +16,33 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
-import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.utils.Utility;
+
+import java.util.List;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
+
+import com.mediamath.terminalone.models.Agency;
+import com.mediamath.terminalone.service.T1Service;
+import com.mediamath.terminalone.utils.Utility;
+
 
 public class AgencyHelper  {
-
-  /**
-   * validates required fields.
-   * 
-   * @param entity expects Agency Entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(Agency entity) throws T1Exception {
-
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the agency");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-    
-    if (entity.getOrganizationId() <= 0) {
-      throw new ValidationException("please enter a valid organization id");
-    }
-
-    if (entity.getId()  > 0 && entity.getVersion() <= 0) {
-      throw new ValidationException("Version is required for Updates");
-    }
-  }
-
+  
   /**
    * creates a Agency Form object.
+   * 
    * @param entity expects Agency Entity.
    * @return Form object.
    */
   public static Form getForm(Agency entity) {
+    
+    String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty("agency");
+    String requiredFields = T1Service.getEntityReadOnlyFields().getProperty("agencyRequired");
+    
+    List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
+    List<String> requiredFieldList = Utility.getList(requiredFields);
 
     Form agencyForm = new Form();
 
@@ -93,7 +82,7 @@ public class AgencyHelper  {
 
     agencyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       agencyForm.param("version", String.valueOf(entity.getVersion()));
     }
 
@@ -105,7 +94,17 @@ public class AgencyHelper  {
       agencyForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
 
-    return agencyForm;
+    MultivaluedMap<String, String> multiValMap = agencyForm.asMap();
+    
+    for(String str : readOnlyFieldList) {
+      if(multiValMap.containsKey(str)) {
+        multiValMap.remove(str);
+      }
+    }
+    
+    Form finalAgencyForm = new Form(multiValMap);
+    
+    return finalAgencyForm;
   }
 
 }

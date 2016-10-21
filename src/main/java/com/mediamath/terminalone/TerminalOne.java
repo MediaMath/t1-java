@@ -79,7 +79,7 @@ import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
 
 /**
- * handles the authentication, session, entity retrieval, creation etc.
+ * Handles the authentication, session, entity retrieval, creation etc.
  *
  */
 public class TerminalOne {
@@ -104,16 +104,16 @@ public class TerminalOne {
   private boolean authenticated = false;
 
   /**
-   * constructor.
+   * Constructor.
    */
   public TerminalOne() {
     logger.info("Loading Environment - setting up connection.");
     connection = new Connection();
     tOneService = new T1Service();
   }
-
+  
   /**
-   * constructor, tries to connect with the credentials provided.
+   * Constructor, tries to connect with the credentials provided.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -123,7 +123,7 @@ public class TerminalOne {
     this();
 
     validateLoginCredentials(username, password, apiKey);
-
+    
     logger.info("Loading Environment - Authenticating.");
     Form form = tOneService.getLoginFormData(username, password, apiKey);
     String url = tOneService.constructUrl(new StringBuffer("login"));
@@ -156,7 +156,7 @@ public class TerminalOne {
   }
 
   /**
-   * private method to validate login credentials.
+   * Private method to validate login credentials.
    * 
    * @param username a valid username is required.
    * @param password a valid password is required.
@@ -177,7 +177,7 @@ public class TerminalOne {
   }
 
   /**
-   * used to authenticate using given credentials.
+   * Used to authenticate using given credentials.
    * 
    * @return boolean
    * @throws ClientException
@@ -215,7 +215,7 @@ public class TerminalOne {
   }
 
   /**
-   * get Authorization url for oauth login.
+   * Get Authorization url for oauth login.
    * 
    * @param redirectUri valid redirect uri is required. 
    * @param apiKey valid apiKey is required.
@@ -265,7 +265,7 @@ public class TerminalOne {
   }
 
   /**
-   * method to refresh oauth token.
+   * Method to refresh oauth token.
    * 
    * @param refreshToken requires a refresh token.
    * 
@@ -312,6 +312,7 @@ public class TerminalOne {
 
  
   /**
+   * Saves Agency entity.
    * 
    * @param entity expects an Agency Entity.
    * @return Agency entity.

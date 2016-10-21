@@ -18,6 +18,8 @@ package com.mediamath.terminalone.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -28,6 +30,8 @@ public class Utility {
   private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
   private static Properties vConfigProp = new Properties();
+  
+  private static Properties vEntityReadOnlyFields = new Properties();
 
   /**
    * gets String "on" or "off" based on the boolean value supplied.
@@ -90,6 +94,40 @@ public class Utility {
 
     return vConfigProp;
   }
+  
+  public static Properties loadEntityReadOnlyFields() {
+    if (vEntityReadOnlyFields.isEmpty()) {
+      InputStream input = null;
+      try {
+        String filename = "EntityReadOnlyFields.properties";
+        input = Utility.class.getClassLoader().getResourceAsStream(filename);
+        if (input == null) {
+          logger.info("Unable to load the configurations");
+          return null;
+        }
+        vEntityReadOnlyFields.load(input);
+      } catch (IOException ioException) {
+        logStackTrace(ioException);
+      } finally {
+        if (input != null) {
+          try {
+            input.close();
+          } catch (IOException ioException) {
+            logStackTrace(ioException);
+          }
+        }
+      }
+    }
+
+    return vEntityReadOnlyFields;
+  }
+  
+  
+  public static List<String> getList(String propStr) {
+    String[] readOnlyFields = propStr.split(",");
+    List<String> s = Arrays.asList(readOnlyFields);
+    return s;
+  }
 
   public static Properties getConfigProperties() {
     return vConfigProp;
@@ -110,9 +148,9 @@ public class Utility {
     logger.error(strBuffer.toString());
   }
 
-  public boolean isArrayOfType(Object[] array,Class<?> aClass) {
+  public boolean isArrayOfType(Object[] array,Class<?> type) {
     return array.length > 0
-            && array.getClass().getComponentType().isAssignableFrom(aClass);
+            && array.getClass().getComponentType().isAssignableFrom(type);
   }
 
 }

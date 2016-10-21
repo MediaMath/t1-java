@@ -175,16 +175,63 @@ public class BasicFunctionalTest {
     assertEquals(100048, agencyCreated.getOrganizationId());
 
   }
+  
+  @Test
+  public void testAgencyUpdatePost() throws ClientException {
+    
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+    
+    QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setEntity(114244)
+        .build();
+
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    
+    Agency agency = (Agency) jsonresponse.getData();
+    agency.setName("TestAgencyUpdated");
+    
+    try {
+      agency = t1.save(agency);
+      System.out.println(agency.getId());
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    Agency updatedAgency = (Agency) jsonresponse.getData();
+
+    assertEquals("TestAgencyUpdated", updatedAgency.getName());
+    
+  }
+  
 
   @Test
   public void testCampaignPost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
     Campaign camp = new Campaign();
-    camp.setName("TestCamp");
-    camp.setAdServerFee(10.01, null);
+    camp.setId(267886);
+
     camp.setAdServerId(9);
     camp.setAdvertiserId(122631);
+    camp.setName("TestCamp");
+    camp.setAdServerFee(10.01, null);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
     camp.setGoalType(Campaign.goalTypes.cpe);
@@ -203,10 +250,11 @@ public class BasicFunctionalTest {
 
     camp.setPcWindowMinutes(1);
     camp.setSpendCapAmount(10, null);
-    camp.setTotalBudget(100, null);
+
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
-
+    camp.setTotalBudget(200, "USD");
+    camp.setVersion(1);
     try {
       camp = t1.save(camp);
     } catch (ParseException e) {
@@ -408,6 +456,7 @@ public class BasicFunctionalTest {
     }
 
     Strategy str = (Strategy) jsonresponse.getData();
+    
     // include
     str.setIncludePixels(926800);
 
