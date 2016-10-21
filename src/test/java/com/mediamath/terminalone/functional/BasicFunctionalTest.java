@@ -88,7 +88,7 @@ public class BasicFunctionalTest {
     apiKey = testConfig.getProperty("sandbox_api_key");
     productionKey = testConfig.getProperty("production_api_key");
     oauthKey = testConfig.getProperty("oauth_api_key");
-    oauthSecret = testConfig.getProperty("oauthSecret");
+    oauthSecret = testConfig.getProperty("oauth_secret");
   }
 
   @After
@@ -101,6 +101,40 @@ public class BasicFunctionalTest {
     TerminalOne t1;
     t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
     assertEquals(true, t1.isAuthenticated());
+  }
+  
+  @Test
+  public void testOauthTokenAuthentication() throws ClientException {
+    TerminalOne t1 = new TerminalOne();
+    t1.authenticate("rydgu76jyap9sjaj5vyqpbg7");
+    
+    assertEquals(true, t1.isAuthenticated());
+    
+    Agency agency = new Agency();
+    agency.setName("TestAgency");
+    agency.setOrganizationId(100048);
+    try {
+      agency = t1.save(agency);
+      System.out.println(agency.getId());
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    QueryCriteria query = QueryCriteria.builder().setCollection("agencies")
+        .setEntity(agency.getId()).setGetAll(true).build();
+    JsonResponse<?> jsonresponse = null;
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNotNull(jsonresponse);
+    Agency agencyCreated = (Agency) jsonresponse.getData();
+    assertEquals("TestAgency", agencyCreated.getName());
+    assertEquals(100048, agencyCreated.getOrganizationId());
   }
 
   @Test
@@ -119,7 +153,7 @@ public class BasicFunctionalTest {
   @Test
   public void testOAuthHGetToken() throws ClientException {
     TerminalOne t1 = new TerminalOne();
-    OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("khxg27pd2wbva3vm4278vqmy",
+    OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("taqszg4upr8ap3m888fdvsvy",
         oauthKey, oauthSecret, "https://blog.mediamath.com/");
     assertNotNull(oauthResponse);
   }
