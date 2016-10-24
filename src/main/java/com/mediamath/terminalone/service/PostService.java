@@ -16,6 +16,20 @@
 
 package com.mediamath.terminalone.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +39,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
-
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
@@ -72,27 +85,11 @@ import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
 public class PostService {
 
   private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
-  private static T1Service t1Service = new T1Service();
+  private T1Service t1Service = null;
 
   private Connection connection = null;
 
@@ -103,9 +100,17 @@ public class PostService {
   public PostService() {
   }
 
-  public PostService(Connection connection, T1User user) {
+  /**
+   * Constructor for Initializing PostService.
+   * 
+   * @param connection requries a connection Object.
+   * @param user requires a valid user session.
+   * @param t1Service requires T1Service service object. 
+   */
+  public PostService(Connection connection, T1User user, T1Service t1Service) {
     this.connection = connection;
     this.user = user;
+    this.t1Service = t1Service;
   }
 
   /**
@@ -287,7 +292,7 @@ public class PostService {
     }
     return strategy;
   }
-
+ 
   /**
    * saves a StrategyConcept entity.
    * 
@@ -556,6 +561,10 @@ public class PostService {
       JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
       StringBuffer uri = getUri(entity);
+      
+      if(entity.getId() > 0) {
+        uri.append("/" + entity.getId());
+      }
 
       if (entity.getId() > 0 && entity.getMargins().size() > 0) {
         uri.append("/");

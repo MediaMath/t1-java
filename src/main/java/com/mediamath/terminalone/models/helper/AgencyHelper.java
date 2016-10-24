@@ -16,43 +16,32 @@
 
 package com.mediamath.terminalone.models.helper;
 
-
-import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-
 import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Utility;
 
+import javax.ws.rs.core.Form;
 
-public class AgencyHelper  {
-  
+public class AgencyHelper {
+
   /**
    * creates a Agency Form object.
    * 
-   * @param entity expects Agency Entity.
+   * @param entity
+   *          expects Agency Entity.
    * @return Form object.
    */
   public static Form getForm(Agency entity) {
-    
-    String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty("agency");
-    String requiredFields = T1Service.getEntityReadOnlyFields().getProperty("agencyRequired");
-    
-    List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
-    List<String> requiredFieldList = Utility.getList(requiredFields);
 
     Form agencyForm = new Form();
 
-    //required
+    // required
     agencyForm.param("name", entity.getName());
 
     agencyForm.param("organization_id", String.valueOf(entity.getOrganizationId()));
 
-    //optional
-    agencyForm.param("allow_x_adv_optimization", Utility.getOnOrOff(entity.isAllowXAdvOptimization()));
+    // optional
+    agencyForm.param("allow_x_adv_optimization",
+        Utility.getOnOrOff(entity.isAllowXAdvOptimization()));
 
     agencyForm.param("allow_x_adv_pixels", Utility.getOnOrOff(entity.isAllowXAdvPixels()));
 
@@ -72,7 +61,7 @@ public class AgencyHelper  {
       agencyForm.param("id", String.valueOf(entity.getId()));
     }
 
-    if  (entity.getLogo() != null) {
+    if (entity.getLogo() != null) {
       agencyForm.param("logo", entity.getLogo());
     }
 
@@ -94,16 +83,8 @@ public class AgencyHelper  {
       agencyForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
 
-    MultivaluedMap<String, String> multiValMap = agencyForm.asMap();
-    
-    for(String str : readOnlyFieldList) {
-      if(multiValMap.containsKey(str)) {
-        multiValMap.remove(str);
-      }
-    }
-    
-    Form finalAgencyForm = new Form(multiValMap);
-    
+    Form finalAgencyForm = Utility.getFilteredForm(agencyForm, "agency");
+
     return finalAgencyForm;
   }
 

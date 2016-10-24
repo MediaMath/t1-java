@@ -16,11 +16,12 @@
 
 package com.mediamath.terminalone.models.helper;
 
+import java.text.SimpleDateFormat;
+
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.utils.Utility;
-
-import java.text.SimpleDateFormat;
-import javax.ws.rs.core.Form;
 
 public class CampaignHelper  {
 
@@ -44,7 +45,7 @@ public class CampaignHelper  {
     }
 
     if (entity.getTotalBudget().size() > 0) {
-      campaignForm.param("total_budget", String.valueOf(entity.getTotalBudget().get(0).getValue()));		
+      campaignForm.param("total_budget", String.valueOf(entity.getTotalBudget().get(0).getValue()));
     }
 
     if (entity.getSpendCapAmount().size() > 0) {
@@ -183,7 +184,9 @@ public class CampaignHelper  {
     if (entity.getUpdatedOn() != null) {
       campaignForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
+    
+    Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
-    return campaignForm;
+    return finalCampaignForm;
   }
 }

@@ -213,7 +213,6 @@ public class BasicFunctionalTest {
       e.printStackTrace();
     }
     
-    
     Agency updatedAgency = (Agency) jsonresponse.getData();
 
     assertEquals("TestAgencyUpdated", updatedAgency.getName());
@@ -280,6 +279,46 @@ public class BasicFunctionalTest {
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
+  
+  @Test
+  public void testCampaignUpdatePost() throws ClientException, java.text.ParseException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+    
+    
+    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(114244)
+        .build();
+
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    Campaign camp = (Campaign) jsonresponse.getData();
+
+    camp.setName("Campaign Test");
+    
+    try {
+      camp = t1.save(camp);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertEquals("Campaign Test", camp.getName());
+  }
+
+  
 
   @Test
   public void testAdvertiserPost() throws ClientException {
