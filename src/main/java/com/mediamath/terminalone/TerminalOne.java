@@ -45,6 +45,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
@@ -349,6 +350,23 @@ public class TerminalOne {
       agency = postService.save(entity);
     }
     return agency;
+  }
+  
+  
+  /**
+   * Saves Child Pixel entity.
+   * 
+   * @param entity expects an ChildPixel Entity.
+   * @return ChildPixel entity.
+   * @throws ClientException exception.
+   * @throws ParseException exception.
+   */
+  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
+	  ChildPixel childPixel = null;
+    if (isAuthenticated()) {
+    	childPixel = postService.save(entity);
+    }
+    return childPixel;
   }
 
   /**

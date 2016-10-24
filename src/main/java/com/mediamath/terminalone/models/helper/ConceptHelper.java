@@ -34,22 +34,6 @@ public class ConceptHelper {
 
 
   /**
-   * validates required fields.
-   * 
-   * @param entity expects Concept Entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(Concept entity) throws T1Exception {
-    if (entity.getAdvertiserId() < 0) {
-      throw new ValidationException("Please Enter Advertiser ID");
-    }
-
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the concept");
-    }
-  }
-
-  /**
    * Creates a Concept Form object.
    * @param entity expects Concept Entity.
    * @return Form object.
@@ -65,7 +49,7 @@ public class ConceptHelper {
 
     conceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       conceptForm.param("version", String.valueOf(entity.getVersion()));
     }
 

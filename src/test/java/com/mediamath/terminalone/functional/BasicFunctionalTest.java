@@ -32,6 +32,7 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.CreativeApproval;
 import com.mediamath.terminalone.models.Data;
@@ -681,22 +682,23 @@ public class BasicFunctionalTest {
   @Test
   public void testOrganizationPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+    QueryCriteria query = QueryCriteria.builder().setCollection("organizations").setEntity(100048).build();
 
-    Organization org = new Organization();
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+          jsonresponse = jt1.get(query);
+    } catch (ClientException | ParseException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+    }
+        
+    Organization org = (Organization) jsonresponse.getData();
     org.setId(100048);
-    ArrayList<String> listOrgType = new ArrayList<String>();
-    listOrgType.add("buyer");
-    org.setOrgType(listOrgType);
+    
     org.setAddress1("First Lane, New York");
     org.setCity("New York");
-    org.setState("NY");
-    org.setContactName("Michele");
-    org.setZip("800293");
-    org.setCountry("US");
-    org.setMmContactName("Mark");
-    org.setPhone("408 345 7758");
-    org.setVersion(120);
-
+    
     try {
       org = jt1.save(org);
     } catch (ParseException e) {
@@ -704,10 +706,6 @@ public class BasicFunctionalTest {
       e.printStackTrace();
     }
 
-    QueryCriteria query = QueryCriteria.builder().setCollection("organizations").setEntity(100048)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
     try {
       jsonresponse = jt1.get(query);
     } catch (ClientException | ParseException e) {
@@ -796,6 +794,108 @@ public class BasicFunctionalTest {
     }
 
   }
+  
+  @Test
+  public void testConceptPostUpdate() throws ClientException {
+	  TerminalOne t1 = new TerminalOne(user, password, apiKey);
+	  QueryCriteria query = QueryCriteria.builder().setCollection("concepts").setEntity(813124).build();
+
+	    JsonResponse<?> jsonresponse = null;
+
+	    try {
+	          jsonresponse = t1.get(query);
+	    } catch (ClientException | ParseException e) {
+	          // TODO Auto-generated catch block
+	          e.printStackTrace();
+	    }
+	    
+	    Concept concept = (Concept) jsonresponse.getData();
+	    concept.setName("TestConceptUpdated");
+	    try {
+	        concept = t1.save(concept);
+	        
+	      } catch (ParseException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	      }
+	    
+	    
+	    try {
+	          jsonresponse = t1.get(query);
+	    } catch (ClientException | ParseException e) {
+	          // TODO Auto-generated catch block
+	          e.printStackTrace();
+	    }
+	    
+	    Concept updatedConcept = (Concept) jsonresponse.getData();
+	    
+	    assertEquals("TestConceptUpdated", updatedConcept.getName());
+	    
+  }
+  
+  
+  @Test
+  public void testChildPixelPost() throws ClientException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    ChildPixel px = new ChildPixel();
+    px.setBundleId(1026072);
+    px.setDistributed(false);
+    px.setPixelType("event");
+    px.setTag("http://www.testsyncpixel.com?rn=[RANDOM_NUMBER]&amp;mt_exid=54321&amp;mt_exuid=[mt_exuid]&amp;v2=[v2]");
+
+    try {
+    	px = t1.save(px);
+
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+  }
+  
+  
+  @Test
+  public void testChildPixelPostUpdate() throws ClientException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+    QueryCriteria query = QueryCriteria.builder().setCollection("pixels").setEntity(154580).build();
+
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+          jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+    }
+    ChildPixel px = (ChildPixel)jsonresponse.getData();
+    px.setDistributed(true);
+
+    try {
+    	px = t1.save(px);
+
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    try {
+        jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    
+    ChildPixel updatedPx = (ChildPixel)jsonresponse.getData();
+    
+    assertEquals(true, updatedPx.isDistributed());
+
+  }
+  
+  
+  
+ 
 
   @Test
   public void testAtomicCreatives() throws ClientException {

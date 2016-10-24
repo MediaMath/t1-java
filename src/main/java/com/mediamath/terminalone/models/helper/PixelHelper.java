@@ -180,13 +180,12 @@ public class PixelHelper {
     if (entity.getType() != null) {
       pixelForm.param("type", entity.getType());
     }
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       pixelForm.param("version", String.valueOf(entity.getVersion()));
     }
-    if (entity.getUpdatedOn() != null) {
-      pixelForm.param("updated_on", entity.getUpdatedOn().toString());
-    }
 
-    return pixelForm;
+    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "pixelbundle");
+    
+    return finalAdvertiserForm;
   }
 }

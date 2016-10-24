@@ -46,6 +46,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
@@ -72,6 +73,7 @@ import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
 import com.mediamath.terminalone.models.helper.CampaignHelper;
+import com.mediamath.terminalone.models.helper.ChildPixelHelper;
 import com.mediamath.terminalone.models.helper.ConceptHelper;
 import com.mediamath.terminalone.models.helper.OrganizationHelper;
 import com.mediamath.terminalone.models.helper.PixelHelper;
@@ -487,6 +489,57 @@ public class PostService {
 
     }
     return org;
+  }
+  
+  
+  /**
+   * Saves an ChildPixel Entity.
+   * 
+   * @param entity
+   *          expects ChildPixel Entity.
+   * @return ChildPixel object.
+   * @throws ClientException
+   *           a client exception is thrown if any error occurs.
+   * @throws ParseException
+   *           a parse exception is thrown when the response cannot be parsed.
+   */
+  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
+
+	  ChildPixel childPixel = null;
+
+    if (entity != null) {
+
+      JsonResponse<? extends T1Entity> finalJsonResponse = null;
+
+      StringBuffer uri = getUri(entity);
+
+      if (entity.getId() > 0) {
+        uri.append("/");
+        uri.append(entity.getId());
+      }
+
+      String path = t1Service.constructUrl(uri);
+
+      Response responseObj = this.connection.post(path, ChildPixelHelper.getForm(entity), this.user);
+
+      String response = responseObj.readEntity(String.class);
+
+      // parse response
+      T1JsonToObjParser parser = new T1JsonToObjParser();
+      if (!response.isEmpty()) {
+        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+        if (error == null) {
+          finalJsonResponse = parsePostData(response, parser, entity);
+          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
+            childPixel = (ChildPixel) finalJsonResponse.getData();
+          }
+        } else {
+          throwExceptions(error);
+        }
+      }
+
+    }
+    return childPixel;
   }
 
   /**
