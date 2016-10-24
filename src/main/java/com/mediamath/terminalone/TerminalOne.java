@@ -212,6 +212,31 @@ public class TerminalOne {
 
     return isAuthenticated();
   }
+  
+  /**
+   * used to authenticate using given credentials.
+   * 
+   * @return boolean
+   * @throws ClientException
+   *           a client exception is thrown if any error occurs.
+   */
+  public boolean authenticate(String token) throws ClientException {
+
+	logger.info("Authenticating.");
+	
+	user = new T1User();
+	user.setToken(token);
+	
+    postService = new PostService(connection, user);
+    getService = new GetService();
+    reportService = new ReportService();
+
+    if (this.getUser() != null && this.getUser().getToken() != null && !this.getUser().getToken().isEmpty()) { 
+        this.authenticated = true;
+    }
+
+    return isAuthenticated();
+  }
 
   /**
    * Get Authorization url for oauth login.
