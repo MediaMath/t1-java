@@ -39,6 +39,8 @@ import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Pixel;
+import com.mediamath.terminalone.models.Pixel.pixelTypes;
+import com.mediamath.terminalone.models.Pixel.tagTypes;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freqInt;
@@ -338,7 +340,7 @@ public class BasicFunctionalTest {
     Campaign camp = (Campaign) jsonresponse.getData();
 
     camp.setName("Campaign Test One updated");
-    camp.setVersion(0);
+    //camp.setVersion(0);
     
     try {
       camp = t1.save(camp);
@@ -890,6 +892,81 @@ public class BasicFunctionalTest {
     ChildPixel updatedPx = (ChildPixel)jsonresponse.getData();
     
     assertEquals(true, updatedPx.isDistributed());
+
+  }
+  
+  
+  @Test
+  public void testPixelBundlePost() throws ClientException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    Pixel px = new Pixel();
+    px.setName("Jiten#Pixel");
+    px.setEligible(true);
+    px.setPixelType(pixelTypes.event);
+    px.setAdvertiserId(165304);
+    px.setTagType(tagTypes.js);
+    px.setStatus(false);
+    px.setTags("&lt;script language='JavaScript1.1' src='//pixel.mathtag.com/event/js?mt_id=1026568&amp;mt_adid=165304&amp;v1=&amp;v2=&amp;v3=&amp;s1=&amp;s2=&amp;s3='&gt;&lt;/script&gt;");
+
+    try {
+    	px = t1.save(px);
+
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    assertEquals(pixelTypes.event, px.getPixelType());
+    assertEquals("Jiten#Pixel", px.getName());
+    
+
+  }
+  
+  @Test
+  public void testPixelBundlePostUpdate() throws ClientException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    QueryCriteria query = QueryCriteria.builder().setCollection("pixel_bundles").setEntity(1026072).build();
+
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+          jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+    }
+    
+    
+    
+    
+    Pixel px = (Pixel)jsonresponse.getData();
+    px.setName("Jiten#Pixel#Update");
+    px.setEligible(false);
+
+    try {
+    	px = t1.save(px);
+
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    
+    
+    try {
+        jsonresponse = t1.get(query);
+  } catch (ClientException | ParseException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+  }
+    
+    Pixel updatedPx = (Pixel)jsonresponse.getData();
+    
+    assertEquals("Jiten#Pixel#Update", updatedPx.getName());
+    
 
   }
   

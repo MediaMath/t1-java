@@ -133,10 +133,6 @@ public class CampaignHelper  {
       campaignForm.param("io_reference_num", entity.getIoReferenceNum());
     }
 
-    if (entity.getInitialStartDate() != null) {
-      campaignForm.param("initial_start_date", String.valueOf(entity.getInitialStartDate()));
-    }
-
     if (entity.getMarginPct() >= 0) {
       campaignForm.param("margin_pct", String.valueOf(entity.getMarginPct()));
     }
@@ -167,20 +163,13 @@ public class CampaignHelper  {
       campaignForm.param("zone_name", entity.getZoneName());
     }
 
-    if (entity.getCreatedOn() != null) {
-      campaignForm.param("created_on", entity.getCreatedOn().toString());
-    }
-
     campaignForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
     if (entity.getVersion() >= 0) {
       campaignForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    if (entity.getUpdatedOn() != null) {
-      campaignForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
-    }
-    
+   
     Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
     return finalCampaignForm;
