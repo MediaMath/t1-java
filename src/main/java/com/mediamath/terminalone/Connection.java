@@ -230,14 +230,14 @@ public class Connection {
   }
 
   private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
-    if (userMap != null) {
-      if (userMap.getData() != null && userMap.getData().getSession() != null
-          && userMap.getData().getSession().getSessionid() != null
-          && !userMap.getData().getSession().getSessionid().isEmpty()) {
-
-        invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
-      }
+    if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
+    	invocationBuilder.header("Authorization", "Bearer "+userMap.getToken());
     }
+    if (userMap != null && userMap.getData() != null && userMap.getData().getSession() != null
+            && userMap.getData().getSession().getSessionid() != null
+            && !userMap.getData().getSession().getSessionid().isEmpty()) {
+    	invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+    }    
   }
 
   private String generateUserAgent() {

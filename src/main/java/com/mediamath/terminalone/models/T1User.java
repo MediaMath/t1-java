@@ -20,6 +20,16 @@ public class T1User {
 	T1Data data;
 	
 	T1Meta meta;
+	
+	String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public T1Data getData() {
 		return data;
