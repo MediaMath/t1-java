@@ -61,29 +61,33 @@ public class StrategyDayPartHelper {
    * @return Form object.
    */
   public static Form getForm(StrategyDayPart entity) {
-    Form strategyConceptForm = new Form();
+    Form strategyDayPartForm = new Form();
 
-    strategyConceptForm.param("days", String.valueOf(entity.getDays()));
+    strategyDayPartForm.param("days", String.valueOf(entity.getDays()));
 
     if (entity.getEndHour() > 0 && entity.getEndHour() < 23) {
-      strategyConceptForm.param("end_hour", String.valueOf(entity.getEndHour()));
+      strategyDayPartForm.param("end_hour", String.valueOf(entity.getEndHour()));
     }
 
     if (entity.getStartHour() > 0 && entity.getStartHour() < 23) {
-      strategyConceptForm.param("start_hour", String.valueOf(entity.getStartHour()));
+      strategyDayPartForm.param("start_hour", String.valueOf(entity.getStartHour()));
     }
 
     if (entity.getStrategyId() > 0) {
-      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
+      strategyDayPartForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
-    strategyConceptForm.param("user_time", Utility.getOnOrOff(entity.isUserTime()));
+    strategyDayPartForm.param("user_time", Utility.getOnOrOff(entity.isUserTime()));
 
-    if (entity.getVersion() > 0) {
-      strategyConceptForm.param("version", String.valueOf(entity.getVersion()));
+    if (entity.getVersion() >= 0) {
+      strategyDayPartForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    return strategyConceptForm;
+    Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
+
+    return finalStrategyDayPartForm;
+    
+    
   }
 
 }

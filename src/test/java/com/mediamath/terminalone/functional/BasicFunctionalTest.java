@@ -583,7 +583,7 @@ public class BasicFunctionalTest {
       e.printStackTrace();
     }
   }
-
+  
   @Test
   public void testStrategyDayParts() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -601,6 +601,46 @@ public class BasicFunctionalTest {
     } catch (ParseException e) {
       e.printStackTrace();
     }
+
+  }
+
+  @Test
+  public void testStrategyDayPartsUpdate() throws ClientException {
+    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+    
+    QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1376202).setChild("day_parts").build();
+    
+    JsonResponse<?> jsonresponse = null;
+
+    try {
+      jsonresponse = jt1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    List<?> strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
+    StrategyDayPart strategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);    
+    
+    strategyDayPart.setDays(daysEnum.M);
+    strategyDayPart.setEndHour(20);
+    
+    try {
+      strategyDayPart = jt1.save(strategyDayPart);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    
+    try {
+      jsonresponse = jt1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
+    StrategyDayPart updatedStrategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);    
+    assertEquals(20, updatedStrategyDayPart.getEndHour());
 
   }
 
