@@ -109,10 +109,6 @@ public class AdvertiserHelper {
       advertiserForm.param("created_on", entity.getCreatedOn().toString());
     }
 
-    if (entity.getId() > 0) {
-      advertiserForm.param("id", String.valueOf(entity.getId()));
-    }
-
     if (entity.getFrequencyType() != null) {
       advertiserForm.param("frequency_type", entity.getFrequencyType().toString());
     }
@@ -133,7 +129,7 @@ public class AdvertiserHelper {
 
     advertiserForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       advertiserForm.param("version", String.valueOf(entity.getVersion()));
     }
 
@@ -145,7 +141,9 @@ public class AdvertiserHelper {
       advertiserForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
 
-    return advertiserForm;
+    Form finalAdvertiserForm = Utility.getFilteredForm(advertiserForm, "advertiser");
+    
+    return finalAdvertiserForm;
   }
 
 }

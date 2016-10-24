@@ -227,7 +227,7 @@ public class TerminalOne {
 	user = new T1User();
 	user.setToken(token);
 	
-    postService = new PostService(connection, user);
+    postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
 

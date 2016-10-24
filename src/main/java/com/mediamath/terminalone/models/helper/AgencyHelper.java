@@ -57,10 +57,6 @@ public class AgencyHelper {
       agencyForm.param("created_on", entity.getCreatedOn().toString());
     }
 
-    if (entity.getId() > 0) {
-      agencyForm.param("id", String.valueOf(entity.getId()));
-    }
-
     if (entity.getLogo() != null) {
       agencyForm.param("logo", entity.getLogo());
     }

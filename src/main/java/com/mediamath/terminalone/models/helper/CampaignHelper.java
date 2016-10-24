@@ -171,13 +171,9 @@ public class CampaignHelper  {
       campaignForm.param("created_on", entity.getCreatedOn().toString());
     }
 
-    if (entity.getId() > 0) {
-      campaignForm.param("id", String.valueOf(entity.getId()));
-    }
-
     campaignForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       campaignForm.param("version", String.valueOf(entity.getVersion()));
     }
 
