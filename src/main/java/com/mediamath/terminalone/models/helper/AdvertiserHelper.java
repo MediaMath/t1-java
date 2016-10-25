@@ -31,55 +31,6 @@ import com.mediamath.terminalone.utils.Utility;
 public class AdvertiserHelper {
 
   /**
-   * Validates required fields for Advertiser entity.
-   * @param entity expects Advertiser Entity.
-   * @throws T1Exception is thrown 
-   */
-  public static void validateRequiredFields(Advertiser entity) throws T1Exception {
-    
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the advertiser");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-
-    if (entity.getDomain() == null || entity.getDomain().isEmpty()) {
-      throw new ValidationException("please enter a Domain for the advertiser");
-    } else if (entity.getDomain().length() > 255) {
-      throw new ValidationException("please make sure domain does not exceed 255 characters.");
-    }
-
-    if (entity.getDmpEnabled() == null) {
-      entity.setDmpEnabled(dmpSettings.disabled);
-    }
-
-    if (entity.getFrequencyType() == null) {
-      entity.setFrequencyType(freqTypes.valueOf("no_limit"));
-    }
-
-    if (entity.getFrequencyType() != null &&  (entity.getFrequencyType().equals(freqTypes.even) || entity.getFrequencyType().equals(freqTypes.asap))) {
-      if (entity.getFrequencyInterval() == null) {
-        entity.setFrequencyInterval(freqInts.valueOf("not_applicable"));
-      }
-      if (entity.getFrequencyAmount() <= 0) {
-        throw new ValidationException("please enter valid a frequency amount");
-      }
-    }
-
-    if (entity.getAdServerId() <= 0) {
-      throw new ValidationException("please enter a valid ad_server id");
-    }
-    
-    if (entity.getAgencyId() <= 0) {
-      throw new ValidationException("please enter a valid Agency id");
-    }
-
-    if (entity.getVerticalId() <= 0) {
-      throw new ValidationException("please enter a valid Vertical id");
-    }
-  }
-
-  /**
    * creates a Form object to pass it to connection
    * @param entity expects an Advertiser Entity.
    * @return Form object.

@@ -16,44 +16,13 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.utils.Utility;
 
-import javax.ws.rs.core.Form;
-
 
 public class StrategyDayPartHelper {
-
-  /**
-   * validates required fields
-   * 
-   * @param entity expects StrategyDayPart entity.
-   * @throws T1Exception exception.
-   */
-  public static void validateRequiredFields(StrategyDayPart entity) throws T1Exception {
-    if (entity.getDays() == null) {
-      throw new ValidationException("please enter a valid Day");
-    }
-
-    if (entity.getEndHour() < 0 || entity.getEndHour() > 23) {
-      throw new ValidationException("please enter a valid End Hour");
-    }
-
-    if (entity.getStartHour() < 0 || entity.getStartHour() > 23) {
-      throw new ValidationException("please enter a valid Start Hour");
-    }
-
-    if (entity.getStrategyId() <= 0) {
-      throw new ValidationException("please enter a valid strategy id");
-    }
-
-    if (entity.getVersion() <= 0) {
-      throw new ValidationException("please add version");
-    }
-
-  }
 
   /**
    * Creates a StrategyDayPart Form object.

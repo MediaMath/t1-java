@@ -785,39 +785,6 @@ public class PostService {
   }
   
   /**
-   * <h1>this method is deprecated</h1>
-   * this was the second call to fetch token once the video creative had been created.
-   * 
-   * @param videoCreative expects a VideoCreativeResponse.
-   * 
-   * @return VideoCreativeResponse object.
-   * 
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  @Deprecated
-  public VideoCreativeResponse getVideoCreativeUploadToken(VideoCreativeResponse videoCreative)
-      throws ParseException {
-    VideoCreativeResponse parsedResponse = null;
-    if (videoCreative != null && videoCreative.getCreativeId() != null
-        && !videoCreative.getCreativeId().isEmpty()) {
-
-      StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
-          + "/creatives" + "/" + videoCreative.getCreativeId() + "/upload");
-
-      logger.info(path.toString());
-
-      String response = this.connection.get(path.toString(), this.user);
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-      parsedResponse = parser.parseVideoCreative(response);
-      parsedResponse.setCreativeId(videoCreative.getCreativeId());
-    }
-
-    return parsedResponse;
-
-  }
-
-  /**
    * Gets the Video Creative Upload status
    * 
    * @param creativeId requires a creativeId string.

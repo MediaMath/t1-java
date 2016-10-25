@@ -75,10 +75,6 @@ import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
-
-
-
-
 /**
  * Handles the authentication, session, entity retrieval, creation etc.
  *
@@ -434,8 +430,7 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public StrategySupplySource save(StrategySupplySource entity)
-      throws ClientException, ParseException {
+  public StrategySupplySource save(StrategySupplySource entity) throws ClientException, ParseException {
     StrategySupplySource strategySupplySource = null;
     if (isAuthenticated()) {
       strategySupplySource = postService.save(entity);
@@ -579,8 +574,7 @@ public class TerminalOne {
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName,
-      String name) throws ClientException, IOException {
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
     TPASCreativeUpload response = null;
     if (isAuthenticated()) {
       response = postService.saveTPASCreativeUpload(filePath, fileName, name);
@@ -602,9 +596,7 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.           
    */
-  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(
-      TPASCreativeBatchApprove batchApprove)
-      throws ClientException, IOException, ParseException {
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (isAuthenticated()) {
       finalJsonResponse = postService.saveTPASCreativeUploadBatch(batchApprove);
@@ -718,21 +710,6 @@ public class TerminalOne {
       if (creativeId != null && !creativeId.isEmpty()) {
         response = postService.getVideoCreativeUploadStatus(creativeId);
       }
-    }
-    return response;
-  }
-
-  /**
-   * second call to get the upload token for video creative.
-   * 
-   * @deprecated this method is deprecated since this step is not required in the new flow.
-   */
-  @Deprecated
-  public VideoCreativeResponse getVideoCreativesUploadToken(VideoCreativeResponse videoCreative)
-      throws ClientException, ParseException {
-    VideoCreativeResponse response = null;
-    if (isAuthenticated()) {
-      response = postService.getVideoCreativeUploadToken(videoCreative);
     }
     return response;
   }

@@ -16,76 +16,13 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
-import com.mediamath.terminalone.models.Pixel;
-import com.mediamath.terminalone.models.Pixel.pixelTypes;
-import com.mediamath.terminalone.models.Pixel.pricing;
-import com.mediamath.terminalone.utils.Utility;
-
 import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.models.Pixel;
+import com.mediamath.terminalone.utils.Utility;
 
 
 public class PixelHelper {
-
-  /**
-   * validates required fields
-   * 
-   * @param entity expects Pixel Entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(Pixel entity) throws T1Exception {
-    if (entity.getPricing().equals(pricing.CPM) && entity.getCostCpm() <= 0f
-        && entity.getCostPctCpm() <= 0f) {
-      throw new ValidationException("please enter values for either cost_cpm or cost_pct_cpm");
-    }
-
-    if (entity.getCurrency() == null && entity.getCurrencyFixed() == null) {
-      throw new ValidationException("Either currency or currency_fixed must be set.");
-    }
-    if ((entity.getCurrency() != null || entity.getCurrencyFixed() != null)
-        && entity.getRevenue() == null) {
-      throw new ValidationException("Please set value for revenue parameters.");
-    }
-    if (entity.getCurrency() != null && entity.getPricing() != null
-        && entity.getCurrency().equals(entity.getRevenue())) {
-      throw new ValidationException("currency and revenue parameters must be different.");
-    }
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the Pixel");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-
-    if (entity.getPixelType() == null) {
-      throw new ValidationException("please Add Pixel Type");
-    }
-
-    if (entity.getTagType() == null) {
-      throw new ValidationException("please Add Tag Type");
-    }
-
-    if (entity.getPixelType().equals(pixelTypes.data)) {
-      if (entity.getAgencyId() <= 0) {
-        throw new ValidationException("please Add Agency");
-      }
-      if (entity.getProviderId() <= 0) {
-        throw new ValidationException("please Add Provider");
-      }
-    }
-
-    if (entity.getPixelType().equals(pixelTypes.event)) {
-      if (entity.getAdvertiserId() <= 0) {
-        throw new ValidationException("please Add Advertiser");
-      }
-    }
-
-    if (entity.getPixelType().equals(pixelTypes.event) && entity.getKeywords() != null
-        && entity.getKeywords().length() > 64) {
-      throw new ValidationException("Max Length for Keywords is 64 chars");
-    }
-
-  }
 
   /**
    * Creates a Pixel Form Object.

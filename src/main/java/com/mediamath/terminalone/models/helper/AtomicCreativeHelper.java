@@ -18,13 +18,12 @@ package com.mediamath.terminalone.models.helper;
 
 
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import java.text.SimpleDateFormat;
+
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.utils.Utility;
-
-import java.text.SimpleDateFormat;
-import javax.ws.rs.core.Form;
 
 
 
@@ -35,17 +34,6 @@ public class AtomicCreativeHelper {
   private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
   /**
-   * validates required fields.
-   * @param entity expects Atomic Creative Entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(AtomicCreative entity) throws T1Exception {
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the concept");
-    }
-  }
-
-  /**
    * creates a AtomicCreative Form Object.
    * @param entity expects AtomicCreative Object.
    * @return Form Object. 
@@ -53,8 +41,6 @@ public class AtomicCreativeHelper {
   public static Form getForm(AtomicCreative entity) {
     
     Form atomicCreativeForm = new Form();
-
-    atomicCreativeForm.param("name", entity.getName());
 
     if (entity.getAdvertiserId() > 0) {
       atomicCreativeForm.param("advertiser_id", String.valueOf(entity.getAdvertiserId()));
@@ -134,10 +120,6 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("height", String.valueOf(entity.getHeight()));
     }
 
-    if (entity.getId() > 0) {
-      atomicCreativeForm.param("id", String.valueOf(entity.getId()));
-    }
-
     atomicCreativeForm.param("is_https", Utility.getOnOrOff(entity.isIsHttps()));
 
     atomicCreativeForm.param("is_multi_creative", Utility.getOnOrOff(entity.isIsMultiCreative()));
@@ -189,14 +171,17 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("type", entity.getType());
     }
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       atomicCreativeForm.param("version", String.valueOf(entity.getVersion()));
     }
 
     if (entity.getWidth() > 0) {
       atomicCreativeForm.param("width", String.valueOf(entity.getWidth()));
     }
+    
+    Form finalAtomicCreativeForm = Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
-    return atomicCreativeForm;
+    return finalAtomicCreativeForm;
+   
   }
 }

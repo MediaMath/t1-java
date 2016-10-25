@@ -16,12 +16,10 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.utils.Utility;
-
-import javax.ws.rs.core.Form;
 
 public class OrganizationHelper {
 

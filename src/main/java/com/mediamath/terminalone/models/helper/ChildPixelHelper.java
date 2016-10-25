@@ -34,7 +34,7 @@ public class ChildPixelHelper {
 
     Form pixelForm = new Form();
     
-    if(entity.getBundleId()>0){
+    if (entity.getBundleId() > 0) {
     	pixelForm.param("bundle_id", String.valueOf(entity.getBundleId()));
     }
     

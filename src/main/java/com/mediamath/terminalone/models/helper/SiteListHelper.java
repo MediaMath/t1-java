@@ -24,38 +24,6 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 
 public class SiteListHelper {
-
-  /**
-   * validates required fields.
-   * 
-   * @param entity expects SiteList entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(SiteList entity) throws T1Exception {
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the sitelist");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-
-    if (entity.getOrganizationId() <= 0) {
-      throw new ValidationException("please enter a valid Organization id");
-    }
-
-    if (entity.getRestriction() == null) {
-      throw new ValidationException("please enter a valid Restriction");
-    }
-
-    if (entity.getFilename() == null || entity.getFilename().isEmpty()) {
-      throw new ValidationException("please enter a file name for the sitelist");
-    }
-
-    if (entity.getVersion() <= 0) {
-      throw new ValidationException("please add version");
-    }
-
-  }
-
   /**
    * creates a SiteList Form object.
    * @param entity expects a SiteList entity.
@@ -77,7 +45,7 @@ public class SiteListHelper {
 
     strategyConceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       strategyConceptForm.param("version", String.valueOf(entity.getVersion()));
     }
 

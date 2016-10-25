@@ -16,12 +16,11 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
-import com.mediamath.terminalone.models.StrategyDomain;
-
 import java.text.SimpleDateFormat;
+
 import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.models.StrategyDomain;
 
 
 
@@ -30,31 +29,6 @@ public class StrategyDomainHelper {
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
   private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-
-  /**
-   * validates required fields.
-   * 
-   * @param entity expects StrategyDomain entity.
-   * @throws T1Exception exception.
-   */
-  public static void validateRequiredFields(StrategyDomain entity) throws T1Exception {
-    if (entity.getDomain() == null) {
-      throw new ValidationException("please enter a domain value");
-    }
-
-    if (entity.getRestriction() == null) {
-      throw new ValidationException("please add restrictions");
-    }
-
-    if (entity.getStrategyId() <= 0) {
-      throw new ValidationException("please enter a valid strategy id");
-    }
-
-    if (entity.getId() > 0 && entity.getVersion() <= 0) {
-      throw new ValidationException("please add version");
-    }
-
-  }
 
   /**
    * Creates a StrategyDomain Form object
