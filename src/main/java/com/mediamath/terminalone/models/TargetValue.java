@@ -13,76 +13,89 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TargetValue implements T1Entity {
-	
-	private static final String entityName = "TargetValue";
 
-	 private String _type;
-	 private String code;
-	 private int id;
-     private boolean is_targetable;
-     private String name;
-     private int target_dimension_id;
-     private int value;
-     
-     private TargetDimension target_dimension;
-     
-	public String getType() {
-		return _type;
-	}
-	public void setType(String _type) {
-		this._type = _type;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public boolean isTargetable() {
-		return is_targetable;
-	}
-	public void setIsTargetable(boolean is_targetable) {
-		this.is_targetable = is_targetable;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getTargetDimensionId() {
-		return target_dimension_id;
-	}
-	public void setTargetDimensionId(int target_dimension_id) {
-		this.target_dimension_id = target_dimension_id;
-	}
-	public int getValue() {
-		return value;
-	}
-	public void setValue(int value) {
-		this.value = value;
-	}
-	
-	
-	
-	public TargetDimension getTargetDimension() {
-		return target_dimension;
-	}
-	public void setTargetDimension(TargetDimension target_dimension) {
-		this.target_dimension = target_dimension;
-	}
-	public String getEntityname() {
-		return entityName;
-	}
-	
-     
+  private static final String entityName = "TargetValue";
+
+  private String _type;
+  private String code;
+  private int id;
+  private boolean is_targetable;
+  private String name;
+  private int target_dimension_id;
+  private int value;
+
+  private TargetDimension target_dimension;
+
+  public String getType() {
+    return _type;
+  }
+
+  public void setType(String _type) {
+    this._type = _type;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public boolean isTargetable() {
+    return is_targetable;
+  }
+
+  public void setIsTargetable(boolean is_targetable) {
+    this.is_targetable = is_targetable;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getTargetDimensionId() {
+    return target_dimension_id;
+  }
+
+  public void setTargetDimensionId(int target_dimension_id) {
+    this.target_dimension_id = target_dimension_id;
+  }
+
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+  }
+
+  public TargetDimension getTargetDimension() {
+    return target_dimension;
+  }
+
+  public void setTargetDimension(TargetDimension target_dimension) {
+    this.target_dimension = target_dimension;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
+
 }

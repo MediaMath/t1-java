@@ -13,101 +13,101 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class StrategyDomain implements T1Entity {
-	
-	private static final String entityName = "StrategyDomain";
 
-	public enum restrictions {
-		INCLUDE, EXCLUDE
-	};
+  private static final String entityName = "StrategyDomain";
 
-	private Date created_at;
-	private String domain;
-	private int id;
-	private restrictions restriction;
-	private int strategy_id;
-	private Date updated_on;
-	private int version;
-	
-	private Strategy strategy;
+  public enum restrictions {
+    INCLUDE, EXCLUDE
+  };
 
-	public StrategyDomain(String domain, restrictions restriction) {
-		super();
-		this.domain = domain;
-		this.restriction = restriction;
-	}
+  private Date created_at;
+  private String domain;
+  private int id;
+  private restrictions restriction;
+  private int strategy_id;
+  private Date updated_on;
+  private int version;
 
-	public Date getCreatedAt() {
-		return created_at;
-	}
+  private Strategy strategy;
 
-	public void setCreatedAt(Date created_at) {
-		this.created_at = created_at;
-	}
+  public StrategyDomain(String domain, restrictions restriction) {
+    super();
+    this.domain = domain;
+    this.restriction = restriction;
+  }
 
-	public String getDomain() {
-		return domain;
-	}
+  public Date getCreatedAt() {
+    return created_at;
+  }
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+  public void setCreatedAt(Date created_at) {
+    this.created_at = created_at;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public String getDomain() {
+    return domain;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setDomain(String domain) {
+    this.domain = domain;
+  }
 
-	public restrictions getRestriction() {
-		return restriction;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setRestriction(restrictions restriction) {
-		this.restriction = restriction;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getStrategyId() {
-		return strategy_id;
-	}
+  public restrictions getRestriction() {
+    return restriction;
+  }
 
-	public void setStrategyId(int strategy_id) {
-		this.strategy_id = strategy_id;
-	}
+  public void setRestriction(restrictions restriction) {
+    this.restriction = restriction;
+  }
 
-	public Date getUpdatedOn() {
-		return updated_on;
-	}
+  public int getStrategyId() {
+    return strategy_id;
+  }
 
-	public void setUpdatedOn(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setStrategyId(int strategy_id) {
+    this.strategy_id = strategy_id;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public Strategy getStrategy() {
-		return strategy;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setStrategy(Strategy strategy) {
-		this.strategy = strategy;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public Strategy getStrategy() {
+    return strategy;
+  }
+
+  public void setStrategy(Strategy strategy) {
+    this.strategy = strategy;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

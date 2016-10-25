@@ -13,81 +13,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class Publisher implements T1Entity {
-	
-	private static final String entityName = "Publisher";
 
-	private Date created_on;
-	private int id;
-	private String name;
-	private int organization_id;
-	private Date updated_on;
-	private int version;
-	
-	private Organization organization;
+  private static final String entityName = "Publisher";
 
-	public Date getCreatedOn() {
-		return created_on;
-	}
+  private Date created_on;
+  private int id;
+  private String name;
+  private int organization_id;
+  private Date updated_on;
+  private int version;
 
-	public void setCreatedOn(Date created_on) {
-		this.created_on = created_on;
-	}
+  private Organization organization;
 
-	public int getId() {
-		return id;
-	}
+  public Date getCreatedOn() {
+    return created_on;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getOrganizationId() {
-		return organization_id;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setOrganizationId(int organization_id) {
-		this.organization_id = organization_id;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public Date getUpdatedOn() {
-		return updated_on;
-	}
+  public int getOrganizationId() {
+    return organization_id;
+  }
 
-	public void setUpdatedOn(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setOrganizationId(int organization_id) {
+    this.organization_id = organization_id;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-	
+  public String getEntityname() {
+    return entityName;
+  }
+
+  public Organization getOrganization() {
+    return organization;
+  }
+
+  public void setOrganization(Organization organization) {
+    this.organization = organization;
+  }
+
 }

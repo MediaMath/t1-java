@@ -13,38 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class Status {
-	
-	String code;
 
-	String content;
-	
-	String message;
-	
-	public String getCode() {
-		return code;
-	}
+  String code;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+  String content;
 
-	public String getContent() {
-		return content;
-	}
+  String message;
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+  public String getCode() {
+    return code;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
 }

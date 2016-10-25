@@ -13,60 +13,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class T1Error {
-	
-	String type;
-	
-	String field;
-	
-	String message;
-	
-	String content;
-	
-	ArrayList<FieldError> fieldError;
-	
-	public String getMessage() {
-		return message;
-	}
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+  String type;
 
-	public String getType() {
-		return type;
-	}
+  String field;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  String message;
 
-	public String getField() {
-		return field;
-	}
+  String content;
 
-	public void setField(String field) {
-		this.field = field;
-	}
+  ArrayList<FieldError> fieldError;
 
-	public String getContent() {
-		return content;
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-	public ArrayList<FieldError> getFieldError() {
-		return fieldError;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public void setFieldError(ArrayList<FieldError> fieldError) {
-		this.fieldError = fieldError;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getField() {
+    return field;
+  }
+
+  public void setField(String field) {
+    this.field = field;
+  }
+
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
+
+  public ArrayList<FieldError> getFieldError() {
+    return fieldError;
+  }
+
+  public void setFieldError(ArrayList<FieldError> fieldError) {
+    this.fieldError = fieldError;
+  }
 
 }

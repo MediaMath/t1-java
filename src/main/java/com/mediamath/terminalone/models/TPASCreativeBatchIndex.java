@@ -13,36 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TPASCreativeBatchIndex {
-	
-	String batch_index;
-	String conceptId;
-	String click_url;
 
-	public String getConceptId() {
-		return conceptId;
-	}
+  String batch_index;
+  String conceptId;
+  String click_url;
 
-	public void setConceptId(String conceptId) {
-		this.conceptId = conceptId;
-	}
+  public String getConceptId() {
+    return conceptId;
+  }
 
-	public String getClickUrl() {
-		return click_url;
-	}
+  public void setConceptId(String conceptId) {
+    this.conceptId = conceptId;
+  }
 
-	public void setClickUrl(String click_url) {
-		this.click_url = click_url;
-	}
+  public String getClickUrl() {
+    return click_url;
+  }
 
-	public String getBatchIndex() {
-		return batch_index;
-	}
+  public void setClickUrl(String click_url) {
+    this.click_url = click_url;
+  }
 
-	public void setBatchIndex(String batch_index) {
-		this.batch_index = batch_index;
-	}
+  public String getBatchIndex() {
+    return batch_index;
+  }
+
+  public void setBatchIndex(String batch_index) {
+    this.batch_index = batch_index;
+  }
 
 }

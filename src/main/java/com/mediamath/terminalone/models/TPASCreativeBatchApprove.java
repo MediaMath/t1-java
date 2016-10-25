@@ -13,67 +13,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class TPASCreativeBatchApprove implements T1Entity {
-	
-	private static final String entityName = "ThreePasCreativeBatchApprove";
 
-	String batchId;
-	
-	String advertiser_id;
-	
-	ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<TPASCreativeBatchIndex>();
-	
-	public String getBatchId() {
-		return batchId;
-	}
+  private static final String entityName = "ThreePasCreativeBatchApprove";
 
-	public void setBatchId(String batchId) {
-		this.batchId = batchId;
-	}
+  String batchId;
 
-	public String getAdvertiserId() {
-		return advertiser_id;
-	}
+  String advertiser_id;
 
-	public void setAdvertiserId(String advertiser_id) {
-		this.advertiser_id = advertiser_id;
-	}
+  ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<TPASCreativeBatchIndex>();
 
-	public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
-		
-		TPASCreativeBatchIndex batchIndex = null;
-		
-		if(pBatchIndex != null && !pBatchIndex.isEmpty()) {
-			batchIndex = new TPASCreativeBatchIndex();
-			
-			batchIndex.setBatchIndex(pBatchIndex);
-			
-			if(concept != null && !concept.isEmpty()) {
-				batchIndex.setConceptId(concept);
-			}
-			
-			if(click_url != null && !click_url.isEmpty()) {
-				batchIndex.setClickUrl(click_url);
-			}
-		}
-		
-		if(batchIndex != null) {
-			batch.add(batchIndex);
-		}
-	}
+  public String getBatchId() {
+    return batchId;
+  }
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
+  public void setBatchId(String batchId) {
+    this.batchId = batchId;
+  }
 
-	public ArrayList<TPASCreativeBatchIndex> getBatch() {
-		return batch;
-	}
-	
+  public String getAdvertiserId() {
+    return advertiser_id;
+  }
+
+  public void setAdvertiserId(String advertiser_id) {
+    this.advertiser_id = advertiser_id;
+  }
+
+  public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
+
+    TPASCreativeBatchIndex batchIndex = null;
+
+    if (pBatchIndex != null && !pBatchIndex.isEmpty()) {
+      batchIndex = new TPASCreativeBatchIndex();
+
+      batchIndex.setBatchIndex(pBatchIndex);
+
+      if (concept != null && !concept.isEmpty()) {
+        batchIndex.setConceptId(concept);
+      }
+
+      if (click_url != null && !click_url.isEmpty()) {
+        batchIndex.setClickUrl(click_url);
+      }
+    }
+
+    if (batchIndex != null) {
+      batch.add(batchIndex);
+    }
+  }
+
+  @Override
+  public String getEntityname() {
+    return entityName;
+  }
+
+  public ArrayList<TPASCreativeBatchIndex> getBatch() {
+    return batch;
+  }
+
 }
-	

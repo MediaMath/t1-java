@@ -108,7 +108,7 @@ public class TerminalOne {
     connection = new Connection();
     tOneService = new T1Service();
   }
-  
+
   /**
    * Constructor, tries to connect with the credentials provided.
    * 
@@ -120,7 +120,7 @@ public class TerminalOne {
     this();
 
     validateLoginCredentials(username, password, apiKey);
-    
+
     logger.info("Loading Environment - Authenticating.");
     Form form = tOneService.getLoginFormData(username, password, apiKey);
     String url = tOneService.constructUrl(new StringBuffer("login"));
@@ -154,10 +154,14 @@ public class TerminalOne {
   /**
    * Private method to validate login credentials.
    * 
-   * @param username a valid username is required.
-   * @param password a valid password is required.
-   * @param apiKey a valid environment api key is required.
-   * @throws ClientException exception.
+   * @param username
+   *          a valid username is required.
+   * @param password
+   *          a valid password is required.
+   * @param apiKey
+   *          a valid environment api key is required.
+   * @throws ClientException
+   *           exception.
    */
   private void validateLoginCredentials(String username, String password, String apiKey)
       throws ClientException {
@@ -194,7 +198,7 @@ public class TerminalOne {
     String response = loginResponse.readEntity(String.class);
 
     setUserSessionInfo(response);
-    
+
     postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
@@ -209,7 +213,7 @@ public class TerminalOne {
 
     return isAuthenticated();
   }
-  
+
   /**
    * used to authenticate using given credentials.
    * 
@@ -219,17 +223,18 @@ public class TerminalOne {
    */
   public boolean authenticate(String token) throws ClientException {
 
-	logger.info("Authenticating.");
-	
-	user = new T1User();
-	user.setToken(token);
-	
+    logger.info("Authenticating.");
+
+    user = new T1User();
+    user.setToken(token);
+
     postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
 
-    if (this.getUser() != null && this.getUser().getToken() != null && !this.getUser().getToken().isEmpty()) { 
-        this.authenticated = true;
+    if (this.getUser() != null && this.getUser().getToken() != null
+        && !this.getUser().getToken().isEmpty()) {
+      this.authenticated = true;
     }
 
     return isAuthenticated();
@@ -238,8 +243,10 @@ public class TerminalOne {
   /**
    * Get Authorization url for oauth login.
    * 
-   * @param redirectUri valid redirect uri is required. 
-   * @param apiKey valid apiKey is required.
+   * @param redirectUri
+   *          valid redirect uri is required.
+   * @param apiKey
+   *          valid apiKey is required.
    * @return String object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -248,11 +255,12 @@ public class TerminalOne {
     String oauthAuthorizationUrl = tOneService.constructOauthUrl(new StringBuffer("authorize"));
     OAuthClientRequest request = null;
     try {
-      request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl)
-          .setClientId(apiKey).setRedirectURI(redirectUri)
-          .setResponseType(ResponseType.CODE.toString()).buildQueryMessage();
+      request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl).setClientId(apiKey)
+          .setRedirectURI(redirectUri).setResponseType(ResponseType.CODE.toString())
+          .buildQueryMessage();
     } catch (OAuthSystemException oauthSystemException) {
-      throw new ClientException("Unable to get OAuth authorization URL: " + oauthSystemException.getMessage());
+      throw new ClientException(
+          "Unable to get OAuth authorization URL: " + oauthSystemException.getMessage());
     }
     return request.getLocationUri();
   }
@@ -260,15 +268,20 @@ public class TerminalOne {
   /**
    * Gets OAuthTokens.
    * 
-   * @param code valid code is required.
-   * @param apiKey valid api key is required.
-   * @param secret valid secret key is required.
-   * @param redirectUri a valid redirect URI is required.
+   * @param code
+   *          valid code is required.
+   * @param apiKey
+   *          valid api key is required.
+   * @param secret
+   *          valid secret key is required.
+   * @param redirectUri
+   *          a valid redirect URI is required.
    * @return OAuthJSONAccessTokenResponse object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret, String redirectUri) throws ClientException {
+  public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret,
+      String redirectUri) throws ClientException {
     String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
@@ -288,18 +301,22 @@ public class TerminalOne {
   /**
    * Method to refresh oauth token.
    * 
-   * @param refreshToken requires a refresh token.
+   * @param refreshToken
+   *          requires a refresh token.
    * 
-   * @param apiKey requires valid api key.
+   * @param apiKey
+   *          requires valid api key.
    * 
-   * @param secret requires a valid secret. 
+   * @param secret
+   *          requires a valid secret.
    * 
    * @return OAuthJSONAccessTokenResponse object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public OAuthJSONAccessTokenResponse refreshOauthToken(String refreshToken, String apiKey, String secret) throws ClientException {
+  public OAuthJSONAccessTokenResponse refreshOauthToken(String refreshToken, String apiKey,
+      String secret) throws ClientException {
     String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
@@ -331,14 +348,16 @@ public class TerminalOne {
 
   }
 
- 
   /**
    * Saves Agency entity.
    * 
-   * @param entity expects an Agency Entity.
+   * @param entity
+   *          expects an Agency Entity.
    * @return Agency entity.
-   * @throws ClientException exception.
-   * @throws ParseException exception.
+   * @throws ClientException
+   *           exception.
+   * @throws ParseException
+   *           exception.
    */
   public Agency save(Agency entity) throws ClientException, ParseException {
     Agency agency = null;
@@ -347,20 +366,22 @@ public class TerminalOne {
     }
     return agency;
   }
-  
-  
+
   /**
    * Saves Child Pixel entity.
    * 
-   * @param entity expects an ChildPixel Entity.
+   * @param entity
+   *          expects an ChildPixel Entity.
    * @return ChildPixel entity.
-   * @throws ClientException exception.
-   * @throws ParseException exception.
+   * @throws ClientException
+   *           exception.
+   * @throws ParseException
+   *           exception.
    */
   public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
-	  ChildPixel childPixel = null;
+    ChildPixel childPixel = null;
     if (isAuthenticated()) {
-    	childPixel = postService.save(entity);
+      childPixel = postService.save(entity);
     }
     return childPixel;
   }
@@ -368,10 +389,13 @@ public class TerminalOne {
   /**
    * saves Advertiser.
    * 
-   * @param entity expects Advertiser entity.
+   * @param entity
+   *          expects Advertiser entity.
    * @return Advertiser entity.
-   * @throws ClientException exception.
-   * @throws ParseException exception.
+   * @throws ClientException
+   *           exception.
+   * @throws ParseException
+   *           exception.
    */
   public Advertiser save(Advertiser entity) throws ClientException, ParseException {
     Advertiser advertiser = null;
@@ -381,11 +405,11 @@ public class TerminalOne {
     return advertiser;
   }
 
-
   /**
    * Saves Strategy entity.
    * 
-   * @param entity expects Strategy entity.
+   * @param entity
+   *          expects Strategy entity.
    * @return Strategy object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -403,7 +427,8 @@ public class TerminalOne {
   /**
    * saves Strategy Concepts.
    * 
-   * @param entity expects StrategyConcept entity.
+   * @param entity
+   *          expects StrategyConcept entity.
    * @return StrategyConcept entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -421,16 +446,18 @@ public class TerminalOne {
   /**
    * saves Strategy Supply Sources.
    * 
-   * @param entity expects a StrategySupplySource entity. 
+   * @param entity
+   *          expects a StrategySupplySource entity.
    * 
    * @return StrategySupplySource
-
+   * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public StrategySupplySource save(StrategySupplySource entity) throws ClientException, ParseException {
+  public StrategySupplySource save(StrategySupplySource entity)
+      throws ClientException, ParseException {
     StrategySupplySource strategySupplySource = null;
     if (isAuthenticated()) {
       strategySupplySource = postService.save(entity);
@@ -441,7 +468,8 @@ public class TerminalOne {
   /**
    * saves StrategyDayPart entity.
    * 
-   * @param entity expects a StrategyDayPart entity. 
+   * @param entity
+   *          expects a StrategyDayPart entity.
    * @return StrategyDayPart entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -459,7 +487,8 @@ public class TerminalOne {
   /**
    * saves Organization.
    * 
-   * @param entity expects an Organization entity.
+   * @param entity
+   *          expects an Organization entity.
    * @return Organization entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -477,7 +506,8 @@ public class TerminalOne {
   /**
    * saves Pixel.
    * 
-   * @param entity expects a Pixel entity.
+   * @param entity
+   *          expects a Pixel entity.
    * 
    * @return Pixel object.
    * 
@@ -497,8 +527,9 @@ public class TerminalOne {
   /**
    * saves Campaign.
    * 
-   * @param entity expects Campaign entity.
-   *  
+   * @param entity
+   *          expects Campaign entity.
+   * 
    * @return Campaign object.
    * 
    * @throws ClientException
@@ -517,7 +548,8 @@ public class TerminalOne {
   /**
    * saves Concepts
    * 
-   * @param entity expects Concept entity.
+   * @param entity
+   *          expects Concept entity.
    * @return Concept object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -535,7 +567,8 @@ public class TerminalOne {
   /**
    * saves Atomic Creative
    * 
-   * @param entity expects AtomcCreative entity.
+   * @param entity
+   *          expects AtomcCreative entity.
    * @return AtomicCreative object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -551,22 +584,22 @@ public class TerminalOne {
   }
 
   /**
-   * saves 3pas creative upload file.
-   * first call to upload the file. <br>
+   * saves 3pas creative upload file. first call to upload the file. <br>
    * <br>
    * example:<br>
    * <br>
-   * <i>save3pasCreativeUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile","samplefile");</i>
+   * <i>save3pasCreativeUpload("C:\\exampledir1\\exampledir2\\samplefile.txt",
+   * "samplefile","samplefile");</i>
    * 
    * 
    * @param filePath
    *          a valid filePath is required.
-   *           
+   * 
    * @param fileName
    *          a valid fileName is required.
    * @param name
    *          a valid name is required.
-   *          
+   * 
    * @return TPASCreativeUpload object.
    * 
    * @throws ClientException
@@ -574,7 +607,8 @@ public class TerminalOne {
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName, String name)
+      throws ClientException, IOException {
     TPASCreativeUpload response = null;
     if (isAuthenticated()) {
       response = postService.saveTPASCreativeUpload(filePath, fileName, name);
@@ -584,19 +618,20 @@ public class TerminalOne {
 
   /**
    * This API call in the Bulk 3PAS process saves particular creative out of a given batch to the T1
-   * database.
-   * second call to save the 3pas creative upload
+   * database. second call to save the 3pas creative upload
    * 
-   * @param batchApprove requires TPASCreativeBatchApprove entity. 
+   * @param batchApprove
+   *          requires TPASCreativeBatchApprove entity.
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.           
+   *           a parse exception is thrown when the response cannot be parsed.
    */
-  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(
+      TPASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (isAuthenticated()) {
       finalJsonResponse = postService.saveTPASCreativeUploadBatch(batchApprove);
@@ -605,18 +640,18 @@ public class TerminalOne {
   }
 
   /**
-   * saves upload to T1AS.
-   * first call to upload the file. <br>
+   * saves upload to T1AS. first call to upload the file. <br>
    * <br>
    * example: <br>
    * <br>
-   * <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile","samplefile");</i>
+   * <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt",
+   * "samplefile","samplefile");</i>
    * 
    * @param filePath
    *          a valid filePath is required.
    * 
    * @param fileName
-   *          a valid fileName is required. 
+   *          a valid fileName is required.
    * @param name
    *          a valid name is required.
    * @return TOneASCreativeAssetsUpload object.
@@ -627,7 +662,8 @@ public class TerminalOne {
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public TOneASCreativeAssetsUpload saveTOneASCreativeAssetsUpload(String filePath, String fileName, String name) throws ClientException, IOException {
+  public TOneASCreativeAssetsUpload saveTOneASCreativeAssetsUpload(String filePath, String fileName,
+      String name) throws ClientException, IOException {
     TOneASCreativeAssetsUpload response = null;
     if (isAuthenticated()) {
       response = postService.saveTOneASCreativeAssets(filePath, fileName, name);
@@ -638,12 +674,14 @@ public class TerminalOne {
   /**
    * Second call, Approves the upload done in the first call.
    * 
-   * @param creativeAssetsApprove expects a TOneASCreativeAssetsApprove entity.
+   * @param creativeAssetsApprove
+   *          expects a TOneASCreativeAssetsApprove entity.
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
+  public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(
+      TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
     JsonResponse<? extends T1Entity> response = null;
     if (isAuthenticated()) {
       response = postService.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
@@ -654,10 +692,11 @@ public class TerminalOne {
   /**
    * First Call to Create a Video Creative.
    * 
-   * @param videoCreative expects a VideoCreative entity.
+   * @param videoCreative
+   *          expects a VideoCreative entity.
    * @return VideoCreativeResponse object.
    * @throws ClientException
-   *           a client exception is thrown if any error occurs. 
+   *           a client exception is thrown if any error occurs.
    */
   public VideoCreativeResponse saveVideoCreatives(VideoCreative videoCreative)
       throws ClientException {
@@ -671,7 +710,7 @@ public class TerminalOne {
   /**
    * second call to upload video creative media using the creativeId.
    * 
-   * @param filePath 
+   * @param filePath
    *          a valid filePath is required.
    * @param fileName
    *          a valid fileName is required.
@@ -680,11 +719,13 @@ public class TerminalOne {
    * @return VideoCreativeResponse object.
    * 
    * @throws ClientException
-   *           a client exception is thrown if any error occurs. 
+   *           a client exception is thrown if any error occurs.
+   * @throws IOException
+   *           IoException is thrown in case if there is an error while uploading a file.
    * 
    */
   public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName,
-      String creativeId) throws ClientException {
+      String creativeId) throws ClientException, IOException {
     VideoCreativeResponse response = null;
     if (isAuthenticated()) {
       if (filePath != null && !filePath.isEmpty() && fileName != null && !fileName.isEmpty()
@@ -699,7 +740,7 @@ public class TerminalOne {
   /**
    * Check the status of the uploaded video creative.
    * 
-   * @param creativeId 
+   * @param creativeId
    *          a valid creativeId is required.
    * @return VideoCreativeUploadStatus object.
    * 
@@ -717,14 +758,15 @@ public class TerminalOne {
   /**
    * Get.
    * 
-   * @param query expects a QueryCriteria entity.
+   * @param query
+   *          expects a QueryCriteria entity.
    * 
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.     
+   *           a parse exception is thrown when the response cannot be parsed.
    */
   public JsonResponse<? extends T1Entity> get(QueryCriteria query)
       throws ClientException, ParseException {
@@ -767,8 +809,9 @@ public class TerminalOne {
   /**
    * GET meta data for a specific report.
    * 
-   * @param report expects a Reports name. 
-   *    
+   * @param report
+   *          expects a Reports name.
+   * 
    * @return MetaData object.
    */
   public MetaData getReportsMeta(Reports report) {
@@ -782,11 +825,13 @@ public class TerminalOne {
   /**
    * GET a specific report.
    * 
-   * @param report expects a report name from the Reports enum.
+   * @param report
+   *          expects a report name from the Reports enum.
    * 
-   * @param criteria expects ReportCriteria entity. 
+   * @param criteria
+   *          expects ReportCriteria entity.
    *
-   * @return reader BufferedReader is returned. 
+   * @return reader BufferedReader is returned.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -805,16 +850,18 @@ public class TerminalOne {
   /**
    * Validates a given Report.
    * 
-   * @param report expects a valid report name from Reports enum.
+   * @param report
+   *          expects a valid report name from Reports enum.
    * 
-   * @param criteria expects a valid ReportCriteria entity. 
+   * @param criteria
+   *          expects a valid ReportCriteria entity.
    * 
    * @return ReportValidationResponse object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.     
+   *           a parse exception is thrown when the response cannot be parsed.
    */
   public ReportValidationResponse validateReport(Reports report, ReportCriteria criteria)
       throws ClientException {
@@ -831,16 +878,17 @@ public class TerminalOne {
    * parses the response to objects.
    * 
    * @param response
-   *         a valid JSON response string is required.
+   *          a valid JSON response string is required.
    * @param QueryCriteria
-   *         a valid query object is required.
+   *          a valid query object is required.
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.     
+   *           a parse exception is thrown when the response cannot be parsed.
    */
-  private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response, QueryCriteria query) throws ParseException, ClientException {
+  private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response,
+      QueryCriteria query) throws ParseException, ClientException {
     T1JsonToObjParser parser = new T1JsonToObjParser();
     // parse the string to gson objs
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
@@ -912,14 +960,15 @@ public class TerminalOne {
   /**
    * Find method, alternative to get method.
    * 
-   * @param query a valid QueryCriteria entity is required.
+   * @param query
+   *          a valid QueryCriteria entity is required.
    * 
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.     
+   *           a parse exception is thrown when the response cannot be parsed.
    */
   public JsonResponse<? extends T1Entity> find(QueryCriteria query)
       throws ClientException, ParseException {
@@ -932,12 +981,13 @@ public class TerminalOne {
   /**
    * deletes a StrategyConcept entity.
    * 
-   * @param strategyConcept expects a StrategyConcept entity
+   * @param strategyConcept
+   *          expects a StrategyConcept entity
    * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.  
+   *           a parse exception is thrown when the response cannot be parsed.
    */
   public JsonResponse<? extends T1Entity> delete(StrategyConcept strategyConcept)
       throws ClientException, ParseException {
@@ -949,13 +999,15 @@ public class TerminalOne {
   }
 
   /**
-   * deletes the StrategyDayPart entity. 
-   * @param strategyDayPart expects a StrategyDayPart entity.
+   * deletes the StrategyDayPart entity.
+   * 
+   * @param strategyDayPart
+   *          expects a StrategyDayPart entity.
    * @return JsonResponse<? extends T1Entity> returns Json Response of type T
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.     
+   *           a parse exception is thrown when the response cannot be parsed.
    */
   public JsonResponse<? extends T1Entity> delete(StrategyDayPart strategyDayPart)
       throws ClientException, ParseException {

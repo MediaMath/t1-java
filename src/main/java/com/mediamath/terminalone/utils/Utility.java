@@ -35,10 +35,9 @@ public class Utility {
   private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
   private static Properties vConfigProp = new Properties();
-  
+
   private static Properties vEntityReadOnlyFields = new Properties();
-  
-  
+
   public static Properties getConfigProperties() {
     return vConfigProp;
   }
@@ -104,7 +103,7 @@ public class Utility {
 
     return vConfigProp;
   }
-  
+
   /**
    * This utility is used to load the readOnlyFields by reading the property files.
    * 
@@ -136,10 +135,12 @@ public class Utility {
 
     return vEntityReadOnlyFields;
   }
-  
+
   /**
    * Utility function to split the string and return an array list.
-   * @param propStr comma seperated string.
+   * 
+   * @param propStr
+   *          comma seperated string.
    * @return List of string.
    */
   public static List<String> getList(String propStr) {
@@ -147,7 +148,7 @@ public class Utility {
     List<String> stringAsList = Arrays.asList(readOnlyFields);
     return stringAsList;
   }
-  
+
   /**
    * Returns a filtered Form object.
    * 
@@ -189,8 +190,6 @@ public class Utility {
     return filteredForm;
   }
 
-
-
   /**
    * this utility takes in the Exception object and logs the entire stact tracer to the logger.
    * 
@@ -206,9 +205,8 @@ public class Utility {
     logger.error(strBuffer.toString());
   }
 
-  public boolean isArrayOfType(Object[] array,Class<?> type) {
-    return array.length > 0
-            && array.getClass().getComponentType().isAssignableFrom(type);
+  public boolean isArrayOfType(Object[] array, Class<?> type) {
+    return array.length > 0 && array.getClass().getComponentType().isAssignableFrom(type);
   }
 
 }

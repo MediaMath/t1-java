@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
@@ -20,57 +21,56 @@ import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
 
 public class JsonResponse<T> {
-	
-	public JsonResponse() {}
 
-	public JsonResponse(T datavalue) {
-		this.data = datavalue;
-	}
-	
-	@SerializedName("data")
-	T data;
+  public JsonResponse() {
+  }
 
-	@SerializedName("errors")
-	ArrayList<T1Error> errors;
+  public JsonResponse(T datavalue) {
+    this.data = datavalue;
+  }
 
-	@SerializedName("meta")
-	T1Meta meta;
-	
-	@SerializedName("entity_type")
-	String entity_type;
-	
-	public ArrayList<T1Error> getErrors() {
-		return errors;
-	}
+  @SerializedName("data")
+  T data;
 
-	public void setErrors(ArrayList<T1Error> errors) {
-		this.errors = errors;
-	}
+  @SerializedName("errors")
+  ArrayList<T1Error> errors;
 
-	public T getData() {
-		return data;
-	}
+  @SerializedName("meta")
+  T1Meta meta;
 
-	public void setData(T data) {
-		this.data = data;
-	}
+  @SerializedName("entity_type")
+  String entity_type;
 
-	public T1Meta getMeta() {
-		return meta;
-	}
+  public ArrayList<T1Error> getErrors() {
+    return errors;
+  }
 
-	public void setMeta(T1Meta meta) {
-		this.meta = meta;
-	}
+  public void setErrors(ArrayList<T1Error> errors) {
+    this.errors = errors;
+  }
 
-	public String getEntity_type() {
-		return entity_type;
-	}
+  public T getData() {
+    return data;
+  }
 
-	public void setEntity_type(String entity_type) {
-		this.entity_type = entity_type;
-	}
-	
-	
+  public void setData(T data) {
+    this.data = data;
+  }
+
+  public T1Meta getMeta() {
+    return meta;
+  }
+
+  public void setMeta(T1Meta meta) {
+    this.meta = meta;
+  }
+
+  public String getEntity_type() {
+    return entity_type;
+  }
+
+  public void setEntity_type(String entity_type) {
+    this.entity_type = entity_type;
+  }
 
 }

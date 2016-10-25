@@ -16,25 +16,18 @@
 
 package com.mediamath.terminalone.models.helper;
 
-
-import java.text.SimpleDateFormat;
-
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.utils.Utility;
 
-
 public class ConceptHelper {
-
-  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-
 
   /**
    * Creates a Concept Form object.
-   * @param entity expects Concept Entity.
+   * 
+   * @param entity
+   *          expects Concept Entity.
    * @return Form object.
    */
   public static Form getForm(Concept entity) {

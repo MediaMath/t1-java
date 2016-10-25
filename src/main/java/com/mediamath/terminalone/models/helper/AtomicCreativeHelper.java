@@ -16,16 +16,12 @@
 
 package com.mediamath.terminalone.models.helper;
 
-
-
 import java.text.SimpleDateFormat;
 
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.utils.Utility;
-
-
 
 public class AtomicCreativeHelper {
 
@@ -35,11 +31,13 @@ public class AtomicCreativeHelper {
 
   /**
    * creates a AtomicCreative Form Object.
-   * @param entity expects AtomicCreative Object.
-   * @return Form Object. 
+   * 
+   * @param entity
+   *          expects AtomicCreative Object.
+   * @return Form Object.
    */
   public static Form getForm(AtomicCreative entity) {
-    
+
     Form atomicCreativeForm = new Form();
 
     if (entity.getAdvertiserId() > 0) {
@@ -72,7 +70,7 @@ public class AtomicCreativeHelper {
     if (entity.getBuiltByUserId() > 0) {
       atomicCreativeForm.param("built_by_user_id", String.valueOf(entity.getBuiltByUserId()));
     }
-    
+
     if (entity.getClickThroughUrl() != null && !entity.getClickThroughUrl().isEmpty()) {
       atomicCreativeForm.param("click_through_url", entity.getClickThroughUrl());
     }
@@ -85,8 +83,9 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("concept_id", String.valueOf(entity.getConceptId()));
     }
 
-    if (entity.getCreativeImportFileId() > 0 ) {
-      atomicCreativeForm.param("creative_import_file_id", String.valueOf(entity.getCreativeImportFileId()));
+    if (entity.getCreativeImportFileId() > 0) {
+      atomicCreativeForm.param("creative_import_file_id",
+          String.valueOf(entity.getCreativeImportFileId()));
     }
 
     if (entity.getEditedTag() != null && !entity.getEditedTag().isEmpty()) {
@@ -178,10 +177,10 @@ public class AtomicCreativeHelper {
     if (entity.getWidth() > 0) {
       atomicCreativeForm.param("width", String.valueOf(entity.getWidth()));
     }
-    
+
     Form finalAtomicCreativeForm = Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
     return finalAtomicCreativeForm;
-   
+
   }
 }

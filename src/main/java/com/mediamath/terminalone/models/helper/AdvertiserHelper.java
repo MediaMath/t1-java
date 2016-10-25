@@ -18,33 +18,29 @@ package com.mediamath.terminalone.models.helper;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
 import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Advertiser.dmpSettings;
-import com.mediamath.terminalone.models.Advertiser.freqInts;
-import com.mediamath.terminalone.models.Advertiser.freqTypes;
 import com.mediamath.terminalone.utils.Utility;
-
-
 
 public class AdvertiserHelper {
 
   /**
    * creates a Form object to pass it to connection
-   * @param entity expects an Advertiser Entity.
+   * 
+   * @param entity
+   *          expects an Advertiser Entity.
    * @return Form object.
    */
   public static Form getForm(Advertiser entity) {
     Form advertiserForm = new Form();
 
-    //required
+    // required
     advertiserForm.param("name", entity.getName());
 
     advertiserForm.param("ad_server_id", String.valueOf(entity.getAdServerId()));
 
-    //optional
-    advertiserForm.param("allow_x_strat_optimization", Utility.getOnOrOff(entity.isAllowXStratOptimization()));
+    // optional
+    advertiserForm.param("allow_x_strat_optimization",
+        Utility.getOnOrOff(entity.isAllowXStratOptimization()));
 
     advertiserForm.param("agency_id", String.valueOf(entity.getAgencyId()));
 
@@ -72,7 +68,7 @@ public class AdvertiserHelper {
       advertiserForm.param("frequency_amount", String.valueOf(entity.getFrequencyAmount()));
     }
 
-    advertiserForm.param("minimize_multi_ads",Utility.getOnOrOff(entity.isMinimizeMultiAds()));
+    advertiserForm.param("minimize_multi_ads", Utility.getOnOrOff(entity.isMinimizeMultiAds()));
 
     if (entity.getSalesContactId() > 0) {
       advertiserForm.param("sales_contact_id", String.valueOf(entity.getSalesContactId()));
@@ -93,7 +89,7 @@ public class AdvertiserHelper {
     }
 
     Form finalAdvertiserForm = Utility.getFilteredForm(advertiserForm, "advertiser");
-    
+
     return finalAdvertiserForm;
   }
 

@@ -13,38 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class T1User {
-	
-	T1Data data;
-	
-	T1Meta meta;
-	
-	String token;
 
-	public String getToken() {
-		return token;
-	}
+  T1Data data;
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+  T1Meta meta;
 
-	public T1Data getData() {
-		return data;
-	}
+  String token;
 
-	public void setData(T1Data data) {
-		this.data = data;
-	}
+  public String getToken() {
+    return token;
+  }
 
-	public T1Meta getMeta() {
-		return meta;
-	}
+  public void setToken(String token) {
+    this.token = token;
+  }
 
-	public void setMeta(T1Meta meta) {
-		this.meta = meta;
-	}
-	
+  public T1Data getData() {
+    return data;
+  }
+
+  public void setData(T1Data data) {
+    this.data = data;
+  }
+
+  public T1Meta getMeta() {
+    return meta;
+  }
+
+  public void setMeta(T1Meta meta) {
+    this.meta = meta;
+  }
+
 }

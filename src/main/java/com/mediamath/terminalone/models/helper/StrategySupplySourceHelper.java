@@ -20,20 +20,21 @@ import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.models.StrategySupplySource;
 
-
-
 public class StrategySupplySourceHelper {
 
   /**
    * creates a StrategySupplySource Form object.
-   * @param entity expects a StrategySupplySource entity
+   * 
+   * @param entity
+   *          expects a StrategySupplySource entity
    * @return Form entity.
    */
   public static Form getForm(StrategySupplySource entity) {
     Form strategySupplySourceForm = new Form();
 
     if (entity.getSupplySourceId() > 0) {
-      strategySupplySourceForm.param("supply_source_id", String.valueOf(entity.getSupplySourceId()));
+      strategySupplySourceForm.param("supply_source_id",
+          String.valueOf(entity.getSupplySourceId()));
     }
 
     if (entity.getStrategyId() > 0) {

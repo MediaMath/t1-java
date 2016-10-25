@@ -21,19 +21,18 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.utils.Utility;
 
-
-
 public class StrategyConceptHelper {
 
   /**
    * Creates a StrategyConcept form object.
    * 
-   * @param entity expect StrategyConcept entity.
+   * @param entity
+   *          expect StrategyConcept entity.
    * @return Form object.
    */
   public static Form getForm(StrategyConcept entity) {
     Form strategyConceptForm = new Form();
-    
+
     if (entity.getConceptId() > 0) {
       strategyConceptForm.param("concept_id", String.valueOf(entity.getConceptId()));
     }
@@ -51,7 +50,7 @@ public class StrategyConceptHelper {
     Form finalStrategyConceptForm = Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
 
     return finalStrategyConceptForm;
-   
+
   }
 
 }

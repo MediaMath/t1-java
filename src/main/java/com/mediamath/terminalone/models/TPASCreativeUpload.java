@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TPASCreativeUpload implements T1Entity {
-	private static final String entityName = "TPASCreativeUpload";
-	
-	TPASCreativeBatch batch;
+  private static final String entityName = "TPASCreativeUpload";
 
-	public TPASCreativeBatch getBatch() {
-		return batch;
-	}
+  TPASCreativeBatch batch;
 
-	public void setBatch(TPASCreativeBatch batch) {
-		this.batch = batch;
-	}
+  public TPASCreativeBatch getBatch() {
+    return batch;
+  }
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
-	
+  public void setBatch(TPASCreativeBatch batch) {
+    this.batch = batch;
+  }
+
+  @Override
+  public String getEntityname() {
+    return entityName;
+  }
+
 }
