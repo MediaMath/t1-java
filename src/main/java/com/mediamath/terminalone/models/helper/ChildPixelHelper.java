@@ -27,17 +27,18 @@ public class ChildPixelHelper {
   /**
    * Creates a ChildPixel Form Object.
    * 
-   * @param entity expects a Pixel Entity.
+   * @param entity
+   *          expects a Pixel Entity.
    * @return Form object
    */
   public static Form getForm(ChildPixel entity) {
 
     Form pixelForm = new Form();
-    
+
     if (entity.getBundleId() > 0) {
-    	pixelForm.param("bundle_id", String.valueOf(entity.getBundleId()));
+      pixelForm.param("bundle_id", String.valueOf(entity.getBundleId()));
     }
-    
+
     pixelForm.param("distributed", Utility.getOnOrOff(entity.isDistributed()));
 
     if (entity.getPixelType() != null) {
@@ -47,18 +48,17 @@ public class ChildPixelHelper {
     if (entity.getTag() != null) {
       pixelForm.param("tag", entity.getTag());
     }
-    
-    if(entity.getSupplySourceId()>0){
-    	pixelForm.param("supply_source_id", String.valueOf(entity.getSupplySourceId()));
+
+    if (entity.getSupplySourceId() > 0) {
+      pixelForm.param("supply_source_id", String.valueOf(entity.getSupplySourceId()));
     }
-    
+
     if (entity.getVersion() >= 0) {
       pixelForm.param("version", String.valueOf(entity.getVersion()));
     }
-    
-    
+
     Form finalChildPixelForm = Utility.getFilteredForm(pixelForm, "childpixel");
-    
+
     return finalChildPixelForm;
   }
 }

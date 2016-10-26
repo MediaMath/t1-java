@@ -13,49 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class AdServer implements T1Entity {
 
-	private static final String entityName = "AdServer";
-	
-	private int id;
-	private String name;
-	private int version;
+  private static final String entityName = "AdServer";
 
-	public AdServer(int id, String name, int version) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.version = version;
-	}
+  private int id;
+  private String name;
+  private int version;
 
-	public int getId() {
-		return id;
-	}
+  /**
+   * AdServer constructor
+   * 
+   * @param id expects an id
+   * @param name provide the given name.
+   * @param version provide appropriate version.
+   */
+  public AdServer(int id, String name, int version) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.version = version;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
-	
+  public void setVersion(int version) {
+    this.version = version;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
+
 }

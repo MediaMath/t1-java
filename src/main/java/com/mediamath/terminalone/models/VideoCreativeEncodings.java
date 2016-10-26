@@ -13,39 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class VideoCreativeEncodings {
-	
-	String status;
-	
-	String percent;
-	
-	long id;
 
-	public String getStatus() {
-		return status;
-	}
+  String status;
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  String percent;
 
-	public String getPercent() {
-		return percent;
-	}
+  long id;
 
-	public void setPercent(String percent) {
-		this.percent = percent;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public long getId() {
-		return id;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+  public String getPercent() {
+    return percent;
+  }
+
+  public void setPercent(String percent) {
+    this.percent = percent;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 
 }

@@ -42,7 +42,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-
 public class T1JsonToObjParser {
 
   private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
@@ -51,7 +50,8 @@ public class T1JsonToObjParser {
   /**
    * Extracts Data object from the response.
    * 
-   * @param response JSON response string.
+   * @param response
+   *          JSON response string.
    * 
    * @return JsonElement object.
    * 
@@ -66,9 +66,13 @@ public class T1JsonToObjParser {
   /**
    * Determines the Json Element type from the given response.
    * 
-   * @param response JSON response string.
+   * @param response
+   *          JSON response string.
    * 
-   * @return int value <br> 0 = null body<br> 1 = Json Element is of type Object. <br> 2 = Json Element is of type Array. 
+   * @return int value <br>
+   *         0 = null body<br>
+   *         1 = Json Element is of type Object. <br>
+   *         2 = Json Element is of type Array.
    * 
    */
   public int getJsonElementType(String response) {
@@ -108,13 +112,17 @@ public class T1JsonToObjParser {
   /**
    * parses Json response String to dynamically selected Entity of type T1Entity.
    * 
-   * @param jsonstr the Json String to parse.
+   * @param jsonstr
+   *          the Json String to parse.
    * 
-   * @param vClassType Type of the class to parse to.
+   * @param vClassType
+   *          Type of the class to parse to.
    * 
-   * @return JsonResponse<? extends T1Entity> Json Response of type T entity. T is selected dynamically based on the type info passed in the parameter.
+   * @return JsonResponse<? extends T1Entity> Json Response of type T entity. T is selected
+   *         dynamically based on the type info passed in the parameter.
    * 
-   * @throws ParseException a Parse Exception is thrown 
+   * @throws ParseException
+   *           a Parse Exception is thrown
    */
   public JsonResponse<? extends T1Entity> parseJsonToObj(String jsonstr, Type vClassType)
       throws ParseException {
@@ -133,10 +141,13 @@ public class T1JsonToObjParser {
 
   /**
    * parses 3pas creative upload response string to TPASCreativeUpload object.
-   * @param json3PasCreativeResponseString required response string
+   * 
+   * @param json3PasCreativeResponseString
+   *          required response string
    * @return TPASCreativeUpload object.
    */
-  public TPASCreativeUpload parse3PasCreativeUploadResponseTOObj(String json3PasCreativeResponseString) {
+  public TPASCreativeUpload parse3PasCreativeUploadResponseTOObj(
+      String json3PasCreativeResponseString) {
     TPASCreativeUpload response = null;
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -148,10 +159,13 @@ public class T1JsonToObjParser {
 
   /**
    * parses T1AS creative asset upload response to TOneASCreativeAssetsUpload entity.
-   * @param jsonT1CAUesponse response string.
+   * 
+   * @param jsonT1CAUesponse
+   *          response string.
    * @return TOneASCreativeAssetsUpload object.
    */
-  public TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadResponseTOObj(String jsonT1CAUesponse) {
+  public TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadResponseTOObj(
+      String jsonT1CAUesponse) {
     TOneASCreativeAssetsUpload response = null;
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -163,10 +177,13 @@ public class T1JsonToObjParser {
 
   /**
    * parses the response of second call to T1AS creative assets approve api call.
-   * @param pResponse requires a response string.
-   * @return JsonResponse<? extends T1Entity> returns an entity of type T. 
+   * 
+   * @param pResponse
+   *          requires a response string.
+   * @return JsonResponse<? extends T1Entity> returns an entity of type T.
    */
-  public JsonResponse<? extends T1Entity> parseTOneASCreativeAssetsApproveResponse(String pResponse) {
+  public JsonResponse<? extends T1Entity> parseTOneASCreativeAssetsApproveResponse(
+      String pResponse) {
     JsonResponse<? extends T1Entity> response = null;
 
     GsonBuilder builder = new GsonBuilder();
@@ -184,7 +201,9 @@ public class T1JsonToObjParser {
 
   /**
    * parse video creative to VideoCreativeReponse entity.
-   * @param pResponse response String.
+   * 
+   * @param pResponse
+   *          response String.
    * @return VideoCreativeResponse object.
    */
   public VideoCreativeResponse parseVideoCreative(String pResponse) {
@@ -200,7 +219,9 @@ public class T1JsonToObjParser {
 
   /**
    * parses video creative upload status response to VideoCreativeUploadStatus entity.
-   * @param pResponse response string.
+   * 
+   * @param pResponse
+   *          response string.
    * @return VideoCreativeUploadStatus object.
    */
   public VideoCreativeUploadStatus parseVideoCreativeUploadStatus(String pResponse) {
@@ -213,7 +234,8 @@ public class T1JsonToObjParser {
   }
 
   /**
-   * Creates a JsonResponse instance based on the type information extracted from the Actual Type arguments or the type information passed in.
+   * Creates a JsonResponse instance based on the type information extracted from the Actual Type
+   * arguments or the type information passed in.
    * 
    * @author chauhan_n
    *

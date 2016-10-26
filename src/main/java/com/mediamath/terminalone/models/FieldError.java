@@ -13,48 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class FieldError {
-	
-	String error;
-	
-	String name;
-	
-	String code;
-	
-	String message;
 
-	public String getError() {
-		return error;
-	}
+  String error;
 
-	public void setError(String error) {
-		this.error = error;
-	}
+  String name;
 
-	public String getName() {
-		return name;
-	}
+  String code;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  String message;
 
-	public String getCode() {
-		return code;
-	}
+  public String getError() {
+    return error;
+  }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+  public void setError(String error) {
+    this.error = error;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
 }

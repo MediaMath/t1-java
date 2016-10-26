@@ -13,38 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TPASCreativesBatchUpload {
-	
-	private TPASCreativeBatch batch;
-	
-	private String called_on;
-	
-	private Status status;
 
-	public TPASCreativeBatch getBatch() {
-		return batch;
-	}
+  private TPASCreativeBatch batch;
 
-	public void setBatch(TPASCreativeBatch batch) {
-		this.batch = batch;
-	}
+  private String called_on;
 
-	public String getCalledOn() {
-		return called_on;
-	}
+  private Status status;
 
-	public void setCalledOn(String called_on) {
-		this.called_on = called_on;
-	}
+  public TPASCreativeBatch getBatch() {
+    return batch;
+  }
 
-	public Status getStatus() {
-		return status;
-	}
+  public void setBatch(TPASCreativeBatch batch) {
+    this.batch = batch;
+  }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+  public String getCalledOn() {
+    return called_on;
+  }
+
+  public void setCalledOn(String called_on) {
+    this.called_on = called_on;
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status status) {
+    this.status = status;
+  }
 
 }

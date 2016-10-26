@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class TPASCreativeCreativeAssets {
 
-	ArrayList<TPASCreativeCreativeAsset> asset;
+  ArrayList<TPASCreativeCreativeAsset> asset;
 
-	public ArrayList<TPASCreativeCreativeAsset> getAsset() {
-		return asset;
-	}
+  public ArrayList<TPASCreativeCreativeAsset> getAsset() {
+    return asset;
+  }
 
-	public void setAsset(ArrayList<TPASCreativeCreativeAsset> asset) {
-		this.asset = asset;
-	}
-	
+  public void setAsset(ArrayList<TPASCreativeCreativeAsset> asset) {
+    this.asset = asset;
+  }
+
 }

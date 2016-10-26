@@ -41,9 +41,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-
-
 public class GetService {
 
   private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
@@ -51,10 +48,13 @@ public class GetService {
   /**
    * GET service implementation.
    * 
-   * @param query expects a QueryCriteria
+   * @param query
+   *          expects a QueryCriteria
    * @return StringBuffer object.
-   * @throws ClientException exception.
-   * @throws ParseException exception.
+   * @throws ClientException
+   *           exception.
+   * @throws ParseException
+   *           exception.
    */
   public StringBuffer get(QueryCriteria query) throws ClientException, ParseException {
 
@@ -178,10 +178,14 @@ public class GetService {
 
   /**
    * Find implementation.
-   * @param query expects a QueryCriteria.
+   * 
+   * @param query
+   *          expects a QueryCriteria.
    * @return String object.
-   * @throws ClientException exception.
-   * @throws ParseException exception.
+   * @throws ClientException
+   *           exception.
+   * @throws ParseException
+   *           exception.
    */
   public String find(QueryCriteria query) throws ClientException, ParseException {
 
@@ -305,7 +309,9 @@ public class GetService {
 
   /**
    * parses error response of Get operation.
-   * @param responseStr string. 
+   * 
+   * @param responseStr
+   *          string.
    * @return JsonPostErrorResponse object.
    */
   public JsonPostErrorResponse jsonGetErrorResponseParser(String responseStr) {

@@ -105,9 +105,12 @@ public class PostService {
   /**
    * Constructor for Initializing PostService.
    * 
-   * @param connection requries a connection Object.
-   * @param user requires a valid user session.
-   * @param t1Service requires T1Service service object. 
+   * @param connection
+   *          requries a connection Object.
+   * @param user
+   *          requires a valid user session.
+   * @param t1Service
+   *          requires T1Service service object.
    */
   public PostService(Connection connection, T1User user, T1Service t1Service) {
     this.connection = connection;
@@ -229,7 +232,8 @@ public class PostService {
   /**
    * saves a Strategy entity.
    * 
-   * @param entity expects a Strategy entity.
+   * @param entity
+   *          expects a Strategy entity.
    * @return Strategy object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -294,11 +298,12 @@ public class PostService {
     }
     return strategy;
   }
- 
+
   /**
    * saves a StrategyConcept entity.
    * 
-   * @param entity expects a StrategyConcept Entity.
+   * @param entity
+   *          expects a StrategyConcept Entity.
    * @return StrategyConcept entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -346,7 +351,8 @@ public class PostService {
   /**
    * saves a StrategySupplySource entity.
    * 
-   * @param entity expects a StrategySupplySource entity.
+   * @param entity
+   *          expects a StrategySupplySource entity.
    * @return StrategySupplySource object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -395,7 +401,8 @@ public class PostService {
   /**
    * saves a StrategyDayPart entity.
    * 
-   * @param entity expects a StrategyDayPart entity.
+   * @param entity
+   *          expects a StrategyDayPart entity.
    * @return StrategyDayPart entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -443,7 +450,8 @@ public class PostService {
   /**
    * saves an Organization entity.
    * 
-   * @param entity expects an Organization entity.
+   * @param entity
+   *          expects an Organization entity.
    * 
    * @return Organization entity.
    * 
@@ -490,8 +498,7 @@ public class PostService {
     }
     return org;
   }
-  
-  
+
   /**
    * Saves an ChildPixel Entity.
    * 
@@ -505,7 +512,7 @@ public class PostService {
    */
   public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
 
-	  ChildPixel childPixel = null;
+    ChildPixel childPixel = null;
 
     if (entity != null) {
 
@@ -520,7 +527,8 @@ public class PostService {
 
       String path = t1Service.constructUrl(uri);
 
-      Response responseObj = this.connection.post(path, ChildPixelHelper.getForm(entity), this.user);
+      Response responseObj = this.connection.post(path, ChildPixelHelper.getForm(entity),
+          this.user);
 
       String response = responseObj.readEntity(String.class);
 
@@ -545,7 +553,8 @@ public class PostService {
   /**
    * saves a Pixel entity.
    * 
-   * @param entity expects a Pixel entity.
+   * @param entity
+   *          expects a Pixel entity.
    * 
    * @return Pixel entity.
    * 
@@ -595,9 +604,10 @@ public class PostService {
   /**
    * saves a Campaign entity.
    * 
-   * @param entity expects a Campaign entity.
+   * @param entity
+   *          expects a Campaign entity.
    * 
-   * @return Campaign entity. 
+   * @return Campaign entity.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -614,8 +624,8 @@ public class PostService {
       JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
       StringBuffer uri = getUri(entity);
-      
-      if(entity.getId() > 0) {
+
+      if (entity.getId() > 0) {
         uri.append("/" + entity.getId());
       }
 
@@ -649,7 +659,8 @@ public class PostService {
   /**
    * saves a Concept entity.
    * 
-   * @param entity expects a Concept entity.
+   * @param entity
+   *          expects a Concept entity.
    * 
    * @return Concept entity.
    * 
@@ -691,10 +702,10 @@ public class PostService {
   }
 
   /**
-   * saves a VideoCreative entity.
-   * this is the First Call to Create a Video Creative.
+   * saves a VideoCreative entity. this is the First Call to Create a Video Creative.
    * 
-   * @param entity expects a VideoCreative entity.
+   * @param entity
+   *          expects a VideoCreative entity.
    * 
    * @return VideoCreativeResponse entity.
    * 
@@ -739,11 +750,12 @@ public class PostService {
     }
     return videoCreative;
   }
-  
+
   /**
-   * saves an AtomicCreative entity.. 
+   * saves an AtomicCreative entity..
    * 
-   * @param entity expects an AtomicCreative entity
+   * @param entity
+   *          expects an AtomicCreative entity
    * 
    * @return AtomicCreative entity.
    * 
@@ -783,11 +795,12 @@ public class PostService {
     }
     return atomicCreative;
   }
-  
+
   /**
    * Gets the Video Creative Upload status
    * 
-   * @param creativeId requires a creativeId string.
+   * @param creativeId
+   *          requires a creativeId string.
    * 
    * @return VideoCreativeUploadStatus object.
    * 
@@ -808,21 +821,26 @@ public class PostService {
   /**
    * this method uploads the given video creative file.
    * 
-   * @param filePath path to the actual file data.
+   * @param filePath
+   *          path to the actual file data.
    * 
-   * @param fileName name of the file.
+   * @param fileName
+   *          name of the file.
    * 
-   * @param creativeId requires a creative id string.
+   * @param creativeId
+   *          requires a creative id string.
    * 
    * @return VideoCreativeResponse object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
+   * @throws IOException 
    * 
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName, String creativeId) throws ClientException {
+  public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName,
+      String creativeId) throws ClientException, IOException {
 
     VideoCreativeResponse videoCreative = null;
 
@@ -856,6 +874,8 @@ public class PostService {
           throwExceptions(error);
         }
       }
+      formDataMultiPart.close();
+      multipart.close();
     }
     return videoCreative;
   }
@@ -863,7 +883,8 @@ public class PostService {
   /**
    * deletes a StrategyConcept entity.
    * 
-   * @param strategyConcept expects a StrategyConcept entity.
+   * @param strategyConcept
+   *          expects a StrategyConcept entity.
    * 
    * @return JsonResponse<? extends T1Entity> returns a jsonResponse of type T entity.
    * 
@@ -901,8 +922,9 @@ public class PostService {
   /**
    * deletes a StrategyDayPart entity.
    * 
-   * @param strategyDayPart expects a StrategyDayPart entity.
-   * @return JsonResponse<? extends T1Entity>  returns a JsonResponse of type T entity.
+   * @param strategyDayPart
+   *          expects a StrategyDayPart entity.
+   * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T entity.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * 
@@ -940,11 +962,14 @@ public class PostService {
   /**
    * saves a 3PAS creative upload.
    * 
-   * @param filePath path to the file.
+   * @param filePath
+   *          path to the file.
    * 
-   * @param fileName name of file.
+   * @param fileName
+   *          name of file.
    * 
-   * @param name name of 3pas upload.
+   * @param name
+   *          name of 3pas upload.
    * 
    * @return TPASCreativeUpload object.
    * 
@@ -954,8 +979,8 @@ public class PostService {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName,
-      String name) throws ClientException, IOException {
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName, String name)
+      throws ClientException, IOException {
 
     TPASCreativeUpload tpasCreativeUploadResponse = null;
 
@@ -999,10 +1024,11 @@ public class PostService {
   }
 
   /**
-   * this API call in the Bulk 3PAS process saves particular creative out of a given batch to the T1 database.
-   * second call to save the 3pas creative upload
-   *  
-   * @param entity requires a TPASCreativeBatchApprove entity.
+   * this API call in the Bulk 3PAS process saves particular creative out of a given batch to the T1
+   * database. second call to save the 3pas creative upload
+   * 
+   * @param entity
+   *          requires a TPASCreativeBatchApprove entity.
    * 
    * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T.
    * 
@@ -1011,10 +1037,12 @@ public class PostService {
    * 
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
-   *           
-   * @throws IOException is thrown when this method is unable to create a file containing report data.           
+   * 
+   * @throws IOException
+   *           is thrown when this method is unable to create a file containing report data.
    */
-  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove entity) throws ClientException, IOException, ParseException {
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(
+      TPASCreativeBatchApprove entity) throws ClientException, IOException, ParseException {
     FormDataMultiPart formData = new FormDataMultiPart();
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (entity != null) {
@@ -1046,24 +1074,29 @@ public class PostService {
   }
 
   /**
-   * saves upload to T1AS.
-   * first call to upload the file.
-   * <br><br>
-   * example: <br><br>
-   * <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile" ,"samplefile");</i>
+   * saves upload to T1AS. first call to upload the file. <br>
+   * <br>
+   * example: <br>
+   * <br>
+   * <i>saveT1ASCreativeAssetsUpload("C:\\exampledir1\\exampledir2\\samplefile.txt", "samplefile"
+   * ,"samplefile");</i>
    * 
-   * @param  filePath path to the file data.
+   * @param filePath
+   *          path to the file data.
    * 
-   * @param  fileName a filename
+   * @param fileName
+   *          a filename
    * 
-   * @param  name String.
+   * @param name
+   *          String.
    * 
    * @return TOneASCreativeAssetsUpload object.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    * 
-   * @throws IOException is thrown when this method is unable to create a file containing report data.   
+   * @throws IOException
+   *           is thrown when this method is unable to create a file containing report data.
    */
   public TOneASCreativeAssetsUpload saveTOneASCreativeAssets(String filePath, String fileName,
       String name) throws ClientException, IOException {
@@ -1102,11 +1135,14 @@ public class PostService {
   /**
    * parses TOneASCreativeAssetsUploadData response and creates a TOneASCreativeAssetsUpload object.
    * 
-   * @param response string json to parse.
-   * @param parser requires an instance of T1JsonToObjParser
+   * @param response
+   *          string json to parse.
+   * @param parser
+   *          requires an instance of T1JsonToObjParser
    * @return TOneASCreativeAssetsUpload object.
    */
-  private TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadData(String response,T1JsonToObjParser parser) {
+  private TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadData(String response,
+      T1JsonToObjParser parser) {
     TOneASCreativeAssetsUpload finalResponse = null;
     finalResponse = parser.parseTOneASCreativeAssetsUploadResponseTOObj(response);
     return finalResponse;
@@ -1115,14 +1151,16 @@ public class PostService {
   /**
    * saves TOneASCreativeAssetsApprove entity.
    * 
-   * @param entity expects a TOneASCreativeAssetsApprove entity.
+   * @param entity
+   *          expects a TOneASCreativeAssetsApprove entity.
    * 
    * @return JsonResponse<? extends T1Entity> returns JsonResponse of type T
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove entity) throws ClientException {
+  public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(
+      TOneASCreativeAssetsApprove entity) throws ClientException {
     FormDataMultiPart formData = new FormDataMultiPart();
     // TOneASCreativeAssetsApproveResponse response = null;
     JsonResponse<? extends T1Entity> parsedJsonResponse = null;
@@ -1153,8 +1191,10 @@ public class PostService {
   /**
    * parses error response of a POST activity.
    * 
-   * @param responseStr requires a response JSON string
-   * @param responseObj requires a Response object.
+   * @param responseStr
+   *          requires a response JSON string
+   * @param responseObj
+   *          requires a Response object.
    * @return JsonPostErrorResponse entity.
    */
   public JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr,
@@ -1232,7 +1272,8 @@ public class PostService {
   /**
    * this method is responsible to parse the JsonPostErrorResponse and throw relevant exceptions.
    * 
-   * @param jsonPostResponse object.
+   * @param jsonPostResponse
+   *          object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
@@ -1334,7 +1375,7 @@ public class PostService {
     // throw the error to client
     throw new ClientException(strbuff.toString());
   }
-  
+
   private <T extends T1Entity> JsonResponse<? extends T1Entity> parsePostData(String response,
       T1JsonToObjParser parser, T entity) throws ParseException {
 

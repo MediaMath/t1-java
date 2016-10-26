@@ -109,8 +109,7 @@ public class Connection {
    * @throws ClientException
    *           exception
    */
-  public Response post(String url, FormDataMultiPart data, T1User userMap)
-      throws ClientException {
+  public Response post(String url, FormDataMultiPart data, T1User userMap) throws ClientException {
     if (data == null) {
       throw new ClientException("No Post Data");
     }
@@ -231,13 +230,13 @@ public class Connection {
 
   private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
     if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
-    	invocationBuilder.header("Authorization", "Bearer "+userMap.getToken());
+      invocationBuilder.header("Authorization", "Bearer " + userMap.getToken());
     }
     if (userMap != null && userMap.getData() != null && userMap.getData().getSession() != null
-            && userMap.getData().getSession().getSessionid() != null
-            && !userMap.getData().getSession().getSessionid().isEmpty()) {
-    	invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
-    }    
+        && userMap.getData().getSession().getSessionid() != null
+        && !userMap.getData().getSession().getSessionid().isEmpty()) {
+      invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+    }
   }
 
   private String generateUserAgent() {
