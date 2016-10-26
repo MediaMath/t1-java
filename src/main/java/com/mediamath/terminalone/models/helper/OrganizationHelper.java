@@ -16,95 +16,12 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.utils.Utility;
 
-import javax.ws.rs.core.Form;
-
 public class OrganizationHelper {
-
-  /**
-   * validates required fields for organization entity.
-   * 
-   * @param entity
-   *          expects Organization entity.
-   * @throws T1Exception
-   *           throws T1Excpetion.
-   */
-  public static void validateRequiredFields(Organization entity) throws T1Exception {
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the sitelist");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-
-    if (entity.getAddress1() == null || entity.getAddress1().isEmpty()) {
-      throw new ValidationException("please enter a address 1 for the sitelist");
-    } else if (entity.getAddress1().length() > 256) {
-      throw new ValidationException("please make sure address 1 does not exceed 256 characters.");
-    }
-
-    if (entity.getCity() == null || entity.getCity().isEmpty()) {
-      throw new ValidationException("please enter a city for the sitelist");
-    } else if (entity.getCity().length() > 32) {
-      throw new ValidationException("please make sure city does not exceed 32 characters.");
-    }
-
-    if (entity.getState() == null || entity.getState().isEmpty()) {
-      throw new ValidationException("please enter a State for the sitelist");
-    } else if (entity.getState().length() > 2) {
-      throw new ValidationException("please make sure State does not exceed 2 characters.");
-    }
-
-    if (entity.getZip() == null || entity.getZip().isEmpty()) {
-      throw new ValidationException("please enter a Zip for the sitelist");
-    } else if (entity.getZip().length() > 10) {
-      throw new ValidationException("please make sure Zip does not exceed 10 characters.");
-    }
-
-    if (entity.getCountry() == null || entity.getCountry().isEmpty()) {
-      throw new ValidationException("please enter a Country for the sitelist");
-    } else if (entity.getCountry().length() > 2) {
-      throw new ValidationException("please make sure Country does not exceed 32 characters.");
-    }
-
-    if (entity.getPhone() == null || entity.getPhone().isEmpty()) {
-      throw new ValidationException("please enter a Phone Number for the sitelist");
-    } else if (entity.getPhone().length() > 24) {
-      throw new ValidationException("please make sure Phone Number does not exceed 24 characters.");
-    }
-
-    if (entity.getMmContactName() == null || entity.getMmContactName().isEmpty()) {
-      throw new ValidationException("please enter a Contact Name for the sitelist");
-    } else if (entity.getMmContactName().length() > 64) {
-      throw new ValidationException("please make sure Contact Name does not exceed 64 characters.");
-    }
-
-    if (entity.getCurencyCode() == null) {
-      entity.setCurencyCode("USD");
-    }
-
-    if (entity.getAdxSeatAccountId() < 0) {
-      entity.setAdxSeatAccountId(41519752);
-    }
-
-    if (entity.getBillingCountryCode() == null) {
-      entity.setBillingCountryCode("US");
-      ;
-    }
-
-    if (entity.getSuspiciousTrafficFilterLevel() < 0
-        || entity.getSuspiciousTrafficFilterLevel() > 100) {
-      entity.setSuspiciousTrafficFilterLevel(25);
-    }
-
-    if (entity.getOrgType().size() <= 0) {
-      entity.getOrgType().add("buyer");
-    }
-
-  }
 
   /**
    * Creates a Organization Form object.
@@ -168,11 +85,18 @@ public class OrganizationHelper {
       orgForm.param("suspicious_traffic_filter_level",
           String.valueOf(entity.getSuspiciousTrafficFilterLevel()));
     }
+    
+    if(entity.getVersion()>=0){
+    	orgForm.param("version", String.valueOf(entity.getVersion()));
+    }
 
     // TODO check how to pass array to form
-    orgForm.param("org_type",
-        (entity.getOrgType().size() > 0) ? entity.getOrgType().get(0).toString() : "buyer");
+    orgForm.param("org_type",(entity.getOrgType().size() > 0) ? entity.getOrgType().get(0).toString() : "buyer");
+    
+    
+    Form finalOrgForm = Utility.getFilteredForm(orgForm, "organization");
 
-    return orgForm;
+    return finalOrgForm;
+
   }
 }

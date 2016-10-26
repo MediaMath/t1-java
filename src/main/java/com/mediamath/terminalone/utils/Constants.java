@@ -143,6 +143,8 @@ public final class Constants {
     }.getType());
     getEntityType.put("pixels", new TypeToken<JsonResponse<ChildPixel>>() {
     }.getType());
+    getEntityType.put("pixel", new TypeToken<JsonResponse<ChildPixel>>() {
+    }.getType());
     getEntityType.put("pixel_bundle", new TypeToken<JsonResponse<Pixel>>() {
     }.getType());
     getEntityType.put("pixel_bundles", new TypeToken<JsonResponse<Pixel>>() {

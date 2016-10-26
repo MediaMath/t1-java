@@ -37,6 +37,8 @@ public class T1Service {
 
   private static Properties configprop = Utility.loadConfigProperty();
   
+  private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
+  
   private String URL = null;
   
   private String apiBase = null;
@@ -48,7 +50,7 @@ public class T1Service {
   private String reportingURL = null;
   
   private String oauthURL = null;
-
+  
   /**
    * constructor.
    */
@@ -58,6 +60,7 @@ public class T1Service {
     this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
     this.reportingURL = configprop.getProperty("reportingURL");
     this.oauthURL = configprop.getProperty("oauthURL");
+    
   }
 
   /**
@@ -139,6 +142,10 @@ public class T1Service {
 
   public void setReportingURL(String reportingURL) {
     this.reportingURL = reportingURL;
+  }
+
+  public static Properties getEntityReadOnlyFields() {
+    return entityReadOnlyFields;
   }
 
 }

@@ -16,38 +16,14 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.utils.Utility;
-
-import javax.ws.rs.core.Form;
 
 
 
 public class StrategyConceptHelper {
-
-  /**
-   * validates required fields
-   * 
-   * @param entity expects StrategyConcept entity.
-   * @throws T1Exception exception
-   */
-  public static void validateRequiredFields(StrategyConcept entity) throws T1Exception {
-    
-    if (entity.getConceptId() <= 0) {
-      throw new ValidationException("please enter a valid concept id");
-    }
-
-    if (entity.getStrategyId() <= 0) {
-      throw new ValidationException("please enter a valid strategy id");
-    }
-
-    if (entity.getVersion() <= 0) {
-      throw new ValidationException("please add version");
-    }
-
-  }
 
   /**
    * Creates a StrategyConcept form object.
@@ -57,7 +33,7 @@ public class StrategyConceptHelper {
    */
   public static Form getForm(StrategyConcept entity) {
     Form strategyConceptForm = new Form();
-
+    
     if (entity.getConceptId() > 0) {
       strategyConceptForm.param("concept_id", String.valueOf(entity.getConceptId()));
     }
@@ -68,11 +44,14 @@ public class StrategyConceptHelper {
 
     strategyConceptForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       strategyConceptForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    return strategyConceptForm;
+    Form finalStrategyConceptForm = Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
+
+    return finalStrategyConceptForm;
+   
   }
 
 }

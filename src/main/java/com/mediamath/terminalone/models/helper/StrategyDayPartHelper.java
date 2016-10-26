@@ -16,44 +16,13 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.utils.Utility;
 
-import javax.ws.rs.core.Form;
-
 
 public class StrategyDayPartHelper {
-
-  /**
-   * validates required fields
-   * 
-   * @param entity expects StrategyDayPart entity.
-   * @throws T1Exception exception.
-   */
-  public static void validateRequiredFields(StrategyDayPart entity) throws T1Exception {
-    if (entity.getDays() == null) {
-      throw new ValidationException("please enter a valid Day");
-    }
-
-    if (entity.getEndHour() < 0 || entity.getEndHour() > 23) {
-      throw new ValidationException("please enter a valid End Hour");
-    }
-
-    if (entity.getStartHour() < 0 || entity.getStartHour() > 23) {
-      throw new ValidationException("please enter a valid Start Hour");
-    }
-
-    if (entity.getStrategyId() <= 0) {
-      throw new ValidationException("please enter a valid strategy id");
-    }
-
-    if (entity.getVersion() <= 0) {
-      throw new ValidationException("please add version");
-    }
-
-  }
 
   /**
    * Creates a StrategyDayPart Form object.
@@ -61,29 +30,33 @@ public class StrategyDayPartHelper {
    * @return Form object.
    */
   public static Form getForm(StrategyDayPart entity) {
-    Form strategyConceptForm = new Form();
+    Form strategyDayPartForm = new Form();
 
-    strategyConceptForm.param("days", String.valueOf(entity.getDays()));
+    strategyDayPartForm.param("days", String.valueOf(entity.getDays()));
 
     if (entity.getEndHour() > 0 && entity.getEndHour() < 23) {
-      strategyConceptForm.param("end_hour", String.valueOf(entity.getEndHour()));
+      strategyDayPartForm.param("end_hour", String.valueOf(entity.getEndHour()));
     }
 
     if (entity.getStartHour() > 0 && entity.getStartHour() < 23) {
-      strategyConceptForm.param("start_hour", String.valueOf(entity.getStartHour()));
+      strategyDayPartForm.param("start_hour", String.valueOf(entity.getStartHour()));
     }
 
     if (entity.getStrategyId() > 0) {
-      strategyConceptForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
+      strategyDayPartForm.param("strategy_id", String.valueOf(entity.getStrategyId()));
     }
 
-    strategyConceptForm.param("user_time", Utility.getOnOrOff(entity.isUserTime()));
+    strategyDayPartForm.param("user_time", Utility.getOnOrOff(entity.isUserTime()));
 
-    if (entity.getVersion() > 0) {
-      strategyConceptForm.param("version", String.valueOf(entity.getVersion()));
+    if (entity.getVersion() >= 0) {
+      strategyDayPartForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    return strategyConceptForm;
+    Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
+
+    return finalStrategyDayPartForm;
+    
+    
   }
 
 }

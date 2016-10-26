@@ -16,54 +16,32 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
-import com.mediamath.terminalone.exceptions.ValidationException;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.utils.Utility;
 
 import javax.ws.rs.core.Form;
 
-public class AgencyHelper  {
-
-  /**
-   * validates required fields.
-   * 
-   * @param entity expects Agency Entity.
-   * @throws T1Exception throws T1Exception.
-   */
-  public static void validateRequiredFields(Agency entity) throws T1Exception {
-
-    if (entity.getName() == null || entity.getName().isEmpty()) {
-      throw new ValidationException("please enter a name for the agency");
-    } else if (entity.getName().length() > 64) {
-      throw new ValidationException("please make sure name does not exceed 64 characters.");
-    }
-    
-    if (entity.getOrganizationId() <= 0) {
-      throw new ValidationException("please enter a valid organization id");
-    }
-
-    if (entity.getId()  > 0 && entity.getVersion() <= 0) {
-      throw new ValidationException("Version is required for Updates");
-    }
-  }
+public class AgencyHelper {
 
   /**
    * creates a Agency Form object.
-   * @param entity expects Agency Entity.
+   * 
+   * @param entity
+   *          expects Agency Entity.
    * @return Form object.
    */
   public static Form getForm(Agency entity) {
 
     Form agencyForm = new Form();
 
-    //required
+    // required
     agencyForm.param("name", entity.getName());
 
     agencyForm.param("organization_id", String.valueOf(entity.getOrganizationId()));
 
-    //optional
-    agencyForm.param("allow_x_adv_optimization", Utility.getOnOrOff(entity.isAllowXAdvOptimization()));
+    // optional
+    agencyForm.param("allow_x_adv_optimization",
+        Utility.getOnOrOff(entity.isAllowXAdvOptimization()));
 
     agencyForm.param("allow_x_adv_pixels", Utility.getOnOrOff(entity.isAllowXAdvPixels()));
 
@@ -79,11 +57,7 @@ public class AgencyHelper  {
       agencyForm.param("created_on", entity.getCreatedOn().toString());
     }
 
-    if (entity.getId() > 0) {
-      agencyForm.param("id", String.valueOf(entity.getId()));
-    }
-
-    if  (entity.getLogo() != null) {
+    if (entity.getLogo() != null) {
       agencyForm.param("logo", entity.getLogo());
     }
 
@@ -93,7 +67,7 @@ public class AgencyHelper  {
 
     agencyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 
-    if (entity.getVersion() > 0) {
+    if (entity.getVersion() >= 0) {
       agencyForm.param("version", String.valueOf(entity.getVersion()));
     }
 
@@ -105,7 +79,9 @@ public class AgencyHelper  {
       agencyForm.param("updated_on", String.valueOf(entity.getUpdatedOn()));
     }
 
-    return agencyForm;
+    Form finalAgencyForm = Utility.getFilteredForm(agencyForm, "agency");
+
+    return finalAgencyForm;
   }
 
 }

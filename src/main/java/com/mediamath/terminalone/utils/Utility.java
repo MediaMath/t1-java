@@ -16,18 +16,32 @@
 
 package com.mediamath.terminalone.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import com.mediamath.terminalone.service.T1Service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class Utility {
 
   private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
   private static Properties vConfigProp = new Properties();
+  
+  private static Properties vEntityReadOnlyFields = new Properties();
+  
+  
+  public static Properties getConfigProperties() {
+    return vConfigProp;
+  }
 
   /**
    * gets String "on" or "off" based on the boolean value supplied.
@@ -90,10 +104,92 @@ public class Utility {
 
     return vConfigProp;
   }
+  
+  /**
+   * This utility is used to load the readOnlyFields by reading the property files.
+   * 
+   * @return Property Object.
+   */
+  public static Properties loadEntityReadOnlyFields() {
+    if (vEntityReadOnlyFields.isEmpty()) {
+      InputStream input = null;
+      try {
+        String filename = "EntityReadOnlyFields.properties";
+        input = Utility.class.getClassLoader().getResourceAsStream(filename);
+        if (input == null) {
+          logger.info("Unable to load the configurations");
+          return null;
+        }
+        vEntityReadOnlyFields.load(input);
+      } catch (IOException ioException) {
+        logStackTrace(ioException);
+      } finally {
+        if (input != null) {
+          try {
+            input.close();
+          } catch (IOException ioException) {
+            logStackTrace(ioException);
+          }
+        }
+      }
+    }
 
-  public static Properties getConfigProperties() {
-    return vConfigProp;
+    return vEntityReadOnlyFields;
   }
+  
+  /**
+   * Utility function to split the string and return an array list.
+   * @param propStr comma seperated string.
+   * @return List of string.
+   */
+  public static List<String> getList(String propStr) {
+    String[] readOnlyFields = propStr.split(",");
+    List<String> stringAsList = Arrays.asList(readOnlyFields);
+    return stringAsList;
+  }
+  
+  /**
+   * Returns a filtered Form object.
+   * 
+   * @param entity
+   *          requires a Form object for specific entity
+   * @param entityName
+   *          specify the entity name for fetching read only fields.
+   * @return Form object.
+   */
+  public static Form getFilteredForm(Form entity, String entityName) {
+
+    if (entityName == null || entityName.isEmpty()) {
+      return null;
+    }
+
+    MultivaluedMap<String, String> multiValMap = entity.asMap();
+
+    // load common readOnly fields
+    /*
+     * String commonReadOnlyFields = T1Service.getEntityReadOnlyFields().getProperty("commons");
+     * List<String> commonReadOnlyFieldList = Utility.getList(commonReadOnlyFields);
+     */
+
+    // String requiredFields =
+    // T1Service.getEntityReadOnlyFields().getProperty(entityRequiredFields);
+    // List<String> requiredFieldList = Utility.getList(requiredFields);
+
+    if (entityName != null && !entityName.isEmpty()) {
+      String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
+      List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
+      for (String str : readOnlyFieldList) {
+        if (multiValMap.containsKey(str)) {
+          multiValMap.remove(str);
+        }
+      }
+    }
+
+    Form filteredForm = new Form(multiValMap);
+    return filteredForm;
+  }
+
+
 
   /**
    * this utility takes in the Exception object and logs the entire stact tracer to the logger.
@@ -110,9 +206,9 @@ public class Utility {
     logger.error(strBuffer.toString());
   }
 
-  public boolean isArrayOfType(Object[] array,Class<?> aClass) {
+  public boolean isArrayOfType(Object[] array,Class<?> type) {
     return array.length > 0
-            && array.getClass().getComponentType().isAssignableFrom(aClass);
+            && array.getClass().getComponentType().isAssignableFrom(type);
   }
 
 }

@@ -16,6 +16,20 @@
 
 package com.mediamath.terminalone.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,7 +39,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
-
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
@@ -33,6 +46,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
@@ -59,6 +73,7 @@ import com.mediamath.terminalone.models.helper.AdvertiserHelper;
 import com.mediamath.terminalone.models.helper.AgencyHelper;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
 import com.mediamath.terminalone.models.helper.CampaignHelper;
+import com.mediamath.terminalone.models.helper.ChildPixelHelper;
 import com.mediamath.terminalone.models.helper.ConceptHelper;
 import com.mediamath.terminalone.models.helper.OrganizationHelper;
 import com.mediamath.terminalone.models.helper.PixelHelper;
@@ -72,27 +87,11 @@ import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
 public class PostService {
 
   private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
-  private static T1Service t1Service = new T1Service();
+  private T1Service t1Service = null;
 
   private Connection connection = null;
 
@@ -103,9 +102,17 @@ public class PostService {
   public PostService() {
   }
 
-  public PostService(Connection connection, T1User user) {
+  /**
+   * Constructor for Initializing PostService.
+   * 
+   * @param connection requries a connection Object.
+   * @param user requires a valid user session.
+   * @param t1Service requires T1Service service object. 
+   */
+  public PostService(Connection connection, T1User user, T1Service t1Service) {
     this.connection = connection;
     this.user = user;
+    this.t1Service = t1Service;
   }
 
   /**
@@ -287,7 +294,7 @@ public class PostService {
     }
     return strategy;
   }
-
+ 
   /**
    * saves a StrategyConcept entity.
    * 
@@ -483,6 +490,57 @@ public class PostService {
     }
     return org;
   }
+  
+  
+  /**
+   * Saves an ChildPixel Entity.
+   * 
+   * @param entity
+   *          expects ChildPixel Entity.
+   * @return ChildPixel object.
+   * @throws ClientException
+   *           a client exception is thrown if any error occurs.
+   * @throws ParseException
+   *           a parse exception is thrown when the response cannot be parsed.
+   */
+  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
+
+	  ChildPixel childPixel = null;
+
+    if (entity != null) {
+
+      JsonResponse<? extends T1Entity> finalJsonResponse = null;
+
+      StringBuffer uri = getUri(entity);
+
+      if (entity.getId() > 0) {
+        uri.append("/");
+        uri.append(entity.getId());
+      }
+
+      String path = t1Service.constructUrl(uri);
+
+      Response responseObj = this.connection.post(path, ChildPixelHelper.getForm(entity), this.user);
+
+      String response = responseObj.readEntity(String.class);
+
+      // parse response
+      T1JsonToObjParser parser = new T1JsonToObjParser();
+      if (!response.isEmpty()) {
+        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+        if (error == null) {
+          finalJsonResponse = parsePostData(response, parser, entity);
+          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
+            childPixel = (ChildPixel) finalJsonResponse.getData();
+          }
+        } else {
+          throwExceptions(error);
+        }
+      }
+
+    }
+    return childPixel;
+  }
 
   /**
    * saves a Pixel entity.
@@ -556,6 +614,10 @@ public class PostService {
       JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
       StringBuffer uri = getUri(entity);
+      
+      if(entity.getId() > 0) {
+        uri.append("/" + entity.getId());
+      }
 
       if (entity.getId() > 0 && entity.getMargins().size() > 0) {
         uri.append("/");
@@ -722,39 +784,6 @@ public class PostService {
     return atomicCreative;
   }
   
-  /**
-   * <h1>this method is deprecated</h1>
-   * this was the second call to fetch token once the video creative had been created.
-   * 
-   * @param videoCreative expects a VideoCreativeResponse.
-   * 
-   * @return VideoCreativeResponse object.
-   * 
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  @Deprecated
-  public VideoCreativeResponse getVideoCreativeUploadToken(VideoCreativeResponse videoCreative)
-      throws ParseException {
-    VideoCreativeResponse parsedResponse = null;
-    if (videoCreative != null && videoCreative.getCreativeId() != null
-        && !videoCreative.getCreativeId().isEmpty()) {
-
-      StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
-          + "/creatives" + "/" + videoCreative.getCreativeId() + "/upload");
-
-      logger.info(path.toString());
-
-      String response = this.connection.get(path.toString(), this.user);
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-      parsedResponse = parser.parseVideoCreative(response);
-      parsedResponse.setCreativeId(videoCreative.getCreativeId());
-    }
-
-    return parsedResponse;
-
-  }
-
   /**
    * Gets the Video Creative Upload status
    * 

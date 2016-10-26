@@ -45,6 +45,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
@@ -74,12 +75,8 @@ import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 
-
-
-
-
 /**
- * handles the authentication, session, entity retrieval, creation etc.
+ * Handles the authentication, session, entity retrieval, creation etc.
  *
  */
 public class TerminalOne {
@@ -104,16 +101,16 @@ public class TerminalOne {
   private boolean authenticated = false;
 
   /**
-   * constructor.
+   * Constructor.
    */
   public TerminalOne() {
     logger.info("Loading Environment - setting up connection.");
     connection = new Connection();
     tOneService = new T1Service();
   }
-
+  
   /**
-   * constructor, tries to connect with the credentials provided.
+   * Constructor, tries to connect with the credentials provided.
    * 
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
@@ -123,16 +120,15 @@ public class TerminalOne {
     this();
 
     validateLoginCredentials(username, password, apiKey);
-
+    
     logger.info("Loading Environment - Authenticating.");
     Form form = tOneService.getLoginFormData(username, password, apiKey);
     String url = tOneService.constructUrl(new StringBuffer("login"));
     Response loginResponse = connection.post(url, form, null);
     parseLoginError(loginResponse);
     String response = loginResponse.readEntity(String.class);
-
     setUserSessionInfo(response);
-    postService = new PostService(connection, user);
+    postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
 
@@ -156,7 +152,7 @@ public class TerminalOne {
   }
 
   /**
-   * private method to validate login credentials.
+   * Private method to validate login credentials.
    * 
    * @param username a valid username is required.
    * @param password a valid password is required.
@@ -177,7 +173,7 @@ public class TerminalOne {
   }
 
   /**
-   * used to authenticate using given credentials.
+   * Used to authenticate using given credentials.
    * 
    * @return boolean
    * @throws ClientException
@@ -199,7 +195,7 @@ public class TerminalOne {
 
     setUserSessionInfo(response);
     
-    postService = new PostService(connection, user);
+    postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
 
@@ -228,7 +224,7 @@ public class TerminalOne {
 	user = new T1User();
 	user.setToken(token);
 	
-    postService = new PostService(connection, user);
+    postService = new PostService(this.connection, this.user, this.tOneService);
     getService = new GetService();
     reportService = new ReportService();
 
@@ -240,7 +236,7 @@ public class TerminalOne {
   }
 
   /**
-   * get Authorization url for oauth login.
+   * Get Authorization url for oauth login.
    * 
    * @param redirectUri valid redirect uri is required. 
    * @param apiKey valid apiKey is required.
@@ -290,7 +286,7 @@ public class TerminalOne {
   }
 
   /**
-   * method to refresh oauth token.
+   * Method to refresh oauth token.
    * 
    * @param refreshToken requires a refresh token.
    * 
@@ -337,6 +333,7 @@ public class TerminalOne {
 
  
   /**
+   * Saves Agency entity.
    * 
    * @param entity expects an Agency Entity.
    * @return Agency entity.
@@ -349,6 +346,23 @@ public class TerminalOne {
       agency = postService.save(entity);
     }
     return agency;
+  }
+  
+  
+  /**
+   * Saves Child Pixel entity.
+   * 
+   * @param entity expects an ChildPixel Entity.
+   * @return ChildPixel entity.
+   * @throws ClientException exception.
+   * @throws ParseException exception.
+   */
+  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
+	  ChildPixel childPixel = null;
+    if (isAuthenticated()) {
+    	childPixel = postService.save(entity);
+    }
+    return childPixel;
   }
 
   /**
@@ -416,8 +430,7 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public StrategySupplySource save(StrategySupplySource entity)
-      throws ClientException, ParseException {
+  public StrategySupplySource save(StrategySupplySource entity) throws ClientException, ParseException {
     StrategySupplySource strategySupplySource = null;
     if (isAuthenticated()) {
       strategySupplySource = postService.save(entity);
@@ -561,8 +574,7 @@ public class TerminalOne {
    * @throws IOException
    *           a IOException is thrown when the file cannot be uploaded.
    */
-  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName,
-      String name) throws ClientException, IOException {
+  public TPASCreativeUpload saveTPASCreativeUpload(String filePath, String fileName, String name) throws ClientException, IOException {
     TPASCreativeUpload response = null;
     if (isAuthenticated()) {
       response = postService.saveTPASCreativeUpload(filePath, fileName, name);
@@ -584,9 +596,7 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.           
    */
-  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(
-      TPASCreativeBatchApprove batchApprove)
-      throws ClientException, IOException, ParseException {
+  public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove batchApprove) throws ClientException, IOException, ParseException {
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (isAuthenticated()) {
       finalJsonResponse = postService.saveTPASCreativeUploadBatch(batchApprove);
@@ -700,21 +710,6 @@ public class TerminalOne {
       if (creativeId != null && !creativeId.isEmpty()) {
         response = postService.getVideoCreativeUploadStatus(creativeId);
       }
-    }
-    return response;
-  }
-
-  /**
-   * second call to get the upload token for video creative.
-   * 
-   * @deprecated this method is deprecated since this step is not required in the new flow.
-   */
-  @Deprecated
-  public VideoCreativeResponse getVideoCreativesUploadToken(VideoCreativeResponse videoCreative)
-      throws ClientException, ParseException {
-    VideoCreativeResponse response = null;
-    if (isAuthenticated()) {
-      response = postService.getVideoCreativeUploadToken(videoCreative);
     }
     return response;
   }

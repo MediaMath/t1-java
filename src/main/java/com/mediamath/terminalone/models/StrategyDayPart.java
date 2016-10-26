@@ -33,6 +33,7 @@ public class StrategyDayPart implements T1Entity {
 	private Date udpated_on;
 	private boolean user_time;
 	private int version;
+	private String name;
 	
 	private Strategy strategy;
 
@@ -128,5 +129,13 @@ public class StrategyDayPart implements T1Entity {
 	public String getEntityname() {
 		return entityName;
 	}
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }

@@ -16,7 +16,11 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.exceptions.T1Exception;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.goalType;
@@ -24,89 +28,11 @@ import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-import javax.ws.rs.core.Form;
-
 public class StrategyHelper {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
 
   private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-
-  /**
-   * validates required fields.
-   * @param entity expects Strategy entity.
-   * @throws T1Exception exception.
-   */
-  public static void validateRequiredFields(Strategy entity) throws T1Exception {
-    /*
-     * if(entity.getAudience_segment_exclude_op()==null){
-     * entity.setAudience_segment_exclude_op(aud_seg_exc.OR); }
-     * 
-     * if(entity.getAudience_segment_include_op()==null){
-     * entity.setAudience_segment_include_op(aud_seg_inc.OR); }
-     * 
-     * if(entity.getBid_aggresiveness()< 0 || entity.getBid_aggresiveness() > 100 ){
-     * entity.setBid_aggresiveness(50.00f); } if(entity.getBudget() != null &&
-     * entity.getBudget().getValue() < 0){ throw new
-     * ValidationException("please enter Valid Budget"); } if (entity.getCampaign_id() <= 0) { throw
-     * new ValidationException("please enter a valid campaign id"); }
-     * 
-     * if (entity.getGoal_type() == null){ throw new ValidationException("please enter Goal Type");
-     * }
-     * 
-     * if (entity.getGoal_value() != null && entity.getGoal_value().getValue() <=0 &&
-     * (entity.getGoal_type().equals(goal_type.cpa) || entity.getGoal_type().equals(goal_type.cpc)
-     * || entity.getGoal_type().equals(goal_type.reach) ||
-     * entity.getGoal_type().equals(goal_type.cpe)) ){ throw new
-     * ValidationException("please enter Goal Value"); }
-     * 
-     * if (entity.getFrequency_type() == null){
-     * entity.setFrequency_type(freq_type.valueOf("no_limit")); }
-     * 
-     * if (entity.getFrequency_type() != null &&
-     * (entity.getFrequency_type().equals(freq_types.even)||
-     * entity.getFrequency_type().equals(freq_types.asap))) {
-     * if(entity.getFrequency_interval()==null){
-     * entity.setFrequency_interval(freq_int.valueOf("not_applicable")); }
-     * if(entity.getFrequency_amount() <= 0){ throw new
-     * ValidationException("please enter valid a frequency amount"); } }
-     * 
-     * if (entity.getMax_bid() != null && entity.getMax_bid().getValue() <= 0) { throw new
-     * ValidationException("please enter a valid Max Bid"); }
-     * 
-     * if (entity.getPacing_amount() != null && entity.getPacing_amount().getValue() <= 0) { throw
-     * new ValidationException("please enter a valid Pacing Amount"); }
-     * 
-     * if(entity.getPacing_interval()==null){ entity.setPacing_interval(pac_int.day); }
-     * 
-     * if(entity.getPacing_type()==null){ entity.setPacing_type(pac_type.even); }
-     * 
-     * if(entity.getMedia_type()==null){ entity.setMedia_type(media_type.DISPLAY); }
-     * 
-     * if(entity.getGoal_type().equals(goal_type.roi) && entity.getRoi_target() != null &&
-     * entity.getRoi_target().getValue() <=0){ throw new
-     * ValidationException("please enter a ROI Target"); }
-     * 
-     * if (entity.getName() == null || entity.getName().isEmpty()) { throw new
-     * ValidationException("please enter a name for the advertiser"); } else if
-     * (entity.getName().length() > 64) { throw new
-     * ValidationException("please make sure name does not exceed 64 characters."); }
-     * 
-     * 
-     * if(entity.getSite_selectiveness()==null){ entity.setSite_selectiveness(site_select.REDUCED);
-     * }
-     * 
-     * if(entity.getSupply_type()==null){ entity.setSupply_type(supply_type.RTB); }
-     * 
-     * if(entity.getType()==null){ throw new ValidationException("please Enter Type"); }
-     * 
-     * if(entity.getVersion() <= 0) { throw new ValidationException("please add version"); }
-     * 
-     * 
-     */
-  }
 
   /**
    * creates a Strategy Form object.
@@ -116,12 +42,19 @@ public class StrategyHelper {
   public static Form getForm(Strategy entity) {
     Form strategyForm = new Form();
     if (entity.getStrategyDomainRestrictions().size() <= 0) {
-      if (entity.getAudienceSegmentExcludeOp() != null) {
+      
+      if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().size() <= 0) {
+        strategyForm.param("audience_segment_exclude_op", entity.getAudienceSegmentExcludeOp().toString());
+      } else if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().size() > 0) {
         strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
       }
-      if (entity.getAudienceSegmentIncludeOp() != null) {
+      
+      if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().size() <= 0) {
+        strategyForm.param("audience_segment_include_op", entity.getAudienceSegmentIncludeOp().toString());
+      } else if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().size() > 0) {
         strategyForm.param("include_op", entity.getAudienceSegmentIncludeOp().toString());
       }
+      
       if (entity.getBidAggresiveness() > 0f) {
         strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBidAggresiveness()));
       }
@@ -141,18 +74,13 @@ public class StrategyHelper {
         strategyForm.param("created_on", entity.getCreatedOn());
       }
 
-      if (entity.getId() > 0) {
-        strategyForm.param("id", String.valueOf(entity.getId()));
-      }
-
       if (entity.getDescription() != null) {
         strategyForm.param("description", entity.getDescription());
       }
 
       if (entity.getEffectiveGoalValue() != null && entity.getEffectiveGoalValue().size() > 0
           && entity.getEffectiveGoalValue().get(0).getValue() > 0) {
-        strategyForm.param("effective_goal_value",
-            String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
+        strategyForm.param("effective_goal_value", String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
       }
 
       if (entity.getFrequencyType() != null) {
@@ -286,7 +214,7 @@ public class StrategyHelper {
       if (entity.getGoalType() != null && !entity.getGoalType().equals(goalType.spend)) {
         strategyForm.param("use_optimization", Utility.getOnOrOff(entity.isUseOptimization()));
       }
-      if (entity.getVersion() > 0) {
+      if (entity.getVersion() >= 0) {
         strategyForm.param("version", String.valueOf(entity.getVersion()));
       }
 
@@ -347,7 +275,10 @@ public class StrategyHelper {
       }
     }
 
-    return strategyForm;
+    
+    Form finalStrategyForm = Utility.getFilteredForm(strategyForm, "strategy");
+
+    return finalStrategyForm;
 
   }
 }
