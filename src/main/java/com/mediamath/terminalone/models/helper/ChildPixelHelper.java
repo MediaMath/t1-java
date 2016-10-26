@@ -57,8 +57,8 @@ public class ChildPixelHelper {
     }
     
     
-    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "childpixel");
+    Form finalChildPixelForm = Utility.getFilteredForm(pixelForm, "childpixel");
     
-    return finalAdvertiserForm;
+    return finalChildPixelForm;
   }
 }

@@ -153,13 +153,13 @@ public class Utility {
    * 
    * @param entity
    *          requires a Form object for specific entity
-   * @param entityReadOnlyFields
+   * @param entityName
    *          specify the entity name for fetching read only fields.
    * @return Form object.
    */
-  public static Form getFilteredForm(Form entity, String entityReadOnlyFields) {
+  public static Form getFilteredForm(Form entity, String entityName) {
 
-    if (entityReadOnlyFields == null || entityReadOnlyFields.isEmpty()) {
+    if (entityName == null || entityName.isEmpty()) {
       return null;
     }
 
@@ -175,8 +175,8 @@ public class Utility {
     // T1Service.getEntityReadOnlyFields().getProperty(entityRequiredFields);
     // List<String> requiredFieldList = Utility.getList(requiredFields);
 
-    if (entityReadOnlyFields != null && !entityReadOnlyFields.isEmpty()) {
-      String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityReadOnlyFields);
+    if (entityName != null && !entityName.isEmpty()) {
+      String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
       List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
       for (String str : readOnlyFieldList) {
         if (multiValMap.containsKey(str)) {
