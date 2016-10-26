@@ -1,148 +1,164 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class Permission implements T1Entity {
-	
-	private static final String entityName = "Permission";
 
-	// private String type; // seems duplicate one private one local
-	private String advertiser;
-	private String agency;
-	private String organization;
-	private int edit_data_definition;
-	private int view_data_definition;
-	private int edit_segments;
-	private int edit_campaigns;
-	private int access_internal_fees;
-	private int edit_margins_and_performance;
-	private int view_organizations;
-	private int view_segments;
-	private int view_dmp_reports;
-	private String type;
-	private String role;
-	private String scope;
+  private static final String entityName = "Permission";
 
-	public String getAdvertiser() {
-		return advertiser;
-	}
+  // private String type; // seems duplicate one private one local
+  private String advertiser;
+  private String agency;
+  private String organization;
+  private int edit_data_definition;
+  private int view_data_definition;
+  private int edit_segments;
+  private int edit_campaigns;
+  private int access_internal_fees;
+  private int edit_margins_and_performance;
+  private int view_organizations;
+  private int view_segments;
+  private int view_dmp_reports;
+  private String type;
+  private String role;
+  private String scope;
 
-	public void setAdvertiser(String advertiser) {
-		this.advertiser = advertiser;
-	}
+  public String getAdvertiser() {
+    return advertiser;
+  }
 
-	public String getAgency() {
-		return agency;
-	}
+  public void setAdvertiser(String advertiser) {
+    this.advertiser = advertiser;
+  }
 
-	public void setAgency(String agency) {
-		this.agency = agency;
-	}
+  public String getAgency() {
+    return agency;
+  }
 
-	public String getOrganization() {
-		return organization;
-	}
+  public void setAgency(String agency) {
+    this.agency = agency;
+  }
 
-	public void setOrganization(String organization) {
-		this.organization = organization;
-	}
+  public String getOrganization() {
+    return organization;
+  }
 
-	public int getEdit_data_definition() {
-		return edit_data_definition;
-	}
+  public void setOrganization(String organization) {
+    this.organization = organization;
+  }
 
-	public void setEdit_data_definition(int edit_data_definition) {
-		this.edit_data_definition = edit_data_definition;
-	}
+  public int getEditDataDefinition() {
+    return edit_data_definition;
+  }
 
-	public int getView_data_definition() {
-		return view_data_definition;
-	}
+  public void setEditDataDefinition(int edit_data_definition) {
+    this.edit_data_definition = edit_data_definition;
+  }
 
-	public void setView_data_definition(int view_data_definition) {
-		this.view_data_definition = view_data_definition;
-	}
+  public int getViewDataDefinition() {
+    return view_data_definition;
+  }
 
-	public int getEdit_segments() {
-		return edit_segments;
-	}
+  public void setViewDataDefinition(int view_data_definition) {
+    this.view_data_definition = view_data_definition;
+  }
 
-	public void setEdit_segments(int edit_segments) {
-		this.edit_segments = edit_segments;
-	}
+  public int getEditSegments() {
+    return edit_segments;
+  }
 
-	public int getEdit_campaigns() {
-		return edit_campaigns;
-	}
+  public void setEditSegments(int edit_segments) {
+    this.edit_segments = edit_segments;
+  }
 
-	public void setEdit_campaigns(int edit_campaigns) {
-		this.edit_campaigns = edit_campaigns;
-	}
+  public int getEditCampaigns() {
+    return edit_campaigns;
+  }
 
-	public int getAccess_internal_fees() {
-		return access_internal_fees;
-	}
+  public void setEditCampaigns(int edit_campaigns) {
+    this.edit_campaigns = edit_campaigns;
+  }
 
-	public void setAccess_internal_fees(int access_internal_fees) {
-		this.access_internal_fees = access_internal_fees;
-	}
+  public int getAccessInternalFees() {
+    return access_internal_fees;
+  }
 
-	public int getEdit_margins_and_performance() {
-		return edit_margins_and_performance;
-	}
+  public void setAccessInternalFees(int access_internal_fees) {
+    this.access_internal_fees = access_internal_fees;
+  }
 
-	public void setEdit_margins_and_performance(int edit_margins_and_performance) {
-		this.edit_margins_and_performance = edit_margins_and_performance;
-	}
+  public int getEditMarginsAndPerformance() {
+    return edit_margins_and_performance;
+  }
 
-	public int getView_organizations() {
-		return view_organizations;
-	}
+  public void setEditMarginsAndPerformance(int edit_margins_and_performance) {
+    this.edit_margins_and_performance = edit_margins_and_performance;
+  }
 
-	public void setView_organizations(int view_organizations) {
-		this.view_organizations = view_organizations;
-	}
+  public int getViewOrganizations() {
+    return view_organizations;
+  }
 
-	public int getView_segments() {
-		return view_segments;
-	}
+  public void setViewOrganizations(int view_organizations) {
+    this.view_organizations = view_organizations;
+  }
 
-	public void setView_segments(int view_segments) {
-		this.view_segments = view_segments;
-	}
+  public int getViewSegments() {
+    return view_segments;
+  }
 
-	public int getView_dmp_reports() {
-		return view_dmp_reports;
-	}
+  public void setViewSegments(int view_segments) {
+    this.view_segments = view_segments;
+  }
 
-	public void setView_dmp_reports(int view_dmp_reports) {
-		this.view_dmp_reports = view_dmp_reports;
-	}
+  public int getViewDmpReports() {
+    return view_dmp_reports;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public void setViewDmpReports(int view_dmp_reports) {
+    this.view_dmp_reports = view_dmp_reports;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public String getRole() {
-		return role;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+  public String getRole() {
+    return role;
+  }
 
-	public String getScope() {
-		return scope;
-	}
+  public void setRole(String role) {
+    this.role = role;
+  }
 
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
+  public String getScope() {
+    return scope;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public void setScope(String scope) {
+    this.scope = scope;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

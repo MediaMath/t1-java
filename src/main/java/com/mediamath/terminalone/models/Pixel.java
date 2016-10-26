@@ -1,305 +1,348 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class Pixel implements T1Entity {
-	
-	private static final String entityName = "PixelBundle";
-
-	public enum pixel_types {
-		creative, event, data, segment
-	};
-
-	public enum pricing {
-		CPM, CPTS
-	};
-
-	public enum rmx_conv_types {
-		one, variable
-	};
-
-	public enum tag_types {
-		dfa, uat, image, iframe, js
-	};
-	
-	public enum roi_fields{
-		S1,S2,V1,V2
-	}
-
-	private int advertiser_id;
-	private int agency_id;
-	private float cost_cpm;
-	private float cost_cpts;
-	private float cost_pct_cpm;
-	private Date created_on;
-	private roi_fields currency;
-	private String currency_fixed;
-	private boolean eligible;
-	private String external_identifier;
-	private int id;
-	private String keywords;
-	private String name;
-	private pixel_types pixel_type;
-	private pricing pricing;
-	private int provider_id;
-	private roi_fields revenue;
-	private int rmx_conversion_minutes;
-	private rmx_conv_types rmx_conversion_type;
-	private boolean rmx_friendly;
-	private boolean rmx_merit;
-	private int rmx_pc_window_minutes;
-	private int rmx_pv_window_minutes;
-	private String segment_op;
-	private boolean status;
-	private tag_types tag_type;
-	private String tags;
-	private String type;
-	private Date updated_on;
-	private int version;
-
-	public int getAdvertiser_id() {
-		return advertiser_id;
-	}
-
-	public void setAdvertiser_id(int advertiser_id) {
-		this.advertiser_id = advertiser_id;
-	}
-
-	public int getAgency_id() {
-		return agency_id;
-	}
-
-	public void setAgency_id(int agency_id) {
-		this.agency_id = agency_id;
-	}
-
-	public float getCost_cpm() {
-		return cost_cpm;
-	}
-
-	public void setCost_cpm(float cost_cpm) {
-		this.cost_cpm = cost_cpm;
-	}
-
-	public float getCost_cpts() {
-		return cost_cpts;
-	}
-
-	public void setCost_cpts(float cost_cpts) {
-		this.cost_cpts = cost_cpts;
-	}
-
-	public float getCost_pct_cpm() {
-		return cost_pct_cpm;
-	}
-
-	public void setCost_pct_cpm(float cost_pct_cpm) {
-		this.cost_pct_cpm = cost_pct_cpm;
-	}
-
-	public Date getCreated_on() {
-		return created_on;
-	}
-
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
-	}
-
-	public boolean isEligible() {
-		return eligible;
-	}
-
-	public void setEligible(boolean eligible) {
-		this.eligible = eligible;
-	}
-
-	public String getExternal_identifier() {
-		return external_identifier;
-	}
-
-	public void setExternal_identifier(String external_identifier) {
-		this.external_identifier = external_identifier;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getKeywords() {
-		return keywords;
-	}
-
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public pixel_types getPixel_type() {
-		return pixel_type;
-	}
-
-	public void setPixel_type(pixel_types pixel_type) {
-		this.pixel_type = pixel_type;
-	}
-
-	public pricing getPricing() {
-		return pricing;
-	}
-
-	public void setPricing(pricing pricing) {
-		this.pricing = pricing;
-	}
-
-	public int getProvider_id() {
-		return provider_id;
-	}
-
-	public void setProvider_id(int provider_id) {
-		this.provider_id = provider_id;
-	}
-
-	public int getRmx_conversion_minutes() {
-		return rmx_conversion_minutes;
-	}
-
-	public void setRmx_conversion_minutes(int rmx_conversion_minutes) {
-		this.rmx_conversion_minutes = rmx_conversion_minutes;
-	}
-
-	public rmx_conv_types getRmx_conversion_type() {
-		return rmx_conversion_type;
-	}
-
-	public void setRmx_conversion_type(rmx_conv_types rmx_conversion_type) {
-		this.rmx_conversion_type = rmx_conversion_type;
-	}
-
-	public boolean isRmx_friendly() {
-		return rmx_friendly;
-	}
-
-	public void setRmx_friendly(boolean rmx_friendly) {
-		this.rmx_friendly = rmx_friendly;
-	}
-
-	public boolean isRmx_merit() {
-		return rmx_merit;
-	}
-
-	public void setRmx_merit(boolean rmx_merit) {
-		this.rmx_merit = rmx_merit;
-	}
-
-	public int getRmx_pc_window_minutes() {
-		return rmx_pc_window_minutes;
-	}
 
-	public void setRmx_pc_window_minutes(int rmx_pc_window_minutes) {
-		this.rmx_pc_window_minutes = rmx_pc_window_minutes;
-	}
+  private static final String entityName = "PixelBundle";
+
+  public enum pixelTypes {
+    creative, event, data, segment
+  };
+
+  public enum pricing {
+    CPM, CPTS
+  };
+
+  public enum rmxConvTypes {
+    one, variable
+  };
+
+  public enum tagTypes {
+    dfa, uat, image, iframe, js
+  };
+
+  public enum roiFields {
+    S1, S2, V1, V2
+  }
+
+  private int advertiser_id;
+  private int agency_id;
+  private float cost_cpm;
+  private float cost_cpts;
+  private float cost_pct_cpm;
+  private Date created_on;
+  private roiFields currency;
+  private String currency_fixed;
+  private boolean eligible;
+  private String external_identifier;
+  private int id;
+  private String keywords;
+  private String name;
+  private pixelTypes pixel_type;
+  private pricing pricing;
+  private int provider_id;
+  private roiFields revenue;
+  private int rmx_conversion_minutes;
+  private rmxConvTypes rmx_conversion_type;
+  private boolean rmx_friendly;
+  private boolean rmx_merit;
+  private int rmx_pc_window_minutes;
+  private int rmx_pv_window_minutes;
+  private String segment_op;
+  private boolean status;
+  private tagTypes tag_type;
+  private String tags;
+  private String type;
+  private Date updated_on;
+  private int version;
+
+  private Advertiser advertiser;
+  private Agency agency;
+  private PixelProvider provider;
+
+  public int getAdvertiserId() {
+    return advertiser_id;
+  }
+
+  public void setAdvertiserId(int advertiser_id) {
+    this.advertiser_id = advertiser_id;
+  }
+
+  public int getAgencyId() {
+    return agency_id;
+  }
+
+  public void setAgencyId(int agency_id) {
+    this.agency_id = agency_id;
+  }
+
+  public float getCostCpm() {
+    return cost_cpm;
+  }
+
+  public void setCostCpm(float cost_cpm) {
+    this.cost_cpm = cost_cpm;
+  }
+
+  public float getCostCpts() {
+    return cost_cpts;
+  }
+
+  public void setCostCpts(float cost_cpts) {
+    this.cost_cpts = cost_cpts;
+  }
+
+  public float getCostPctCpm() {
+    return cost_pct_cpm;
+  }
+
+  public void setCostPctCpm(float cost_pct_cpm) {
+    this.cost_pct_cpm = cost_pct_cpm;
+  }
+
+  public Date getCreatedOn() {
+    return created_on;
+  }
+
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
+
+  public boolean isEligible() {
+    return eligible;
+  }
+
+  public void setEligible(boolean eligible) {
+    this.eligible = eligible;
+  }
+
+  public String getExternalIdentifier() {
+    return external_identifier;
+  }
+
+  public void setExternalIdentifier(String external_identifier) {
+    this.external_identifier = external_identifier;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getKeywords() {
+    return keywords;
+  }
+
+  public void setKeywords(String keywords) {
+    this.keywords = keywords;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public pixelTypes getPixelType() {
+    return pixel_type;
+  }
+
+  public void setPixelType(pixelTypes pixel_type) {
+    this.pixel_type = pixel_type;
+  }
+
+  public pricing getPricing() {
+    return pricing;
+  }
+
+  public void setPricing(pricing pricing) {
+    this.pricing = pricing;
+  }
+
+  public int getProviderId() {
+    return provider_id;
+  }
+
+  public void setProviderId(int provider_id) {
+    this.provider_id = provider_id;
+  }
+
+  public int getRmxConversionMinutes() {
+    return rmx_conversion_minutes;
+  }
+
+  public void setRmxConversionMinutes(int rmx_conversion_minutes) {
+    this.rmx_conversion_minutes = rmx_conversion_minutes;
+  }
+
+  public rmxConvTypes getRmxConversionType() {
+    return rmx_conversion_type;
+  }
+
+  public void setRmxConversionType(rmxConvTypes rmx_conversion_type) {
+    this.rmx_conversion_type = rmx_conversion_type;
+  }
+
+  public boolean isRmxFriendly() {
+    return rmx_friendly;
+  }
+
+  public void setRmxFriendly(boolean rmx_friendly) {
+    this.rmx_friendly = rmx_friendly;
+  }
+
+  public boolean isRmxMerit() {
+    return rmx_merit;
+  }
+
+  public void setRmxMerit(boolean rmx_merit) {
+    this.rmx_merit = rmx_merit;
+  }
+
+  public int getRmxPcWindowMinutes() {
+    return rmx_pc_window_minutes;
+  }
+
+  public void setRmxPcWindowMinutes(int rmx_pc_window_minutes) {
+    this.rmx_pc_window_minutes = rmx_pc_window_minutes;
+  }
+
+  public int getRmxPvWindowMinutes() {
+    return rmx_pv_window_minutes;
+  }
+
+  public void setRmxPvWindowMinutes(int rmx_pv_window_minutes) {
+    this.rmx_pv_window_minutes = rmx_pv_window_minutes;
+  }
+
+  public String getSegmentOp() {
+    return segment_op;
+  }
+
+  public void setSegmentOp(String segment_op) {
+    this.segment_op = segment_op;
+  }
+
+  public boolean isStatus() {
+    return status;
+  }
 
-	public int getRmx_pv_window_minutes() {
-		return rmx_pv_window_minutes;
-	}
+  public void setStatus(boolean status) {
+    this.status = status;
+  }
 
-	public void setRmx_pv_window_minutes(int rmx_pv_window_minutes) {
-		this.rmx_pv_window_minutes = rmx_pv_window_minutes;
-	}
+  public tagTypes getTagType() {
+    return tag_type;
+  }
 
-	public String getSegment_op() {
-		return segment_op;
-	}
+  public void setTagType(tagTypes tag_type) {
+    this.tag_type = tag_type;
+  }
 
-	public void setSegment_op(String segment_op) {
-		this.segment_op = segment_op;
-	}
+  public String getTags() {
+    return tags;
+  }
 
-	public boolean isStatus() {
-		return status;
-	}
+  public void setTags(String tags) {
+    this.tags = tags;
+  }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public tag_types getTag_type() {
-		return tag_type;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public void setTag_type(tag_types tag_type) {
-		this.tag_type = tag_type;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public String getTags() {
-		return tags;
-	}
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public String getEntityname() {
+    return entityName;
+  }
 
-	public Date getUpdated_on() {
-		return updated_on;
-	}
+  public roiFields getCurrency() {
+    return currency;
+  }
 
-	public void setUpdated_on(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setCurrency(roiFields currency) {
+    this.currency = currency;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public String getCurrencyFixed() {
+    return currency_fixed;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public void setCurrencyFixed(String currency_fixed) {
+    this.currency_fixed = currency_fixed;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public roiFields getRevenue() {
+    return revenue;
+  }
 
-	public roi_fields getCurrency() {
-		return currency;
-	}
+  public void setRevenue(roiFields revenue) {
+    this.revenue = revenue;
+  }
 
-	public void setCurrency(roi_fields currency) {
-		this.currency = currency;
-	}
+  public Advertiser getAdvertiser() {
+    return advertiser;
+  }
 
-	public String getCurrency_fixed() {
-		return currency_fixed;
-	}
+  public void setAdvertiser(Advertiser advertiser) {
+    this.advertiser = advertiser;
+  }
 
-	public void setCurrency_fixed(String currency_fixed) {
-		this.currency_fixed = currency_fixed;
-	}
+  public Agency getAgency() {
+    return agency;
+  }
 
-	public roi_fields getRevenue() {
-		return revenue;
-	}
+  public void setAgency(Agency agency) {
+    this.agency = agency;
+  }
 
-	public void setRevenue(roi_fields revenue) {
-		this.revenue = revenue;
-	}
+  public PixelProvider getProvider() {
+    return provider;
+  }
 
-	
+  public void setProvider(PixelProvider provider) {
+    this.provider = provider;
+  }
+
 }

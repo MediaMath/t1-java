@@ -1,100 +1,154 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
-import javax.ws.rs.core.Form;
+import com.mediamath.terminalone.utils.Utility;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mediamath.terminalone.utils.ConditionQuery;
-import com.mediamath.terminalone.utils.Constants;
-import com.mediamath.terminalone.utils.Utility;
+import java.util.Properties;
 
+import javax.ws.rs.core.Form;
 
-/** Service to support terminalone class
+/**
+ * Service to support terminalone class.
  * 
  * @author chaudhari_j
  *
  */
 public class T1Service {
 
-	private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
+  private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
 
-	private static Properties configprop = Utility.loadConfigProperty();
-	private String URL =null;
-	private String api_base = null;
-	private String path_mgmt = null;
-	private String videoCreativeURL = null;
-	
-	public T1Service(){
-		this.api_base = configprop.getProperty("api_base");
-		this.path_mgmt = configprop.getProperty("path_mgmt");
-		this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
-	}
-	
-	public String getURL() {
-		return URL;
-	}
+  private static Properties configprop = Utility.loadConfigProperty();
 
-	public void setURL(String uRL) {
-		URL = uRL;
-	}
-	
-	public String getApi_base() {
-		return api_base;
-	}
+  private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
 
-	public void setApi_base(String api_base) {
-		this.api_base = api_base;
-	}
+  private String URL = null;
 
-	public String getPath_mgmt() {
-		return path_mgmt;
-	}
+  private String apiBase = null;
 
-	public void setPath_mgmt(String path_mgmt) {
-		this.path_mgmt = path_mgmt;
-	}
+  private String pathMgmt = null;
 
-	/**Construct Full URL by joining api_base, mgt_path and path created in TerminalOne Service
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public String constructURL(StringBuffer path){
-		String url = api_base + path_mgmt + "/" + path.toString();
-		return url;
-	}
-	
-	/**Construct form data required for login purpose
-	 * 
-	 * @param username
-	 * @param password
-	 * @param api_key
-	 * @return
-	 */
-	public Form getLoginFormData(String username, String password, String api_key){
-		
-		Form form = new Form();
-		form.param("user", username);
-		form.param("password", password);
-		form.param("api_key", api_key);
-		
-		return form;
-	}
+  private String videoCreativeURL = null;
 
-	public String getVideoCreativeURL() {
-		return videoCreativeURL;
-	}
+  private String reportingURL = null;
 
-	public void setVideoCreativeURL(String videoCreativeURL) {
-		this.videoCreativeURL = videoCreativeURL;
-	}
-	
-	
-	
-	
+  private String oauthURL = null;
+
+  /**
+   * constructor.
+   */
+  public T1Service() {
+    this.apiBase = configprop.getProperty("api_base");
+    this.pathMgmt = configprop.getProperty("path_mgmt");
+    this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
+    this.reportingURL = configprop.getProperty("reportingURL");
+    this.oauthURL = configprop.getProperty("oauthURL");
+
+  }
+
+  /**
+   * constructs a url for a given path.
+   * 
+   * @param path
+   *          requires a path uri.
+   * 
+   * @return String object.
+   */
+  public String constructUrl(StringBuffer path) {
+    String url = apiBase + pathMgmt + "/" + path.toString();
+    return url;
+  }
+
+  public String constructReportingUrl(StringBuffer path) {
+    String url = apiBase + reportingURL + "/" + path.toString();
+    return url;
+  }
+
+  public String constructOauthUrl(StringBuffer path) {
+    String url = apiBase + oauthURL + "/" + path.toString();
+    return url;
+  }
+
+  /**
+   * gets form object of login related information.
+   * 
+   * @param username
+   *          requires a valid username.
+   * @param password
+   *          requires a valid password.
+   * @param apiKey
+   *          requires a valid environment api key.
+   * @return Form object.
+   */
+  public Form getLoginFormData(String username, String password, String apiKey) {
+
+    Form form = new Form();
+    form.param("user", username);
+    form.param("password", password);
+    form.param("api_key", apiKey);
+
+    return form;
+  }
+
+  public String getVideoCreativeURL() {
+    return videoCreativeURL;
+  }
+
+  public void setVideoCreativeURL(String videoCreativeURL) {
+    this.videoCreativeURL = videoCreativeURL;
+  }
+
+  public String getURL() {
+    return URL;
+  }
+
+  public void setURL(String uRL) {
+    URL = uRL;
+  }
+
+  public String getApi_base() {
+    return apiBase;
+  }
+
+  public void setApiBase(String apiBase) {
+    this.apiBase = apiBase;
+  }
+
+  public String getPathMgmt() {
+    return pathMgmt;
+  }
+
+  public void setPathMgmt(String pathMgmt) {
+    this.pathMgmt = pathMgmt;
+  }
+
+  public String getReportingURL() {
+    return reportingURL;
+  }
+
+  public void setReportingURL(String reportingURL) {
+    this.reportingURL = reportingURL;
+  }
+
+  public static Properties getEntityReadOnlyFields() {
+    return entityReadOnlyFields;
+  }
+
 }

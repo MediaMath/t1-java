@@ -1,95 +1,121 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
 public class ChildPixel implements T1Entity {
-	
-	private static final String entityName = "ChildPixel";
 
-	private int bundle_id;
-	private Date created_on;
-	private boolean distributed;
-	private int id;
-	private String pixel_type;
-	private int supply_source_id;
-	private String tag;
-	private Date updated_on;
-	private int version;
+  private static final String entityName = "ChildPixel";
 
-	public int getBundle_id() {
-		return bundle_id;
-	}
+  private int bundle_id;
+  private Date created_on;
+  private boolean distributed;
+  private int id;
+  private String pixel_type;
+  private int supply_source_id;
+  private String tag;
+  private Date updated_on;
+  private int version;
 
-	public void setBundle_id(int bundle_id) {
-		this.bundle_id = bundle_id;
-	}
+  private Pixel pixel_bundle;
 
-	public Date getCreated_on() {
-		return created_on;
-	}
+  public int getBundleId() {
+    return bundle_id;
+  }
 
-	public void setCreated_on(Date created_on) {
-		this.created_on = created_on;
-	}
+  public void setBundleId(int bundle_id) {
+    this.bundle_id = bundle_id;
+  }
 
-	public boolean isDistributed() {
-		return distributed;
-	}
+  public Date getCreatedOn() {
+    return created_on;
+  }
 
-	public void setDistributed(boolean distributed) {
-		this.distributed = distributed;
-	}
+  public void setCreatedOn(Date created_on) {
+    this.created_on = created_on;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public boolean isDistributed() {
+    return distributed;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setDistributed(boolean distributed) {
+    this.distributed = distributed;
+  }
 
-	public String getPixel_type() {
-		return pixel_type;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setPixel_type(String pixel_type) {
-		this.pixel_type = pixel_type;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public int getSupply_source_id() {
-		return supply_source_id;
-	}
+  public String getPixelType() {
+    return pixel_type;
+  }
 
-	public void setSupply_source_id(int supply_source_id) {
-		this.supply_source_id = supply_source_id;
-	}
+  public void setPixelType(String pixel_type) {
+    this.pixel_type = pixel_type;
+  }
 
-	public String getTag() {
-		return tag;
-	}
+  public int getSupplySourceId() {
+    return supply_source_id;
+  }
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+  public void setSupplySourceId(int supply_source_id) {
+    this.supply_source_id = supply_source_id;
+  }
 
-	public Date getUpdated_on() {
-		return updated_on;
-	}
+  public String getTag() {
+    return tag;
+  }
 
-	public void setUpdated_on(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+  public void setTag(String tag) {
+    this.tag = tag;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public Date getUpdatedOn() {
+    return updated_on;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public void setUpdatedOn(Date updated_on) {
+    this.updated_on = updated_on;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public int getVersion() {
+    return version;
+  }
+
+  public void setVersion(int version) {
+    this.version = version;
+  }
+
+  public Pixel getPixelBundle() {
+    return pixel_bundle;
+  }
+
+  public void setPixelBundle(Pixel pixel_bundle) {
+    this.pixel_bundle = pixel_bundle;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

@@ -1,57 +1,73 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.List;
 
 public class EntityInfo {
 
-	List<T1Property> prop;
-	
-	int version;
-	
-	String name;
-	
-	String id;
-	
-	String type;
+  List<T1Property> prop;
 
-	public List<T1Property> getProp() {
-		return prop;
-	}
+  int version;
 
-	public void setProp(List<T1Property> prop) {
-		this.prop = prop;
-	}
+  String name;
 
-	public int getVersion() {
-		return version;
-	}
+  String id;
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  String type;
 
-	public String getName() {
-		return name;
-	}
+  public List<T1Property> getProp() {
+    return prop;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setProp(List<T1Property> prop) {
+    this.prop = prop;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setType(String type) {
-		this.type = type;
-	}
-	
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
 }
