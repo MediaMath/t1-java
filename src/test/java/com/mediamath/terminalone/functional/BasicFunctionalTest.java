@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright 2016 MediaMath
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package com.mediamath.terminalone.functional;
 
 import static org.junit.Assert.assertEquals;
@@ -181,6 +197,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Agency
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testAgencyPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -213,6 +234,10 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Agency Update
+   * @throws ClientException
+   */
   @Test
   public void testAgencyUpdatePost() throws ClientException {
 
@@ -254,6 +279,12 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Campaign.
+   * 
+   * @throws ClientException
+   * @throws java.text.ParseException
+   */
   @Test
   public void testCampaignPost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -315,6 +346,12 @@ public class BasicFunctionalTest {
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
 
+  /**
+   * Campaign Update.
+   * 
+   * @throws ClientException
+   * @throws java.text.ParseException
+   */
   @Test
   public void testCampaignUpdatePost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -353,6 +390,11 @@ public class BasicFunctionalTest {
     assertEquals("Campaign Test One updated", updatedCampaign.getName());
   }
 
+  /**
+   * Create Advertiser.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testAdvertiserPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -386,7 +428,12 @@ public class BasicFunctionalTest {
     assertEquals(9, advertiserCreated.getAdServerId());
     assertEquals(11, advertiserCreated.getVerticalId());
   }
-
+  
+  /**
+   * Advertiser Update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testAdvertiserUpdatePost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -426,6 +473,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Strategy.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -484,6 +536,11 @@ public class BasicFunctionalTest {
     assertEquals(freqInt.day, strategyCreated.getFrequencyInterval());
   }
 
+  /**
+   * Strategy Update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyUpdatePost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -524,6 +581,11 @@ public class BasicFunctionalTest {
     assertEquals("description updated", strategyUpdated.getDescription());
   }
 
+  /**
+   * Create Strategy Audience Segments.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyAudienceSegmentsPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -568,6 +630,10 @@ public class BasicFunctionalTest {
     }
   }
 
+  /**
+   * create Strategy Day Parts Post.
+   * @throws ClientException
+   */
   @Test
   public void testStrategyDayParts() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -588,6 +654,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Strategy Day Parts Update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyDayPartsUpdate() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -629,6 +700,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Associate pixel to a strategy.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testPixelTargetingToStrategy() throws ClientException {
 
@@ -663,6 +739,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Organization.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testOrganizationPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -704,6 +785,10 @@ public class BasicFunctionalTest {
     // assertEquals("TestOrg", orgCreated.getName());
   }
 
+  /**
+   * Delete strategy concept.
+   * 
+   */
   @Test
   public void testStrategyConceptDelete() {
     TerminalOne T1;
@@ -718,6 +803,11 @@ public class BasicFunctionalTest {
     }
   }
 
+  /**
+   * Strategy Concept update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyConceptPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -755,6 +845,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Strategy Supply Sources.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategySupplySources() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -772,6 +867,10 @@ public class BasicFunctionalTest {
     assertEquals(6, strategySupplySource.getSupplySourceId());
   }
 
+  /**
+   * Delete Strategy Day Parts.
+   * 
+   */
   @Test
   public void testStrategyDayPartDelete() {
     TerminalOne T1;
@@ -786,6 +885,11 @@ public class BasicFunctionalTest {
     }
   }
 
+  /**
+   * Create StrategyDayPart
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testStrategyDayPart() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -806,7 +910,12 @@ public class BasicFunctionalTest {
     assertEquals(12, strategyDayPart.getEndHour());
   }
   
-  // check
+
+  /**
+   * Create Campaign margin.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testCampaignMarginPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -835,6 +944,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Concept.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testConceptPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -854,6 +968,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Concept update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testConceptPostUpdate() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -892,6 +1011,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create ChildPixel.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testChildPixelPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -913,6 +1037,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Child Pixel Update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testChildPixelPostUpdate() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -950,6 +1079,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Create Atomic Creatives.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testAtomicCreatives() throws ClientException {
 
@@ -978,6 +1112,11 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * Atomic Creative Update.
+   * 
+   * @throws ClientException
+   */
   @Test
   public void testAtomicCreativesUpdate() throws ClientException {
 
@@ -1017,6 +1156,13 @@ public class BasicFunctionalTest {
 
   }
 
+  /**
+   * 3PAS creative upload. and approve.
+   * 
+   * @throws ClientException
+   * @throws IOException
+   * @throws ParseException
+   */
   @Test
   public void test3pasCreativeUpload() throws ClientException, IOException, ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1041,6 +1187,12 @@ public class BasicFunctionalTest {
     assertNotNull(finalJsonResponse);
   }
 
+  /**
+   * T1AS creative assets upload and approve.
+   * 
+   * @throws ClientException
+   * @throws IOException
+   */
   @Test
   public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1067,7 +1219,6 @@ public class BasicFunctionalTest {
    * @throws IOException
    * @throws ParseException
    */
-  
   @Test
   public void testVideoCreative() throws ClientException, IOException, ParseException {
     // will work only on production.
