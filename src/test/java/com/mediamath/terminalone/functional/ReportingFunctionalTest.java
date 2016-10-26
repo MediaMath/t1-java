@@ -23,157 +23,156 @@ import com.mediamath.terminalone.models.reporting.meta.MetaData;
 
 public class ReportingFunctionalTest {
 
-	private static Properties testConfig = new Properties();
+  private static Properties testConfig = new Properties();
 
-	private static String user = null;
+  private static String user = null;
 
-	private static String password = null;
+  private static String password = null;
 
-	private static String apiKey = null;
+  private static String apiKey = null;
 
-	@BeforeClass
-	public static void init() throws Exception {
-		InputStream input = BasicFunctionalTest.class.getClassLoader().getResourceAsStream("test.properties");
-		testConfig.load(input);
-		user = testConfig.getProperty("username");
-		password = testConfig.getProperty("password");
-		apiKey = testConfig.getProperty("production_api_key");
-	}
+  @BeforeClass
+  public static void init() throws Exception {
+    InputStream input = BasicFunctionalTest.class.getClassLoader()
+        .getResourceAsStream("test.properties");
+    testConfig.load(input);
+    user = testConfig.getProperty("username");
+    password = testConfig.getProperty("password");
+    apiKey = testConfig.getProperty("production_api_key");
+  }
 
-	@After
-	public final void tearDown() throws InterruptedException {
-		Thread.sleep(5000);
-	}
+  @After
+  public final void tearDown() throws InterruptedException {
+    Thread.sleep(5000);
+  }
 
-	@Test
-	public void testMetaReport() {
-		TerminalOne t1;
+  @Test
+  public void testMetaReport() {
+    TerminalOne t1;
 
-		try {
-			t1 = new TerminalOne(user, password, apiKey);
-			assertEquals(true, t1.isAuthenticated());
+    try {
+      t1 = new TerminalOne(user, password, apiKey);
+      assertEquals(true, t1.isAuthenticated());
 
-			JsonResponse<?> jsonresponse = null;
-			jsonresponse = t1.getMeta();
+      JsonResponse<?> jsonresponse = null;
+      jsonresponse = t1.getMeta();
 
-			assertNotNull(jsonresponse);
+      assertNotNull(jsonresponse);
 
-		} catch (ClientException e) {
-			e.printStackTrace();
-		}
+    } catch (ClientException e) {
+      e.printStackTrace();
+    }
 
-	}
+  }
 
-	@Test
-	public void testReportsMeta() {
-		TerminalOne t1;
+  @Test
+  public void testReportsMeta() {
+    TerminalOne t1;
 
-		try {
-			t1 = new TerminalOne(user, password, apiKey);
-			assertEquals(true, t1.isAuthenticated());
-			MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
-			assertNotNull(metaResponse);
-		} catch (ClientException e) {
-			e.printStackTrace();
-		}
+    try {
+      t1 = new TerminalOne(user, password, apiKey);
+      assertEquals(true, t1.isAuthenticated());
+      MetaData metaResponse = t1.getReportsMeta(Reports.GEO);
+      assertNotNull(metaResponse);
+    } catch (ClientException e) {
+      e.printStackTrace();
+    }
 
-	}
+  }
 
-	@Test
-	public void testPerformanceReport() throws ParseException, ClientException {
-		TerminalOne t1;
+  @Test
+  public void testPerformanceReport() throws ParseException, ClientException {
+    TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, apiKey);
-		assertEquals(true, t1.isAuthenticated());
+    t1 = new TerminalOne(user, password, apiKey);
+    assertEquals(true, t1.isAuthenticated());
 
-		ReportCriteria report = new ReportCriteria();
+    ReportCriteria report = new ReportCriteria();
 
-		report.setDimension("advertiser_name");
-		report.setDimension("campaign_id");
-		report.setDimension("campaign_name");
-		report.setFilter("organization_id", "=", "100048");
-		report.setMetric("impressions");
-		report.setMetric("clicks");
-		report.setMetric("total_conversions");
-		report.setMetric("media_cost");
-		report.setMetric("total_spend");
+    report.setDimension("advertiser_name");
+    report.setDimension("campaign_id");
+    report.setDimension("campaign_name");
+    report.setFilter("organization_id", "=", "100048");
+    report.setMetric("impressions");
+    report.setMetric("clicks");
+    report.setMetric("total_conversions");
+    report.setMetric("media_cost");
+    report.setMetric("total_spend");
 
-		// set having
-		// report.setHaving("key1", "=", "val1,val2");
+    // set having
+    // report.setHaving("key1", "=", "val1,val2");
 
-		// set time_rollup
-		report.setTime_rollup("by_day");
+    // set time_rollup
+    report.setTime_rollup("by_day");
 
-		// set time_window only when no start date and end date specified.
-		// report.setTime_window("last_60_days");
+    // set time_window only when no start date and end date specified.
+    // report.setTime_window("last_60_days");
 
-		/*
-		 * start date & end_date supported format month - YYYY-MM day -
-		 * YYYY-MM-DD hour - YYYY-MM-DDThh minute - YYYY-MM-DDThh:mi second -
-		 * YYYY-MM-DDThh:mi:ss
-		 */
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    /*
+     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
+     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
+     */
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-		String dateInString = "2015-02-06";
-		String endDateInString = "2015-04-16";
+    String dateInString = "2015-02-06";
+    String endDateInString = "2015-04-16";
 
-		String startDate = df.format(df.parse(dateInString));
-		String endDate = df.format(df.parse(endDateInString));
+    String startDate = df.format(df.parse(dateInString));
+    String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(startDate);
-		report.setEnd_date(endDate);
+    report.setStart_date(startDate);
+    report.setEnd_date(endDate);
 
-		BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
-		assertNotNull(reader);
-	}
+    BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+    assertNotNull(reader);
+  }
 
-	@Test
-	public void testValidatePerformanceReport() throws ParseException, ClientException {
-		TerminalOne t1;
+  @Test
+  public void testValidatePerformanceReport() throws ParseException, ClientException {
+    TerminalOne t1;
 
-		t1 = new TerminalOne(user, password, apiKey);
-		assertEquals(true, t1.isAuthenticated());
+    t1 = new TerminalOne(user, password, apiKey);
+    assertEquals(true, t1.isAuthenticated());
 
-		ReportCriteria report = new ReportCriteria();
+    ReportCriteria report = new ReportCriteria();
 
-		report.setDimension("advertiser_name");
-		report.setDimension("campaign_id");
-		report.setDimension("campaign_name");
-		report.setFilter("organization_id", "=", "100048");
-		report.setMetric("impressions");
-		report.setMetric("clicks");
-		report.setMetric("total_conversions");
-		report.setMetric("media_cost");
-		report.setMetric("total_spend");
+    report.setDimension("advertiser_name");
+    report.setDimension("campaign_id");
+    report.setDimension("campaign_name");
+    report.setFilter("organization_id", "=", "100048");
+    report.setMetric("impressions");
+    report.setMetric("clicks");
+    report.setMetric("total_conversions");
+    report.setMetric("media_cost");
+    report.setMetric("total_spend");
 
-		// set having
-		// report.setHaving("key1", "=", "val1,val2");
+    // set having
+    // report.setHaving("key1", "=", "val1,val2");
 
-		// set time_rollup
-		report.setTime_rollup("by_day");
+    // set time_rollup
+    report.setTime_rollup("by_day");
 
-		// set time_window only when no start date and end date specified.
-		// report.setTime_window("last_60_days");
+    // set time_window only when no start date and end date specified.
+    // report.setTime_window("last_60_days");
 
-		/*
-		 * start date & end_date supported format month - YYYY-MM day -
-		 * YYYY-MM-DD hour - YYYY-MM-DDThh minute - YYYY-MM-DDThh:mi second -
-		 * YYYY-MM-DDThh:mi:ss
-		 */
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    /*
+     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
+     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
+     */
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-		String dateInString = "2015-02-06";
-		String endDateInString = "2015-04-16";
+    String dateInString = "2015-02-06";
+    String endDateInString = "2015-04-16";
 
-		String startDate = df.format(df.parse(dateInString));
-		String endDate = df.format(df.parse(endDateInString));
+    String startDate = df.format(df.parse(dateInString));
+    String endDate = df.format(df.parse(endDateInString));
 
-		report.setStart_date(startDate);
-		report.setEnd_date(endDate);
+    report.setStart_date(startDate);
+    report.setEnd_date(endDate);
 
-		ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
+    ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
 
-		assertNotNull(response);
-	}
+    assertNotNull(response);
+  }
 
 }

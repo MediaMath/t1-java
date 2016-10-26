@@ -85,15 +85,15 @@ public class OrganizationHelper {
       orgForm.param("suspicious_traffic_filter_level",
           String.valueOf(entity.getSuspiciousTrafficFilterLevel()));
     }
-    
-    if(entity.getVersion()>=0){
-    	orgForm.param("version", String.valueOf(entity.getVersion()));
+
+    if (entity.getVersion() >= 0) {
+      orgForm.param("version", String.valueOf(entity.getVersion()));
     }
 
     // TODO check how to pass array to form
-    orgForm.param("org_type",(entity.getOrgType().size() > 0) ? entity.getOrgType().get(0).toString() : "buyer");
-    
-    
+    orgForm.param("org_type",
+        (entity.getOrgType().size() > 0) ? entity.getOrgType().get(0).toString() : "buyer");
+
     Form finalOrgForm = Utility.getFilteredForm(orgForm, "organization");
 
     return finalOrgForm;

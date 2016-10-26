@@ -22,8 +22,6 @@ import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.models.StrategyDomain;
 
-
-
 public class StrategyDomainHelper {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
@@ -32,7 +30,9 @@ public class StrategyDomainHelper {
 
   /**
    * Creates a StrategyDomain Form object
-   * @param entity expects a StrategyDomain entity.
+   * 
+   * @param entity
+   *          expects a StrategyDomain entity.
    * @return Form object.
    */
   public static Form getForm(StrategyDomain entity) {

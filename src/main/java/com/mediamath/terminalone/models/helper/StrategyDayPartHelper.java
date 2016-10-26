@@ -21,12 +21,13 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.utils.Utility;
 
-
 public class StrategyDayPartHelper {
 
   /**
    * Creates a StrategyDayPart Form object.
-   * @param entity expects StrategyDayPart entity.
+   * 
+   * @param entity
+   *          expects StrategyDayPart entity.
    * @return Form object.
    */
   public static Form getForm(StrategyDayPart entity) {
@@ -55,8 +56,7 @@ public class StrategyDayPartHelper {
     Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
 
     return finalStrategyDayPartForm;
-    
-    
+
   }
 
 }

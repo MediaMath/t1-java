@@ -13,44 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Data {
-	
-		public class enabled{
-			String active;
 
-			public String getActive() {
-				return active;
-			}
+  public class enabled {
+    String active;
 
-			public void setActive(String active) {
-				this.active = active;
-			}
-			
-		}
-	
-		Map<String, String> data = new HashMap<String, String>();
-		public enabled enabled;
+    public String getActive() {
+      return active;
+    }
 
-		public Map<String, String> getData() {
-			return data;
-		}
+    public void setActive(String active) {
+      this.active = active;
+    }
 
-		public void setData(Map<String, String> data) {
-			this.data = data;
-		}
+  }
 
-		public enabled getEnabled() {
-			return enabled;
-		}
+  Map<String, String> data = new HashMap<String, String>();
+  public enabled enabled;
 
-		public void setEnabled(enabled enabled) {
-			this.enabled = enabled;
-		} 
-	
-		
+  public Map<String, String> getData() {
+    return data;
+  }
+
+  public void setData(Map<String, String> data) {
+    this.data = data;
+  }
+
+  public enabled getEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(enabled enabled) {
+    this.enabled = enabled;
+  }
+
 }

@@ -13,77 +13,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TOneASCreativeAssetsApproveData {
-	
-	boolean is_https;
 
-	String advertiserid;
+  boolean is_https;
 
-	String landingPage;
+  String advertiserid;
 
-	String click_url;
+  String landingPage;
 
-	String primary;
+  String click_url;
 
-	String backup;
+  String primary;
 
-	String concept;
+  String backup;
 
-	public boolean isHttps() {
-		return is_https;
-	}
+  String concept;
 
-	public void setIsHttps(boolean is_https) {
-		this.is_https = is_https;
-	}
+  public boolean isHttps() {
+    return is_https;
+  }
 
-	public String getAdvertiserid() {
-		return advertiserid;
-	}
+  public void setIsHttps(boolean is_https) {
+    this.is_https = is_https;
+  }
 
-	public void setAdvertiserid(String advertiserid) {
-		this.advertiserid = advertiserid;
-	}
+  public String getAdvertiserid() {
+    return advertiserid;
+  }
 
-	public String getLandingPage() {
-		return landingPage;
-	}
+  public void setAdvertiserid(String advertiserid) {
+    this.advertiserid = advertiserid;
+  }
 
-	public void setLandingPage(String landingPage) {
-		this.landingPage = landingPage;
-	}
+  public String getLandingPage() {
+    return landingPage;
+  }
 
-	public String getClickUrl() {
-		return click_url;
-	}
+  public void setLandingPage(String landingPage) {
+    this.landingPage = landingPage;
+  }
 
-	public void setClickUrl(String click_url) {
-		this.click_url = click_url;
-	}
+  public String getClickUrl() {
+    return click_url;
+  }
 
-	public String getPrimary() {
-		return primary;
-	}
+  public void setClickUrl(String click_url) {
+    this.click_url = click_url;
+  }
 
-	public void setPrimary(String primary) {
-		this.primary = primary;
-	}
+  public String getPrimary() {
+    return primary;
+  }
 
-	public String getBackup() {
-		return backup;
-	}
+  public void setPrimary(String primary) {
+    this.primary = primary;
+  }
 
-	public void setBackup(String backup) {
-		this.backup = backup;
-	}
+  public String getBackup() {
+    return backup;
+  }
 
-	public String getConcept() {
-		return concept;
-	}
+  public void setBackup(String backup) {
+    this.backup = backup;
+  }
 
-	public void setConcept(String concept) {
-		this.concept = concept;
-	}
+  public String getConcept() {
+    return concept;
+  }
+
+  public void setConcept(String concept) {
+    this.concept = concept;
+  }
 }

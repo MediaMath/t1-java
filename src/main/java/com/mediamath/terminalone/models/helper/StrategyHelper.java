@@ -36,25 +36,33 @@ public class StrategyHelper {
 
   /**
    * creates a Strategy Form object.
-   * @param entity expects a Strategy entity.
+   * 
+   * @param entity
+   *          expects a Strategy entity.
    * @return Form object.
    */
   public static Form getForm(Strategy entity) {
     Form strategyForm = new Form();
     if (entity.getStrategyDomainRestrictions().size() <= 0) {
-      
-      if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().size() <= 0) {
-        strategyForm.param("audience_segment_exclude_op", entity.getAudienceSegmentExcludeOp().toString());
-      } else if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().size() > 0) {
+
+      if (entity.getAudienceSegmentExcludeOp() != null
+          && entity.getAudienceSegments().size() <= 0) {
+        strategyForm.param("audience_segment_exclude_op",
+            entity.getAudienceSegmentExcludeOp().toString());
+      } else if (entity.getAudienceSegmentExcludeOp() != null
+          && entity.getAudienceSegments().size() > 0) {
         strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
       }
-      
-      if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().size() <= 0) {
-        strategyForm.param("audience_segment_include_op", entity.getAudienceSegmentIncludeOp().toString());
-      } else if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().size() > 0) {
+
+      if (entity.getAudienceSegmentIncludeOp() != null
+          && entity.getAudienceSegments().size() <= 0) {
+        strategyForm.param("audience_segment_include_op",
+            entity.getAudienceSegmentIncludeOp().toString());
+      } else if (entity.getAudienceSegmentIncludeOp() != null
+          && entity.getAudienceSegments().size() > 0) {
         strategyForm.param("include_op", entity.getAudienceSegmentIncludeOp().toString());
       }
-      
+
       if (entity.getBidAggresiveness() > 0f) {
         strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBidAggresiveness()));
       }
@@ -80,7 +88,8 @@ public class StrategyHelper {
 
       if (entity.getEffectiveGoalValue() != null && entity.getEffectiveGoalValue().size() > 0
           && entity.getEffectiveGoalValue().get(0).getValue() > 0) {
-        strategyForm.param("effective_goal_value", String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
+        strategyForm.param("effective_goal_value",
+            String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
       }
 
       if (entity.getFrequencyType() != null) {
@@ -190,8 +199,7 @@ public class StrategyHelper {
         strategyForm.param("roi_target", String.valueOf(entity.getRoiTarget().get(0).getValue()));
       }
 
-      strategyForm.param("run_on_all_exchanges",
-          Utility.getOnOrOff(entity.isRunOnAllExchanges()));
+      strategyForm.param("run_on_all_exchanges", Utility.getOnOrOff(entity.isRunOnAllExchanges()));
       strategyForm.param("run_on_all_pmp", Utility.getOnOrOff(entity.isRunOnAllPmp()));
       strategyForm.param("run_on_display", Utility.getOnOrOff(entity.isRunOnDisplay()));
       strategyForm.param("run_on_mobile", Utility.getOnOrOff(entity.isRunOnMobile()));
@@ -275,7 +283,6 @@ public class StrategyHelper {
       }
     }
 
-    
     Form finalStrategyForm = Utility.getFilteredForm(strategyForm, "strategy");
 
     return finalStrategyForm;

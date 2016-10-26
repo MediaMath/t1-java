@@ -13,40 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class VideoCreativeEncodingStatus {
-	
-	private String status;
-	
-	private long percent;
-	
-	private ArrayList<VideoCreativeEncodings> encodings = new ArrayList<VideoCreativeEncodings>();
 
-	public String getStatus() {
-		return status;
-	}
+  private String status;
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  private long percent;
 
-	public long getPercent() {
-		return percent;
-	}
+  private ArrayList<VideoCreativeEncodings> encodings = new ArrayList<VideoCreativeEncodings>();
 
-	public void setPercent(long percent) {
-		this.percent = percent;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public ArrayList<VideoCreativeEncodings> getEncodings() {
-		return encodings;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public void setEncodings(ArrayList<VideoCreativeEncodings> encodings) {
-		this.encodings = encodings;
-	}
+  public long getPercent() {
+    return percent;
+  }
+
+  public void setPercent(long percent) {
+    this.percent = percent;
+  }
+
+  public ArrayList<VideoCreativeEncodings> getEncodings() {
+    return encodings;
+  }
+
+  public void setEncodings(ArrayList<VideoCreativeEncodings> encodings) {
+    this.encodings = encodings;
+  }
 
 }

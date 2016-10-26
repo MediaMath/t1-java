@@ -13,42 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class TargetDimension implements T1Entity {
-	
-	private static final String entityName = "TargetDimension";
 
-	private String type;
-	private String exclude;
-	private String include;
+  private static final String entityName = "TargetDimension";
 
-	public String getType() {
-		return type;
-	}
+  private String type;
+  private String exclude;
+  private String include;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+  public String getType() {
+    return type;
+  }
 
-	public String getExclude() {
-		return exclude;
-	}
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public void setExclude(String exclude) {
-		this.exclude = exclude;
-	}
+  public String getExclude() {
+    return exclude;
+  }
 
-	public String getInclude() {
-		return include;
-	}
+  public void setExclude(String exclude) {
+    this.exclude = exclude;
+  }
 
-	public void setInclude(String include) {
-		this.include = include;
-	}
+  public String getInclude() {
+    return include;
+  }
 
-	public String getEntityname() {
-		return entityName;
-	}
+  public void setInclude(String include) {
+    this.include = include;
+  }
+
+  public String getEntityname() {
+    return entityName;
+  }
 
 }

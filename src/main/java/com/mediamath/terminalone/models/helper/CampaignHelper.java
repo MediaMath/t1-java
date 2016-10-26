@@ -23,7 +23,7 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.utils.Utility;
 
-public class CampaignHelper  {
+public class CampaignHelper {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
@@ -31,7 +31,9 @@ public class CampaignHelper  {
 
   /**
    * creates a Campaign Form object.
-   * @param entity expects Campaign
+   * 
+   * @param entity
+   *          expects Campaign
    * @return Form object.
    */
   public static Form getForm(Campaign entity) {
@@ -40,8 +42,9 @@ public class CampaignHelper  {
 
     campaignForm.param("name", entity.getName());
 
-    if (entity.getAdServerFee().size() > 0) { 
-      campaignForm.param("ad_server_fee", String.valueOf(entity.getAdServerFee().get(0).getValue()));
+    if (entity.getAdServerFee().size() > 0) {
+      campaignForm.param("ad_server_fee",
+          String.valueOf(entity.getAdServerFee().get(0).getValue()));
     }
 
     if (entity.getTotalBudget().size() > 0) {
@@ -49,7 +52,8 @@ public class CampaignHelper  {
     }
 
     if (entity.getSpendCapAmount().size() > 0) {
-      campaignForm.param("spend_cap_amount", String.valueOf(entity.getSpendCapAmount().get(0).getValue()));
+      campaignForm.param("spend_cap_amount",
+          String.valueOf(entity.getSpendCapAmount().get(0).getValue()));
     }
 
     if (entity.getGoalValue().size() > 0) {
@@ -66,7 +70,8 @@ public class CampaignHelper  {
 
     campaignForm.param("conversion_type", entity.getConversionType());
 
-    campaignForm.param("conversion_variable_minutes", String.valueOf(entity.getConversionVariableMinutes()));
+    campaignForm.param("conversion_variable_minutes",
+        String.valueOf(entity.getConversionVariableMinutes()));
 
     if (entity.getEndDate() != null) {
       String endDate = sdf.format(entity.getEndDate());
@@ -100,7 +105,8 @@ public class CampaignHelper  {
       campaignForm.param("currency_code", entity.getCurrencyCode());
     }
 
-    campaignForm.param("dcs_data_is_campaign_level", Utility.getOnOrOff(entity.isDcsDataIsCampaignLevel()));
+    campaignForm.param("dcs_data_is_campaign_level",
+        Utility.getOnOrOff(entity.isDcsDataIsCampaignLevel()));
 
     // check null
     if (entity.getFrequencyAmount() >= 0) {
@@ -111,7 +117,7 @@ public class CampaignHelper  {
       campaignForm.param("frequency_interval", String.valueOf(entity.getFrequencyInterval()));
     }
 
-    if (entity.getFrequencyType() != null ) {
+    if (entity.getFrequencyType() != null) {
       campaignForm.param("frequency_type", String.valueOf(entity.getFrequencyType()));
     }
 
@@ -123,7 +129,8 @@ public class CampaignHelper  {
       campaignForm.param("goal_category", String.valueOf(entity.getGoalCategory()));
     }
 
-    campaignForm.param("has_custom_attribution", Utility.getOnOrOff(entity.isHasCustomAttribution()));
+    campaignForm.param("has_custom_attribution",
+        Utility.getOnOrOff(entity.isHasCustomAttribution()));
 
     if (entity.getIoName() != null) {
       campaignForm.param("io_name", entity.getIoName());
@@ -169,7 +176,6 @@ public class CampaignHelper  {
       campaignForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-   
     Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
     return finalCampaignForm;

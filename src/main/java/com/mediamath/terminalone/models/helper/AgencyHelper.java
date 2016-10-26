@@ -16,10 +16,10 @@
 
 package com.mediamath.terminalone.models.helper;
 
+import javax.ws.rs.core.Form;
+
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.utils.Utility;
-
-import javax.ws.rs.core.Form;
 
 public class AgencyHelper {
 

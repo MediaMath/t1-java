@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class TPASCreativePlacementValid {
-	
-	ArrayList<TPASCreativeBatchPlacement> placement;
 
-	public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
-		return placement;
-	}
+  ArrayList<TPASCreativeBatchPlacement> placement;
 
-	public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
-		this.placement = placement;
-	}
+  public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
+    return placement;
+  }
+
+  public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
+    this.placement = placement;
+  }
 
 }

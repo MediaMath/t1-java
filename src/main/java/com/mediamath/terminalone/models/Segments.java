@@ -13,58 +13,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class Segments {
-	
-	public enum restrictions {
-		INCLUDE, EXCLUDE
-	};
-	
-	public enum audSegExc {
-		AND, OR
-	};
 
-	public enum audSegInc {
-		AND, OR
-	};
-	
-	private int id;
-	private restrictions restriction;
-	private audSegExc exclude;
-	private audSegInc include;
-	
-	public Segments(int id, restrictions restriction, audSegExc exclude, audSegInc include) {
-		this.id = id;
-		this.restriction = restriction;
-		this.exclude = exclude;
-		this.include = include;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public restrictions getRestriction() {
-		return restriction;
-	}
-	public void setRestriction(restrictions restriction) {
-		this.restriction = restriction;
-	}
-	public audSegExc getExclude() {
-		return exclude;
-	}
-	public void setExclude(audSegExc exclude) {
-		this.exclude = exclude;
-	}
-	public audSegInc getInclude() {
-		return include;
-	}
-	public void setInclude(audSegInc include) {
-		this.include = include;
-	}
-	
-	
+  public enum restrictions {
+    INCLUDE, EXCLUDE
+  };
+
+  public enum audSegExc {
+    AND, OR
+  };
+
+  public enum audSegInc {
+    AND, OR
+  };
+
+  private int id;
+  private restrictions restriction;
+  private audSegExc exclude;
+  private audSegInc include;
+
+  /**
+   * Constructor.
+   * 
+   * @param id id.
+   * @param restriction restriction.
+   * @param exclude exclude.
+   * @param include include.
+   */
+  public Segments(int id, restrictions restriction, audSegExc exclude, audSegInc include) {
+    this.id = id;
+    this.restriction = restriction;
+    this.exclude = exclude;
+    this.include = include;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public restrictions getRestriction() {
+    return restriction;
+  }
+
+  public void setRestriction(restrictions restriction) {
+    this.restriction = restriction;
+  }
+
+  public audSegExc getExclude() {
+    return exclude;
+  }
+
+  public void setExclude(audSegExc exclude) {
+    this.exclude = exclude;
+  }
+
+  public audSegInc getInclude() {
+    return include;
+  }
+
+  public void setInclude(audSegInc include) {
+    this.include = include;
+  }
 
 }

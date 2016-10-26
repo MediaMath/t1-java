@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 public class VideoCreativeUploadStatus {
 
-	private VideoCreativeUploadInfo uploadInfo;
-	
-	private VideoCreativeEncodingStatus encodingStatus;
+  private VideoCreativeUploadInfo uploadInfo;
 
-	public VideoCreativeUploadInfo getUploadInfo() {
-		return uploadInfo;
-	}
+  private VideoCreativeEncodingStatus encodingStatus;
 
-	public void setUploadInfo(VideoCreativeUploadInfo uploadInfo) {
-		this.uploadInfo = uploadInfo;
-	}
+  public VideoCreativeUploadInfo getUploadInfo() {
+    return uploadInfo;
+  }
 
-	public VideoCreativeEncodingStatus getEncodingStatus() {
-		return encodingStatus;
-	}
+  public void setUploadInfo(VideoCreativeUploadInfo uploadInfo) {
+    this.uploadInfo = uploadInfo;
+  }
 
-	public void setEncodingStatus(VideoCreativeEncodingStatus encodingStatus) {
-		this.encodingStatus = encodingStatus;
-	}
-	
-	
+  public VideoCreativeEncodingStatus getEncodingStatus() {
+    return encodingStatus;
+  }
+
+  public void setEncodingStatus(VideoCreativeEncodingStatus encodingStatus) {
+    this.encodingStatus = encodingStatus;
+  }
+
 }

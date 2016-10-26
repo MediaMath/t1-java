@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
 public class TPASCreativeBatchPlacements {
 
-	ArrayList<TPASCreativePlacementInvalid> invalid;
-	ArrayList<TPASCreativePlacementValid> valid;
+  ArrayList<TPASCreativePlacementInvalid> invalid;
+  ArrayList<TPASCreativePlacementValid> valid;
 
-	public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
-		return invalid;
-	}
+  public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
+    return invalid;
+  }
 
-	public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
-		this.invalid = invalid;
-	}
+  public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
+    this.invalid = invalid;
+  }
 
-	public ArrayList<TPASCreativePlacementValid> getValid() {
-		return valid;
-	}
+  public ArrayList<TPASCreativePlacementValid> getValid() {
+    return valid;
+  }
 
-	public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
-		this.valid = valid;
-	}
+  public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
+    this.valid = valid;
+  }
 
 }

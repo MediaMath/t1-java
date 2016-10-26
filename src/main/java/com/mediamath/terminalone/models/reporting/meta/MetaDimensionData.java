@@ -21,13 +21,13 @@ import java.util.ArrayList;
 public class MetaDimensionData {
 
   boolean access;
-  
+
   String name;
-  
+
   String type;
-  
+
   long maxLength;
-  
+
   ArrayList<String> values;
 
   public boolean isAccess() {

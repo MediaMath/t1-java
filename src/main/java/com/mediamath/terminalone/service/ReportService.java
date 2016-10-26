@@ -16,18 +16,31 @@
 
 package com.mediamath.terminalone.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.ReportCriteria;
 import com.mediamath.terminalone.exceptions.ClientException;
@@ -50,30 +63,6 @@ import com.mediamath.terminalone.models.reporting.meta.MetricsData;
 import com.mediamath.terminalone.models.reporting.meta.TimeField;
 import com.mediamath.terminalone.models.reporting.meta.TimeInterval;
 import com.mediamath.terminalone.utils.Utility;
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import javax.ws.rs.core.Response;
-
-
-
 
 public class ReportService {
 
@@ -100,7 +89,8 @@ public class ReportService {
   /**
    * gets uri for reports.
    * 
-   * @param report expects a ReportCriteria entity.
+   * @param report
+   *          expects a ReportCriteria entity.
    * 
    * @return StringBuffer object.
    */
@@ -265,7 +255,7 @@ public class ReportService {
 
       } catch (UnsupportedEncodingException exception) {
         // TODO Auto-generated catch block
-        // TODO log exception. 
+        // TODO log exception.
         exception.printStackTrace();
       }
     }
@@ -283,7 +273,8 @@ public class ReportService {
   /**
    * this method parses meta query response.
    * 
-   * @param response requires the JSON response.
+   * @param response
+   *          requires the JSON response.
    * @return JsonResponse<? extends T1Entity> returns JsonResponse of type T.
    * 
    */
@@ -320,7 +311,9 @@ public class ReportService {
 
   /**
    * parses the meta data response for a particular report query.
-   * @param response requires JSON response.
+   * 
+   * @param response
+   *          requires JSON response.
    * @return MetaData object.
    */
   public MetaData parseReportMetaResponse(String response) {
@@ -391,10 +384,14 @@ public class ReportService {
   /**
    * Gets Report Data.
    * 
-   * @param report type of report for which you want to query. 
-   * @param finalPath path to hit the API endpoint. 
-   * @param connection requires a Connection endpoint.
-   * @param user requires a valid user login session.
+   * @param report
+   *          type of report for which you want to query.
+   * @param finalPath
+   *          path to hit the API endpoint.
+   * @param connection
+   *          requires a Connection endpoint.
+   * @param user
+   *          requires a valid user login session.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
@@ -403,7 +400,8 @@ public class ReportService {
 
     Response response = connection.getReportData(finalPath, user);
     BufferedReader reader = null;
-    if (response.getMediaType().getType().equals("text") && response.getMediaType().getSubtype().equals("xml") && response.getStatus() != 200) {
+    if (response.getMediaType().getType().equals("text")
+        && response.getMediaType().getSubtype().equals("xml") && response.getStatus() != 200) {
 
       try {
 
@@ -423,9 +421,10 @@ public class ReportService {
         throw new ClientException("IO Exception Occured");
       }
 
-    } else if (response.getMediaType().getType().equals("text") && response.getMediaType().getSubtype().equals("csv") && response.getStatus() == 200) {
-        InputStream responseStream = response.readEntity(InputStream.class);
-        reader = new BufferedReader(new InputStreamReader(responseStream));
+    } else if (response.getMediaType().getType().equals("text")
+        && response.getMediaType().getSubtype().equals("csv") && response.getStatus() == 200) {
+      InputStream responseStream = response.readEntity(InputStream.class);
+      reader = new BufferedReader(new InputStreamReader(responseStream));
     }
     return reader;
   }
@@ -433,11 +432,15 @@ public class ReportService {
   /**
    * validates the Report Data.
    * 
-   * @param report the specific report you want to validate. 
+   * @param report
+   *          the specific report you want to validate.
    * 
-   * @param finalPath path to API endpoint.
-   * @param connection requires a connection object.
-   * @param user requires a valid user login session. 
+   * @param finalPath
+   *          path to API endpoint.
+   * @param connection
+   *          requires a connection object.
+   * @param user
+   *          requires a valid user login session.
    * @return ReportValidationResponse object.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.

@@ -1241,8 +1241,7 @@ public class BasicFunctionalTest {
     // upload the file.
     String filePath = "C:\\Users\\chauhan_n\\Desktop\\t1attachements\\blah1234.flv";
     String fileName = "blah1234.flv";
-    VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName,
-        saveResponse.getCreativeId());
+    VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
 
     // check video creative status VideoCreativeUploadStatus uploadStatus =
     t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());

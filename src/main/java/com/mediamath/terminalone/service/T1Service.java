@@ -36,21 +36,21 @@ public class T1Service {
   private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
 
   private static Properties configprop = Utility.loadConfigProperty();
-  
+
   private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
-  
+
   private String URL = null;
-  
+
   private String apiBase = null;
-  
+
   private String pathMgmt = null;
-  
+
   private String videoCreativeURL = null;
-  
+
   private String reportingURL = null;
-  
+
   private String oauthURL = null;
-  
+
   /**
    * constructor.
    */
@@ -60,13 +60,14 @@ public class T1Service {
     this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
     this.reportingURL = configprop.getProperty("reportingURL");
     this.oauthURL = configprop.getProperty("oauthURL");
-    
+
   }
 
   /**
    * constructs a url for a given path.
    * 
-   * @param path requires a path uri.
+   * @param path
+   *          requires a path uri.
    * 
    * @return String object.
    */
@@ -85,13 +86,15 @@ public class T1Service {
     return url;
   }
 
-  
   /**
    * gets form object of login related information.
    * 
-   * @param username requires a valid username.
-   * @param password requires a valid password.
-   * @param apiKey requires a valid environment api key.
+   * @param username
+   *          requires a valid username.
+   * @param password
+   *          requires a valid password.
+   * @param apiKey
+   *          requires a valid environment api key.
    * @return Form object.
    */
   public Form getLoginFormData(String username, String password, String apiKey) {
