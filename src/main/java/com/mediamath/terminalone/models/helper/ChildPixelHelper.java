@@ -55,17 +55,9 @@ public class ChildPixelHelper {
     if (entity.getVersion() >= 0) {
       pixelForm.param("version", String.valueOf(entity.getVersion()));
     }
-<<<<<<< HEAD
-    
-    
+
     Form finalChildPixelForm = Utility.getFilteredForm(pixelForm, "childpixel");
     
     return finalChildPixelForm;
-=======
-
-    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "childpixel");
-
-    return finalAdvertiserForm;
->>>>>>> 524c2a6... formatting the code with checkstyle.
   }
 }
