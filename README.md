@@ -1,7 +1,21 @@
 # t1-java
 Java SDK for MediaMath Platform APIs
 
-#Build project
+# Maven Integration
+You can integrate the latest t1-java build easily by just including the following lines in your pom.xml.
+
+   <dependencies>
+      <dependency>
+           <groupId>com.mediamath</groupId>
+           <artifactId>t1-java</artifactId>
+           <version>0.0.1</version>
+       </dependency>
+       ...
+   </dependencies>
+
+ You can also download the latest jar from Maven Central or from the following source - https://oss.sonatype.org/content/repositories/releases/com/mediamath/t1-java/0.0.1/t1-java-0.0.1.jar
+
+#Build project from source	
 - For developer build
 	>mvn clean install -Pdev
 
