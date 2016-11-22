@@ -118,7 +118,7 @@ public class BasicFunctionalTest {
   @Test
   public void testJTerminalOneStringStringString() throws ClientException {
     TerminalOne t1;
-    t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
+    t1 = new TerminalOne("user", "password", "key");
     assertEquals(true, t1.isAuthenticated());
   }
 
