@@ -18,6 +18,10 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class Advertiser implements T1Entity {
 
   private static final String entityName = "Advertiser";
@@ -272,5 +276,89 @@ public class Advertiser implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  /**
+   * creates a Form object to pass it to connection
+   * 
+   * @param entity
+   *          expects an Advertiser Entity.
+   * @return Form object.
+   */
+  public Form getForm() {
+    Form advertiserForm = new Form();
+
+    // required
+    advertiserForm.param("name", this.getName());
+
+    advertiserForm.param("ad_server_id", String.valueOf(this.getAdServerId()));
+
+    // optional
+    advertiserForm.param("allow_x_strat_optimization",
+        Utility.getOnOrOff(this.isAllowXStratOptimization()));
+
+    advertiserForm.param("agency_id", String.valueOf(this.getAgencyId()));
+
+    if (this.getBillingContactId() > 0) {
+      advertiserForm.param("billing_contact_id", String.valueOf(this.getBillingContactId()));
+    }
+
+    if (this.getDomain() != null) {
+      advertiserForm.param("domain", this.getDomain());
+    }
+
+    if (this.getCreatedOn() != null) {
+      advertiserForm.param("created_on", this.getCreatedOn().toString());
+    }
+
+    if (this.getFrequencyType() != null) {
+      advertiserForm.param("frequency_type", this.getFrequencyType().toString());
+    }
+
+    if (this.getFrequencyInterval() != null) {
+      advertiserForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+    }
+
+    if (this.getFrequencyAmount() > 0) {
+      advertiserForm.param("frequency_amount", String.valueOf(this.getFrequencyAmount()));
+    }
+
+    advertiserForm.param("minimize_multi_ads", Utility.getOnOrOff(this.isMinimizeMultiAds()));
+
+    if (this.getSalesContactId() > 0) {
+      advertiserForm.param("sales_contact_id", String.valueOf(this.getSalesContactId()));
+    }
+
+    advertiserForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getVersion() >= 0) {
+      advertiserForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    if (this.getVerticalId() > 0) {
+      advertiserForm.param("vertical_id", String.valueOf(this.getVerticalId()));
+    }
+
+    if (this.getUpdatedOn() != null) {
+      advertiserForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
+    }
+
+    Form finalAdvertiserForm = Utility.getFilteredForm(advertiserForm, "advertiser");
+
+    return finalAdvertiserForm;
+  }
+
+
+  @Override
+  public String getUri() {
+    StringBuffer uri = new StringBuffer();
+    
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    }
+    
+    return uri.toString();
   }
 }

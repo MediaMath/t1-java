@@ -16,9 +16,18 @@
 
 package com.mediamath.terminalone.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class AtomicCreative implements T1Entity {
+  
+  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
+
+  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
   private static final String entityName = "AtomicCreative";
 
@@ -459,6 +468,162 @@ public class AtomicCreative implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+
+    Form atomicCreativeForm = new Form();
+
+    if (this.getAdvertiserId() > 0) {
+      atomicCreativeForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
+    }
+
+    if (this.getAdFormat() != null) {
+      atomicCreativeForm.param("ad_format", this.getAdFormat().toString());
+    }
+
+    if (this.getAdServerType() != null) {
+      atomicCreativeForm.param("ad_server_type", this.getAdServerType().toString());
+    }
+
+    if (this.getApprovalStatus() != null) {
+      atomicCreativeForm.param("approval_status", this.getApprovalStatus().toString());
+    }
+
+    if (this.getBuildDate() != null) {
+      String buildDate = sdf.format(this.getBuildDate());
+      atomicCreativeForm.param("build_date", buildDate);
+    }
+
+    if (this.getBuildErrors() != null && !this.getBuildErrors().isEmpty()) {
+      atomicCreativeForm.param("build_errors", this.getBuildErrors());
+    }
+
+    atomicCreativeForm.param("built", Utility.getOnOrOff(this.isBuilt()));
+
+    if (this.getBuiltByUserId() > 0) {
+      atomicCreativeForm.param("built_by_user_id", String.valueOf(this.getBuiltByUserId()));
+    }
+
+    if (this.getClickThroughUrl() != null && !this.getClickThroughUrl().isEmpty()) {
+      atomicCreativeForm.param("click_through_url", this.getClickThroughUrl());
+    }
+
+    if (this.getClickUrl() != null && !this.getClickUrl().isEmpty()) {
+      atomicCreativeForm.param("click_url", this.getClickUrl());
+    }
+
+    if (this.getConceptId() > 0) {
+      atomicCreativeForm.param("concept_id", String.valueOf(this.getConceptId()));
+    }
+
+    if (this.getCreativeImportFileId() > 0) {
+      atomicCreativeForm.param("creative_import_file_id",
+          String.valueOf(this.getCreativeImportFileId()));
+    }
+
+    if (this.getEditedTag() != null && !this.getEditedTag().isEmpty()) {
+      atomicCreativeForm.param("edited_tag", this.getEditedTag());
+    }
+
+    if (this.getEndDate() != null) {
+      String endDate = sdf.format(this.getEndDate());
+      atomicCreativeForm.param("end_date", endDate);
+    }
+
+    if (this.getExpansionDirection() != null) {
+      atomicCreativeForm.param("expansion_direction", this.getExpansionDirection().toString());
+    }
+
+    if (this.getExpansionTrigger() != null) {
+      atomicCreativeForm.param("expansion_trigger", this.getExpansionTrigger().toString());
+    }
+
+    if (this.getExternalIdentifier() != null && !this.getExternalIdentifier().isEmpty()) {
+      atomicCreativeForm.param("external_identifier", this.getExternalIdentifier());
+    }
+
+    if (this.getFileType() != null) {
+      atomicCreativeForm.param("file_type", this.getFileType().toString());
+    }
+
+    atomicCreativeForm.param("has_sound", Utility.getOnOrOff(this.isHasSound()));
+
+    if (this.getHeight() > 0) {
+      atomicCreativeForm.param("height", String.valueOf(this.getHeight()));
+    }
+
+    atomicCreativeForm.param("is_https", Utility.getOnOrOff(this.isIsHttps()));
+
+    atomicCreativeForm.param("is_multi_creative", Utility.getOnOrOff(this.isIsMultiCreative()));
+
+    if (this.getMediaType() != null) {
+      atomicCreativeForm.param("media_type", this.getMediaType().toString());
+    }
+
+    if (this.getName() != null && !this.getName().isEmpty()) {
+      atomicCreativeForm.param("name", this.getName());
+    }
+
+    if (this.getRejectedReason() != null && !this.getRejectedReason().isEmpty()) {
+      atomicCreativeForm.param("rejected_reason", this.getRejectedReason());
+    }
+
+    atomicCreativeForm.param("rich_media", Utility.getOnOrOff(this.isRichMedia()));
+
+    if (this.getRichMediaProvider() != null && !this.getRichMediaProvider().isEmpty()) {
+      atomicCreativeForm.param("rich_media_provider", this.getRichMediaProvider());
+    }
+
+    if (this.getStartDate() != null) {
+      String startDate = sdf.format(this.getStartDate());
+      atomicCreativeForm.param("start_date", startDate);
+    }
+
+    atomicCreativeForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    atomicCreativeForm.param("t1as", Utility.getOnOrOff(this.isT1as()));
+
+    if (this.getTag() != null && !this.getTag().isEmpty()) {
+      atomicCreativeForm.param("tag", this.getTag());
+    }
+
+    if (this.getTagType() != null) {
+      atomicCreativeForm.param("tag_type", this.getTagType().toString());
+    }
+
+    if (this.getTpasAdTag() != null && !this.getTpasAdTag().isEmpty()) {
+      atomicCreativeForm.param("tpas_ad_tag", this.getTpasAdTag());
+    }
+
+    if (this.getTpasAdTagName() != null && !this.getTpasAdTagName().isEmpty()) {
+      atomicCreativeForm.param("tpas_ad_tag_name", this.getTpasAdTagName());
+    }
+
+    if (this.getType() != null && !this.getType().isEmpty()) {
+      atomicCreativeForm.param("type", this.getType());
+    }
+
+    if (this.getVersion() >= 0) {
+      atomicCreativeForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    if (this.getWidth() > 0) {
+      atomicCreativeForm.param("width", String.valueOf(this.getWidth()));
+    }
+
+    Form finalAtomicCreativeForm = Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
+
+    return finalAtomicCreativeForm;
+
+  }
+
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

@@ -16,9 +16,12 @@
 
 package com.mediamath.terminalone.models.reporting.meta;
 
+import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.models.T1Entity;
 
 import java.util.HashMap;
+
+import javax.ws.rs.core.Form;
 
 public class Meta implements T1Entity {
 
@@ -37,6 +40,18 @@ public class Meta implements T1Entity {
 
   public void setMetaData(HashMap<String, MetaData> metaData) {
     this.metaData = metaData;
+  }
+
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() throws ClientException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

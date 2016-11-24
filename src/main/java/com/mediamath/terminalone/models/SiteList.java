@@ -18,6 +18,10 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class SiteList implements T1Entity {
 
   private static final String entityName = "SiteList";
@@ -122,4 +126,38 @@ public class SiteList implements T1Entity {
     return entityName;
   }
 
+  @Override
+  public Form getForm() {
+	  Form strategyConceptForm = new Form();
+
+	    strategyConceptForm.param("name", this.getName());
+	    strategyConceptForm.param("filename", this.getFilename());
+
+	    if (this.getRestriction() != null) {
+	      strategyConceptForm.param("restriction", String.valueOf(this.getRestriction()));
+	    }
+
+	    if (this.getOrganizationId() > 0) {
+	      strategyConceptForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+	    }
+
+	    strategyConceptForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+	    if (this.getVersion() >= 0) {
+	      strategyConceptForm.param("version", String.valueOf(this.getVersion()));
+	    }
+
+	    return strategyConceptForm;
+  }
+
+  @Override
+  public String getUri() {
+	StringBuffer uri = new StringBuffer();
+	    
+    if (this.getId() > 0) {
+      uri.append("/" + this.getId());
+    }
+	return uri.toString();
+  }
+  
 }
