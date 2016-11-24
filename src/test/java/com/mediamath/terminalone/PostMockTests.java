@@ -67,7 +67,7 @@ public class PostMockTests {
     agency.setOrganizationId(100048);
     Mockito.when(postservicemock.save(agency)).thenReturn(agency);
     try {
-      agency = t1.save(agency);
+      agency = (Agency) t1.save(agency);
       Mockito.verify(postservicemock).save(agency);
     } catch (ParseException e) {
       e.printStackTrace();
@@ -111,7 +111,7 @@ public class PostMockTests {
     camp.setMeritPixelId(800781);
     try {
       Mockito.when(postservicemock.save(camp)).thenReturn(camp);
-      camp = t1.save(camp);
+      camp = (Campaign) t1.save(camp);
       Mockito.verify(postservicemock).save(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class PostMockTests {
 
     try {
       Mockito.when(postservicemock.save(adv)).thenReturn(adv);
-      adv = t1.save(adv);
+      adv = (Advertiser) t1.save(adv);
       Mockito.verify(postservicemock).save(adv);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -257,7 +257,7 @@ public class PostMockTests {
 
     try {
       Mockito.when(postservicemock.save(org)).thenReturn(org);
-      org = t1.save(org);
+      org = (Organization) t1.save(org);
       Mockito.verify(postservicemock).save(org);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -289,7 +289,7 @@ public class PostMockTests {
 
     try {
       Mockito.when(postservicemock.save(camp)).thenReturn(camp);
-      camp = t1.save(camp);
+      camp = (Campaign) t1.save(camp);
       Mockito.verify(postservicemock).save(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -309,7 +309,7 @@ public class PostMockTests {
 
     try {
       Mockito.when(postservicemock.save(camp)).thenReturn(camp);
-      camp = t1.save(camp);
+      camp = (Concept) t1.save(camp);
       Mockito.verify(postservicemock).save(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -337,7 +337,7 @@ public class PostMockTests {
 
     try {
       Mockito.when(postservicemock.save(ac)).thenReturn(ac);
-      ac = t1.save(ac);
+      ac = (AtomicCreative) t1.save(ac);
       Mockito.verify(postservicemock).save(ac);
     } catch (ParseException e) {
       // TODO Auto-generated catch block

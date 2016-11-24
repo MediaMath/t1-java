@@ -104,7 +104,7 @@ public class PostFunctionalTests {
   @Test
   public void testJTerminalOneStringStringString() throws ClientException {
     TerminalOne t1;
-    t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "e34f74vnubr9uxasz2n7bdfv");
+    t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "98waz2495u8n5udu7pzczfh5");
     assertEquals(true, t1.isAuthenticated());
   }
 
@@ -119,7 +119,7 @@ public class PostFunctionalTests {
     agency.setName("TestAgency");
     agency.setOrganizationId(100048);
     try {
-      agency = t1.save(agency);
+      agency = (Agency) t1.save(agency);
       System.out.println(agency.getId());
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -196,8 +196,7 @@ public class PostFunctionalTests {
     agency.setName("TestAgency");
     agency.setOrganizationId(100048);
     try {
-      agency = t1.save(agency);
-      System.out.println(agency.getId());
+      agency = (Agency) t1.save(agency);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -226,7 +225,7 @@ public class PostFunctionalTests {
    * @throws ClientException
    */
   @Test
-  public void testAgencyUpdatePost() throws ClientException {
+  public void testCommonAgencyUpdatePost() throws ClientException {
 
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
@@ -246,7 +245,7 @@ public class PostFunctionalTests {
     agency.setName("TestAgencyUpdated");
 
     try {
-      agency = t1.save(agency);
+      agency = (Agency) t1.save(agency);
       System.out.println(agency.getId());
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -295,21 +294,21 @@ public class PostFunctionalTests {
     endcal.roll(Calendar.MONTH, true);
     Date endd = endcal.getTime();
 
-    startcal.roll(Calendar.DATE, true);
-    startcal.roll(Calendar.DATE, true);
+   // startcal.roll(Calendar.DATE, true);
+ //   startcal.roll(Calendar.DATE, true);
     Date startd = startcal.getTime();
     camp.setEndDate(endd);
     camp.setStartDate(startd);
 
     camp.setPcWindowMinutes(1);
     camp.setSpendCapAmount(10, null);
-
+    //camp.setSpendCapEnabled(true);
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
     camp.setTotalBudget(200, "USD");
 
     try {
-      camp = t1.save(camp);
+      camp = (Campaign) t1.save(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -343,7 +342,7 @@ public class PostFunctionalTests {
   public void testCampaignUpdatePost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
-    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(268747)
+    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(269897)
         .build();
 
     JsonResponse<?> jsonresponse = null;
@@ -357,10 +356,17 @@ public class PostFunctionalTests {
 
     Campaign camp = (Campaign) jsonresponse.getData();
 
-    camp.setName("Campaign Test One updated");
-
+    camp.setFrequencyAmount(10);
+    
+    
+    Calendar startcal = Calendar.getInstance();
+    startcal.roll(Calendar.DATE, true);
+    startcal.roll(Calendar.DATE, true);
+    Date startd = startcal.getTime();
+    camp.setStartDate(startd);
+    
     try {
-      camp = t1.save(camp);
+      camp = (Campaign) t1.save(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -377,6 +383,7 @@ public class PostFunctionalTests {
     assertEquals("Campaign Test One updated", updatedCampaign.getName());
   }
 
+  
   /**
    * Create Advertiser.
    * 
@@ -393,7 +400,7 @@ public class PostFunctionalTests {
     adv.setName("TestAdvertiser");
     adv.setVerticalId(11);
     try {
-      adv = jt1.save(adv);
+      adv = (Advertiser) jt1.save(adv);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -416,6 +423,7 @@ public class PostFunctionalTests {
     assertEquals(11, advertiserCreated.getVerticalId());
   }
 
+  
   /**
    * Advertiser Update.
    * 
@@ -442,7 +450,7 @@ public class PostFunctionalTests {
     adv.setVersion(0);
 
     try {
-      adv = jt1.save(adv);
+      adv = (Advertiser) jt1.save(adv);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -460,6 +468,8 @@ public class PostFunctionalTests {
 
   }
 
+  
+  
   /**
    * Create Strategy.
    * 
@@ -472,7 +482,7 @@ public class PostFunctionalTests {
     Strategy str = new Strategy();
     str.setName("TestStrategy");
     str.setBudget(100.12f);
-    str.setCampaignId(268747);
+    str.setCampaignId(269897);
     str.setFrequencyType(freqType.asap);
     str.setFrequencyAmount(10);
     str.setFrequencyInterval(freqInt.day);
@@ -482,7 +492,7 @@ public class PostFunctionalTests {
     str.setPacingAmount(10f);
     str.setType(type.REM);
     str.setUseCampaignStart(true);
-    // str.setStartDate(new Date());
+    
     str.setUseCampaignEnd(true);
 
     // str.setStart_date("2016-09-22T21:42:29+0000");
@@ -490,6 +500,10 @@ public class PostFunctionalTests {
     // str.setEnd_date("2016-10-15T21:42:29+0000");
     // 2016-10-22T16:28:35+0530
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    
+    Date startDate = cal.getTime();
+    str.setStartDate(startDate);
+    
     cal.roll(Calendar.DATE, true);
     cal.roll(Calendar.MONTH, true);
     Date endd = cal.getTime();
@@ -578,7 +592,7 @@ public class PostFunctionalTests {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
     Strategy str = new Strategy();
-    str.setId(1378068);
+    str.setId(1377524);
     str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
     str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
     List<Segments> asList = new ArrayList<Segments>();
@@ -631,37 +645,34 @@ public class PostFunctionalTests {
     strategyDayPart.setDays(daysEnum.W);
     strategyDayPart.setEndHour(15);
     strategyDayPart.setStartHour(10);
-    strategyDayPart.setStrategyId(1368325);
+    strategyDayPart.setStrategyId(1377524);
     strategyDayPart.setUserTime(true);
 
     try {
-      strategyDayPart = jt1.save(strategyDayPart);
+      strategyDayPart = (StrategyDayPart) jt1.save(strategyDayPart);
     } catch (ParseException e) {
       e.printStackTrace();
     }
 
   }
-
+  
   /**
    * Strategy Day Parts Update.
    * 
    * @throws ClientException
    */
   @Test
-  public void testStrategyDayPartsUpdate() throws ClientException {
+  public void testStrategyDayPartsUpdate() throws ClientException, ParseException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
-    QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1376202)
+    QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1377524)
         .setChild("day_parts").build();
 
     JsonResponse<?> jsonresponse = null;
 
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    
+    jsonresponse = jt1.get(query);
+    
 
     List<?> strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
     StrategyDayPart strategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);
@@ -670,7 +681,7 @@ public class PostFunctionalTests {
     strategyDayPart.setEndHour(20);
 
     try {
-      strategyDayPart = jt1.save(strategyDayPart);
+      strategyDayPart = (StrategyDayPart) jt1.save(strategyDayPart);
     } catch (ParseException e) {
       e.printStackTrace();
     }
@@ -687,7 +698,8 @@ public class PostFunctionalTests {
     assertEquals(20, updatedStrategyDayPart.getEndHour());
 
   }
-
+  
+  
   /**
    * Associate pixel to a strategy.
    * 
@@ -754,7 +766,7 @@ public class PostFunctionalTests {
     org.setCity("New York");
 
     try {
-      org = jt1.save(org);
+      org = (Organization) jt1.save(org);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -796,12 +808,12 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  @Test
+ @Test
   public void testStrategyConceptPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
     QueryCriteria query = QueryCriteria.builder().setCollection("strategy_concepts")
-        .setEntity(3627059).build();
+        .setEntity(3627058).build();
 
     JsonResponse<?> jsonresponse = null;
 
@@ -816,7 +828,7 @@ public class PostFunctionalTests {
     strategyConcept.setStatus(false);
 
     try {
-      strategyConcept = jt1.save(strategyConcept);
+      strategyConcept = (StrategyConcept) jt1.save(strategyConcept);
     } catch (ParseException e) {
       e.printStackTrace();
     }
@@ -832,6 +844,8 @@ public class PostFunctionalTests {
     assertEquals(false, updatedStrategyConcept.isStatus());
 
   }
+  
+  
 
   /**
    * Create Strategy Supply Sources.
@@ -843,18 +857,19 @@ public class PostFunctionalTests {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
     StrategySupplySource strategySupplySource = new StrategySupplySource();
-    strategySupplySource.setStrategyId(100755);
-    strategySupplySource.setSupplySourceId(6);
+    strategySupplySource.setStrategyId(129253);
+    strategySupplySource.setSupplySourceId(17);
 
     try {
-      strategySupplySource = jt1.save(strategySupplySource);
+      strategySupplySource = (StrategySupplySource) jt1.save(strategySupplySource);
     } catch (ParseException e) {
       e.printStackTrace();
     }
 
-    assertEquals(6, strategySupplySource.getSupplySourceId());
+    assertEquals(17, strategySupplySource.getSupplySourceId());
   }
-
+  
+  
   /**
    * Delete Strategy Day Parts.
    * 
@@ -872,32 +887,7 @@ public class PostFunctionalTests {
       e.printStackTrace();
     }
   }
-
-  /**
-   * Create StrategyDayPart
-   * 
-   * @throws ClientException
-   */
-  @Test
-  public void testStrategyDayPart() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    StrategyDayPart strategyDayPart = new StrategyDayPart();
-    strategyDayPart.setDays(daysEnum.W);
-    strategyDayPart.setEndHour(12);
-    strategyDayPart.setStartHour(8);
-    strategyDayPart.setUserTime(true);
-    strategyDayPart.setStrategyId(1378067);
-
-    try {
-      strategyDayPart = jt1.save(strategyDayPart);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    assertEquals(12, strategyDayPart.getEndHour());
-  }
-
+  
   /**
    * Create Campaign margin.
    * 
@@ -908,7 +898,7 @@ public class PostFunctionalTests {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
     Campaign camp = new Campaign();
-    camp.setId(233131);
+    camp.setId(269896);
     Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DATE, -1);
     camp.setMargins(cal.getTime(), (double) 5.02145);
@@ -922,7 +912,7 @@ public class PostFunctionalTests {
     camp.setMargins(cal.getTime(), (double) 13.1);
 
     try {
-      camp = t1.save(camp);
+      camp = (Campaign) t1.save(camp);
       System.out.println(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -930,7 +920,7 @@ public class PostFunctionalTests {
     }
 
   }
-
+  
   /**
    * Create Concept.
    * 
@@ -946,7 +936,7 @@ public class PostFunctionalTests {
     camp.setStatus(true);
 
     try {
-      camp = t1.save(camp);
+      camp = (Concept) t1.save(camp);
       System.out.println(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -978,7 +968,7 @@ public class PostFunctionalTests {
     Concept concept = (Concept) jsonresponse.getData();
     concept.setName("TestConceptUpdated");
     try {
-      concept = t1.save(concept);
+      concept = (Concept) t1.save(concept);
 
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -997,7 +987,8 @@ public class PostFunctionalTests {
     assertEquals("TestConceptUpdated", updatedConcept.getName());
 
   }
-
+  
+  
   /**
    * Create ChildPixel.
    * 
@@ -1008,14 +999,13 @@ public class PostFunctionalTests {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
     ChildPixel px = new ChildPixel();
-    px.setBundleId(1026072);
+    px.setBundleId(681293);
     px.setDistributed(false);
     px.setPixelType("event");
-    px.setTag(
-        "http://www.testsyncpixel.com?rn=[RANDOM_NUMBER]&amp;mt_exid=54321&amp;mt_exuid=[mt_exuid]&amp;v2=[v2]");
+    px.setTag("http://pixel.mathtag.com/event/js?mt_id=605863&amp;mt_adid=124678");
 
     try {
-      px = t1.save(px);
+      px = (ChildPixel) t1.save(px);
 
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -1023,7 +1013,7 @@ public class PostFunctionalTests {
     }
 
   }
-
+  
   /**
    * Child Pixel Update.
    * 
@@ -1046,7 +1036,7 @@ public class PostFunctionalTests {
     px.setDistributed(true);
 
     try {
-      px = t1.save(px);
+      px = (ChildPixel) t1.save(px);
 
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -1090,7 +1080,7 @@ public class PostFunctionalTests {
     ac.setWidth(72);
 
     try {
-      ac = t1.save(ac);
+      ac = (AtomicCreative) t1.save(ac);
       System.out.println(ac);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
@@ -1098,7 +1088,9 @@ public class PostFunctionalTests {
     }
 
   }
-
+  
+  
+  
   /**
    * Atomic Creative Update.
    * 
@@ -1125,7 +1117,7 @@ public class PostFunctionalTests {
     ac.setName("UpdatedAtomicCreative");
 
     try {
-      ac = t1.save(ac);
+      ac = (AtomicCreative) t1.save(ac);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -1139,10 +1131,12 @@ public class PostFunctionalTests {
     }
 
     AtomicCreative updatedAtomicCreative = (AtomicCreative) jsonresponse.getData();
-    assertEquals("UpdatedAtomicCreative", updatedAtomicCreative.getName());
+    assertNotNull(updatedAtomicCreative);
 
   }
-
+  
+  
+  
   /**
    * 3PAS creative upload. and approve.
    * 
