@@ -33,7 +33,11 @@ public class ReportingFunctionalTestIT {
 
   @BeforeClass
   public static void init() throws Exception {
+<<<<<<< HEAD:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTestIT.java
     InputStream input = ReportingFunctionalTestIT.class.getClassLoader()
+=======
+    InputStream input = ReportingFunctionalTest.class.getClassLoader()
+>>>>>>> Common Save Functionality Final:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTest.java
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("t1.username");

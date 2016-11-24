@@ -234,8 +234,16 @@ public class Agency implements T1Entity {
   }
   
   /**
+<<<<<<< HEAD
    * creates an Agency Form object.
    * 
+=======
+   * creates a Agency Form object.
+   * 
+   * @param this
+   *          expects Agency this.
+   * @return Form object.
+>>>>>>> Common Save Functionality Final
    */
   public Form getForm() {
 

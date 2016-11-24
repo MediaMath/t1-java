@@ -752,6 +752,42 @@ public class TerminalOne {
 
         if (dataObj == null) {
           return null;
+<<<<<<< HEAD
+=======
+        }
+
+        JsonElement entityTypeElem = dataObj.get("entity_type");
+
+        if (entityTypeElem == null) {
+          return null;
+        }
+        
+        String entityType = entityTypeElem.getAsString();
+
+        if (entityType == null || entityType.isEmpty()) {
+          return null;
+        }
+
+        if (Constants.getListoFEntityType.get(entityType) == null) {
+          return null;
+        }
+
+        finalJsonResponse = parser.parseJsonToObj(response,
+            Constants.getListoFEntityType.get(entityType));
+
+      }
+
+      if (element.isJsonObject()) {
+        JsonObject obj = element.getAsJsonObject();
+        JsonElement entityTypeElement = obj.get("entity_type");
+        String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+        if (entityType != null && !entityType.equalsIgnoreCase("")) {
+          finalJsonResponse = parser.parseJsonToObj(response,
+              Constants.getEntityType.get(entityType));
+        } else {
+          finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
+          }.getType());
+>>>>>>> Common Save Functionality Final
         }
 
         JsonElement entityTypeElem = dataObj.get("entity_type");
@@ -803,6 +839,22 @@ public class TerminalOne {
       }
     }
 
+<<<<<<< HEAD
+=======
+    if (element == null) {
+      if (query.collection == null) {
+        return null;
+      }
+
+      finalJsonResponse = parser.parseJsonToObj(response,
+          Constants.getEntityType.get(query.collection.toLowerCase()));
+
+      if (finalJsonResponse != null) {
+        finalJsonResponse.setData(null);
+      }
+    }
+
+>>>>>>> Common Save Functionality Final
     return finalJsonResponse;
   }
 
