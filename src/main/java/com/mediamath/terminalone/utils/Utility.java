@@ -176,22 +176,20 @@ public class Utility {
     // T1Service.getEntityReadOnlyFields().getProperty(entityRequiredFields);
     // List<String> requiredFieldList = Utility.getList(requiredFields);
 
-    if (entityName != null && !entityName.isEmpty()) {
-      String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
-      List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
-      for (String str : readOnlyFieldList) {
-        if (multiValMap.containsKey(str)) {
-          multiValMap.remove(str);
-        }
+    String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
+    List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
+    for (String str : readOnlyFieldList) {
+      if (multiValMap.containsKey(str)) {
+        multiValMap.remove(str);
       }
     }
-
+    
     Form filteredForm = new Form(multiValMap);
     return filteredForm;
   }
 
   /**
-   * this utility takes in the Exception object and logs the entire stact tracer to the logger.
+   * this utility takes in the Exception object and logs the entire stack tracer to the logger.
    * 
    * @param exception
    *          Exception object.

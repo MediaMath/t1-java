@@ -18,6 +18,10 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class Concept implements T1Entity {
 
   private static final String entityName = "Concept";
@@ -98,6 +102,32 @@ public class Concept implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+    Form conceptForm = new Form();
+
+    conceptForm.param("name", this.getName());
+
+    if (this.getAdvertiserId() > 0) {
+      conceptForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
+    }
+
+    conceptForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getVersion() >= 0) {
+      conceptForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    return conceptForm;
+  }
+
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

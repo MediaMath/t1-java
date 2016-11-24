@@ -18,6 +18,8 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.core.Form;
+
 public class TPASCreativeBatchApprove implements T1Entity {
 
   private static final String entityName = "ThreePasCreativeBatchApprove";
@@ -74,6 +76,18 @@ public class TPASCreativeBatchApprove implements T1Entity {
 
   public ArrayList<TPASCreativeBatchIndex> getBatch() {
     return batch;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

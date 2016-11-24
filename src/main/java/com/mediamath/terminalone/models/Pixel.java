@@ -18,6 +18,10 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class Pixel implements T1Entity {
 
   private static final String entityName = "PixelBundle";
@@ -343,6 +347,129 @@ public class Pixel implements T1Entity {
 
   public void setProvider(PixelProvider provider) {
     this.provider = provider;
+  }
+  
+  @Override
+  public Form getForm() {
+
+    Form pixelForm = new Form();
+
+    if (this.getAdvertiserId() > 0) {
+      pixelForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
+    }
+    
+    if (this.getAgencyId() > 0) {
+      pixelForm.param("agency_id", String.valueOf(this.getAgencyId()));
+    }
+    
+    if (this.getProviderId() > 0) {
+      pixelForm.param("provider_id", String.valueOf(this.getProviderId()));
+    }
+    
+    if (this.getCostCpm() > 0f) {
+      pixelForm.param("cost_cpm", String.valueOf(this.getCostCpm()));
+    }
+    
+    if (this.getCostPctCpm() > 0f) {
+      pixelForm.param("cost_pct_cpm", String.valueOf(this.getCostPctCpm()));
+    }
+    
+    if (this.getCostCpts() > 0f) {
+      pixelForm.param("cost_cpts", String.valueOf(this.getCostCpts()));
+    }
+    
+    if (this.getCreatedOn() != null) {
+      pixelForm.param("created_on", this.getCreatedOn().toString());
+    }
+    
+    if (this.getCurrency() != null) {
+      pixelForm.param("currency", this.getCurrency().toString());
+    }
+    
+    if (this.getCurrencyFixed() != null) {
+      pixelForm.param("currency_fixed", this.getCurrencyFixed());
+    }
+
+    if (this.getRevenue() != null) {
+      pixelForm.param("revenue", this.getRevenue().toString());
+    }
+    
+    pixelForm.param("eligible", Utility.getOnOrOff(this.isEligible()));
+    
+    if (this.getExternalIdentifier() != null) {
+      pixelForm.param("external_identifier", this.getExternalIdentifier());
+    }
+    
+    if (this.getKeywords() != null) {
+      pixelForm.param("keywords", this.getKeywords());
+    }
+
+    if (this.getName() != null) {
+      pixelForm.param("name", this.getName());
+    }
+
+    if (this.getPixelType() != null) {
+      pixelForm.param("pixel_type", this.getPixelType().toString());
+    }
+
+    if (this.getPricing() != null) {
+      pixelForm.param("pricing", this.getPricing().toString());
+    }
+    
+    if (this.getRmxConversionMinutes() > 0) {
+      pixelForm.param("rmx_conversion_minutes", String.valueOf(this.getRmxConversionMinutes()));
+    }
+
+    if (this.getRmxConversionType() != null) {
+      pixelForm.param("rmx_conversion_type", this.getRmxConversionType().toString());
+    }
+
+    pixelForm.param("rmx_friendly", Utility.getOnOrOff(this.isRmxFriendly()));
+    pixelForm.param("rmx_merit", Utility.getOnOrOff(this.isRmxMerit()));
+
+    if (this.getRmxPcWindowMinutes() > 0) {
+      pixelForm.param("rmx_pc_window_minutes", String.valueOf(this.getRmxPcWindowMinutes()));
+    }
+
+    if (this.getRmxPvWindowMinutes() > 0) {
+      pixelForm.param("rmx_pv_window_minutes", String.valueOf(this.getRmxPvWindowMinutes()));
+    }
+
+    if (this.getSegmentOp() != null) {
+      pixelForm.param("segment_op", this.getSegmentOp());
+    }
+    
+    pixelForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getTagType() != null) {
+      pixelForm.param("tag_type", this.getTagType().toString());
+    }
+    
+    if (this.getTags() != null) {
+      pixelForm.param("tags", this.getTags());
+    }
+    
+    if (this.getType() != null) {
+      pixelForm.param("type", this.getType());
+    }
+    
+    if (this.getVersion() >= 0) {
+      pixelForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "pixelbundle");
+
+    return finalAdvertiserForm;
+  }
+
+  @Override
+  public String getUri() {
+    StringBuffer uri = new StringBuffer();
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    }
+    return uri.toString();
   }
 
 }

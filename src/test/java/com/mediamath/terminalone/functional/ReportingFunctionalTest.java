@@ -33,7 +33,7 @@ public class ReportingFunctionalTest {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = BasicFunctionalTest.class.getClassLoader()
+    InputStream input = ReportingFunctionalTest.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("t1.username");
