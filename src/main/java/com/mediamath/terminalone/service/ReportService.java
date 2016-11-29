@@ -254,9 +254,8 @@ public class ReportService {
         }
 
       } catch (UnsupportedEncodingException exception) {
-        // TODO Auto-generated catch block
-        // TODO log exception.
-        exception.printStackTrace();
+        logger.debug("getReportUri: UnsupportedEncodingException occured: ");
+        Utility.logStackTrace(exception);
       }
     }
     return path;

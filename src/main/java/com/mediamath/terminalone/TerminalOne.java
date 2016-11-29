@@ -133,11 +133,14 @@ public class TerminalOne {
     reportService = new ReportService();
 
     if (this.getUser() != null && this.getUser().getData() != null) {
-      if (this.getUser().getData().getSession() != null
-          && this.getUser().getData().getSession().getSessionid() != null
-          && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+      
+      if (this.getUser().getData().getSession() != null 
+            && this.getUser().getData().getSession().getSessionid() != null 
+            && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+      
         this.authenticated = true;
       }
+      
     }
 
   }
@@ -347,6 +350,18 @@ public class TerminalOne {
     this.setUser(resp);
 
   }
+  
+  public T1Entity commonSave(T1Entity entity) throws ClientException, ParseException {
+    
+    if(entity == null) return null;
+    
+    if(!isAuthenticated()) return null;
+    
+    T1Entity response = postService.commonSave(entity);
+    
+    return response;
+  }
+  
 
   /**
    * Saves Agency entity.
@@ -896,64 +911,87 @@ public class TerminalOne {
 
     // check whether error present
     jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
-    // if no error
-    if (jsonPostErrorResponse == null) {
-      JsonElement element = parser.getDataFromResponse(response);
-      if (element != null) {
-        if (element.isJsonArray()) {
-          // do something
-          JsonArray dataList = element.getAsJsonArray();
 
-          String entityType;
-          if (dataList.size() > 0) {
-            JsonElement data = dataList.get(0);
-            if (data != null) {
-              JsonObject dataObj = data.getAsJsonObject();
-              if (dataObj != null) {
-                JsonElement entityTypeElem = dataObj.get("entity_type");
-                if (entityTypeElem != null) {
-                  entityType = entityTypeElem.getAsString();
-                  if (entityType != null && !entityType.isEmpty()) {
-                    if (Constants.getListoFEntityType.get(entityType) != null) {
-                      finalJsonResponse = parser.parseJsonToObj(response,
-                          Constants.getListoFEntityType.get(entityType));
-                    }
-                  }
-                }
-              }
-            }
-          } else {
-            if (query.collection != null) {
-              finalJsonResponse = parser.parseJsonToObj(response,
-                  Constants.getListoFEntityType.get(query.collection.toLowerCase()));
-            }
-          }
-
-        } else if (element.isJsonObject()) {
-          JsonObject obj = element.getAsJsonObject();
-          JsonElement entityTypeElement = obj.get("entity_type");
-          String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
-          if (entityType != null && !entityType.equalsIgnoreCase("")) {
-            finalJsonResponse = parser.parseJsonToObj(response,
-                Constants.getEntityType.get(entityType));
-          } else {
-            finalJsonResponse = parser.parseJsonToObj(response,
-                new TypeToken<JsonResponse<Data>>() {
-                }.getType());
-          }
-        }
-      } else if (element == null) {
-        if (query.collection != null) {
-          finalJsonResponse = parser.parseJsonToObj(response,
-              Constants.getEntityType.get(query.collection.toLowerCase()));
-          if (finalJsonResponse != null) {
-            finalJsonResponse.setData(null);
-          }
-        }
-      }
-    } else {
+    if (jsonPostErrorResponse != null) {
       postService.throwExceptions(jsonPostErrorResponse);
     }
+
+    JsonElement element = parser.getDataFromResponse(response);
+
+    if (element != null) {
+
+      if (element.isJsonArray()) {
+
+        JsonArray dataList = element.getAsJsonArray();
+
+        if (dataList.size() <= 0) {
+          if (query.collection != null) {
+            finalJsonResponse = parser.parseJsonToObj(response,
+                Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+            return finalJsonResponse;
+          }
+        }
+
+        JsonElement data = dataList.get(0);
+
+        if (data == null) {
+          return null;
+        }
+
+        JsonObject dataObj = data.getAsJsonObject();
+
+        if (dataObj == null) {
+          return null;
+        }
+
+        JsonElement entityTypeElem = dataObj.get("entity_type");
+
+        if (entityTypeElem == null) {
+          return null;
+        }
+        
+        String entityType = entityTypeElem.getAsString();
+
+        if (entityType == null || entityType.isEmpty()) {
+          return null;
+        }
+
+        if (Constants.getListoFEntityType.get(entityType) == null) {
+          return null;
+        }
+
+        finalJsonResponse = parser.parseJsonToObj(response,
+            Constants.getListoFEntityType.get(entityType));
+
+      }
+
+      if (element.isJsonObject()) {
+        JsonObject obj = element.getAsJsonObject();
+        JsonElement entityTypeElement = obj.get("entity_type");
+        String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+        if (entityType != null && !entityType.equalsIgnoreCase("")) {
+          finalJsonResponse = parser.parseJsonToObj(response,
+              Constants.getEntityType.get(entityType));
+        } else {
+          finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
+          }.getType());
+        }
+      }
+    }
+
+    if (element == null) {
+      if (query.collection == null) {
+        return null;
+      }
+
+      finalJsonResponse = parser.parseJsonToObj(response,
+          Constants.getEntityType.get(query.collection.toLowerCase()));
+
+      if (finalJsonResponse != null) {
+        finalJsonResponse.setData(null);
+      }
+    }
+
     return finalJsonResponse;
   }
 

@@ -18,6 +18,8 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
 public class StrategyDayPart implements T1Entity {
 
   private static final String entityName = "StrategyDayPart";
@@ -138,6 +140,18 @@ public class StrategyDayPart implements T1Entity {
 
   public void setName(String name) {
     this.name = name;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

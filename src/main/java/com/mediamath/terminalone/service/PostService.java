@@ -130,6 +130,59 @@ public class PostService {
     StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
     return uri;
   }
+  
+  
+  public T1Entity commonSave(T1Entity entity) throws ClientException, ParseException {
+
+    if (entity == null)
+      return null;
+
+    JsonResponse<? extends T1Entity> finalJsonResponse = null;
+
+    StringBuffer uri = getUri(entity);
+
+    String uriPath = entity.getUri();
+
+    if (uriPath != null && !uriPath.isEmpty())
+      uri.append(uriPath);
+
+    String path = t1Service.constructUrl(uri);
+
+    Response responseObj = this.connection.post(path, entity.getForm(), this.user);
+
+    String response = responseObj.readEntity(String.class);
+
+    // parse response
+    T1JsonToObjParser parser = new T1JsonToObjParser();
+
+    if (response.isEmpty())
+      return null;
+
+    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+
+    if (error != null)
+      throwExceptions(error);
+
+    finalJsonResponse = parsePostData(response, parser, entity);
+
+    if (finalJsonResponse == null)
+      return null;
+
+    // strategy
+    /*
+     * if (entity instanceof Strategy && finalJsonResponse.getData() instanceof ArrayList) {
+     * Strategy strategy = (Strategy) entity;
+     * 
+     * List dataList = (ArrayList) finalJsonResponse.getData(); if (dataList.get(0) instanceof
+     * StrategyAudienceSegment) { strategy.setStrategyAudienceSegments(dataList); }
+     * 
+     * JsonResponse<Strategy> strategyResponse = (JsonResponse<Strategy>) finalJsonResponse;
+     * strategyResponse.setData(strategy); finalJsonResponse = strategyResponse; }
+     */
+
+    return finalJsonResponse.getData();
+  }
+  
 
   /**
    * Saves an Agency Entity.

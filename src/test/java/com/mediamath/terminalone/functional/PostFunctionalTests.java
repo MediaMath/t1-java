@@ -188,6 +188,7 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
+  //TODO common save.
   @Test
   public void testAgencyPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -225,6 +226,7 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
+  //TODO common save.
   @Test
   public void testAgencyUpdatePost() throws ClientException {
 
@@ -382,6 +384,7 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
+  //TODO common save.
   @Test
   public void testAdvertiserPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);

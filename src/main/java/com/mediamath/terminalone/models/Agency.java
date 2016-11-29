@@ -16,6 +16,10 @@
 
 package com.mediamath.terminalone.models;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class Agency implements T1Entity {
 
   private static final String entityName = "Agency";
@@ -227,6 +231,80 @@ public class Agency implements T1Entity {
 
   public void setTrafficContactId(int traffic_contact_id) {
     this.traffic_contact_id = traffic_contact_id;
+  }
+  
+  /**
+   * creates a Agency Form object.
+   * 
+   * @param this
+   *          expects Agency this.
+   * @return Form object.
+   */
+  public Form getForm() {
+
+    Form agencyForm = new Form();
+
+    // required
+    agencyForm.param("name", this.getName());
+
+    agencyForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+
+    // optional
+    agencyForm.param("allow_x_adv_optimization",
+        Utility.getOnOrOff(this.isAllowXAdvOptimization()));
+
+    agencyForm.param("allow_x_adv_pixels", Utility.getOnOrOff(this.isAllowXAdvPixels()));
+
+    if (this.getBillingContactId() > 0) {
+      agencyForm.param("billing_contact_id", String.valueOf(this.getBillingContactId()));
+    }
+
+    if (this.getDmpEnabled() != null) {
+      agencyForm.param("dmp_enabled", this.getDmpEnabled());
+    }
+
+    if (this.getCreatedOn() != null) {
+      agencyForm.param("created_on", this.getCreatedOn().toString());
+    }
+
+    if (this.getLogo() != null) {
+      agencyForm.param("logo", this.getLogo());
+    }
+
+    if (this.getSalesContactId() > 0) {
+      agencyForm.param("sales_contact_id", String.valueOf(this.getSalesContactId()));
+    }
+
+    agencyForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getVersion() >= 0) {
+      agencyForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    if (this.getTrafficContactId() > 0) {
+      agencyForm.param("traffic_contact_id", String.valueOf(this.getTrafficContactId()));
+    }
+
+    if (this.getUpdatedOn() != null) {
+      agencyForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
+    }
+
+    Form finalAgencyForm = Utility.getFilteredForm(agencyForm, "agency");
+
+    return finalAgencyForm;
+  }
+  
+  @Override
+  public String getUri() {
+    StringBuffer uri = new StringBuffer();
+    
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    }
+    
+    
+    return uri.toString();
   }
 
 }
