@@ -16,12 +16,16 @@
 
 package com.mediamath.terminalone.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
 public class StrategyDomain implements T1Entity {
 
+  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
+
+  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
   private static final String entityName = "StrategyDomain";
 
   public enum restrictions {
@@ -114,14 +118,47 @@ public class StrategyDomain implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
-    return null;
+	  Form strategyDomainForm = new Form();
+
+	    if (this.getDomain() != null) {
+	      strategyDomainForm.param("domain", String.valueOf(this.getDomain()));
+	    }
+
+	    if (this.getStrategyId() > 0) {
+	      strategyDomainForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+	    }
+
+	    if (this.getRestriction() != null) {
+	      strategyDomainForm.param("restriction", this.getRestriction().name());
+	    }
+
+	    if (this.getCreatedAt() != null) {
+	      String createdAt = sdf.format(this.getCreatedAt());
+	      strategyDomainForm.param("created_at", createdAt);
+	    }
+
+	    if (this.getId() > 0) {
+	      if (this.getVersion() > 0) {
+	        strategyDomainForm.param("restriction", String.valueOf(this.getVersion()));
+	      }
+	      if (this.getUpdatedOn() != null) {
+	        String updatedOn = sdf.format(this.getUpdatedOn());
+	        strategyDomainForm.param("updated_on", updatedOn);
+	      }
+
+	    }
+
+	    return strategyDomainForm;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
-    return null;
+	  StringBuffer uri = new StringBuffer();
+	    
+	    if (this.getId() > 0) {
+	      uri.append("/" + this.getId());
+	    }
+		return uri.toString();
   }
 
 }

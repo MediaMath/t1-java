@@ -84,14 +84,34 @@ public class StrategySupplySource implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
-    return null;
+	  Form strategySupplySourceForm = new Form();
+
+	    if (this.getSupplySourceId() > 0) {
+	      strategySupplySourceForm.param("supply_source_id",
+	          String.valueOf(this.getSupplySourceId()));
+	    }
+
+	    if (this.getStrategyId() > 0) {
+	      strategySupplySourceForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+	    }
+
+	    if (this.getVersion() >= 0) {
+	      strategySupplySourceForm.param("version", String.valueOf(this.getVersion()));
+	    }
+
+	    return strategySupplySourceForm;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
-    return null;
+	  StringBuffer uri = new StringBuffer();
+
+      if (this.getId() > 0) {
+        uri.append("/");
+        uri.append(this.getId());
+      }
+      
+      return uri.toString();
   }
 
 }

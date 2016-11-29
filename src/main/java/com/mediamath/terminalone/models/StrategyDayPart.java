@@ -20,6 +20,9 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.utils.Constants;
+import com.mediamath.terminalone.utils.Utility;
+
 public class StrategyDayPart implements T1Entity {
 
   private static final String entityName = "StrategyDayPart";
@@ -144,14 +147,41 @@ public class StrategyDayPart implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
-    return null;
+	  Form strategyDayPartForm = new Form();
+
+	    strategyDayPartForm.param("days", String.valueOf(this.getDays()));
+
+	    if (this.getEndHour() > 0 && this.getEndHour() < 23) {
+	      strategyDayPartForm.param("end_hour", String.valueOf(this.getEndHour()));
+	    }
+
+	    if (this.getStartHour() > 0 && this.getStartHour() < 23) {
+	      strategyDayPartForm.param("start_hour", String.valueOf(this.getStartHour()));
+	    }
+
+	    if (this.getStrategyId() > 0) {
+	      strategyDayPartForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+	    }
+
+	    strategyDayPartForm.param("user_time", Utility.getOnOrOff(this.isUserTime()));
+
+	    if (this.getVersion() >= 0) {
+	      strategyDayPartForm.param("version", String.valueOf(this.getVersion()));
+	    }
+
+	    Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
+
+	    return finalStrategyDayPartForm;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
-    return null;
+	  StringBuffer uri = new StringBuffer();
+	    
+	    if (this.getId() > 0) {
+	      uri.append("/" + this.getId());
+	    }
+		return uri.toString();
   }
 
 }

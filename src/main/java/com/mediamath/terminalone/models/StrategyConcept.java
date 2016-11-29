@@ -20,6 +20,9 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.utils.Constants;
+import com.mediamath.terminalone.utils.Utility;
+
 public class StrategyConcept implements T1Entity {
 
   private static final String entityName = "StrategyConcept";
@@ -140,14 +143,35 @@ public class StrategyConcept implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
-    return null;
+	  Form strategyConceptForm = new Form();
+
+	    if (getConceptId() > 0) {
+	      strategyConceptForm.param("concept_id", String.valueOf(getConceptId()));
+	    }
+
+	    if (getStrategyId() > 0) {
+	      strategyConceptForm.param("strategy_id", String.valueOf(getStrategyId()));
+	    }
+
+	    strategyConceptForm.param("status", Utility.getOnOrOff(isStatus()));
+
+	    if (getVersion() >= 0) {
+	      strategyConceptForm.param("version", String.valueOf(getVersion()));
+	    }
+
+	    Form finalStrategyConceptForm = Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
+
+	    return finalStrategyConceptForm;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
-    return null;
+	  StringBuffer uri = new StringBuffer();
+	    
+	    if (this.getId() > 0) {
+	      uri.append("/" + this.getId());
+	    }
+		return uri.toString();
   }
 
 }
