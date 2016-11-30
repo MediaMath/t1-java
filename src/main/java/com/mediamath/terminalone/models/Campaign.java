@@ -93,7 +93,7 @@ public class Campaign implements T1Entity {
   private servTypes service_type;
   private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
   private boolean spend_cap_automatic;
-  private boolean spend_cap_enabled;
+  //private boolean spend_cap_enabled;
   private Date start_date;
   private boolean status;
   private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
@@ -352,13 +352,13 @@ public class Campaign implements T1Entity {
     this.spend_cap_automatic = spend_cap_automatic;
   }
 
-  public boolean isSpendCapEnabled() {
+ /* public boolean isSpendCapEnabled() {
     return spend_cap_enabled;
   }
 
   public void setSpendCapEnabled(boolean spend_cap_enabled) {
     this.spend_cap_enabled = spend_cap_enabled;
-  }
+  }*/
 
   public Date getStartDate() {
     return start_date;
@@ -651,7 +651,7 @@ public class Campaign implements T1Entity {
 
     campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(this.isSpendCapAutomatic()));
 
-    campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(this.isSpendCapEnabled()));
+   // campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(this.isSpendCapEnabled()));
 
     campaignForm.param("use_default_ad_server", Utility.getOnOrOff(this.isUseDefaultAdServer()));
 
@@ -679,8 +679,6 @@ public class Campaign implements T1Entity {
     }
 
     if (this.getId() > 0 && this.getMargins().size() > 0) {
-      uri.append("/");
-      uri.append(this.getId());
       uri.append("/margins");
     }
     

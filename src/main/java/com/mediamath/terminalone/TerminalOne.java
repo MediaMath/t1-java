@@ -351,74 +351,18 @@ public class TerminalOne {
 
   }
   
-  public T1Entity commonSave(T1Entity entity) throws ClientException, ParseException {
+  public T1Entity save(T1Entity entity) throws ClientException, ParseException {
     
     if(entity == null) return null;
     
     if(!isAuthenticated()) return null;
     
-    T1Entity response = postService.commonSave(entity);
+    T1Entity response = postService.save(entity);
     
     return response;
   }
   
 
-  /**
-   * Saves Agency entity.
-   * 
-   * @param entity
-   *          expects an Agency Entity.
-   * @return Agency entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public Agency save(Agency entity) throws ClientException, ParseException {
-    Agency agency = null;
-    if (isAuthenticated()) {
-      agency = postService.save(entity);
-    }
-    return agency;
-  }
-
-  /**
-   * Saves Child Pixel entity.
-   * 
-   * @param entity
-   *          expects an ChildPixel Entity.
-   * @return ChildPixel entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
-    ChildPixel childPixel = null;
-    if (isAuthenticated()) {
-      childPixel = postService.save(entity);
-    }
-    return childPixel;
-  }
-
-  /**
-   * saves Advertiser.
-   * 
-   * @param entity
-   *          expects Advertiser entity.
-   * @return Advertiser entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public Advertiser save(Advertiser entity) throws ClientException, ParseException {
-    Advertiser advertiser = null;
-    if (isAuthenticated()) {
-      advertiser = postService.save(entity);
-    }
-    return advertiser;
-  }
 
   /**
    * Saves Strategy entity.
@@ -439,84 +383,7 @@ public class TerminalOne {
     return strategy;
   }
 
-  /**
-   * saves Strategy Concepts.
-   * 
-   * @param entity
-   *          expects StrategyConcept entity.
-   * @return StrategyConcept entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyConcept save(StrategyConcept entity) throws ClientException, ParseException {
-    StrategyConcept strategyConcept = null;
-    if (isAuthenticated()) {
-      strategyConcept = postService.save(entity);
-    }
-    return strategyConcept;
-  }
 
-  /**
-   * saves Strategy Supply Sources.
-   * 
-   * @param entity
-   *          expects a StrategySupplySource entity.
-   * 
-   * @return StrategySupplySource
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategySupplySource save(StrategySupplySource entity)
-      throws ClientException, ParseException {
-    StrategySupplySource strategySupplySource = null;
-    if (isAuthenticated()) {
-      strategySupplySource = postService.save(entity);
-    }
-    return strategySupplySource;
-  }
-
-  /**
-   * saves StrategyDayPart entity.
-   * 
-   * @param entity
-   *          expects a StrategyDayPart entity.
-   * @return StrategyDayPart entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
-    StrategyDayPart strategy = null;
-    if (isAuthenticated()) {
-      strategy = postService.save(entity);
-    }
-    return strategy;
-  }
-
-  /**
-   * saves Organization.
-   * 
-   * @param entity
-   *          expects an Organization entity.
-   * @return Organization entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Organization save(Organization entity) throws ClientException, ParseException {
-    Organization organization = null;
-    if (isAuthenticated()) {
-      organization = postService.save(entity);
-    }
-    return organization;
-  }
 
   /**
    * saves Pixel.
@@ -531,73 +398,15 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public Pixel save(Pixel entity) throws ClientException, ParseException {
+/*  public Pixel save(Pixel entity) throws ClientException, ParseException {
     Pixel pixel = null;
     if (isAuthenticated()) {
       pixel = postService.save(entity);
     }
     return pixel;
   }
-
-  /**
-   * saves Campaign.
-   * 
-   * @param entity
-   *          expects Campaign entity.
-   * 
-   * @return Campaign object.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Campaign save(Campaign entity) throws ParseException, ClientException {
-    Campaign campaign = null;
-    if (isAuthenticated()) {
-      campaign = postService.save(entity);
-    }
-    return campaign;
-  }
-
-  /**
-   * saves Concepts
-   * 
-   * @param entity
-   *          expects Concept entity.
-   * @return Concept object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Concept save(Concept entity) throws ParseException, ClientException {
-    Concept concept = null;
-    if (isAuthenticated()) {
-      concept = postService.save(entity);
-    }
-    return concept;
-  }
-
-  /**
-   * saves Atomic Creative
-   * 
-   * @param entity
-   *          expects AtomcCreative entity.
-   * @return AtomicCreative object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
-    AtomicCreative atomicCreative = null;
-    if (isAuthenticated()) {
-      atomicCreative = postService.save(entity);
-    }
-    return atomicCreative;
-  }
-
+*/
+ 
   /**
    * saves 3pas creative upload file. first call to upload the file. <br>
    * <br>
