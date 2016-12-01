@@ -131,7 +131,13 @@ public class PostService {
     return uri;
   }
   
-  
+  /**
+   * 
+   * @param entity expects T1Entity
+   * @return T1Entity
+   * @throws ClientException
+   * @throws ParseException
+   */
   public T1Entity save(T1Entity entity) throws ClientException, ParseException {
 
     if (entity == null)
@@ -167,18 +173,6 @@ public class PostService {
 
     if (finalJsonResponse == null)
       return null;
-
-    // strategy
-    /*
-     * if (entity instanceof Strategy && finalJsonResponse.getData() instanceof ArrayList) {
-     * Strategy strategy = (Strategy) entity;
-     * 
-     * List dataList = (ArrayList) finalJsonResponse.getData(); if (dataList.get(0) instanceof
-     * StrategyAudienceSegment) { strategy.setStrategyAudienceSegments(dataList); }
-     * 
-     * JsonResponse<Strategy> strategyResponse = (JsonResponse<Strategy>) finalJsonResponse;
-     * strategyResponse.setData(strategy); finalJsonResponse = strategyResponse; }
-     */
 
     return finalJsonResponse.getData();
   }

@@ -188,8 +188,7 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  //TODO common save.
-/*  @Test
+  @Test
   public void testAgencyPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
@@ -197,40 +196,7 @@ public class PostFunctionalTests {
     agency.setName("TestAgency");
     agency.setOrganizationId(100048);
     try {
-      agency = t1.save(agency);
-      System.out.println(agency.getId());
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("agencies")
-        .setEntity(agency.getId()).setGetAll(true).build();
-    JsonResponse<?> jsonresponse = null;
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    assertNotNull(jsonresponse);
-    Agency agencyCreated = (Agency) jsonresponse.getData();
-    assertEquals("TestAgency", agencyCreated.getName());
-    assertEquals(100048, agencyCreated.getOrganizationId());
-
-  }
-  */
-  @Test
-  public void testCommonAgencyPost() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    Agency agency = new Agency();
-    agency.setName("TestAgency");
-    agency.setOrganizationId(100048);
-    try {
       agency = (Agency) t1.save(agency);
-      System.out.println(agency.getId());
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -258,48 +224,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  //TODO common save.
-/*  @Test
-  public void testAgencyUpdatePost() throws ClientException {
-
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setEntity(114244)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Agency agency = (Agency) jsonresponse.getData();
-    agency.setName("TestAgencyUpdated");
-
-    try {
-      agency = t1.save(agency);
-      System.out.println(agency.getId());
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Agency updatedAgency = (Agency) jsonresponse.getData();
-
-    assertEquals("TestAgencyUpdated", updatedAgency.getName());
-
-  }*/
-  
   @Test
   public void testCommonAgencyUpdatePost() throws ClientException {
 
@@ -347,67 +271,6 @@ public class PostFunctionalTests {
    * @throws ClientException
    * @throws java.text.ParseException
    */
- /* @Test
-  public void testCampaignPost() throws ClientException, java.text.ParseException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    Campaign camp = new Campaign();
-    // camp.setId(268746);
-
-    camp.setAdServerId(9);
-    camp.setAdvertiserId(122631);
-    camp.setName("CampaignTest One");
-    camp.setAdServerFee(10.01, null);
-    camp.setConversionType("variable");
-    camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
-    camp.setGoalValue(100, null);
-    camp.setServiceType(Campaign.servTypes.SELF);
-
-    Calendar endcal = Calendar.getInstance();
-    Calendar startcal = Calendar.getInstance();
-    endcal.roll(Calendar.DATE, true);
-    endcal.roll(Calendar.MONTH, true);
-    Date endd = endcal.getTime();
-
-    startcal.roll(Calendar.DATE, true);
-    startcal.roll(Calendar.DATE, true);
-    Date startd = startcal.getTime();
-    camp.setEndDate(endd);
-    camp.setStartDate(startd);
-
-    camp.setPcWindowMinutes(1);
-    camp.setSpendCapAmount(10, null);
-
-    camp.setUseMmFreq(false);
-    camp.setMeritPixelId(800781);
-    camp.setTotalBudget(200, "USD");
-
-    try {
-      camp = t1.save(camp);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(camp.getId())
-        .setGetAll(true).build();
-    JsonResponse<?> jsonresponse = null;
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    assertNotNull(jsonresponse);
-    Campaign campaignCreated = (Campaign) jsonresponse.getData();
-    assertEquals(122631, campaignCreated.getAdvertiserId());
-    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
-    assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
-    assertEquals(800781, campaignCreated.getMeritPixelId());
-  }*/
-  
   @Test
   public void testCampaignPost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -475,45 +338,6 @@ public class PostFunctionalTests {
    * @throws ClientException
    * @throws java.text.ParseException
    */
- /* @Test
-  public void testCampaignUpdatePost() throws ClientException, java.text.ParseException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(268747)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Campaign camp = (Campaign) jsonresponse.getData();
-
-    camp.setName("Campaign Test One updated");
-
-    try {
-      camp = t1.save(camp);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Campaign updatedCampaign = (Campaign) jsonresponse.getData();
-    assertEquals("Campaign Test One updated", updatedCampaign.getName());
-  }
-*/
-  
   @Test
   public void testCampaignUpdatePost() throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -565,42 +389,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  //TODO common save.
- /* @Test
-  public void testAdvertiserPost() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    Advertiser adv = new Advertiser();
-    adv.setAdServerId(9);
-    adv.setAgencyId(109308);
-    adv.setDomain("http://www.advertiser.com");
-    adv.setName("TestAdvertiser");
-    adv.setVerticalId(11);
-    try {
-      adv = jt1.save(adv);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    QueryCriteria query = QueryCriteria.builder().setCollection("advertisers")
-        .setEntity(adv.getId()).setGetAll(true).build();
-    JsonResponse<?> jsonresponse = null;
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    assertNotNull(jsonresponse);
-    Advertiser advertiserCreated = (Advertiser) jsonresponse.getData();
-    // assertEquals("TestAdvertiser", advertiserCreated.getName());
-    assertEquals(109308, advertiserCreated.getAgencyId());
-    assertEquals(9, advertiserCreated.getAdServerId());
-    assertEquals(11, advertiserCreated.getVerticalId());
-  }
-*/
-  
   @Test
   public void testAdvertiserPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -641,45 +429,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  /*@Test
-  public void testAdvertiserUpdatePost() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setEntity(165803)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Advertiser adv = (Advertiser) jsonresponse.getData();
-    adv.setDomain("http://www.updatedadvertiser.com");
-    adv.setVersion(0);
-
-    try {
-      adv = jt1.save(adv);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Advertiser updatedAdvertiser = (Advertiser) jsonresponse.getData();
-    assertEquals("http://www.updatedadvertiser.com", updatedAdvertiser.getDomain());
-
-  }*/
-
   @Test
   public void testAdvertiserUpdatePost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -887,26 +636,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testStrategyDayParts() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    StrategyDayPart strategyDayPart = new StrategyDayPart();
-
-    strategyDayPart.setDays(daysEnum.W);
-    strategyDayPart.setEndHour(15);
-    strategyDayPart.setStartHour(10);
-    strategyDayPart.setStrategyId(1368325);
-    strategyDayPart.setUserTime(true);
-
-    try {
-      strategyDayPart = jt1.save(strategyDayPart);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-  }*/
-
   @Test
   public void testStrategyDayParts() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -932,47 +661,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
- /* @Test
-  public void testStrategyDayPartsUpdateold() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1376202)
-        .setChild("day_parts").build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    List<?> strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
-    StrategyDayPart strategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);
-
-    strategyDayPart.setDays(daysEnum.M);
-    strategyDayPart.setEndHour(20);
-
-    try {
-      strategyDayPart = jt1.save(strategyDayPart);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
-    StrategyDayPart updatedStrategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);
-    assertEquals(20, updatedStrategyDayPart.getEndHour());
-
-  }*/
-
   @Test
   public void testStrategyDayPartsUpdate() throws ClientException, ParseException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -1056,47 +744,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
- /* @Test
-  public void testOrganizationPost() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-    QueryCriteria query = QueryCriteria.builder().setCollection("organizations").setEntity(100048)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Organization org = (Organization) jsonresponse.getData();
-    org.setId(100048);
-
-    org.setAddress1("First Lane, New York");
-    org.setCity("New York");
-
-    try {
-      org = jt1.save(org);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    assertNotNull(jsonresponse);
-    Organization orgCreated = (Organization) jsonresponse.getData();
-    assertEquals(100048, orgCreated.getId());
-    // assertEquals("TestOrg", orgCreated.getName());
-  }*/
-  
   @Test
   public void testOrganizationPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -1161,44 +808,7 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testStrategyConceptPost() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("strategy_concepts")
-        .setEntity(3627059).build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    StrategyConcept strategyConcept = (StrategyConcept) jsonresponse.getData();
-    strategyConcept.setStatus(false);
-
-    try {
-      strategyConcept = jt1.save(strategyConcept);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = jt1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    StrategyConcept updatedStrategyConcept = (StrategyConcept) jsonresponse.getData();
-    assertEquals(false, updatedStrategyConcept.isStatus());
-
-  }*/
-  
-  @Test
+ @Test
   public void testStrategyConceptPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
@@ -1242,23 +852,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testStrategySupplySources() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    StrategySupplySource strategySupplySource = new StrategySupplySource();
-    strategySupplySource.setStrategyId(100755);
-    strategySupplySource.setSupplySourceId(6);
-
-    try {
-      strategySupplySource = jt1.save(strategySupplySource);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    assertEquals(6, strategySupplySource.getSupplySourceId());
-  }*/
-
   @Test
   public void testStrategySupplySources() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -1294,65 +887,12 @@ public class PostFunctionalTests {
       e.printStackTrace();
     }
   }
-
-  /**
-   * Create StrategyDayPart
-   * 
-   * @throws ClientException
-   */
- /* @Test
-  public void testStrategyDayPart() throws ClientException {
-    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-
-    StrategyDayPart strategyDayPart = new StrategyDayPart();
-    strategyDayPart.setDays(daysEnum.W);
-    strategyDayPart.setEndHour(12);
-    strategyDayPart.setStartHour(8);
-    strategyDayPart.setUserTime(true);
-    strategyDayPart.setStrategyId(1378067);
-
-    try {
-      strategyDayPart = jt1.save(strategyDayPart);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    assertEquals(12, strategyDayPart.getEndHour());
-  }*/
   
   /**
    * Create Campaign margin.
    * 
    * @throws ClientException
    */
-  /*@Test
-  public void testCampaignMarginPost() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    Campaign camp = new Campaign();
-    camp.setId(233131);
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DATE, -1);
-    camp.setMargins(cal.getTime(), (double) 5.02145);
-    cal.add(Calendar.DATE, -2);
-    camp.setMargins(cal.getTime(), (double) 10.01);
-    cal.add(Calendar.DATE, -3);
-    camp.setMargins(cal.getTime(), (double) 11.5656665);
-    cal.add(Calendar.DATE, -4);
-    camp.setMargins(cal.getTime(), (double) 12.25);
-    cal.add(Calendar.DATE, -5);
-    camp.setMargins(cal.getTime(), (double) 13.1);
-
-    try {
-      camp = t1.save(camp);
-      System.out.println(camp);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-  }*/
-
   @Test
   public void testCampaignMarginPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1386,25 +926,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testConceptPost() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    Concept camp = new Concept();
-    camp.setAdvertiserId(122631);
-    camp.setName("TestConcept1");
-    camp.setStatus(true);
-
-    try {
-      camp = t1.save(camp);
-      System.out.println(camp);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-  }*/
-  
   @Test
   public void testConceptPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1429,44 +950,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testConceptPostUpdate() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-    QueryCriteria query = QueryCriteria.builder().setCollection("concepts").setEntity(813124)
-        .build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Concept concept = (Concept) jsonresponse.getData();
-    concept.setName("TestConceptUpdated");
-    try {
-      concept = t1.save(concept);
-
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    Concept updatedConcept = (Concept) jsonresponse.getData();
-
-    assertEquals("TestConceptUpdated", updatedConcept.getName());
-
-  }*/
-
   @Test
   public void testConceptPostUpdate() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1511,27 +994,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
- /* @Test
-  public void testChildPixelPost() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    ChildPixel px = new ChildPixel();
-    px.setBundleId(1026072);
-    px.setDistributed(false);
-    px.setPixelType("event");
-    px.setTag(
-        "http://www.testsyncpixel.com?rn=[RANDOM_NUMBER]&amp;mt_exid=54321&amp;mt_exuid=[mt_exuid]&amp;v2=[v2]");
-
-    try {
-      px = t1.save(px);
-
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-  }*/
-
   @Test
   public void testChildPixelPost() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1557,43 +1019,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
- /* @Test
-  public void testChildPixelPostUpdate() throws ClientException {
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-    QueryCriteria query = QueryCriteria.builder().setCollection("pixels").setEntity(154580).build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    ChildPixel px = (ChildPixel) jsonresponse.getData();
-    px.setDistributed(true);
-
-    try {
-      px = t1.save(px);
-
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    ChildPixel updatedPx = (ChildPixel) jsonresponse.getData();
-
-    assertEquals(true, updatedPx.isDistributed());
-
-  }*/
-  
   @Test
   public void testChildPixelPostUpdate() throws ClientException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
@@ -1636,34 +1061,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-  /*@Test
-  public void testAtomicCreatives() throws ClientException {
-
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    AtomicCreative ac = new AtomicCreative();
-    ac.setAdServerType(ac.getAdServerType().DART);
-    ac.setAdvertiserId(150577);
-    ac.setConceptId(622519);
-    ac.setExternalIdentifier("1234567890abcd");
-    ac.setFileType(ac.getFileType().jpeg);
-    ac.setHeight(72);
-    ac.setName("MyTestAtomicCreative");
-    ac.setTag("https://ad.doubleclick.net;sz=1x1;ord=[RANDOM_NUMBER]?");
-    ac.setTagType(ac.getTagType().IMG);
-    ac.setTpasAdTagName("Sample IMG TAG");
-    ac.setWidth(72);
-
-    try {
-      ac = t1.save(ac);
-      System.out.println(ac);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-  }*/
-
   @Test
   public void testAtomicCreatives() throws ClientException {
 
@@ -1699,45 +1096,6 @@ public class PostFunctionalTests {
    * 
    * @throws ClientException
    */
-/*  @Test
-  public void testAtomicCreativesUpdate() throws ClientException {
-
-    TerminalOne t1 = new TerminalOne(user, password, apiKey);
-
-    QueryCriteria query = QueryCriteria.builder().setCollection("atomic_creatives")
-        .setEntity(2692236).build();
-
-    JsonResponse<?> jsonresponse = null;
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    AtomicCreative ac = (AtomicCreative) jsonresponse.getData();
-    ac.setName("UpdatedAtomicCreative");
-
-    try {
-      ac = t1.save(ac);
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    try {
-      jsonresponse = t1.get(query);
-    } catch (ClientException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-
-    AtomicCreative updatedAtomicCreative = (AtomicCreative) jsonresponse.getData();
-    assertEquals("UpdatedAtomicCreative", updatedAtomicCreative.getName());
-
-  }*/
-
   @Test
   public void testAtomicCreativesUpdate() throws ClientException {
 
