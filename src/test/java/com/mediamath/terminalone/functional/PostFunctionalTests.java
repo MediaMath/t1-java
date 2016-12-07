@@ -33,6 +33,7 @@ import java.util.TimeZone;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -67,6 +68,7 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 
+@Ignore
 public class PostFunctionalTests {
 
   private static Properties testConfig = new Properties();

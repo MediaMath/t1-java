@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import org.junit.After;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -41,6 +42,7 @@ import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
+@Ignore
 public class GetFunctionalTests {
 
   private static Properties testConfig = new Properties();
