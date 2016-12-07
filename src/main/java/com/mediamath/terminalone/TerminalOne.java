@@ -503,9 +503,10 @@ public class TerminalOne {
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
+   * @throws IOException an io exception is thrown.
    */
   public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(
-      TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
+      TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException, IOException {
     JsonResponse<? extends T1Entity> response = null;
     if (isAuthenticated()) {
       response = postService.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
@@ -775,16 +776,18 @@ public class TerminalOne {
       }
 
       if (element.isJsonObject()) {
+        
         JsonObject obj = element.getAsJsonObject();
         JsonElement entityTypeElement = obj.get("entity_type");
         String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+        
         if (entityType != null && !entityType.equalsIgnoreCase("")) {
-          finalJsonResponse = parser.parseJsonToObj(response,
-              Constants.getEntityType.get(entityType));
+          finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entityType));
         } else {
           finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
           }.getType());
         }
+        
       }
     }
 
@@ -793,8 +796,7 @@ public class TerminalOne {
         return null;
       }
 
-      finalJsonResponse = parser.parseJsonToObj(response,
-          Constants.getEntityType.get(query.collection.toLowerCase()));
+      finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(query.collection.toLowerCase()));
 
       if (finalJsonResponse != null) {
         finalJsonResponse.setData(null);

@@ -97,168 +97,213 @@ public class ReportService {
   public StringBuffer getReportUri(ReportCriteria report) {
     StringBuffer path = null;
 
-    if (report != null) {
+    if (report == null)
+      return null;
 
-      path = new StringBuffer(report.getReportName());
-      try {
-        // dimensions
-        if (report.getDimensions() != null && report.getDimensions().size() > 0) {
-          if (path.indexOf("?") == -1) {
-            path.append("?dimensions=");
-          } else {
-            path.append("&dimensions=");
-          }
+    path = new StringBuffer(report.getReportName());
 
-          StringBuffer buffer = new StringBuffer();
-          for (String dimension : report.getDimensions()) {
-            if (buffer.length() == 0) {
-              buffer.append(dimension);
-            } else {
-              buffer.append("," + dimension);
-            }
-          }
-          // Encode
-          path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
-        }
+    try {
+      // dimensions
+      filterDimensions(report, path);
 
-        // filters
-        if (report.getFilters() != null && report.getFilters().size() > 0
-            && !report.getFilters().isEmpty()) {
-          if (path.indexOf("?") == -1) {
-            path.append("?filter=");
-          } else {
-            path.append("&filter=");
-          }
+      // filters
+      addFilters(report, path);
 
-          int filterSize = 0;
-          StringBuffer buffer = new StringBuffer();
-          for (ReportFilter f : report.getFilters()) {
-            if (f.getKey() != null && f.getOperator() != null && f.getValue() != null
-                && !f.getKey().isEmpty() && !f.getOperator().isEmpty() && !f.getValue().isEmpty()) {
+      // having.
+      addHaving(report, path);
 
-              buffer.append(f.getKey() + f.getOperator() + f.getValue());
-              if (filterSize != report.getFilters().size() - 1) {
-                buffer.append("&");
-              }
-              filterSize++;
-            }
-          }
-          // encode
-          path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
-        }
+      // metrics
+      filterMetrics(report, path);
 
-        // having.
-        if (report.getHaving() != null && !report.getHaving().isEmpty()) {
-          if (path.indexOf("?") == -1) {
-            path.append("?having=");
-          } else {
-            path.append("&having=");
-          }
+      // time rollup.
+      filterTimeRollUp(report, path);
 
-          StringBuffer buffer = new StringBuffer();
-          int havingSize = 0;
-          for (Having having : report.getHaving()) {
-            if (having.getKey() != null && having.getOperator() != null && having.getValue() != null
-                && !having.getKey().isEmpty() && !having.getOperator().isEmpty()
-                && !having.getValue().isEmpty()) {
+      // time_ window || start_date || end_date
+      filterTimeWindowStartDateEndDate(report, path);
 
-              buffer.append(having.getKey() + having.getOperator() + having.getValue());
+      // order
+      filterOrder(report, path);
 
-              if (havingSize != report.getHaving().size() - 1) {
-                buffer.append("&");
-              }
-              havingSize++;
-            }
-          }
-          // encode
-          path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
-        }
+      // pagelimit & page offset
+      filterPageLimitPageOffset(report, path);
 
-        // metrics
-        if (report.getMetrics() != null && report.getMetrics().size() > 0
-            && !report.getMetrics().isEmpty()) {
-          if (path.indexOf("?") == -1) {
-            path.append("?metrics=");
-          } else {
-            path.append("&metrics=");
-          }
-
-          StringBuffer buffer = new StringBuffer();
-          for (String metric : report.getMetrics()) {
-            if (buffer.length() == 0) {
-              buffer.append(metric);
-            } else {
-              buffer.append("," + metric);
-            }
-          }
-          path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
-        }
-
-        // time rollup.
-        if (report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
-          uriAppender(path);
-
-          path.append("time_rollup=" + report.getTime_rollup());
-        }
-
-        // time_ window || start_date || end_date
-        if (report.getTime_window() != null && !report.getTime_window().isEmpty()
-            && report.getStart_date() == null && report.getEnd_date() == null) {
-
-          uriAppender(path);
-
-          path.append("time_window=" + report.getTime_window());
-
-        } else if (report.getTime_window() == null && report.getStart_date() != null
-            && !report.getStart_date().isEmpty() && report.getEnd_date() != null
-            && !report.getEnd_date().isEmpty()) {
-
-          uriAppender(path);
-
-          path.append("start_date=" + report.getStart_date());
-          path.append("&end_date=" + report.getEnd_date());
-
-        }
-
-        // order
-        if (report.getOrder() != null && report.getOrder().size() > 0
-            && !report.getOrder().isEmpty()) {
-          uriAppender(path);
-
-          StringBuffer buffer = new StringBuffer();
-          for (String order : report.getOrder()) {
-            if (buffer.length() == 0) {
-              buffer.append("order=" + order);
-            } else {
-              buffer.append("," + order);
-            }
-          }
-          path.append(buffer);
-        }
-
-        // pagelimit & page offset
-        if (report.getPage_limit() != null && !report.getPage_limit().isEmpty()
-            && (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
-          uriAppender(path);
-          path.append("page_limit=" + report.getPage_limit());
-        } else if (report.getPage_offset() != null && !report.getPage_offset().isEmpty()
-            && report.getPage_limit() != null && !report.getPage_limit().isEmpty()) {
-          uriAppender(path);
-          path.append("page_limit=" + report.getPage_limit());
-          path.append("&page_offset=" + report.getPage_offset());
-        }
-
-        // precision
-        if (report.getPrecision() > 0) {
-          path.append("&" + String.valueOf(report.getPrecision()));
-        }
-
-      } catch (UnsupportedEncodingException exception) {
-        logger.debug("getReportUri: UnsupportedEncodingException occured: ");
-        Utility.logStackTrace(exception);
+      // precision
+      if (report.getPrecision() > 0) {
+        path.append("&" + String.valueOf(report.getPrecision()));
       }
+
+    } catch (UnsupportedEncodingException exception) {
+      logger.debug("getReportUri: UnsupportedEncodingException occured: ");
+      Utility.logStackTrace(exception);
     }
+
     return path;
+  }
+
+  private void filterPageLimitPageOffset(ReportCriteria report, StringBuffer path) {
+    if (report.getPage_limit() != null && !report.getPage_limit().isEmpty()
+        && (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
+
+      uriAppender(path);
+      path.append("page_limit=" + report.getPage_limit());
+
+    } else if (report.getPage_offset() != null && !report.getPage_offset().isEmpty()
+        && report.getPage_limit() != null && !report.getPage_limit().isEmpty()) {
+
+      uriAppender(path);
+      path.append("page_limit=" + report.getPage_limit());
+      path.append("&page_offset=" + report.getPage_offset());
+    }
+  }
+
+  private void filterOrder(ReportCriteria report, StringBuffer path) {
+    if (report.getOrder() != null && report.getOrder().size() > 0 && !report.getOrder().isEmpty()) {
+
+      uriAppender(path);
+
+      StringBuffer buffer = new StringBuffer();
+      for (String order : report.getOrder()) {
+        if (buffer.length() == 0) {
+          buffer.append("order=" + order);
+        } else {
+          buffer.append("," + order);
+        }
+      }
+      path.append(buffer);
+    }
+  }
+
+  private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuffer path) {
+    if (report.getTime_window() != null && !report.getTime_window().isEmpty()
+        && report.getStart_date() == null && report.getEnd_date() == null) {
+
+      uriAppender(path);
+
+      path.append("time_window=" + report.getTime_window());
+
+    } else if (report.getTime_window() == null && report.getStart_date() != null
+        && !report.getStart_date().isEmpty() && report.getEnd_date() != null
+        && !report.getEnd_date().isEmpty()) {
+
+      uriAppender(path);
+
+      path.append("start_date=" + report.getStart_date());
+      path.append("&end_date=" + report.getEnd_date());
+
+    }
+  }
+
+  private void filterTimeRollUp(ReportCriteria report, StringBuffer path) {
+    if (report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
+      uriAppender(path);
+
+      path.append("time_rollup=" + report.getTime_rollup());
+    }
+  }
+
+  private void filterMetrics(ReportCriteria report, StringBuffer path)
+      throws UnsupportedEncodingException {
+    if (report.getMetrics() != null && report.getMetrics().size() > 0
+        && !report.getMetrics().isEmpty()) {
+
+      if (path.indexOf("?") == -1) {
+        path.append("?metrics=");
+      } else {
+        path.append("&metrics=");
+      }
+
+      StringBuffer buffer = new StringBuffer();
+      for (String metric : report.getMetrics()) {
+        if (buffer.length() == 0) {
+          buffer.append(metric);
+        } else {
+          buffer.append("," + metric);
+        }
+      }
+      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+    }
+  }
+
+  private void addHaving(ReportCriteria report, StringBuffer path)
+      throws UnsupportedEncodingException {
+    if (report.getHaving() != null && !report.getHaving().isEmpty()) {
+
+      if (path.indexOf("?") == -1) {
+        path.append("?having=");
+      } else {
+        path.append("&having=");
+      }
+
+      StringBuffer buffer = new StringBuffer();
+      int havingSize = 0;
+      for (Having having : report.getHaving()) {
+        if (having.getKey() != null && having.getOperator() != null && having.getValue() != null
+            && !having.getKey().isEmpty() && !having.getOperator().isEmpty()
+            && !having.getValue().isEmpty()) {
+
+          buffer.append(having.getKey() + having.getOperator() + having.getValue());
+
+          if (havingSize != report.getHaving().size() - 1) {
+            buffer.append("&");
+          }
+          havingSize++;
+        }
+      }
+      // encode
+      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+    }
+  }
+
+  private void addFilters(ReportCriteria report, StringBuffer path)
+      throws UnsupportedEncodingException {
+    if (report.getFilters() != null && report.getFilters().size() > 0
+        && !report.getFilters().isEmpty()) {
+
+      if (path.indexOf("?") == -1) {
+        path.append("?filter=");
+      } else {
+        path.append("&filter=");
+      }
+
+      int filterSize = 0;
+      StringBuffer buffer = new StringBuffer();
+      for (ReportFilter f : report.getFilters()) {
+        if (f.getKey() != null && f.getOperator() != null && f.getValue() != null
+            && !f.getKey().isEmpty() && !f.getOperator().isEmpty() && !f.getValue().isEmpty()) {
+
+          buffer.append(f.getKey() + f.getOperator() + f.getValue());
+          if (filterSize != report.getFilters().size() - 1) {
+            buffer.append("&");
+          }
+          filterSize++;
+        }
+      }
+      // encode
+      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+    }
+  }
+
+  private void filterDimensions(ReportCriteria report, StringBuffer path)
+      throws UnsupportedEncodingException {
+    if (report.getDimensions() != null && report.getDimensions().size() > 0) {
+
+      if (path.indexOf("?") == -1) {
+        path.append("?dimensions=");
+      } else {
+        path.append("&dimensions=");
+      }
+
+      StringBuffer buffer = new StringBuffer();
+      for (String dimension : report.getDimensions()) {
+        if (buffer.length() == 0) {
+          buffer.append(dimension);
+        } else {
+          buffer.append("," + dimension);
+        }
+      }
+      // Encode
+      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+    }
   }
 
   private void uriAppender(StringBuffer path) {
@@ -285,25 +330,26 @@ public class ReportService {
     JsonElement reportsElement = obj.get("reports");
     JsonObject reportsObj = reportsElement.getAsJsonObject();
 
-    if (reportsObj != null) {
+    if (reportsObj == null)
+      return null;
 
-      Meta meta = new Meta();
-      Type type = new TypeToken<MetaData>() {
-      }.getType();
-      HashMap<String, MetaData> metaData = new HashMap<String, MetaData>();
+    Meta meta = new Meta();
+    Type type = new TypeToken<MetaData>() {
+    }.getType();
 
-      GsonBuilder builder = new GsonBuilder();
-      builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
-      Gson gson = builder.create();
+    HashMap<String, MetaData> metaData = new HashMap<String, MetaData>();
 
-      for (Entry<String, JsonElement> a : reportsObj.entrySet()) {
-        String key = a.getKey();
-        MetaData value = gson.fromJson(a.getValue(), type);
-        metaData.put(key, value);
-      }
-      meta.setMetaData(metaData);
-      finalResponse = new JsonResponse<Meta>(meta);
+    GsonBuilder builder = new GsonBuilder();
+    builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+    Gson gson = builder.create();
+
+    for (Entry<String, JsonElement> a : reportsObj.entrySet()) {
+      String key = a.getKey();
+      MetaData value = gson.fromJson(a.getValue(), type);
+      metaData.put(key, value);
     }
+    meta.setMetaData(metaData);
+    finalResponse = new JsonResponse<Meta>(meta);
 
     return finalResponse;
   }
@@ -331,36 +377,19 @@ public class ReportService {
     JsonObject timefieldObj = reportsElement.getAsJsonObject().get("time_field").getAsJsonObject();
 
     // dimensions
-    if (dimensionObj != null) {
-      MetaDimensions dimensions = new MetaDimensions();
-      HashMap<String, MetaDimensionData> dimensionsInfoMap = new HashMap<String, MetaDimensionData>();
-
-      for (Entry<String, JsonElement> a : dimensionObj.entrySet()) {
-        String key = a.getKey();
-        MetaDimensionData value = gson.fromJson(a.getValue(), MetaDimensionData.class);
-        dimensionsInfoMap.put(key, value);
-      }
-
-      dimensions.setDimensionsInfoMap(dimensionsInfoMap);
-      data.getStructure().setDimensions(dimensions);
-    }
+    parseDimensions(gson, data, dimensionObj);
 
     // metrics
-    if (metricsObj != null) {
-      MetaMetrics metrics = new MetaMetrics();
-      HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
-
-      for (Entry<String, JsonElement> a : metricsObj.entrySet()) {
-        String key = a.getKey();
-        MetricsData value = gson.fromJson(a.getValue(), MetricsData.class);
-        metricsMap.put(key, value);
-      }
-
-      metrics.setMetricsMap(metricsMap);
-      data.getStructure().setMetrics(metrics);
-    }
+    parseMetrics(gson, data, metricsObj);
 
     // time_field
+    parseTimeField(gson, data, timefieldObj);
+
+    return data;
+    // end
+  }
+
+  private void parseTimeField(Gson gson, MetaData data, JsonObject timefieldObj) {
     if (timefieldObj != null) {
 
       TimeField timefield = new TimeField();
@@ -375,9 +404,38 @@ public class ReportService {
       timefield.setData(timeFieldMap);
       data.getStructure().setTimeField(timefield);
     }
+  }
 
-    return data;
-    // end
+  private void parseMetrics(Gson gson, MetaData data, JsonObject metricsObj) {
+    if (metricsObj != null) {
+      MetaMetrics metrics = new MetaMetrics();
+      HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
+
+      for (Entry<String, JsonElement> a : metricsObj.entrySet()) {
+        String key = a.getKey();
+        MetricsData value = gson.fromJson(a.getValue(), MetricsData.class);
+        metricsMap.put(key, value);
+      }
+
+      metrics.setMetricsMap(metricsMap);
+      data.getStructure().setMetrics(metrics);
+    }
+  }
+
+  private void parseDimensions(Gson gson, MetaData data, JsonObject dimensionObj) {
+    if (dimensionObj != null) {
+      MetaDimensions dimensions = new MetaDimensions();
+      HashMap<String, MetaDimensionData> dimensionsInfoMap = new HashMap<String, MetaDimensionData>();
+
+      for (Entry<String, JsonElement> a : dimensionObj.entrySet()) {
+        String key = a.getKey();
+        MetaDimensionData value = gson.fromJson(a.getValue(), MetaDimensionData.class);
+        dimensionsInfoMap.put(key, value);
+      }
+
+      dimensions.setDimensionsInfoMap(dimensionsInfoMap);
+      data.getStructure().setDimensions(dimensions);
+    }
   }
 
   /**
@@ -476,33 +534,44 @@ public class ReportService {
 
   private void throwReportError(ReportError re) throws ClientException {
     if (re != null) {
+
       StringBuffer buffer = new StringBuffer();
-      if (re.getEntity() != null && re.getEntity().length > 0) {
-        for (ReportErrorEntityInfo rentity : re.getEntity()) {
-          if (rentity.getId() != null && rentity.getType() != null && !rentity.getId().isEmpty()
-              && !rentity.getType().isEmpty()) {
 
-            buffer.append("Entity[ ID: " + rentity.getId() + ", Type: " + rentity.getType() + " ]");
-          }
+      parseErrorEntity(re, buffer);
 
-        }
+      parseErrorStatus(re, buffer);
 
-      }
-
-      if (re.getStatus() != null && re.getStatus().length > 0) {
-        for (ReportStatus stats : re.getStatus()) {
-          if (stats.getCode() != null && !stats.getCode().isEmpty() && stats.getReason() != null
-              && !stats.getReason().isEmpty() && stats.getValue() != null
-              && !stats.getValue().isEmpty()) {
-
-            buffer.append("Status[ Code: " + stats.getCode() + ", Reason: " + stats.getReason()
-                + ", value: " + stats.getValue() + " ]");
-
-          }
-        }
-      }
       throw new ClientException(buffer.toString());
     }
 
+  }
+
+  private void parseErrorStatus(ReportError re, StringBuffer buffer) {
+    if (re.getStatus() != null && re.getStatus().length > 0) {
+      for (ReportStatus stats : re.getStatus()) {
+
+        if (stats.getCode() != null && !stats.getCode().isEmpty() && stats.getReason() != null
+            && !stats.getReason().isEmpty() && stats.getValue() != null
+            && !stats.getValue().isEmpty()) {
+
+          buffer.append("Status[ Code: " + stats.getCode() + ", Reason: " + stats.getReason()
+              + ", value: " + stats.getValue() + " ]");
+
+        }
+      }
+    }
+  }
+
+  private void parseErrorEntity(ReportError re, StringBuffer buffer) {
+    if (re.getEntity() != null && re.getEntity().length > 0) {
+      for (ReportErrorEntityInfo rentity : re.getEntity()) {
+
+        if (rentity.getId() != null && rentity.getType() != null && !rentity.getId().isEmpty()
+            && !rentity.getType().isEmpty()) {
+          buffer.append("Entity[ ID: " + rentity.getId() + ", Type: " + rentity.getType() + " ]");
+        }
+      }
+
+    }
   }
 }
