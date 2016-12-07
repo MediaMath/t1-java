@@ -778,17 +778,19 @@ public class TerminalOne {
       }
 
       if (element.isJsonObject()) {
+        
         JsonObject obj = element.getAsJsonObject();
         JsonElement entityTypeElement = obj.get("entity_type");
         String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+        
         if (entityType != null && !entityType.equalsIgnoreCase("")) {
-          finalJsonResponse = parser.parseJsonToObj(response,
-              Constants.getEntityType.get(entityType));
+          finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entityType));
         } else {
           finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
           }.getType());
 >>>>>>> Common Save Functionality Final
         }
+<<<<<<< HEAD
 
         JsonElement entityTypeElem = dataObj.get("entity_type");
 
@@ -836,6 +838,9 @@ public class TerminalOne {
 
       if (finalJsonResponse != null) {
         finalJsonResponse.setData(null);
+=======
+        
+>>>>>>> Arrow Code refactoring for Post and Report Service.
       }
     }
 
@@ -846,8 +851,7 @@ public class TerminalOne {
         return null;
       }
 
-      finalJsonResponse = parser.parseJsonToObj(response,
-          Constants.getEntityType.get(query.collection.toLowerCase()));
+      finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(query.collection.toLowerCase()));
 
       if (finalJsonResponse != null) {
         finalJsonResponse.setData(null);

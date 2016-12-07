@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Arrow Code refactoring for Post and Report Service.
 /*******************************************************************************
  * Copyright 2016 MediaMath
  * 
@@ -1029,6 +1032,7 @@ public class PostService {
   }
 
 }
+<<<<<<< HEAD
 =======
 /*******************************************************************************
  * Copyright 2016 MediaMath
@@ -1996,3 +2000,5 @@ public class PostService {
 
 }
 >>>>>>> Common Save Functionality Final
+=======
+>>>>>>> Arrow Code refactoring for Post and Report Service.
