@@ -68,7 +68,7 @@ public class GetService {
     if (!query.collection.equals(null)) {
       path.append(query.collection);
     } else {
-      throw new IllegalArgumentException("please specify: collection");
+      throw new ClientException("please specify: collection");
     }
 
     // param entity Int example ID 12121
@@ -80,26 +80,24 @@ public class GetService {
     if (query.child != null) {
       childPath = constructChildPath(query.child);
       // if child path is not available then add child in GET URL
-      if (childPath.equalsIgnoreCase("")
-          && (query.child != null && !query.child.equalsIgnoreCase(""))) {
+      if (query.child != null && !query.child.equalsIgnoreCase("")) {
         childPath = "/" + query.child;
       }
-      if (!path.toString().equalsIgnoreCase("") && !childPath.equalsIgnoreCase("")) {
+      if (!childPath.equalsIgnoreCase("")) {
         path.append(childPath);
       }
     } // end of child
 
     // param limit, should be key=value pair. example organization : 123456
-    if (query.limit.size() > 0) {
+    if (query.limit.size() == 1) {
       path.append("/limit/");
       for (String s : query.limit.keySet()) {
-        if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
-          // TODO raise error
-        }
         if (!path.toString().equalsIgnoreCase("")) {
           path.append(s + "=" + String.valueOf(query.limit.get(s)));
         }
       }
+    }else if(query.limit.size()>1){
+    	throw new ClientException("Limit must consist of one parent collection (or chained parent collection) and a single value for it");
     }
 
     // param include
@@ -120,31 +118,8 @@ public class GetService {
       }
     } // end sortby
 
-    // param get_all, get_all=True removes the need to worry about pagination
-    if (query.getAll) {
-      if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
-        path.append("&get_all=" + query.getAll);
-      } else {
-        path.append("?get_all=" + query.getAll);
-      }
-    }
-
-    // param pageLimit should not be > 100 example: page_limit=30
-    // and param pageOffset, should be > 0 example: page_offset=10
-    if (query.pageLimit > 100) {
-      throw new ClientException("Page_Limit parameter should not exceed 100");
-    } else if (!query.getAll) {
-      String pagePath = "";
-      if (query.pageLimit > 0 && query.pageOffset > 0) {
-        query.getAll = false;
-      }
-      pagePath = constructPaginationPath(query.pageLimit, query.pageOffset);
-      if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
-        path.append("&" + pagePath);
-      } else {
-        path.append("?" + pagePath);
-      }
-    } // end pageLimit
+    //get_all and pagination parameters
+    path = constructGetAllAndPagingPath(query, path);
 
     // param full can be string, list<String>, boolean
     StringBuffer fullPath = new StringBuffer("");
@@ -165,16 +140,52 @@ public class GetService {
     }
 
     // param QUERY example
-    if (query.query != null) {
+    path = constructQueryPath(query, path);
+
+    return path;
+  }
+
+private StringBuffer constructQueryPath(QueryCriteria query, StringBuffer path) {
+	if (query.query != null) {
       if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
         path.append("&q=" + query.query);
       } else {
         path.append("?q=" + query.query);
       }
     }
+	return path;
+}
 
+private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuffer path) throws ClientException {
+	// param get_all, get_all=True removes the need to worry about pagination
+    if (query.getAll) {
+      if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
+        path.append("&get_all=" + query.getAll);
+      } else {
+        path.append("?get_all=" + query.getAll);
+      }
+    }//end getall
+    else
+    {
+    	// param pageLimit should not be > 100 example: page_limit=30
+        // and param pageOffset, should be > 0 example: page_offset=10
+    	if (query.pageLimit > 100) {
+    	      throw new ClientException("Page_Limit parameter should not exceed 100");
+    	}
+    	String pagePath = "";
+	      if (query.pageLimit > 0 && query.pageOffset > 0) {
+	        query.getAll = false;
+	      }
+	      pagePath = constructPaginationPath(query.pageLimit, query.pageOffset);
+	      if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
+	        path.append("&" + pagePath);
+	      } else {
+	        path.append("?" + pagePath);
+	      }
+    }// end pageLimit
+    
     return path;
-  }
+}
 
   /**
    * Find implementation.
@@ -191,45 +202,43 @@ public class GetService {
 
     StringBuffer paramVal = new StringBuffer();
 
-    if (query.queryOperator.equalsIgnoreCase(Filters.IN)) {
-      if (query.queryParams.getListValue() == null || (query.queryParams.getListValue() != null
-          && query.queryParams.getListValue().size() < 1)) {
-        // TODO raise TypeError
-      } else {
-        paramVal.append("(");
-        if (query.queryParams.getListValue().get(0) instanceof String
-            || query.queryParams.getListValue().get(0) instanceof Number) {
-          String prefix = "";
-          for (Object obj : query.queryParams.getListValue()) {
-            paramVal.append(prefix);
-            paramVal.append(String.valueOf(obj));
-            prefix = ",";
-          }
-        } else {
-          // TODO raise typeError
-        }
+    if (query.queryOperator.equalsIgnoreCase(Filters.IN)) 
+    {
+	      if (query.queryParams.getListValue().size() < 1) {
+	    	 throw new ClientException("please specify: list for IN query");
+	      }
+	      else
+	      {
+	    	  paramVal.append("(");
+	    	  if (query.queryParams.getListValue().get(0) instanceof String || query.queryParams.getListValue().get(0) instanceof Number) 
+	    	  {
+	    		  String prefix = "";
+	    		  for (Object obj : query.queryParams.getListValue()) {
+	    			  paramVal.append(prefix);
+	    			  paramVal.append(String.valueOf(obj));
+	    			  prefix = ",";
+	    		  }
+	    	  }else{
+	    		  throw new ClientException("please specify: list values either in number or string");
+	    	  }
+	    	  paramVal.append(")");
+	      }
+    }else{
+	      paramVal.append(query.queryParamName);
+	      paramVal.append(query.queryOperator);
+	
+	      if (query.queryParams.getStrValue() != null) {
+	        paramVal.append(query.queryParams.getStrValue());
+	      } else if (query.queryParams.getNumberValue() != null) {
+	        paramVal.append(query.queryParams.getNumberValue());
+	      } else if (query.queryParams.getBoolValue() == true) {
+	        paramVal.append(1);
+	      } else if (query.queryParams.getBoolValue() == false) {
+	        paramVal.append(0);
+	      }
+    }//else
 
-        paramVal.append(")");
-      }
-    } else {
-      paramVal.append(query.queryParamName);
-      paramVal.append(query.queryOperator);
-
-      if (query.queryParams.getStrValue() != null) {
-        paramVal.append(query.queryParams.getStrValue());
-      } else if (query.queryParams.getNumberValue() != null) {
-        paramVal.append(query.queryParams.getNumberValue());
-      } else if (query.queryParams.getBoolValue() == true) {
-        paramVal.append(1);
-      } else if (query.queryParams.getBoolValue() == false) {
-        paramVal.append(0);
-      }
-
-    }
-
-    paramVal.toString();
-
-    return paramVal.toString();
+   return paramVal.toString();
 
   }
 
@@ -256,29 +265,38 @@ public class GetService {
 
   private StringBuffer constructIncludePath(List<ConditionQuery> includeConditionList) {
     StringBuffer includePath = new StringBuffer("");
-    for (ConditionQuery conditionquery : includeConditionList) {
-      if (includePath.toString().equalsIgnoreCase("")) {
-        if (conditionquery.getInclude() != null) {
-          includePath.append("?with=" + conditionquery.getInclude());
-          if (conditionquery.getWith() != null) {
-            includePath.append("," + conditionquery.getWith());
-          }
-        }
-      } else {
-        if (conditionquery.getInclude() != null) {
-          includePath.append("&with=" + conditionquery.getInclude());
-          if (conditionquery.getWith() != null) {
-            includePath.append("," + conditionquery.getInclude());
-          }
-        }
-      }
+    
+    if(includeConditionList!=null && includeConditionList.size()<=0){
+    	return includePath;
     }
+    
+    for (ConditionQuery conditionquery : includeConditionList) {
+    	if (includePath.toString().equalsIgnoreCase("")) {
+    		includePath.append("?");
+    	}else{
+    		includePath.append("&");
+    	}
+    	
+        if (conditionquery.getInclude() != null) {
+          includePath.append("with=" + conditionquery.getInclude());
+        }  
+        if (conditionquery.getWith() != null) {
+            includePath.append("," + conditionquery.getWith());
+        }
+        
+
+    }//for
 
     return includePath;
   }
 
   private StringBuffer constructFullPath(List<String> fullList) {
     StringBuffer fullListPath = new StringBuffer("");
+    
+    if(fullList!=null && fullList.size()<=0){
+    	return fullListPath;
+    }
+    
     for (String fullStr : fullList) {
       if (fullListPath.toString().equalsIgnoreCase("")) {
         fullListPath.append(fullStr);
@@ -296,13 +314,11 @@ public class GetService {
     if (pageLimit > 0 && pageLimit <= 100) {
       pagePath += "page_limit=" + String.valueOf(pageLimit);
     }
-    if (pageOffset > 0) {
-      if (!pagePath.toString().equalsIgnoreCase("")) {
+    if (pageOffset > 0 && !pagePath.toString().equalsIgnoreCase("")) {
         pagePath += "&page_offset=" + String.valueOf(pageOffset);
-      } else {
-        pagePath += "page_offset=" + String.valueOf(pageOffset);
-      }
-    }
+	} else if(pagePath.toString().equalsIgnoreCase("")) {
+	    pagePath += "page_offset=" + String.valueOf(pageOffset);
+	}
 
     return pagePath;
   }
