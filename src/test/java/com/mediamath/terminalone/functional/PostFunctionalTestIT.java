@@ -89,12 +89,12 @@ public class PostFunctionalTestIT {
     InputStream input = PostFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
-    user = testConfig.getProperty("username");
-    password = testConfig.getProperty("password");
-    apiKey = testConfig.getProperty("sandbox_api_key");
-    productionKey = testConfig.getProperty("production_api_key");
-    oauthKey = testConfig.getProperty("oauth_api_key");
-    oauthSecret = testConfig.getProperty("oauth_secret");
+    user = testConfig.getProperty("t1.username");
+    password = testConfig.getProperty("t1.password");
+    apiKey = testConfig.getProperty("t1.sandbox_api_key");
+    productionKey = testConfig.getProperty("t1.production_api_key");
+    oauthKey = testConfig.getProperty("t1.oauth_api_key");
+    oauthSecret = testConfig.getProperty("t1.oauth_secret");
   }
 
   @After
