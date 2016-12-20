@@ -29,7 +29,7 @@ public class ClientException extends T1Exception {
 
   @Override
   public String toString() {
-    return "Client Excpetion: " + message;
+    return "Client Exception: " + message;
   }
 
 }
