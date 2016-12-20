@@ -241,7 +241,7 @@ public class Connection {
   }
 
   private String generateUserAgent() {
-    String version = configprop.getProperty("version");
+    String version = configprop.getProperty("t1.version");
     return "t1-java/" + version + " java-client/" + System.getProperty("java.version");
   }
 

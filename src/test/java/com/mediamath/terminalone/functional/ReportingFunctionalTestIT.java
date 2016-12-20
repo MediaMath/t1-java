@@ -36,9 +36,9 @@ public class ReportingFunctionalTestIT {
     InputStream input = ReportingFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
-    user = testConfig.getProperty("username");
-    password = testConfig.getProperty("password");
-    apiKey = testConfig.getProperty("production_api_key");
+    user = testConfig.getProperty("t1.username");
+    password = testConfig.getProperty("t1.password");
+    apiKey = testConfig.getProperty("t1.production_api_key");
   }
 
   @After
