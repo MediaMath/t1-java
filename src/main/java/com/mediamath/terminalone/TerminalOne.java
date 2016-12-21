@@ -169,12 +169,12 @@ public class TerminalOne {
   private void validateLoginCredentials(String username, String password, String apiKey)
       throws ClientException {
     if (apiKey == null || apiKey.isEmpty()) {
-      logger.error("Environment does not exist");
+      logger.error("Please Provide Valid API Key");
       throw new ClientException("Please Provide Valid API Key");
     }
 
     if (username.isEmpty() || password.isEmpty()) {
-      logger.error("Please provide valid credentials.");
+      logger.error("Please Provide Valid Username and Password.");
       throw new ClientException("Please Provide Valid Username and Password.");
     }
   }
