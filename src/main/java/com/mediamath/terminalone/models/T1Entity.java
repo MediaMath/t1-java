@@ -16,8 +16,16 @@
 
 package com.mediamath.terminalone.models;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.exceptions.ClientException;
+
 public interface T1Entity {
 
   public String getEntityname();
+  
+  public Form getForm();
+  
+  public String getUri() throws ClientException;
 
 }

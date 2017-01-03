@@ -18,6 +18,8 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
 public class PixelProvider implements T1Entity {
 
   private static final String entityName = "PixelProvider";
@@ -138,6 +140,18 @@ public class PixelProvider implements T1Entity {
 
   public void setVendor(Vendor vendor) {
     this.vendor = vendor;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

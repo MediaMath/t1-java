@@ -18,6 +18,8 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.core.Form;
+
 public class TOneASCreativeAssetsApprove implements T1Entity {
 
   private static final String entityName = "TOneCreativeAssetsApprove";
@@ -62,6 +64,18 @@ public class TOneASCreativeAssetsApprove implements T1Entity {
 
   public void setDataList(ArrayList<TOneASCreativeAssetsApproveData> dataList) {
     this.dataList = dataList;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

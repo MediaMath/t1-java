@@ -42,22 +42,13 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.models.AtomicCreative;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.ChildPixel;
-import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.Organization;
-import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
@@ -69,18 +60,7 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
-import com.mediamath.terminalone.models.helper.AdvertiserHelper;
-import com.mediamath.terminalone.models.helper.AgencyHelper;
-import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
-import com.mediamath.terminalone.models.helper.CampaignHelper;
-import com.mediamath.terminalone.models.helper.ChildPixelHelper;
-import com.mediamath.terminalone.models.helper.ConceptHelper;
-import com.mediamath.terminalone.models.helper.OrganizationHelper;
-import com.mediamath.terminalone.models.helper.PixelHelper;
-import com.mediamath.terminalone.models.helper.StrategyConceptHelper;
-import com.mediamath.terminalone.models.helper.StrategyDayPartHelper;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
-import com.mediamath.terminalone.models.helper.StrategySupplySourceHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.TPasCreativeUploadBatchHelper;
 import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
@@ -130,104 +110,53 @@ public class PostService {
     StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
     return uri;
   }
-
+  
   /**
-   * Saves an Agency Entity.
    * 
-   * @param entity
-   *          expects Agency Entity.
-   * @return Agency object.
+   * @param entity expects T1Entity
+   * @return T1Entity
    * @throws ClientException
-   *           a client exception is thrown if any error occurs.
    * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
    */
-  public Agency save(Agency entity) throws ClientException, ParseException {
+  public T1Entity save(T1Entity entity) throws ClientException, ParseException {
 
-    Agency agency = null;
+    if (entity == null)
+      return null;
 
-    if (entity != null) {
+    JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
+    StringBuffer uri = getUri(entity);
 
-      StringBuffer uri = getUri(entity);
+    String uriPath = entity.getUri();
 
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
+    if (uriPath != null && !uriPath.isEmpty())
+      uri.append(uriPath);
 
-      String path = t1Service.constructUrl(uri);
+    String path = t1Service.constructUrl(uri);
 
-      Response responseObj = this.connection.post(path, AgencyHelper.getForm(entity), this.user);
+    Response responseObj = this.connection.post(path, entity.getForm(), this.user);
 
-      String response = responseObj.readEntity(String.class);
+    String response = responseObj.readEntity(String.class);
 
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            agency = (Agency) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
+    // parse response
+    T1JsonToObjParser parser = new T1JsonToObjParser();
 
-    }
-    return agency;
+    if (response.isEmpty())
+      return null;
+
+    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+
+    if (error != null)
+      throwExceptions(error);
+
+    finalJsonResponse = parsePostData(response, parser, entity);
+
+    if (finalJsonResponse == null)
+      return null;
+
+    return finalJsonResponse.getData();
   }
-
-  /**
-   * saves an Advertiser entity.
-   * 
-   * @param entity
-   *          expects an Advertiser Entity.
-   * @return Advertiser object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Advertiser save(Advertiser entity) throws ClientException, ParseException {
-    Advertiser advertiser = null;
-
-    if (entity != null) {
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, AdvertiserHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            advertiser = (Advertiser) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return advertiser;
-  }
+  
 
   /**
    * saves a Strategy entity.
@@ -300,257 +229,6 @@ public class PostService {
   }
 
   /**
-   * saves a StrategyConcept entity.
-   * 
-   * @param entity
-   *          expects a StrategyConcept Entity.
-   * @return StrategyConcept entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyConcept save(StrategyConcept entity) throws ClientException, ParseException {
-
-    StrategyConcept strategyConcept = null;
-
-    if (entity != null) {
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, StrategyConceptHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            strategyConcept = (StrategyConcept) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return strategyConcept;
-  }
-
-  /**
-   * saves a StrategySupplySource entity.
-   * 
-   * @param entity
-   *          expects a StrategySupplySource entity.
-   * @return StrategySupplySource object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategySupplySource save(StrategySupplySource entity)
-      throws ClientException, ParseException {
-
-    StrategySupplySource strategySupplySource = null;
-
-    if (entity != null) {
-
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, StrategySupplySourceHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            strategySupplySource = (StrategySupplySource) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return strategySupplySource;
-  }
-
-  /**
-   * saves a StrategyDayPart entity.
-   * 
-   * @param entity
-   *          expects a StrategyDayPart entity.
-   * @return StrategyDayPart entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
-
-    StrategyDayPart strategyDayPart = null;
-
-    if (entity != null) {
-
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, StrategyDayPartHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            strategyDayPart = (StrategyDayPart) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return strategyDayPart;
-  }
-
-  /**
-   * saves an Organization entity.
-   * 
-   * @param entity
-   *          expects an Organization entity.
-   * 
-   * @return Organization entity.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Organization save(Organization entity) throws ClientException, ParseException {
-
-    Organization org = null;
-
-    if (entity != null) {
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      } else {
-        throw new ClientException("Can not update Organization, ID not found!!");
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, OrganizationHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            org = (Organization) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return org;
-  }
-
-  /**
-   * Saves an ChildPixel Entity.
-   * 
-   * @param entity
-   *          expects ChildPixel Entity.
-   * @return ChildPixel object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
-
-    ChildPixel childPixel = null;
-
-    if (entity != null) {
-
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
-
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, ChildPixelHelper.getForm(entity),
-          this.user);
-
-      String response = responseObj.readEntity(String.class);
-
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            childPixel = (ChildPixel) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-
-    }
-    return childPixel;
-  }
-
-  /**
    * saves a Pixel entity.
    * 
    * @param entity
@@ -564,7 +242,7 @@ public class PostService {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public Pixel save(Pixel entity) throws ClientException, ParseException {
+  /*public Pixel save(Pixel entity) throws ClientException, ParseException {
 
     Pixel pixel = null;
 
@@ -599,107 +277,9 @@ public class PostService {
 
     }
     return pixel;
-  }
+  }*/
 
-  /**
-   * saves a Campaign entity.
-   * 
-   * @param entity
-   *          expects a Campaign entity.
-   * 
-   * @return Campaign entity.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * 
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Campaign save(Campaign entity) throws ParseException, ClientException {
-
-    Campaign campaign = null;
-
-    if (entity != null) {
-
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      if (entity.getId() > 0) {
-        uri.append("/" + entity.getId());
-      }
-
-      if (entity.getId() > 0 && entity.getMargins().size() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-        uri.append("/margins");
-      }
-      String path = t1Service.constructUrl(uri);
-
-      Response responseObj = this.connection.post(path, CampaignHelper.getForm(entity), this.user);
-      String response = responseObj.readEntity(String.class);
-
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            campaign = (Campaign) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-    }
-    return campaign;
-  }
-
-  /**
-   * saves a Concept entity.
-   * 
-   * @param entity
-   *          expects a Concept entity.
-   * 
-   * @return Concept entity.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * 
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Concept save(Concept entity) throws ParseException, ClientException {
-
-    Concept concept = null;
-
-    if (entity != null) {
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      String path = t1Service.constructUrl(uri);
-      // post
-      Response responseObj = this.connection.post(path, ConceptHelper.getForm(entity), this.user);
-      String response = responseObj.readEntity(String.class);
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            concept = (Concept) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-
-      }
-    }
-    return concept;
-  }
+ 
 
   /**
    * saves a VideoCreative entity. this is the First Call to Create a Video Creative.
@@ -751,51 +331,7 @@ public class PostService {
     return videoCreative;
   }
 
-  /**
-   * saves an AtomicCreative entity..
-   * 
-   * @param entity
-   *          expects an AtomicCreative entity
-   * 
-   * @return AtomicCreative entity.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * 
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
-    AtomicCreative atomicCreative = null;
-
-    if (entity != null) {
-      JsonResponse<? extends T1Entity> finalJsonResponse = null;
-
-      StringBuffer uri = getUri(entity);
-
-      String path = t1Service.constructUrl(uri);
-      // post
-      Response responseObj = this.connection.post(path, AtomicCreativeHelper.getForm(entity),
-          this.user);
-      String response = responseObj.readEntity(String.class);
-
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (!response.isEmpty()) {
-        JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-        if (error == null) {
-          finalJsonResponse = parsePostData(response, parser, entity);
-          if (finalJsonResponse != null && finalJsonResponse.getData() != null) {
-            atomicCreative = (AtomicCreative) finalJsonResponse.getData();
-          }
-        } else {
-          throwExceptions(error);
-        }
-      }
-    }
-    return atomicCreative;
-  }
-
+ 
   /**
    * Gets the Video Creative Upload status
    * 

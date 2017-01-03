@@ -79,13 +79,13 @@ public class T1JsonToObjParser {
     int isArrayObj = 0; // 0 = null
     JsonParser parser = new JsonParser();
     JsonObject obj = parser.parse(response).getAsJsonObject();
-    JsonElement element = obj.get("data");
-    if (element != null) {
-      if (element.isJsonArray()) {
+    JsonElement dataElement = obj.get("data");
+    if (dataElement != null) {
+      if (dataElement.isJsonArray()) {
         isArrayObj = 2; // array object
-      } else if (element.isJsonObject()) {
+      } else if (dataElement.isJsonObject()) {
         isArrayObj = 1; // single object
-      } else if (element.isJsonNull()) {
+      } else if (dataElement.isJsonNull()) {
         isArrayObj = 0; // nothing.
       }
     } else {

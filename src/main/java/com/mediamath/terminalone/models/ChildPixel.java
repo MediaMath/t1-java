@@ -18,6 +18,10 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class ChildPixel implements T1Entity {
 
   private static final String entityName = "ChildPixel";
@@ -116,6 +120,49 @@ public class ChildPixel implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+
+    Form pixelForm = new Form();
+
+    if (this.getBundleId() > 0) {
+      pixelForm.param("bundle_id", String.valueOf(this.getBundleId()));
+    }
+
+    pixelForm.param("distributed", Utility.getOnOrOff(this.isDistributed()));
+
+    if (this.getPixelType() != null) {
+      pixelForm.param("pixel_type", this.getPixelType().toString());
+    }
+
+    if (this.getTag() != null) {
+      pixelForm.param("tag", this.getTag());
+    }
+
+    if (this.getSupplySourceId() > 0) {
+      pixelForm.param("supply_source_id", String.valueOf(this.getSupplySourceId()));
+    }
+
+    if (this.getVersion() >= 0) {
+      pixelForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    Form finalChildPixelForm = Utility.getFilteredForm(pixelForm, "childpixel");
+    
+    return finalChildPixelForm;
+  }
+
+
+  @Override
+  public String getUri() {
+    StringBuffer uri = new StringBuffer();
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    }
+    return uri.toString();
   }
 
 }
