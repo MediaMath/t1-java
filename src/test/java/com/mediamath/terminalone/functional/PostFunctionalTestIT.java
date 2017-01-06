@@ -68,8 +68,7 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 
-@Ignore
-public class PostFunctionalTests {
+public class PostFunctionalTestIT {
 
   private static Properties testConfig = new Properties();
 
@@ -87,7 +86,7 @@ public class PostFunctionalTests {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = PostFunctionalTests.class.getClassLoader()
+    InputStream input = PostFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("username");

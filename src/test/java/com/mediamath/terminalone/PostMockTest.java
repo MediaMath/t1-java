@@ -37,7 +37,7 @@ import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PostMockTests {
+public class PostMockTest {
 
   @Mock
   T1Service t1servicemock;

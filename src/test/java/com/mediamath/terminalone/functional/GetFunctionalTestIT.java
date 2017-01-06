@@ -42,8 +42,7 @@ import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
-@Ignore
-public class GetFunctionalTests {
+public class GetFunctionalTestIT {
 
   private static Properties testConfig = new Properties();
 
@@ -61,7 +60,7 @@ public class GetFunctionalTests {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = PostFunctionalTests.class.getClassLoader()
+    InputStream input = PostFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("username");
