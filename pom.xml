@@ -66,6 +66,7 @@
                         </configuration>
                     </plugin>
 
+<<<<<<< HEAD
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
@@ -107,6 +108,67 @@
                             </execution>
                         </executions>
                     </plugin>
+=======
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<skipTests>false</skipTests>
+							<excludes>
+								<exclude>**/IT.java</exclude>
+								<exclude>**/FunctionalTestIT.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<skipTests>true</skipTests>
+							<excludes>
+								<exclude>**/Test.java</exclude>
+								<exclude>**/MockTest.java</exclude>
+							</excludes>							
+						</configuration>
+						<!-- <executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions> -->
+					</plugin>
+				
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using config.sandbox.properties</echo>
+										<copy file="src/main/resources/config.sandbox.properties"
+											tofile="src/main/resources/config.properties" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+>>>>>>> mvn test attempts to hit production endpoints -- fixed.
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -149,6 +211,7 @@
             </build>
         </profile>
 
+<<<<<<< HEAD
         <profile>
             <id>prod</id>
             <activation>
@@ -168,6 +231,69 @@
                             </excludes>
                         </configuration>
                     </plugin>
+=======
+		<profile>
+			<id>prod</id>
+			<activation>
+			    <activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<skipTests>false</skipTests>
+							<excludes>
+								<exclude>**/IT.java</exclude>
+								<exclude>**/FunctionalTestIT.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<skipTests>true</skipTests>
+								<excludes>
+									<exclude>**/Test.java</exclude>
+									<exclude>**/MockTest.java</exclude>
+								</excludes>
+						</configuration>
+						<!-- <executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions> -->
+					</plugin>
+					
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>Using config.sandbox.properties</echo>
+										<copy file="src/main/resources/config.prod.properties"
+											tofile="src/main/resources/config.properties" />
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+>>>>>>> mvn test attempts to hit production endpoints -- fixed.
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
