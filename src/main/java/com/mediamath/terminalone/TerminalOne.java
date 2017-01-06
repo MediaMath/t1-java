@@ -83,7 +83,7 @@ public class TerminalOne {
 
   private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
-  public Connection connection = null;
+  private Connection connection = null;
 
   private T1Service tOneService = null;
 
