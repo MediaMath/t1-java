@@ -1,1 +1,10 @@
 language: java
+addons:
+  sonarqube:
+    token:
+      secure: SONARQUBE # encrypted value of your token
+script:
+  # other script steps might be done before running the actual SonarQube analysis
+  - sonar-scanner
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
