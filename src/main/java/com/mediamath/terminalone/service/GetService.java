@@ -77,12 +77,8 @@ public class GetService {
     }
 
     // param child String example: acl, permissions
-    if (query.child != null) {
+    if (query.child.size() > 0) {
       childPath = constructChildPath(query.child);
-      // if child path is not available then add child in GET URL
-      if (query.child != null && !query.child.equalsIgnoreCase("")) {
-        childPath = "/" + query.child;
-      }
       if (!childPath.equalsIgnoreCase("")) {
         path.append(childPath);
       }
@@ -103,7 +99,6 @@ public class GetService {
     // param include
     if (query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
       includePath = constructIncludePath(query.includeConditionList);
-
       if (!path.toString().equalsIgnoreCase("") && !includePath.toString().equalsIgnoreCase("")) {
         path.append(includePath.toString());
       }
@@ -242,22 +237,25 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
 
   }
 
-  private String constructChildPath(String child) {
+  private String constructChildPath(List<String> child) {
     String childPath = "";
-    HashMap<String, Integer> childMap = Constants.childPaths.get(child);
-    if (childMap != null) {
-      for (String s : childMap.keySet()) {
-        /*
-         * if (s.equalsIgnoreCase("target_dimensions")) { childPath += "?target_dimensions=" +
-         * String.valueOf(childMap.get("target_dimensions")); } else { childPath += "?" + child; }
-         */
-
-        if (childMap.get(s) > 0) {
-          childPath += "/" + s + "/" + childMap.get(s);
-        } else {
-          childPath += "/" + s;
-        }
-      }
+    
+    for(String childVal : child)
+    {
+    	HashMap<String, Integer> childMap =null;
+    	childMap = Constants.childPaths.get(childVal);
+    	if (childMap != null) 
+    	{
+    		for (String s : childMap.keySet()) {
+    			if (childMap.get(s) > 0) {
+    	          childPath += "/" + s + "/" + childMap.get(s);
+    	        } else {
+    	          childPath += "/" + s;
+    	        }
+    		}
+    	}else{
+    		childPath += "/" + childVal;
+    	}
     }
 
     return childPath;
