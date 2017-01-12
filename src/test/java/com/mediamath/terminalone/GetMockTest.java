@@ -35,7 +35,7 @@ import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GetMockTests {
+public class GetMockTest {
 
   @Mock
   T1Service t1servicemock;

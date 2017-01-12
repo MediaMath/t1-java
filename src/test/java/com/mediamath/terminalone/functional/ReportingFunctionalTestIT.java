@@ -21,7 +21,7 @@ import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
 
-public class ReportingFunctionalTest {
+public class ReportingFunctionalTestIT {
 
   private static Properties testConfig = new Properties();
 
@@ -33,7 +33,7 @@ public class ReportingFunctionalTest {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = BasicFunctionalTest.class.getClassLoader()
+    InputStream input = ReportingFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("username");

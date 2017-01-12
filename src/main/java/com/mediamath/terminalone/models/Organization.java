@@ -19,6 +19,11 @@ package com.mediamath.terminalone.models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.utils.Utility;
+
 public class Organization implements T1Entity {
 
   private static final String entityName = "Organization";
@@ -251,6 +256,89 @@ public class Organization implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+
+    Form orgForm = new Form();
+    if (this.getName() != null) {
+      orgForm.param("name", this.getName());
+    }
+    orgForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getContactName() != null) {
+      orgForm.param("contact_name", this.getContactName());
+    }
+
+    if (this.getAddress1() != null) {
+      orgForm.param("address_1", this.getAddress1());
+    }
+    if (this.getAddress2() != null) {
+      orgForm.param("address_2", this.getAddress2());
+    }
+    if (this.getCity() != null) {
+      orgForm.param("city", this.getCity());
+    }
+    if (this.getState() != null) {
+      orgForm.param("state", this.getState());
+    }
+    if (this.getZip() != null) {
+      orgForm.param("zip", this.getZip());
+    }
+    if (this.getCountry() != null) {
+      orgForm.param("country", this.getCountry());
+    }
+    if (this.getPhone() != null) {
+      orgForm.param("phone", this.getPhone());
+    }
+    if (this.getMmContactName() != null) {
+      orgForm.param("mm_contact_name", this.getMmContactName());
+    }
+
+    orgForm.param("allow_x_agency_pixels", Utility.getOnOrOff(this.isAllowXAgencyPixels()));
+    orgForm.param("use_evidon_optout", Utility.getOnOrOff(this.isUseEvidonOptout()));
+    orgForm.param("allow_byo_price", Utility.getOnOrOff(this.isAllowByoPrice()));
+    if (this.getCurencyCode() != null) {
+      orgForm.param("currency_code", this.getCurencyCode());
+    }
+
+    orgForm.param("adx_seat_account_id", String.valueOf(this.getAdxSeatAccountId()));
+    if (this.getBillingCountryCode() != null) {
+      orgForm.param("billing_country_code", this.getBillingCountryCode());
+    }
+
+    orgForm.param("override_suspicious_traffic_filter",
+        Utility.getOnOrOff(this.isOverrideSuspiciousTrafficFilter()));
+    if (this.getSuspiciousTrafficFilterLevel() > 0) {
+      orgForm.param("suspicious_traffic_filter_level",
+          String.valueOf(this.getSuspiciousTrafficFilterLevel()));
+    }
+
+    if (this.getVersion() >= 0) {
+      orgForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    // TODO check how to pass array to form
+    orgForm.param("org_type",
+        (this.getOrgType().size() > 0) ? this.getOrgType().get(0).toString() : "buyer");
+
+    Form finalOrgForm = Utility.getFilteredForm(orgForm, "organization");
+
+    return finalOrgForm;
+
+  }
+
+  @Override
+  public String getUri() throws ClientException {
+    StringBuffer uri = new StringBuffer();
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    } else {
+      throw new ClientException("Can not update Organization, ID not found!!");
+    }
+    return uri.toString();
   }
 
 }

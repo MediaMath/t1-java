@@ -18,12 +18,21 @@ package com.mediamath.terminalone.models;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
+
 public class Campaign implements T1Entity {
+  
+  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
+
+  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
   private static final String entityName = "Campaign";
 
@@ -84,7 +93,7 @@ public class Campaign implements T1Entity {
   private servTypes service_type;
   private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
   private boolean spend_cap_automatic;
-  private boolean spend_cap_enabled;
+  //private boolean spend_cap_enabled;
   private Date start_date;
   private boolean status;
   private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
@@ -343,13 +352,13 @@ public class Campaign implements T1Entity {
     this.spend_cap_automatic = spend_cap_automatic;
   }
 
-  public boolean isSpendCapEnabled() {
+ /* public boolean isSpendCapEnabled() {
     return spend_cap_enabled;
   }
 
   public void setSpendCapEnabled(boolean spend_cap_enabled) {
     this.spend_cap_enabled = spend_cap_enabled;
-  }
+  }*/
 
   public Date getStartDate() {
     return start_date;
@@ -513,6 +522,167 @@ public class Campaign implements T1Entity {
 
       this.goal_value.add(cost);
     }
+  }
+  
+  @Override
+  public Form getForm() {
+
+    Form campaignForm = new Form();
+
+    campaignForm.param("name", this.getName());
+
+    if (this.getAdServerFee().size() > 0) {
+      campaignForm.param("ad_server_fee",
+          String.valueOf(this.getAdServerFee().get(0).getValue()));
+    }
+
+    if (this.getTotalBudget().size() > 0) {
+      campaignForm.param("total_budget", String.valueOf(this.getTotalBudget().get(0).getValue()));
+    }
+
+    if (this.getSpendCapAmount().size() > 0) {
+      campaignForm.param("spend_cap_amount",
+          String.valueOf(this.getSpendCapAmount().get(0).getValue()));
+    }
+
+    if (this.getGoalValue().size() > 0) {
+      campaignForm.param("goal_value", String.valueOf(this.getGoalValue().get(0).getValue()));
+    }
+
+    if (this.getAdServerId() >= 0) {
+      campaignForm.param("ad_server_id", String.valueOf(this.getAdServerId()));
+    }
+
+    if (this.getAdServerId() > 0) {
+      campaignForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
+    }
+
+    campaignForm.param("conversion_type", this.getConversionType());
+
+    campaignForm.param("conversion_variable_minutes",
+        String.valueOf(this.getConversionVariableMinutes()));
+
+    if (this.getEndDate() != null) {
+      String endDate = sdf.format(this.getEndDate());
+      campaignForm.param("end_date", endDate);
+    }
+
+    campaignForm.param("goal_type", String.valueOf(this.getGoalType()));
+
+    campaignForm.param("service_type", String.valueOf(this.getServiceType()));
+
+    if (this.getStartDate() != null) {
+      String startDate = sdf.format(this.getStartDate());
+      campaignForm.param("start_date", startDate);
+    }
+
+    campaignForm.param("use_mm_freq", Utility.getOnOrOff(this.isUseMmFreq()));
+
+    if (this.getAdServerPassword() != null) {
+      campaignForm.param("ad_server_password", this.getAdServerPassword());
+    }
+
+    if (this.getAdServerUsername() != null) {
+      campaignForm.param("ad_server_username", this.getAdServerUsername());
+    }
+
+    if (this.getAgencyFeePct() > 0) {
+      campaignForm.param("agency_fee_pct", String.valueOf(this.getAgencyFeePct()));
+    }
+
+    if (this.getCurrencyCode() != null) {
+      campaignForm.param("currency_code", this.getCurrencyCode());
+    }
+
+    campaignForm.param("dcs_data_is_campaign_level",
+        Utility.getOnOrOff(this.isDcsDataIsCampaignLevel()));
+
+    // check null
+    if (this.getFrequencyAmount() >= 0) {
+      campaignForm.param("frequency_amount", String.valueOf(this.getFrequencyAmount()));
+    }
+
+    if (this.getFrequencyInterval() != null) {
+      campaignForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+    }
+
+    if (this.getFrequencyType() != null) {
+      campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType()));
+    }
+
+    if (this.getGoalAlert() >= 0) {
+      campaignForm.param("goal_alert", String.valueOf(this.getGoalAlert()));
+    }
+
+    if (this.getGoalCategory() != null) {
+      campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
+    }
+
+    campaignForm.param("has_custom_attribution",
+        Utility.getOnOrOff(this.isHasCustomAttribution()));
+
+    if (this.getIoName() != null) {
+      campaignForm.param("io_name", this.getIoName());
+    }
+
+    if (this.getIoReferenceNum() != null) {
+      campaignForm.param("io_reference_num", this.getIoReferenceNum());
+    }
+
+    if (this.getMarginPct() >= 0) {
+      campaignForm.param("margin_pct", String.valueOf(this.getMarginPct()));
+    }
+
+    if (this.getMeritPixelId() > 0) {
+      campaignForm.param("merit_pixel_id", String.valueOf(this.getMeritPixelId()));
+    }
+
+    if (this.getPcWindowMinutes() > 0) {
+      campaignForm.param("pc_window_minutes", String.valueOf(this.getPcWindowMinutes()));
+    }
+
+    if (this.getPvPct() > 0) {
+      campaignForm.param("pv_pct", String.valueOf(this.getPvPct()));
+    }
+
+    if (this.getPvWindowMinutes() > 0) {
+      campaignForm.param("pv_window_minutes", String.valueOf(this.getPvWindowMinutes()));
+    }
+
+    campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(this.isSpendCapAutomatic()));
+
+   // campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(this.isSpendCapEnabled()));
+
+    campaignForm.param("use_default_ad_server", Utility.getOnOrOff(this.isUseDefaultAdServer()));
+
+    if (this.getZoneName() != null) {
+      campaignForm.param("zone_name", this.getZoneName());
+    }
+
+    campaignForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+    if (this.getVersion() >= 0) {
+      campaignForm.param("version", String.valueOf(this.getVersion()));
+    }
+
+    Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
+
+    return finalCampaignForm;
+  }
+
+  @Override
+  public String getUri() {
+    StringBuffer uri = new StringBuffer();
+    
+    if (this.getId() > 0) {
+      uri.append("/" + this.getId());
+    }
+
+    if (this.getId() > 0 && this.getMargins().size() > 0) {
+      uri.append("/margins");
+    }
+    
+    return uri.toString();
   }
 
 }
