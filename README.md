@@ -1,3 +1,5 @@
+https://travis-ci.org/MediaMath/t1-java.svg?branch=master
+
 # t1-java
 Java SDK for MediaMath Platform APIs
 
