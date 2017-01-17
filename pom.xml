@@ -167,6 +167,7 @@
                                 <exclude>**/FunctionalTestIT.java</exclude>
                             </excludes>
                         </configuration>
+
                     </plugin>
 
                     <plugin>
@@ -328,6 +329,7 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
             <version>2.22.2</version>
+
         </dependency>
 
         <dependency>
@@ -374,6 +376,7 @@
         
         <dependency>
                     <groupId>org.apache.oltu.oauth2</groupId>
+
             <artifactId>org.apache.oltu.oauth2.common</artifactId>
             <version>1.0.2</version>
         </dependency>
