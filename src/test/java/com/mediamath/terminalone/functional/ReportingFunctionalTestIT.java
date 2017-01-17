@@ -21,7 +21,7 @@ import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
 
-public class ReportingFunctionalTest {
+public class ReportingFunctionalTestIT {
 
   private static Properties testConfig = new Properties();
 
@@ -33,7 +33,15 @@ public class ReportingFunctionalTest {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = BasicFunctionalTest.class.getClassLoader()
+<<<<<<< HEAD:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTestIT.java
+<<<<<<< HEAD:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTestIT.java
+    InputStream input = ReportingFunctionalTestIT.class.getClassLoader()
+=======
+    InputStream input = ReportingFunctionalTest.class.getClassLoader()
+>>>>>>> Common Save Functionality Final:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTest.java
+=======
+    InputStream input = ReportingFunctionalTestIT.class.getClassLoader()
+>>>>>>> mvn test attempts to hit production endpoints -- fixed.:src/test/java/com/mediamath/terminalone/functional/ReportingFunctionalTestIT.java
         .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("t1.username");

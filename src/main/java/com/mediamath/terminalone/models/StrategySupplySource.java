@@ -16,6 +16,8 @@
 
 package com.mediamath.terminalone.models;
 
+import javax.ws.rs.core.Form;
+
 public class StrategySupplySource implements T1Entity {
 
   private static final String entityName = "StrategySupplySource";
@@ -78,6 +80,38 @@ public class StrategySupplySource implements T1Entity {
 
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+	  Form strategySupplySourceForm = new Form();
+
+	    if (this.getSupplySourceId() > 0) {
+	      strategySupplySourceForm.param("supply_source_id",
+	          String.valueOf(this.getSupplySourceId()));
+	    }
+
+	    if (this.getStrategyId() > 0) {
+	      strategySupplySourceForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+	    }
+
+	    if (this.getVersion() >= 0) {
+	      strategySupplySourceForm.param("version", String.valueOf(this.getVersion()));
+	    }
+
+	    return strategySupplySourceForm;
+  }
+
+  @Override
+  public String getUri() {
+	  StringBuffer uri = new StringBuffer();
+
+      if (this.getId() > 0) {
+        uri.append("/");
+        uri.append(this.getId());
+      }
+      
+      return uri.toString();
   }
 
 }

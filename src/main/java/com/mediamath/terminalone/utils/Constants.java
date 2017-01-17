@@ -615,7 +615,13 @@ public final class Constants {
     childPaths.put("safety", subMap21);
     HashMap<String, Integer> subMap22 = new HashMap<String, Integer>();
     subMap22.put("supplies", 0);
-    childPaths.put("supplies", childPathSub);
+    childPaths.put("supplies", subMap22);
+    HashMap<String, Integer> subMap23 = new HashMap<String, Integer>();
+    subMap23.put("targeting_segments", 0);
+    childPaths.put("targeting_segments", subMap23);
+    HashMap<String, Integer> subMap24 = new HashMap<String, Integer>();
+    subMap24.put("audience_segments", 0);
+    childPaths.put("audience_segments", subMap24);
 
   }
 
