@@ -83,7 +83,7 @@ public class TerminalOne {
 
   private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
-  public Connection connection = null;
+  private Connection connection = null;
 
   private T1Service tOneService = null;
 
@@ -133,11 +133,14 @@ public class TerminalOne {
     reportService = new ReportService();
 
     if (this.getUser() != null && this.getUser().getData() != null) {
-      if (this.getUser().getData().getSession() != null
-          && this.getUser().getData().getSession().getSessionid() != null
-          && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+      
+      if (this.getUser().getData().getSession() != null 
+            && this.getUser().getData().getSession().getSessionid() != null 
+            && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
+      
         this.authenticated = true;
       }
+      
     }
 
   }
@@ -166,12 +169,12 @@ public class TerminalOne {
   private void validateLoginCredentials(String username, String password, String apiKey)
       throws ClientException {
     if (apiKey == null || apiKey.isEmpty()) {
-      logger.error("Environment does not exist");
+      logger.error("Please Provide Valid API Key");
       throw new ClientException("Please Provide Valid API Key");
     }
 
     if (username.isEmpty() || password.isEmpty()) {
-      logger.error("Please provide valid credentials.");
+      logger.error("Please Provide Valid Username and Password.");
       throw new ClientException("Please Provide Valid Username and Password.");
     }
   }
@@ -347,63 +350,19 @@ public class TerminalOne {
     this.setUser(resp);
 
   }
-
-  /**
-   * Saves Agency entity.
-   * 
-   * @param entity
-   *          expects an Agency Entity.
-   * @return Agency entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public Agency save(Agency entity) throws ClientException, ParseException {
-    Agency agency = null;
-    if (isAuthenticated()) {
-      agency = postService.save(entity);
-    }
-    return agency;
+  
+  public T1Entity save(T1Entity entity) throws ClientException, ParseException {
+    
+    if(entity == null) return null;
+    
+    if(!isAuthenticated()) return null;
+    
+    T1Entity response = postService.save(entity);
+    
+    return response;
   }
+  
 
-  /**
-   * Saves Child Pixel entity.
-   * 
-   * @param entity
-   *          expects an ChildPixel Entity.
-   * @return ChildPixel entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public ChildPixel save(ChildPixel entity) throws ClientException, ParseException {
-    ChildPixel childPixel = null;
-    if (isAuthenticated()) {
-      childPixel = postService.save(entity);
-    }
-    return childPixel;
-  }
-
-  /**
-   * saves Advertiser.
-   * 
-   * @param entity
-   *          expects Advertiser entity.
-   * @return Advertiser entity.
-   * @throws ClientException
-   *           exception.
-   * @throws ParseException
-   *           exception.
-   */
-  public Advertiser save(Advertiser entity) throws ClientException, ParseException {
-    Advertiser advertiser = null;
-    if (isAuthenticated()) {
-      advertiser = postService.save(entity);
-    }
-    return advertiser;
-  }
 
   /**
    * Saves Strategy entity.
@@ -424,84 +383,7 @@ public class TerminalOne {
     return strategy;
   }
 
-  /**
-   * saves Strategy Concepts.
-   * 
-   * @param entity
-   *          expects StrategyConcept entity.
-   * @return StrategyConcept entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyConcept save(StrategyConcept entity) throws ClientException, ParseException {
-    StrategyConcept strategyConcept = null;
-    if (isAuthenticated()) {
-      strategyConcept = postService.save(entity);
-    }
-    return strategyConcept;
-  }
 
-  /**
-   * saves Strategy Supply Sources.
-   * 
-   * @param entity
-   *          expects a StrategySupplySource entity.
-   * 
-   * @return StrategySupplySource
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategySupplySource save(StrategySupplySource entity)
-      throws ClientException, ParseException {
-    StrategySupplySource strategySupplySource = null;
-    if (isAuthenticated()) {
-      strategySupplySource = postService.save(entity);
-    }
-    return strategySupplySource;
-  }
-
-  /**
-   * saves StrategyDayPart entity.
-   * 
-   * @param entity
-   *          expects a StrategyDayPart entity.
-   * @return StrategyDayPart entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public StrategyDayPart save(StrategyDayPart entity) throws ClientException, ParseException {
-    StrategyDayPart strategy = null;
-    if (isAuthenticated()) {
-      strategy = postService.save(entity);
-    }
-    return strategy;
-  }
-
-  /**
-   * saves Organization.
-   * 
-   * @param entity
-   *          expects an Organization entity.
-   * @return Organization entity.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Organization save(Organization entity) throws ClientException, ParseException {
-    Organization organization = null;
-    if (isAuthenticated()) {
-      organization = postService.save(entity);
-    }
-    return organization;
-  }
 
   /**
    * saves Pixel.
@@ -516,73 +398,15 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  public Pixel save(Pixel entity) throws ClientException, ParseException {
+/*  public Pixel save(Pixel entity) throws ClientException, ParseException {
     Pixel pixel = null;
     if (isAuthenticated()) {
       pixel = postService.save(entity);
     }
     return pixel;
   }
-
-  /**
-   * saves Campaign.
-   * 
-   * @param entity
-   *          expects Campaign entity.
-   * 
-   * @return Campaign object.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Campaign save(Campaign entity) throws ParseException, ClientException {
-    Campaign campaign = null;
-    if (isAuthenticated()) {
-      campaign = postService.save(entity);
-    }
-    return campaign;
-  }
-
-  /**
-   * saves Concepts
-   * 
-   * @param entity
-   *          expects Concept entity.
-   * @return Concept object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public Concept save(Concept entity) throws ParseException, ClientException {
-    Concept concept = null;
-    if (isAuthenticated()) {
-      concept = postService.save(entity);
-    }
-    return concept;
-  }
-
-  /**
-   * saves Atomic Creative
-   * 
-   * @param entity
-   *          expects AtomcCreative entity.
-   * @return AtomicCreative object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  public AtomicCreative save(AtomicCreative entity) throws ParseException, ClientException {
-    AtomicCreative atomicCreative = null;
-    if (isAuthenticated()) {
-      atomicCreative = postService.save(entity);
-    }
-    return atomicCreative;
-  }
-
+*/
+ 
   /**
    * saves 3pas creative upload file. first call to upload the file. <br>
    * <br>
@@ -679,9 +503,10 @@ public class TerminalOne {
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
+   * @throws IOException an io exception is thrown.
    */
   public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(
-      TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException {
+      TOneASCreativeAssetsApprove creativeAssetsApprove) throws ClientException, IOException {
     JsonResponse<? extends T1Entity> response = null;
     if (isAuthenticated()) {
       response = postService.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
@@ -896,64 +721,88 @@ public class TerminalOne {
 
     // check whether error present
     jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
-    // if no error
-    if (jsonPostErrorResponse == null) {
-      JsonElement element = parser.getDataFromResponse(response);
-      if (element != null) {
-        if (element.isJsonArray()) {
-          // do something
-          JsonArray dataList = element.getAsJsonArray();
 
-          String entityType;
-          if (dataList.size() > 0) {
-            JsonElement data = dataList.get(0);
-            if (data != null) {
-              JsonObject dataObj = data.getAsJsonObject();
-              if (dataObj != null) {
-                JsonElement entityTypeElem = dataObj.get("entity_type");
-                if (entityTypeElem != null) {
-                  entityType = entityTypeElem.getAsString();
-                  if (entityType != null && !entityType.isEmpty()) {
-                    if (Constants.getListoFEntityType.get(entityType) != null) {
-                      finalJsonResponse = parser.parseJsonToObj(response,
-                          Constants.getListoFEntityType.get(entityType));
-                    }
-                  }
-                }
-              }
-            }
-          } else {
-            if (query.collection != null) {
-              finalJsonResponse = parser.parseJsonToObj(response,
-                  Constants.getListoFEntityType.get(query.collection.toLowerCase()));
-            }
-          }
-
-        } else if (element.isJsonObject()) {
-          JsonObject obj = element.getAsJsonObject();
-          JsonElement entityTypeElement = obj.get("entity_type");
-          String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
-          if (entityType != null && !entityType.equalsIgnoreCase("")) {
-            finalJsonResponse = parser.parseJsonToObj(response,
-                Constants.getEntityType.get(entityType));
-          } else {
-            finalJsonResponse = parser.parseJsonToObj(response,
-                new TypeToken<JsonResponse<Data>>() {
-                }.getType());
-          }
-        }
-      } else if (element == null) {
-        if (query.collection != null) {
-          finalJsonResponse = parser.parseJsonToObj(response,
-              Constants.getEntityType.get(query.collection.toLowerCase()));
-          if (finalJsonResponse != null) {
-            finalJsonResponse.setData(null);
-          }
-        }
-      }
-    } else {
+    if (jsonPostErrorResponse != null) {
       postService.throwExceptions(jsonPostErrorResponse);
     }
+
+    JsonElement element = parser.getDataFromResponse(response);
+
+    if (element != null) {
+
+      if (element.isJsonArray()) {
+
+        JsonArray dataList = element.getAsJsonArray();
+
+        if (dataList.size() <= 0) {
+          if (query.collection != null) {
+            finalJsonResponse = parser.parseJsonToObj(response,
+                Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+            return finalJsonResponse;
+          }
+        }
+
+        JsonElement data = dataList.get(0);
+
+        if (data == null) {
+          return null;
+        }
+
+        JsonObject dataObj = data.getAsJsonObject();
+
+        if (dataObj == null) {
+          return null;
+        }
+
+        JsonElement entityTypeElem = dataObj.get("entity_type");
+
+        if (entityTypeElem == null) {
+          return null;
+        }
+        
+        String entityType = entityTypeElem.getAsString();
+
+        if (entityType == null || entityType.isEmpty()) {
+          return null;
+        }
+
+        if (Constants.getListoFEntityType.get(entityType) == null) {
+          return null;
+        }
+
+        finalJsonResponse = parser.parseJsonToObj(response,
+            Constants.getListoFEntityType.get(entityType));
+
+      }
+
+      if (element.isJsonObject()) {
+        
+        JsonObject obj = element.getAsJsonObject();
+        JsonElement entityTypeElement = obj.get("entity_type");
+        String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+        
+        if (entityType != null && !entityType.equalsIgnoreCase("")) {
+          finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entityType));
+        } else {
+          finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
+          }.getType());
+        }
+        
+      }
+    }
+
+    if (element == null) {
+      if (query.collection == null) {
+        return null;
+      }
+
+      finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(query.collection.toLowerCase()));
+
+      if (finalJsonResponse != null) {
+        finalJsonResponse.setData(null);
+      }
+    }
+
     return finalJsonResponse;
   }
 

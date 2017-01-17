@@ -31,7 +31,7 @@ public class QueryCriteria {
 
   public long entity = 0;
 
-  public String child = null;
+  public List<String> child = new ArrayList<String>();
 
   public List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 
@@ -122,7 +122,7 @@ public class QueryCriteria {
 
     private long entity;
 
-    private String child = null;
+    public List<String> child = new ArrayList<String>();
 
     List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 
@@ -195,7 +195,7 @@ public class QueryCriteria {
     }
 
     public Builder setChild(String value) {
-      child = value;
+      child.add(value);
       return this;
     }
 

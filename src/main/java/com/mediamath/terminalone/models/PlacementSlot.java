@@ -18,6 +18,8 @@ package com.mediamath.terminalone.models;
 
 import java.util.Date;
 
+import javax.ws.rs.core.Form;
+
 public class PlacementSlot implements T1Entity {
 
   private static final String entityName = "PlacementSlot";
@@ -251,6 +253,18 @@ public class PlacementSlot implements T1Entity {
   @Override
   public String getEntityname() {
     return entityName;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

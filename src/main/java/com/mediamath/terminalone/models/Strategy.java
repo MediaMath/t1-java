@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.core.Form;
+
 public class Strategy implements T1Entity {
 
   private static final String entityName = "Strategy";
@@ -606,6 +608,18 @@ public class Strategy implements T1Entity {
 
   public void setStrategyAudienceSegments(List<StrategyAudienceSegment> strategyAudienceSegments) {
     this.strategyAudienceSegments = strategyAudienceSegments;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

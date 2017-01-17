@@ -19,6 +19,8 @@ package com.mediamath.terminalone.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.Form;
+
 public class TargetValues implements T1Entity {
 
   private static final String entityName = "TargetValues";
@@ -129,6 +131,18 @@ public class TargetValues implements T1Entity {
 
   public void setValueIds(List<Integer> value_ids) {
     this.value_ids = value_ids;
+  }
+  
+  @Override
+  public Form getForm() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getUri() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
