@@ -1,1 +1,11 @@
 language: java
+addons:
+  sonarqube:
+    token:
+      secure: SONARQUBE
+    github_token:
+      secure: GITHUB_TOKEN
+    branches:
+      - staging
+script:
+  - sonar-scanner
