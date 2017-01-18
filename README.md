@@ -1,6 +1,9 @@
-https://travis-ci.org/MediaMath/t1-java.svg?branch=master
 
 # t1-java
+
+[![Build status](https://travis-ci.org/MediaMath/t1-java.svg?branch=master)](https://travis-ci.org/MediaMath/t1-java) [![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.mediamath%3At1-java)](https://sonarqube.com/dashboard/index/com.mediamath%3At1-java)
+
+
 Java SDK for MediaMath Platform APIs
 
 # Maven Integration
