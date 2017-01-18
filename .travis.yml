@@ -8,7 +8,6 @@ jdk:
   - oraclejdk8
 script:
   - sonar-scanner -Dsonar.analysis.mode=preview \
-              -Dsonar.github.pullRequest=32 \
               -Dsonar.github.repository=MediaMath/t1-java \
               -Dsonar.github.oauth=SONAR_GITHUB_TOKEN \
               -Dsonar.host.url=https://sonarqube.com \
