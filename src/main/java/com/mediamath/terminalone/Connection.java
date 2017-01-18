@@ -45,6 +45,16 @@ import com.mediamath.terminalone.utils.Utility;
  */
 public class Connection {
 
+  private static final String APPLICATION_VND_MEDIAMATH_V1_JSON = "application/vnd.mediamath.v1+json";
+
+  private static final String ACCEPT = "Accept";
+
+  private static final String USER_AGENT = "User-Agent";
+
+  private static final String TARGET_URL = "Target URL: %s";
+
+  private static final String NO_POST_DATA = "No Post Data";
+
   private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
   private static Properties configprop = Utility.loadConfigProperty();
@@ -75,25 +85,24 @@ public class Connection {
   public Response post(String url, Form data, T1User userMap) throws ClientException {
 
     if (data == null) {
-      throw new ClientException("No Post Data");
+      throw new ClientException(NO_POST_DATA);
     }
 
-    Response response = null;
-    Client client = ClientBuilder.newClient(new ClientConfig());
-
-    logger.info("Target URL: " + url);
-
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request(); // (MediaType.APPLICATION_JSON);
-    invocationBuilder.header("User-Agent", userAgent);
-    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-    userSessionCheck(userMap, invocationBuilder);
-
+    Response response;
+    Client client = instantiateSimpleClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
     response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-
-    // return response.readEntity(String.class);
     return response;
+  }
+
+  private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
+    logger.info(TARGET_URL, url);
+    WebTarget webTarget = client.target(url);
+    Invocation.Builder invocationBuilder = webTarget.request();
+    invocationBuilder.header(USER_AGENT, userAgent);
+    invocationBuilder.header(ACCEPT, APPLICATION_VND_MEDIAMATH_V1_JSON);
+    userSessionCheck(userMap, invocationBuilder);
+    return invocationBuilder;
   }
 
   /**
@@ -110,28 +119,14 @@ public class Connection {
    *           exception
    */
   public Response post(String url, FormDataMultiPart data, T1User userMap) throws ClientException {
-
     if (data == null) {
-      throw new ClientException("No Post Data");
+      throw new ClientException(NO_POST_DATA);
     }
 
-    Response response = null;
-    Client client = null;
-
-    client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
-
-    logger.info("Target URL: " + url);
-
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request();
-    invocationBuilder.header("User-Agent", userAgent);
-    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-    userSessionCheck(userMap, invocationBuilder);
-
+    Response response;
+    Client client = instantiateMultipartClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
     response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
-
-    // return response.readEntity(String.class);
     return response;
 
   }
@@ -151,25 +146,13 @@ public class Connection {
    */
   public Response post(String url, String data, T1User userMap) throws ClientException {
     if (data == null) {
-      throw new ClientException("No Post Data");
+      throw new ClientException(NO_POST_DATA);
     }
 
-    Response response = null;
-    Client client = null;
-    client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
-
-    logger.info("Target URL: " + url);
-
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request();
-    invocationBuilder.header("User-Agent", userAgent);
-    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-    userSessionCheck(userMap, invocationBuilder);
-
+    Response response;
+    Client client = instantiateMultipartClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
     response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
-
-    // return response.readEntity(String.class);
     return response;
   }
 
@@ -183,21 +166,10 @@ public class Connection {
    * @return String object.
    */
   public String get(String url, T1User userMap) {
-    Response response = null;
-    Client client = null;
-    client = ClientBuilder.newClient(new ClientConfig());
-
-    logger.info("Target URL: " + url);
-
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request();
-    invocationBuilder.header("User-Agent", userAgent);
-    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-    userSessionCheck(userMap, invocationBuilder);
-
+    Response response;
+    Client client = instantiateSimpleClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
     response = invocationBuilder.get();
-
     return response.readEntity(String.class);
   }
 
@@ -211,33 +183,42 @@ public class Connection {
    * @return Response object.
    */
   public Response getReportData(String url, T1User userMap) {
-
-    Response response = null;
-    Client client = null;
-
-    client = ClientBuilder.newClient(new ClientConfig());
-    logger.info("Target URL: " + url);
-
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request();
-    invocationBuilder.header("User-Agent", userAgent);
-    invocationBuilder.header("Accept", "application/vnd.mediamath.v1+json");
-
-    userSessionCheck(userMap, invocationBuilder);
-
+    Response response;
+    Client client = instantiateSimpleClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
     response = invocationBuilder.get();
     return response;
+  }
+
+  private Client instantiateSimpleClient() {
+    Client client = ClientBuilder.newClient(new ClientConfig());
+    return client;
+  }
+  
+  private Client instantiateMultipartClient() {
+    Client client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+    return client;
   }
 
   private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
     if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
       invocationBuilder.header("Authorization", "Bearer " + userMap.getToken());
     }
-    if (userMap != null && userMap.getData() != null && userMap.getData().getSession() != null
-        && userMap.getData().getSession().getSessionid() != null
-        && !userMap.getData().getSession().getSessionid().isEmpty()) {
-      invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+    if (checkUserMapData(userMap) && checkSession(userMap) && checkSessionID(userMap)) {
+        invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
     }
+  }
+
+  private boolean checkSessionID(T1User userMap) {
+    return userMap.getData().getSession().getSessionid() != null && !userMap.getData().getSession().getSessionid().isEmpty();
+  }
+
+  private boolean checkUserMapData(T1User userMap) {
+    return userMap != null && userMap.getData() != null;
+  }
+
+  private boolean checkSession(T1User userMap) {
+    return userMap.getData().getSession() != null;
   }
 
   private String generateUserAgent() {
