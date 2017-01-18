@@ -6,7 +6,7 @@ addons:
 jdk:
   - oraclejdk8
 script:
-  - sonar-scanner -Dsonar.analysis.mode=preview -Dsonar.login=SONAR_TOKEN
+  - sonar-scanner -X -Dsonar.analysis.mode=preview -Dsonar.login=SONAR_TOKEN
 cache:
   directories:
   - "$HOME/.sonar/cache"
