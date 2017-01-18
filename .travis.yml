@@ -2,14 +2,19 @@ dist: trusty
 sudo: required
 addons:
   sonarqube:
-    token:
-      secure: "na3h/3LMjI+kdbOXTZABlrhuhMXalI/TUQwKmgPX87kbc+EJePp8qNXS7S67MwXtnRyQKv7s8I8DPY/K0/R9Cjso/u1TXZvUN8IvmPw3kYfDX02+yslcFAGCBNEOSWmL1fK6MQ/jCrXDIG2i4xwS3Kuw7DFFFrYN/Ypmp5zTJxO63zwH4YHSTWpf3lJrSKjBTgrRTfBf6l9qBv6t7soPq4VH4DnDk+HWNEA92eSqa4uRYJG0kJGf+29twAWmo7oDPenwrLEvTj9asnCIdpr4kP0NfjbWQp2MspuD+rHXzwhrqixwyZ5zUv2+hmISX4rk5JuYKM51+fDIcw11gaQrJ2yE/yCe03Ll9KnB9Roy1ue/0LG2PwSa9vMNPcPptYA/EODFvs0nw5KLBZLDsh426xw6y6g1NbxExG0YPUgnzsCnJY/yyEkbgKwejTUyrqu3QsHttn1KcR0jM4Y0ih8S43RLVr7C30NpOA879ajPs3cTa24v6K7kcaRz1LhiKBnMm+X7fe+F/Pknv4gUkbt2kWKxTX4lzvDo9mfjau0Z4rmQ41OWHZWjvkEMTXtoAXRSot3lvG6fcUB7FQ9rK9fFSX9qdorFjItIOMjXg/JHdZU3qDWCE1vha/YvjCtvPFZhZakTNfI/D5Vl4zasq/gjt6GrIOV+n/m9Cxb41ryTN1o="
-    github_token:
-      secure: "YdrWkM9vQhMtgWnjpa/qdUvh6SX1qwNmw3fB9G0quFGnYCkLsK7ixnZVO98qWgdhCkFJhyQrVCQN4GkjLEoUig6gNF5Xzt2RMBUOJFNfuCZhYdADHKdB0s7gGTD4jIWUXVCNXXh84KJ7XgbENSXgEiqACi6a9jZqE+25UzjBue0iAu+9lCD1OLEkF8KMMhD2oruaUbvPgJMuapKsd3AYLzLW49GHZGVPOPiZ7GKoGWy0GWphgGG2hHjB865ooI15ZmxtiW6Y64jp85+4WEpw+V0cUL5srgileJxd90U66hzJ64OjVl4WK6onmOHUdIrcP/EMw2ysR41AoGIgOoMtmA3u1kh11tjym0Re+QfXI6sGpOCIRViBHwxJjWpd5DONIdyG+vfqw4xevOUVcvANiyIlpf7jbQ0K8gr5fam6IHdrZ8IAOaZTz4TD8W4dJ72NwetZ68pDFp9q8zKyK9fjklu6jONQ0Vy/GHZGuLPEEcyEfKQyA9e7iuXIYkX8F50nFXJRB/kM3VWSP8/129otaUirMPSe7NrKHDjIdCsHOuH+A9IMBb9yaGg1PWV2V540+5UcYPzLbRk0O17MML9BPqQlbX641hoZORutS+Y2XlyH/V2DItEOBVu9mqrYWxNvPbD3IXoFoFz3plbEoggCKMivPRr9prL/eoVbg6hcKBo="
+    token: SONAR_TOKEN
+    github_token: SONAR_GITHUB_TOKEN
 jdk:
   - oraclejdk8
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - sonar-scanner -Dsonar.analysis.mode=preview \
+              -Dsonar.github.pullRequest=32 \
+              -Dsonar.github.repository=MediaMath/t1-java \
+              -Dsonar.github.oauth=SONAR_GITHUB_TOKEN \
+              -Dsonar.host.url=https://sonarqube.com \
+              -Dsonar.login=SONAR_TOKEN \
+              -Dsonar.projectKey=mediamath:t1-java \
+              -Dsonar.sources=.
 cache:
   directories:
   - "$HOME/.sonar/cache"
