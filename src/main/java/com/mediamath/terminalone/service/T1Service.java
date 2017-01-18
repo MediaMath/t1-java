@@ -55,11 +55,11 @@ public class T1Service {
    * constructor.
    */
   public T1Service() {
-    this.apiBase = configprop.getProperty("api_base");
-    this.pathMgmt = configprop.getProperty("path_mgmt");
-    this.videoCreativeURL = configprop.getProperty("videoCreativeURL");
-    this.reportingURL = configprop.getProperty("reportingURL");
-    this.oauthURL = configprop.getProperty("oauthURL");
+    this.apiBase = configprop.getProperty("t1.api_base");
+    this.pathMgmt = configprop.getProperty("t1.path_mgmt");
+    this.videoCreativeURL = configprop.getProperty("t1.videoCreativeURL");
+    this.reportingURL = configprop.getProperty("t1.reportingURL");
+    this.oauthURL = configprop.getProperty("t1.oauthURL");
 
   }
 
