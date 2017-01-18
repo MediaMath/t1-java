@@ -2,7 +2,6 @@ dist: trusty
 addons:
   sonarqube:
     token: SONAR_TOKEN
-    github_token: SONAR_GITHUB_TOKEN
 jdk:
   - oraclejdk8
 script:
