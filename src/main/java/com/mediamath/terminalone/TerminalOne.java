@@ -41,21 +41,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.models.AtomicCreative;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.ChildPixel;
-import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.Organization;
-import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
@@ -74,12 +65,19 @@ import com.mediamath.terminalone.service.ReportService;
 import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
+import com.mediamath.terminalone.utils.Utility;
 
 /**
  * Handles the authentication, session, entity retrieval, creation etc.
  *
  */
 public class TerminalOne {
+
+  private static final String TOKEN = "token";
+
+  private static final String UNABLE_TO_GET_O_AUTH_TOKEN = "Unable to get OAuth token: ";
+
+  private static final String UNABLE_TO_GET_O_AUTH_AUTHORIZATION_URL = "Unable to get OAuth authorization URL: ";
 
   private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
@@ -118,10 +116,12 @@ public class TerminalOne {
    */
   public TerminalOne(String username, String password, String apiKey) throws ClientException {
     this();
-
     validateLoginCredentials(username, password, apiKey);
+    login(username, password, apiKey);
+  }
 
-    logger.info("Loading Environment - Authenticating.");
+  private void login(String username, String password, String apiKey) throws ClientException {
+    logger.info("Authenticating.");
     Form form = tOneService.getLoginFormData(username, password, apiKey);
     String url = tOneService.constructUrl(new StringBuilder("login"));
     Response loginResponse = connection.post(url, form, null);
@@ -132,17 +132,22 @@ public class TerminalOne {
     getService = new GetService();
     reportService = new ReportService();
 
-    if (this.getUser() != null && this.getUser().getData() != null) {
-      
-      if (this.getUser().getData().getSession() != null 
-            && this.getUser().getData().getSession().getSessionid() != null 
-            && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
-      
+    if (checkUserAndUserData() && checkUserSession() && checkUserSessionID()) {
         this.authenticated = true;
-      }
-      
-    }
+    }  
+  }
 
+  private boolean checkUserSessionID() {
+    return this.getUser().getData().getSession().getSessionid() != null 
+    && !this.getUser().getData().getSession().getSessionid().isEmpty();
+  }
+
+  private boolean checkUserSession() {
+    return this.getUser().getData().getSession() != null;
+  }
+
+  private boolean checkUserAndUserData() {
+    return this.getUser() != null && this.getUser().getData() != null;
   }
 
   private void parseLoginError(Response response) throws ClientException {
@@ -187,33 +192,9 @@ public class TerminalOne {
    *           a client exception is thrown if any error occurs.
    */
   public boolean authenticate(String username, String password, String apiKey)
-      throws ClientException {
-
-    // TODO validate
-    logger.info("Authenticating.");
+  throws ClientException {
     validateLoginCredentials(username, password, apiKey);
-
-    Form form = tOneService.getLoginFormData(username, password, apiKey);
-    String url = tOneService.constructUrl(new StringBuilder("login"));
-
-    Response loginResponse = connection.post(url, form, null);
-    parseLoginError(loginResponse);
-    String response = loginResponse.readEntity(String.class);
-
-    setUserSessionInfo(response);
-
-    postService = new PostService(this.connection, this.user, this.tOneService);
-    getService = new GetService();
-    reportService = new ReportService();
-
-    if (this.getUser() != null && this.getUser().getData() != null) {
-      if (this.getUser().getData().getSession() != null
-          && this.getUser().getData().getSession().getSessionid() != null
-          && !this.getUser().getData().getSession().getSessionid().isEmpty()) {
-        this.authenticated = true;
-      }
-    }
-
+    login(username, password, apiKey);
     return isAuthenticated();
   }
 
@@ -258,12 +239,13 @@ public class TerminalOne {
     String oauthAuthorizationUrl = tOneService.constructOauthUrl(new StringBuffer("authorize"));
     OAuthClientRequest request = null;
     try {
-      request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl).setClientId(apiKey)
-          .setRedirectURI(redirectUri).setResponseType(ResponseType.CODE.toString())
-          .buildQueryMessage();
+      request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl)
+                  .setClientId(apiKey)
+                  .setRedirectURI(redirectUri).setResponseType(ResponseType.CODE.toString())
+                  .buildQueryMessage();
     } catch (OAuthSystemException oauthSystemException) {
-      throw new ClientException(
-          "Unable to get OAuth authorization URL: " + oauthSystemException.getMessage());
+      Utility.logStackTrace(oauthSystemException);
+      throw new ClientException(UNABLE_TO_GET_O_AUTH_AUTHORIZATION_URL + oauthSystemException.getMessage());
     }
     return request.getLocationUri();
   }
@@ -283,21 +265,20 @@ public class TerminalOne {
    * @throws ClientException
    *           a client exception is thrown if any error occurs.
    */
-  public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret,
-      String redirectUri) throws ClientException {
-    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
+  public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret, String redirectUri) throws ClientException {
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer(TOKEN));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
           .setGrantType(GrantType.AUTHORIZATION_CODE).setClientId(apiKey).setClientSecret(secret)
           .setRedirectURI(redirectUri).setCode(code).buildQueryMessage();
       OAuthClient oauthClient = new OAuthClient(new URLConnectionClient());
-      OAuthJSONAccessTokenResponse oauthResponse = oauthClient.accessToken(request,
-          OAuthJSONAccessTokenResponse.class);
-      return oauthResponse;
+      return oauthClient.accessToken(request, OAuthJSONAccessTokenResponse.class);
     } catch (OAuthSystemException oauthSystemException) {
-      throw new ClientException("Unable to get OAuth token: " + oauthSystemException.getMessage());
+      Utility.logStackTrace(oauthSystemException);
+      throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthSystemException.getMessage());
     } catch (OAuthProblemException oauthProblemException) {
-      throw new ClientException("Unable to get OAuth token: " + oauthProblemException.getMessage());
+      Utility.logStackTrace(oauthProblemException);
+      throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthProblemException.getMessage());
     }
   }
 
@@ -320,19 +301,19 @@ public class TerminalOne {
    */
   public OAuthJSONAccessTokenResponse refreshOauthToken(String refreshToken, String apiKey,
       String secret) throws ClientException {
-    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer("token"));
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer(TOKEN));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
           .setGrantType(GrantType.REFRESH_TOKEN).setClientId(apiKey).setClientSecret(secret)
           .setRefreshToken(refreshToken).buildQueryMessage();
       OAuthClient oauthClient = new OAuthClient(new URLConnectionClient());
-      OAuthJSONAccessTokenResponse oauthResponse = oauthClient.accessToken(request,
-          OAuthJSONAccessTokenResponse.class);
-      return oauthResponse;
+      return oauthClient.accessToken(request,OAuthJSONAccessTokenResponse.class);
     } catch (OAuthSystemException oauthSystemException) {
-      throw new ClientException("Unable to get OAuth token: " + oauthSystemException.getMessage());
+      Utility.logStackTrace(oauthSystemException);
+      throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthSystemException.getMessage());
     } catch (OAuthProblemException oauthProblemException) {
-      throw new ClientException("Unable to get OAuth token: " + oauthProblemException.getMessage());
+      Utility.logStackTrace(oauthProblemException);
+      throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthProblemException.getMessage());
     }
   }
 
@@ -342,24 +323,20 @@ public class TerminalOne {
    */
   private void setUserSessionInfo(String response) {
     Gson gson = new Gson();
-    T1User resp = null;
-
-    Type responseTypeInfo = new TypeToken<T1User>() {
-    }.getType();
+    T1User resp;
+    Type responseTypeInfo = new TypeToken<T1User>() {}.getType();
     resp = gson.fromJson(response, responseTypeInfo);
     this.setUser(resp);
-
   }
   
   public T1Entity save(T1Entity entity) throws ClientException, ParseException {
+    if(entity == null) 
+      return null;
     
-    if(entity == null) return null;
+    if(!isAuthenticated()) 
+      return null;
     
-    if(!isAuthenticated()) return null;
-    
-    T1Entity response = postService.save(entity);
-    
-    return response;
+    return postService.save(entity);
   }
   
 
@@ -384,29 +361,6 @@ public class TerminalOne {
   }
 
 
-
-  /**
-   * saves Pixel.
-   * 
-   * @param entity
-   *          expects a Pixel entity.
-   * 
-   * @return Pixel object.
-   * 
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-/*  public Pixel save(Pixel entity) throws ClientException, ParseException {
-    Pixel pixel = null;
-    if (isAuthenticated()) {
-      pixel = postService.save(entity);
-    }
-    return pixel;
-  }
-*/
- 
   /**
    * saves 3pas creative upload file. first call to upload the file. <br>
    * <br>
@@ -552,14 +506,22 @@ public class TerminalOne {
   public VideoCreativeResponse uploadVideoCreative(String filePath, String fileName,
       String creativeId) throws ClientException, IOException {
     VideoCreativeResponse response = null;
-    if (isAuthenticated()) {
-      if (filePath != null && !filePath.isEmpty() && fileName != null && !fileName.isEmpty()
-          && creativeId != null && !creativeId.isEmpty()) {
-
+    if (isAuthenticated() && checkFilePath(filePath) && checkFileName(fileName) && checkCreativeID(creativeId)) {
         response = postService.uploadVideoCreative(filePath, fileName, creativeId);
-      }
     }
     return response;
+  }
+
+  private boolean checkCreativeID(String creativeId) {
+    return creativeId != null && !creativeId.isEmpty();
+  }
+
+  private boolean checkFileName(String fileName) {
+    return fileName != null && !fileName.isEmpty();
+  }
+
+  private boolean checkFilePath(String filePath) {
+    return filePath != null && !filePath.isEmpty();
   }
 
   /**
@@ -572,10 +534,8 @@ public class TerminalOne {
    */
   public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
     VideoCreativeUploadStatus response = null;
-    if (isAuthenticated()) {
-      if (creativeId != null && !creativeId.isEmpty()) {
+    if (isAuthenticated() && checkCreativeID(creativeId)) {
         response = postService.getVideoCreativeUploadStatus(creativeId);
-      }
     }
     return response;
   }
@@ -623,7 +583,7 @@ public class TerminalOne {
    * @return JsonResponse<? extends T1Entity> JsonResponse of type T is returned.
    */
   public JsonResponse<? extends T1Entity> getMeta() {
-    JsonResponse<? extends T1Entity> jsonResponse = null;
+    JsonResponse<? extends T1Entity> jsonResponse;
     StringBuffer path = reportService.getMetaUri();
     String finalPath = tOneService.constructReportingUrl(path);
     String response = this.connection.get(finalPath, this.getUser());
@@ -643,8 +603,8 @@ public class TerminalOne {
     StringBuffer reportName = new StringBuffer(report.getReportNameWithMeta());
     String finalPath = tOneService.constructReportingUrl(reportName);
     String response = this.connection.get(finalPath, this.getUser());
-    MetaData metaResponse = reportService.parseReportMetaResponse(response);
-    return metaResponse;
+    
+    return reportService.parseReportMetaResponse(response);
   }
 
   /**
@@ -665,11 +625,11 @@ public class TerminalOne {
    */
   public BufferedReader getReport(Reports report, ReportCriteria criteria) throws ClientException {
     criteria.setReportName(report.getReportName());
-    StringBuffer path = null;
+    StringBuffer path;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
-    BufferedReader reader = reportService.getReportData(report, finalPath, connection, user);
-    return reader;
+    
+    return reportService.getReportData(report, finalPath, connection, user);
   }
 
   /**
@@ -694,9 +654,8 @@ public class TerminalOne {
     StringBuffer path = null;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
-    ReportValidationResponse validationResponse = reportService.validateReportData(report,
-        finalPath, connection, user);
-    return validationResponse;
+     
+    return reportService.validateReportData(report,finalPath, connection, user);
   }
 
   /**
@@ -712,12 +671,11 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response,
-      QueryCriteria query) throws ParseException, ClientException {
+  private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response, QueryCriteria query) throws ParseException, ClientException {
     T1JsonToObjParser parser = new T1JsonToObjParser();
     // parse the string to gson objs
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
-    JsonPostErrorResponse jsonPostErrorResponse = null;
+    JsonPostErrorResponse jsonPostErrorResponse;
 
     // check whether error present
     jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
@@ -736,8 +694,7 @@ public class TerminalOne {
 
         if (dataList.size() <= 0) {
           if (query.collection != null) {
-            finalJsonResponse = parser.parseJsonToObj(response,
-                Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+            finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(query.collection.toLowerCase()));
             return finalJsonResponse;
           }
         }
@@ -781,7 +738,7 @@ public class TerminalOne {
         JsonElement entityTypeElement = obj.get("entity_type");
         String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
         
-        if (entityType != null && !entityType.equalsIgnoreCase("")) {
+        if (entityType != null && !"".equalsIgnoreCase(entityType)) {
           finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entityType));
         } else {
           finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
