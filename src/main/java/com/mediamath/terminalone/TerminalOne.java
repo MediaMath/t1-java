@@ -123,7 +123,7 @@ public class TerminalOne {
 
     logger.info("Loading Environment - Authenticating.");
     Form form = tOneService.getLoginFormData(username, password, apiKey);
-    String url = tOneService.constructUrl(new StringBuffer("login"));
+    String url = tOneService.constructUrl(new StringBuilder("login"));
     Response loginResponse = connection.post(url, form, null);
     parseLoginError(loginResponse);
     String response = loginResponse.readEntity(String.class);
@@ -194,7 +194,7 @@ public class TerminalOne {
     validateLoginCredentials(username, password, apiKey);
 
     Form form = tOneService.getLoginFormData(username, password, apiKey);
-    String url = tOneService.constructUrl(new StringBuffer("login"));
+    String url = tOneService.constructUrl(new StringBuilder("login"));
 
     Response loginResponse = connection.post(url, form, null);
     parseLoginError(loginResponse);
@@ -596,7 +596,7 @@ public class TerminalOne {
   public JsonResponse<? extends T1Entity> get(QueryCriteria query)
       throws ClientException, ParseException {
 
-    StringBuffer path = getService.get(query);
+    StringBuilder path = getService.get(query);
 
     // get the data from t1 servers.
     String finalPath = tOneService.constructUrl(path);

@@ -71,7 +71,7 @@ public class T1Service {
    * 
    * @return String object.
    */
-  public String constructUrl(StringBuffer path) {
+  public String constructUrl(StringBuilder path) {
     String url = apiBase + pathMgmt + "/" + path.toString();
     return url;
   }

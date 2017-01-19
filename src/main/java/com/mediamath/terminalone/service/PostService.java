@@ -103,11 +103,11 @@ public class PostService {
    * 
    * @param entity
    *          T can be any given entity implementing T1Entity.
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    */
-  private <T extends T1Entity> StringBuffer getUri(T entity) {
+  private <T extends T1Entity> StringBuilder getUri(T entity) {
     String entityName = entity.getEntityname();
-    StringBuffer uri = new StringBuffer(Constants.entityPaths.get(entityName));
+    StringBuilder uri = new StringBuilder(Constants.entityPaths.get(entityName));
     return uri;
   }
 
@@ -126,7 +126,7 @@ public class PostService {
 
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
-    StringBuffer uri = getUri(entity);
+    StringBuilder uri = getUri(entity);
 
     String uriPath = entity.getUri();
 
@@ -175,7 +175,7 @@ public class PostService {
     Strategy strategy = null;
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (entity != null) {
-      StringBuffer uri = getUri(entity);
+      StringBuilder uri = getUri(entity);
 
       if (entity.getId() > 0) {
         uri.append("/");
@@ -260,7 +260,7 @@ public class PostService {
    * 
    * if (entity != null) { JsonResponse<? extends T1Entity> finalJsonResponse = null;
    * 
-   * StringBuffer uri = getUri(entity);
+   * StringBuilder uri = getUri(entity);
    * 
    * if (entity.getId() > 0) { uri.append("/"); uri.append(entity.getId()); }
    * 
@@ -295,7 +295,7 @@ public class PostService {
 
     if (entity != null) {
 
-      StringBuffer path = new StringBuffer(
+      StringBuilder path = new StringBuilder(
           t1Service.getApi_base() + t1Service.getVideoCreativeURL() + "/creatives");
 
       if (entity.getCreativeId() > 0) {
@@ -341,7 +341,7 @@ public class PostService {
   public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
     VideoCreativeUploadStatus uploadStatus = null;
     if (creativeId != null && !creativeId.isEmpty()) {
-      StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
+      StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
           + "/creatives" + "/" + creativeId + "/status");
       logger.info(path.toString());
       String response = this.connection.get(path.toString(), this.user);
@@ -380,7 +380,7 @@ public class PostService {
     if (filePath != null && !filePath.isEmpty() && creativeId != null && !creativeId.isEmpty()
         && fileName != null && !fileName.isEmpty()) {
 
-      StringBuffer path = new StringBuffer(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
+      StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL()
           + "/creatives" + "/" + creativeId + "/upload?fileName=" + fileName);
 
       String finalPath = path.toString();
@@ -435,7 +435,7 @@ public class PostService {
    */
   public JsonResponse<? extends T1Entity> delete(StrategyConcept strategyConcept)
       throws ClientException, ParseException {
-    StringBuffer path = new StringBuffer();
+    StringBuilder path = new StringBuilder();
 
     if (strategyConcept.getId() > 0) {
       path.append(Constants.entityPaths.get("StrategyConcept"));
@@ -472,7 +472,7 @@ public class PostService {
    */
   public JsonResponse<? extends T1Entity> delete(StrategyDayPart strategyDayPart)
       throws ClientException, ParseException {
-    StringBuffer path = new StringBuffer();
+    StringBuilder path = new StringBuilder();
 
     if (strategyDayPart.getId() > 0) {
       path.append(Constants.entityPaths.get("strategyDayPart"));
@@ -528,7 +528,7 @@ public class PostService {
     }
 
     // formt the url
-    StringBuffer uri = new StringBuffer("creatives/upload");
+    StringBuilder uri = new StringBuilder("creatives/upload");
     String path = t1Service.constructUrl(uri);
 
     // form the data
@@ -585,7 +585,7 @@ public class PostService {
     JsonResponse<? extends T1Entity> finalJsonResponse = null;
     if (entity != null) {
 
-      StringBuffer uri = new StringBuffer("creatives/upload/");
+      StringBuilder uri = new StringBuilder("creatives/upload/");
 
       if (entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
         uri.append(entity.getBatchId());
@@ -646,7 +646,7 @@ public class PostService {
     }
 
     // formt the url
-    StringBuffer uri = new StringBuffer("creative_assets/upload");
+    StringBuilder uri = new StringBuilder("creative_assets/upload");
     String path = t1Service.constructUrl(uri);
 
     // form the data
@@ -712,7 +712,7 @@ public class PostService {
       return null;
     }
 
-    StringBuffer uri = new StringBuffer("creative_assets/approve");
+    StringBuilder uri = new StringBuilder("creative_assets/approve");
     String path = t1Service.constructUrl(uri);
     TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
     Response responseObj = this.connection.post(path, formData, this.user);
@@ -841,7 +841,7 @@ public class PostService {
    */
   public void throwExceptions(JsonPostErrorResponse jsonPostResponse) throws ClientException {
 
-    StringBuffer strbuff = null;
+    StringBuilder strbuff = null;
 
     strbuff = parseErrorException(jsonPostResponse, strbuff);
 
@@ -852,13 +852,13 @@ public class PostService {
     throw new ClientException(strbuff.toString());
   }
 
-  private StringBuffer parseMetaException(JsonPostErrorResponse jsonPostResponse,
-      StringBuffer strbuff) {
+  private StringBuilder parseMetaException(JsonPostErrorResponse jsonPostResponse,
+      StringBuilder strbuff) {
     if (jsonPostResponse != null && jsonPostResponse.getMeta() != null) {
       if (jsonPostResponse.getMeta().getStatus() != null
           && !jsonPostResponse.getMeta().getStatus().isEmpty()) {
         if (strbuff == null) {
-          strbuff = new StringBuffer(jsonPostResponse.getMeta().getStatus());
+          strbuff = new StringBuilder(jsonPostResponse.getMeta().getStatus());
         } else {
           strbuff.append(", Status: " + jsonPostResponse.getMeta().getStatus());
         }
@@ -867,8 +867,8 @@ public class PostService {
     return strbuff;
   }
 
-  private StringBuffer parseErrorsException(JsonPostErrorResponse jsonPostResponse,
-      StringBuffer strbuff) {
+  private StringBuilder parseErrorsException(JsonPostErrorResponse jsonPostResponse,
+      StringBuilder strbuff) {
 
     if (jsonPostResponse == null)
       return strbuff;
@@ -906,9 +906,9 @@ public class PostService {
     return strbuff;
   }
 
-  private StringBuffer formFieldErrorString(StringBuffer strbuff, FieldError fe) {
+  private StringBuilder formFieldErrorString(StringBuilder strbuff, FieldError fe) {
     if (strbuff == null) {
-      strbuff = new StringBuffer(
+      strbuff = new StringBuilder(
           "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
     } else {
       strbuff.append(
@@ -917,27 +917,27 @@ public class PostService {
     return strbuff;
   }
 
-  private StringBuffer formErrorString(StringBuffer strbuff, T1Error error) {
+  private StringBuilder formErrorString(StringBuilder strbuff, T1Error error) {
     if (strbuff == null) {
-      strbuff = new StringBuffer(error.getMessage()); // add error field
+      strbuff = new StringBuilder(error.getMessage()); // add error field
     } else {
       strbuff.append(", " + error.getMessage());
     }
     return strbuff;
   }
 
-  private StringBuffer parseErrorException(JsonPostErrorResponse jsonPostResponse,
-      StringBuffer strbuff) {
+  private StringBuilder parseErrorException(JsonPostErrorResponse jsonPostResponse,
+      StringBuilder strbuff) {
     if (jsonPostResponse != null && jsonPostResponse.getError() != null) {
       T1Error error = jsonPostResponse.getError();
 
       if (error.getContent() != null) {
-        strbuff = new StringBuffer("Content: " + error.getContent());
+        strbuff = new StringBuilder("Content: " + error.getContent());
       }
 
       if (error.getField() != null) {
         if (strbuff == null) {
-          strbuff = new StringBuffer("Field: " + error.getField());
+          strbuff = new StringBuilder("Field: " + error.getField());
         } else {
           strbuff.append(", " + "Field: " + error.getField());
         }
@@ -945,7 +945,7 @@ public class PostService {
 
       if (error.getMessage() != null) {
         if (strbuff == null) {
-          strbuff = new StringBuffer("Message: " + error.getMessage());
+          strbuff = new StringBuilder("Message: " + error.getMessage());
         } else {
           strbuff.append(", " + "Message: " + error.getMessage());
         }
@@ -953,7 +953,7 @@ public class PostService {
 
       if (error.getType() != null) {
         if (strbuff == null) {
-          strbuff = new StringBuffer("Type: " + error.getType());
+          strbuff = new StringBuilder("Type: " + error.getType());
         } else {
           strbuff.append(", " + "Type: " + error.getType());
         }

@@ -50,19 +50,19 @@ public class GetService {
    * 
    * @param query
    *          expects a QueryCriteria
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    * @throws ClientException
    *           exception.
    * @throws ParseException
    *           exception.
    */
-  public StringBuffer get(QueryCriteria query) throws ClientException, ParseException {
+  public StringBuilder get(QueryCriteria query) throws ClientException, ParseException {
 
-    StringBuffer path = new StringBuffer("");
+    StringBuilder path = new StringBuilder("");
 
     String childPath = "";
 
-    StringBuffer includePath = new StringBuffer("");
+    StringBuilder includePath = new StringBuilder("");
 
     // param collection String example "advertisers"
     if (!query.collection.equals(null)) {
@@ -77,7 +77,7 @@ public class GetService {
     }
 
     // param child String example: acl, permissions
-    if (query.child.size() > 0) {
+    if (!query.child.isEmpty()) {
       childPath = constructChildPath(query.child);
       if (!childPath.equalsIgnoreCase("")) {
         path.append(childPath);
@@ -117,7 +117,7 @@ public class GetService {
     path = constructGetAllAndPagingPath(query, path);
 
     // param full can be string, list<String>, boolean
-    StringBuffer fullPath = new StringBuffer("");
+    StringBuilder fullPath = new StringBuilder("");
     if (query.full != null) {
       if (query.full.getListValue().size() > 0) {
         fullPath.append(constructFullPath(query.full.getListValue()));
@@ -140,7 +140,7 @@ public class GetService {
     return path;
   }
 
-private StringBuffer constructQueryPath(QueryCriteria query, StringBuffer path) {
+private StringBuilder constructQueryPath(QueryCriteria query, StringBuilder path) {
 	if (query.query != null) {
       if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
         path.append("&q=" + query.query);
@@ -151,7 +151,7 @@ private StringBuffer constructQueryPath(QueryCriteria query, StringBuffer path) 
 	return path;
 }
 
-private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuffer path) throws ClientException {
+private StringBuilder constructGetAllAndPagingPath(QueryCriteria query, StringBuilder path) throws ClientException {
 	// param get_all, get_all=True removes the need to worry about pagination
     if (query.getAll) {
       if (!path.toString().equalsIgnoreCase("") && path.indexOf("?") != -1) {
@@ -195,7 +195,7 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
    */
   public String find(QueryCriteria query) throws ClientException, ParseException {
 
-    StringBuffer paramVal = new StringBuffer();
+    StringBuilder paramVal = new StringBuilder();
 
     if (query.queryOperator.equalsIgnoreCase(Filters.IN)) 
     {
@@ -242,7 +242,7 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
     
     for(String childVal : child)
     {
-    	HashMap<String, Integer> childMap =null;
+    	HashMap<String, Integer> childMap;
     	childMap = Constants.childPaths.get(childVal);
     	if (childMap != null) 
     	{
@@ -261,10 +261,10 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
     return childPath;
   }
 
-  private StringBuffer constructIncludePath(List<ConditionQuery> includeConditionList) {
-    StringBuffer includePath = new StringBuffer("");
+  private StringBuilder constructIncludePath(List<ConditionQuery> includeConditionList) {
+    StringBuilder includePath = new StringBuilder("");
     
-    if(includeConditionList!=null && includeConditionList.size()<=0){
+    if(includeConditionList!=null && includeConditionList.isEmpty()){
     	return includePath;
     }
     
@@ -288,10 +288,10 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
     return includePath;
   }
 
-  private StringBuffer constructFullPath(List<String> fullList) {
-    StringBuffer fullListPath = new StringBuffer("");
+  private StringBuilder constructFullPath(List<String> fullList) {
+    StringBuilder fullListPath = new StringBuilder("");
     
-    if(fullList!=null && fullList.size()<=0){
+    if(fullList!=null && fullList.isEmpty()){
     	return fullListPath;
     }
     
@@ -312,9 +312,9 @@ private StringBuffer constructGetAllAndPagingPath(QueryCriteria query, StringBuf
     if (pageLimit > 0 && pageLimit <= 100) {
       pagePath += "page_limit=" + String.valueOf(pageLimit);
     }
-    if (pageOffset > 0 && !pagePath.toString().equalsIgnoreCase("")) {
+    if (pageOffset > 0 && !pagePath.equalsIgnoreCase("")) {
         pagePath += "&page_offset=" + String.valueOf(pageOffset);
-	} else if(pagePath.toString().equalsIgnoreCase("")) {
+	} else if(pagePath.equalsIgnoreCase("")) {
 	    pagePath += "page_offset=" + String.valueOf(pageOffset);
 	}
 
