@@ -77,11 +77,11 @@ public class ReportService {
   /**
    * gets uri for report meta data.
    * 
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    * 
    */
-  public StringBuffer getMetaUri() {
-    StringBuffer path = new StringBuffer();
+  public StringBuilder getMetaUri() {
+    StringBuilder path = new StringBuilder();
     path.append(META);
     return path;
   }
@@ -92,15 +92,15 @@ public class ReportService {
    * @param report
    *          expects a ReportCriteria entity.
    * 
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    */
-  public StringBuffer getReportUri(ReportCriteria report) {
-    StringBuffer path = null;
+  public StringBuilder getReportUri(ReportCriteria report) {
+    StringBuilder path;
 
     if (report == null)
       return null;
 
-    path = new StringBuffer(report.getReportName());
+    path = new StringBuilder(report.getReportName());
 
     try {
       // dimensions
@@ -140,7 +140,7 @@ public class ReportService {
     return path;
   }
 
-  private void filterPageLimitPageOffset(ReportCriteria report, StringBuffer path) {
+  private void filterPageLimitPageOffset(ReportCriteria report, StringBuilder path) {
     if (report.getPage_limit() != null && !report.getPage_limit().isEmpty()
         && (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
 
@@ -156,12 +156,12 @@ public class ReportService {
     }
   }
 
-  private void filterOrder(ReportCriteria report, StringBuffer path) {
+  private void filterOrder(ReportCriteria report, StringBuilder path) {
     if (report.getOrder() != null && report.getOrder().size() > 0 && !report.getOrder().isEmpty()) {
 
       uriAppender(path);
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String order : report.getOrder()) {
         if (buffer.length() == 0) {
           buffer.append("order=" + order);
@@ -173,7 +173,7 @@ public class ReportService {
     }
   }
 
-  private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuffer path) {
+  private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuilder path) {
     if (report.getTime_window() != null && !report.getTime_window().isEmpty()
         && report.getStart_date() == null && report.getEnd_date() == null) {
 
@@ -193,7 +193,7 @@ public class ReportService {
     }
   }
 
-  private void filterTimeRollUp(ReportCriteria report, StringBuffer path) {
+  private void filterTimeRollUp(ReportCriteria report, StringBuilder path) {
     if (report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
       uriAppender(path);
 
@@ -201,7 +201,7 @@ public class ReportService {
     }
   }
 
-  private void filterMetrics(ReportCriteria report, StringBuffer path)
+  private void filterMetrics(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
     if (report.getMetrics() != null && report.getMetrics().size() > 0
         && !report.getMetrics().isEmpty()) {
@@ -212,7 +212,7 @@ public class ReportService {
         path.append("&metrics=");
       }
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String metric : report.getMetrics()) {
         if (buffer.length() == 0) {
           buffer.append(metric);
@@ -224,7 +224,7 @@ public class ReportService {
     }
   }
 
-  private void addHaving(ReportCriteria report, StringBuffer path)
+  private void addHaving(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
     if (report.getHaving() != null && !report.getHaving().isEmpty()) {
 
@@ -234,7 +234,7 @@ public class ReportService {
         path.append("&having=");
       }
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       int havingSize = 0;
       for (Having having : report.getHaving()) {
         if (having.getKey() != null && having.getOperator() != null && having.getValue() != null
@@ -254,7 +254,7 @@ public class ReportService {
     }
   }
 
-  private void addFilters(ReportCriteria report, StringBuffer path)
+  private void addFilters(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
     if (report.getFilters() != null && report.getFilters().size() > 0
         && !report.getFilters().isEmpty()) {
@@ -266,7 +266,7 @@ public class ReportService {
       }
 
       int filterSize = 0;
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (ReportFilter f : report.getFilters()) {
         if (f.getKey() != null && f.getOperator() != null && f.getValue() != null
             && !f.getKey().isEmpty() && !f.getOperator().isEmpty() && !f.getValue().isEmpty()) {
@@ -283,7 +283,7 @@ public class ReportService {
     }
   }
 
-  private void filterDimensions(ReportCriteria report, StringBuffer path)
+  private void filterDimensions(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
     if (report.getDimensions() != null && report.getDimensions().size() > 0) {
 
@@ -293,7 +293,7 @@ public class ReportService {
         path.append("&dimensions=");
       }
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String dimension : report.getDimensions()) {
         if (buffer.length() == 0) {
           buffer.append(dimension);
@@ -306,7 +306,7 @@ public class ReportService {
     }
   }
 
-  private void uriAppender(StringBuffer path) {
+  private void uriAppender(StringBuilder path) {
     if (path.indexOf("?") == -1) {
       path.append("?");
     } else {
@@ -324,7 +324,7 @@ public class ReportService {
    */
   public JsonResponse<? extends T1Entity> parseMetaResponse(String response) {
     JsonParser parser = new JsonParser();
-    JsonResponse<Meta> finalResponse = null;
+    JsonResponse<Meta> finalResponse;
     JsonObject obj = parser.parse(response).getAsJsonObject();
 
     JsonElement reportsElement = obj.get("reports");
@@ -535,7 +535,7 @@ public class ReportService {
   private void throwReportError(ReportError re) throws ClientException {
     if (re != null) {
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
 
       parseErrorEntity(re, buffer);
 
@@ -546,7 +546,7 @@ public class ReportService {
 
   }
 
-  private void parseErrorStatus(ReportError re, StringBuffer buffer) {
+  private void parseErrorStatus(ReportError re, StringBuilder buffer) {
     if (re.getStatus() != null && re.getStatus().length > 0) {
       for (ReportStatus stats : re.getStatus()) {
 
@@ -562,7 +562,7 @@ public class ReportService {
     }
   }
 
-  private void parseErrorEntity(ReportError re, StringBuffer buffer) {
+  private void parseErrorEntity(ReportError re, StringBuilder buffer) {
     if (re.getEntity() != null && re.getEntity().length > 0) {
       for (ReportErrorEntityInfo rentity : re.getEntity()) {
 
