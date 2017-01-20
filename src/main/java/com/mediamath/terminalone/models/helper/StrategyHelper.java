@@ -29,10 +29,12 @@ import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyHelper {
+	
+	private StrategyHelper() {
+		throw new IllegalAccessError("StrategyHelper class");
+	}
 
-  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
-
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  
 
   /**
    * creates a Strategy Form object.
@@ -42,24 +44,27 @@ public class StrategyHelper {
    * @return Form object.
    */
   public static Form getForm(Strategy entity) {
+	final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
+	final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+	
     Form strategyForm = new Form();
-    if (entity.getStrategyDomainRestrictions().size() <= 0) {
+    if (entity.getStrategyDomainRestrictions().isEmpty()) {
 
       if (entity.getAudienceSegmentExcludeOp() != null
-          && entity.getAudienceSegments().size() <= 0) {
+          && entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("audience_segment_exclude_op",
             entity.getAudienceSegmentExcludeOp().toString());
       } else if (entity.getAudienceSegmentExcludeOp() != null
-          && entity.getAudienceSegments().size() > 0) {
+          && !entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
       }
 
       if (entity.getAudienceSegmentIncludeOp() != null
-          && entity.getAudienceSegments().size() <= 0) {
+          && entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("audience_segment_include_op",
             entity.getAudienceSegmentIncludeOp().toString());
       } else if (entity.getAudienceSegmentIncludeOp() != null
-          && entity.getAudienceSegments().size() > 0) {
+          && !entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("include_op", entity.getAudienceSegmentIncludeOp().toString());
       }
 
@@ -70,7 +75,7 @@ public class StrategyHelper {
       strategyForm.param("bid_price_is_media_only",
           Utility.getOneOrZero(entity.isBidPriceIsMediaOnly()));
 
-      if (entity.getBudget() != null && entity.getBudget().size() > 0
+      if (entity.getBudget() != null && !entity.getBudget().isEmpty()
           && entity.getBudget().get(0).getValue() > 0) {
         strategyForm.param("budget", String.valueOf(entity.getBudget().get(0).getValue()));
       }
@@ -86,7 +91,7 @@ public class StrategyHelper {
         strategyForm.param("description", entity.getDescription());
       }
 
-      if (entity.getEffectiveGoalValue() != null && entity.getEffectiveGoalValue().size() > 0
+      if (entity.getEffectiveGoalValue() != null && !entity.getEffectiveGoalValue().isEmpty()
           && entity.getEffectiveGoalValue().get(0).getValue() > 0) {
         strategyForm.param("effective_goal_value",
             String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
@@ -120,7 +125,7 @@ public class StrategyHelper {
         strategyForm.param("goal_type", String.valueOf(entity.getGoalType()));
       }
 
-      if (entity.getGoalType() != null && entity.getGoalValue().size() > 0
+      if (entity.getGoalType() != null && !entity.getGoalValue().isEmpty()
           && entity.getGoalValue().get(0).getValue() > 0) {
         strategyForm.param("goal_value", String.valueOf(entity.getGoalValue().get(0).getValue()));
       }
@@ -129,7 +134,7 @@ public class StrategyHelper {
         strategyForm.param("impression_cap", String.valueOf(entity.getImpressionCap()));
       }
 
-      if (entity.getMaxBid() != null && entity.getMaxBid().size() > 0
+      if (entity.getMaxBid() != null && !entity.getMaxBid().isEmpty()
           && entity.getMaxBid().get(0).getValue() > 0) {
         strategyForm.param("max_bid", String.valueOf(entity.getMaxBid().get(0).getValue()));
       }
@@ -141,7 +146,7 @@ public class StrategyHelper {
         strategyForm.param("name", entity.getName());
       }
 
-      if (entity.getPacingAmount() != null && entity.getPacingAmount().size() > 0
+      if (entity.getPacingAmount() != null && !entity.getPacingAmount().isEmpty()
           && entity.getPacingAmount().get(0).getValue() > 0) {
         strategyForm.param("pacing_amount",
             String.valueOf(entity.getPacingAmount().get(0).getValue()));
@@ -157,30 +162,30 @@ public class StrategyHelper {
       StringBuffer includePixels = new StringBuffer();
       StringBuffer excludePixels = new StringBuffer();
 
-      if (entity.getIncludePixels() != null && entity.getIncludePixels().size() > 0) {
+      if (entity.getIncludePixels() != null && !entity.getIncludePixels().isEmpty()) {
         includePixels.append("(");
         int size = entity.getIncludePixels().size() - 1;
         for (Integer i : entity.getIncludePixels()) {
           if (size != 0) {
-            includePixels.append("[" + String.valueOf(i) + "] AND ");
+            includePixels.append("[" + i + "] AND ");
             size--;
           } else {
-            includePixels.append("[" + String.valueOf(i) + "]");
+            includePixels.append("[" + i + "]");
           }
         }
         includePixels.append(")");
         pixelTargetExpression.append(includePixels.toString());
       }
 
-      if (entity.getExcludePixels() != null && entity.getExcludePixels().size() > 0) {
+      if (entity.getExcludePixels() != null && !entity.getExcludePixels().isEmpty()) {
         excludePixels.append("(");
         int size = entity.getExcludePixels().size() - 1;
         for (Integer i : entity.getExcludePixels()) {
           if (size != 0) {
-            excludePixels.append("[" + String.valueOf(i) + "] OR ");
+            excludePixels.append("[" + i + "] OR ");
             size--;
           } else {
-            excludePixels.append("[" + String.valueOf(i) + "]");
+            excludePixels.append("[" + i + "]");
           }
         }
         excludePixels.append(")");
@@ -194,7 +199,7 @@ public class StrategyHelper {
         strategyForm.param("pixel_target_expr", pixelTargetExpression.toString());
       }
 
-      if (entity.getRoiTarget() != null && entity.getRoiTarget().size() > 0
+      if (entity.getRoiTarget() != null && !entity.getRoiTarget().isEmpty()
           && entity.getRoiTarget().get(0).getValue() > 0) {
         strategyForm.param("roi_target", String.valueOf(entity.getRoiTarget().get(0).getValue()));
       }
@@ -235,12 +240,12 @@ public class StrategyHelper {
       }
     }
     // strategy domain restrictions
-    if (entity.getStrategyDomainRestrictions().size() > 0) {
+    if (!entity.getStrategyDomainRestrictions().isEmpty()) {
       int inc = 1;
       for (StrategyDomain sd : entity.getStrategyDomainRestrictions()) {
         if (sd != null) {
-          strategyForm.param("domains." + String.valueOf(inc) + ".domain", sd.getDomain());
-          strategyForm.param("domains." + String.valueOf(inc) + ".restriction",
+          strategyForm.param("domains." + inc + ".domain", sd.getDomain());
+          strategyForm.param("domains." + inc + ".restriction",
               sd.getRestriction().name());
           inc++;
         }
@@ -248,13 +253,13 @@ public class StrategyHelper {
 
     }
     // strategy audio segments
-    if (entity.getAudienceSegments().size() > 0 && entity.getAudienceSegmentExcludeOp() != null
+    if (!entity.getAudienceSegments().isEmpty() && entity.getAudienceSegmentExcludeOp() != null
         && entity.getAudienceSegmentIncludeOp() != null) {
       int inc = 1;
       for (Segments sd : entity.getAudienceSegments()) {
         if (sd != null) {
-          strategyForm.param("segments." + String.valueOf(inc) + ".id", String.valueOf(sd.getId()));
-          strategyForm.param("segments." + String.valueOf(inc) + ".restriction",
+          strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
+          strategyForm.param("segments." + inc + ".restriction",
               sd.getRestriction().name());
 
           inc++;
@@ -262,13 +267,13 @@ public class StrategyHelper {
       }
     }
     // target values
-    if (entity.getTargetValues().size() > 0) {
+    if (!entity.getTargetValues().isEmpty()) {
       int inc = 1;
       String valueIds = "";
       for (TargetValues tv : entity.getTargetValues()) {
         if (tv != null) {
-          strategyForm.param("dimensions." + String.valueOf(inc) + ".code", tv.getCode().name());
-          strategyForm.param("dimensions." + String.valueOf(inc) + ".restriction",
+          strategyForm.param("dimensions." + inc + ".code", tv.getCode().name());
+          strategyForm.param("dimensions." + inc + ".restriction",
               tv.getRestriction().name());
 
           if (tv.getValueIds().size() > 0) {
@@ -276,7 +281,7 @@ public class StrategyHelper {
               valueIds += vi.toString();
             }
           }
-          strategyForm.param("dimensions." + String.valueOf(inc) + ".value_ids", valueIds);
+          strategyForm.param("dimensions." + inc + ".value_ids", valueIds);
 
           inc++;
         }
