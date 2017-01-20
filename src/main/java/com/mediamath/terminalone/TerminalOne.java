@@ -584,7 +584,7 @@ public class TerminalOne {
    */
   public JsonResponse<? extends T1Entity> getMeta() {
     JsonResponse<? extends T1Entity> jsonResponse;
-    StringBuffer path = reportService.getMetaUri();
+    StringBuilder path = reportService.getMetaUri();
     String finalPath = tOneService.constructReportingUrl(path);
     String response = this.connection.get(finalPath, this.getUser());
     jsonResponse = reportService.parseMetaResponse(response);
@@ -600,7 +600,7 @@ public class TerminalOne {
    * @return MetaData object.
    */
   public MetaData getReportsMeta(Reports report) {
-    StringBuffer reportName = new StringBuffer(report.getReportNameWithMeta());
+	StringBuilder reportName = new StringBuilder(report.getReportNameWithMeta());
     String finalPath = tOneService.constructReportingUrl(reportName);
     String response = this.connection.get(finalPath, this.getUser());
     
@@ -625,7 +625,7 @@ public class TerminalOne {
    */
   public BufferedReader getReport(Reports report, ReportCriteria criteria) throws ClientException {
     criteria.setReportName(report.getReportName());
-    StringBuffer path;
+    StringBuilder path;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
     
@@ -651,7 +651,7 @@ public class TerminalOne {
   public ReportValidationResponse validateReport(Reports report, ReportCriteria criteria)
       throws ClientException {
     criteria.setReportName(report.getReportName() + "/validate");
-    StringBuffer path = null;
+    StringBuilder path = null;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
      
