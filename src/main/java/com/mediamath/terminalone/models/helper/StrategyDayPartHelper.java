@@ -22,6 +22,10 @@ import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyDayPartHelper {
+	
+  private StrategyDayPartHelper() {
+		throw new IllegalAccessError("StrategyDayPartHelper class");
+  }
 
   /**
    * Creates a StrategyDayPart Form object.
@@ -53,9 +57,8 @@ public class StrategyDayPartHelper {
       strategyDayPartForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
 
-    return finalStrategyDayPartForm;
+    return Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
 
   }
 

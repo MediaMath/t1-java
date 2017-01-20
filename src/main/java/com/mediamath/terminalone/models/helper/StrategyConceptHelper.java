@@ -23,6 +23,10 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyConceptHelper {
 
+  private StrategyConceptHelper() {
+		throw new IllegalAccessError("StrategyConceptHelper class");
+  }
+	
   /**
    * Creates a StrategyConcept form object.
    * 
@@ -47,9 +51,7 @@ public class StrategyConceptHelper {
       strategyConceptForm.param("version", String.valueOf(entity.getVersion()));
     }
 
-    Form finalStrategyConceptForm = Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
-
-    return finalStrategyConceptForm;
+    return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
 
   }
 

@@ -21,6 +21,10 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.models.StrategySupplySource;
 
 public class StrategySupplySourceHelper {
+	
+  private StrategySupplySourceHelper() {
+		throw new IllegalAccessError("StrategySupplySourceHelper class");
+  }
 
   /**
    * creates a StrategySupplySource Form object.
