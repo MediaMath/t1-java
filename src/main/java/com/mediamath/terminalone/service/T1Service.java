@@ -16,14 +16,11 @@
 
 package com.mediamath.terminalone.service;
 
-import com.mediamath.terminalone.utils.Utility;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Properties;
 
 import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
 
 /**
  * Service to support terminalone class.
