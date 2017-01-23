@@ -142,19 +142,7 @@ public class PostService {
 
     Response responseObj = this.connection.post(path, entity.getForm(), this.user);
 
-    String response = responseObj.readEntity(String.class);
-    // parse response
-    T1JsonToObjParser parser = new T1JsonToObjParser();
-
-    if (response.isEmpty())
-      return null;
-
-    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-
-    if (error != null)
-      throwExceptions(error);
-
-    finalJsonResponse = parsePostData(response, parser, entity);
+    finalJsonResponse = getJsonResponse(entity, responseObj);
 
     if (finalJsonResponse == null)
       return null;
@@ -200,20 +188,7 @@ public class PostService {
 
       Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
 
-      String response = responseObj.readEntity(String.class);
-      // parse response
-      T1JsonToObjParser parser = new T1JsonToObjParser();
-
-      if (response.isEmpty())
-        return null;
-
-      // parse error
-      JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-
-      if (error != null)
-        throwExceptions(error);
-
-      finalJsonResponse = parsePostData(response, parser, entity);
+      finalJsonResponse = getJsonResponse(entity, responseObj);
 
       if (finalJsonResponse == null)
         return null;
@@ -237,6 +212,28 @@ public class PostService {
     }
 
     return strategy;
+  }
+
+  private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, Response responseObj)
+      throws ClientException, ParseException {
+    
+    JsonResponse<? extends T1Entity> finalJsonResponse;
+
+    String response = responseObj.readEntity(String.class);
+
+    T1JsonToObjParser parser = new T1JsonToObjParser();
+
+    if (response.isEmpty())
+      return null;
+
+    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+
+    if (error != null)
+      throwExceptions(error);
+
+    finalJsonResponse = parsePostData(response, parser, entity);
+    
+    return finalJsonResponse;
   }
 
   /**
@@ -483,36 +480,37 @@ public class PostService {
       throws ClientException, IOException {
 
     TPASCreativeUpload tpasCreativeUploadResponse = null;
-
-    if (filePath == null && name == null && fileName == null) {
-      throw new ClientException("please enter a valid filename and file path");
-    }
-
-    // formt the url
     StringBuilder uri = new StringBuilder("creatives/upload");
-    String path = t1Service.constructUrl(uri);
-
-    // form the data
-    FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
-    FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-    final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart
-        .field("filename", fileName).field("name", name).bodyPart(filePart);
-
-    Response responseObj = this.connection.post(path, multipart, this.user);
-    String response = responseObj.readEntity(String.class);
-
+    String response = saveCreativeUploads(uri, filePath, name, fileName);
     T1JsonToObjParser parser = new T1JsonToObjParser();
-
-    // parse
-    // create object and send the response to user.
     if (checkString(response)) {
       tpasCreativeUploadResponse = parseTPASCreativeUploadData(response, parser);
     }
+    return tpasCreativeUploadResponse;
+  }
+  
+  private String saveCreativeUploads(StringBuilder uri, String filePath, String name, String fileName) throws ClientException, IOException {
+    if (filePath == null && name == null && fileName == null) {
+      throw new ClientException("please enter a valid filename and file path");
+    }
+    
+    String path = t1Service.constructUrl(uri);
 
+    FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+    
+    FormDataMultiPart formDataMultiPart = new FormDataMultiPart();   
+    FormDataMultiPart multipart = null;
+    
+    multipart = (FormDataMultiPart) formDataMultiPart
+        .field("filename", fileName).field("name", name).bodyPart(filePart);
+    
+    Response responseObj = this.connection.post(path, multipart, this.user);
+    String response = responseObj.readEntity(String.class);
+    
     formDataMultiPart.close();
     multipart.close();
-
-    return tpasCreativeUploadResponse;
+    
+    return response;
   }
 
   private TPASCreativeUpload parseTPASCreativeUploadData(String response,
@@ -601,35 +599,12 @@ public class PostService {
       String name) throws ClientException, IOException {
 
     TOneASCreativeAssetsUpload assetsUploadResponse = null;
-
-    if (filePath == null && name == null && fileName == null) {
-      throw new ClientException("please enter a valid filename and file path");
-    }
-
-    // formt the url
     StringBuilder uri = new StringBuilder("creative_assets/upload");
-    String path = t1Service.constructUrl(uri);
-
-    // form the data
-    FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
-    FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-    final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart
-        .field("filename", fileName).field("name", name).bodyPart(filePart);
-
-    Response responseObj = this.connection.post(path, multipart, this.user);
-    String response = responseObj.readEntity(String.class);
-
+    String response = saveCreativeUploads(uri, filePath, name, fileName);
     T1JsonToObjParser parser = new T1JsonToObjParser();
-
-    // parse
-    // create object and send the response to user.
     if (checkString(response)) {
       assetsUploadResponse = parseTOneASCreativeAssetsUploadData(response, parser);
     }
-
-    formDataMultiPart.close();
-    multipart.close();
-
     return assetsUploadResponse;
   }
 
