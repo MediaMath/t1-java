@@ -33,8 +33,6 @@ import javax.ws.rs.core.Form;
  */
 public class T1Service {
 
-  private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
-
   private static Properties configprop = Utility.loadConfigProperty();
 
   private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
@@ -72,18 +70,15 @@ public class T1Service {
    * @return String object.
    */
   public String constructUrl(StringBuilder path) {
-    String url = apiBase + pathMgmt + "/" + path.toString();
-    return url;
+    return apiBase + pathMgmt + "/" + path.toString();
   }
 
   public String constructReportingUrl(StringBuilder path) {
-    String url = apiBase + reportingURL + "/" + path.toString();
-    return url;
+    return apiBase + reportingURL + "/" + path.toString();
   }
 
   public String constructOauthUrl(StringBuffer path) {
-    String url = apiBase + oauthURL + "/" + path.toString();
-    return url;
+    return apiBase + oauthURL + "/" + path.toString();
   }
 
   /**
