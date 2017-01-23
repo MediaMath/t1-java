@@ -92,7 +92,6 @@ public final class Constants {
     }.getType());
     getEntityType.put("advertiser", new TypeToken<JsonResponse<Advertiser>>() {
     }.getType());
-
     getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>() {
     }.getType());
     getEntityType.put("agency", new TypeToken<JsonResponse<Agency>>() {
@@ -119,20 +118,6 @@ public final class Constants {
     getEntityType.put("creative", new TypeToken<JsonResponse<Creative>>() {
     }.getType());
 
-    getEntityType.put("ad_servers", new TypeToken<JsonResponse<AdServer>>() {
-    }.getType());
-    getEntityType.put("advertisers", new TypeToken<JsonResponse<Advertiser>>() {
-    }.getType());
-    getEntityType.put("advertiser", new TypeToken<JsonResponse<Advertiser>>() {
-    }.getType());
-    getEntityType.put("agencies", new TypeToken<JsonResponse<Agency>>() {
-    }.getType());
-    getEntityType.put("agency", new TypeToken<JsonResponse<Agency>>() {
-    }.getType());
-    getEntityType.put("atomic_creatives", new TypeToken<JsonResponse<AtomicCreative>>() {
-    }.getType());
-    getEntityType.put("audience_segments", new TypeToken<JsonResponse<AudienceSegment>>() {
-    }.getType());
     getEntityType.put("creative_approvals", new TypeToken<JsonResponse<CreativeApproval>>() {
     }.getType());
     getEntityType.put("deals", new TypeToken<JsonResponse<Deal>>() {
@@ -163,9 +148,8 @@ public final class Constants {
     getEntityType.put("publisher_site", new TypeToken<JsonResponse<PublisherSite>>() {
     }.getType());
 
-    // getEntityType.put("site_lists", new TypeToken<JsonResponse<SiteList>>(){}.getType());
-    // getEntityType.put("site_placements", new
-    // TypeToken<JsonResponse<SitePlacement>>(){}.getType());
+    getEntityType.put("site_lists", new TypeToken<JsonResponse<SiteList>>(){}.getType());
+    getEntityType.put("site_placements", new TypeToken<JsonResponse<SitePlacement>>(){}.getType());
 
     getEntityType.put("strategies", new TypeToken<JsonResponse<Strategy>>() {
     }.getType());
@@ -241,6 +225,8 @@ public final class Constants {
     getEntityType.put("vertical", new TypeToken<JsonResponse<Vertical>>() {
     }.getType());
 
+    
+    
     /* LIST RETURN TYPE */
     getListoFEntityType.put("atomic_creatives",
         new TypeToken<JsonResponse<ArrayList<AtomicCreative>>>() {
