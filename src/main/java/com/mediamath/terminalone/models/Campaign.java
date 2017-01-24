@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.utils.Utility;
 
 public class Campaign implements T1Entity {
-  
+
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
   private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
@@ -81,6 +81,9 @@ public class Campaign implements T1Entity {
   private ArrayList<T1Cost> goal_value = new ArrayList<T1Cost>();
   private boolean has_custom_attribution;
   private int id;
+  private int impression_cap_amount;
+  private boolean impression_cap_automatic;
+  private freqTypes impression_cap_type;
   private String io_name;
   private String io_reference_num;
   private Date initial_start_date;
@@ -270,6 +273,30 @@ public class Campaign implements T1Entity {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public int getImpression_cap_amount() {
+    return impression_cap_amount;
+  }
+
+  public void setImpression_cap_amount(int impression_cap_amount) {
+    this.impression_cap_amount = impression_cap_amount;
+  }
+
+  public boolean isImpression_cap_automatic() {
+    return impression_cap_automatic;
+  }
+
+  public void setImpression_cap_automatic(boolean impression_cap_automatic) {
+   this.impression_cap_automatic = impression_cap_automatic;
+  }
+
+  public freqTypes getImpression_cap_type() {
+    return impression_cap_type;
+  }
+
+  public void setImpression_cap_type(freqTypes impression_cap_type) {
+    this.impression_cap_type = impression_cap_type;
   }
 
   public String getIoName() {
@@ -523,7 +550,7 @@ public class Campaign implements T1Entity {
       this.goal_value.add(cost);
     }
   }
-  
+
   @Override
   public Form getForm() {
 
@@ -621,6 +648,16 @@ public class Campaign implements T1Entity {
     campaignForm.param("has_custom_attribution",
         Utility.getOnOrOff(this.isHasCustomAttribution()));
 
+    if(this.getImpression_cap_amount() > 0) {
+      campaignForm.param("impression_cap_amount", String.valueOf(this.getImpression_cap_amount()));
+    }
+
+    if (this.getImpression_cap_type() != null) {
+     campaignForm.param("impression_cap_type", String.valueOf(this.getImpression_cap_type()));
+    }
+
+    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpression_cap_automatic()));
+
     if (this.getIoName() != null) {
       campaignForm.param("io_name", this.getIoName());
     }
@@ -673,7 +710,7 @@ public class Campaign implements T1Entity {
   @Override
   public String getUri() {
     StringBuffer uri = new StringBuffer();
-    
+
     if (this.getId() > 0) {
       uri.append("/" + this.getId());
     }
@@ -681,7 +718,7 @@ public class Campaign implements T1Entity {
     if (this.getId() > 0 && this.getMargins().size() > 0) {
       uri.append("/margins");
     }
-    
+
     return uri.toString();
   }
 
