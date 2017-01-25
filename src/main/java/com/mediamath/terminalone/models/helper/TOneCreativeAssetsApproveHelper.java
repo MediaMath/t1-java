@@ -16,13 +16,17 @@
 
 package com.mediamath.terminalone.models.helper;
 
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveData;
 import com.mediamath.terminalone.utils.Utility;
 
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
 public class TOneCreativeAssetsApproveHelper {
+  
+  private TOneCreativeAssetsApproveHelper() {
+    throw new IllegalAccessError("TOneCreativeAssetsApproveHelper class");
+  }
 
   /**
    * Creates a Multi Part Form object.
@@ -32,47 +36,91 @@ public class TOneCreativeAssetsApproveHelper {
    * @param formData
    *          expects a FormDataMultiPart formData object.
    */
-  public static void getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
+  public static void getMultiPartForm(TOneASCreativeAssetsApprove entity,
+      FormDataMultiPart formData) {
 
-    if (entity != null) {
-      if (!entity.getDataList().isEmpty()) {
+    if (entity != null && !entity.getDataList().isEmpty()) {
 
-        for (int i = 0; i < entity.getDataList().size(); i++) {
-          int inc = i + 1;
-          TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
+      for (int i = 0; i < entity.getDataList().size(); i++) {
 
-          if (data.isHttps()) {
-            formData = formData.field("is_https", Utility.getOneOrZero(data.isHttps()));
-          }
+        int inc = i + 1;
 
-          if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
-            formData = formData.field("advertiserid", data.getAdvertiserid());
-          }
+        TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
 
-          if (data.getLandingPage() != null && !data.getLandingPage().isEmpty()) {
-            formData = formData.field("landingPage." + inc, data.getLandingPage());
-          }
+        formData = setIsHttps(formData, data);
 
-          if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
-            formData = formData.field("click_url." + inc, data.getClickUrl());
-          }
+        formData = setAdvertiserID(formData, data);
 
-          if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {
-            formData = formData.field("primary." + inc, data.getPrimary());
-          }
+        formData = setLandingPage(formData, inc, data);
 
-          if (data.getBackup() != null && !data.getBackup().isEmpty()) {
-            formData = formData.field("backup." + inc, data.getBackup());
-          }
+        formData = setClickURL(formData, inc, data);
 
-          if (data.getConcept() != null && !data.getConcept().isEmpty()) {
-            formData = formData.field("concept." + inc, data.getConcept());
-          }
+        formData = setPrimary(formData, inc, data);
 
-        }
+        formData = setBackup(formData, inc, data);
+
+        formData = setConcept(formData, inc, data);
+
       }
+
     }
 
+  }
+
+  private static FormDataMultiPart setConcept(FormDataMultiPart formData, int inc,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getConcept() != null && !data.getConcept().isEmpty()) {
+      formData = formData.field("concept." + inc, data.getConcept());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setBackup(FormDataMultiPart formData, int inc,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getBackup() != null && !data.getBackup().isEmpty()) {
+      formData = formData.field("backup." + inc, data.getBackup());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setPrimary(FormDataMultiPart formData, int inc,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {
+      formData = formData.field("primary." + inc, data.getPrimary());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setClickURL(FormDataMultiPart formData, int inc,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
+      formData = formData.field("click_url." + inc, data.getClickUrl());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setLandingPage(FormDataMultiPart formData, int inc,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getLandingPage() != null && !data.getLandingPage().isEmpty()) {
+      formData = formData.field("landingPage." + inc, data.getLandingPage());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setAdvertiserID(FormDataMultiPart formData,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
+      formData = formData.field("advertiserid", data.getAdvertiserid());
+    }
+    return formData;
+  }
+
+  private static FormDataMultiPart setIsHttps(FormDataMultiPart formData,
+      TOneASCreativeAssetsApproveData data) {
+    if (data.isHttps()) {
+      formData = formData.field("is_https", Utility.getOneOrZero(data.isHttps()));
+    }
+    return formData;
   }
 
 }
