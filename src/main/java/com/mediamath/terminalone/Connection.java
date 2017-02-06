@@ -51,7 +51,7 @@ public class Connection {
 
   private static final String USER_AGENT = "User-Agent";
 
-  private static final String TARGET_URL = "Target URL: %s";
+  private static final String TARGET_URL = "Target URL: ";
 
   private static final String NO_POST_DATA = "No Post Data";
 
@@ -96,7 +96,7 @@ public class Connection {
   }
 
   private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
-    logger.info(TARGET_URL, url);
+    logger.info(TARGET_URL + url);
     WebTarget webTarget = client.target(url);
     Invocation.Builder invocationBuilder = webTarget.request();
     invocationBuilder.header(USER_AGENT, userAgent);
