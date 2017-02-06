@@ -32,12 +32,33 @@ import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.service.GetService;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.service.T1Service;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
+
+  private static final String AGENCY_RESPONSE = "{" +
+     " \"data\" : { " +
+     " \"organization_id\" : 100048, " + 
+     " \"status\" : false," +
+     " \"version\" : 0," +
+     " \"dmp_enabled\" : \"inherits\"," +
+     " \"name\" : \"TestAgency\"," +
+     " \"allow_x_adv_pixels\" : false," +
+     " \"updated_on\" : \"2017-02-06T08:37:59+0000\"," +
+     " \"created_on\" : \"2017-02-06T08:37:59+0000\"," +
+     " \"entity_type\" : \"agency\"," +
+     " \"id\" : 114385," +
+     " \"allow_x_adv_optimization\" : false" + 
+   " }, " +
+   "\"meta\" : { " +
+    "  \"etag\" : \"c82c6b064721323187e7a608b516f8ab15aa04d4\", " +
+    "  \"called_on\" : \"2017-02-06T08:37:59+0000\", " +
+     " \"status\" : \"ok\" "+
+   "} }";
 
   @Mock
   T1Service t1servicemock;
@@ -61,14 +82,20 @@ public class PostMockTest {
 
   @Test
   public void testAgencyPostWithMocks() throws Exception {
+    
     t1.setAuthenticated(true);
     Agency agency = new Agency();
     agency.setName("agency_name");
     agency.setOrganizationId(100048);
-    Mockito.when(postservicemock.save(agency)).thenReturn(agency);
+    
+    Mockito.when(postservicemock.getResponseString(Mockito.any(Agency.class), Mockito.anyString())).thenReturn(AGENCY_RESPONSE);
+    
     try {
+      
       agency = (Agency) t1.save(agency);
-      Mockito.verify(postservicemock).save(agency);
+    
+      Mockito.verify(postservicemock).getResponseString(Mockito.any(T1Entity.class), Mockito.anyString());
+    
     } catch (ParseException e) {
       e.printStackTrace();
     }
