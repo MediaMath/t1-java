@@ -66,6 +66,8 @@ public class PostMockTest {
   
   private static String CAMPAIGN_RESPONSE = null;
 
+  private static String ADVERTISER_RESPONSE = null;
+  
   private static String LOGIN = null;
   
   @Mock
@@ -82,7 +84,8 @@ public class PostMockTest {
     testConfig.load(input);
     LOGIN = testConfig.getProperty("t1.mock.loginResponse");
     CAMPAIGN_RESPONSE = testConfig.getProperty("t1.mock.savecampaignresponse");
-    //System.out.println(CAMPAIGN_RESPONSE);
+    ADVERTISER_RESPONSE = testConfig.getProperty("t1.mock.saveadvertiserresponse");
+    System.out.println(ADVERTISER_RESPONSE);
   }
   
   @After
@@ -165,33 +168,36 @@ public class PostMockTest {
 
   }
 
- /* @Test
+  @Test
   public void testAdvertiserPostWithMocks() throws ClientException {
-
-    t1.setAuthenticated(true);
 
     Advertiser adv = new Advertiser();
     adv.setAdServerId(9);
     adv.setAgencyId(109308);
     adv.setDomain("http://www.advertiser.com");
-    adv.setName("ABC Advertisers");
+    adv.setName("TestAdvertiser");
     adv.setVerticalId(11);
 
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ADVERTISER_RESPONSE);
+    
     try {
-      Mockito.when(postservicemock.save(adv)).thenReturn(adv);
-      adv = (Advertiser) t1.save(adv);
-      Mockito.verify(postservicemock).save(adv);
+    	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    	adv = (Advertiser) t1.save(adv);
+    	Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
     assertNotNull(adv);
-    assertEquals("ABC Advertisers", adv.getName());
+    assertEquals("TestAdvertiser", adv.getName());
+    assertEquals(109308, adv.getAgencyId());
+    assertEquals(166077, adv.getId());
 
   }
 
-  @Test
+ /* @Test
   public void testStrategyPostWithMocks() throws ClientException {
 
     t1.setAuthenticated(true);
@@ -222,9 +228,9 @@ public class PostMockTest {
     }
     assertNotNull(str);
     assertEquals("ABC Advertisers", str.getName());
-  }
+  }*/
 
-  @Test
+/*  @Test
   public void testStrategyAudioSegmentsPostWithMocks() throws ClientException {
     t1.setAuthenticated(true);
 
@@ -249,8 +255,8 @@ public class PostMockTest {
     assertNotNull(str);
     assertEquals(1089192, str.getId());
   }
-
-  @Test
+*/
+/*  @Test
   public void testStrategyDomainRestrictionPostWithMocks() throws ClientException {
     t1.setAuthenticated(true);
     ;
@@ -276,8 +282,8 @@ public class PostMockTest {
     assertEquals(1089192, str.getId());
 
   }
-
-  @Test
+*/
+/*  @Test
   public void testOrganizationPostWithMocks() throws ClientException {
 
     t1.setAuthenticated(true);
@@ -309,8 +315,8 @@ public class PostMockTest {
     assertNotNull(org);
     assertEquals(100048, org.getId());
   }
-
-  @Test
+*/
+/*  @Test
   public void testCampaignMarginPost() throws ClientException {
 
     t1.setAuthenticated(true);
@@ -339,8 +345,8 @@ public class PostMockTest {
     }
 
   }
-
-  public void testConceptPost() throws ClientException {
+*/
+/*  public void testConceptPost() throws ClientException {
 
     t1.setAuthenticated(true);
 
@@ -359,8 +365,8 @@ public class PostMockTest {
     }
 
   }
-
-  public void testAtomicCreatives() throws ClientException {
+*/
+/*  public void testAtomicCreatives() throws ClientException {
 
     t1.setAuthenticated(true);
 
@@ -386,6 +392,6 @@ public class PostMockTest {
       e.printStackTrace();
     }
 
-  }*/
-
+  }
+*/
 }
