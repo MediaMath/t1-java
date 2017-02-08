@@ -43,7 +43,7 @@ public class PostMockTest {
   
   private static Properties testConfig = new Properties();
 
-  private static final String AGENCY_RESPONSE = "{" +
+  private static final String AGENCY_RESPONSE = "{" + 
      " \"data\" : { " +
      " \"organization_id\" : 100048, " + 
      " \"status\" : false," +
@@ -63,6 +63,8 @@ public class PostMockTest {
      " \"status\" : \"ok\" "+
    "} }";
   
+  
+  private static String CAMPAIGN_RESPONSE = null;
 
   private static String LOGIN = null;
   
@@ -79,6 +81,8 @@ public class PostMockTest {
     InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
     testConfig.load(input);
     LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+    CAMPAIGN_RESPONSE = testConfig.getProperty("t1.mock.savecampaignresponse");
+    //System.out.println(CAMPAIGN_RESPONSE);
   }
   
   @After
@@ -110,12 +114,13 @@ public class PostMockTest {
     assertEquals(100048, agency.getOrganizationId());
   }
   
-/*
+
+  @SuppressWarnings("unchecked")
   @Test
   public void testCampaignPostWithMocks() throws ClientException, java.text.ParseException {
 
     Campaign camp = new Campaign();
-    camp.setName("NitCamp");
+    camp.setName("CampaignTest One 271778");
     camp.setAdServerFee(10.01, null);
     camp.setAdServerId(9);
     camp.setAdvertiserId(122631);
@@ -142,25 +147,25 @@ public class PostMockTest {
     camp.setMeritPixelId(800781);
     
     Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(login, CAMPAIGN_RESPONSE);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_RESPONSE);
 
     
     
     try {
       t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
       camp = (Campaign) t1.save(camp);
-      
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
     assertNotNull(camp);
-    assertEquals("NitCamp", camp.getName());
+    assertEquals(800781, camp.getMeritPixelId());
 
   }
 
-  @Test
+ /* @Test
   public void testAdvertiserPostWithMocks() throws ClientException {
 
     t1.setAuthenticated(true);
@@ -381,6 +386,6 @@ public class PostMockTest {
       e.printStackTrace();
     }
 
-  }
-*/
+  }*/
+
 }
