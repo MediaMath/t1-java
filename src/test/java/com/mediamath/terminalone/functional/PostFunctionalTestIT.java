@@ -33,7 +33,6 @@ import java.util.TimeZone;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -86,8 +85,7 @@ public class PostFunctionalTestIT {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = PostFunctionalTestIT.class.getClassLoader()
-        .getResourceAsStream("test.properties");
+    InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("t1.username");
     password = testConfig.getProperty("t1.password");

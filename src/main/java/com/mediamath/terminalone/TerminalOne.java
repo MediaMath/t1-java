@@ -128,13 +128,17 @@ public class TerminalOne {
     parseLoginError(loginResponse);
     String response = loginResponse.readEntity(String.class);
     setUserSessionInfo(response);
-    postService = new PostService(this.connection, this.user, this.tOneService);
-    getService = new GetService();
-    reportService = new ReportService();
+    setServices();
 
     if (checkUserAndUserData() && checkUserSession() && checkUserSessionID()) {
         this.authenticated = true;
     }  
+  }
+  
+  private void setServices() {
+    postService = new PostService(this.connection, this.user, this.tOneService);
+    getService = new GetService();
+    reportService = new ReportService();
   }
 
   private boolean checkUserSessionID() {
@@ -212,9 +216,7 @@ public class TerminalOne {
     user = new T1User();
     user.setToken(token);
 
-    postService = new PostService(this.connection, this.user, this.tOneService);
-    getService = new GetService();
-    reportService = new ReportService();
+    setServices();
 
     if (this.getUser() != null && this.getUser().getToken() != null
         && !this.getUser().getToken().isEmpty()) {

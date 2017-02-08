@@ -2,13 +2,21 @@ package com.mediamath.terminalone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.times;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,6 +26,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
+import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
@@ -26,19 +35,13 @@ import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.Strategy.freqInt;
-import com.mediamath.terminalone.models.Strategy.freqType;
-import com.mediamath.terminalone.models.Strategy.goalType;
-import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyDomain;
-import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.service.GetService;
-import com.mediamath.terminalone.service.PostService;
-import com.mediamath.terminalone.service.T1Service;
+import com.mediamath.terminalone.models.T1User;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
+  
+  private static Properties testConfig = new Properties();
 
   private static final String AGENCY_RESPONSE = "{" +
      " \"data\" : { " +
@@ -59,56 +62,57 @@ public class PostMockTest {
     "  \"called_on\" : \"2017-02-06T08:37:59+0000\", " +
      " \"status\" : \"ok\" "+
    "} }";
+  
 
-  @Mock
-  T1Service t1servicemock;
-
-  @Mock
-  PostService postservicemock;
-
-  @Mock
-  GetService getservicemock;
-
+  private static String LOGIN = null;
+  
   @Mock
   Connection connectionmock;
 
   @InjectMocks
   TerminalOne t1 = new TerminalOne();
-
+  
+  @Mock Response response;
+  
+  @BeforeClass
+  public static void init() throws Exception {
+    InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
+    testConfig.load(input);
+    LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+  }
+  
   @After
   public final void tearDown() throws InterruptedException {
     Thread.sleep(5000);
   }
-
+  
+  @SuppressWarnings("unchecked")
   @Test
-  public void testAgencyPostWithMocks() throws Exception {
+  public void testAgencyPostWithMocks2() throws Exception {
     
-    t1.setAuthenticated(true);
     Agency agency = new Agency();
-    agency.setName("agency_name");
+    agency.setName("TestAgency");
     agency.setOrganizationId(100048);
     
-    Mockito.when(postservicemock.getResponseString(Mockito.any(Agency.class), Mockito.anyString())).thenReturn(AGENCY_RESPONSE);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, AGENCY_RESPONSE);
     
     try {
-      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
       agency = (Agency) t1.save(agency);
-    
-      Mockito.verify(postservicemock).getResponseString(Mockito.any(T1Entity.class), Mockito.anyString());
-    
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
     } catch (ParseException e) {
       e.printStackTrace();
     }
 
     assertNotNull(agency);
-    assertEquals("agency_name", agency.getName());
+    assertEquals("TestAgency", agency.getName());
     assertEquals(100048, agency.getOrganizationId());
   }
-
+  
+/*
   @Test
   public void testCampaignPostWithMocks() throws ClientException, java.text.ParseException {
-
-    t1.setAuthenticated(true);
 
     Campaign camp = new Campaign();
     camp.setName("NitCamp");
@@ -136,10 +140,16 @@ public class PostMockTest {
     camp.setTotalBudget(100, null);
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
+    
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(login, CAMPAIGN_RESPONSE);
+
+    
+    
     try {
-      Mockito.when(postservicemock.save(camp)).thenReturn(camp);
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
       camp = (Campaign) t1.save(camp);
-      Mockito.verify(postservicemock).save(camp);
+      
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -372,5 +382,5 @@ public class PostMockTest {
     }
 
   }
-
+*/
 }
