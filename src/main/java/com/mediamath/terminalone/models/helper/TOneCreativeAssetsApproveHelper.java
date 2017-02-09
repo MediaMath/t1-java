@@ -25,7 +25,7 @@ import com.mediamath.terminalone.utils.Utility;
 public class TOneCreativeAssetsApproveHelper {
   
   private TOneCreativeAssetsApproveHelper() {
-    throw new IllegalAccessError("TOneCreativeAssetsApproveHelper class");
+    throw new IllegalAccessError("TOneCreativeAssetsApproveHelper cannot be instantiated");
   }
 
   /**

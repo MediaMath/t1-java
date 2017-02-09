@@ -26,7 +26,7 @@ import com.mediamath.terminalone.utils.Utility;
 public class AtomicCreativeHelper {
 
   private AtomicCreativeHelper() {
-		throw new IllegalAccessError("AtomicCreativeHelper class");
+		throw new IllegalAccessError("AtomicCreativeHelper cannot be instantiated.");
   }
 	
   

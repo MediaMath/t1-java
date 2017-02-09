@@ -25,7 +25,7 @@ import com.mediamath.terminalone.models.StrategyDomain;
 public class StrategyDomainHelper {
 
   private StrategyDomainHelper() {
-		throw new IllegalAccessError("StrategyDomainHelper class");
+		throw new IllegalAccessError("StrategyDomainHelper cannot be instantiated");
   }	
 	
   

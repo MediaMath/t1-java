@@ -23,7 +23,7 @@ import com.mediamath.terminalone.models.StrategySupplySource;
 public class StrategySupplySourceHelper {
 	
   private StrategySupplySourceHelper() {
-		throw new IllegalAccessError("StrategySupplySourceHelper class");
+		throw new IllegalAccessError("StrategySupplySourceHelper cannot be instantiated");
   }
 
   /**

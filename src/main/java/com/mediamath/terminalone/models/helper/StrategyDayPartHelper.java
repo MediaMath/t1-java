@@ -24,7 +24,7 @@ import com.mediamath.terminalone.utils.Utility;
 public class StrategyDayPartHelper {
 	
   private StrategyDayPartHelper() {
-		throw new IllegalAccessError("StrategyDayPartHelper class");
+		throw new IllegalAccessError("StrategyDayPartHelper cannot be instantiated");
   }
 
   /**

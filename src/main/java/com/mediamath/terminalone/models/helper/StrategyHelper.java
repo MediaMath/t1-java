@@ -31,7 +31,7 @@ import com.mediamath.terminalone.utils.Utility;
 public class StrategyHelper {
 	
 	private StrategyHelper() {
-		throw new IllegalAccessError("StrategyHelper class");
+		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
 	}
 
   

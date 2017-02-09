@@ -26,7 +26,7 @@ import com.mediamath.terminalone.models.TPASCreativeBatchIndex;
 public class TPasCreativeUploadBatchHelper {
   
   private TPasCreativeUploadBatchHelper() {
-    throw new IllegalAccessError("TPasCreativeUploadBatchHelper class");
+    throw new IllegalAccessError("TPasCreativeUploadBatchHelper cannot be instantiated");
   }
 
   /**
