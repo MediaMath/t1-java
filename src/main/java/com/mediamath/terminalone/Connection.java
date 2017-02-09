@@ -45,6 +45,12 @@ import com.mediamath.terminalone.utils.Utility;
  */
 public class Connection {
 
+  private static final String BEARER = "Bearer ";
+
+  private static final String AUTHORIZATION = "Authorization";
+
+  private static final String ADAMA_SESSION = "adama_session";
+
   private static final String APPLICATION_VND_MEDIAMATH_V1_JSON = "application/vnd.mediamath.v1+json";
 
   private static final String ACCEPT = "Accept";
@@ -202,10 +208,10 @@ public class Connection {
 
   private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
     if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
-      invocationBuilder.header("Authorization", "Bearer " + userMap.getToken());
+      invocationBuilder.header(AUTHORIZATION, BEARER + userMap.getToken());
     }
     if (checkUserMapData(userMap) && checkSession(userMap) && checkSessionID(userMap)) {
-        invocationBuilder.cookie("adama_session", userMap.getData().getSession().getSessionid());
+        invocationBuilder.cookie(ADAMA_SESSION, userMap.getData().getSession().getSessionid());
     }
   }
 
