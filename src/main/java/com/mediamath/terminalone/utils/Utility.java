@@ -145,8 +145,7 @@ public class Utility {
    */
   public static List<String> getList(String propStr) {
     String[] readOnlyFields = propStr.split(",");
-    List<String> stringAsList = Arrays.asList(readOnlyFields);
-    return stringAsList;
+    return Arrays.asList(readOnlyFields);
   }
 
   /**
@@ -184,8 +183,7 @@ public class Utility {
       }
     }
     
-    Form filteredForm = new Form(multiValMap);
-    return filteredForm;
+    return new Form(multiValMap);
   }
 
   /**
@@ -195,12 +193,13 @@ public class Utility {
    *          Exception object.
    */
   public static void logStackTrace(Exception exception) {
-    StringBuilder strBuffer = new StringBuilder(exception.getMessage());
+    StringBuilder strBuilder = new StringBuilder(exception.getMessage());
     StackTraceElement[] stactTraceElements = exception.getStackTrace();
     for (StackTraceElement ste : stactTraceElements) {
-      strBuffer.append(ste.toString());
+      strBuilder.append(ste.toString());
     }
-    logger.error(strBuffer.toString());
+    if(!strBuilder.toString().isEmpty())
+    logger.error(strBuilder.toString());
   }
 
   public boolean isArrayOfType(Object[] array, Class<?> type) {

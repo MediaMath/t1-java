@@ -44,7 +44,8 @@ import java.util.ArrayList;
 
 public class T1JsonToObjParser {
 
-  private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
+  private static final String COULD_NOT_PARSE_RESPONSE = "Could not parse response";
+private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
   private static final Logger logger = LoggerFactory.getLogger(T1JsonToObjParser.class);
 
   /**
@@ -59,8 +60,7 @@ public class T1JsonToObjParser {
   public JsonElement getDataFromResponse(String response) {
     JsonParser parser = new JsonParser();
     JsonObject obj = parser.parse(response).getAsJsonObject();
-    JsonElement element = obj.get("data");
-    return element;
+    return obj.get("data");
   }
 
   /**
@@ -133,8 +133,8 @@ public class T1JsonToObjParser {
           .setDateFormat(YYYY_MM_DD_T_HH_MM_SS).create();
       jsonResponse = gson.fromJson(jsonstr, vClassType);
     } catch (JsonParseException parseException) {
-      logger.error("Parse Exception");
-      throw new ParseException("Could not parse response");
+    	Utility.logStackTrace(parseException);
+      throw new ParseException(COULD_NOT_PARSE_RESPONSE);
     }
     return jsonResponse;
   }
@@ -148,7 +148,7 @@ public class T1JsonToObjParser {
    */
   public TPASCreativeUpload parse3PasCreativeUploadResponseTOObj(
       String json3PasCreativeResponseString) {
-    TPASCreativeUpload response = null;
+    TPASCreativeUpload response;
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
@@ -166,7 +166,7 @@ public class T1JsonToObjParser {
    */
   public TOneASCreativeAssetsUpload parseTOneASCreativeAssetsUploadResponseTOObj(
       String jsonT1CAUesponse) {
-    TOneASCreativeAssetsUpload response = null;
+    TOneASCreativeAssetsUpload response;
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
@@ -184,7 +184,7 @@ public class T1JsonToObjParser {
    */
   public JsonResponse<? extends T1Entity> parseTOneASCreativeAssetsApproveResponse(
       String pResponse) {
-    JsonResponse<? extends T1Entity> response = null;
+    JsonResponse<? extends T1Entity> response;
 
     GsonBuilder builder = new GsonBuilder();
     builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES);
@@ -207,7 +207,7 @@ public class T1JsonToObjParser {
    * @return VideoCreativeResponse object.
    */
   public VideoCreativeResponse parseVideoCreative(String pResponse) {
-    VideoCreativeResponse response = null;
+    VideoCreativeResponse response;
 
     GsonBuilder builder = new GsonBuilder();
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
@@ -225,7 +225,7 @@ public class T1JsonToObjParser {
    * @return VideoCreativeUploadStatus object.
    */
   public VideoCreativeUploadStatus parseVideoCreativeUploadStatus(String pResponse) {
-    VideoCreativeUploadStatus response = null;
+    VideoCreativeUploadStatus response;
     GsonBuilder builder = new GsonBuilder();
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
     Gson gson = builder.create();
@@ -242,16 +242,13 @@ public class T1JsonToObjParser {
    */
   class CustomInstanceCreator implements InstanceCreator<JsonResponse<?>> {
     @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
     public JsonResponse<?> createInstance(Type type) {
       Type[] typeParameters = ((ParameterizedType) type).getActualTypeArguments();
       Type idType = typeParameters[0];
       if (idType instanceof Class<?>) {
         return new JsonResponse((Class<?>) idType);
       } else {
-        // extract inner type and send it.
-        // Type[] typeParams2 = ((ParameterizedType)
-        // idType).getActualTypeArguments();
-        // return new JsonResponse((Class<?>) typeParams2[0]);
         return new JsonResponse(idType);
       }
     }

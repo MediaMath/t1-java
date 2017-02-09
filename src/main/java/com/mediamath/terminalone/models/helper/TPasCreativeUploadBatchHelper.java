@@ -16,13 +16,18 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
-import com.mediamath.terminalone.models.TPASCreativeBatchIndex;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
 import javax.ws.rs.core.Form;
 
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeBatchIndex;
+
 public class TPasCreativeUploadBatchHelper {
+  
+  private TPasCreativeUploadBatchHelper() {
+    throw new IllegalAccessError("TPasCreativeUploadBatchHelper cannot be instantiated");
+  }
 
   /**
    * creates a TPASCreativeBatchApprove form object.
@@ -34,29 +39,42 @@ public class TPasCreativeUploadBatchHelper {
   public static Form getForm(TPASCreativeBatchApprove entity) {
     Form creativeBatchForm = new Form();
 
-    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
-      creativeBatchForm.param("advertiser_id", entity.getAdvertiserId());
-    }
+    setAdvertiserID(entity, creativeBatchForm);
 
     if (entity.getBatch() != null) {
       for (TPASCreativeBatchIndex batchIndex : entity.getBatch()) {
         if (batchIndex.getBatchIndex() != null && !batchIndex.getBatchIndex().isEmpty()) {
+
           creativeBatchForm.param("batch_index", batchIndex.getBatchIndex());
 
-          if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
-            creativeBatchForm.param("concept_" + batchIndex.getBatchIndex(),
-                batchIndex.getConceptId());
-          }
+          setConceptID(creativeBatchForm, batchIndex);
 
-          if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
-            creativeBatchForm.param("click_url_" + batchIndex.getBatchIndex(),
-                batchIndex.getClickUrl());
-          }
+          setClickURL(creativeBatchForm, batchIndex);
         }
       }
     }
 
     return creativeBatchForm;
+  }
+
+  private static void setAdvertiserID(TPASCreativeBatchApprove entity, Form creativeBatchForm) {
+    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
+      creativeBatchForm.param("advertiser_id", entity.getAdvertiserId());
+    }
+  }
+
+  private static void setClickURL(Form creativeBatchForm, TPASCreativeBatchIndex batchIndex) {
+    if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
+      creativeBatchForm.param("click_url_" + batchIndex.getBatchIndex(),
+          batchIndex.getClickUrl());
+    }
+  }
+
+  private static void setConceptID(Form creativeBatchForm, TPASCreativeBatchIndex batchIndex) {
+    if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
+      creativeBatchForm.param("concept_" + batchIndex.getBatchIndex(),
+          batchIndex.getConceptId());
+    }
   }
 
   /**
@@ -67,12 +85,9 @@ public class TPasCreativeUploadBatchHelper {
    * @param formDataMultiPart
    *          expects a FormDataMultiPart object.
    */
-  public static void getMultiPartForm(TPASCreativeBatchApprove entity,
-      FormDataMultiPart formDataMultiPart) {
+  public static void getMultiPartForm(TPASCreativeBatchApprove entity, FormDataMultiPart formDataMultiPart) {
 
-    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
-      formDataMultiPart = formDataMultiPart.field("advertiser_id", entity.getAdvertiserId());
-    }
+    formDataMultiPart = setMultipartAdvertiserID(entity, formDataMultiPart);
 
     if (entity.getBatch() != null) {
       for (TPASCreativeBatchIndex batchIndex : entity.getBatch()) {
@@ -80,17 +95,37 @@ public class TPasCreativeUploadBatchHelper {
 
           formDataMultiPart = formDataMultiPart.field("batch_index", batchIndex.getBatchIndex());
 
-          if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
-            formDataMultiPart = formDataMultiPart.field("concept_" + batchIndex.getBatchIndex(),
-                batchIndex.getConceptId());
-          }
+          formDataMultiPart = setMultipartConcept(formDataMultiPart, batchIndex);
 
-          if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
-            formDataMultiPart = formDataMultiPart.field("click_url_" + batchIndex.getBatchIndex(),
-                batchIndex.getClickUrl());
-          }
+          formDataMultiPart = setMultipartClickURL(formDataMultiPart, batchIndex);
         }
       }
     }
+  }
+
+  private static FormDataMultiPart setMultipartClickURL(FormDataMultiPart formDataMultiPart,
+      TPASCreativeBatchIndex batchIndex) {
+    if (batchIndex.getClickUrl() != null && !batchIndex.getClickUrl().isEmpty()) {
+      formDataMultiPart = formDataMultiPart.field("click_url_" + batchIndex.getBatchIndex(),
+          batchIndex.getClickUrl());
+    }
+    return formDataMultiPart;
+  }
+
+  private static FormDataMultiPart setMultipartConcept(FormDataMultiPart formDataMultiPart,
+      TPASCreativeBatchIndex batchIndex) {
+    if (batchIndex.getConceptId() != null && !batchIndex.getConceptId().isEmpty()) {
+      formDataMultiPart = formDataMultiPart.field("concept_" + batchIndex.getBatchIndex(),
+          batchIndex.getConceptId());
+    }
+    return formDataMultiPart;
+  }
+
+  private static FormDataMultiPart setMultipartAdvertiserID(TPASCreativeBatchApprove entity,
+      FormDataMultiPart formDataMultiPart) {
+    if (entity.getAdvertiserId() != null && !entity.getAdvertiserId().isEmpty()) {
+      formDataMultiPart = formDataMultiPart.field("advertiser_id", entity.getAdvertiserId());
+    }
+    return formDataMultiPart;
   }
 }

@@ -24,9 +24,11 @@ import com.mediamath.terminalone.models.StrategyDomain;
 
 public class StrategyDomainHelper {
 
-  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  private StrategyDomainHelper() {
+		throw new IllegalAccessError("StrategyDomainHelper cannot be instantiated");
+  }	
+	
+  
 
   /**
    * Creates a StrategyDomain Form object
@@ -36,6 +38,8 @@ public class StrategyDomainHelper {
    * @return Form object.
    */
   public static Form getForm(StrategyDomain entity) {
+	  final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
+	  final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
     Form strategyDomainForm = new Form();
 
     if (entity.getDomain() != null) {

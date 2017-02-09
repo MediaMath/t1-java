@@ -16,14 +16,11 @@
 
 package com.mediamath.terminalone.service;
 
-import com.mediamath.terminalone.utils.Utility;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Properties;
 
 import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.utils.Utility;
 
 /**
  * Service to support terminalone class.
@@ -32,8 +29,6 @@ import javax.ws.rs.core.Form;
  *
  */
 public class T1Service {
-
-  private static final Logger logger = LoggerFactory.getLogger(T1Service.class);
 
   private static Properties configprop = Utility.loadConfigProperty();
 
@@ -71,19 +66,16 @@ public class T1Service {
    * 
    * @return String object.
    */
-  public String constructUrl(StringBuffer path) {
-    String url = apiBase + pathMgmt + "/" + path.toString();
-    return url;
+  public String constructUrl(StringBuilder path) {
+    return apiBase + pathMgmt + "/" + path.toString();
   }
 
-  public String constructReportingUrl(StringBuffer path) {
-    String url = apiBase + reportingURL + "/" + path.toString();
-    return url;
+  public String constructReportingUrl(StringBuilder path) {
+    return apiBase + reportingURL + "/" + path.toString();
   }
 
   public String constructOauthUrl(StringBuffer path) {
-    String url = apiBase + oauthURL + "/" + path.toString();
-    return url;
+    return apiBase + oauthURL + "/" + path.toString();
   }
 
   /**

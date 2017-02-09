@@ -16,13 +16,16 @@
 
 package com.mediamath.terminalone.models.helper;
 
-import com.google.gson.Gson;
-
-import com.mediamath.terminalone.models.VideoCreative;
-
 import javax.ws.rs.core.Form;
 
+import com.google.gson.Gson;
+import com.mediamath.terminalone.models.VideoCreative;
+
 public class VideoCreativeHelper {
+
+  public VideoCreativeHelper() {
+    throw new IllegalAccessError("VideoCreativeHelper cannot be instantiated");
+  }
 
   /**
    * forms a JSON object from the given video creative entity.
@@ -33,8 +36,7 @@ public class VideoCreativeHelper {
    */
   public static String getJson(VideoCreative entity) {
     Gson gson = new Gson();
-    String response = gson.toJson(entity);
-    return response;
+    return gson.toJson(entity);
   }
 
   /**
@@ -47,52 +49,96 @@ public class VideoCreativeHelper {
   public static Form getForm(VideoCreative entity) {
     Form form = new Form();
     if (entity != null) {
-      if (entity.getName() != null && !entity.getName().isEmpty()) {
-        form.param("name", entity.getName());
-      }
+      setName(entity, form);
 
-      if (entity.getStartTime() > 0) {
-        form.param("startTime", String.valueOf(entity.getStartTime()));
-      }
-      if (entity.getLandingUrl() != null && !entity.getLandingUrl().isEmpty()) {
-        form.param("landingUrl", entity.getLandingUrl());
-      }
-      if (entity.getCustomVAST() != null && !entity.getCustomVAST().isEmpty()) {
-        form.param("customVAST", entity.getCustomVAST());
-      }
+      setStartTime(entity, form);
 
-      if (entity.getVendors().size() > 0) {
-        Gson gson = new Gson();
-        String vendors = gson.toJson(entity.getVendors());
-        form.param("vendors", vendors);
-      }
+      setLandingURL(entity, form);
 
-      if (entity.getAdvertiser() > 0) {
-        form.param("advertiser", String.valueOf(entity.getAdvertiser()));
-      }
+      setCustomVAST(entity, form);
+
+      setVendors(entity, form);
+
+      setAdvertiser(entity, form);
 
       form.param("desktopEncoding", String.valueOf(entity.isDesktopEncoding()));
 
-      if (entity.getEndTime() > 0) {
-        form.param("endTime", String.valueOf(entity.getEndTime()));
-      }
-      if (entity.getSkippableDuration() > 0) {
-        form.param("skippableDuration", String.valueOf(entity.getSkippableDuration()));
-      }
+      setEndTime(entity, form);
+
+      setSkippableDuration(entity, form);
 
       form.param("mobileEncoding", String.valueOf(entity.isMobileEncoding()));
 
-      if (entity.getConcept() > 0) {
-        form.param("concept", String.valueOf(entity.getConcept()));
-      }
-      if (entity.getClickthroughUrl() != null && !entity.getClickthroughUrl().isEmpty()) {
-        form.param("clickthroughUrl", entity.getClickthroughUrl());
-      }
+      setConcept(entity, form);
+
+      setClickThroughURL(entity, form);
 
       form.param("active", String.valueOf(entity.isActive()));
 
     }
     return form;
+  }
+
+  private static void setClickThroughURL(VideoCreative entity, Form form) {
+    if (entity.getClickthroughUrl() != null && !entity.getClickthroughUrl().isEmpty()) {
+      form.param("clickthroughUrl", entity.getClickthroughUrl());
+    }
+  }
+
+  private static void setConcept(VideoCreative entity, Form form) {
+    if (entity.getConcept() > 0) {
+      form.param("concept", String.valueOf(entity.getConcept()));
+    }
+  }
+
+  private static void setSkippableDuration(VideoCreative entity, Form form) {
+    if (entity.getSkippableDuration() > 0) {
+      form.param("skippableDuration", String.valueOf(entity.getSkippableDuration()));
+    }
+  }
+
+  private static void setEndTime(VideoCreative entity, Form form) {
+    if (entity.getEndTime() > 0) {
+      form.param("endTime", String.valueOf(entity.getEndTime()));
+    }
+  }
+
+  private static void setAdvertiser(VideoCreative entity, Form form) {
+    if (entity.getAdvertiser() > 0) {
+      form.param("advertiser", String.valueOf(entity.getAdvertiser()));
+    }
+  }
+
+  private static void setVendors(VideoCreative entity, Form form) {
+    if (!entity.getVendors().isEmpty()) {
+      Gson gson = new Gson();
+      String vendors = gson.toJson(entity.getVendors());
+      form.param("vendors", vendors);
+    }
+  }
+
+  private static void setCustomVAST(VideoCreative entity, Form form) {
+    if (entity.getCustomVAST() != null && !entity.getCustomVAST().isEmpty()) {
+      form.param("customVAST", entity.getCustomVAST());
+    }
+  }
+
+  private static void setLandingURL(VideoCreative entity, Form form) {
+    if (entity.getLandingUrl() != null && !entity.getLandingUrl().isEmpty()) {
+      form.param("landingUrl", entity.getLandingUrl());
+    }
+  }
+
+  private static void setStartTime(VideoCreative entity, Form form) {
+    if (entity.getStartTime() > 0) {
+      form.param("startTime", String.valueOf(entity.getStartTime()));
+    }
+  }
+
+  private static void setName(VideoCreative entity, Form form) {
+    if (entity.getName() != null && !entity.getName().isEmpty()) {
+      form.param("name", entity.getName());
+    }
   }
 
 }

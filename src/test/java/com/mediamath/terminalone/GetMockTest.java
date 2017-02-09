@@ -63,7 +63,7 @@ public class GetMockTest {
 
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?null"));
+        .thenReturn(new StringBuilder("advertisers?null"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615}],"
             + "\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers"
@@ -94,7 +94,7 @@ public class GetMockTest {
       throws ClientException, ParseException {
 
     t1.setAuthenticated(true);
-    Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))).thenReturn(new StringBuffer(
+    Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))).thenReturn(new StringBuilder(
         "advertisers/154161?with=agency,organization&with=ad_server&with=vertical&page_limit=100"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : {\"minimize_multi_ads\" : false,\"frequency_type\" : \"no-limit\",\"status\" : true,\"dmp_enabled\" : \"inherits\","
@@ -144,7 +144,7 @@ public class GetMockTest {
       throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?sort_by=-id&page_limit=5"));
+        .thenReturn(new StringBuilder("advertisers?sort_by=-id&page_limit=5"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615},"
             + "{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165612},"
@@ -178,7 +178,7 @@ public class GetMockTest {
   public void testBaiscGetWithPageLimitWithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?page_limit=5"));
+        .thenReturn(new StringBuilder("advertisers?page_limit=5"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615},"
             + "{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165612},"
@@ -212,7 +212,7 @@ public class GetMockTest {
   public void testBaiscGetWithPageLimitOffsetWithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?page_limit=5&page_offset=300"));
+        .thenReturn(new StringBuilder("advertisers?page_limit=5&page_offset=300"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ITtest - Wed Jul  9 19:27:53 2014\",\"id\" : 125814},"
             + "{\"entity_type\" : \"advertiser\",\"name\" : \"ITtest - Wed Jul  9 19:26:35 2014\",\"id\" : 125813},"
@@ -240,7 +240,7 @@ public class GetMockTest {
   public void testBaiscGetWithLimitWithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers/limit/agency=111555?page_limit=5"));
+        .thenReturn(new StringBuilder("advertisers/limit/agency=111555?page_limit=5"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"JPTAK updated advertiser name\",\"id\" : 153648}],"
             + "\"meta\" : {\"etag\" : \"5b27a314978a549556affb650670a8f902bec1c9\",\"count\" : 1,\"called_on\" : \"2016-07-18T07:04:49+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 1}}");
@@ -267,7 +267,7 @@ public class GetMockTest {
   public void testBaiscGetWithQueryWithMock() throws ClientException, ParseException {
 
     t1.setAuthenticated(true);
-    Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))).thenReturn(new StringBuffer(
+    Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class))).thenReturn(new StringBuilder(
         "advertisers?with=agency,organization&page_limit=5&q=agency_id%3E=109308"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615,\"agency\" : {\"rel\" : \"agency\",\"entity_type\" : \"agency\",\"name\" : \"EGLE AM 109308\","
@@ -302,7 +302,7 @@ public class GetMockTest {
   public void testBaiscGetWithFindWithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?page_limit=5&q=agency_id%3E=109308"));
+        .thenReturn(new StringBuilder("advertisers?page_limit=5&q=agency_id%3E=109308"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165612},{\"entity_type\" : \"advertiser\","
             + "\"name\" : \"ABC Advertisers\",\"id\" : 165611},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165608},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165607}],"
@@ -330,7 +330,7 @@ public class GetMockTest {
   public void testBaiscGetWithFind1WithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?page_limit=100&q=name==Retirement"));
+        .thenReturn(new StringBuilder("advertisers?page_limit=100&q=name==Retirement"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [],\"meta\" : {\"etag\" : \"97d170e1550eee4afc0af065b78cda302a97674c\",\"count\" : 0,\"called_on\" : \"2016-07-18T08:48:22+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 0}}");
 
@@ -356,7 +356,7 @@ public class GetMockTest {
   public void testBaiscGetWithFind2WithMock() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("advertisers?page_limit=100&q=(154121,153226,150994)"));
+        .thenReturn(new StringBuilder("advertisers?page_limit=100&q=(154121,153226,150994)"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"Japan Samurai\",\"id\" : 154121},{\"entity_type\" : \"advertiser\",\"name\" : \"upcast_test\",\"id\" : 153226},{\"entity_type\" : \"advertiser\",\"name\" : \"Test_Dell\",\"id\" : 150994}],"
             + "\"meta\" : {\"etag\" : \"9c2310a74a3984d3e789895531eb79f30c858231\",\"count\" : 3,\"called_on\" : \"2016-07-18T08:54:54+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 3}}");
@@ -384,7 +384,7 @@ public class GetMockTest {
   public void testGetWithFullBooleanWithMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("campaigns?sort_by=-updated_on&page_limit=1&full=*"));
+        .thenReturn(new StringBuilder("campaigns?sort_by=-updated_on&page_limit=1&full=*"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"use_mm_freq\" : false,\"spend_cap_type\" : \"no-limit\",\"zone_name\" : \"America/New_York\",\"frequency_interval\" : \"not-applicable\",\"updated_on\" : \"2016-07-20T06:28:04+0000\","
             + "\"use_default_ad_server\" : false,\"initial_start_date\" : \"2016-07-20T06:28:07+0000\",\"restrict_targeting_to_deterministic_id\" : false,\"created_on\" : \"2016-07-20T06:28:04+0000\",\"id\" : 266952,"
@@ -420,7 +420,7 @@ public class GetMockTest {
   public void testBaiscGetWithFullStringWithMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
+        .thenReturn(new StringBuilder("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : [{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266952\",\"id\" : 266952},{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266857\",\"id\" : 266857},{\"entity_type\" : \"campaign\","
             + "\"name\" : \"NitCamp 266851\",\"id\" : 266851},{\"entity_type\" : \"campaign\",\"name\" : \"NitCamp 266850\",\"id\" : 266850},{\"entity_type\" : \"campaign\",\"name\" : \"campaign dupe\",\"id\" : 266846}],"
@@ -450,7 +450,7 @@ public class GetMockTest {
   public void testBaiscGetWithFullListWithMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
+        .thenReturn(new StringBuilder("campaigns?sort_by=-updated_on&page_limit=5&full=agency"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\": [{\"use_mm_freq\": false,\"spend_cap_type\": \"no-limit\",\"zone_name\": \"America/New_York\",\"frequency_interval\": \"not-applicable\",\"updated_on\": \"2016-09-19T07:53:07+0000\",\"use_default_ad_server\": false,"
             + "\"initial_start_date\": \"2016-09-19T07:54:56+0000\",\"restrict_targeting_to_deterministic_id\": false,\"created_on\": \"2016-09-19T07:53:07+0000\",\"id\": 267886,\"total_budget\": [{\"currency_code\": \"USD\",\"value\": 100}],"
@@ -488,7 +488,7 @@ public class GetMockTest {
   public void testGetWithChildByUsingQC() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("strategies/1377524/domain_restrictions?page_limit=1"));
+        .thenReturn(new StringBuilder("strategies/1377524/domain_restrictions?page_limit=1"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\" : {\"run_on_streaming\" : false,\"use_mm_freq\" : false, \"run_on_display\" : false,\"zone_name\" : \"America/New_York\",\"updated_on\" : \"2016-09-22T04:25:57+0000\",\"frequency_interval\" : \"day\",\"campaign_id\" : 267886,\"targeting_segment_exclude_op\" : \"OR\",\"created_on\" : \"2016-09-22T04:25:57+0000\",\"targeting_segment_include_op\" : \"OR\","
             + "\"run_on_all_pmp\" : false,\"id\" : 1377524,\"impression_pacing_interval\" : \"day\",\"currency_code\" : \"USD\",\"use_campaign_start\" : false,\"name\" : \"ABC Advertisers\",\"frequency_amount\" : 10,\"end_date\" : \"2016-10-23T04:27:40+0000\",\"type\" : \"REM\",\"pixel_target_expr\" : \"\", \"impression_pacing_type\" : \"no-limit\",\"bid_price_is_media_only\" : false,"
@@ -520,7 +520,7 @@ public class GetMockTest {
   public void testGetWithStrategyConceptUsingMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("strategies/1376198/concepts"));
+        .thenReturn(new StringBuilder("strategies/1376198/concepts"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\": [{\"advertiser_id\": 147142,\"created_on\": \"2016-05-12T18:22:16+0000\",\"status\": true,\"version\": 0,\"entity_type\": \"concept\",\"name\": \"this is me\",\"id\": 786680,\"updated_on\": \"2016-05-12T18:22:16+0000\"},"
             + "\"meta\": {\"etag\": \"76a511898da9c214283e71f3ef78f172e6cbed78\",\"count\": 1,\"called_on\": \"2016-09-23T10:10:16+0000\",\"status\": \"ok\",\"offset\": 0,\"total_count\": 1}}");
@@ -546,7 +546,7 @@ public class GetMockTest {
   public void testGetWithStrategyTotalSpendUsingMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("strategies/1376198/total_spend"));
+        .thenReturn(new StringBuilder("strategies/1376198/total_spend"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
         "{\"data\": {\"entity_type\": \"strategy\",\"name\": \"Sajeela Test Strategy 1 - fod\",\"aggregate\": {\"function\": \"sum\",\"value\": 0,\"name\": \"total_spend\"},\"id\": 1376198},"
             + "\"meta\": {\"status\": \"ok\"}");
@@ -572,7 +572,7 @@ public class GetMockTest {
   public void testGetWithStrategyChildBrowserUsingMocks() throws ClientException, ParseException {
     t1.setAuthenticated(true);
     Mockito.when(getservicemock.get(Mockito.any(QueryCriteria.class)))
-        .thenReturn(new StringBuffer("strategies/1376198/target_dimensions/4"));
+        .thenReturn(new StringBuilder("strategies/1376198/target_dimensions/4"));
     Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
         .thenReturn("{\"data\": {\"enabled\": {\"active\": true}},\"meta\": {\"status\": \"ok\"}}");
 

@@ -25,9 +25,11 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class AtomicCreativeHelper {
 
-  private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  private AtomicCreativeHelper() {
+		throw new IllegalAccessError("AtomicCreativeHelper cannot be instantiated.");
+  }
+	
+  
 
   /**
    * creates a AtomicCreative Form Object.
@@ -37,6 +39,9 @@ public class AtomicCreativeHelper {
    * @return Form Object.
    */
   public static Form getForm(AtomicCreative entity) {
+	  
+	final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
+	final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
     Form atomicCreativeForm = new Form();
 
@@ -53,7 +58,7 @@ public class AtomicCreativeHelper {
     }
 
     if (entity.getApprovalStatus() != null) {
-      atomicCreativeForm.param("approval_status", entity.getApprovalStatus().toString());
+      atomicCreativeForm.param("approval_status", entity.getApprovalStatus());
     }
 
     if (entity.getBuildDate() != null) {
@@ -178,9 +183,7 @@ public class AtomicCreativeHelper {
       atomicCreativeForm.param("width", String.valueOf(entity.getWidth()));
     }
 
-    Form finalAtomicCreativeForm = Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
-
-    return finalAtomicCreativeForm;
+    return Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
   }
 }

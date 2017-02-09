@@ -66,7 +66,7 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class ReportService {
 
-  private static final String YYYY_MM_DD_HH_MM_SS = "yyyy_MM_dd_hh_mm_ss";
+  private static final String UTF_8 = "UTF-8";
 
   private static final Logger logger = LoggerFactory.getLogger(ReportService.class);
 
@@ -77,11 +77,11 @@ public class ReportService {
   /**
    * gets uri for report meta data.
    * 
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    * 
    */
-  public StringBuffer getMetaUri() {
-    StringBuffer path = new StringBuffer();
+  public StringBuilder getMetaUri() {
+    StringBuilder path = new StringBuilder();
     path.append(META);
     return path;
   }
@@ -92,15 +92,15 @@ public class ReportService {
    * @param report
    *          expects a ReportCriteria entity.
    * 
-   * @return StringBuffer object.
+   * @return StringBuilder object.
    */
-  public StringBuffer getReportUri(ReportCriteria report) {
-    StringBuffer path = null;
+  public StringBuilder getReportUri(ReportCriteria report) {
+    StringBuilder path;
 
     if (report == null)
       return null;
 
-    path = new StringBuffer(report.getReportName());
+    path = new StringBuilder(report.getReportName());
 
     try {
       // dimensions
@@ -118,7 +118,7 @@ public class ReportService {
       // time rollup.
       filterTimeRollUp(report, path);
 
-      // time_ window || start_date || end_date
+      // time_ window or start_date or end_date
       filterTimeWindowStartDateEndDate(report, path);
 
       // order
@@ -129,7 +129,7 @@ public class ReportService {
 
       // precision
       if (report.getPrecision() > 0) {
-        path.append("&" + String.valueOf(report.getPrecision()));
+        path.append("&" + report.getPrecision());
       }
 
     } catch (UnsupportedEncodingException exception) {
@@ -140,7 +140,7 @@ public class ReportService {
     return path;
   }
 
-  private void filterPageLimitPageOffset(ReportCriteria report, StringBuffer path) {
+  private void filterPageLimitPageOffset(ReportCriteria report, StringBuilder path) {
     if (report.getPage_limit() != null && !report.getPage_limit().isEmpty()
         && (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
 
@@ -156,12 +156,12 @@ public class ReportService {
     }
   }
 
-  private void filterOrder(ReportCriteria report, StringBuffer path) {
-    if (report.getOrder() != null && report.getOrder().size() > 0 && !report.getOrder().isEmpty()) {
+  private void filterOrder(ReportCriteria report, StringBuilder path) {
+    if (report.getOrder() != null && !report.getOrder().isEmpty()) {
 
       uriAppender(path);
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String order : report.getOrder()) {
         if (buffer.length() == 0) {
           buffer.append("order=" + order);
@@ -173,7 +173,7 @@ public class ReportService {
     }
   }
 
-  private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuffer path) {
+  private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuilder path) {
     if (report.getTime_window() != null && !report.getTime_window().isEmpty()
         && report.getStart_date() == null && report.getEnd_date() == null) {
 
@@ -181,9 +181,7 @@ public class ReportService {
 
       path.append("time_window=" + report.getTime_window());
 
-    } else if (report.getTime_window() == null && report.getStart_date() != null
-        && !report.getStart_date().isEmpty() && report.getEnd_date() != null
-        && !report.getEnd_date().isEmpty()) {
+    } else if (checkTimeWindow(report) && checkStartDate(report) && checkEndDate(report)) {
 
       uriAppender(path);
 
@@ -192,8 +190,20 @@ public class ReportService {
 
     }
   }
+  
+  private boolean checkEndDate(ReportCriteria report) {
+    return report.getEnd_date() != null && !report.getEnd_date().isEmpty();
+  }
+  
+  private boolean checkStartDate(ReportCriteria report) {
+    return report.getStart_date() != null && !report.getStart_date().isEmpty();
+  }
 
-  private void filterTimeRollUp(ReportCriteria report, StringBuffer path) {
+  private boolean checkTimeWindow(ReportCriteria report) {
+    return report.getTime_window() == null;
+  }
+
+  private void filterTimeRollUp(ReportCriteria report, StringBuilder path) {
     if (report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
       uriAppender(path);
 
@@ -201,10 +211,9 @@ public class ReportService {
     }
   }
 
-  private void filterMetrics(ReportCriteria report, StringBuffer path)
+  private void filterMetrics(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
-    if (report.getMetrics() != null && report.getMetrics().size() > 0
-        && !report.getMetrics().isEmpty()) {
+    if (report.getMetrics() != null && !report.getMetrics().isEmpty()) {
 
       if (path.indexOf("?") == -1) {
         path.append("?metrics=");
@@ -212,7 +221,7 @@ public class ReportService {
         path.append("&metrics=");
       }
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String metric : report.getMetrics()) {
         if (buffer.length() == 0) {
           buffer.append(metric);
@@ -220,12 +229,13 @@ public class ReportService {
           buffer.append("," + metric);
         }
       }
-      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+      path.append(URLEncoder.encode(buffer.toString(), UTF_8));
     }
   }
 
-  private void addHaving(ReportCriteria report, StringBuffer path)
+  private void addHaving(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
+       
     if (report.getHaving() != null && !report.getHaving().isEmpty()) {
 
       if (path.indexOf("?") == -1) {
@@ -234,30 +244,44 @@ public class ReportService {
         path.append("&having=");
       }
 
-      StringBuffer buffer = new StringBuffer();
-      int havingSize = 0;
-      for (Having having : report.getHaving()) {
-        if (having.getKey() != null && having.getOperator() != null && having.getValue() != null
-            && !having.getKey().isEmpty() && !having.getOperator().isEmpty()
-            && !having.getValue().isEmpty()) {
-
-          buffer.append(having.getKey() + having.getOperator() + having.getValue());
-
-          if (havingSize != report.getHaving().size() - 1) {
-            buffer.append("&");
-          }
-          havingSize++;
-        }
-      }
+      StringBuilder buffer = buildHavingCriteria(report);
       // encode
-      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+      path.append(URLEncoder.encode(buffer.toString(), UTF_8));
     }
   }
 
-  private void addFilters(ReportCriteria report, StringBuffer path)
+  private StringBuilder buildHavingCriteria(ReportCriteria report) {
+    StringBuilder buffer = new StringBuilder();
+    int havingSize = 0;
+    for (Having having : report.getHaving()) {
+      if (checkHavingKey(having) && checkHavingOperator(having) && checkHavingValue(having)) {
+
+        buffer.append(having.getKey() + having.getOperator() + having.getValue());
+
+        if (havingSize != report.getHaving().size() - 1) {
+          buffer.append("&");
+        }
+        havingSize++;
+      }
+    }
+    return buffer;
+  }
+  
+  private boolean checkHavingValue(Having having) {
+    return having.getValue() != null && !having.getValue().isEmpty();
+  }
+  
+  private boolean checkHavingKey(Having having) {
+    return having.getKey() != null && !having.getKey().isEmpty();
+  }
+  
+  private boolean checkHavingOperator(Having having) {
+    return having.getOperator() != null && !having.getOperator().isEmpty();
+  }
+
+  private void addFilters(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
-    if (report.getFilters() != null && report.getFilters().size() > 0
-        && !report.getFilters().isEmpty()) {
+    if (report.getFilters() != null && !report.getFilters().isEmpty()) {
 
       if (path.indexOf("?") == -1) {
         path.append("?filter=");
@@ -265,27 +289,42 @@ public class ReportService {
         path.append("&filter=");
       }
 
-      int filterSize = 0;
-      StringBuffer buffer = new StringBuffer();
-      for (ReportFilter f : report.getFilters()) {
-        if (f.getKey() != null && f.getOperator() != null && f.getValue() != null
-            && !f.getKey().isEmpty() && !f.getOperator().isEmpty() && !f.getValue().isEmpty()) {
-
-          buffer.append(f.getKey() + f.getOperator() + f.getValue());
-          if (filterSize != report.getFilters().size() - 1) {
-            buffer.append("&");
-          }
-          filterSize++;
-        }
-      }
+      StringBuilder buffer = buildFilterCriteria(report);
       // encode
-      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+      path.append(URLEncoder.encode(buffer.toString(), UTF_8));
     }
   }
 
-  private void filterDimensions(ReportCriteria report, StringBuffer path)
+  private StringBuilder buildFilterCriteria(ReportCriteria report) {
+    int filterSize = 0;
+    StringBuilder buffer = new StringBuilder();
+    for (ReportFilter f : report.getFilters()) {
+      if (checkFilterKey(f) && checkFilterOperator(f) && checkFilterValue(f)) {
+        buffer.append(f.getKey() + f.getOperator() + f.getValue());
+        if (filterSize != report.getFilters().size() - 1) {
+          buffer.append("&");
+        }
+        filterSize++;
+      }
+    }
+    return buffer;
+  }
+  
+  private boolean checkFilterKey(ReportFilter f) {
+    return f.getKey() != null && !f.getKey().isEmpty();
+  }
+  
+  private boolean checkFilterOperator(ReportFilter f) {
+    return f.getOperator() != null && !f.getOperator().isEmpty();
+  }
+  
+  private boolean checkFilterValue(ReportFilter f) {
+    return f.getValue() != null && !f.getValue().isEmpty();
+  }
+
+  private void filterDimensions(ReportCriteria report, StringBuilder path)
       throws UnsupportedEncodingException {
-    if (report.getDimensions() != null && report.getDimensions().size() > 0) {
+    if (report.getDimensions() != null && !report.getDimensions().isEmpty()) {
 
       if (path.indexOf("?") == -1) {
         path.append("?dimensions=");
@@ -293,7 +332,7 @@ public class ReportService {
         path.append("&dimensions=");
       }
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       for (String dimension : report.getDimensions()) {
         if (buffer.length() == 0) {
           buffer.append(dimension);
@@ -302,11 +341,11 @@ public class ReportService {
         }
       }
       // Encode
-      path.append(URLEncoder.encode(buffer.toString(), "UTF-8"));
+      path.append(URLEncoder.encode(buffer.toString(), UTF_8));
     }
   }
 
-  private void uriAppender(StringBuffer path) {
+  private void uriAppender(StringBuilder path) {
     if (path.indexOf("?") == -1) {
       path.append("?");
     } else {
@@ -324,7 +363,7 @@ public class ReportService {
    */
   public JsonResponse<? extends T1Entity> parseMetaResponse(String response) {
     JsonParser parser = new JsonParser();
-    JsonResponse<Meta> finalResponse = null;
+    JsonResponse<Meta> finalResponse;
     JsonObject obj = parser.parse(response).getAsJsonObject();
 
     JsonElement reportsElement = obj.get("reports");
@@ -457,9 +496,7 @@ public class ReportService {
 
     Response response = connection.getReportData(finalPath, user);
     BufferedReader reader = null;
-    if (response.getMediaType().getType().equals("text")
-        && response.getMediaType().getSubtype().equals("xml") && response.getStatus() != 200) {
-
+    if ("text".equalsIgnoreCase(response.getMediaType().getType()) && "xml".equalsIgnoreCase(response.getMediaType().getSubtype()) && response.getStatus() != 200) {
       try {
 
         ObjectMapper xmlMapper = new XmlMapper();
@@ -478,8 +515,10 @@ public class ReportService {
         throw new ClientException("IO Exception Occured");
       }
 
-    } else if (response.getMediaType().getType().equals("text")
-        && response.getMediaType().getSubtype().equals("csv") && response.getStatus() == 200) {
+    } else if ("text".equalsIgnoreCase(response.getMediaType().getType()) 
+          && "csv".equalsIgnoreCase(response.getMediaType().getSubtype())
+          && response.getStatus() == 200) {
+      
       InputStream responseStream = response.readEntity(InputStream.class);
       reader = new BufferedReader(new InputStreamReader(responseStream));
     }
@@ -508,8 +547,7 @@ public class ReportService {
     Response response = connection.getReportData(finalPath, user);
     ReportValidationResponse re = null;
 
-    if (response.getMediaType().getType().equals("text")
-        && response.getMediaType().getSubtype().equals("xml")) {
+    if ("text".equalsIgnoreCase(response.getMediaType().getType()) && "xml".equalsIgnoreCase(response.getMediaType().getSubtype())) {
 
       try {
 
@@ -535,7 +573,7 @@ public class ReportService {
   private void throwReportError(ReportError re) throws ClientException {
     if (re != null) {
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
 
       parseErrorEntity(re, buffer);
 
@@ -546,23 +584,30 @@ public class ReportService {
 
   }
 
-  private void parseErrorStatus(ReportError re, StringBuffer buffer) {
+  private void parseErrorStatus(ReportError re, StringBuilder buffer) {
     if (re.getStatus() != null && re.getStatus().length > 0) {
       for (ReportStatus stats : re.getStatus()) {
-
-        if (stats.getCode() != null && !stats.getCode().isEmpty() && stats.getReason() != null
-            && !stats.getReason().isEmpty() && stats.getValue() != null
-            && !stats.getValue().isEmpty()) {
-
+        if (checkStatusCode(stats) && checkStatusReason(stats) && checkStatusValue(stats)) {
           buffer.append("Status[ Code: " + stats.getCode() + ", Reason: " + stats.getReason()
               + ", value: " + stats.getValue() + " ]");
-
         }
       }
     }
   }
+  
+  private boolean checkStatusValue(ReportStatus stats) {
+    return stats.getValue() != null && !stats.getValue().isEmpty();
+  }
+  
+  private boolean checkStatusReason(ReportStatus stats) {
+    return stats.getReason() != null && !stats.getReason().isEmpty();
+  }
 
-  private void parseErrorEntity(ReportError re, StringBuffer buffer) {
+  private boolean checkStatusCode(ReportStatus stats) {
+    return stats.getCode() != null && !stats.getCode().isEmpty();
+  }
+
+  private void parseErrorEntity(ReportError re, StringBuilder buffer) {
     if (re.getEntity() != null && re.getEntity().length > 0) {
       for (ReportErrorEntityInfo rentity : re.getEntity()) {
 
