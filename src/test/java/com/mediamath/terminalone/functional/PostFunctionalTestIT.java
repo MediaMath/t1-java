@@ -119,7 +119,6 @@ public class PostFunctionalTestIT {
     agency.setOrganizationId(100048);
     try {
       agency = (Agency) t1.save(agency);
-      System.out.println(agency.getId());
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -245,7 +244,6 @@ public class PostFunctionalTestIT {
 
     try {
       agency = (Agency) t1.save(agency);
-      System.out.println(agency.getId());
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -490,9 +488,9 @@ public class PostFunctionalTestIT {
     str.setMaxBid(10f);
     str.setPacingAmount(10f);
     str.setType(type.REM);
-    str.setUseCampaignStart(true);
+    str.setUseCampaignStart(false);
     
-    str.setUseCampaignEnd(true);
+    str.setUseCampaignEnd(false);
 
     // str.setStart_date("2016-09-22T21:42:29+0000");
 
@@ -500,6 +498,7 @@ public class PostFunctionalTestIT {
     // 2016-10-22T16:28:35+0530
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     
+    cal.roll(Calendar.DATE, true);
     Date startDate = cal.getTime();
     str.setStartDate(startDate);
     
@@ -601,13 +600,11 @@ public class PostFunctionalTestIT {
     str.setAudienceSegments(asList);
     try {
       str = jt1.save(str);
-      System.out.println(str);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     List<Segments> audienceSeg = str.getAudienceSegments();
-    System.out.println(audienceSeg.get(0).getId());
   }
 
   @Test
@@ -615,7 +612,7 @@ public class PostFunctionalTestIT {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
     Strategy str = new Strategy();
-    str.setId(1376197);
+    str.setId(1377524);
     List<StrategyDomain> sdList = new ArrayList<StrategyDomain>();
 
     sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
@@ -912,7 +909,6 @@ public class PostFunctionalTestIT {
 
     try {
       camp = (Campaign) t1.save(camp);
-      System.out.println(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -936,7 +932,6 @@ public class PostFunctionalTestIT {
 
     try {
       camp = (Concept) t1.save(camp);
-      System.out.println(camp);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -1080,7 +1075,6 @@ public class PostFunctionalTestIT {
 
     try {
       ac = (AtomicCreative) t1.save(ac);
-      System.out.println(ac);
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
