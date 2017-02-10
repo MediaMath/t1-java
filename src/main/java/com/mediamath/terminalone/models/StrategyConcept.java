@@ -166,7 +166,7 @@ public class StrategyConcept implements T1Entity {
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 	    
 	    if (this.getId() > 0) {
 	      uri.append("/" + this.getId());

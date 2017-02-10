@@ -96,7 +96,9 @@ public class Connection {
   }
 
   private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
-    logger.info(TARGET_URL + url);
+    if(url != null && !url.isEmpty()) {
+      logger.info(TARGET_URL + url);
+    }
     WebTarget webTarget = client.target(url);
     Invocation.Builder invocationBuilder = webTarget.request();
     invocationBuilder.header(USER_AGENT, userAgent);

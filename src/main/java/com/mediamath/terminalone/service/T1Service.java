@@ -74,7 +74,7 @@ public class T1Service {
     return apiBase + reportingURL + "/" + path.toString();
   }
 
-  public String constructOauthUrl(StringBuffer path) {
+  public String constructOauthUrl(StringBuilder path) {
     return apiBase + oauthURL + "/" + path.toString();
   }
 

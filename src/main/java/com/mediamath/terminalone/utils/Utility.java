@@ -198,8 +198,11 @@ public class Utility {
     for (StackTraceElement ste : stactTraceElements) {
       strBuilder.append(ste.toString());
     }
-    if(!strBuilder.toString().isEmpty())
-    logger.error(strBuilder.toString());
+    
+    if(!strBuilder.toString().isEmpty()){
+      String logstr = strBuilder.toString();
+      logger.error(logstr);
+    }
   }
 
   public boolean isArrayOfType(Object[] array, Class<?> type) {

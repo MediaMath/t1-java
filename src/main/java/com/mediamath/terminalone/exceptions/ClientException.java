@@ -20,7 +20,7 @@ public class ClientException extends T1Exception {
 
   private static final long serialVersionUID = 1L;
 
-  private String message;
+  private final String message;
 
   public ClientException(String message) {
     super(message);

@@ -26,7 +26,7 @@ public class PixelProvider implements T1Entity {
 
   public enum executors {
     MEDIAMATH, UDI
-  };
+  }
 
   private int agency_id;
   private Date created_on;

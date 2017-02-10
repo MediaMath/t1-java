@@ -261,7 +261,7 @@ public class Agency implements T1Entity {
     }
 
     if (this.getCreatedOn() != null) {
-      agencyForm.param("created_on", this.getCreatedOn().toString());
+      agencyForm.param("created_on", this.getCreatedOn());
     }
 
     if (this.getLogo() != null) {
@@ -293,7 +293,7 @@ public class Agency implements T1Entity {
   
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
     
     if (this.getId() > 0) {
       uri.append("/");

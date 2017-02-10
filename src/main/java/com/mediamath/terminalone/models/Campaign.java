@@ -32,33 +32,33 @@ public class Campaign implements T1Entity {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  private static final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
   private static final String entityName = "Campaign";
 
   public enum conv {
     every, one, variable
-  };
+  }
 
   public enum freqInts {
     hour, day, week, month, not_applicable
-  }; // should be not-applicable
+  } // should be not-applicable
 
   public enum freqTypes {
     even, asap, no_limit
-  }; // should be no-limit
+  } // should be no-limit
 
   public enum goalCats {
     audience, engagement, response, none
-  };
+  }
 
   public enum goalTypes {
     spend, reach, cpc, cpe, cpa, roi, none
-  };
+  }
 
   public enum servTypes {
     SELF, MANAGED
-  };
+  }
 
   private ArrayList<T1Cost> ad_server_fee = new ArrayList<T1Cost>();
   private int ad_server_id;
@@ -558,21 +558,21 @@ public class Campaign implements T1Entity {
 
     campaignForm.param("name", this.getName());
 
-    if (this.getAdServerFee().size() > 0) {
+    if (!this.getAdServerFee().isEmpty()) {
       campaignForm.param("ad_server_fee",
           String.valueOf(this.getAdServerFee().get(0).getValue()));
     }
 
-    if (this.getTotalBudget().size() > 0) {
+    if (!this.getTotalBudget().isEmpty()) {
       campaignForm.param("total_budget", String.valueOf(this.getTotalBudget().get(0).getValue()));
     }
 
-    if (this.getSpendCapAmount().size() > 0) {
+    if (!this.getSpendCapAmount().isEmpty()) {
       campaignForm.param("spend_cap_amount",
           String.valueOf(this.getSpendCapAmount().get(0).getValue()));
     }
 
-    if (this.getGoalValue().size() > 0) {
+    if (!this.getGoalValue().isEmpty()) {
       campaignForm.param("goal_value", String.valueOf(this.getGoalValue().get(0).getValue()));
     }
 
@@ -590,7 +590,7 @@ public class Campaign implements T1Entity {
         String.valueOf(this.getConversionVariableMinutes()));
 
     if (this.getEndDate() != null) {
-      String endDate = sdf.format(this.getEndDate());
+      String endDate = SDF.format(this.getEndDate());
       campaignForm.param("end_date", endDate);
     }
 
@@ -599,7 +599,7 @@ public class Campaign implements T1Entity {
     campaignForm.param("service_type", String.valueOf(this.getServiceType()));
 
     if (this.getStartDate() != null) {
-      String startDate = sdf.format(this.getStartDate());
+      String startDate = SDF.format(this.getStartDate());
       campaignForm.param("start_date", startDate);
     }
 
@@ -709,7 +709,7 @@ public class Campaign implements T1Entity {
 
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
 
     if (this.getId() > 0) {
       uri.append("/" + this.getId());

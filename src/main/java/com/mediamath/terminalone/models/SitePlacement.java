@@ -26,15 +26,15 @@ public class SitePlacement implements T1Entity {
 
   public enum dealSources {
     USER, INTERNAL
-  };
+  }
 
   public enum mediaTypes {
     display, video, mobile
-  };
+  }
 
   public enum pmpTypes {
     DIRECT, PREMIUM
-  };
+  }
 
   private boolean bill_media_to_client;
   private Date created_on;

@@ -134,7 +134,7 @@ public class ChildPixel implements T1Entity {
     pixelForm.param("distributed", Utility.getOnOrOff(this.isDistributed()));
 
     if (this.getPixelType() != null) {
-      pixelForm.param("pixel_type", this.getPixelType().toString());
+      pixelForm.param("pixel_type", this.getPixelType());
     }
 
     if (this.getTag() != null) {
@@ -157,7 +157,7 @@ public class ChildPixel implements T1Entity {
 
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {
       uri.append("/");
       uri.append(this.getId());

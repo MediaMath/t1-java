@@ -27,37 +27,37 @@ public class AtomicCreative implements T1Entity {
   
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+  private static final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
   private static final String entityName = "AtomicCreative";
 
   public enum adFormats {
     DISPLAY, EXPANDABLE, MOBILE
-  };
+  }
 
   public enum adServers {
     ATLAS, DART, EYEWONDER, MEDIAMIND, MEDIAPLEX, POINTROLL, YIELD_MANAGER, TERMINALONE, MEDIAFORGE, OTHER
-  };
+  }
 
   public enum expandDir {
     NONRESTRICTED
-  };
+  }
 
   public enum expandTrig {
     AUTOMATIC, MOUSEOVER, CLICK
-  };
+  }
 
   public enum fileTypes {
     swf, gif, html5, jpg, jpeg, tif, tiff, png, unknown, vast
-  };
+  }
 
   public enum mediaTypes {
     display, video, mobile
-  };
+  }
 
   public enum tagTypes {
     IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME, IMG
-  };
+  }
 
   private int advertiser_id;
   private adFormats ad_format;
@@ -488,11 +488,11 @@ public class AtomicCreative implements T1Entity {
     }
 
     if (this.getApprovalStatus() != null) {
-      atomicCreativeForm.param("approval_status", this.getApprovalStatus().toString());
+      atomicCreativeForm.param("approval_status", this.getApprovalStatus());
     }
 
     if (this.getBuildDate() != null) {
-      String buildDate = sdf.format(this.getBuildDate());
+      String buildDate = SDF.format(this.getBuildDate());
       atomicCreativeForm.param("build_date", buildDate);
     }
 
@@ -528,7 +528,7 @@ public class AtomicCreative implements T1Entity {
     }
 
     if (this.getEndDate() != null) {
-      String endDate = sdf.format(this.getEndDate());
+      String endDate = SDF.format(this.getEndDate());
       atomicCreativeForm.param("end_date", endDate);
     }
 
@@ -577,7 +577,7 @@ public class AtomicCreative implements T1Entity {
     }
 
     if (this.getStartDate() != null) {
-      String startDate = sdf.format(this.getStartDate());
+      String startDate = SDF.format(this.getStartDate());
       atomicCreativeForm.param("start_date", startDate);
     }
 

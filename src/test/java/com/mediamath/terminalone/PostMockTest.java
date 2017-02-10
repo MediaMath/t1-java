@@ -189,6 +189,7 @@ public class PostMockTest {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testAdvertiserPostWithMocks() throws ClientException {
 

@@ -29,7 +29,7 @@ public class StrategyDayPart implements T1Entity {
 
   public enum daysEnum {
     M, T, W, R, F, S, U
-  };
+  }
 
   private Date created_on;
   private daysEnum days;
@@ -176,7 +176,7 @@ public class StrategyDayPart implements T1Entity {
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 	    
 	    if (this.getId() > 0) {
 	      uri.append("/" + this.getId());

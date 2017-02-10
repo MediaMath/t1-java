@@ -27,15 +27,15 @@ public class TargetValues implements T1Entity {
 
   public enum oper {
     AND, OR
-  };
+  }
 
   public enum restrictions {
     INCLUDE, EXCLUDE
-  };
+  }
 
   public enum codes {
     BSER, CSPD, DVCE, FOLD, ISPX, INVT, DMAX, REGN, CHNL, SFTY, VAUD, VCON, VLIN, VPSZ
-  };
+  }
 
   private String _type;
   private codes code;
