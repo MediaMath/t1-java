@@ -100,10 +100,8 @@ public class GetService {
     // param include
     if (query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
       includePath = constructIncludePath(query.includeConditionList);
-      if(includePath != null) {
-        if (!("".equals(path.toString())) && !"".equalsIgnoreCase(includePath.toString())) {
+      if(includePath != null && !("".equals(path.toString())) && !("".equalsIgnoreCase(includePath.toString()))) {
           path.append(includePath.toString());
-        }
       }
     } // end of include
 
@@ -205,22 +203,19 @@ private StringBuilder constructGetAllAndPagingPath(QueryCriteria query, StringBu
 	      if (query.queryParams.getListValue().isEmpty()) {
 	    	 throw new ClientException("please specify: list for IN query");
 	      }
-	      else
-	      {
-	    	  paramVal.append("(");
-	    	  if (query.queryParams.getListValue().get(0) instanceof String || query.queryParams.getListValue().get(0) instanceof Number) 
-	    	  {
+	      else if (query.queryParams.getListValue().get(0) instanceof String 
+	    		  || query.queryParams.getListValue().get(0) instanceof Number){
+	    		  paramVal.append("(");
 	    		  String prefix = "";
 	    		  for (Object obj : query.queryParams.getListValue()) {
 	    			  paramVal.append(prefix);
 	    			  paramVal.append(String.valueOf(obj));
 	    			  prefix = ",";
 	    		  }
-	    	  }else{
+	    		  paramVal.append(")");
+	     }else{
 	    		  throw new ClientException("please specify: list values either in number or string");
-	    	  }
-	    	  paramVal.append(")");
-	      }
+	     }
     }else{
 	      paramVal.append(query.queryParamName);
 	      paramVal.append(query.queryOperator);
@@ -244,29 +239,14 @@ private StringBuilder constructGetAllAndPagingPath(QueryCriteria query, StringBu
     StringBuilder childPathBuilder = new StringBuilder("");
     for(String childVal : child)
     {
-    	HashMap<String, Integer> childMap;
-    	childMap = Constants.childPaths.get(childVal);
+    	HashMap<String, Integer> childMap = Constants.childPaths.get(childVal);
     	if (childMap != null) 
     	{
-    	  /*
-    	  for (String s : childMap.keySet()) {
-    			if (childMap.get(s) > 0) {
-    	          childPathBuilder.append("/" + s + "/" + childMap.get(s));
-    	    } else {
-    	          childPathBuilder.append("/" + s);
-    	    }
-    		}*/
-    		
     		for(Map.Entry<String, Integer> entry : childMap.entrySet()) {
     		  String key = entry.getKey();
     		  Integer val = entry.getValue();
-    		  if(val > 0) {
-    		    childPathBuilder.append("/" + key + "/" + val);
-    		  } else {
-    		    childPathBuilder.append("/" + key);
-    		  }
+    		  childPathBuilder.append((val > 0)? ("/" + key + "/" + val) : ("/" + key));
     		}
-    		
     	}else{
     		childPathBuilder.append("/" + childVal);
     	}
@@ -321,12 +301,12 @@ private StringBuilder constructGetAllAndPagingPath(QueryCriteria query, StringBu
   private String constructPaginationPath(int pageLimit, int pageOffset) {
     String pagePath = "";
     if (pageLimit > 0 && pageLimit <= 100) {
-      pagePath += "page_limit=" + String.valueOf(pageLimit);
+      pagePath += "page_limit=" + pageLimit;
     }
     if (pageOffset > 0 && !"".equalsIgnoreCase(pagePath)) {
-        pagePath += "&page_offset=" + String.valueOf(pageOffset);
+        pagePath += "&page_offset=" + pageOffset;
 	} else if("".equalsIgnoreCase(pagePath)) {
-	    pagePath += "page_offset=" + String.valueOf(pageOffset);
+	    pagePath += "page_offset=" + pageOffset;
 	}
 
     return pagePath;
@@ -383,39 +363,35 @@ private void parseErrorElement(JsonElement errorElement, JsonPostErrorResponse e
 
 private void parseErrorsElement(JsonElement errorsElement, JsonPostErrorResponse errorResponse, Gson gson) {
 	if (errorsElement != null) {
-        if (errorsElement.isJsonNull()) {
-
-        } else if (errorsElement.isJsonObject()) {
-          T1Error errors = gson.fromJson(errorsElement, T1Error.class);
-          // specific to video creatives
-          if (errors != null && errors.getContent() == null && errors.getField() == null
-              && errors.getFieldError() == null && errors.getMessage() == null) {
-
-            GsonBuilder videoBuilder = new GsonBuilder();
-            videoBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-            videoBuilder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
-
-            Gson vidgson = videoBuilder.create();
-
-            errors = vidgson.fromJson(errorsElement, T1Error.class);
-          }
-          errorResponse.setErrors(errors);
+         if (!errorsElement.isJsonNull() && errorsElement.isJsonObject()) {
+        	 T1Error errors = gson.fromJson(errorsElement, T1Error.class);
+        	 // specific to video creatives
+	          if (errors != null && errors.getContent() == null && errors.getField() == null
+	              && errors.getFieldError() == null && errors.getMessage() == null) {
+	
+	            GsonBuilder videoBuilder = new GsonBuilder();
+	            videoBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+	            videoBuilder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+	
+	            Gson vidgson = videoBuilder.create();
+	
+	            errors = vidgson.fromJson(errorsElement, T1Error.class);
+	          }
+	          errorResponse.setErrors(errors);
         } else if (errorsElement.isJsonArray()) {
-          JsonArray array = errorsElement.getAsJsonArray();
-          JsonArray newArray = new JsonArray();
+        	  JsonArray array = errorsElement.getAsJsonArray();
+        	  JsonArray newArray = new JsonArray();
 
-          for (int i = 0; i < array.size(); i++) {
-            if (!(array.get(i) instanceof JsonPrimitive)) {
-              newArray.add(array.get(i));
-
-            }
-          }
-          if (newArray.size() > 0) {
-            Type type = new TypeToken<ArrayList<T1Error>>() {
-            }.getType();
-            List<T1Error> errors = gson.fromJson(newArray, type);
-            errorResponse.setErrors(errors);
-          }
+	          for (int i = 0; i < array.size(); i++) {
+	            if (!(array.get(i) instanceof JsonPrimitive)) {
+	              newArray.add(array.get(i));
+	            }
+	          }
+	          if (newArray.size() > 0) {
+	            Type type = new TypeToken<ArrayList<T1Error>>() {}.getType();
+	            List<T1Error> errors = gson.fromJson(newArray, type);
+	            errorResponse.setErrors(errors);
+	          }
         }
       }
 }
