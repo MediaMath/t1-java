@@ -20,7 +20,9 @@ public class NotFoundException extends T1Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public NotFoundException() {}
+  public NotFoundException() {
+    //default
+  }
 
   public NotFoundException(String message) {
     super(message);

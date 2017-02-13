@@ -30,6 +30,7 @@ public class T1Exception extends Exception {
 
   public T1Exception(String message) {
     super(message);
+    this.message = message;
   }
 
   /**

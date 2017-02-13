@@ -46,45 +46,6 @@ public class Agency implements T1Entity {
   public Agency() {
   }
 
-  /**
-   *  Agency constructor with all the fields.
-   *  
-   * @param allow_x_adv_optimization
-   * @param allow_x_adv_pixels
-   * @param billing_contact_id
-   * @param dmp_enabled
-   * @param created_on
-   * @param id
-   * @param logo
-   * @param name
-   * @param organization_id
-   * @param sales_contact_id
-   * @param status
-   * @param updated_on
-   * @param version
-   * @param traffic_contact_id
-   */
-  public Agency(boolean allow_x_adv_optimization, boolean allow_x_adv_pixels,
-      int billing_contact_id, String dmp_enabled, String created_on, int id, String logo,
-      String name, int organization_id, int sales_contact_id, boolean status, String updated_on,
-      int version, int traffic_contact_id) {
-    super();
-    this.allow_x_adv_optimization = allow_x_adv_optimization;
-    this.allow_x_adv_pixels = allow_x_adv_pixels;
-    this.billing_contact_id = billing_contact_id;
-    this.dmp_enabled = dmp_enabled;
-    this.created_on = created_on;
-    this.id = id;
-    this.logo = logo;
-    this.name = name;
-    this.organization_id = organization_id;
-    this.sales_contact_id = sales_contact_id;
-    this.status = status;
-    this.updated_on = updated_on;
-    this.version = version;
-    this.traffic_contact_id = traffic_contact_id;
-  }
-
   public boolean isAllowXAdvOptimization() {
     return allow_x_adv_optimization;
   }

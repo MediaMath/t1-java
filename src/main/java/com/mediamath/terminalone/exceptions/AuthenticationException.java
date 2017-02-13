@@ -20,7 +20,9 @@ public class AuthenticationException extends T1Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public AuthenticationException() {}
+  public AuthenticationException() {
+    // default
+  }
 
   public AuthenticationException(String message) {
     super(message);

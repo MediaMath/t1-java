@@ -27,6 +27,7 @@ public class JsonPostErrorResponse {
   T1Meta meta;
 
   public JsonPostErrorResponse() {
+    //default.
   }
 
   public JsonPostErrorResponse(Object errors) {
