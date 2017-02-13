@@ -140,15 +140,37 @@ public class PostService {
 
     String path = t1Service.constructUrl(uri);
 
-    Response responseObj = this.connection.post(path, entity.getForm(), this.user);
+    String responseString = getResponseString(entity, path);
 
-    finalJsonResponse = getJsonResponse(entity, responseObj);
+    finalJsonResponse = getJsonResponse(entity,responseString);
 
     if (finalJsonResponse == null)
       return null;
 
     return finalJsonResponse.getData();
   }
+  
+  private String getResponseString(T1Entity entity, String path) throws ClientException {
+    Response responseObj = this.connection.post(path, entity.getForm(), this.user);
+    return readPostResponseToString(responseObj);
+  
+  }
+  
+  private String getStrategyResponseString(Strategy entity, String path) throws ClientException {
+    Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
+    return readPostResponseToString(responseObj);
+  }
+
+  private String readPostResponseToString(Response responseObj) throws ClientException {
+    String response = responseObj.readEntity(String.class);
+    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+    if (error != null)
+      throwExceptions(error);
+    
+    return response;
+  }
+  
+  
 
   /**
    * saves a Strategy entity.
@@ -186,9 +208,9 @@ public class PostService {
 
       String path = t1Service.constructUrl(uri);
 
-      Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
-
-      finalJsonResponse = getJsonResponse(entity, responseObj);
+      String responseString = getStrategyResponseString(entity, path);
+      
+      finalJsonResponse = getJsonResponse(entity, responseString);
 
       if (finalJsonResponse == null)
         return null;
@@ -197,39 +219,28 @@ public class PostService {
         return null;
 
       if (finalJsonResponse.getData() instanceof ArrayList) {
-
         List dataList = (ArrayList) finalJsonResponse.getData();
-
         if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
           strategy = entity;
           strategy.setStrategyAudienceSegments(dataList);
         }
-
       } else {
         strategy = (Strategy) finalJsonResponse.getData();
       }
-
     }
 
     return strategy;
   }
 
-  private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, Response responseObj)
+  private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, String response)
       throws ClientException, ParseException {
     
     JsonResponse<? extends T1Entity> finalJsonResponse;
-
-    String response = responseObj.readEntity(String.class);
 
     T1JsonToObjParser parser = new T1JsonToObjParser();
 
     if (response.isEmpty())
       return null;
-
-    JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-
-    if (error != null)
-      throwExceptions(error);
 
     finalJsonResponse = parsePostData(response, parser, entity);
     
