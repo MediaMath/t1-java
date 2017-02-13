@@ -27,8 +27,6 @@ public class AtomicCreative implements T1Entity {
   
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-
   private static final String entityName = "AtomicCreative";
 
   public enum adFormats {
@@ -466,12 +464,15 @@ public class AtomicCreative implements T1Entity {
     this.creative = creative;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
+    
+    final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
     Form atomicCreativeForm = new Form();
 
@@ -613,16 +614,13 @@ public class AtomicCreative implements T1Entity {
       atomicCreativeForm.param("width", String.valueOf(this.getWidth()));
     }
 
-    Form finalAtomicCreativeForm = Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
-
-    return finalAtomicCreativeForm;
+    return Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
   }
 
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

@@ -78,6 +78,7 @@ public class StrategySupplySource implements T1Entity {
     this.supply_source = supply_source;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }

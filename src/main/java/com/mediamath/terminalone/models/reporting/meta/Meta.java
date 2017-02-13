@@ -44,13 +44,11 @@ public class Meta implements T1Entity {
 
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() throws ClientException {
-    // TODO Auto-generated method stub
     return null;
   }
 

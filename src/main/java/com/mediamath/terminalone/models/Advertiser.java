@@ -274,6 +274,7 @@ public class Advertiser implements T1Entity {
     this.vertical = vertical;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -344,9 +345,7 @@ public class Advertiser implements T1Entity {
       advertiserForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
     }
 
-    Form finalAdvertiserForm = Utility.getFilteredForm(advertiserForm, "advertiser");
-
-    return finalAdvertiserForm;
+    return Utility.getFilteredForm(advertiserForm, "advertiser");
   }
 
 

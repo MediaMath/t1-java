@@ -122,6 +122,7 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }

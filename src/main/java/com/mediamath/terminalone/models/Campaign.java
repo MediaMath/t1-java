@@ -32,8 +32,6 @@ public class Campaign implements T1Entity {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-
   private static final String entityName = "Campaign";
 
   public enum conv {
@@ -96,7 +94,6 @@ public class Campaign implements T1Entity {
   private servTypes service_type;
   private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
   private boolean spend_cap_automatic;
-  //private boolean spend_cap_enabled;
   private Date start_date;
   private boolean status;
   private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
@@ -379,14 +376,6 @@ public class Campaign implements T1Entity {
     this.spend_cap_automatic = spend_cap_automatic;
   }
 
- /* public boolean isSpendCapEnabled() {
-    return spend_cap_enabled;
-  }
-
-  public void setSpendCapEnabled(boolean spend_cap_enabled) {
-    this.spend_cap_enabled = spend_cap_enabled;
-  }*/
-
   public Date getStartDate() {
     return start_date;
   }
@@ -443,6 +432,7 @@ public class Campaign implements T1Entity {
     this.zone_name = zone_name;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -553,6 +543,8 @@ public class Campaign implements T1Entity {
 
   @Override
   public Form getForm() {
+    
+    final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
     Form campaignForm = new Form();
 
@@ -688,8 +680,6 @@ public class Campaign implements T1Entity {
 
     campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(this.isSpendCapAutomatic()));
 
-   // campaignForm.param("spend_cap_enabled", Utility.getOnOrOff(this.isSpendCapEnabled()));
-
     campaignForm.param("use_default_ad_server", Utility.getOnOrOff(this.isUseDefaultAdServer()));
 
     if (this.getZoneName() != null) {
@@ -702,9 +692,8 @@ public class Campaign implements T1Entity {
       campaignForm.param("version", String.valueOf(this.getVersion()));
     }
 
-    Form finalCampaignForm = Utility.getFilteredForm(campaignForm, "campaign");
-
-    return finalCampaignForm;
+    return Utility.getFilteredForm(campaignForm, "campaign");
+    
   }
 
   @Override

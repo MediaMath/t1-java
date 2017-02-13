@@ -45,9 +45,8 @@ import java.util.ArrayList;
 public class T1JsonToObjParser {
 
   private static final String COULD_NOT_PARSE_RESPONSE = "Could not parse response";
-private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
-  private static final Logger logger = LoggerFactory.getLogger(T1JsonToObjParser.class);
-
+  private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
+  
   /**
    * Extracts Data object from the response.
    * 

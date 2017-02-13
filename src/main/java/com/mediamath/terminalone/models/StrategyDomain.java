@@ -25,8 +25,6 @@ public class StrategyDomain implements T1Entity {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-  
   private static final String entityName = "StrategyDomain";
 
   public enum restrictions {
@@ -113,12 +111,15 @@ public class StrategyDomain implements T1Entity {
     this.strategy = strategy;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
+    final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+    
 	  Form strategyDomainForm = new Form();
 
 	    if (this.getDomain() != null) {

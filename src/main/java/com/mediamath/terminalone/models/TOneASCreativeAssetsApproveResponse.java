@@ -60,7 +60,6 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
 
   @Override
   public String getEntityname() {
-    // TODO Auto-generated method stub
     return entityName;
   }
 
@@ -346,13 +345,11 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

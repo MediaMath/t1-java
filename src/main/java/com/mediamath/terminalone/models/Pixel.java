@@ -297,6 +297,7 @@ public class Pixel implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -457,9 +458,7 @@ public class Pixel implements T1Entity {
       pixelForm.param("version", String.valueOf(this.getVersion()));
     }
 
-    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "pixelbundle");
-
-    return finalAdvertiserForm;
+    return Utility.getFilteredForm(pixelForm, "pixelbundle");
   }
 
   @Override

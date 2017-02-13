@@ -159,19 +159,18 @@ public class Permission implements T1Entity {
     this.scope = scope;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

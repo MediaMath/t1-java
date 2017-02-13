@@ -205,6 +205,7 @@ public class Agency implements T1Entity {
     this.traffic_contact = traffic_contact;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -237,6 +238,7 @@ public class Agency implements T1Entity {
    * creates an Agency Form object.
    * 
    */
+  @Override
   public Form getForm() {
 
     Form agencyForm = new Form();
@@ -286,9 +288,7 @@ public class Agency implements T1Entity {
       agencyForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
     }
 
-    Form finalAgencyForm = Utility.getFilteredForm(agencyForm, "agency");
-
-    return finalAgencyForm;
+    return Utility.getFilteredForm(agencyForm, "agency");
   }
   
   @Override

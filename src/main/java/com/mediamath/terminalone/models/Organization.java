@@ -254,6 +254,7 @@ public class Organization implements T1Entity {
     this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -319,12 +320,9 @@ public class Organization implements T1Entity {
       orgForm.param("version", String.valueOf(this.getVersion()));
     }
 
-    // TODO check how to pass array to form
     orgForm.param("org_type", (!this.getOrgType().isEmpty()) ? this.getOrgType().get(0) : "buyer");
 
-    Form finalOrgForm = Utility.getFilteredForm(orgForm, "organization");
-
-    return finalOrgForm;
+    return Utility.getFilteredForm(orgForm, "organization");
 
   }
 

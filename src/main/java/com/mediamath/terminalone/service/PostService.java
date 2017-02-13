@@ -85,7 +85,9 @@ public class PostService {
 
   private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 
-  public PostService() {}
+  public PostService() {
+    // default constructor.
+  }
 
   /**
    * Constructor for Initializing PostService.

@@ -125,19 +125,18 @@ public class VendorContract implements T1Entity {
     this.vendor = vendor;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 
