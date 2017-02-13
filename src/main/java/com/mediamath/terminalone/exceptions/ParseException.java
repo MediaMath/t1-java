@@ -24,10 +24,7 @@ public class ParseException extends T1Exception {
 
   public ParseException(String message) {
     super(message);
-  }
-
-  public ParseException(Exception exception) {
-    super(exception);
+    this.message = message;
   }
 
   @Override
