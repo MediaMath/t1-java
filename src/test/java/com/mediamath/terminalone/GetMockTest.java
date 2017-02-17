@@ -2,6 +2,7 @@ package com.mediamath.terminalone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
@@ -292,7 +293,94 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 
 	}
+	
+	@Test
+	public void testBaiscGetWithLimitnGetAllWithMock() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\": [{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 166077},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 166076},"
++"{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166074},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166072},{\"entity_type\": \"advertiser\","
++"\"name\": \"Riot\",\"id\": 166069},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166068},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166067"
++"},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165985},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165984},"
++"{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165978},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165977},"
++"{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165968},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165967},"
++"{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165966},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165804},"
++"{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165803},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165802},"
++"{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165801},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165778},"
++"{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165776},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165775},"
++"{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165656},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165615},"
++"{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165612},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165611},"
++"{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165608},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165607},"
++"{\"entity_type\": \"advertiser\",\"name\": \"Test_Hector\",\"id\": 165343 },{ \"entity_type\": \"advertiser\",\"name\": \"AutoDesk\",\"id\": 165316},"
++"{\"entity_type\": \"advertiser\",\"name\": \"Ciel- Luisa\",\"id\": 165304 },{ \"entity_type\": \"advertiser\",\"name\": \"Wade Test Advertiser\",\"id\": 165169},"
++"{\"entity_type\": \"advertiser\",\"name\": \"KMAC\",\"id\": 164903},{  \"entity_type\": \"advertiser\",\"name\": \"JMADVERTISER5\",\"id\": 163257},"
++"{\"entity_type\": \"advertiser\",\"name\": \"JMADVERTISER4\",\"id\": 163256},{\"entity_type\": \"advertiser\",\"name\": \"Julie Test Advertiser 3\",\"id\": 163057},"
++"{\"entity_type\": \"advertiser\",\"name\": \"HL Advertiser\",\"id\": 162863},{\"entity_type\": \"advertiser\",\"name\": \"Fan Giraffe Hotel\",\"id\": 162808},"
++"{\"entity_type\": \"advertiser\",\"name\": \"JoyTestAdvertiser\",\"id\": 162654},{\"entity_type\": \"advertiser\",\"name\": \"B17ADVERTISER\",\"id\": 162650},"
++"{\"entity_type\": \"advertiser\",\"name\": \"Jesse's Girls Kids Clothing\",\"id\": 162385},{\"entity_type\": \"advertiser\",\"name\": \"Shoes by Olive\",\"id\": 162384},"
++"{\"entity_type\": \"advertiser\",\"name\": \"JP_Pub_Test\",\"id\": 162373},{ \"entity_type\": \"advertiser\",\"name\": \"ALYSE TEST ADVERTISER 2\",\"id\": 162185},"
++"{\"entity_type\": \"advertiser\",\"name\": \"Gillette\", \"id\": 162142},{\"entity_type\": \"advertiser\",\"name\": \"Anj Advertiser\",\"id\": 162141},"
++"{\"entity_type\": \"advertiser\",\"name\": \"033116 - Advertiser\",\"id\": 161967},{\"entity_type\": \"advertiser\",\"name\": \"test 2.127.0 adv\",\"id\": 161966},"
++"{\"entity_type\": \"advertiser\",\"name\": \"test_Adv_2.126.1_py\",\"id\": 161498},{\"entity_type\": \"advertiser\",\"name\": \"test_update_postgres\",\"id\": 161359}],"
++"\"meta\": {\"next_page\": \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers?page_offset=100&api_key=98waz2495u8n5udu7pzczfh5&get_all=true\",\"etag\": \"dacfb09f38adbe1df5de1b6b5bd4cffa52f38df4\", \"count\": 70,"
++"\"called_on\": \"2017-02-17T06:55:58+0000\",\"status\": \"ok\",\"offset\": 0,\"total_count\": 459}}");
 
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setGetAll(true).build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+	
+	  @Test
+	  public void testBaiscGetErrorHandling() throws ClientException {
+
+			Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+			.thenReturn(response);
+	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+	Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+			"{\"errors\":[{\"message\": \"Object 'advertiser' has no relationship 'campaign'\"}],"
+					+"\"meta\": {\"called_on\": \"2017-02-17T09:01:07+0000\",\"status\": \"invalid\"}}");
+
+    Map<String, Long> limitList = new HashMap<String, Long>();
+    limitList.put("campaign", Long.valueOf(111555));
+    QueryCriteria query = QueryCriteria.builder().setCollection("advertisers")
+        .setLimit(limitList).setPageLimit(100).build();
+
+	JsonResponse<?> jsonresponse = null;
+
+	try {
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		jsonresponse = t1.get(query);
+		Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+				Mockito.any(T1User.class));
+
+	} catch (ClientException | ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	    assertNull(jsonresponse);
+	  }
+
+
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithQueryWithMock() throws ClientException, ParseException {
 
