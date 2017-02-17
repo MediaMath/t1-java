@@ -25,6 +25,7 @@ public class AdServer implements T1Entity {
   private int id;
   private String name;
   private int version;
+  private String entity_type;
 
   /**
    * AdServer constructor
@@ -33,11 +34,12 @@ public class AdServer implements T1Entity {
    * @param name provide the given name.
    * @param version provide appropriate version.
    */
-  public AdServer(int id, String name, int version) {
+  public AdServer(int id, String name, int version,String entity_type) {
     super();
     this.id = id;
     this.name = name;
     this.version = version;
+    this.entity_type = entity_type;
   }
 
   public int getId() {
@@ -64,7 +66,15 @@ public class AdServer implements T1Entity {
     this.version = version;
   }
 
-  @Override
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+@Override
   public String getEntityname() {
     return entityName;
   }
