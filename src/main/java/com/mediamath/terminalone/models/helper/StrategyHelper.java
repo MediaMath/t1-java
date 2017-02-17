@@ -158,9 +158,9 @@ public class StrategyHelper {
         strategyForm.param("pacing_type", String.valueOf(entity.getPacingType()));
       }
 
-      StringBuffer pixelTargetExpression = new StringBuffer();
-      StringBuffer includePixels = new StringBuffer();
-      StringBuffer excludePixels = new StringBuffer();
+      StringBuilder pixelTargetExpression = new StringBuilder();
+      StringBuilder includePixels = new StringBuilder();
+      StringBuilder excludePixels = new StringBuilder();
 
       if (entity.getIncludePixels() != null && !entity.getIncludePixels().isEmpty()) {
         includePixels.append("(");
@@ -276,7 +276,7 @@ public class StrategyHelper {
           strategyForm.param("dimensions." + inc + ".restriction",
               tv.getRestriction().name());
 
-          if (tv.getValueIds().size() > 0) {
+          if (!tv.getValueIds().isEmpty()) {
             for (Integer vi : tv.getValueIds()) {
               valueIds += vi.toString();
             }

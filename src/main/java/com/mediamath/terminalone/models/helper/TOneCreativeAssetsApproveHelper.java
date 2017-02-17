@@ -36,8 +36,7 @@ public class TOneCreativeAssetsApproveHelper {
    * @param formData
    *          expects a FormDataMultiPart formData object.
    */
-  public static void getMultiPartForm(TOneASCreativeAssetsApprove entity,
-      FormDataMultiPart formData) {
+  public static void getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
 
     if (entity != null && !entity.getDataList().isEmpty()) {
 

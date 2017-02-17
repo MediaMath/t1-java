@@ -20,7 +20,6 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyDayPart implements T1Entity {
@@ -29,7 +28,7 @@ public class StrategyDayPart implements T1Entity {
 
   public enum daysEnum {
     M, T, W, R, F, S, U
-  };
+  }
 
   private Date created_on;
   private daysEnum days;
@@ -133,6 +132,7 @@ public class StrategyDayPart implements T1Entity {
     this.strategy = strategy;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -169,14 +169,13 @@ public class StrategyDayPart implements T1Entity {
 	      strategyDayPartForm.param("version", String.valueOf(this.getVersion()));
 	    }
 
-	    Form finalStrategyDayPartForm = Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
-
-	    return finalStrategyDayPartForm;
+	    return Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
+	    
   }
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 	    
 	    if (this.getId() > 0) {
 	      uri.append("/" + this.getId());

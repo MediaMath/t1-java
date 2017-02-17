@@ -28,7 +28,7 @@ public class Advertiser implements T1Entity {
 
   public enum dmpSettings {
     inherits, disabled
-  };
+  }
 
   public enum freqInts {
     hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
@@ -37,7 +37,7 @@ public class Advertiser implements T1Entity {
     freqInts(String s) {
       val = s;
     }
-  }; // should be not-applicable
+  } // should be not-applicable
 
   public enum freqTypes {
     even("even"), asap("asap"), no_limit("no-limit");
@@ -46,7 +46,7 @@ public class Advertiser implements T1Entity {
     freqTypes(String s) {
       val = s;
     }
-  }; // should be no-limit
+  } // should be no-limit
 
   private int id;
   private float ad_server_fee;
@@ -274,6 +274,7 @@ public class Advertiser implements T1Entity {
     this.vertical = vertical;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -344,15 +345,13 @@ public class Advertiser implements T1Entity {
       advertiserForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
     }
 
-    Form finalAdvertiserForm = Utility.getFilteredForm(advertiserForm, "advertiser");
-
-    return finalAdvertiserForm;
+    return Utility.getFilteredForm(advertiserForm, "advertiser");
   }
 
 
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
     
     if (this.getId() > 0) {
       uri.append("/");

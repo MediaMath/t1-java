@@ -20,11 +20,11 @@ public class InvalidLoginException extends T1Exception {
 
   private static final long serialVersionUID = 1L;
 
-  private String credentials;
+  private final String credentials;
 
-  private String code;
+  private final String code;
 
-  private String message;
+  private final String message;
 
 
   /**

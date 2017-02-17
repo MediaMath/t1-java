@@ -88,19 +88,18 @@ public class Creative implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

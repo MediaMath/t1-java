@@ -100,6 +100,7 @@ public class Concept implements T1Entity {
     this.advertiser = advertiser;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -126,7 +127,6 @@ public class Concept implements T1Entity {
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

@@ -20,7 +20,9 @@ public class ApiException extends T1Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public ApiException() {}
+  public ApiException() { 
+    // default constructor 
+  }
 
   public ApiException(String message) {
     super(message);

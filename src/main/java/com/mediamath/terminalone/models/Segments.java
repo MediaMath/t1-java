@@ -20,15 +20,15 @@ public class Segments {
 
   public enum restrictions {
     INCLUDE, EXCLUDE
-  };
+  }
 
   public enum audSegExc {
     AND, OR
-  };
+  }
 
   public enum audSegInc {
     AND, OR
-  };
+  }
 
   private int id;
   private restrictions restriction;

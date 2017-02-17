@@ -57,7 +57,7 @@ public class Connection {
 
   private static final String USER_AGENT = "User-Agent";
 
-  private static final String TARGET_URL = "Target URL: ";
+  private static final String TARGET_URL = "Target URL: %s";
 
   private static final String NO_POST_DATA = "No Post Data";
 
@@ -102,7 +102,10 @@ public class Connection {
   }
 
   private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
-    logger.info(TARGET_URL + url);
+    if(url != null && !url.isEmpty()) {
+      String targetURL = String.format(TARGET_URL, url); 
+      logger.info(targetURL);
+    }
     WebTarget webTarget = client.target(url);
     Invocation.Builder invocationBuilder = webTarget.request();
     invocationBuilder.header(USER_AGENT, userAgent);
@@ -197,13 +200,11 @@ public class Connection {
   }
 
   private Client instantiateSimpleClient() {
-    Client client = ClientBuilder.newClient(new ClientConfig());
-    return client;
+    return ClientBuilder.newClient(new ClientConfig());
   }
   
   private Client instantiateMultipartClient() {
-    Client client = ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
-    return client;
+    return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
   }
 
   private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {

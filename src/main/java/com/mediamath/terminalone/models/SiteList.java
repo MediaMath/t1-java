@@ -28,7 +28,7 @@ public class SiteList implements T1Entity {
 
   public enum restrictions {
     INCLUDE, EXCLUDE
-  };
+  }
 
   private Date created_on;
   private String filename;
@@ -122,6 +122,7 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -152,7 +153,7 @@ public class SiteList implements T1Entity {
 
   @Override
   public String getUri() {
-	StringBuffer uri = new StringBuffer();
+	StringBuilder uri = new StringBuilder();
 	    
     if (this.getId() > 0) {
       uri.append("/" + this.getId());

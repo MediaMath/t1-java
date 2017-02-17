@@ -28,19 +28,19 @@ public class Pixel implements T1Entity {
 
   public enum pixelTypes {
     creative, event, data, segment
-  };
+  }
 
   public enum pricing {
     CPM, CPTS
-  };
+  }
 
   public enum rmxConvTypes {
     one, variable
-  };
+  }
 
   public enum tagTypes {
     dfa, uat, image, iframe, js
-  };
+  }
 
   public enum roiFields {
     S1, S2, V1, V2
@@ -297,6 +297,7 @@ public class Pixel implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -457,14 +458,12 @@ public class Pixel implements T1Entity {
       pixelForm.param("version", String.valueOf(this.getVersion()));
     }
 
-    Form finalAdvertiserForm = Utility.getFilteredForm(pixelForm, "pixelbundle");
-
-    return finalAdvertiserForm;
+    return Utility.getFilteredForm(pixelForm, "pixelbundle");
   }
 
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {
       uri.append("/");
       uri.append(this.getId());

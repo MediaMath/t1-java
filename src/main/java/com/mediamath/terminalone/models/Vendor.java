@@ -27,7 +27,7 @@ public class Vendor implements T1Entity {
 
   public enum vendorTypes {
     AD_SERVER, AD_VERIFICATION, CONTEXTUAL, DATA, DSP, DYNAMIC_CREATIVE, NETWORK, OBA_COMPLIANCE, OTHER, PIXEL_TRACKING, RICH_MEDIA, SURVEY
-  };
+  }
 
   private boolean adx_approved;
   private boolean adx_declaration_required;
@@ -211,19 +211,18 @@ public class Vendor implements T1Entity {
     this.vendor_domains = vendor_domains;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

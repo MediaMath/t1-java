@@ -28,11 +28,11 @@ public class Strategy implements T1Entity {
 
   public enum audSegExc {
     AND, OR
-  };
+  }
 
   public enum audSegInc {
     AND, OR
-  };
+  }
 
   public enum freqInt {
     hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable(
@@ -42,7 +42,7 @@ public class Strategy implements T1Entity {
     freqInt(String s) {
       val = s;
     }
-  }; // should be not-applicable
+  } // should be not-applicable
 
   public enum freqType {
     even("even"), asap("asap"), no_limit("no-limit");
@@ -51,35 +51,35 @@ public class Strategy implements T1Entity {
     freqType(String s) {
       val = s;
     }
-  }; // should be no-limit
+  } // should be no-limit
 
   public enum goalType {
     spend, reach, cpc, cpe, cpa, roi
-  };
+  }
 
   public enum mediaType {
     DISPLAY, VIDEO
-  };
+  }
 
   public enum pacInt {
     hour, day
-  };
+  }
 
   public enum pacType {
     even, asap
-  };
+  }
 
   public enum siteSelect {
     MATHSELECT_250, EXCLUDE_UGC, ALL, REDUCED
-  };
+  }
 
   public enum supplyType {
     RTB, RMX_API, T1_RMX
-  };
+  }
 
   public enum type {
     REM, GBO, AUD
-  };
+  }
 
   private audSegExc audience_segment_exclude_op;
   private audSegInc audience_segment_include_op;
@@ -409,6 +409,7 @@ public class Strategy implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -612,13 +613,11 @@ public class Strategy implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

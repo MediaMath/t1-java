@@ -61,7 +61,11 @@ import java.util.HashMap;
 
 public final class Constants {
 
-	private static final String CREATIVE_APPROVAL = "creative_approval";
+	private static final String REPORTS = "reports";
+
+  private static final String PERMISSIONS = "permissions";
+
+  private static final String CREATIVE_APPROVAL = "creative_approval";
 
 	private static final String STRATEGY_AUDIENCE_SEGMENT = "strategy_audience_segment";
 
@@ -553,8 +557,8 @@ public final class Constants {
 		pathToCollectionEntity.put(USERS, "User");
 		pathToCollectionEntity.put(TARGET_DIMENSIONS, "TargetDimension");
 		pathToCollectionEntity.put(TARGET_VALUES, "TargetValue");
-		pathToCollectionEntity.put("permissions", "Permission");
-		pathToCollectionEntity.put("reports", "Report");
+		pathToCollectionEntity.put(PERMISSIONS, "Permission");
+		pathToCollectionEntity.put(REPORTS, "Report");
 		pathToCollectionEntity.put(VENDORS, "Vendor");
 		pathToCollectionEntity.put(VENDOR_CONTRACTS, "VendorContract");
 		pathToCollectionEntity.put(VENDOR_DOMAINS, "VendorDomain");
@@ -591,8 +595,8 @@ public final class Constants {
 		entityPaths.put("User", USERS);
 		entityPaths.put("TargetDimension", TARGET_DIMENSIONS);
 		entityPaths.put("TargetValue", TARGET_VALUES);
-		entityPaths.put("Permission", "permissions");
-		entityPaths.put("Report", "reports");
+		entityPaths.put("Permission", PERMISSIONS);
+		entityPaths.put("Report", REPORTS);
 		entityPaths.put("Vendor", VENDORS);
 		entityPaths.put("VendorContract", VENDOR_CONTRACTS);
 		entityPaths.put("VendorDomain", VENDOR_DOMAINS);
@@ -689,11 +693,11 @@ public final class Constants {
 		subMap16.put(TARGET_DIMENSIONS, 5);
 		childPaths.put("os", subMap16);
 		HashMap<String, Integer> subMap17 = new HashMap<String, Integer>();
-		subMap17.put("permissions", 0);
+		subMap17.put(PERMISSIONS, 0);
 		childPaths.put("permission", subMap17);
 		HashMap<String, Integer> subMap18 = new HashMap<String, Integer>();
-		subMap18.put("permissions", 0);
-		childPaths.put("permissions", subMap18);
+		subMap18.put(PERMISSIONS, 0);
+		childPaths.put(PERMISSIONS, subMap18);
 		HashMap<String, Integer> subMap19 = new HashMap<String, Integer>();
 		subMap19.put(TARGET_DIMENSIONS, 23);
 		childPaths.put("player size", subMap19);

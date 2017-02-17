@@ -81,6 +81,7 @@ public class Publisher implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -95,13 +96,11 @@ public class Publisher implements T1Entity {
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

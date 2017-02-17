@@ -78,6 +78,7 @@ public class StrategySupplySource implements T1Entity {
     this.supply_source = supply_source;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -104,7 +105,7 @@ public class StrategySupplySource implements T1Entity {
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 
       if (this.getId() > 0) {
         uri.append("/");

@@ -20,7 +20,6 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyConcept implements T1Entity {
@@ -113,6 +112,7 @@ public class StrategyConcept implements T1Entity {
     this.strategy = strategy;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -159,14 +159,13 @@ public class StrategyConcept implements T1Entity {
 	      strategyConceptForm.param("version", String.valueOf(getVersion()));
 	    }
 
-	    Form finalStrategyConceptForm = Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
-
-	    return finalStrategyConceptForm;
+	    return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
+	    
   }
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 	    
 	    if (this.getId() > 0) {
 	      uri.append("/" + this.getId());

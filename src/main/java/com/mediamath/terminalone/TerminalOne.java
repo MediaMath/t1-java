@@ -238,7 +238,7 @@ public class TerminalOne {
    *           a client exception is thrown if any error occurs.
    */
   public String getAuthorizationUrl(String redirectUri, String apiKey) throws ClientException {
-    String oauthAuthorizationUrl = tOneService.constructOauthUrl(new StringBuffer("authorize"));
+    String oauthAuthorizationUrl = tOneService.constructOauthUrl(new StringBuilder("authorize"));
     OAuthClientRequest request = null;
     try {
       request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl)
@@ -268,7 +268,7 @@ public class TerminalOne {
    *           a client exception is thrown if any error occurs.
    */
   public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret, String redirectUri) throws ClientException {
-    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer(TOKEN));
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
           .setGrantType(GrantType.AUTHORIZATION_CODE).setClientId(apiKey).setClientSecret(secret)
@@ -303,7 +303,7 @@ public class TerminalOne {
    */
   public OAuthJSONAccessTokenResponse refreshOauthToken(String refreshToken, String apiKey,
       String secret) throws ClientException {
-    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuffer(TOKEN));
+    String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
     try {
       OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
           .setGrantType(GrantType.REFRESH_TOKEN).setClientId(apiKey).setClientSecret(secret)
@@ -653,7 +653,7 @@ public class TerminalOne {
   public ReportValidationResponse validateReport(Reports report, ReportCriteria criteria)
       throws ClientException {
     criteria.setReportName(report.getReportName() + "/validate");
-    StringBuilder path = null;
+    StringBuilder path;
     path = reportService.getReportUri(criteria);
     String finalPath = tOneService.constructReportingUrl(path);
      
@@ -673,7 +673,7 @@ public class TerminalOne {
    * @throws ParseException
    *           a parse exception is thrown when the response cannot be parsed.
    */
-  private <T extends T1Entity> JsonResponse<? extends T1Entity> parseGetData(String response, QueryCriteria query) throws ParseException, ClientException {
+  private JsonResponse<? extends T1Entity> parseGetData(String response, QueryCriteria query) throws ParseException, ClientException {
     T1JsonToObjParser parser = new T1JsonToObjParser();
     // parse the string to gson objs
     JsonResponse<? extends T1Entity> finalJsonResponse = null;

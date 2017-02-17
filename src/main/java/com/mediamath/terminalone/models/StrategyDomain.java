@@ -25,12 +25,11 @@ public class StrategyDomain implements T1Entity {
 
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-  private static final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
   private static final String entityName = "StrategyDomain";
 
   public enum restrictions {
     INCLUDE, EXCLUDE
-  };
+  }
 
   private Date created_at;
   private String domain;
@@ -112,12 +111,15 @@ public class StrategyDomain implements T1Entity {
     this.strategy = strategy;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
+    final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+    
 	  Form strategyDomainForm = new Form();
 
 	    if (this.getDomain() != null) {
@@ -133,7 +135,7 @@ public class StrategyDomain implements T1Entity {
 	    }
 
 	    if (this.getCreatedAt() != null) {
-	      String createdAt = sdf.format(this.getCreatedAt());
+	      String createdAt = SDF.format(this.getCreatedAt());
 	      strategyDomainForm.param("created_at", createdAt);
 	    }
 
@@ -142,7 +144,7 @@ public class StrategyDomain implements T1Entity {
 	        strategyDomainForm.param("restriction", String.valueOf(this.getVersion()));
 	      }
 	      if (this.getUpdatedOn() != null) {
-	        String updatedOn = sdf.format(this.getUpdatedOn());
+	        String updatedOn = SDF.format(this.getUpdatedOn());
 	        strategyDomainForm.param("updated_on", updatedOn);
 	      }
 
@@ -153,7 +155,7 @@ public class StrategyDomain implements T1Entity {
 
   @Override
   public String getUri() {
-	  StringBuffer uri = new StringBuffer();
+	  StringBuilder uri = new StringBuilder();
 	    
 	    if (this.getId() > 0) {
 	      uri.append("/" + this.getId());

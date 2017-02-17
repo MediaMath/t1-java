@@ -26,19 +26,19 @@ public class Deal implements T1Entity {
 
   public enum dealSources {
     USER, INTERNAL
-  };
+  }
 
   public enum mediaTypes {
     DISPLAY, VIDEO
-  };
+  }
 
   public enum priceMethods {
     CPM
-  };
+  }
 
   public enum priceTypes {
     FIXED, FLOOR
-  };
+  }
 
   private int advertiser_id;
   private Date created_on;
@@ -258,19 +258,18 @@ public class Deal implements T1Entity {
     this.supply_source = supply_source;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

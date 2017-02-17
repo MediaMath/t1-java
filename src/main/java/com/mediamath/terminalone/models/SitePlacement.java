@@ -26,15 +26,15 @@ public class SitePlacement implements T1Entity {
 
   public enum dealSources {
     USER, INTERNAL
-  };
+  }
 
   public enum mediaTypes {
     display, video, mobile
-  };
+  }
 
   public enum pmpTypes {
     DIRECT, PREMIUM
-  };
+  }
 
   private boolean bill_media_to_client;
   private Date created_on;
@@ -136,19 +136,18 @@ public class SitePlacement implements T1Entity {
     this.version = version;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
   
   @Override
   public Form getForm() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public String getUri() {
-    // TODO Auto-generated method stub
     return null;
   }
 

@@ -18,6 +18,10 @@ package com.mediamath.terminalone.utils;
 
 //Filters for use with JT1.find
 public final class Filters {
+  
+  private Filters() {
+    // Auto-generated constructor stub
+  }
 
   public static final String IN = "()";
   public static final String NULL = ":";

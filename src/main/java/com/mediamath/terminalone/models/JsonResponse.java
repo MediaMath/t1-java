@@ -22,12 +22,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class JsonResponse<T> {
 
-  public JsonResponse() {
-  }
-
-  public JsonResponse(T datavalue) {
-    this.data = datavalue;
-  }
 
   @SerializedName("data")
   T data;
@@ -40,6 +34,14 @@ public class JsonResponse<T> {
 
   @SerializedName("entity_type")
   String entity_type;
+  
+  public JsonResponse() {
+    //default.
+  }
+
+  public JsonResponse(T datavalue) {
+    this.data = datavalue;
+  }
 
   public ArrayList<T1Error> getErrors() {
     return errors;

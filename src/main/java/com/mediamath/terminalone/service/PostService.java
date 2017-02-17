@@ -85,7 +85,9 @@ public class PostService {
 
   private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
 
-  public PostService() {}
+  public PostService() {
+    // default constructor.
+  }
 
   /**
    * Constructor for Initializing PostService.
@@ -187,7 +189,7 @@ public class PostService {
   public Strategy save(Strategy entity) throws ClientException, ParseException {
 
     Strategy strategy = null;
-    JsonResponse<? extends T1Entity> finalJsonResponse = null;
+    JsonResponse<? extends T1Entity> finalJsonResponse;
     if (entity != null) {
       StringBuilder uri = getUri(entity);
 
@@ -310,9 +312,8 @@ public class PostService {
     VideoCreativeUploadStatus uploadStatus = null;
     if (checkString(creativeId)) {
       StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES + "/" + creativeId + "/status");
-      if(path.length() > 0) {
-        logger.info(path.toString());
-      }
+      String pathstr = path.toString();
+      logger.info(pathstr);
       String response = this.connection.get(path.toString(), this.user);
       T1JsonToObjParser parser = new T1JsonToObjParser();
       uploadStatus = parser.parseVideoCreativeUploadStatus(response);
@@ -510,9 +511,7 @@ public class PostService {
     FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
     
     FormDataMultiPart formDataMultiPart = new FormDataMultiPart();   
-    FormDataMultiPart multipart = null;
-    
-    multipart = (FormDataMultiPart) formDataMultiPart
+    FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart
         .field("filename", fileName).field("name", name).bodyPart(filePart);
     
     Response responseObj = this.connection.post(path, multipart, this.user);
@@ -774,10 +773,8 @@ public class PostService {
           }
         }
         if (newArray.size() > 0) {
-          errorsElement = newArray;
-          Type type = new TypeToken<ArrayList<T1Error>>() {
-          }.getType();
-          List<T1Error> errors = gson.fromJson(errorsElement, type);
+          Type type = new TypeToken<ArrayList<T1Error>>() {}.getType();
+          List<T1Error> errors = gson.fromJson(newArray, type);
           errorResponse.setErrors(errors);
         }
       }
@@ -814,7 +811,9 @@ public class PostService {
 
     strbuilder = parseMetaException(jsonPostResponse, strbuilder);
     // throw the error to client
-    throw new ClientException(strbuilder.toString());
+    if(strbuilder != null) {
+      throw new ClientException(strbuilder.toString());
+    }
   }
 
   private StringBuilder parseMetaException(JsonPostErrorResponse jsonPostResponse, StringBuilder strBuilder) {
@@ -945,7 +944,7 @@ public class PostService {
         finalJsonResponse = parser.parseJsonToObj(response,
             Constants.getEntityType.get(entityType));
       }
-    } else if (element == null) {
+    } else {
       if (entity != null) {
         finalJsonResponse = parser.parseJsonToObj(response,
             Constants.getEntityType.get(entity.getEntityname().toLowerCase()));

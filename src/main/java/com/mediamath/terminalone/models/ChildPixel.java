@@ -118,6 +118,7 @@ public class ChildPixel implements T1Entity {
     this.pixel_bundle = pixel_bundle;
   }
 
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -134,7 +135,7 @@ public class ChildPixel implements T1Entity {
     pixelForm.param("distributed", Utility.getOnOrOff(this.isDistributed()));
 
     if (this.getPixelType() != null) {
-      pixelForm.param("pixel_type", this.getPixelType().toString());
+      pixelForm.param("pixel_type", this.getPixelType());
     }
 
     if (this.getTag() != null) {
@@ -149,15 +150,13 @@ public class ChildPixel implements T1Entity {
       pixelForm.param("version", String.valueOf(this.getVersion()));
     }
 
-    Form finalChildPixelForm = Utility.getFilteredForm(pixelForm, "childpixel");
-    
-    return finalChildPixelForm;
+    return Utility.getFilteredForm(pixelForm, "childpixel");
   }
 
 
   @Override
   public String getUri() {
-    StringBuffer uri = new StringBuffer();
+    StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {
       uri.append("/");
       uri.append(this.getId());
