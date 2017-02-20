@@ -38,6 +38,9 @@ public class Agency implements T1Entity {
   private String updated_on;
   private int version;
   private int traffic_contact_id;
+  private String entity_type;
+  
+  
   private Organization organization;
   private Contact billing_contact;
   private Contact sales_contact;
@@ -195,7 +198,18 @@ public class Agency implements T1Entity {
     this.traffic_contact_id = traffic_contact_id;
   }
   
-  /**
+  
+  
+  
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+/**
    * creates an Agency Form object.
    * 
    */
@@ -247,6 +261,10 @@ public class Agency implements T1Entity {
 
     if (this.getUpdatedOn() != null) {
       agencyForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
+    }
+
+    if (this.getEntityType() != null) {
+        agencyForm.param("entity_type", String.valueOf(this.getEntityType()));
     }
 
     return Utility.getFilteredForm(agencyForm, "agency");

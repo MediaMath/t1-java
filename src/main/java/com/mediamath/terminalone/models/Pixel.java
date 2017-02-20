@@ -76,6 +76,7 @@ public class Pixel implements T1Entity {
   private String type;
   private Date updated_on;
   private int version;
+  private String entity_type;
 
   private Advertiser advertiser;
   private Agency agency;
@@ -350,7 +351,15 @@ public class Pixel implements T1Entity {
     this.provider = provider;
   }
   
-  @Override
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+@Override
   public Form getForm() {
 
     Form pixelForm = new Form();
@@ -456,6 +465,10 @@ public class Pixel implements T1Entity {
     
     if (this.getVersion() >= 0) {
       pixelForm.param("version", String.valueOf(this.getVersion()));
+    }
+    
+    if(this.getEntityType()!=null){
+    	pixelForm.param("entity_type", this.getEntityType());
     }
 
     return Utility.getFilteredForm(pixelForm, "pixelbundle");

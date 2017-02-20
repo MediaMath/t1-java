@@ -56,6 +56,8 @@ public class AtomicCreative implements T1Entity {
   public enum tagTypes {
     IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME, IMG
   }
+  
+  public enum expandValues{L, R, U, D, LD, RD, LU, RU}
 
   private int advertiser_id;
   private adFormats ad_format;
@@ -98,6 +100,9 @@ public class AtomicCreative implements T1Entity {
   private Date updated_on;
   private int version;
   private int width;
+  private String entity_type;
+  private boolean mraid;
+  private expandValues expand;
 
   private Advertiser advertiser;
   private Concept concept;
@@ -464,7 +469,31 @@ public class AtomicCreative implements T1Entity {
     this.creative = creative;
   }
 
-  @Override
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+public boolean isMraid() {
+	return mraid;
+}
+
+public void setMraid(boolean mraid) {
+	this.mraid = mraid;
+}
+
+public expandValues getExpand() {
+	return expand;
+}
+
+public void setExpand(expandValues expand) {
+	this.expand = expand;
+}
+
+@Override
   public String getEntityname() {
     return entityName;
   }
@@ -612,6 +641,16 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getWidth() > 0) {
       atomicCreativeForm.param("width", String.valueOf(this.getWidth()));
+    }
+    
+    if (this.getEntityType() != null) {
+    	atomicCreativeForm.param("entity_type", String.valueOf(this.getEntityType()));
+    }
+    
+    atomicCreativeForm.param("mraid", Utility.getOnOrOff(this.isMraid()));
+    
+    if (this.getExpand() != null) {
+        atomicCreativeForm.param("expand", this.getExpand().toString());
     }
 
     return Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");

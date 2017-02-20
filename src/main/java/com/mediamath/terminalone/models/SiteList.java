@@ -39,6 +39,9 @@ public class SiteList implements T1Entity {
   private boolean status;
   private Date updated_on;
   private int version;
+  private String entity_type;
+  private int sites_count;
+  private int sites_count_app;
 
   private Organization organization;
 
@@ -122,33 +125,69 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
-  @Override
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+public int getSitesCount() {
+	return sites_count;
+}
+
+public void setSitesCount(int sites_count) {
+	this.sites_count = sites_count;
+}
+
+public int getSitesCountApp() {
+	return sites_count_app;
+}
+
+public void setSitesCountApp(int sites_count_app) {
+	this.sites_count_app = sites_count_app;
+}
+
+@Override
   public String getEntityname() {
     return entityName;
   }
 
   @Override
   public Form getForm() {
-	  Form strategyConceptForm = new Form();
+	  Form siteListForm = new Form();
 
-	    strategyConceptForm.param("name", this.getName());
-	    strategyConceptForm.param("filename", this.getFilename());
+	    siteListForm.param("name", this.getName());
+	    siteListForm.param("filename", this.getFilename());
 
 	    if (this.getRestriction() != null) {
-	      strategyConceptForm.param("restriction", String.valueOf(this.getRestriction()));
+	      siteListForm.param("restriction", String.valueOf(this.getRestriction()));
 	    }
 
 	    if (this.getOrganizationId() > 0) {
-	      strategyConceptForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+	      siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
 	    }
 
-	    strategyConceptForm.param("status", Utility.getOnOrOff(this.isStatus()));
+	    siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
 	    if (this.getVersion() >= 0) {
-	      strategyConceptForm.param("version", String.valueOf(this.getVersion()));
+	      siteListForm.param("version", String.valueOf(this.getVersion()));
+	    }
+	    
+	    if(this.getEntityType()!=null){
+	    	siteListForm.param("entity_type", this.getEntityType());
+	    }
+	    
+	    if(this.getSitesCount()>0){
+	    	siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
 	    }
 
-	    return strategyConceptForm;
+	    if(this.getSitesCountApp()>0){
+	    	siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
+	    }
+
+	    return siteListForm;
   }
 
   @Override

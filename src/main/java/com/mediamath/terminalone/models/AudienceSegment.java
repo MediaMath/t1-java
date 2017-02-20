@@ -39,6 +39,8 @@ public class AudienceSegment implements T1Entity {
   private int uniques;
   private Date updated_on;
   private int version;
+  private String entity_type;
+
 
   public int getAudienceVendorId() {
     return audience_vendor_id;
@@ -160,7 +162,15 @@ public class AudienceSegment implements T1Entity {
     this.version = version;
   }
 
-  @Override
+  public String getEntityType() {
+	return entity_type;
+}
+
+public void setEntityType(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+@Override
   public String getEntityname() {
     return entityName;
   }
