@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.times;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import java.util.Properties;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,38 +34,25 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyDomain;
+import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.T1User;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
+import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
+import com.mediamath.terminalone.models.TPASCreativeUpload;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
   
   private static Properties testConfig = new Properties();
 
-  private static final String AGENCY_RESPONSE = "{" + 
-     " \"data\" : { " +
-     " \"organization_id\" : 100048, " + 
-     " \"status\" : false," +
-     " \"version\" : 0," +
-     " \"dmp_enabled\" : \"inherits\"," +
-     " \"name\" : \"TestAgency\"," +
-     " \"allow_x_adv_pixels\" : false," +
-     " \"updated_on\" : \"2017-02-06T08:37:59+0000\"," +
-     " \"created_on\" : \"2017-02-06T08:37:59+0000\"," +
-     " \"entity_type\" : \"agency\"," +
-     " \"id\" : 114385," +
-     " \"allow_x_adv_optimization\" : false" + 
-   " }, " +
-   "\"meta\" : { " +
-    "  \"etag\" : \"c82c6b064721323187e7a608b516f8ab15aa04d4\", " +
-    "  \"called_on\" : \"2017-02-06T08:37:59+0000\", " +
-     " \"status\" : \"ok\" "+
-   "} }";
-  
+  private static String AGENCY_RESPONSE = null;
   
   private static String CAMPAIGN_RESPONSE = null;
 
@@ -80,6 +69,14 @@ public class PostMockTest {
   private static String CONCEPT_RESPONSE = null;
   
   private static String ATOMICCREATIVE_RESPONSE = null;
+  
+  private static String THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE = null;
+  
+  private static String THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE = null;
+  
+  private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL = null;
+  
+  private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL = null;
   
   private static String LOGIN = null;
   
@@ -98,6 +95,7 @@ public class PostMockTest {
     InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
     testConfig.load(input);
     LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+    AGENCY_RESPONSE = testConfig.getProperty("t1.mock.save.agency.response");
     CAMPAIGN_RESPONSE = testConfig.getProperty("t1.mock.save.campaign.response");
     ADVERTISER_RESPONSE = testConfig.getProperty("t1.mock.save.advertiser.response");
     STRATEGY_AUDIENCE_SEGMENTS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy.audience.segments.response");
@@ -106,7 +104,10 @@ public class PostMockTest {
     CAMPAIGN_MARGIN_RESPONSE = testConfig.getProperty("t1.mock.save.campaign.margin.response");
     CONCEPT_RESPONSE = testConfig.getProperty("t1.mock.save.concept.response");
     ATOMICCREATIVE_RESPONSE = testConfig.getProperty("t1.mock.save.atomiccreative.response");
-    
+    THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE = testConfig.getProperty("t1.mock.save.3pas.creative.upload.secondcall.response");
+    THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE = testConfig.getProperty("t1.mock.save.3pas.creative.upload.firstcall.response");
+    TONEAS_CREATIVE_UPLOAD_FIRSTCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.firstcall.response");
+    TONEAS_CREATIVE_UPLOAD_SECONDCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.secondcall.response");
   }
   
   @After
@@ -116,7 +117,7 @@ public class PostMockTest {
   
   @SuppressWarnings("unchecked")
   @Test
-  public void testAgencyPostWithMocks2() throws Exception {
+  public void testAgencyPostWithMocks() throws Exception {
     
     Agency agency = new Agency();
     agency.setName("TestAgency");
@@ -447,7 +448,65 @@ public class PostMockTest {
     assertNotNull(ac);
     assertEquals("MyTestAtomicCreative",  ac.getName());
     
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void test3pasCreativeUpload() throws ClientException, IOException {
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE ,THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE );
+    
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    
+    //  3pas first call
+    TPASCreativeUpload response = t1.saveTPASCreativeUpload(
+        "C:\\Users\\chauhan_n\\Desktop\\t1attachements\\DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1.txt",
+        "ads1", "DFA_IFRAME_Tags_GenericPlaceboTestCreative_PlaceboTestAdvertiser-1");
+    
+    
+    // 3pas second call
+    TPASCreativeBatchApprove batchApprove = new TPASCreativeBatchApprove();
+
+    batchApprove.setBatchId(response.getBatch().getId());
+    batchApprove.setAdvertiserId("165615");
+    batchApprove.setBatchIndex("1", null, null);
+    batchApprove.setBatchIndex("4", null, null);
+    batchApprove.setBatchIndex("3", null, null);
+    JsonResponse<? extends T1Entity> finalJsonResponse = null;
+    
+    try {
+      finalJsonResponse = t1.saveTPASCreativeUploadBatch(batchApprove);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(finalJsonResponse);
     
   }
+  
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, TONEAS_CREATIVE_UPLOAD_FIRSTCALL ,TONEAS_CREATIVE_UPLOAD_SECONDCALL);
+    
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    
+    //first call
+    TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+    assertNotNull(response);
+
+    TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
+    creativeAssetsApprove.create(false, "165615", "http://ad.vendor.com/clicktracker/?id=1234","http://theactuallandingpage.com", "BBVA_CaminoaleÔxito_160x600.swf","BBVA_CaminoaleÔxito_160x600.swf", "665888");
+
+    //second call
+    JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
+    assertNotNull(secondresponse.getData());
+  }
+  
 
 }
