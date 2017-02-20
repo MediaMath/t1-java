@@ -82,6 +82,7 @@ public class Campaign implements T1Entity {
   private int impression_cap_amount;
   private boolean impression_cap_automatic;
   private freqTypes impression_cap_type;
+  private freqTypes spend_cap_type;
   private String io_name;
   private String io_reference_num;
   private Date initial_start_date;
@@ -97,6 +98,7 @@ public class Campaign implements T1Entity {
   private Date start_date;
   private boolean status;
   private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
+  private int total_impression_budget;
   private Date updated_on;
   private boolean use_default_ad_server;
   private boolean use_mm_freq;
@@ -272,27 +274,27 @@ public class Campaign implements T1Entity {
     this.id = id;
   }
 
-  public int getImpression_cap_amount() {
+  public int getImpressionCapAmount() {
     return impression_cap_amount;
   }
 
-  public void setImpression_cap_amount(int impression_cap_amount) {
+  public void setImpressionCapAmount(int impression_cap_amount) {
     this.impression_cap_amount = impression_cap_amount;
   }
 
-  public boolean isImpression_cap_automatic() {
+  public boolean isImpressionCapAutomatic() {
     return impression_cap_automatic;
   }
 
-  public void setImpression_cap_automatic(boolean impression_cap_automatic) {
+  public void setImpressionCapAutomatic(boolean impression_cap_automatic) {
    this.impression_cap_automatic = impression_cap_automatic;
   }
 
-  public freqTypes getImpression_cap_type() {
+  public freqTypes getImpressionCapType() {
     return impression_cap_type;
   }
 
-  public void setImpression_cap_type(freqTypes impression_cap_type) {
+  public void setImpressionCapType(freqTypes impression_cap_type) {
     this.impression_cap_type = impression_cap_type;
   }
 
@@ -558,6 +560,10 @@ public class Campaign implements T1Entity {
     if (!this.getTotalBudget().isEmpty()) {
       campaignForm.param("total_budget", String.valueOf(this.getTotalBudget().get(0).getValue()));
     }
+    
+    if (this.getTotalImpressionBudget()>0) {
+        campaignForm.param("total_impression_budget", String.valueOf(this.getTotalImpressionBudget()));
+      }
 
     if (!this.getSpendCapAmount().isEmpty()) {
       campaignForm.param("spend_cap_amount",
@@ -640,15 +646,19 @@ public class Campaign implements T1Entity {
     campaignForm.param("has_custom_attribution",
         Utility.getOnOrOff(this.isHasCustomAttribution()));
 
-    if(this.getImpression_cap_amount() > 0) {
-      campaignForm.param("impression_cap_amount", String.valueOf(this.getImpression_cap_amount()));
+    if(this.getImpressionCapAmount() > 0) {
+      campaignForm.param("impression_cap_amount", String.valueOf(this.getImpressionCapAmount()));
     }
 
-    if (this.getImpression_cap_type() != null) {
-     campaignForm.param("impression_cap_type", String.valueOf(this.getImpression_cap_type()));
+    if (this.getImpressionCapType() != null) {
+     campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType()));
     }
-
-    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpression_cap_automatic()));
+    
+    if (this.getSpendCapType() != null) {
+        campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
+    }
+   
+    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpressionCapAutomatic()));
 
     if (this.getIoName() != null) {
       campaignForm.param("io_name", this.getIoName());
@@ -709,6 +719,22 @@ public class Campaign implements T1Entity {
     }
 
     return uri.toString();
+  }
+
+  public freqTypes getSpendCapType() {
+	return spend_cap_type;
+   }
+	
+  public void setSpendCapType(freqTypes spend_cap_type) {
+	this.spend_cap_type = spend_cap_type;
+  }
+
+  public int getTotalImpressionBudget() {
+	  return total_impression_budget;
+  }
+
+  public void setTotalImpressionBudget(int total_impressions_budget) {
+	  this.total_impression_budget = total_impressions_budget;
   }
 
 }

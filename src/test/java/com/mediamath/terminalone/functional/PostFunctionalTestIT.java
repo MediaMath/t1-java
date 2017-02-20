@@ -299,7 +299,10 @@ public class PostFunctionalTestIT {
 
     camp.setPcWindowMinutes(1);
     camp.setSpendCapAmount(10, null);
-    //camp.setSpendCapEnabled(true);
+    camp.setSpendCapType(Campaign.freqTypes.asap);
+    camp.setImpressionCapType(Campaign.freqTypes.asap);
+    camp.setTotalImpressionBudget(100);
+    camp.setImpressionCapAutomatic(true);
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
     camp.setTotalBudget(200, "USD");
@@ -329,6 +332,205 @@ public class PostFunctionalTestIT {
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
 
+  /**
+   * Create Campaign.
+   * 
+   * @throws ClientException
+   * @throws java.text.ParseException
+   */
+  @Test
+  public void testCampaignPostSpendCapEven() throws ClientException, java.text.ParseException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    Campaign camp = new Campaign();
+    // camp.setId(268746);
+
+    camp.setAdServerId(9);
+    camp.setAdvertiserId(122631);
+    camp.setName("CampaignTest One");
+    camp.setAdServerFee(10.01, null);
+    camp.setConversionType("variable");
+    camp.setConversionVariableMinutes(1);
+    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalValue(100, null);
+    camp.setServiceType(Campaign.servTypes.SELF);
+
+    Calendar endcal = Calendar.getInstance();
+    Calendar startcal = Calendar.getInstance();
+    endcal.roll(Calendar.DATE, true);
+    endcal.roll(Calendar.MONTH, true);
+    Date endd = endcal.getTime();
+
+   // startcal.roll(Calendar.DATE, true);
+ //   startcal.roll(Calendar.DATE, true);
+    Date startd = startcal.getTime();
+    camp.setEndDate(endd);
+    camp.setStartDate(startd);
+
+    camp.setPcWindowMinutes(1);
+    camp.setSpendCapAmount(10, null);
+    camp.setSpendCapType(Campaign.freqTypes.even);
+    camp.setImpressionCapType(Campaign.freqTypes.even);
+    camp.setImpressionCapAmount(10);
+    camp.setUseMmFreq(false);
+    camp.setMeritPixelId(800781);
+    camp.setTotalBudget(200, "USD");
+
+    try {
+      camp = (Campaign) t1.save(camp);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(camp.getId())
+        .setGetAll(true).build();
+    JsonResponse<?> jsonresponse = null;
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNotNull(jsonresponse);
+    Campaign campaignCreated = (Campaign) jsonresponse.getData();
+    assertEquals(122631, campaignCreated.getAdvertiserId());
+    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
+    assertEquals(800781, campaignCreated.getMeritPixelId());
+  }
+  
+  /**
+   * Create Campaign.
+   * 
+   * @throws ClientException
+   * @throws java.text.ParseException
+   */
+  @Test
+  public void testCampaignPostSpendCapDefault() throws ClientException, java.text.ParseException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    Campaign camp = new Campaign();
+    camp.setAdServerId(9);
+    camp.setAdvertiserId(122631);
+    camp.setName("CampaignTest One");
+    camp.setAdServerFee(10.01, null);
+    camp.setConversionType("variable");
+    camp.setConversionVariableMinutes(1);
+    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalValue(100, null);
+    camp.setServiceType(Campaign.servTypes.SELF);
+
+    Calendar endcal = Calendar.getInstance();
+    Calendar startcal = Calendar.getInstance();
+    endcal.roll(Calendar.DATE, true);
+    endcal.roll(Calendar.MONTH, true);
+    Date endd = endcal.getTime();
+
+    Date startd = startcal.getTime();
+    camp.setEndDate(endd);
+    camp.setStartDate(startd);
+
+    camp.setPcWindowMinutes(1);
+    camp.setImpressionCapType(Campaign.freqTypes.even);
+    camp.setImpressionCapAmount(10);
+    camp.setUseMmFreq(false);
+    camp.setMeritPixelId(800781);
+    camp.setTotalBudget(200, "USD");
+    
+    System.out.println("Spend Cap Limit"+camp.getSpendCapType());
+
+    try {
+      camp = (Campaign) t1.save(camp);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(camp.getId())
+        .setGetAll(true).build();
+    JsonResponse<?> jsonresponse = null;
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNotNull(jsonresponse);
+    Campaign campaignCreated = (Campaign) jsonresponse.getData();
+    assertEquals(122631, campaignCreated.getAdvertiserId());
+    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
+    assertEquals(800781, campaignCreated.getMeritPixelId());
+  }
+  
+  /**
+   * Create Campaign.
+   * 
+   * @throws ClientException
+   * @throws java.text.ParseException
+   */
+  @Test
+  public void testCampaignPostImpressionCapDefault() throws ClientException, java.text.ParseException {
+    TerminalOne t1 = new TerminalOne(user, password, apiKey);
+
+    Campaign camp = new Campaign();
+    // camp.setId(268746);
+
+    camp.setAdServerId(9);
+    camp.setAdvertiserId(122631);
+    camp.setName("CampaignTest One");
+    camp.setAdServerFee(10.01, null);
+    camp.setConversionType("variable");
+    camp.setConversionVariableMinutes(1);
+    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalValue(100, null);
+    camp.setServiceType(Campaign.servTypes.SELF);
+
+    Calendar endcal = Calendar.getInstance();
+    Calendar startcal = Calendar.getInstance();
+    endcal.roll(Calendar.DATE, true);
+    endcal.roll(Calendar.MONTH, true);
+    Date endd = endcal.getTime();
+
+   // startcal.roll(Calendar.DATE, true);
+ //   startcal.roll(Calendar.DATE, true);
+    Date startd = startcal.getTime();
+    camp.setEndDate(endd);
+    camp.setStartDate(startd);
+
+    camp.setPcWindowMinutes(1);
+    camp.setUseMmFreq(false);
+    camp.setMeritPixelId(800781);
+    camp.setTotalBudget(200, "USD");
+
+    try {
+      camp = (Campaign) t1.save(camp);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(camp.getId())
+        .setGetAll(true).build();
+    JsonResponse<?> jsonresponse = null;
+    try {
+      jsonresponse = t1.get(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNotNull(jsonresponse);
+    Campaign campaignCreated = (Campaign) jsonresponse.getData();
+    assertEquals(122631, campaignCreated.getAdvertiserId());
+    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
+    assertEquals(800781, campaignCreated.getMeritPixelId());
+  }
+  
   /**
    * Campaign Update.
    * 

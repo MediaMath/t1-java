@@ -130,10 +130,6 @@ public class StrategyHelper {
         strategyForm.param("goal_value", String.valueOf(entity.getGoalValue().get(0).getValue()));
       }
 
-      if (entity.getImpressionCap() > 0) {
-        strategyForm.param("impression_cap", String.valueOf(entity.getImpressionCap()));
-      }
-
       if (entity.getMaxBid() != null && !entity.getMaxBid().isEmpty()
           && entity.getMaxBid().get(0).getValue() > 0) {
         strategyForm.param("max_bid", String.valueOf(entity.getMaxBid().get(0).getValue()));
@@ -156,6 +152,18 @@ public class StrategyHelper {
       }
       if (entity.getPacingType() != null) {
         strategyForm.param("pacing_type", String.valueOf(entity.getPacingType()));
+      }
+      
+      if (entity.getImpressionCapType() != null) {
+        strategyForm.param("impression_cap_type", String.valueOf(entity.getImpressionCapType()));
+      }
+      
+      if (entity.getImpressionPacingInterval() != null) {
+        strategyForm.param("impression_pacing_interval", String.valueOf(entity.getImpressionPacingInterval()));
+      }
+      
+      if (entity.getImpressionPacingAmount() > 0) {
+        strategyForm.param("impression_pacing_amount", String.valueOf(entity.getImpressionPacingAmount()));
       }
 
       StringBuilder pixelTargetExpression = new StringBuilder();
