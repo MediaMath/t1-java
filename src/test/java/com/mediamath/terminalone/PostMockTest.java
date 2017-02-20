@@ -42,6 +42,8 @@ import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.T1User;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
+import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 
@@ -72,6 +74,10 @@ public class PostMockTest {
   
   private static String THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE = null;
   
+  private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL = null;
+  
+  private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL = null;
+  
   private static String LOGIN = null;
   
   
@@ -100,6 +106,8 @@ public class PostMockTest {
     ATOMICCREATIVE_RESPONSE = testConfig.getProperty("t1.mock.save.atomiccreative.response");
     THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE = testConfig.getProperty("t1.mock.save.3pas.creative.upload.secondcall.response");
     THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE = testConfig.getProperty("t1.mock.save.3pas.creative.upload.firstcall.response");
+    TONEAS_CREATIVE_UPLOAD_FIRSTCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.firstcall.response");
+    TONEAS_CREATIVE_UPLOAD_SECONDCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.secondcall.response");
   }
   
   @After
@@ -476,6 +484,28 @@ public class PostMockTest {
     
     assertNotNull(finalJsonResponse);
     
+  }
+  
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, TONEAS_CREATIVE_UPLOAD_FIRSTCALL ,TONEAS_CREATIVE_UPLOAD_SECONDCALL);
+    
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    
+    //first call
+    TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload("C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+    assertNotNull(response);
+
+    TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
+    creativeAssetsApprove.create(false, "165615", "http://ad.vendor.com/clicktracker/?id=1234","http://theactuallandingpage.com", "BBVA_CaminoaleÔxito_160x600.swf","BBVA_CaminoaleÔxito_160x600.swf", "665888");
+
+    //second call
+    JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
+    assertNotNull(secondresponse.getData());
   }
   
 
