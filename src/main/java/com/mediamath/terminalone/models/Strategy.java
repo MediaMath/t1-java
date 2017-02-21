@@ -35,26 +35,32 @@ public class Strategy implements T1Entity {
 	}
 
 	public enum freqInt {
-		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable(
-				"not-applcable");
-		String val;
+		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable("not-applcable");
+		String value;
 
 		freqInt(String s) {
-			val = s;
+			value = s;
 		}
 	} // should be not-applicable
 
 	public enum freqType {
 		even("even"), asap("asap"), no_limit("no-limit");
-		String val;
+		
+	  String value;
 
 		freqType(String s) {
-			val = s;
+			value = s;
 		}
 	} // should be no-limit
 
 	public enum goalType {
-		spend, reach, cpc, cpe, cpa, roi
+		spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi");
+		
+		String value;
+	  
+	  goalType(String s) {
+	    value = s;
+	  }
 	}
 
 	public enum mediaType {
@@ -62,11 +68,23 @@ public class Strategy implements T1Entity {
 	}
 
 	public enum pacInt {
-		hour, day
+		hour("hour"), day("day");
+		
+		String value;
+	  
+	  pacInt(String s) {
+	    value = s;
+	  }
 	}
 
 	public enum pacType {
-		even, asap
+		even("even"), asap("asap");
+	  
+	  String value;
+	  
+	  pacType(String s) {
+	    value = s;
+	  }
 	}
 
 	public enum siteSelect {

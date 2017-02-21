@@ -39,19 +39,42 @@ public class Campaign implements T1Entity {
   }
 
   public enum freqInts {
-    hour, day, week, month, not_applicable
+    hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
+    
+    String value;
+
+    freqInts(String s) {
+      value = s;
+    }
   } // should be not-applicable
 
   public enum freqTypes {
-    even, asap, no_limit
-  } // should be no-limit
+    even("even"), asap("asap"), no_limit("no-limit");
+    String value;
 
+    freqTypes(String s) {
+      value = s;
+    }
+  } // should be no-limit
+  
   public enum goalCats {
-    audience, engagement, response, none
+    audience("audience"), engagement("engagement"), response("response"), none("none");
+    
+    String value;
+    
+    goalCats(String s) {
+      value = s;
+    }
   }
 
   public enum goalTypes {
-    spend, reach, cpc, cpe, cpa, roi, none
+    spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi"), none("none");
+    
+    String value;
+    goalTypes(String s) {
+      value = s;
+    }
+    
   }
 
   public enum servTypes {
@@ -656,7 +679,7 @@ public class Campaign implements T1Entity {
     
     if (this.getSpendCapType() != null) {
         campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
-    }
+    } 
    
     campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpressionCapAutomatic()));
 
