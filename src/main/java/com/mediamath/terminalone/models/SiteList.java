@@ -35,11 +35,10 @@ public class SiteList implements T1Entity {
   private int id;
   private String name;
   private int organization_id;
-  private String restriction;
+  private restrictions restriction;
   private boolean status;
   private Date updated_on;
   private int version;
-  private String entity_type;
   private int sites_count;
   private int sites_count_app;
 
@@ -85,11 +84,11 @@ public class SiteList implements T1Entity {
     this.organization_id = organization_id;
   }
 
-  public String getRestriction() {
+  public restrictions getRestriction() {
     return restriction;
   }
 
-  public void setRestriction(String restriction) {
+  public void setRestriction(restrictions restriction) {
     this.restriction = restriction;
   }
 
@@ -125,14 +124,6 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
-  public String getEntityType() {
-	return entity_type;
-}
-
-public void setEntityType(String entity_type) {
-	this.entity_type = entity_type;
-}
-
 public int getSitesCount() {
 	return sites_count;
 }
@@ -163,6 +154,8 @@ public void setSitesCountApp(int sites_count_app) {
 
 	    if (this.getRestriction() != null) {
 	      siteListForm.param("restriction", String.valueOf(this.getRestriction()));
+	    }else{
+	    	siteListForm.param("restriction", "EXCLUDE");
 	    }
 
 	    if (this.getOrganizationId() > 0) {
@@ -173,10 +166,6 @@ public void setSitesCountApp(int sites_count_app) {
 
 	    if (this.getVersion() >= 0) {
 	      siteListForm.param("version", String.valueOf(this.getVersion()));
-	    }
-	    
-	    if(this.getEntityType()!=null){
-	    	siteListForm.param("entity_type", this.getEntityType());
 	    }
 	    
 	    if(this.getSitesCount()>0){

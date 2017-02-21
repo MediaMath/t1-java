@@ -9,25 +9,21 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 public class BudgetFlight implements T1Entity {
 
-	
 	private static final String entityName = "BudgetFlight";
-	
-	 private int id;
-	 private int campaign_id;
-	 private String created_on;
-	 private String currency_code;
-	 private Date end_date;
-	 private String entity_type;
-	 private boolean is_relevant;
-	 private String name;
-	 private Date start_date;
-	 private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
-	 private Date updated_on;
-	 private int version;
-	 private String zone_name;
-	
-	  
-	  
+
+	private int id;
+	private int campaign_id;
+	private String created_on;
+	private String currency_code;
+	private Date end_date;
+	private boolean is_relevant;
+	private String name;
+	private Date start_date;
+	private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
+	private Date updated_on;
+	private int version;
+	private String zone_name;
+
 	public int getId() {
 		return id;
 	}
@@ -66,14 +62,6 @@ public class BudgetFlight implements T1Entity {
 
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
-	}
-
-	public String getEntity_type() {
-		return entity_type;
-	}
-
-	public void setEntity_type(String entity_type) {
-		this.entity_type = entity_type;
 	}
 
 	public boolean isIs_relevant() {
@@ -129,19 +117,19 @@ public class BudgetFlight implements T1Entity {
 	}
 
 	public void setTotalBudget(double value, String currency_code) {
-		    this.total_budget.clear();
-		    if (value > 0) {
-		      T1Cost cost = new T1Cost();
-		      cost.setValue(value);
+		this.total_budget.clear();
+		if (value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
 
-		      if (currency_code != null && !currency_code.isEmpty()) {
-		        cost.setCurrency_code(currency_code);
-		      }
+			if (currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
 
-		      this.total_budget.add(cost);
-		    }
-	 }  
-	  
+			this.total_budget.add(cost);
+		}
+	}
+
 	@Override
 	public String getEntityname() {
 		// TODO Auto-generated method stub
@@ -157,15 +145,13 @@ public class BudgetFlight implements T1Entity {
 	@Override
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
-	    
-	    if (this.getId() > 0) {
-	      uri.append("/");
-	      uri.append(this.getId());
-	    }
-	    
-	    
-	    return uri.toString();
+
+		if (this.getId() > 0) {
+			uri.append("/");
+			uri.append(this.getId());
+		}
+
+		return uri.toString();
 	}
 
-	
 }
