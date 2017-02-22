@@ -679,10 +679,11 @@ public class Campaign implements T1Entity {
 
     if (this.getSpendCapType() != null) {
       campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
+    } else {
+      campaignForm.param("spend_cap_type", freqTypes.no_limit.value);
     }
 
-    campaignForm.param("impression_cap_automatic",
-        Utility.getOnOrOff(this.isImpressionCapAutomatic()));
+    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpressionCapAutomatic()));
 
     if (this.getIoName() != null) {
       campaignForm.param("io_name", this.getIoName());
