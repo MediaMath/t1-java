@@ -439,7 +439,7 @@ public class PostFunctionalTestIT {
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
     camp.setTotalBudget(200, "USD");
-    camp.setSpendCapAutomatic(true);
+   // camp.setSpendCapAutomatic(false);
 
     try {
       camp = (Campaign) t1.save(camp);
