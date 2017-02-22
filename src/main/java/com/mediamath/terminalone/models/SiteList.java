@@ -35,10 +35,12 @@ public class SiteList implements T1Entity {
   private int id;
   private String name;
   private int organization_id;
-  private String restriction;
+  private restrictions restriction;
   private boolean status;
   private Date updated_on;
   private int version;
+  private int sites_count;
+  private int sites_count_app;
 
   private Organization organization;
 
@@ -82,11 +84,11 @@ public class SiteList implements T1Entity {
     this.organization_id = organization_id;
   }
 
-  public String getRestriction() {
+  public restrictions getRestriction() {
     return restriction;
   }
 
-  public void setRestriction(String restriction) {
+  public void setRestriction(restrictions restriction) {
     this.restriction = restriction;
   }
 
@@ -122,6 +124,22 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
+  public int getSitesCount() {
+    return sites_count;
+  }
+
+  public void setSitesCount(int sites_count) {
+    this.sites_count = sites_count;
+  }
+
+  public int getSitesCountApp() {
+    return sites_count_app;
+  }
+
+  public void setSitesCountApp(int sites_count_app) {
+    this.sites_count_app = sites_count_app;
+  }
+
   @Override
   public String getEntityname() {
     return entityName;
@@ -129,36 +147,46 @@ public class SiteList implements T1Entity {
 
   @Override
   public Form getForm() {
-	  Form strategyConceptForm = new Form();
+    Form siteListForm = new Form();
 
-	    strategyConceptForm.param("name", this.getName());
-	    strategyConceptForm.param("filename", this.getFilename());
+    siteListForm.param("name", this.getName());
+    siteListForm.param("filename", this.getFilename());
 
-	    if (this.getRestriction() != null) {
-	      strategyConceptForm.param("restriction", String.valueOf(this.getRestriction()));
-	    }
+    if (this.getRestriction() != null) {
+      siteListForm.param("restriction", String.valueOf(this.getRestriction()));
+    } else {
+      siteListForm.param("restriction", "EXCLUDE");
+    }
 
-	    if (this.getOrganizationId() > 0) {
-	      strategyConceptForm.param("organization_id", String.valueOf(this.getOrganizationId()));
-	    }
+    if (this.getOrganizationId() > 0) {
+      siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+    }
 
-	    strategyConceptForm.param("status", Utility.getOnOrOff(this.isStatus()));
+    siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
-	    if (this.getVersion() >= 0) {
-	      strategyConceptForm.param("version", String.valueOf(this.getVersion()));
-	    }
+    if (this.getVersion() >= 0) {
+      siteListForm.param("version", String.valueOf(this.getVersion()));
+    }
 
-	    return strategyConceptForm;
+    if (this.getSitesCount() > 0) {
+      siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
+    }
+
+    if (this.getSitesCountApp() > 0) {
+      siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
+    }
+
+    return siteListForm;
   }
 
   @Override
   public String getUri() {
-	StringBuilder uri = new StringBuilder();
-	    
+    StringBuilder uri = new StringBuilder();
+
     if (this.getId() > 0) {
       uri.append("/" + this.getId());
     }
-	return uri.toString();
+    return uri.toString();
   }
-  
+
 }

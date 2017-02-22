@@ -37,24 +37,31 @@ public class Strategy implements T1Entity {
   public enum freqInt {
     hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable(
         "not-applcable");
-    String val;
+    String value;
 
     freqInt(String s) {
-      val = s;
+      value = s;
     }
   } // should be not-applicable
 
   public enum freqType {
     even("even"), asap("asap"), no_limit("no-limit");
-    String val;
+
+    String value;
 
     freqType(String s) {
-      val = s;
+      value = s;
     }
   } // should be no-limit
 
   public enum goalType {
-    spend, reach, cpc, cpe, cpa, roi
+    spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi");
+
+    String value;
+
+    goalType(String s) {
+      value = s;
+    }
   }
 
   public enum mediaType {
@@ -62,11 +69,23 @@ public class Strategy implements T1Entity {
   }
 
   public enum pacInt {
-    hour, day
+    hour("hour"), day("day");
+
+    String value;
+
+    pacInt(String s) {
+      value = s;
+    }
   }
 
   public enum pacType {
-    even, asap
+    even("even"), asap("asap");
+
+    String value;
+
+    pacType(String s) {
+      value = s;
+    }
   }
 
   public enum siteSelect {
@@ -99,6 +118,9 @@ public class Strategy implements T1Entity {
   private ArrayList<Currency> goal_value = new ArrayList<Currency>();
   private int id;
   private int impression_cap;
+  private freqType impression_cap_type;
+  private int impression_pacing_amount;
+  private freqInt impression_pacing_interval;
   private ArrayList<Currency> max_bid = new ArrayList<Currency>();
   private mediaType media_type;
   private String name;
@@ -239,6 +261,30 @@ public class Strategy implements T1Entity {
 
   public void setImpressionCap(int impression_cap) {
     this.impression_cap = impression_cap;
+  }
+
+  public freqType getImpressionCapType() {
+    return impression_cap_type;
+  }
+
+  public void setImpressionCapType(freqType impression_cap_type) {
+    this.impression_cap_type = impression_cap_type;
+  }
+
+  public int getImpressionPacingAmount() {
+    return impression_pacing_amount;
+  }
+
+  public void setImpressionPacingAmount(int impression_pacing_amount) {
+    this.impression_pacing_amount = impression_pacing_amount;
+  }
+
+  public freqInt getImpressionPacingInterval() {
+    return impression_pacing_interval;
+  }
+
+  public void setImpressionPacingInterval(freqInt impression_pacing_interval) {
+    this.impression_pacing_interval = impression_pacing_interval;
   }
 
   public mediaType getMediaType() {
@@ -610,7 +656,7 @@ public class Strategy implements T1Entity {
   public void setStrategyAudienceSegments(List<StrategyAudienceSegment> strategyAudienceSegments) {
     this.strategyAudienceSegments = strategyAudienceSegments;
   }
-  
+
   @Override
   public Form getForm() {
     return null;

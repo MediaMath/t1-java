@@ -349,7 +349,7 @@ public class Pixel implements T1Entity {
   public void setProvider(PixelProvider provider) {
     this.provider = provider;
   }
-  
+
   @Override
   public Form getForm() {
 
@@ -358,35 +358,35 @@ public class Pixel implements T1Entity {
     if (this.getAdvertiserId() > 0) {
       pixelForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
     }
-    
+
     if (this.getAgencyId() > 0) {
       pixelForm.param("agency_id", String.valueOf(this.getAgencyId()));
     }
-    
+
     if (this.getProviderId() > 0) {
       pixelForm.param("provider_id", String.valueOf(this.getProviderId()));
     }
-    
+
     if (this.getCostCpm() > 0f) {
       pixelForm.param("cost_cpm", String.valueOf(this.getCostCpm()));
     }
-    
+
     if (this.getCostPctCpm() > 0f) {
       pixelForm.param("cost_pct_cpm", String.valueOf(this.getCostPctCpm()));
     }
-    
+
     if (this.getCostCpts() > 0f) {
       pixelForm.param("cost_cpts", String.valueOf(this.getCostCpts()));
     }
-    
+
     if (this.getCreatedOn() != null) {
       pixelForm.param("created_on", this.getCreatedOn().toString());
     }
-    
+
     if (this.getCurrency() != null) {
       pixelForm.param("currency", this.getCurrency().toString());
     }
-    
+
     if (this.getCurrencyFixed() != null) {
       pixelForm.param("currency_fixed", this.getCurrencyFixed());
     }
@@ -394,13 +394,13 @@ public class Pixel implements T1Entity {
     if (this.getRevenue() != null) {
       pixelForm.param("revenue", this.getRevenue().toString());
     }
-    
+
     pixelForm.param("eligible", Utility.getOnOrOff(this.isEligible()));
-    
+
     if (this.getExternalIdentifier() != null) {
       pixelForm.param("external_identifier", this.getExternalIdentifier());
     }
-    
+
     if (this.getKeywords() != null) {
       pixelForm.param("keywords", this.getKeywords());
     }
@@ -411,18 +411,24 @@ public class Pixel implements T1Entity {
 
     if (this.getPixelType() != null) {
       pixelForm.param("pixel_type", this.getPixelType().toString());
+    } else {
+      pixelForm.param("pixel_type", "event");
     }
 
     if (this.getPricing() != null) {
       pixelForm.param("pricing", this.getPricing().toString());
+    } else {
+      pixelForm.param("pricing", "CPM");
     }
-    
+
     if (this.getRmxConversionMinutes() > 0) {
       pixelForm.param("rmx_conversion_minutes", String.valueOf(this.getRmxConversionMinutes()));
     }
 
     if (this.getRmxConversionType() != null) {
       pixelForm.param("rmx_conversion_type", this.getRmxConversionType().toString());
+    } else {
+      pixelForm.param("rmx_conversion_type", "one");
     }
 
     pixelForm.param("rmx_friendly", Utility.getOnOrOff(this.isRmxFriendly()));
@@ -439,21 +445,23 @@ public class Pixel implements T1Entity {
     if (this.getSegmentOp() != null) {
       pixelForm.param("segment_op", this.getSegmentOp());
     }
-    
+
     pixelForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
     if (this.getTagType() != null) {
       pixelForm.param("tag_type", this.getTagType().toString());
+    } else {
+      pixelForm.param("tag_type", "image");
     }
-    
+
     if (this.getTags() != null) {
       pixelForm.param("tags", this.getTags());
     }
-    
+
     if (this.getType() != null) {
       pixelForm.param("type", this.getType());
     }
-    
+
     if (this.getVersion() >= 0) {
       pixelForm.param("version", String.valueOf(this.getVersion()));
     }

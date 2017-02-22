@@ -53,6 +53,12 @@ public class Organization implements T1Entity {
   private String billing_country_code;
   private boolean override_suspicious_traffic_filter;
   private int suspicious_traffic_filter_level;
+  private String dmp_enabled;
+  private boolean opt_out_connected_id;
+  private boolean opt_out_connected_id_mathid;
+  private boolean restrict_targeting_to_deterministic_id;
+  private boolean restrict_targeting_to_same_device_id;
+  private boolean terminated;
 
   public String getAddress1() {
     return address_1;
@@ -254,11 +260,60 @@ public class Organization implements T1Entity {
     this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
   }
 
+  public String getDmpEnabled() {
+    return dmp_enabled;
+  }
+
+  public void setDmpEnabled(String dmp_enabled) {
+    this.dmp_enabled = dmp_enabled;
+  }
+
+  public boolean isOptOutConnectedId() {
+    return opt_out_connected_id;
+  }
+
+  public void setOptOutConnectedId(boolean opt_out_connected_id) {
+    this.opt_out_connected_id = opt_out_connected_id;
+  }
+
+  public boolean isOptOutConnectedIdMathid() {
+    return opt_out_connected_id_mathid;
+  }
+
+  public void setOptOutConnectedIdMathid(boolean opt_out_connected_id_mathid) {
+    this.opt_out_connected_id_mathid = opt_out_connected_id_mathid;
+  }
+
+  public boolean isRestrictTargetingToDeterministicId() {
+    return restrict_targeting_to_deterministic_id;
+  }
+
+  public void setRestrictTargetingToDeterministicId(
+      boolean restrict_targeting_to_deterministic_id) {
+    this.restrict_targeting_to_deterministic_id = restrict_targeting_to_deterministic_id;
+  }
+
+  public boolean isTerminated() {
+    return terminated;
+  }
+
+  public boolean isRestrictTargetingToSameDeviceId() {
+    return restrict_targeting_to_same_device_id;
+  }
+
+  public void setRestrictTargetingToSameDeviceId(boolean restrict_targeting_to_same_device_id) {
+    this.restrict_targeting_to_same_device_id = restrict_targeting_to_same_device_id;
+  }
+
+  public void setTerminated(boolean terminated) {
+    this.terminated = terminated;
+  }
+
   @Override
   public String getEntityname() {
     return entityName;
   }
-  
+
   @Override
   public Form getForm() {
 
@@ -322,8 +377,20 @@ public class Organization implements T1Entity {
 
     orgForm.param("org_type", (!this.getOrgType().isEmpty()) ? this.getOrgType().get(0) : "buyer");
 
-    return Utility.getFilteredForm(orgForm, "organization");
+    if (this.getDmpEnabled() != null) {
+      orgForm.param("dmp_enabled", this.getDmpEnabled());
+    }
 
+    orgForm.param("opt_out_connected_id", Utility.getOnOrOff(this.isOptOutConnectedId()));
+    orgForm.param("opt_out_connected_id_mathid",
+        Utility.getOnOrOff(this.isOptOutConnectedIdMathid()));
+    orgForm.param("restrict_targeting_to_deterministic_id",
+        Utility.getOnOrOff(this.isRestrictTargetingToDeterministicId()));
+    orgForm.param("restrict_targeting_to_same_device_id",
+        Utility.getOnOrOff(this.isRestrictTargetingToSameDeviceId()));
+    orgForm.param("terminted", Utility.getOnOrOff(this.isTerminated()));
+
+    return Utility.getFilteredForm(orgForm, "organization");
   }
 
   @Override

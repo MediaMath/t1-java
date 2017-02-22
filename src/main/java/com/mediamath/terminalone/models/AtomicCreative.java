@@ -24,7 +24,7 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.utils.Utility;
 
 public class AtomicCreative implements T1Entity {
-  
+
   private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
   private static final String entityName = "AtomicCreative";
@@ -55,6 +55,10 @@ public class AtomicCreative implements T1Entity {
 
   public enum tagTypes {
     IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME, IMG
+  }
+
+  public enum expandValues {
+    L, R, U, D, LD, RD, LU, RU
   }
 
   private int advertiser_id;
@@ -98,6 +102,8 @@ public class AtomicCreative implements T1Entity {
   private Date updated_on;
   private int version;
   private int width;
+  private boolean mraid;
+  private expandValues expand;
 
   private Advertiser advertiser;
   private Concept concept;
@@ -464,14 +470,30 @@ public class AtomicCreative implements T1Entity {
     this.creative = creative;
   }
 
+  public boolean isMraid() {
+    return mraid;
+  }
+
+  public void setMraid(boolean mraid) {
+    this.mraid = mraid;
+  }
+
+  public expandValues getExpand() {
+    return expand;
+  }
+
+  public void setExpand(expandValues expand) {
+    this.expand = expand;
+  }
+
   @Override
   public String getEntityname() {
     return entityName;
   }
-  
+
   @Override
   public Form getForm() {
-    
+
     final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
     Form atomicCreativeForm = new Form();
@@ -482,10 +504,14 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getAdFormat() != null) {
       atomicCreativeForm.param("ad_format", this.getAdFormat().toString());
+    } else {
+      atomicCreativeForm.param("ad_format", "DISPLAY");
     }
 
     if (this.getAdServerType() != null) {
       atomicCreativeForm.param("ad_server_type", this.getAdServerType().toString());
+    } else {
+      atomicCreativeForm.param("ad_server_type", "OTHER");
     }
 
     if (this.getApprovalStatus() != null) {
@@ -535,10 +561,14 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getExpansionDirection() != null) {
       atomicCreativeForm.param("expansion_direction", this.getExpansionDirection().toString());
+    } else {
+      atomicCreativeForm.param("expansion_direction", "NONRESTRICTED");
     }
 
     if (this.getExpansionTrigger() != null) {
       atomicCreativeForm.param("expansion_trigger", this.getExpansionTrigger().toString());
+    } else {
+      atomicCreativeForm.param("expansion_trigger", "CLICK");
     }
 
     if (this.getExternalIdentifier() != null && !this.getExternalIdentifier().isEmpty()) {
@@ -547,6 +577,8 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getFileType() != null) {
       atomicCreativeForm.param("file_type", this.getFileType().toString());
+    } else {
+      atomicCreativeForm.param("file_type", "unknown");
     }
 
     atomicCreativeForm.param("has_sound", Utility.getOnOrOff(this.isHasSound()));
@@ -561,6 +593,8 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getMediaType() != null) {
       atomicCreativeForm.param("media_type", this.getMediaType().toString());
+    } else {
+      atomicCreativeForm.param("media_type", "display");
     }
 
     if (this.getName() != null && !this.getName().isEmpty()) {
@@ -592,6 +626,8 @@ public class AtomicCreative implements T1Entity {
 
     if (this.getTagType() != null) {
       atomicCreativeForm.param("tag_type", this.getTagType().toString());
+    } else {
+      atomicCreativeForm.param("tag_type", "NOSCRIPT");
     }
 
     if (this.getTpasAdTag() != null && !this.getTpasAdTag().isEmpty()) {
@@ -614,10 +650,15 @@ public class AtomicCreative implements T1Entity {
       atomicCreativeForm.param("width", String.valueOf(this.getWidth()));
     }
 
+    atomicCreativeForm.param("mraid", Utility.getOnOrOff(this.isMraid()));
+
+    if (this.getExpand() != null) {
+      atomicCreativeForm.param("expand", this.getExpand().toString());
+    }
+
     return Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
   }
-
 
   @Override
   public String getUri() {

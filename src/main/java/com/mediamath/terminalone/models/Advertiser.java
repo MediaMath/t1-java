@@ -27,7 +27,13 @@ public class Advertiser implements T1Entity {
   private static final String entityName = "Advertiser";
 
   public enum dmpSettings {
-    inherits, disabled
+    inherits("inherits"), disabled("disabled");
+    String val;
+
+    dmpSettings(String s) {
+      val = s;
+    }
+
   }
 
   public enum freqInts {
@@ -37,7 +43,7 @@ public class Advertiser implements T1Entity {
     freqInts(String s) {
       val = s;
     }
-  } // should be not-applicable
+  }
 
   public enum freqTypes {
     even("even"), asap("asap"), no_limit("no-limit");
@@ -46,7 +52,7 @@ public class Advertiser implements T1Entity {
     freqTypes(String s) {
       val = s;
     }
-  } // should be no-limit
+  }
 
   private int id;
   private float ad_server_fee;
@@ -278,7 +284,7 @@ public class Advertiser implements T1Entity {
   public String getEntityname() {
     return entityName;
   }
-  
+
   @Override
   /**
    * creates a Form object to pass it to connection
@@ -315,10 +321,14 @@ public class Advertiser implements T1Entity {
 
     if (this.getFrequencyType() != null) {
       advertiserForm.param("frequency_type", this.getFrequencyType().toString());
+    } else {
+      advertiserForm.param("frequency_type", "no-limit");
     }
 
     if (this.getFrequencyInterval() != null) {
       advertiserForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+    } else {
+      advertiserForm.param("frequency_interval", "not-applicable");
     }
 
     if (this.getFrequencyAmount() > 0) {
@@ -345,19 +355,28 @@ public class Advertiser implements T1Entity {
       advertiserForm.param("updated_on", String.valueOf(this.getUpdatedOn()));
     }
 
+    if (this.getDmpEnabled() != null) {
+      advertiserForm.param("dmp_enabled", String.valueOf(this.getDmpEnabled()));
+    } else {
+      advertiserForm.param("dmp_enabled", "inherits");
+    }
+
+    if (this.getDomain() != null) {
+      advertiserForm.param("domain", this.getDomain());
+    }
+
     return Utility.getFilteredForm(advertiserForm, "advertiser");
   }
-
 
   @Override
   public String getUri() {
     StringBuilder uri = new StringBuilder();
-    
+
     if (this.getId() > 0) {
       uri.append("/");
       uri.append(this.getId());
     }
-    
+
     return uri.toString();
   }
 }

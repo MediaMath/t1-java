@@ -29,11 +29,14 @@ public class AdServer implements T1Entity {
   /**
    * AdServer constructor
    * 
-   * @param id expects an id
-   * @param name provide the given name.
-   * @param version provide appropriate version.
+   * @param id
+   *          expects an id
+   * @param name
+   *          provide the given name.
+   * @param version
+   *          provide appropriate version.
    */
-  public AdServer(int id, String name, int version) {
+  public AdServer(int id, String name, int version, String entity_type) {
     super();
     this.id = id;
     this.name = name;
@@ -68,7 +71,7 @@ public class AdServer implements T1Entity {
   public String getEntityname() {
     return entityName;
   }
-  
+
   @Override
   public Form getForm() {
     return null;

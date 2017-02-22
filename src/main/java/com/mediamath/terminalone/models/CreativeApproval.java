@@ -28,9 +28,13 @@ public class CreativeApproval implements T1Entity {
   private String approval_status;
   private int atomic_creative_id;
   private Date created_on;
+  private String deal_status;
+  private String deal_status_rejected_reason;
+  public String entity_type;
   private int creative_import_file_id;
   private String external_identifier;
   private int id;
+  private String name;
   private String rejected_reason;
   private int supply_source_id;
   private Date updated_on;
@@ -124,11 +128,35 @@ public class CreativeApproval implements T1Entity {
     this.version = version;
   }
 
+  public String getDealStatus() {
+    return deal_status;
+  }
+
+  public void setDealStatus(String deal_status) {
+    this.deal_status = deal_status;
+  }
+
+  public String getDealStatusRejectedReason() {
+    return deal_status_rejected_reason;
+  }
+
+  public void setDealStatusRejectedReason(String deal_status_rejected_reason) {
+    this.deal_status_rejected_reason = deal_status_rejected_reason;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
   @Override
   public String getEntityname() {
     return entityName;
   }
-  
+
   @Override
   public Form getForm() {
     return null;

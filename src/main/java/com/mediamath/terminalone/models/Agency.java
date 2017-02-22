@@ -38,6 +38,7 @@ public class Agency implements T1Entity {
   private String updated_on;
   private int version;
   private int traffic_contact_id;
+
   private Organization organization;
   private Contact billing_contact;
   private Contact sales_contact;
@@ -194,7 +195,7 @@ public class Agency implements T1Entity {
   public void setTrafficContactId(int traffic_contact_id) {
     this.traffic_contact_id = traffic_contact_id;
   }
-  
+
   /**
    * creates an Agency Form object.
    * 
@@ -217,6 +218,10 @@ public class Agency implements T1Entity {
 
     if (this.getBillingContactId() > 0) {
       agencyForm.param("billing_contact_id", String.valueOf(this.getBillingContactId()));
+    }
+
+    if (this.getId() > 0) {
+      agencyForm.param("id", String.valueOf(this.getId()));
     }
 
     if (this.getDmpEnabled() != null) {
@@ -251,17 +256,16 @@ public class Agency implements T1Entity {
 
     return Utility.getFilteredForm(agencyForm, "agency");
   }
-  
+
   @Override
   public String getUri() {
     StringBuilder uri = new StringBuilder();
-    
+
     if (this.getId() > 0) {
       uri.append("/");
       uri.append(this.getId());
     }
-    
-    
+
     return uri.toString();
   }
 
