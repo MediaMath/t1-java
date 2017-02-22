@@ -85,7 +85,8 @@ public class PostFunctionalTestIT {
 
   @BeforeClass
   public static void init() throws Exception {
-    InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("test.properties");
+    InputStream input = PostFunctionalTestIT.class.getClassLoader()
+        .getResourceAsStream("test.properties");
     testConfig.load(input);
     user = testConfig.getProperty("t1.username");
     password = testConfig.getProperty("t1.password");
@@ -291,8 +292,8 @@ public class PostFunctionalTestIT {
     endcal.roll(Calendar.MONTH, true);
     Date endd = endcal.getTime();
 
-   // startcal.roll(Calendar.DATE, true);
- //   startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
     Date startd = startcal.getTime();
     camp.setEndDate(endd);
     camp.setStartDate(startd);
@@ -361,8 +362,8 @@ public class PostFunctionalTestIT {
     endcal.roll(Calendar.MONTH, true);
     Date endd = endcal.getTime();
 
-   // startcal.roll(Calendar.DATE, true);
- //   startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
     Date startd = startcal.getTime();
     camp.setEndDate(endd);
     camp.setStartDate(startd);
@@ -400,7 +401,7 @@ public class PostFunctionalTestIT {
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
-  
+
   /**
    * Create Campaign.
    * 
@@ -438,8 +439,8 @@ public class PostFunctionalTestIT {
     camp.setUseMmFreq(false);
     camp.setMeritPixelId(800781);
     camp.setTotalBudget(200, "USD");
-    
-    System.out.println("Spend Cap Limit"+camp.getSpendCapType());
+
+    System.out.println("Spend Cap Limit" + camp.getSpendCapType());
 
     try {
       camp = (Campaign) t1.save(camp);
@@ -465,7 +466,7 @@ public class PostFunctionalTestIT {
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
-  
+
   /**
    * Create Campaign.
    * 
@@ -473,7 +474,8 @@ public class PostFunctionalTestIT {
    * @throws java.text.ParseException
    */
   @Test
-  public void testCampaignPostImpressionCapDefault() throws ClientException, java.text.ParseException {
+  public void testCampaignPostImpressionCapDefault()
+      throws ClientException, java.text.ParseException {
     TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
     Campaign camp = new Campaign();
@@ -495,8 +497,8 @@ public class PostFunctionalTestIT {
     endcal.roll(Calendar.MONTH, true);
     Date endd = endcal.getTime();
 
-   // startcal.roll(Calendar.DATE, true);
- //   startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
+    // startcal.roll(Calendar.DATE, true);
     Date startd = startcal.getTime();
     camp.setEndDate(endd);
     camp.setStartDate(startd);
@@ -530,7 +532,7 @@ public class PostFunctionalTestIT {
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
-  
+
   /**
    * Campaign Update.
    * 
@@ -556,14 +558,13 @@ public class PostFunctionalTestIT {
     Campaign camp = (Campaign) jsonresponse.getData();
 
     camp.setFrequencyAmount(10);
-    
-    
+
     Calendar startcal = Calendar.getInstance();
     startcal.roll(Calendar.DATE, true);
     startcal.roll(Calendar.DATE, true);
     Date startd = startcal.getTime();
     camp.setStartDate(startd);
-    
+
     try {
       camp = (Campaign) t1.save(camp);
     } catch (ParseException e) {
@@ -582,7 +583,6 @@ public class PostFunctionalTestIT {
     assertEquals("Campaign Test One updated", updatedCampaign.getName());
   }
 
-  
   /**
    * Create Advertiser.
    * 
@@ -622,7 +622,6 @@ public class PostFunctionalTestIT {
     assertEquals(11, advertiserCreated.getVerticalId());
   }
 
-  
   /**
    * Advertiser Update.
    * 
@@ -667,8 +666,6 @@ public class PostFunctionalTestIT {
 
   }
 
-  
-  
   /**
    * Create Strategy.
    * 
@@ -691,7 +688,7 @@ public class PostFunctionalTestIT {
     str.setPacingAmount(10f);
     str.setType(type.REM);
     str.setUseCampaignStart(false);
-    
+
     str.setUseCampaignEnd(false);
 
     // str.setStart_date("2016-09-22T21:42:29+0000");
@@ -699,11 +696,11 @@ public class PostFunctionalTestIT {
     // str.setEnd_date("2016-10-15T21:42:29+0000");
     // 2016-10-22T16:28:35+0530
     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-    
+
     cal.roll(Calendar.DATE, true);
     Date startDate = cal.getTime();
     str.setStartDate(startDate);
-    
+
     cal.roll(Calendar.DATE, true);
     cal.roll(Calendar.MONTH, true);
     Date endd = cal.getTime();
@@ -853,7 +850,7 @@ public class PostFunctionalTestIT {
     }
 
   }
-  
+
   /**
    * Strategy Day Parts Update.
    * 
@@ -868,9 +865,7 @@ public class PostFunctionalTestIT {
 
     JsonResponse<?> jsonresponse = null;
 
-    
     jsonresponse = jt1.get(query);
-    
 
     List<?> strategyDayPartList = (ArrayList<?>) jsonresponse.getData();
     StrategyDayPart strategyDayPart = (StrategyDayPart) strategyDayPartList.get(0);
@@ -896,8 +891,7 @@ public class PostFunctionalTestIT {
     assertEquals(20, updatedStrategyDayPart.getEndHour());
 
   }
-  
-  
+
   /**
    * Associate pixel to a strategy.
    * 
@@ -1006,7 +1000,7 @@ public class PostFunctionalTestIT {
    * 
    * @throws ClientException
    */
- @Test
+  @Test
   public void testStrategyConceptPost() throws ClientException {
     TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
@@ -1042,8 +1036,6 @@ public class PostFunctionalTestIT {
     assertEquals(false, updatedStrategyConcept.isStatus());
 
   }
-  
-  
 
   /**
    * Create Strategy Supply Sources.
@@ -1066,8 +1058,7 @@ public class PostFunctionalTestIT {
 
     assertEquals(17, strategySupplySource.getSupplySourceId());
   }
-  
-  
+
   /**
    * Delete Strategy Day Parts.
    * 
@@ -1085,7 +1076,7 @@ public class PostFunctionalTestIT {
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Create Campaign margin.
    * 
@@ -1117,7 +1108,7 @@ public class PostFunctionalTestIT {
     }
 
   }
-  
+
   /**
    * Create Concept.
    * 
@@ -1183,8 +1174,7 @@ public class PostFunctionalTestIT {
     assertEquals("TestConceptUpdated", updatedConcept.getName());
 
   }
-  
-  
+
   /**
    * Create ChildPixel.
    * 
@@ -1209,7 +1199,7 @@ public class PostFunctionalTestIT {
     }
 
   }
-  
+
   /**
    * Child Pixel Update.
    * 
@@ -1283,9 +1273,7 @@ public class PostFunctionalTestIT {
     }
 
   }
-  
-  
-  
+
   /**
    * Atomic Creative Update.
    * 
@@ -1329,9 +1317,7 @@ public class PostFunctionalTestIT {
     assertNotNull(updatedAtomicCreative);
 
   }
-  
-  
-  
+
   /**
    * 3PAS creative upload. and approve.
    * 

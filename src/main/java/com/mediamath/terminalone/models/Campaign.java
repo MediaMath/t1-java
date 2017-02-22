@@ -40,7 +40,7 @@ public class Campaign implements T1Entity {
 
   public enum freqInts {
     hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
-    
+
     String value;
 
     freqInts(String s) {
@@ -56,12 +56,12 @@ public class Campaign implements T1Entity {
       value = s;
     }
   } // should be no-limit
-  
+
   public enum goalCats {
     audience("audience"), engagement("engagement"), response("response"), none("none");
-    
+
     String value;
-    
+
     goalCats(String s) {
       value = s;
     }
@@ -69,12 +69,13 @@ public class Campaign implements T1Entity {
 
   public enum goalTypes {
     spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi"), none("none");
-    
+
     String value;
+
     goalTypes(String s) {
       value = s;
     }
-    
+
   }
 
   public enum servTypes {
@@ -310,7 +311,7 @@ public class Campaign implements T1Entity {
   }
 
   public void setImpressionCapAutomatic(boolean impression_cap_automatic) {
-   this.impression_cap_automatic = impression_cap_automatic;
+    this.impression_cap_automatic = impression_cap_automatic;
   }
 
   public freqTypes getImpressionCapType() {
@@ -568,7 +569,7 @@ public class Campaign implements T1Entity {
 
   @Override
   public Form getForm() {
-    
+
     final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
     Form campaignForm = new Form();
@@ -576,17 +577,17 @@ public class Campaign implements T1Entity {
     campaignForm.param("name", this.getName());
 
     if (!this.getAdServerFee().isEmpty()) {
-      campaignForm.param("ad_server_fee",
-          String.valueOf(this.getAdServerFee().get(0).getValue()));
+      campaignForm.param("ad_server_fee", String.valueOf(this.getAdServerFee().get(0).getValue()));
     }
 
     if (!this.getTotalBudget().isEmpty()) {
       campaignForm.param("total_budget", String.valueOf(this.getTotalBudget().get(0).getValue()));
     }
-    
-    if (this.getTotalImpressionBudget()>0) {
-        campaignForm.param("total_impression_budget", String.valueOf(this.getTotalImpressionBudget()));
-      }
+
+    if (this.getTotalImpressionBudget() > 0) {
+      campaignForm.param("total_impression_budget",
+          String.valueOf(this.getTotalImpressionBudget()));
+    }
 
     if (!this.getSpendCapAmount().isEmpty()) {
       campaignForm.param("spend_cap_amount",
@@ -666,22 +667,22 @@ public class Campaign implements T1Entity {
       campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
     }
 
-    campaignForm.param("has_custom_attribution",
-        Utility.getOnOrOff(this.isHasCustomAttribution()));
+    campaignForm.param("has_custom_attribution", Utility.getOnOrOff(this.isHasCustomAttribution()));
 
-    if(this.getImpressionCapAmount() > 0) {
+    if (this.getImpressionCapAmount() > 0) {
       campaignForm.param("impression_cap_amount", String.valueOf(this.getImpressionCapAmount()));
     }
 
     if (this.getImpressionCapType() != null) {
-     campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType()));
+      campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType()));
     }
-    
+
     if (this.getSpendCapType() != null) {
-        campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
-    } 
-   
-    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpressionCapAutomatic()));
+      campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
+    }
+
+    campaignForm.param("impression_cap_automatic",
+        Utility.getOnOrOff(this.isImpressionCapAutomatic()));
 
     if (this.getIoName() != null) {
       campaignForm.param("io_name", this.getIoName());
@@ -726,7 +727,7 @@ public class Campaign implements T1Entity {
     }
 
     return Utility.getFilteredForm(campaignForm, "campaign");
-    
+
   }
 
   @Override
@@ -745,19 +746,19 @@ public class Campaign implements T1Entity {
   }
 
   public freqTypes getSpendCapType() {
-	return spend_cap_type;
-   }
-	
+    return spend_cap_type;
+  }
+
   public void setSpendCapType(freqTypes spend_cap_type) {
-	this.spend_cap_type = spend_cap_type;
+    this.spend_cap_type = spend_cap_type;
   }
 
   public int getTotalImpressionBudget() {
-	  return total_impression_budget;
+    return total_impression_budget;
   }
 
   public void setTotalImpressionBudget(int total_impressions_budget) {
-	  this.total_impression_budget = total_impressions_budget;
+    this.total_impression_budget = total_impressions_budget;
   }
 
 }

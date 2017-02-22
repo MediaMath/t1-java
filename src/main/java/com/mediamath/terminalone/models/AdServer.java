@@ -20,66 +20,66 @@ import javax.ws.rs.core.Form;
 
 public class AdServer implements T1Entity {
 
-	private static final String entityName = "AdServer";
+  private static final String entityName = "AdServer";
 
-	private int id;
-	private String name;
-	private int version;
+  private int id;
+  private String name;
+  private int version;
 
-	/**
-	 * AdServer constructor
-	 * 
-	 * @param id
-	 *            expects an id
-	 * @param name
-	 *            provide the given name.
-	 * @param version
-	 *            provide appropriate version.
-	 */
-	public AdServer(int id, String name, int version, String entity_type) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.version = version;
-	}
+  /**
+   * AdServer constructor
+   * 
+   * @param id
+   *          expects an id
+   * @param name
+   *          provide the given name.
+   * @param version
+   *          provide appropriate version.
+   */
+  public AdServer(int id, String name, int version, String entity_type) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.version = version;
+  }
 
-	public int getId() {
-		return id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public int getVersion() {
-		return version;
-	}
+  public int getVersion() {
+    return version;
+  }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+  public void setVersion(int version) {
+    this.version = version;
+  }
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
+  @Override
+  public String getEntityname() {
+    return entityName;
+  }
 
-	@Override
-	public Form getForm() {
-		return null;
-	}
+  @Override
+  public Form getForm() {
+    return null;
+  }
 
-	@Override
-	public String getUri() {
-		return null;
-	}
+  @Override
+  public String getUri() {
+    return null;
+  }
 
 }

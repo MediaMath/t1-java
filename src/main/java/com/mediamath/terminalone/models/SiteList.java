@@ -124,69 +124,69 @@ public class SiteList implements T1Entity {
     this.organization = organization;
   }
 
-public int getSitesCount() {
-	return sites_count;
-}
+  public int getSitesCount() {
+    return sites_count;
+  }
 
-public void setSitesCount(int sites_count) {
-	this.sites_count = sites_count;
-}
+  public void setSitesCount(int sites_count) {
+    this.sites_count = sites_count;
+  }
 
-public int getSitesCountApp() {
-	return sites_count_app;
-}
+  public int getSitesCountApp() {
+    return sites_count_app;
+  }
 
-public void setSitesCountApp(int sites_count_app) {
-	this.sites_count_app = sites_count_app;
-}
+  public void setSitesCountApp(int sites_count_app) {
+    this.sites_count_app = sites_count_app;
+  }
 
-@Override
+  @Override
   public String getEntityname() {
     return entityName;
   }
 
   @Override
   public Form getForm() {
-	  Form siteListForm = new Form();
+    Form siteListForm = new Form();
 
-	    siteListForm.param("name", this.getName());
-	    siteListForm.param("filename", this.getFilename());
+    siteListForm.param("name", this.getName());
+    siteListForm.param("filename", this.getFilename());
 
-	    if (this.getRestriction() != null) {
-	      siteListForm.param("restriction", String.valueOf(this.getRestriction()));
-	    }else{
-	    	siteListForm.param("restriction", "EXCLUDE");
-	    }
+    if (this.getRestriction() != null) {
+      siteListForm.param("restriction", String.valueOf(this.getRestriction()));
+    } else {
+      siteListForm.param("restriction", "EXCLUDE");
+    }
 
-	    if (this.getOrganizationId() > 0) {
-	      siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
-	    }
+    if (this.getOrganizationId() > 0) {
+      siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+    }
 
-	    siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
+    siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
-	    if (this.getVersion() >= 0) {
-	      siteListForm.param("version", String.valueOf(this.getVersion()));
-	    }
-	    
-	    if(this.getSitesCount()>0){
-	    	siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
-	    }
+    if (this.getVersion() >= 0) {
+      siteListForm.param("version", String.valueOf(this.getVersion()));
+    }
 
-	    if(this.getSitesCountApp()>0){
-	    	siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
-	    }
+    if (this.getSitesCount() > 0) {
+      siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
+    }
 
-	    return siteListForm;
+    if (this.getSitesCountApp() > 0) {
+      siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
+    }
+
+    return siteListForm;
   }
 
   @Override
   public String getUri() {
-	StringBuilder uri = new StringBuilder();
-	    
+    StringBuilder uri = new StringBuilder();
+
     if (this.getId() > 0) {
       uri.append("/" + this.getId());
     }
-	return uri.toString();
+    return uri.toString();
   }
-  
+
 }

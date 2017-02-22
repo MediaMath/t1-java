@@ -29,12 +29,10 @@ import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyHelper {
-	
-	private StrategyHelper() {
-		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
-	}
 
-  
+  private StrategyHelper() {
+    throw new IllegalAccessError("StrategyHelper cannot be instantiated");
+  }
 
   /**
    * creates a Strategy Form object.
@@ -44,14 +42,13 @@ public class StrategyHelper {
    * @return Form object.
    */
   public static Form getForm(Strategy entity) {
-	final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
-	final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
-	
+    final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
+    final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+
     Form strategyForm = new Form();
     if (entity.getStrategyDomainRestrictions().isEmpty()) {
 
-      if (entity.getAudienceSegmentExcludeOp() != null
-          && entity.getAudienceSegments().isEmpty()) {
+      if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("audience_segment_exclude_op",
             entity.getAudienceSegmentExcludeOp().toString());
       } else if (entity.getAudienceSegmentExcludeOp() != null
@@ -59,8 +56,7 @@ public class StrategyHelper {
         strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
       }
 
-      if (entity.getAudienceSegmentIncludeOp() != null
-          && entity.getAudienceSegments().isEmpty()) {
+      if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().isEmpty()) {
         strategyForm.param("audience_segment_include_op",
             entity.getAudienceSegmentIncludeOp().toString());
       } else if (entity.getAudienceSegmentIncludeOp() != null
@@ -153,17 +149,19 @@ public class StrategyHelper {
       if (entity.getPacingType() != null) {
         strategyForm.param("pacing_type", String.valueOf(entity.getPacingType()));
       }
-      
+
       if (entity.getImpressionCapType() != null) {
         strategyForm.param("impression_cap_type", String.valueOf(entity.getImpressionCapType()));
       }
-      
+
       if (entity.getImpressionPacingInterval() != null) {
-        strategyForm.param("impression_pacing_interval", String.valueOf(entity.getImpressionPacingInterval()));
+        strategyForm.param("impression_pacing_interval",
+            String.valueOf(entity.getImpressionPacingInterval()));
       }
-      
+
       if (entity.getImpressionPacingAmount() > 0) {
-        strategyForm.param("impression_pacing_amount", String.valueOf(entity.getImpressionPacingAmount()));
+        strategyForm.param("impression_pacing_amount",
+            String.valueOf(entity.getImpressionPacingAmount()));
       }
 
       StringBuilder pixelTargetExpression = new StringBuilder();
@@ -253,8 +251,7 @@ public class StrategyHelper {
       for (StrategyDomain sd : entity.getStrategyDomainRestrictions()) {
         if (sd != null) {
           strategyForm.param("domains." + inc + ".domain", sd.getDomain());
-          strategyForm.param("domains." + inc + ".restriction",
-              sd.getRestriction().name());
+          strategyForm.param("domains." + inc + ".restriction", sd.getRestriction().name());
           inc++;
         }
       }
@@ -267,8 +264,7 @@ public class StrategyHelper {
       for (Segments sd : entity.getAudienceSegments()) {
         if (sd != null) {
           strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
-          strategyForm.param("segments." + inc + ".restriction",
-              sd.getRestriction().name());
+          strategyForm.param("segments." + inc + ".restriction", sd.getRestriction().name());
 
           inc++;
         }
@@ -281,8 +277,7 @@ public class StrategyHelper {
       for (TargetValues tv : entity.getTargetValues()) {
         if (tv != null) {
           strategyForm.param("dimensions." + inc + ".code", tv.getCode().name());
-          strategyForm.param("dimensions." + inc + ".restriction",
-              tv.getRestriction().name());
+          strategyForm.param("dimensions." + inc + ".restriction", tv.getRestriction().name());
 
           if (!tv.getValueIds().isEmpty()) {
             for (Integer vi : tv.getValueIds()) {
