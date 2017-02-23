@@ -118,7 +118,7 @@ public class Campaign implements T1Entity {
   private int pv_window_minutes;
   private servTypes service_type;
   private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
-  private boolean spend_cap_automatic;
+  private boolean spend_cap_automatic = true;
   private Date start_date;
   private boolean status;
   private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
@@ -679,10 +679,11 @@ public class Campaign implements T1Entity {
 
     if (this.getSpendCapType() != null) {
       campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
-    }
+    } /*else {
+      campaignForm.param("spend_cap_type", freqTypes.no_limit.value);
+    }*/
 
-    campaignForm.param("impression_cap_automatic",
-        Utility.getOnOrOff(this.isImpressionCapAutomatic()));
+    campaignForm.param("impression_cap_automatic", Utility.getOnOrOff(this.isImpressionCapAutomatic()));
 
     if (this.getIoName() != null) {
       campaignForm.param("io_name", this.getIoName());
@@ -725,8 +726,10 @@ public class Campaign implements T1Entity {
     if (this.getVersion() >= 0) {
       campaignForm.param("version", String.valueOf(this.getVersion()));
     }
+    
+    campaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
-    return Utility.getFilteredForm(campaignForm, "campaign");
+    return campaignForm;
 
   }
 
