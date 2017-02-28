@@ -49,6 +49,7 @@ public class PlacementSlot implements T1Entity {
   private int version;
   private String volume_unit;
   private int width;
+  private String name;
 
   public int getAdSlot() {
     return ad_slot;
@@ -263,6 +264,14 @@ public class PlacementSlot implements T1Entity {
   @Override
   public String getUri() {
     return null;
+  }
+
+  public String getName() {
+	  return name;
+  }
+
+  public void setName(String name) {
+	  this.name = name;
   }
 
 }

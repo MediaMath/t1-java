@@ -48,6 +48,10 @@ public class StrategySupplySourceHelper {
     if (entity.getVersion() >= 0) {
       strategySupplySourceForm.param("version", String.valueOf(entity.getVersion()));
     }
+    
+    if (entity.getName() != null) {
+    	strategySupplySourceForm.param("name", entity.getName());
+    }
 
     return strategySupplySourceForm;
   }

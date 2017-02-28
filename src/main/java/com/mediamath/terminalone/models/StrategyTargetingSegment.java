@@ -35,6 +35,7 @@ public class StrategyTargetingSegment implements T1Entity {
   private Date updated_on;
   private float user_cpm;
   private int version;
+  private String name;
 
   private Strategy strategy;
 
@@ -147,5 +148,13 @@ public class StrategyTargetingSegment implements T1Entity {
   @Override
   public String getUri() {
     return null;
+  }
+
+  public String getName() {
+	  return name;
+  }
+
+  public void setName(String name) {
+	  this.name = name;
   }
 }

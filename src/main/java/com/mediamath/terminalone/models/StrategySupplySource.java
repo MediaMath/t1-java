@@ -26,6 +26,7 @@ public class StrategySupplySource implements T1Entity {
   private int strategy_id;
   private int supply_source_id;
   private int version;
+  private String name;
 
   private Strategy strategy;
   private SupplySource supply_source;
@@ -113,6 +114,14 @@ public class StrategySupplySource implements T1Entity {
       }
       
       return uri.toString();
+  }
+
+  public String getName() {
+	  return name;
+  }
+
+  public void setName(String name) {
+	  this.name = name;
   }
 
 }
