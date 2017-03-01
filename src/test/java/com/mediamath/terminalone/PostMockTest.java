@@ -38,6 +38,8 @@ import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
+import com.mediamath.terminalone.models.StrategyConcept;
+import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
@@ -50,7 +52,9 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
   
-  private static Properties testConfig = new Properties();
+
+
+private static Properties testConfig = new Properties();
 
   private static String AGENCY_RESPONSE = null;
   
@@ -77,6 +81,18 @@ public class PostMockTest {
   private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL = null;
   
   private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL = null;
+  
+  private static String STRATEGY_CONCEPT_DELETE = null;
+  
+  private static String STRATEGY_DAY_PART_DELETE = null;
+  
+  private static String STRATEDY_DAYPART_META_ERROR_CHK  = null;
+  
+  private static String ADVERTISER_ERROR_RESPONSE = null;
+  
+  private static String STRATEGY_CONCEPT_RESPONSE = null;
+  
+  private static String STRATEGY_DAYPART_RESPONSE = null;
   
   private static String LOGIN = null;
   
@@ -108,11 +124,26 @@ public class PostMockTest {
     THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE = testConfig.getProperty("t1.mock.save.3pas.creative.upload.firstcall.response");
     TONEAS_CREATIVE_UPLOAD_FIRSTCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.firstcall.response");
     TONEAS_CREATIVE_UPLOAD_SECONDCALL = testConfig.getProperty("t1.mock.save.toneas.creative.assets.upload.secondcall.response");
+    STRATEGY_CONCEPT_DELETE = testConfig.getProperty("t1.mock.delete.strategy_concept.response");
+    STRATEGY_DAY_PART_DELETE = testConfig.getProperty("t1.mock.delete.strategy_day_part.response");
+    STRATEDY_DAYPART_META_ERROR_CHK = testConfig.getProperty("t1.mock.save.strategy_day_part_meta_error.response");
+    ADVERTISER_ERROR_RESPONSE = testConfig.getProperty("t1.mock.save.advertiser_error.response");
+    STRATEGY_CONCEPT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_concept.response");
+    STRATEGY_DAYPART_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_day_part.response");
+    
   }
   
   @After
   public final void tearDown() throws InterruptedException {
     Thread.sleep(5000);
+  }
+  
+  @Test
+  public void testOauthTokenAuthentication() throws ClientException {
+    TerminalOne t1 = new TerminalOne();
+    t1.authenticate("rydgu76jyap9sjaj5vyqpbg7");
+
+    assertEquals(true, t1.isAuthenticated());
   }
   
   @SuppressWarnings("unchecked")
@@ -217,6 +248,31 @@ public class PostMockTest {
     assertEquals("TestAdvertiser", adv.getName());
     assertEquals(109308, adv.getAgencyId());
     assertEquals(166077, adv.getId());
+
+  }
+  
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testAdvertiserPostWithErrorMocks() throws ClientException {
+
+    Advertiser adv = new Advertiser();
+    adv.setAdServerId(9);
+    adv.setAgencyId(116677);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ADVERTISER_ERROR_RESPONSE);
+    
+    try {
+    	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    	adv = (Advertiser) t1.save(adv);
+    	Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNull(adv);
 
   }
 
@@ -415,6 +471,154 @@ public class PostMockTest {
     assertEquals("TestConcept1", camp.getName());
 
   }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategyConceptPost() throws ClientException {
+
+    StrategyConcept sc = new StrategyConcept();
+    sc.setStatus(true);
+    sc.setStrategyId(2035005);
+    sc.setConceptId(1064563);
+    sc.setVersion(0);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_CONCEPT_RESPONSE);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      sc = (StrategyConcept) t1.save(sc);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(sc);
+
+  }
+
+  @Test
+  public void testStrategyDayPartPost() throws ClientException {
+
+    StrategyDayPart sc = new StrategyDayPart();
+    sc.setStatus(true);
+    sc.setStrategyId(2035005);
+    sc.setDays(StrategyDayPart.daysEnum.M);
+    sc.setStartHour(6);
+    sc.setEndHour(23);
+    sc.setStatus(true);
+    sc.setUserTime(true);
+    sc.setVersion(0);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_D);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      sc = (StrategyConcept) t1.save(sc);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(sc);
+
+  }
+  
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategyConceptDelete() throws ClientException {
+
+	JsonResponse jr = null;  
+	  
+	StrategyConcept sc = new StrategyConcept();
+	sc.setId(4795645);
+	sc.setVersion(0);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_CONCEPT_DELETE);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      jr = t1.delete(sc);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(jr);
+  
+
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategyDayPartDelete() throws ClientException {
+
+	JsonResponse jr = null;  
+	  
+	TerminalOne T1;
+    StrategyDayPart sc = new StrategyDayPart();
+    sc.setId(1611126);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAY_PART_DELETE);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      jr = t1.delete(sc);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(jr);
+  
+
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategyDayPartPostMetaError() throws ClientException {
+
+	JsonResponse jr = null;  
+	  
+    StrategyDayPart sc = new StrategyDayPart();
+    StrategyDayPart sc1 = null;
+    
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEDY_DAYPART_META_ERROR_CHK);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      sc1 = (StrategyDayPart) t1.save(sc);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNull(sc1);
+  
+
+  }
+  
 
   @SuppressWarnings("unchecked")
   @Test

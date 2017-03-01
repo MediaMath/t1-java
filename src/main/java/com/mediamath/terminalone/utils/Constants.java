@@ -133,7 +133,7 @@ public final class Constants {
 
 	private static final String STRATEGY_DOMAIN_RESTRICTION = "strategy_domain_restriction";
 
-	private static final String STRATEGY_DAY_PART = "strategy_day_part";
+	private static final String STRATEGY_DAY_PART = "strategydaypart";
 
 	private static final String STRATEGY_CONCEPT = "strategy_concept";
 
@@ -143,9 +143,13 @@ public final class Constants {
 
 	private static final String STRATEGY_DOMAIN_RESTRICTIONS = "strategy_domain_restrictions";
 
-	private static final String STRATEGY_DAY_PARTS = "strategy_day_parts";
+	private static final String STRATEGY_DAY_PARTS = "strategydayparts";
 
 	private static final String STRATEGY_CONCEPTS = "strategy_concepts";
+	
+	private static final String  STRATEGY_DAY_PARTS_U = "strategy_day_parts";
+	
+	private static final String  STRATEGY_DAY_PART_U = "strategy_day_part";
 
 	private static final String STRATEGY = "strategy";
 
@@ -314,6 +318,11 @@ public final class Constants {
 		getEntityType.put(STRATEGY_DAY_PARTS, new TypeToken<JsonResponse<StrategyDayPart>>() {
 		}.getType());
 		getEntityType.put(STRATEGY_DAY_PART, new TypeToken<JsonResponse<StrategyDayPart>>() {
+		}.getType());
+		
+		getEntityType.put(STRATEGY_DAY_PARTS_U, new TypeToken<JsonResponse<StrategyDayPart>>() {
+		}.getType());
+		getEntityType.put(STRATEGY_DAY_PART_U, new TypeToken<JsonResponse<StrategyDayPart>>() {
 		}.getType());
 
 		getEntityType.put(STRATEGY_DOMAIN_RESTRICTIONS, new TypeToken<JsonResponse<StrategyDomain>>() {
