@@ -41,6 +41,8 @@ public class StrategyDomain implements T1Entity {
 
   private Strategy strategy;
 
+  public StrategyDomain(){}
+  
   public StrategyDomain(String domain, restrictions restriction) {
     super();
     this.domain = domain;
