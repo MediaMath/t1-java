@@ -446,7 +446,7 @@ public class PostService {
     StringBuilder path = new StringBuilder();
 
     if (strategyDayPart.getId() > 0) {
-      path.append(Constants.entityPaths.get("strategyDayPart"));
+      path.append(Constants.entityPaths.get("StrategyDayPart"));
       path.append("/");
       path.append(strategyDayPart.getId());
       path.append("/delete");
