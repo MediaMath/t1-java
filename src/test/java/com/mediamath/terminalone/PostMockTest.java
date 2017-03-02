@@ -514,12 +514,12 @@ private static Properties testConfig = new Properties();
     sc.setVersion(0);
 
     Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_D);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAYPART_RESPONSE);
     
     try {
       
       t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-      sc = (StrategyConcept) t1.save(sc);
+      sc = (StrategyDayPart) t1.save(sc);
       Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
     
     } catch (ParseException e) {
