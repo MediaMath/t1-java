@@ -94,6 +94,8 @@ private static Properties testConfig = new Properties();
   
   private static String STRATEGY_DAYPART_RESPONSE = null;
   
+  private static String STRATEGY_DOMAIN_RESPONSE = null;
+  
   private static String LOGIN = null;
   
   
@@ -130,6 +132,7 @@ private static Properties testConfig = new Properties();
     ADVERTISER_ERROR_RESPONSE = testConfig.getProperty("t1.mock.save.advertiser_error.response");
     STRATEGY_CONCEPT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_concept.response");
     STRATEGY_DAYPART_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_day_part.response");
+    STRATEGY_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_domain.response");
     
   }
   
@@ -366,9 +369,32 @@ private static Properties testConfig = new Properties();
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
     assertNull(str);
+  }
   
+  
+  @Test
+  public void testStrategyDomainPost() throws ClientException {
+
+    StrategyDomain sd = new StrategyDomain();
+    sd.setDomain("google.com");
+    sd.setRestriction(StrategyDomain.restrictions.INCLUDE);
+    sd.setStrategyId(2035005);
+    //sd.setVersion(0);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DOMAIN_RESPONSE);
+  
+    
+    try {
+        t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+        sd = (StrategyDomain) t1.save(sd);
+        Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)); 
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    
+    assertNotNull(sd);
 
   }
 

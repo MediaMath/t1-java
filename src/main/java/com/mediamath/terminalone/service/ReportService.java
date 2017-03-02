@@ -129,7 +129,7 @@ public class ReportService {
 
       // precision
       if (report.getPrecision() > 0) {
-        path.append("&" + report.getPrecision());
+        path.append("&precision=" + report.getPrecision());
       }
 
     } catch (UnsupportedEncodingException exception) {

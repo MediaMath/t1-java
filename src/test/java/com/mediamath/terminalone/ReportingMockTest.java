@@ -161,6 +161,70 @@ public class ReportingMockTest {
     
   }
   
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testPerformanceReportWithAllCreiteria() throws ClientException, ParseException {
+    
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.getMediaType()).thenReturn(type);
+    Mockito.when(response.getMediaType().getType()).thenReturn("text");
+    Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
+    Mockito.when(response.getStatus()).thenReturn(200);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, stream);
+
+    ReportCriteria report = new ReportCriteria();
+
+    report.setDimension("advertiser_name");
+    report.setDimension("campaign_id");
+    report.setDimension("campaign_name");
+    report.setFilter("organization_id", "=", "100048");
+    report.setMetric("impressions");
+    report.setMetric("clicks");
+    report.setMetric("total_conversions");
+    report.setMetric("media_cost");
+    report.setMetric("total_spend");
+
+    // set having
+    // report.setHaving("key1", "=", "val1,val2");
+
+    // set time_rollup
+    report.setTime_rollup("by_day");
+
+    report.setTime_rollup("by_day");
+    report.setPage_offset("0");
+    report.setPage_limit("10");
+    report.setPrecision(2);
+    
+    report.setHaving("impressions", ">", "500");
+    
+    report.setOrder("-clicks");
+    
+    // set time_window only when no start date and end date specified.
+    // report.setTime_window("last_60_days");
+
+    /*
+     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
+     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
+     */
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    String dateInString = "2015-02-06";
+    String endDateInString = "2015-04-16";
+
+    String startDate = df.format(df.parse(dateInString));
+    String endDate = df.format(df.parse(endDateInString));
+
+    report.setStart_date(startDate);
+    report.setEnd_date(endDate);
+    
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+    
+    assertNotNull(reader);
+    
+  }
+  
   
   @SuppressWarnings("unchecked")
   @Test
