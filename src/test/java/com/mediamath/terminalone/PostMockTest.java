@@ -257,25 +257,32 @@ private static Properties testConfig = new Properties();
   
   @SuppressWarnings("unchecked")
   @Test
-  public void testAdvertiserPostWithErrorMocks() throws ClientException {
+  public void testAdvertiserPostWithErrorMocks() {
 
     Advertiser adv = new Advertiser();
     adv.setAdServerId(9);
     adv.setAgencyId(116677);
 
+    Advertiser adv1 = null;
+    try{
     Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
     Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ADVERTISER_ERROR_RESPONSE);
-    
+    }catch(ClientException ce){
+    	
+    }
     try {
     	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    	adv = (Advertiser) t1.save(adv);
+    	adv1 = (Advertiser) t1.save(adv);
     	Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+      assertNull(adv1);
+    }catch(ClientException ce){
+    	//assertNull(adv1);
     }
 
-    assertNull(adv);
+    
 
   }
 
