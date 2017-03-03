@@ -1,15 +1,4 @@
-dist: trusty
-sudo: required
-addons:
-  sonarqube:
-    token:
-      secure: na3h/3LMjI+kdbOXTZABlrhuhMXalI/TUQwKmgPX87kbc+EJePp8qNXS7S67MwXtnRyQKv7s8I8DPY/K0/R9Cjso/u1TXZvUN8IvmPw3kYfDX02+yslcFAGCBNEOSWmL1fK6MQ/jCrXDIG2i4xwS3Kuw7DFFFrYN/Ypmp5zTJxO63zwH4YHSTWpf3lJrSKjBTgrRTfBf6l9qBv6t7soPq4VH4DnDk+HWNEA92eSqa4uRYJG0kJGf+29twAWmo7oDPenwrLEvTj9asnCIdpr4kP0NfjbWQp2MspuD+rHXzwhrqixwyZ5zUv2+hmISX4rk5JuYKM51+fDIcw11gaQrJ2yE/yCe03Ll9KnB9Roy1ue/0LG2PwSa9vMNPcPptYA/EODFvs0nw5KLBZLDsh426xw6y6g1NbxExG0YPUgnzsCnJY/yyEkbgKwejTUyrqu3QsHttn1KcR0jM4Y0ih8S43RLVr7C30NpOA879ajPs3cTa24v6K7kcaRz1LhiKBnMm+X7fe+F/Pknv4gUkbt2kWKxTX4lzvDo9mfjau0Z4rmQ41OWHZWjvkEMTXtoAXRSot3lvG6fcUB7FQ9rK9fFSX9qdorFjItIOMjXg/JHdZU3qDWCE1vha/YvjCtvPFZhZakTNfI/D5Vl4zasq/gjt6GrIOV+n/m9Cxb41ryTN1o=
 jdk:
 - oraclejdk8
 script:
-  - sonar-scanner
-cache:
-  directories:
-  - "$HOME/.sonar/cache"
-notifications:
-  email: false
+  mvn test -B
