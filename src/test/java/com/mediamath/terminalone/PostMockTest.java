@@ -48,6 +48,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.VideoCreative;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
@@ -96,6 +98,13 @@ private static Properties testConfig = new Properties();
   
   private static String STRATEGY_DOMAIN_RESPONSE = null;
   
+  private static String VIDEO_CREATIVE_SAVE = null;
+  
+  private static String VIDEO_CREATIVE_UPLOAD = null;
+  
+  private static String VIDEO_CREATIVE_UPLOAD_STATUS = null;
+  
+  
   private static String LOGIN = null;
   
   
@@ -133,6 +142,9 @@ private static Properties testConfig = new Properties();
     STRATEGY_CONCEPT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_concept.response");
     STRATEGY_DAYPART_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_day_part.response");
     STRATEGY_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_domain.response");
+    VIDEO_CREATIVE_SAVE = testConfig.getProperty("t1.mock.save.video_creative.response");
+    VIDEO_CREATIVE_UPLOAD = testConfig.getProperty("t1.mock.upload.video_creative.response");
+    VIDEO_CREATIVE_UPLOAD_STATUS = testConfig.getProperty("t1.mock.status.video_creative_upload.response");
     
   }
   
@@ -652,7 +664,78 @@ private static Properties testConfig = new Properties();
 
   }
   
+  
+  @SuppressWarnings("unchecked")
+@Test
+  public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
+   
+	//STAGE 1 : SAVE--------------------------------------
+    VideoCreative videoCreative = new VideoCreative();
+    videoCreative.setName("videoCreative Test March2017");
+    videoCreative.setStartTime(1488326400);
+    videoCreative.setLandingUrl("http://www.somedomain.com");
+    videoCreative.setAdvertiser(182395);
+    videoCreative.setEndTime(1491004800);
+    videoCreative.setConcept(1064563);
+    videoCreative.setClickthroughUrl("http://www.somedomain.com");
+    videoCreative.setSkippableDuration(15);
+    videoCreative.setVendors(1006);
+    videoCreative.setVendors(1046);
+    
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, VIDEO_CREATIVE_SAVE);
 
+    
+    VideoCreativeResponse saveResponse =null;
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+	saveResponse = t1.saveVideoCreatives(videoCreative);
+	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.anyString(), Mockito.any(T1User.class));
+    
+    assertNotNull(saveResponse);
+    assertNotNull(saveResponse.getCreativeId());
+
+  }
+
+  @Test
+  public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
+   
+    String filePath = "C:\\Users\\chaudhari_j\\Desktop\\t1attachements\\blah1234.flv";
+    String fileName = "blah1234.flv";
+    
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, VIDEO_CREATIVE_UPLOAD);
+    
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName,String.valueOf(3595840));
+    
+    Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(T1User.class));
+    
+    
+    assertNotNull(uploadResponse);
+    assertNotNull(uploadResponse.getStatus());
+  }
+  
+  @Test
+  public void testVideoCreativeUploadStatus() throws ClientException, IOException, ParseException {
+   
+    //STAGE 3 : CHECK UPLOAD STATUS--------------------------
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(connectionmock.get(Mockito.anyString(),  Mockito.any(T1User.class))).thenReturn(VIDEO_CREATIVE_UPLOAD_STATUS);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+    
+    // check video creative status VideoCreativeUploadStatus uploadStatus =
+    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+    t1.getVideoCreativeUploadStatus(String.valueOf(3595840));
+    Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+    Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+  }
+
+  
   @SuppressWarnings("unchecked")
   @Test
   public void testAtomicCreatives() throws ClientException {
