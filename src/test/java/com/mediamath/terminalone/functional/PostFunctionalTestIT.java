@@ -282,7 +282,7 @@ public class PostFunctionalTestIT {
     camp.setAdServerFee(10.01, null);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalType(Campaign.goalTypes.cpa);
     camp.setGoalValue(100, null);
     camp.setServiceType(Campaign.servTypes.SELF);
 
@@ -328,7 +328,7 @@ public class PostFunctionalTestIT {
     assertNotNull(jsonresponse);
     Campaign campaignCreated = (Campaign) jsonresponse.getData();
     assertEquals(122631, campaignCreated.getAdvertiserId());
-    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.goalTypes.cpa, campaignCreated.getGoalType());
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
@@ -352,7 +352,7 @@ public class PostFunctionalTestIT {
     camp.setAdServerFee(10.01, null);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalType(Campaign.goalTypes.cpa);
     camp.setGoalValue(100, null);
     camp.setServiceType(Campaign.servTypes.SELF);
 
@@ -397,7 +397,7 @@ public class PostFunctionalTestIT {
     assertNotNull(jsonresponse);
     Campaign campaignCreated = (Campaign) jsonresponse.getData();
     assertEquals(122631, campaignCreated.getAdvertiserId());
-    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.goalTypes.cpa, campaignCreated.getGoalType());
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
@@ -419,7 +419,7 @@ public class PostFunctionalTestIT {
     camp.setAdServerFee(10.01, null);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalType(Campaign.goalTypes.cpa);
     camp.setGoalValue(100, null);
     camp.setServiceType(Campaign.servTypes.SELF);
 
@@ -461,7 +461,7 @@ public class PostFunctionalTestIT {
     assertNotNull(jsonresponse);
     Campaign campaignCreated = (Campaign) jsonresponse.getData();
     assertEquals(122631, campaignCreated.getAdvertiserId());
-    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.goalTypes.cpa, campaignCreated.getGoalType());
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }
@@ -486,7 +486,7 @@ public class PostFunctionalTestIT {
     camp.setAdServerFee(10.01, null);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalType(Campaign.goalTypes.cpa);
     camp.setGoalValue(100, null);
     camp.setServiceType(Campaign.servTypes.SELF);
 
@@ -527,7 +527,7 @@ public class PostFunctionalTestIT {
     assertNotNull(jsonresponse);
     Campaign campaignCreated = (Campaign) jsonresponse.getData();
     assertEquals(122631, campaignCreated.getAdvertiserId());
-    assertEquals(Campaign.goalTypes.cpe, campaignCreated.getGoalType());
+    assertEquals(Campaign.goalTypes.cpa, campaignCreated.getGoalType());
     assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
     assertEquals(800781, campaignCreated.getMeritPixelId());
   }

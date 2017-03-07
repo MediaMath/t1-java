@@ -55,7 +55,7 @@ public class Strategy implements T1Entity {
   } // should be no-limit
 
   public enum goalType {
-    spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi");
+    spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi");
 
     String value;
 
