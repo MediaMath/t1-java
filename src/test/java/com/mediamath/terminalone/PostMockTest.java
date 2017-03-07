@@ -34,15 +34,24 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.Strategy;
+import com.mediamath.terminalone.models.Strategy.freqInt;
+import com.mediamath.terminalone.models.Strategy.freqType;
+import com.mediamath.terminalone.models.Strategy.goalType;
+import com.mediamath.terminalone.models.Strategy.pacInt;
+import com.mediamath.terminalone.models.Strategy.pacType;
+import com.mediamath.terminalone.models.Strategy.siteSelect;
+import com.mediamath.terminalone.models.Strategy.supplyType;
+import com.mediamath.terminalone.models.Strategy.type;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
-import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -104,6 +113,8 @@ private static Properties testConfig = new Properties();
   
   private static String VIDEO_CREATIVE_UPLOAD_STATUS = null;
   
+  private static String STRATEGY_RESPONSE = null;
+  
   
   private static String LOGIN = null;
   
@@ -145,6 +156,7 @@ private static Properties testConfig = new Properties();
     VIDEO_CREATIVE_SAVE = testConfig.getProperty("t1.mock.save.video_creative.response");
     VIDEO_CREATIVE_UPLOAD = testConfig.getProperty("t1.mock.upload.video_creative.response");
     VIDEO_CREATIVE_UPLOAD_STATUS = testConfig.getProperty("t1.mock.status.video_creative_upload.response");
+    STRATEGY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy.response");
     
   }
   
@@ -298,11 +310,12 @@ private static Properties testConfig = new Properties();
 
   }
 
-/*  @Test
+@SuppressWarnings("unchecked")
+@Test
   public void testStrategyPostWithMocks() throws ClientException {
 
     Strategy str = new Strategy();
-    str.setName("ABC Advertisers");
+    str.setName("TestStrategy");
     str.setBudget(100.12f);
     str.setCampaignId(233131);
     str.setFrequencyType(freqType.asap);
@@ -312,14 +325,34 @@ private static Properties testConfig = new Properties();
     str.setGoalValue(12.12f);
     str.setMaxBid(10f);
     str.setPacingAmount(10f);
+    str.setPacingType(pacType.even);
+    str.setPacingInterval(pacInt.day);
+    str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
+    str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
+    str.setBidAggresiveness(50);
+    str.setBidPriceIsMediaOnly(false);
+    str.setDescription("Test Strategy");
+    str.setEffectiveGoalValue(12.12f);
+    str.setMediaType(Strategy.mediaType.DISPLAY);
+    str.setImpressionPacingInterval(freqInt.day);
+    str.setRunOnAllExchanges(false);
+    str.setRunOnAllPmp(false);
+    str.setRunOnDisplay(false);
+    str.setRunOnMobile(false);
+    str.setRunOnStreaming(false);
+    str.setSiteSelectiveness(siteSelect.REDUCED);
+    str.setSiteRestrictionTransparentUrls(false);
+    str.setStatus(false);
+    str.setSupplyType(supplyType.RTB);
+    str.setUseMmFreq(false);
+    str.setUseOptimization(false);
+    str.setZoneName("America/New_York");
     str.setType(type.REM);
-    str.setUseCampaignStart(false);
-    // str.setStart_date("2016-05-13T21:42:29+0000");
+     str.setUseCampaignStart(false);
     str.setUseCampaignEnd(false);
-    // str.setEnd_date("2016-10-12T21:42:29+0000");
     
     Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    //Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_RESPONSE);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_RESPONSE);
     
     try {
       t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
@@ -330,9 +363,9 @@ private static Properties testConfig = new Properties();
       e.printStackTrace();
     }
     assertNotNull(str);
-    assertEquals("ABC Advertisers", str.getName());
+    assertEquals("TestStrategy", str.getName());
   }
-*/
+
 
   @SuppressWarnings("unchecked")
   @Test
@@ -391,7 +424,7 @@ private static Properties testConfig = new Properties();
     assertNull(str);
   }
   
-  
+  @SuppressWarnings("unchecked") 
   @Test
   public void testStrategyDomainPost() throws ClientException {
 
@@ -545,6 +578,7 @@ private static Properties testConfig = new Properties();
 
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testStrategyDayPartPost() throws ClientException {
 
@@ -612,7 +646,6 @@ private static Properties testConfig = new Properties();
 
 	JsonResponse jr = null;  
 	  
-	TerminalOne T1;
     StrategyDayPart sc = new StrategyDayPart();
     sc.setId(1611126);
 
@@ -698,6 +731,7 @@ private static Properties testConfig = new Properties();
 
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
    
@@ -719,6 +753,7 @@ private static Properties testConfig = new Properties();
     assertNotNull(uploadResponse.getStatus());
   }
   
+  @SuppressWarnings("unchecked")
   @Test
   public void testVideoCreativeUploadStatus() throws ClientException, IOException, ParseException {
    

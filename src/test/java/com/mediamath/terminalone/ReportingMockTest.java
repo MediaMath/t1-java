@@ -2,6 +2,7 @@ package com.mediamath.terminalone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -39,6 +40,8 @@ public class ReportingMockTest {
   
   private static String REPORTSMETA = null;
   
+  private static String REPORTSERROR = null;
+  
   private static Properties testConfig = new Properties();
   
   private static String LOGIN = null;
@@ -66,6 +69,7 @@ public class ReportingMockTest {
     VALIDATE_PERFORMANCE_REPORT = testConfig.getProperty("t1.mock.reporting.validate.performance.report");
     META = testConfig.getProperty("t1.mock.reporting.meta");
     REPORTSMETA = testConfig.getProperty("t1.mock.reporting.reportsmeta");
+    REPORTSERROR = testConfig.getProperty("t1.mock.reporting.error");
   }
   
   @After
@@ -282,5 +286,58 @@ public class ReportingMockTest {
     assertEquals("ok", response.getStatus()[0].getCode());
 
   }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testPerformanceReportErrorHandling() {
+    
+    try {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+	} catch (ClientException e) {
+		e.printStackTrace();
+	}
+    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.getMediaType()).thenReturn(type);
+    Mockito.when(response.getMediaType().getType()).thenReturn("text");
+    Mockito.when(response.getMediaType().getSubtype()).thenReturn("xml");
+    Mockito.when(response.getStatus()).thenReturn(100);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, REPORTSERROR);
+
+    ReportCriteria report = new ReportCriteria();
+
+    report.setDimension("advertiser_name");
+    report.setDimension("campaign_id");
+    report.setDimension("campaign_name");
+    report.setFilter("organization_id", "=", "AAAA");
+    report.setMetric("impressions");
+    // set time_rollup
+    report.setTime_rollup("by_day");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    String dateInString = "2015-02-06";
+    String endDateInString = "2015-04-16";
+
+    String startDate, endDate;
+	try {
+		startDate = df.format(df.parse(dateInString));
+		endDate = df.format(df.parse(endDateInString));
+	    report.setStart_date(startDate);
+	    report.setEnd_date(endDate);
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   
+	BufferedReader reader=null;
+
+    try{
+    	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+        reader = t1.getReport(Reports.PERFORMANCE, report);
+    }catch(ClientException ce){
+    	assertNull(reader);
+    }
+
+  }
+
   
 }
