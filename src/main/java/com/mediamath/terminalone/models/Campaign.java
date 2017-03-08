@@ -68,7 +68,7 @@ public class Campaign implements T1Entity {
   }
 
   public enum goalTypes {
-    spend("spend"), reach("reach"), cpc("cpc"), cpe("cpe"), cpa("cpa"), roi("roi"), none("none");
+    spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi"), none("none");
 
     String value;
 

@@ -185,7 +185,7 @@ private static Properties testConfig = new Properties();
     camp.setAdvertiserId(122631);
     camp.setConversionType("variable");
     camp.setConversionVariableMinutes(1);
-    camp.setGoalType(Campaign.goalTypes.cpe);
+    camp.setGoalType(Campaign.goalTypes.cpa);
     camp.setGoalValue(100, null);
     camp.setServiceType(Campaign.servTypes.SELF);
 
