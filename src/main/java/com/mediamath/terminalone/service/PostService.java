@@ -42,9 +42,11 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
+import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
@@ -174,65 +176,132 @@ public class PostService {
   
   
 
-  /**
-   * saves a Strategy entity.
-   * 
-   * @param entity
-   *          expects a Strategy entity.
-   * @return Strategy object.
-   * @throws ClientException
-   *           a client exception is thrown if any error occurs.
-   * @throws ParseException
-   *           a parse exception is thrown when the response cannot be parsed.
-   */
-  @SuppressWarnings("rawtypes")
-  public Strategy save(Strategy entity) throws ClientException, ParseException {
+	/**
+	 * saves a Strategy entity.
+	 * 
+	 * @param entity
+	 *            expects a Strategy entity.
+	 * @return Strategy object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Strategy save(Strategy entity) throws ClientException, ParseException {
 
-    Strategy strategy = null;
-    JsonResponse<? extends T1Entity> finalJsonResponse;
-    if (entity != null) {
-      StringBuilder uri = getUri(entity);
+		Strategy strategy = null;
+		JsonResponse<? extends T1Entity> finalJsonResponse;
+		if (entity != null) {
+			StringBuilder uri = getUri(entity);
 
-      if (entity.getId() > 0) {
-        uri.append("/");
-        uri.append(entity.getId());
-      }
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
 
-      if (entity.getId() > 0 && !entity.getStrategyDomainRestrictions().isEmpty()) {
-        uri.append("/domain_restrictions");
-      }
+			if (entity.getId() > 0 && !entity.getStrategyDomainRestrictions().isEmpty()) {
+				uri.append("/domain_restrictions");
+			}
 
-      if (entity.getId() > 0 && !entity.getAudienceSegments().isEmpty()
-          && entity.getAudienceSegmentExcludeOp() != null
-          && entity.getAudienceSegmentIncludeOp() != null) {
-        uri.append("/audience_segments");
-      }
+			if (entity.getId() > 0 && !entity.getAudienceSegments().isEmpty()
+					&& entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegmentIncludeOp() != null) {
+				uri.append("/audience_segments");
+			}
 
-      String path = t1Service.constructUrl(uri);
+			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
+				uri.append("/site_lists");
+			}
 
-      String responseString = getStrategyResponseString(entity, path);
-      
-      finalJsonResponse = getJsonResponse(entity, responseString);
+			String path = t1Service.constructUrl(uri);
 
-      if (finalJsonResponse == null)
-        return null;
+			String responseString = getStrategyResponseString(entity, path);
 
-      if (finalJsonResponse.getData() == null)
-        return null;
+			finalJsonResponse = getJsonResponse(entity, responseString);
 
-      if (finalJsonResponse.getData() instanceof ArrayList) {
-        List dataList = (ArrayList) finalJsonResponse.getData();
-        if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
-          strategy = entity;
-          strategy.setStrategyAudienceSegments(dataList);
-        }
-      } else {
-        strategy = (Strategy) finalJsonResponse.getData();
-      }
-    }
+			if (finalJsonResponse == null)
+				return null;
 
-    return strategy;
-  }
+			if (finalJsonResponse.getData() == null)
+				return null;
+
+			if (finalJsonResponse.getData() instanceof ArrayList) {
+				List dataList = (ArrayList) finalJsonResponse.getData();
+				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
+					strategy = entity;
+					strategy.setStrategyAudienceSegments(dataList);
+				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
+					strategy = entity;
+					strategy.setSiteLists(dataList);
+				}
+			} else {
+				strategy = (Strategy) finalJsonResponse.getData();
+			}
+		}
+
+		return strategy;
+	}
+
+	/**
+	 * saves a Campaign entity.
+	 * 
+	 * @param entity
+	 *            expects a Campaign entity.
+	 * @return Strategy object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Campaign save(Campaign entity) throws ClientException, ParseException {
+
+		Campaign campaign = null;
+		JsonResponse<? extends T1Entity> finalJsonResponse;
+		if (entity != null) {
+			StringBuilder uri = getUri(entity);
+
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+			
+			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
+			      uri.append("/margins");
+			}
+
+			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
+				uri.append("/site_lists");
+			}
+
+			String path = t1Service.constructUrl(uri);
+
+			String responseString = getResponseString(entity, path);
+
+			finalJsonResponse = getJsonResponse(entity, responseString);
+
+			if (finalJsonResponse == null)
+				return null;
+
+			if (finalJsonResponse.getData() == null)
+				return null;
+
+			if (finalJsonResponse.getData() instanceof ArrayList) {
+				ArrayList dataList = (ArrayList) finalJsonResponse.getData();
+				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
+					campaign = entity;
+					campaign.setSiteLists(dataList);
+				}
+			} else {
+				campaign = (Campaign) finalJsonResponse.getData();
+			}
+		}
+
+		return campaign;
+	}
 
   private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, String response)
       throws ClientException, ParseException {

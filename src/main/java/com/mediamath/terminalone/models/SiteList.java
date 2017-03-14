@@ -16,7 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -28,6 +30,13 @@ public class SiteList implements T1Entity {
 
   public enum restrictions {
     INCLUDE, EXCLUDE
+  }
+  
+  public SiteList(){}
+  
+  public  SiteList(int id, boolean assigned){
+	  this.id = id;
+	  this.assigned = assigned;
   }
 
   private Date created_on;
@@ -41,8 +50,11 @@ public class SiteList implements T1Entity {
   private int version;
   private int sites_count;
   private int sites_count_app;
+  private boolean assigned;
 
   private Organization organization;
+  
+  private List<String> domains = new ArrayList<String>();
 
   public Date getCreatedOn() {
     return created_on;
@@ -140,7 +152,23 @@ public class SiteList implements T1Entity {
     this.sites_count_app = sites_count_app;
   }
 
-  @Override
+  public List<String> getDomains() {
+	return domains;
+}
+
+public void setDomains(List<String> domains) {
+	this.domains = domains;
+}
+
+public boolean isAssigned() {
+	return assigned;
+}
+
+public void setAssigned(boolean assigned) {
+	this.assigned = assigned;
+}
+
+@Override
   public String getEntityname() {
     return entityName;
   }
@@ -149,8 +177,13 @@ public class SiteList implements T1Entity {
   public Form getForm() {
     Form siteListForm = new Form();
 
-    siteListForm.param("name", this.getName());
-    siteListForm.param("filename", this.getFilename());
+    if(this.getName()!=null){
+    	siteListForm.param("name", this.getName());
+    }
+    
+    if(this.getFilename()!=null){
+    	siteListForm.param("filename", this.getFilename());
+    }
 
     if (this.getRestriction() != null) {
       siteListForm.param("restriction", String.valueOf(this.getRestriction()));
@@ -175,6 +208,13 @@ public class SiteList implements T1Entity {
     if (this.getSitesCountApp() > 0) {
       siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
     }
+    
+    //for insert/update of domains against site list
+    if(!this.getDomains().isEmpty()){
+    	for(String str : this.getDomains()){
+    		siteListForm.param("domain", str);
+    	}
+    }
 
     return siteListForm;
   }
@@ -186,6 +226,10 @@ public class SiteList implements T1Entity {
     if (this.getId() > 0) {
       uri.append("/" + this.getId());
     }
+    if(!this.getDomains().isEmpty() && this.getId() > 0){
+    	uri.append("/domains");
+    }
+    
     return uri.toString();
   }
 

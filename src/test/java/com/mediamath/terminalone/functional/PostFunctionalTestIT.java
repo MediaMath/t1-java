@@ -48,6 +48,7 @@ import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
+import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freqInt;
 import com.mediamath.terminalone.models.Strategy.freqType;
@@ -1240,6 +1241,84 @@ public class PostFunctionalTestIT {
     assertEquals(true, updatedPx.isDistributed());
 
   }
+  
+  @Test
+  public void testSiteListAddDomainsPost() throws ClientException{
+	  TerminalOne t1 = new TerminalOne(user, password, apiKey);
+	  SiteList sl   = new SiteList();
+	  sl.setId(99059);
+	  List<String> domains = new ArrayList<String>();
+	  
+	  domains.add("abc.com");
+	  domains.add("google.com");
+	  
+	  sl.setDomains(domains);
+	  
+	  try {
+		  sl = (SiteList) t1.save(sl);
+
+	    } catch (ParseException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	  
+	  assertEquals(null, sl);
+	  
+  }
+  
+  
+  @Test
+  public void testSiteListAssignmentToCampaign() throws ClientException {
+	  
+	  TerminalOne t1 = new TerminalOne(user, password, apiKey);
+	  Campaign cmp = new Campaign();
+	  cmp.setId(340177);
+	  
+	  ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+	  siteList.add(new SiteList(99058,true));
+	  siteList.add(new SiteList(99059,false));
+	  
+	  cmp.setSiteLists(siteList);
+	  
+	  try {
+		  cmp = (Campaign) t1.save(cmp);
+
+	    } catch (ParseException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	  
+	  assertNotNull(cmp);
+	  assertTrue(!cmp.getSiteLists().isEmpty());
+	  
+  }
+  
+  @Test
+  public void testSiteListAssignmentToStrategy() throws ClientException {
+	  
+	  TerminalOne t1 = new TerminalOne(user, password, apiKey);
+	  Strategy cmp = new Strategy();
+	  cmp.setId(2035005);
+	  
+	  ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+	  siteList.add(new SiteList(99058,true));
+	  siteList.add(new SiteList(99059,false));
+	  
+	  cmp.setSiteLists(siteList);
+	  
+	  try {
+		  cmp = (Strategy) t1.save(cmp);
+
+	    } catch (ParseException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	  
+	  assertNotNull(cmp);
+	  assertTrue(!cmp.getSiteLists().isEmpty());
+	  
+  }
+  
 
   /**
    * Create Atomic Creatives.

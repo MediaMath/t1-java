@@ -22,6 +22,7 @@ import java.util.TimeZone;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.models.Segments;
+import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.models.StrategyDomain;
@@ -289,6 +290,17 @@ public class StrategyHelper {
           inc++;
         }
       }
+    }
+    
+    if(!entity.getSiteLists().isEmpty()){
+    	int inc = 1;
+    	for(SiteList sl : entity.getSiteLists()){
+    		if(sl!=null && sl.getId() > 0){
+    			strategyForm.param("site_lists."+inc+".id", String.valueOf(sl.getId()));
+    			strategyForm.param("site_lists."+inc+".assigned", Utility.getOneOrZero(sl.isAssigned()));
+    		}
+    		inc++;
+    	}
     }
 
     Form finalStrategyForm = Utility.getFilteredForm(strategyForm, "strategy");

@@ -133,6 +133,7 @@ public class Campaign implements T1Entity {
   private Advertiser advertiser;
   private AdServer ad_server;
   private Pixel merit_pixel;
+  private ArrayList<SiteList> site_lists= new ArrayList<SiteList>();
 
   public void setMargins(Date date, Double doubleval) {
     margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());
@@ -567,6 +568,14 @@ public class Campaign implements T1Entity {
     }
   }
 
+  public ArrayList<SiteList> getSiteLists() {
+	return site_lists;
+  }
+
+  public void setSiteLists(ArrayList<SiteList> siteLists) {
+	this.site_lists = siteLists;
+  }
+
   @Override
   public Form getForm() {
 
@@ -727,6 +736,18 @@ public class Campaign implements T1Entity {
       campaignForm.param("version", String.valueOf(this.getVersion()));
     }
     
+    
+    if(!this.getSiteLists().isEmpty()){
+    	int inc = 1;
+    	for(SiteList sl : this.getSiteLists()){
+    		if(sl!=null && sl.getId() > 0){
+    			campaignForm.param("site_lists."+inc+".id", String.valueOf(sl.getId()));
+    			campaignForm.param("site_lists."+inc+".assigned", Utility.getOneOrZero(sl.isAssigned()));
+    		}
+    		inc++;
+    	}
+    }
+    
     campaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
     return campaignForm;
@@ -735,17 +756,7 @@ public class Campaign implements T1Entity {
 
   @Override
   public String getUri() {
-    StringBuilder uri = new StringBuilder();
-
-    if (this.getId() > 0) {
-      uri.append("/" + this.getId());
-    }
-
-    if (this.getId() > 0 && this.getMargins().size() > 0) {
-      uri.append("/margins");
-    }
-
-    return uri.toString();
+	  return null;  
   }
 
   public freqTypes getSpendCapType() {

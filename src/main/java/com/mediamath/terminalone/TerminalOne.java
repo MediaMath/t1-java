@@ -41,6 +41,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
+import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -362,6 +363,24 @@ public class TerminalOne {
     return strategy;
   }
 
+  /**
+   * Saves Campaign entity.
+   * 
+   * @param entity
+   *          expects Campaign entity.
+   * @return Campaign object.
+   * @throws ClientException
+   *           a client exception is thrown if any error occurs.
+   * @throws ParseException
+   *           a parse exception is thrown when the response cannot be parsed.
+   */
+  public Campaign save(Campaign entity) throws ClientException, ParseException {
+	  Campaign campaign = null;
+	    if (isAuthenticated()) {
+	    	campaign = postService.save(entity);
+	    }
+	    return campaign;
+  }
 
   /**
    * saves 3pas creative upload file. first call to upload the file. <br>
