@@ -215,9 +215,9 @@ public final class Constants {
 	private static final String ADVERTISERS = "advertisers";
 
 	private static final String AD_SERVERS = "ad_servers";
-	
+
 	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
-	
+
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
 
 	// required for converting requested string path names to entity names when
@@ -475,13 +475,13 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(SITE_LIST, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
 		}.getType());
-		
+
 		getListoFEntityType.put(SITE_LISTS_FOR_CAMPAIGN, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
 		}.getType());
-		
+
 		getListoFEntityType.put(SITE_LISTS_FOR_STRATEGY, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
 		}.getType());
-		
+
 		getListoFEntityType.put(SITE_PLACEMENTS, new TypeToken<JsonResponse<ArrayList<SitePlacement>>>() {
 		}.getType());
 		getListoFEntityType.put(SITE_PLACEMENT, new TypeToken<JsonResponse<ArrayList<SitePlacement>>>() {

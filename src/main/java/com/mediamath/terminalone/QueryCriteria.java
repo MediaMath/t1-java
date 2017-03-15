@@ -27,259 +27,259 @@ import com.mediamath.terminalone.utils.QueryParamValues;
 
 public class QueryCriteria {
 
-  public String collection = null;
+	public String collection = null;
 
-  public long entity = 0;
+	public long entity = 0;
 
-  public List<String> child = new ArrayList<String>();
+	public List<String> child = new ArrayList<String>();
 
-  public List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+	public List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
 
-  public String sortBy = null;
+	public String sortBy = null;
 
-  public int pageLimit = 100;
+	public int pageLimit = 100;
 
-  public int pageOffset = 0;
+	public int pageOffset = 0;
 
-  public boolean getAll;
+	public boolean getAll;
 
-  public long parent = 0;
+	public long parent = 0;
 
-  public Map<String, Long> limit = new HashMap<String, Long>();
+	public Map<String, Long> limit = new HashMap<String, Long>();
 
-  public String query = null;
+	public String query = null;
 
-  public String queryParamName = null;
-  
-  public boolean downloadSiteList = false;
+	public String queryParamName = null;
 
-  /*
-   * String queryParamValueStr = null;
-   * 
-   * boolean queryParamValueBoolean;
-   * 
-   * Number queryParamValueNumber = null;
-   * 
-   * List<Object> queryParamValueList = new ArrayList<Object>();
-   */
+	public boolean downloadSiteList = false;
 
-  public String queryOperator = null;
+	/*
+	 * String queryParamValueStr = null;
+	 * 
+	 * boolean queryParamValueBoolean;
+	 * 
+	 * Number queryParamValueNumber = null;
+	 * 
+	 * List<Object> queryParamValueList = new ArrayList<Object>();
+	 */
 
-  public QueryParamValues queryParams = null;
+	public String queryOperator = null;
 
-  public FullParamValues full = null;
+	public QueryParamValues queryParams = null;
 
-  /**
-   * Query Criteria builder object.
-   * 
-   * @param builder
-   * 
-   */
-  public QueryCriteria(Builder builder) {
+	public FullParamValues full = null;
 
-    collection = builder.collection;
+	/**
+	 * Query Criteria builder object.
+	 * 
+	 * @param builder
+	 * 
+	 */
+	public QueryCriteria(Builder builder) {
 
-    entity = builder.entity;
+		collection = builder.collection;
 
-    child = builder.child;
+		entity = builder.entity;
 
-    includeConditionList = builder.includeConditionList;
+		child = builder.child;
 
-    sortBy = builder.sortBy;
+		includeConditionList = builder.includeConditionList;
 
-    if (builder.pageLimit > 0) {
-      pageLimit = builder.pageLimit;
-    }
+		sortBy = builder.sortBy;
 
-    parent = builder.parent;
+		if (builder.pageLimit > 0) {
+			pageLimit = builder.pageLimit;
+		}
 
-    pageOffset = builder.pageOffset;
+		parent = builder.parent;
 
-    getAll = builder.getAll;
+		pageOffset = builder.pageOffset;
 
-    limit = builder.limit;
+		getAll = builder.getAll;
 
-    query = builder.query;
+		limit = builder.limit;
 
-    queryParamName = builder.queryParamName;
+		query = builder.query;
 
-    full = builder.full;
+		queryParamName = builder.queryParamName;
 
-    queryParams = builder.queryParams;
+		full = builder.full;
 
-    queryOperator = builder.queryOperator;
-    
-    downloadSiteList = builder.downloadSiteList;
-  }
+		queryParams = builder.queryParams;
 
-  public static Builder builder() {
-    return new Builder();
-  }
+		queryOperator = builder.queryOperator;
 
-  public static Builder builder(QueryCriteria oldQueryCriteria) {
-    return new Builder(oldQueryCriteria);
-  }
-
-  public static class Builder {
-
-    private String collection = null;
-
-    private long entity;
-
-    public List<String> child = new ArrayList<String>();
-
-    List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
-
-    private String sortBy = null;
-
-    private int pageLimit;
-
-    private long parent;
-
-    private int pageOffset;
-
-    private boolean getAll;
-
-    private Map<String, Long> limit = new HashMap<String, Long>();
-
-    private String query = null;
-
-    private String queryParamName = null;
-
-    private String queryOperator = null;
-
-    private QueryParamValues queryParams = null;
-
-    private FullParamValues full = null;
-    
-    private boolean downloadSiteList = false;
-
-    private Builder() {
-    }
-
-    private Builder(QueryCriteria old) {
-
-      collection = old.collection;
-
-      entity = old.entity;
-
-      child = old.child;
-
-      includeConditionList = old.includeConditionList;
-
-      sortBy = old.sortBy;
-
-      if (old.pageLimit > 0) {
-        pageLimit = old.pageLimit;
-      }
-
-      parent = old.parent;
-
-      full = old.full;
-
-      pageOffset = old.pageOffset;
-
-      limit = old.limit;
-
-      query = old.query;
-
-      queryParamName = old.queryParamName;
-
-      queryOperator = old.queryOperator;
-
-      queryParams = old.queryParams;
-      
-      downloadSiteList = old.downloadSiteList;
-    }
-
-    public Builder setCollection(String value) {
-      collection = value;
-      return this;
-    }
-
-    public Builder setEntity(long value) {
-      entity = value;
-      return this;
-    }
-
-    public Builder setChild(String value) {
-      child.add(value);
-      return this;
-    }
-
-    public Builder setInclude(ConditionQuery value) {
-      includeConditionList.add(value);
-      return this;
-    }
-
-    public Builder setSortBy(String sortBy) {
-      this.sortBy = sortBy;
-      return this;
-    }
-
-    public Builder setPageLimit(int pageLimit) {
-      this.pageLimit = pageLimit;
-      return this;
-    }
-
-    public Builder setParent(long parent) {
-      this.parent = parent;
-      return this;
-    }
-
-    public Builder setFull(FullParamValues full) {
-      this.full = full;
-      return this;
-    }
-
-    public Builder setPageOffset(int pageOffset) {
-      this.pageOffset = pageOffset;
-      return this;
-    }
-
-    public Builder setGetAll(boolean getAll) {
-      this.getAll = getAll;
-      return this;
-    }
-
-    public Builder setLimit(Map<String, Long> limit) {
-      this.limit = limit;
-      return this;
-    }
-
-    public Builder setIncludeConditionList(List<ConditionQuery> includeConditionList) {
-      this.includeConditionList = includeConditionList;
-      return this;
-    }
-
-    public Builder setQuery(String query) {
-      this.query = query;
-      return this;
-    }
-
-    public Builder setQueryParamName(String queryParamName) {
-      this.queryParamName = queryParamName;
-      return this;
-    }
-
-    public Builder setQueryOperator(String queryOperator) {
-      this.queryOperator = queryOperator;
-      return this;
-    }
-
-    public Builder setQueryParams(QueryParamValues queryParams) {
-      this.queryParams = queryParams;
-      return this;
-    }
-
-	public Builder setDownloadSiteList(boolean downloadSiteList) {
-		this.downloadSiteList = downloadSiteList;
-		return this;
+		downloadSiteList = builder.downloadSiteList;
 	}
 
-	public QueryCriteria build() {
-      return new QueryCriteria(this);
-    }
-  }
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static Builder builder(QueryCriteria oldQueryCriteria) {
+		return new Builder(oldQueryCriteria);
+	}
+
+	public static class Builder {
+
+		private String collection = null;
+
+		private long entity;
+
+		public List<String> child = new ArrayList<String>();
+
+		List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+
+		private String sortBy = null;
+
+		private int pageLimit;
+
+		private long parent;
+
+		private int pageOffset;
+
+		private boolean getAll;
+
+		private Map<String, Long> limit = new HashMap<String, Long>();
+
+		private String query = null;
+
+		private String queryParamName = null;
+
+		private String queryOperator = null;
+
+		private QueryParamValues queryParams = null;
+
+		private FullParamValues full = null;
+
+		private boolean downloadSiteList = false;
+
+		private Builder() {
+		}
+
+		private Builder(QueryCriteria old) {
+
+			collection = old.collection;
+
+			entity = old.entity;
+
+			child = old.child;
+
+			includeConditionList = old.includeConditionList;
+
+			sortBy = old.sortBy;
+
+			if (old.pageLimit > 0) {
+				pageLimit = old.pageLimit;
+			}
+
+			parent = old.parent;
+
+			full = old.full;
+
+			pageOffset = old.pageOffset;
+
+			limit = old.limit;
+
+			query = old.query;
+
+			queryParamName = old.queryParamName;
+
+			queryOperator = old.queryOperator;
+
+			queryParams = old.queryParams;
+
+			downloadSiteList = old.downloadSiteList;
+		}
+
+		public Builder setCollection(String value) {
+			collection = value;
+			return this;
+		}
+
+		public Builder setEntity(long value) {
+			entity = value;
+			return this;
+		}
+
+		public Builder setChild(String value) {
+			child.add(value);
+			return this;
+		}
+
+		public Builder setInclude(ConditionQuery value) {
+			includeConditionList.add(value);
+			return this;
+		}
+
+		public Builder setSortBy(String sortBy) {
+			this.sortBy = sortBy;
+			return this;
+		}
+
+		public Builder setPageLimit(int pageLimit) {
+			this.pageLimit = pageLimit;
+			return this;
+		}
+
+		public Builder setParent(long parent) {
+			this.parent = parent;
+			return this;
+		}
+
+		public Builder setFull(FullParamValues full) {
+			this.full = full;
+			return this;
+		}
+
+		public Builder setPageOffset(int pageOffset) {
+			this.pageOffset = pageOffset;
+			return this;
+		}
+
+		public Builder setGetAll(boolean getAll) {
+			this.getAll = getAll;
+			return this;
+		}
+
+		public Builder setLimit(Map<String, Long> limit) {
+			this.limit = limit;
+			return this;
+		}
+
+		public Builder setIncludeConditionList(List<ConditionQuery> includeConditionList) {
+			this.includeConditionList = includeConditionList;
+			return this;
+		}
+
+		public Builder setQuery(String query) {
+			this.query = query;
+			return this;
+		}
+
+		public Builder setQueryParamName(String queryParamName) {
+			this.queryParamName = queryParamName;
+			return this;
+		}
+
+		public Builder setQueryOperator(String queryOperator) {
+			this.queryOperator = queryOperator;
+			return this;
+		}
+
+		public Builder setQueryParams(QueryParamValues queryParams) {
+			this.queryParams = queryParams;
+			return this;
+		}
+
+		public Builder setDownloadSiteList(boolean downloadSiteList) {
+			this.downloadSiteList = downloadSiteList;
+			return this;
+		}
+
+		public QueryCriteria build() {
+			return new QueryCriteria(this);
+		}
+	}
 
 }
