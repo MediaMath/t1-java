@@ -18,6 +18,8 @@ package com.mediamath.terminalone;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.core.Form;
@@ -598,6 +600,49 @@ public class TerminalOne {
     return jsonResponse;
   }
 
+  
+  /**
+   * getSiteListData for SiteList Download
+   * 
+   * @param query
+   *          expects a QueryCriteria entity.
+   * 
+   * @return BufferedReader.
+   * 
+   * @throws ClientException
+   *           a client exception is thrown if any error occurs.
+   * @throws ParseException
+   *           a parse exception is thrown when the response cannot be parsed.
+   */
+  public BufferedReader getSiteListData(QueryCriteria query) throws ClientException, ParseException {
+
+    StringBuilder path = getService.get(query);
+
+    // get the data from t1 servers.
+    String finalPath = tOneService.constructUrl(path);
+    Response response = connection.getReportData(finalPath, this.getUser());
+    BufferedReader reader = null;
+    
+    if (response.getStatus() != 200) {
+    	  JsonPostErrorResponse jsonPostErrorResponse=null;
+    	  jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response.readEntity(String.class));
+		  if (jsonPostErrorResponse != null) {
+		      postService.throwExceptions(jsonPostErrorResponse);
+		  }		  
+
+    } else if ("text".equalsIgnoreCase(response.getMediaType().getType()) 
+          && "csv".equalsIgnoreCase(response.getMediaType().getSubtype())
+          && response.getStatus() == 200) {
+      
+      InputStream responseStream = response.readEntity(InputStream.class);
+      reader = new BufferedReader(new InputStreamReader(responseStream));
+    }
+    
+    return reader;
+  }
+
+  
+  
   /**
    * GET meta of all the reports available.
    * 

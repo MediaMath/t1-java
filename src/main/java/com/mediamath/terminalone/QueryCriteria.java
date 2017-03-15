@@ -50,6 +50,8 @@ public class QueryCriteria {
   public String query = null;
 
   public String queryParamName = null;
+  
+  public boolean downloadSiteList = false;
 
   /*
    * String queryParamValueStr = null;
@@ -106,6 +108,8 @@ public class QueryCriteria {
     queryParams = builder.queryParams;
 
     queryOperator = builder.queryOperator;
+    
+    downloadSiteList = builder.downloadSiteList;
   }
 
   public static Builder builder() {
@@ -147,6 +151,8 @@ public class QueryCriteria {
     private QueryParamValues queryParams = null;
 
     private FullParamValues full = null;
+    
+    private boolean downloadSiteList = false;
 
     private Builder() {
     }
@@ -182,6 +188,8 @@ public class QueryCriteria {
       queryOperator = old.queryOperator;
 
       queryParams = old.queryParams;
+      
+      downloadSiteList = old.downloadSiteList;
     }
 
     public Builder setCollection(String value) {
@@ -264,7 +272,12 @@ public class QueryCriteria {
       return this;
     }
 
-    public QueryCriteria build() {
+	public Builder setDownloadSiteList(boolean downloadSiteList) {
+		this.downloadSiteList = downloadSiteList;
+		return this;
+	}
+
+	public QueryCriteria build() {
       return new QueryCriteria(this);
     }
   }

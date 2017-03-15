@@ -96,7 +96,13 @@ public class GetService {
     }else if(query.limit.size()>1){
     	throw new ClientException("Limit must consist of one parent collection (or chained parent collection) and a single value for it");
     }
-
+    
+    
+    //applicable only for sitelist with id
+    if(query.downloadSiteList){
+    	path.append("/download.csv");
+    }
+    
     // param include
     if (query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
       includePath = constructIncludePath(query.includeConditionList);

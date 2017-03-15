@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import java.util.Properties;
 
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -63,12 +63,12 @@ public class GetFunctionalTestIT {
     InputStream input = PostFunctionalTestIT.class.getClassLoader()
         .getResourceAsStream("test.properties");
     testConfig.load(input);
-    user = testConfig.getProperty("username");
-    password = testConfig.getProperty("password");
-    apiKey = testConfig.getProperty("sandbox_api_key");
-    productionKey = testConfig.getProperty("production_api_key");
-    oauthKey = testConfig.getProperty("oauth_api_key");
-    oauthSecret = testConfig.getProperty("oauth_secret");
+    user = testConfig.getProperty("t1.username");
+    password = testConfig.getProperty("t1.password");
+    apiKey = testConfig.getProperty("t1.sandbox_api_key");
+    productionKey = testConfig.getProperty("t1.production_api_key");
+    oauthKey = testConfig.getProperty("t1.oauth_api_key");
+    oauthSecret = testConfig.getProperty("t1.oauth_secret");
   }
 
   @After
@@ -877,9 +877,33 @@ public class GetFunctionalTestIT {
     }
 
     assertNotNull(jsonresponse);
-    List<AdServer> adservers = (List<AdServer>) jsonresponse.getData();
+    @SuppressWarnings("unchecked")
+	List<AdServer> adservers = (List<AdServer>) jsonresponse.getData();
     assertNotNull(adservers);
     assertTrue(adservers.size() > 0);
   }
+  
+  @Test
+  public void testGetForSiteListDownload() throws ClientException {
+    TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+    QueryCriteria query = QueryCriteria.builder()
+    		.setCollection("site_lists").
+    		setEntity(95358)
+    		.setDownloadSiteList(true).setPageLimit(0)
+        .build();
+
+    BufferedReader reader = null;
+
+    try {
+      reader = jt1.getSiteListData(query);
+    } catch (ClientException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    assertNotNull(reader);
+    
+  }
+  
 
 }
