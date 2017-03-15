@@ -73,7 +73,8 @@ public final class Constants {
 
 	private static final String SITE_PLACEMENT = "site_placement";
 
-	private static final String SITE_LIST = "site_list";
+	private static final String SITE_LIST_U = "site_list";
+	private static final String SITE_LIST = "sitelist";
 
 	private static final String PLACEMENT_SLOT = "placement_slot";
 
@@ -215,6 +216,10 @@ public final class Constants {
 
 	private static final String AD_SERVERS = "ad_servers";
 
+	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
+
+	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
+
 	// required for converting requested string path names to entity names when
 	// collection demended
 	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String, String>();
@@ -303,6 +308,10 @@ public final class Constants {
 		}.getType());
 
 		getEntityType.put(SITE_LISTS, new TypeToken<JsonResponse<SiteList>>() {
+		}.getType());
+		getEntityType.put(SITE_LIST_U, new TypeToken<JsonResponse<SiteList>>() {
+		}.getType());
+		getEntityType.put(SITE_LIST, new TypeToken<JsonResponse<SiteList>>() {
 		}.getType());
 		getEntityType.put(SITE_PLACEMENTS, new TypeToken<JsonResponse<SitePlacement>>() {
 		}.getType());
@@ -462,8 +471,17 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(SITE_LISTS, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
 		}.getType());
+		getListoFEntityType.put(SITE_LIST_U, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
+		}.getType());
 		getListoFEntityType.put(SITE_LIST, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
 		}.getType());
+
+		getListoFEntityType.put(SITE_LISTS_FOR_CAMPAIGN, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
+		}.getType());
+
+		getListoFEntityType.put(SITE_LISTS_FOR_STRATEGY, new TypeToken<JsonResponse<ArrayList<SiteList>>>() {
+		}.getType());
+
 		getListoFEntityType.put(SITE_PLACEMENTS, new TypeToken<JsonResponse<ArrayList<SitePlacement>>>() {
 		}.getType());
 		getListoFEntityType.put(SITE_PLACEMENT, new TypeToken<JsonResponse<ArrayList<SitePlacement>>>() {
@@ -631,7 +649,7 @@ public final class Constants {
 		pathToEntity.put(PLACEMENT_SLOT, "PlacementSlot");
 		pathToEntity.put(PUBLISHER, "Publisher");
 		pathToEntity.put(PUBLISHER_SITE, "PublisherSite");
-		pathToEntity.put(SITE_LIST, "SiteList");
+		pathToEntity.put(SITE_LIST_U, "SiteList");
 		pathToEntity.put(SITE_PLACEMENT, "SitePlacement");
 		pathToEntity.put(STRATEGY, "Strategy");
 		pathToEntity.put(STRATEGY_CONCEPT, "StrategyConcept");
