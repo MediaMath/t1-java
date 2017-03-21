@@ -3,6 +3,7 @@ package com.mediamath.terminalone;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
+import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freqInt;
 import com.mediamath.terminalone.models.Strategy.freqType;
@@ -115,6 +117,12 @@ private static Properties testConfig = new Properties();
   
   private static String STRATEGY_RESPONSE = null;
   
+  private static String STRATEGY_SITELIST_RESPONSE = null;
+  
+  private static String CAMPAIGN_SITELIST_RESPONSE = null;
+  
+  private static String SITELIST_DOMAIN_RESPONSE = null;
+  
   
   private static String LOGIN = null;
   
@@ -156,8 +164,10 @@ private static Properties testConfig = new Properties();
     VIDEO_CREATIVE_SAVE = testConfig.getProperty("t1.mock.save.video_creative.response");
     VIDEO_CREATIVE_UPLOAD = testConfig.getProperty("t1.mock.upload.video_creative.response");
     VIDEO_CREATIVE_UPLOAD_STATUS = testConfig.getProperty("t1.mock.status.video_creative_upload.response");
-    STRATEGY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy.response");
-    
+    STRATEGY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy.response");   
+    STRATEGY_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_sitelist.response");
+    CAMPAIGN_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_sitelist.response");
+    SITELIST_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.sitelist_domains.response");
   }
   
   @After
@@ -696,6 +706,101 @@ private static Properties testConfig = new Properties();
   
 
   }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategySiteListPost() throws ClientException {
+
+	  	Strategy cmp = new Strategy();
+		cmp.setId(2035005);
+
+		ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+		siteList.add(new SiteList(99058, true));
+		siteList.add(new SiteList(99059, false));
+
+		cmp.setSiteLists(siteList);
+    
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_SITELIST_RESPONSE);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      cmp = (Strategy) t1.save(cmp);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(cmp);
+	assertTrue(!cmp.getSiteLists().isEmpty());
+  
+
+  }
+  
+	@Test
+	public void testSiteListAssignmentToCampaign() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(340177);
+
+		ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+		siteList.add(new SiteList(99058, true));
+		siteList.add(new SiteList(99059, false));
+
+		cmp.setSiteLists(siteList);
+		
+	    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+	    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_SITELIST_RESPONSE);
+
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmp = (Campaign) t1.save(cmp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmp);
+		assertTrue(!cmp.getSiteLists().isEmpty());
+
+	}
+  
+  
+  @Test
+	public void testSiteListAddDomainsPost() throws ClientException {
+		SiteList sl = new SiteList();
+		sl.setId(99059);
+		List<String> domains = new ArrayList<String>();
+
+		domains.add("abc.com");
+		domains.add("google.com");
+
+		sl.setDomains(domains);
+
+	    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+	    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, SITELIST_DOMAIN_RESPONSE);
+		
+	    try {
+	        
+	        t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+	        sl = (SiteList) t1.save(sl);
+	        Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+	      
+	      } catch (ParseException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	      }
+	      
+	    assertEquals(null, sl);
+
+	}
+  
   
   
   @SuppressWarnings("unchecked")
