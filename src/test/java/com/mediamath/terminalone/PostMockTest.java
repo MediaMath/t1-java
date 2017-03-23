@@ -122,6 +122,8 @@ private static Properties testConfig = new Properties();
   
   private static String SITELIST_DOMAIN_RESPONSE = null;
   
+  private static String STRATEGY_DEALS_RESPONSE = null;
+  
   
   private static String LOGIN = null;
   
@@ -167,6 +169,7 @@ private static Properties testConfig = new Properties();
     STRATEGY_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_sitelist.response");
     CAMPAIGN_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_sitelist.response");
     SITELIST_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.sitelist_domains.response");
+    STRATEGY_DEALS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_deals.reaponse");
   }
   
   @After
@@ -739,6 +742,41 @@ private static Properties testConfig = new Properties();
   
 
   }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testStrategyDealsPost() throws ClientException {
+
+	  	Strategy cmp = new Strategy();
+		cmp.setId(2145568);
+
+		ArrayList<Integer> deals = new ArrayList<>();
+		deals.add(173102);
+		deals.add(173101);
+		deals.add(172912);
+		cmp.setDealIds(deals);
+
+    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DEALS_RESPONSE);
+    
+    try {
+      
+      t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+      cmp = (Strategy) t1.save(cmp);
+      Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+    
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    assertNotNull(cmp);
+	assertTrue(!cmp.getDeals().isEmpty());
+  
+
+  }
+
+  
   
 	@Test
 	public void testSiteListAssignmentToCampaign() throws ClientException {

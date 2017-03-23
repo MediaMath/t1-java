@@ -211,6 +211,11 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
 			}
+			
+			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
+				uri.append("/deals");
+			}
+			
 
 			String path = t1Service.constructUrl(uri);
 
@@ -238,7 +243,6 @@ public class PostService {
 				strategy = (Strategy) finalJsonResponse.getData();
 			}
 		}
-
 		return strategy;
 	}
 

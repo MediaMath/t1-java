@@ -594,6 +594,26 @@ public class GetFunctionalTestIT {
 		assertNotNull(strategy);
 		assertNotNull(strategy.getAggregate());
 	}
+	
+	@Test
+	public void testGetForStrategyDeals() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2145568)
+				.setChild("deals").setPageLimit(1).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		Strategy strategy = (Strategy) jsonresponse.getData();
+		assertNotNull(strategy);
+		//assertNotNull(strategy.getAggregate());
+	}
 
 	@Test
 	public void testStrategyGetWithConcepts() throws ClientException {

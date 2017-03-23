@@ -759,5 +759,47 @@ public class GetMockTest {
 		assertNotNull(data);
 		assertNotNull(data.enabled.getActive());
 	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithStrategyChildDealsUsingMocks() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
+				.thenReturn("{\"data\":{\"run_on_streaming\":false,\"use_mm_freq\":false,\"run_on_display\":true,\"zone_name\":\"Europe/London\",\"updated_on\":\"2017-03-23T04:09:09+0000\","
+							+"\"frequency_interval\":\"not-applicable\",\"campaign_id\":349847,\"targeting_segment_exclude_op\":\"OR\",\"created_on\":\"2017-03-23T03:01:55+0000\","
+							+"\"targeting_segment_include_op\":\"OR\",\"run_on_all_pmp\":false,\"id\":2145568,\"impression_pacing_interval\":\"day\",\"currency_code\":\"KRW\",\"use_campaign_start\":true,"
+							+"\"name\":\"GBP-Test\",\"frequency_amount\":0,\"type\":\"AUD\",\"pixel_target_expr\":\"\",\"impression_pacing_type\":\"no-limit\",\"bid_price_is_media_only\":false,"
+							+"\"frequency_optimization\":true,\"supply_type\":\"RTB\",\"pacing_type\":\"asap\",\"goal_type\":\"cpc\",\"frequency_type\":\"no-limit\",\"status\":true,"
+							+"\"budget\":[{\"currency_code\":\"KRW\",\"value\":10}],\"effective_goal_value\":[{\"currency_code\":\"KRW\",\"value\":\"1.0000\"}],\"goal_value\":[{\"currency_code\":\"KRW\",\"value\":1}],"
+							+"\"pacing_amount\":[{\"currency_code\":\"KRW\",\"value\":1}],\"site_restriction_transparent_urls\":false,\"media_type\":\"DISPLAY\",\"entity_type\":\"strategy\","
+							+"\"run_on_mobile\":true,\"deals\":[{\"entity_type\":\"deal\",\"id\":173096}],\"use_optimization\":true,\"max_bid\":[{\"currency_code\":\"KRW\",\"value\":16.03}],"
+							+"\"audience_segment_include_op\":\"OR\",\"run_on_all_exchanges\":false,\"bid_aggressiveness\":50,\"version\":15,\"audience_segment_exclude_op\":\"OR\","
+							+"\"site_selectiveness\":\"REDUCED\",\"use_campaign_end\":true,\"min_bid\":[{\"currency_code\":\"KRW\",\"value\":0}],\"pacing_interval\":\"day\"},"
+							+"\"meta\":{\"etag\":\"51b3b8ca8ddca9397c206bc3b93dcecd406a8d01\",\"called_on\":\"2017-03-23T10:57:39+0000\",\"status\":\"ok\"}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2145568).setChild("deals")
+				.setPageLimit(1).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		Strategy data = (Strategy) jsonresponse.getData();
+		assertNotNull(data);
+
+	}
+	
 
 }

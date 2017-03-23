@@ -157,6 +157,8 @@ public class Strategy implements T1Entity {
 	List<TargetValues> target_values = new ArrayList<TargetValues>();
 	List<Concept> concepts = new ArrayList<Concept>();
 	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
+	List<Deal> deals = new ArrayList<>();
+	List<Integer> dealIds = new ArrayList<>();
 
 	private List<SiteList> site_lists = new ArrayList<SiteList>();
 
@@ -664,6 +666,22 @@ public class Strategy implements T1Entity {
 
 	public void setStrategyAudienceSegments(List<StrategyAudienceSegment> strategyAudienceSegments) {
 		this.strategyAudienceSegments = strategyAudienceSegments;
+	}
+
+	public List<Deal> getDeals() {
+		return deals;
+	}
+
+	public void setDeals(List<Deal> deals) {
+		this.deals = deals;
+	}
+
+	public List<Integer> getDealIds() {
+		return dealIds;
+	}
+
+	public void setDealIds(List<Integer> dealIds) {
+		this.dealIds = dealIds;
 	}
 
 	@Override
