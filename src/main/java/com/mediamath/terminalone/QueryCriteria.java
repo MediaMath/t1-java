@@ -53,16 +53,6 @@ public class QueryCriteria {
 
 	public boolean downloadSiteList = false;
 
-	/*
-	 * String queryParamValueStr = null;
-	 * 
-	 * boolean queryParamValueBoolean;
-	 * 
-	 * Number queryParamValueNumber = null;
-	 * 
-	 * List<Object> queryParamValueList = new ArrayList<Object>();
-	 */
-
 	public String queryOperator = null;
 
 	public QueryParamValues queryParams = null;

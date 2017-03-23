@@ -103,7 +103,7 @@ public class ReportingFunctionalTestIT {
     // report.setHaving("key1", "=", "val1,val2");
 
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
 
     // set time_window only when no start date and end date specified.
     // report.setTime_window("last_60_days");
@@ -120,8 +120,8 @@ public class ReportingFunctionalTestIT {
     String startDate = df.format(df.parse(dateInString));
     String endDate = df.format(df.parse(endDateInString));
 
-    report.setStart_date(startDate);
-    report.setEnd_date(endDate);
+    report.setStartDate(startDate);
+    report.setEndDate(endDate);
 
     BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
     assertNotNull(reader);
@@ -150,7 +150,7 @@ public class ReportingFunctionalTestIT {
     // report.setHaving("key1", "=", "val1,val2");
 
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
 
     // set time_window only when no start date and end date specified.
     // report.setTime_window("last_60_days");
@@ -167,8 +167,8 @@ public class ReportingFunctionalTestIT {
     String startDate = df.format(df.parse(dateInString));
     String endDate = df.format(df.parse(endDateInString));
 
-    report.setStart_date(startDate);
-    report.setEnd_date(endDate);
+    report.setStartDate(startDate);
+    report.setEndDate(endDate);
 
     ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
 

@@ -627,8 +627,7 @@ public class TerminalOne {
 		BufferedReader reader = null;
 
 		if (response.getStatus() != 200) {
-			JsonPostErrorResponse jsonPostErrorResponse = null;
-			jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response.readEntity(String.class));
+			JsonPostErrorResponse jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response.readEntity(String.class));
 			if (jsonPostErrorResponse != null) {
 				postService.throwExceptions(jsonPostErrorResponse);
 			}

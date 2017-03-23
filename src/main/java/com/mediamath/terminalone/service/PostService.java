@@ -425,37 +425,44 @@ public class PostService {
 					+ "/" + creativeId + "/upload?fileName=" + fileName);
 
 			String finalPath = path.toString();
+			FormDataMultiPart formDataMultiPart = null;
 
 			// post binary only
-			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
-			FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-			final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
-
-			Response responseObj = this.connection.post(finalPath, multipart, this.user);
-
-			String response = responseObj.readEntity(String.class);
-
-			T1JsonToObjParser parser = new T1JsonToObjParser();
-
-			if (response.isEmpty()) {
-				formDataMultiPart.close();
+			try {
+				FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+				formDataMultiPart = new FormDataMultiPart();
+				final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
+	
+				Response responseObj = this.connection.post(finalPath, multipart, this.user);
+	
+				String response = responseObj.readEntity(String.class);
+	
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+	
+				if (response.isEmpty()) {
+					formDataMultiPart.close();
+					multipart.close();
+					return null;
+				}
+	
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+	
+				if (error != null)
+					throwExceptions(error);
+	
+				VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
+				if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
+					parsedVideoCreativeResponse.setCreativeId(creativeId);
+					videoCreative = parsedVideoCreativeResponse;
+				}	
+				
 				multipart.close();
-				return null;
 			}
-
-			JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
-
-			if (error != null)
-				throwExceptions(error);
-
-			VideoCreativeResponse parsedVideoCreativeResponse = parser.parseVideoCreative(response);
-			if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
-				parsedVideoCreativeResponse.setCreativeId(creativeId);
-				videoCreative = parsedVideoCreativeResponse;
+			finally {
+				if (formDataMultiPart !=null) {
+					formDataMultiPart.close();
+				}
 			}
-
-			formDataMultiPart.close();
-			multipart.close();
 		}
 		return videoCreative;
 	}
@@ -752,12 +759,6 @@ public class PostService {
 
 		if (jsonPostErrorResponse == null) {
 			parsedJsonResponse = parser.parseTOneASCreativeAssetsApproveResponse(jsonResponse);
-			/*
-			 * if (parsedJsonResponse.getData() instanceof
-			 * TOneASCreativeAssetsApproveResponse) { response =
-			 * (TOneASCreativeAssetsApproveResponse)
-			 * parsedJsonResponse.getData(); }
-			 */
 		} else {
 			throwExceptions(jsonPostErrorResponse);
 		}

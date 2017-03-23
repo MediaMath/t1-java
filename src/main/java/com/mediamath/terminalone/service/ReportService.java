@@ -141,18 +141,18 @@ public class ReportService {
   }
 
   private void filterPageLimitPageOffset(ReportCriteria report, StringBuilder path) {
-    if (report.getPage_limit() != null && !report.getPage_limit().isEmpty()
-        && (report.getPage_offset() == null || report.getPage_offset().isEmpty())) {
+    if (report.getPageLimit() != null && !report.getPageLimit().isEmpty()
+        && (report.getPageOffset() == null || report.getPageOffset().isEmpty())) {
 
       uriAppender(path);
-      path.append("page_limit=" + report.getPage_limit());
+      path.append("page_limit=" + report.getPageLimit());
 
-    } else if (report.getPage_offset() != null && !report.getPage_offset().isEmpty()
-        && report.getPage_limit() != null && !report.getPage_limit().isEmpty()) {
+    } else if (report.getPageOffset() != null && !report.getPageOffset().isEmpty()
+        && report.getPageLimit() != null && !report.getPageLimit().isEmpty()) {
 
       uriAppender(path);
-      path.append("page_limit=" + report.getPage_limit());
-      path.append("&page_offset=" + report.getPage_offset());
+      path.append("page_limit=" + report.getPageLimit());
+      path.append("&page_offset=" + report.getPageOffset());
     }
   }
 
@@ -174,40 +174,40 @@ public class ReportService {
   }
 
   private void filterTimeWindowStartDateEndDate(ReportCriteria report, StringBuilder path) {
-    if (report.getTime_window() != null && !report.getTime_window().isEmpty()
-        && report.getStart_date() == null && report.getEnd_date() == null) {
+    if (report.getTimeWindow() != null && !report.getTimeWindow().isEmpty()
+        && report.getStartDate() == null && report.getEndDate() == null) {
 
       uriAppender(path);
 
-      path.append("time_window=" + report.getTime_window());
+      path.append("time_window=" + report.getTimeWindow());
 
     } else if (checkTimeWindow(report) && checkStartDate(report) && checkEndDate(report)) {
 
       uriAppender(path);
 
-      path.append("start_date=" + report.getStart_date());
-      path.append("&end_date=" + report.getEnd_date());
+      path.append("start_date=" + report.getStartDate());
+      path.append("&end_date=" + report.getEndDate());
 
     }
   }
   
   private boolean checkEndDate(ReportCriteria report) {
-    return report.getEnd_date() != null && !report.getEnd_date().isEmpty();
+    return report.getEndDate() != null && !report.getEndDate().isEmpty();
   }
   
   private boolean checkStartDate(ReportCriteria report) {
-    return report.getStart_date() != null && !report.getStart_date().isEmpty();
+    return report.getStartDate() != null && !report.getStartDate().isEmpty();
   }
 
   private boolean checkTimeWindow(ReportCriteria report) {
-    return report.getTime_window() == null;
+    return report.getTimeWindow() == null;
   }
 
   private void filterTimeRollUp(ReportCriteria report, StringBuilder path) {
-    if (report.getTime_rollup() != null && !report.getTime_rollup().isEmpty()) {
+    if (report.getTimeRollup() != null && !report.getTimeRollup().isEmpty()) {
       uriAppender(path);
 
-      path.append("time_rollup=" + report.getTime_rollup());
+      path.append("time_rollup=" + report.getTimeRollup());
     }
   }
 
