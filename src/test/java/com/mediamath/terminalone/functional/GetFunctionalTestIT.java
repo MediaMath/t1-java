@@ -478,7 +478,7 @@ public class GetFunctionalTestIT {
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("name")
-				.setQueryOperator(Filters.EQUALS).setQueryParams(new QueryParamValues("Retirement")).setPageLimit(100)
+				.setQueryOperator(Filters.EQUAL).setQueryParams(new QueryParamValues("Retirement")).setPageLimit(100)
 				.build();
 
 		JsonResponse<?> jsonresponse = null;

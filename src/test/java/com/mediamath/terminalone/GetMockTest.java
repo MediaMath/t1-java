@@ -35,9 +35,6 @@ import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.T1User;
-import com.mediamath.terminalone.service.GetService;
-import com.mediamath.terminalone.service.PostService;
-import com.mediamath.terminalone.service.T1Service;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -465,7 +462,7 @@ public class GetMockTest {
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("name")
-				.setQueryOperator(Filters.EQUALS).setQueryParams(new QueryParamValues("Retirement")).setPageLimit(100)
+				.setQueryOperator(Filters.EQUAL).setQueryParams(new QueryParamValues("Retirement")).setPageLimit(100)
 				.build();
 
 		JsonResponse<?> jsonresponse = null;

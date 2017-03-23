@@ -138,7 +138,7 @@ public class ReportingMockTest {
     // report.setHaving("key1", "=", "val1,val2");
 
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
 
     // set time_window only when no start date and end date specified.
     // report.setTime_window("last_60_days");
@@ -155,8 +155,8 @@ public class ReportingMockTest {
     String startDate = df.format(df.parse(dateInString));
     String endDate = df.format(df.parse(endDateInString));
 
-    report.setStart_date(startDate);
-    report.setEnd_date(endDate);
+    report.setStartDate(startDate);
+    report.setEndDate(endDate);
     
     t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
     BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
@@ -193,11 +193,11 @@ public class ReportingMockTest {
     // report.setHaving("key1", "=", "val1,val2");
 
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
 
-    report.setTime_rollup("by_day");
-    report.setPage_offset("0");
-    report.setPage_limit("10");
+    report.setTimeRollup("by_day");
+    report.setPageOffset("0");
+    report.setPageLimit("10");
     report.setPrecision(2);
     
     report.setHaving("impressions", ">", "500");
@@ -219,8 +219,8 @@ public class ReportingMockTest {
     String startDate = df.format(df.parse(dateInString));
     String endDate = df.format(df.parse(endDateInString));
 
-    report.setStart_date(startDate);
-    report.setEnd_date(endDate);
+    report.setStartDate(startDate);
+    report.setEndDate(endDate);
     
     t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
     BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
@@ -259,7 +259,7 @@ public class ReportingMockTest {
     // report.setHaving("key1", "=", "val1,val2");
 
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
 
     // set time_window only when no start date and end date specified.
     // report.setTime_window("last_60_days");
@@ -276,8 +276,8 @@ public class ReportingMockTest {
     String startDate = df.format(df.parse(dateInString));
     String endDate = df.format(df.parse(endDateInString));
 
-    report.setStart_date(startDate);
-    report.setEnd_date(endDate);
+    report.setStartDate(startDate);
+    report.setEndDate(endDate);
     
     t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
     ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
@@ -311,7 +311,7 @@ public class ReportingMockTest {
     report.setFilter("organization_id", "=", "AAAA");
     report.setMetric("impressions");
     // set time_rollup
-    report.setTime_rollup("by_day");
+    report.setTimeRollup("by_day");
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     String dateInString = "2015-02-06";
@@ -321,8 +321,8 @@ public class ReportingMockTest {
 	try {
 		startDate = df.format(df.parse(dateInString));
 		endDate = df.format(df.parse(endDateInString));
-	    report.setStart_date(startDate);
-	    report.setEnd_date(endDate);
+	    report.setStartDate(startDate);
+	    report.setEndDate(endDate);
 	} catch (ParseException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

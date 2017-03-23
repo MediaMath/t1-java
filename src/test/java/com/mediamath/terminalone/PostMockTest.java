@@ -34,7 +34,6 @@ import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
