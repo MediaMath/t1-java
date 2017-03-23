@@ -16,11 +16,6 @@
 
 package com.mediamath.terminalone.utils;
 
-import com.mediamath.terminalone.service.T1Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -29,6 +24,11 @@ import java.util.Properties;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mediamath.terminalone.service.T1Service;
 
 public class Utility {
 
@@ -164,17 +164,6 @@ public class Utility {
     }
 
     MultivaluedMap<String, String> multiValMap = entity.asMap();
-
-    // load common readOnly fields
-    /*
-     * String commonReadOnlyFields = T1Service.getEntityReadOnlyFields().getProperty("commons");
-     * List<String> commonReadOnlyFieldList = Utility.getList(commonReadOnlyFields);
-     */
-
-    // String requiredFields =
-    // T1Service.getEntityReadOnlyFields().getProperty(entityRequiredFields);
-    // List<String> requiredFieldList = Utility.getList(requiredFields);
-
     String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
     List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
     for (String str : readOnlyFieldList) {

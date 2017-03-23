@@ -27,8 +27,8 @@ public final class Filters {
   public static final String NULL = ":";
   public static final String NOT_NULL = ":!";
   // Equals operator is *different* between M&E (==) and Picard (=)
-  public static final String EQUALS = "==";
-  public static final String NOT_EQUALS = "!=";
+  public static final String EQUAL = "==";
+  public static final String NOT_EQUAL = "!=";
   public static final String GREATER = "%3E";
   public static final String GREATER_OR_EQUAL = "%3E=";
   public static final String LESS = "%3C";

@@ -23,7 +23,7 @@ import com.mediamath.terminalone.models.VideoCreative;
 
 public class VideoCreativeHelper {
 
-  public VideoCreativeHelper() {
+  private VideoCreativeHelper() {
     throw new IllegalAccessError("VideoCreativeHelper cannot be instantiated");
   }
 

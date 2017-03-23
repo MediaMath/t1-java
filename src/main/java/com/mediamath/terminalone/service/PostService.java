@@ -759,12 +759,6 @@ public class PostService {
 
 		if (jsonPostErrorResponse == null) {
 			parsedJsonResponse = parser.parseTOneASCreativeAssetsApproveResponse(jsonResponse);
-			/*
-			 * if (parsedJsonResponse.getData() instanceof
-			 * TOneASCreativeAssetsApproveResponse) { response =
-			 * (TOneASCreativeAssetsApproveResponse)
-			 * parsedJsonResponse.getData(); }
-			 */
 		} else {
 			throwExceptions(jsonPostErrorResponse);
 		}

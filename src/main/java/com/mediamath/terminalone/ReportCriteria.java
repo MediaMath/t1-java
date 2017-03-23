@@ -17,6 +17,7 @@
 package com.mediamath.terminalone;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mediamath.terminalone.models.reporting.Having;
 import com.mediamath.terminalone.models.reporting.ReportFilter;
@@ -49,7 +50,7 @@ public class ReportCriteria {
 
   private String page_offset;
 
-  private ArrayList<String> order = new ArrayList<String>();
+  private List<String> order = new ArrayList<String>();
 
   // Getters & Setters
   public void setDimension(String dimension) {
@@ -120,11 +121,11 @@ public class ReportCriteria {
 
   public void setHaving(String key, String operator, String value) {
     if (!key.isEmpty() && !operator.isEmpty() && !value.isEmpty()) {
-      Having having = new Having();
-      having.setKey(key);
-      having.setOperator(operator);
-      having.setValue(value);
-      this.having.add(having);
+      Having havng = new Having();
+      havng.setKey(key);
+      havng.setOperator(operator);
+      havng.setValue(value);
+      this.having.add(havng);
     }
   }
 
@@ -136,23 +137,23 @@ public class ReportCriteria {
     this.having = having;
   }
 
-  public String getTime_rollup() {
+  public String getTimeRollup() {
     return time_rollup;
   }
 
-  public void setTime_rollup(String time_rollup) {
+  public void setTimeRollup(String time_rollup) {
     this.time_rollup = time_rollup;
   }
 
-  public String getTime_window() {
+  public String getTimeWindow() {
     return time_window;
   }
 
-  public void setTime_window(String time_window) {
+  public void setTimeWindow(String time_window) {
     this.time_window = time_window;
   }
 
-  public ArrayList<String> getOrder() {
+  public List<String> getOrder() {
     return order;
   }
 
@@ -164,35 +165,35 @@ public class ReportCriteria {
     this.order.add(order);
   }
 
-  public String getPage_limit() {
+  public String getPageLimit() {
     return page_limit;
   }
 
-  public void setPage_limit(String page_limit) {
+  public void setPageLimit(String page_limit) {
     this.page_limit = page_limit;
   }
 
-  public String getPage_offset() {
+  public String getPageOffset() {
     return page_offset;
   }
 
-  public void setPage_offset(String page_offset) {
+  public void setPageOffset(String page_offset) {
     this.page_offset = page_offset;
   }
 
-  public String getStart_date() {
+  public String getStartDate() {
     return start_date;
   }
 
-  public void setStart_date(String start_date) {
+  public void setStartDate(String start_date) {
     this.start_date = start_date;
   }
 
-  public String getEnd_date() {
+  public String getEndDate() {
     return end_date;
   }
 
-  public void setEnd_date(String end_date) {
+  public void setEndDate(String end_date) {
     this.end_date = end_date;
   }
 

@@ -283,7 +283,7 @@ public class StrategyHelper {
 				}
 			}
 		}
-
+		//site lists
 		if (!entity.getSiteLists().isEmpty()) {
 			int inc = 1;
 			for (SiteList sl : entity.getSiteLists()) {
@@ -295,9 +295,7 @@ public class StrategyHelper {
 			}
 		}
 
-		Form finalStrategyForm = Utility.getFilteredForm(strategyForm, "strategy");
-
-		return finalStrategyForm;
+		return Utility.getFilteredForm(strategyForm, "strategy");
 
 	}
 }
