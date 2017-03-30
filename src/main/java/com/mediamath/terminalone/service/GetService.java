@@ -87,7 +87,12 @@ public class GetService {
 
 		// param limit, should be key=value pair. example organization : 123456
 		if (query.limit.size() == 1) {
-			path.append("/limit/");
+			//for deals, "/media/" API base is used, which supports ?[related_entity_name]_id=[related_entity ID]
+			if(query.collection.equals("deals")){
+				path.append("?");
+			}else{
+				path.append("/limit/");
+			}
 			for (String s : query.limit.keySet()) {
 				if (!("".equals(path.toString()))) {
 					path.append(s + "=" + query.limit.get(s));

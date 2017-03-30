@@ -39,6 +39,8 @@ public class T1Service {
   private String apiBase = null;
 
   private String pathMgmt = null;
+  
+  private String mediaPathMgmt = null;
 
   private String videoCreativeURL = null;
 
@@ -52,6 +54,7 @@ public class T1Service {
   public T1Service() {
     this.apiBase = configprop.getProperty("t1.api_base");
     this.pathMgmt = configprop.getProperty("t1.path_mgmt");
+    this.mediaPathMgmt = configprop.getProperty("t1.media_path_mgmt");
     this.videoCreativeURL = configprop.getProperty("t1.videoCreativeURL");
     this.reportingURL = configprop.getProperty("t1.reportingURL");
     this.oauthURL = configprop.getProperty("t1.oauthURL");
@@ -68,6 +71,10 @@ public class T1Service {
    */
   public String constructUrl(StringBuilder path) {
     return apiBase + pathMgmt + "/" + path.toString();
+  }
+  
+  public String constructMediaUrl(StringBuilder path) {
+	    return apiBase + mediaPathMgmt + "/" + path.toString();
   }
 
   public String constructReportingUrl(StringBuilder path) {
@@ -137,6 +144,14 @@ public class T1Service {
 
   public void setReportingURL(String reportingURL) {
     this.reportingURL = reportingURL;
+  }
+
+  public String getMediaPathMgmt() {
+	return mediaPathMgmt;
+  }
+
+  public void setMediaPathMgmt(String mediaPathMgmt) {
+	this.mediaPathMgmt = mediaPathMgmt;
   }
 
   public static Properties getEntityReadOnlyFields() {

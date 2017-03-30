@@ -907,4 +907,65 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@Test
+	public void testBaiscGetWithDealUsingQueryCriteria() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setSortBy("-id").build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+	
+	@Test
+	public void testBaiscGetWithDealUsingQC() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setEntity(173131).setSortBy("-id").build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+	
+	@Test
+	public void testBaiscGetWithDealUsingQC1() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("permissions.advertiser_id", Long.valueOf(145998));
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setLimit(limitList).setSortBy("-id").build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
+	
+	
 }
