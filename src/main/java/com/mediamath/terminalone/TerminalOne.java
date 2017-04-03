@@ -581,25 +581,20 @@ public class TerminalOne {
 	 *             parsed.
 	 */
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
-
 		StringBuilder path = getService.get(query);
-
-		// get the data from t1 servers.
-		String finalPath = tOneService.constructUrl(path);
+		//If collection=deals then use for media api base
+		String finalPath = (query.collection.equals("deals")) ? (tOneService.constructMediaUrl(path)) : (tOneService.constructUrl(path));
 		String response = this.connection.get(finalPath, this.getUser());
+		
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try {
 			jsonResponse = parseGetData(response, query);
 			// jsonResponse = checkResponseEntities(jsonResponse);
-
 		} catch (ParseException parseException) {
-
 			throw new ClientException("Unable to parse the response");
-
 		}
 
-		// filter and validate data
 		return jsonResponse;
 	}
 
@@ -631,14 +626,11 @@ public class TerminalOne {
 			if (jsonPostErrorResponse != null) {
 				postService.throwExceptions(jsonPostErrorResponse);
 			}
-
 		} else if ("text".equalsIgnoreCase(response.getMediaType().getType())
 				&& "csv".equalsIgnoreCase(response.getMediaType().getSubtype()) && response.getStatus() == 200) {
-
 			InputStream responseStream = response.readEntity(InputStream.class);
 			reader = new BufferedReader(new InputStreamReader(responseStream));
 		}
-
 		return reader;
 	}
 

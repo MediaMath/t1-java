@@ -136,13 +136,15 @@ public class PostService {
 		JsonResponse<? extends T1Entity> finalJsonResponse;
 
 		StringBuilder uri = getUri(entity);
-
+		String collection = uri.toString();
 		String uriPath = entity.getUri();
 
-		if (checkString(uriPath))
+		if (checkString(uriPath)){
 			uri.append(uriPath);
-
-		String path = t1Service.constructUrl(uri);
+		}
+		
+		//if entity is "deals", then use media api base
+		String path =  (collection.equals("deals")) ? (t1Service.constructMediaUrl(uri)) : (t1Service.constructUrl(uri));
 
 		String responseString = getResponseString(entity, path);
 
@@ -211,6 +213,11 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
 			}
+			
+			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
+				uri.append("/deals");
+			}
+			
 
 			String path = t1Service.constructUrl(uri);
 
@@ -238,7 +245,6 @@ public class PostService {
 				strategy = (Strategy) finalJsonResponse.getData();
 			}
 		}
-
 		return strategy;
 	}
 

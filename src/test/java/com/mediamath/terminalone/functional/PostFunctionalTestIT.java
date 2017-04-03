@@ -1479,4 +1479,29 @@ public class PostFunctionalTestIT {
 		assertNotNull(uploadResponse.getStatus());
 	}
 
+	
+    @Test
+    public void testStrategyDealsPost() throws ClientException {
+
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		Strategy cmp = new Strategy();
+		cmp.setId(2145568);
+	
+		ArrayList<Integer> deals = new ArrayList<>();
+		deals.add(172901);
+		deals.add(173101);
+		deals.add(172912);
+		cmp.setDealIds(deals);
+		try {
+	      cmp = (Strategy) t1.save(cmp);
+	
+		} catch (ParseException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	    
+	    assertNotNull(cmp);
+		assertTrue(!cmp.getDeals().isEmpty());
+    }
+
 }

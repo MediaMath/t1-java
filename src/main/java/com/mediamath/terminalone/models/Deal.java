@@ -51,7 +51,7 @@ public class Deal implements T1Entity {
   private mediaTypes media_type;
   private String name;
   private boolean partner_sourced;
-  private float price;
+  private Currency price;
   private priceMethods price_method;
   private priceTypes price_type;
   private int publisher_id;
@@ -61,6 +61,8 @@ public class Deal implements T1Entity {
   private Date updated_on;
   private int version;
   private String zone_name;
+  private Owner owner;
+  private Permissions permissions;
 
   private Advertiser advertiser;
   private Publisher publisher;
@@ -154,11 +156,11 @@ public class Deal implements T1Entity {
     this.partner_sourced = partner_sourced;
   }
 
-  public float getPrice() {
+  public Currency getPrice() {
     return price;
   }
 
-  public void setPrice(float price) {
+  public void setPrice(Currency price) {
     this.price = price;
   }
 
@@ -234,6 +236,22 @@ public class Deal implements T1Entity {
     this.zone_name = zone_name;
   }
 
+  public Owner getOwner() {
+	return owner;
+  }
+
+  public void setOwner(Owner owner) {
+	this.owner = owner;
+  }
+
+  public Permissions getPermissions() {
+	return permissions;
+  }
+
+  public void setPermissions(Permissions permissions) {
+	this.permissions = permissions;
+  }
+
   public Advertiser getAdvertiser() {
     return advertiser;
   }
@@ -270,7 +288,14 @@ public class Deal implements T1Entity {
 
   @Override
   public String getUri() {
-    return null;
+	StringBuilder uri = new StringBuilder();
+
+	if (this.getId() > 0) {
+		uri.append("/");
+		uri.append(this.getId());
+	}
+
+	return uri.toString();
   }
 
 }

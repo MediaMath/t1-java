@@ -30,7 +30,7 @@ public class CreativeApproval implements T1Entity {
   private Date created_on;
   private String deal_status;
   private String deal_status_rejected_reason;
-  public String entity_type;
+  private String entity_type;
   private int creative_import_file_id;
   private String external_identifier;
   private int id;
@@ -136,7 +136,15 @@ public class CreativeApproval implements T1Entity {
     this.deal_status = deal_status;
   }
 
-  public String getDealStatusRejectedReason() {
+  public String getEntity_type() {
+	return entity_type;
+}
+
+public void setEntity_type(String entity_type) {
+	this.entity_type = entity_type;
+}
+
+public String getDealStatusRejectedReason() {
     return deal_status_rejected_reason;
   }
 

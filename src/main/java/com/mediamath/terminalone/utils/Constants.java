@@ -281,6 +281,8 @@ public final class Constants {
 		}.getType());
 		getEntityType.put(DEALS, new TypeToken<JsonResponse<Deal>>() {
 		}.getType());
+		getEntityType.put(DEAL, new TypeToken<JsonResponse<Deal>>() {
+		}.getType());
 		getEntityType.put(ORGANIZATIONS, new TypeToken<JsonResponse<Organization>>() {
 		}.getType());
 		getEntityType.put(ORGANIZATION, new TypeToken<JsonResponse<Organization>>() {

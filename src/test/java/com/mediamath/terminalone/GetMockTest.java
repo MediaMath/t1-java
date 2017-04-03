@@ -759,5 +759,129 @@ public class GetMockTest {
 		assertNotNull(data);
 		assertNotNull(data.enabled.getActive());
 	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithStrategyChildDealsUsingMocks() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
+				.thenReturn("{\"data\":{\"run_on_streaming\":false,\"use_mm_freq\":false,\"run_on_display\":true,\"zone_name\":\"Europe/London\",\"updated_on\":\"2017-03-23T04:09:09+0000\","
+							+"\"frequency_interval\":\"not-applicable\",\"campaign_id\":349847,\"targeting_segment_exclude_op\":\"OR\",\"created_on\":\"2017-03-23T03:01:55+0000\","
+							+"\"targeting_segment_include_op\":\"OR\",\"run_on_all_pmp\":false,\"id\":2145568,\"impression_pacing_interval\":\"day\",\"currency_code\":\"KRW\",\"use_campaign_start\":true,"
+							+"\"name\":\"GBP-Test\",\"frequency_amount\":0,\"type\":\"AUD\",\"pixel_target_expr\":\"\",\"impression_pacing_type\":\"no-limit\",\"bid_price_is_media_only\":false,"
+							+"\"frequency_optimization\":true,\"supply_type\":\"RTB\",\"pacing_type\":\"asap\",\"goal_type\":\"cpc\",\"frequency_type\":\"no-limit\",\"status\":true,"
+							+"\"budget\":[{\"currency_code\":\"KRW\",\"value\":10}],\"effective_goal_value\":[{\"currency_code\":\"KRW\",\"value\":\"1.0000\"}],\"goal_value\":[{\"currency_code\":\"KRW\",\"value\":1}],"
+							+"\"pacing_amount\":[{\"currency_code\":\"KRW\",\"value\":1}],\"site_restriction_transparent_urls\":false,\"media_type\":\"DISPLAY\",\"entity_type\":\"strategy\","
+							+"\"run_on_mobile\":true,\"deals\":[{\"entity_type\":\"deal\",\"id\":173096}],\"use_optimization\":true,\"max_bid\":[{\"currency_code\":\"KRW\",\"value\":16.03}],"
+							+"\"audience_segment_include_op\":\"OR\",\"run_on_all_exchanges\":false,\"bid_aggressiveness\":50,\"version\":15,\"audience_segment_exclude_op\":\"OR\","
+							+"\"site_selectiveness\":\"REDUCED\",\"use_campaign_end\":true,\"min_bid\":[{\"currency_code\":\"KRW\",\"value\":0}],\"pacing_interval\":\"day\"},"
+							+"\"meta\":{\"etag\":\"51b3b8ca8ddca9397c206bc3b93dcecd406a8d01\",\"called_on\":\"2017-03-23T10:57:39+0000\",\"status\":\"ok\"}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2145568).setChild("deals")
+				.setPageLimit(1).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		Strategy data = (Strategy) jsonresponse.getData();
+		assertNotNull(data);
+
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithDealsUsingMocks() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
+				.thenReturn("{\"meta\":{\"status\":\"ok\"},\"data\":{\"updated_on\":\"2017-03-23T13:45:56+00:00\",\"deal_identifier\":\"TestDeal5\",\"created_on\":\"2017-03-23T10:07:02+00:00\","
+						+"\"price\":{\"currency_code\":\"USD\",\"value\":\"3.5000\"},\"price_type\":\"FIXED\",\"entity_type\":\"deal\",\"name\":\"Test27\","
+						+"\"start_datetime\":\"2017-03-23T10:07:02+00:00\",\"end_datetime\":\"2999-12-31T05:00:00+00:00\",\"price_method\":\"CPM\",\"permissions\":{\"advertiser_ids\":[182016],"
+						+"\"agency_ids\":[],\"all_organizations\":false,\"organization_ids\":[]},\"owner\":{\"id\":182016,\"type\":\"ADVERTISER\"},\"supply_source_id\":17,\"status\":true,"
+						+"\"id\":173131,\"description\":\"\",\"sub_supply_source_id\":null}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setEntity(173131).setSortBy("-id").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithDealsUsingAdvertiserIdMocks() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
+				.thenReturn("{\"meta\":{\"total_count\":5,\"offset\":0,\"status\":\"ok\",\"count\":5},\"data\":[{\"entity_type\":\"deal\",\"start_datetime\":\"2017-03-28T10:39:30+00:00\","
+						+"\"supply_source_id\":4,\"price_type\":\"FLOOR\",\"owner\":{\"id\":145998,\"type\":\"ADVERTISER\"},\"price\":{\"value\":\"10.0000\",\"currency_code\":\"AUD\"},"
+						+"\"sub_supply_source_id\":null,\"name\":\"CurrencyTest\",\"permissions\":{\"all_organizations\":false,\"organization_ids\":[],\"agency_ids\":[],"
+						+"\"advertiser_ids\":[145998]},\"id\":174186,\"deal_identifier\":\"MM-DA2-64K2\",\"status\":true,\"created_on\":\"2017-03-28T09:39:56+00:00\","
+						+"\"price_method\":\"CPM\",\"end_datetime\":\"2999-12-31T00:00:00+00:00\",\"updated_on\":\"2017-03-28T09:39:56+00:00\"},{\"entity_type\":\"deal\","
+						+"\"start_datetime\":\"2017-03-23T05:08:02+00:00\",\"supply_source_id\":3,\"price_type\":\"FLOOR\",\"owner\":{\"id\":145998,\"type\":\"ADVERTISER\"},"
+						+"\"price\":{\"value\":\"393.2537\",\"currency_code\":\"AUD\"},\"sub_supply_source_id\":null,\"name\":\"TestWon\",\"permissions\":{\"all_organizations\":false,"
+						+"\"organization_ids\":[],\"agency_ids\":[],\"advertiser_ids\":[145998]},\"id\":173101,\"deal_identifier\":\"MM-ER2-628E\",\"description\":\"\",\"status\":false,"
+						+"\"created_on\":\"2017-03-23T04:08:49+00:00\",\"price_method\":\"CPM\",\"end_datetime\":\"2999-12-31T00:00:00+00:00\",\"updated_on\":\"2017-03-28T09:39:27+00:00\"},"
+						+"{\"entity_type\":\"deal\",\"start_datetime\":\"2017-03-23T06:52:28+00:00\",\"supply_source_id\":8,\"price_type\":\"FLOOR\",\"owner\":{\"id\":145998,"
+						+"\"type\":\"ADVERTISER\"},\"price\":{\"value\":\"131.0846\",\"currency_code\":\"AUD\"},\"sub_supply_source_id\":null,\"name\":\"TestPub\","
+						+"\"permissions\":{\"all_organizations\":false,\"organization_ids\":[],\"agency_ids\":[],\"advertiser_ids\":[145998]},\"id\":173102,\"deal_identifier\":\"MM-NUY-64ST\","
+						+"\"description\":\"\",\"status\":false,\"created_on\":\"2017-03-23T05:52:47+00:00\",\"price_method\":\"CPM\",\"end_datetime\":\"2999-12-31T00:00:00+00:00\","
+						+"\"updated_on\":\"2017-03-28T09:39:22+00:00\"},{\"entity_type\":\"deal\",\"start_datetime\":\"2017-03-23T04:02:58+00:00\",\"supply_source_id\":8,"
+						+"\"price_type\":\"FLOOR\",\"owner\":{\"id\":145998,\"type\":\"ADVERTISER\"},\"price\":{\"value\":\"100.0000\",\"currency_code\":\"AUD\"},\"sub_supply_source_id\":null,"
+						+"\"name\":\"GBP-Test-Deal\",\"permissions\":{\"all_organizations\":false,\"organization_ids\":[],\"agency_ids\":[],\"advertiser_ids\":[145998]},\"id\":173096,"
+						+"\"deal_identifier\":\"MM-EST-24QN\",\"description\":\"\",\"status\":false,\"created_on\":\"2017-03-23T03:03:31+00:00\",\"price_method\":\"CPM\","
+						+"\"end_datetime\":\"2999-12-31T00:00:00+00:00\",\"updated_on\":\"2017-03-28T09:39:15+00:00\"},{\"start_datetime\":\"2016-08-04T08:01:00+00:00\","
+						+"\"supply_source_id\":8,\"price_type\":\"FLOOR\",\"owner\":{\"id\":145998,\"type\":\"ADVERTISER\"},\"price\":{\"value\":\"1.0000\",\"currency_code\":\"USD\"},"
+						+"\"sub_supply_source_id\":null,\"name\":\"Wil-Test-Deal\",\"permissions\":{\"all_organizations\":false,\"organization_ids\":[],\"agency_ids\":[],"
+						+"\"advertiser_ids\":[145998]},\"id\":121495,\"deal_identifier\":\"MM-MT3-4AKR\",\"status\":false,\"entity_type\":\"deal\",\"created_on\":\"2016-08-04T07:01:42+00:00\","
+						+"\"price_method\":\"CPM\",\"end_datetime\":\"2999-12-31T00:00:00+00:00\",\"updated_on\":\"2016-08-04T07:11:14+00:00\"}]}");
+
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("permissions.advertiser_id", Long.valueOf(145998));
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setLimit(limitList).setSortBy("-id").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
 
 }

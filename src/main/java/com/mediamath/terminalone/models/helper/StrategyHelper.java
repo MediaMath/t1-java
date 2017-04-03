@@ -21,6 +21,7 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.models.Deal;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
@@ -290,6 +291,17 @@ public class StrategyHelper {
 				if (sl != null && sl.getId() > 0) {
 					strategyForm.param("site_lists." + inc + ".id", String.valueOf(sl.getId()));
 					strategyForm.param("site_lists." + inc + ".assigned", Utility.getOneOrZero(sl.isAssigned()));
+				}
+				inc++;
+			}
+		}
+		
+		//Deals
+		if (!entity.getDealIds().isEmpty()) {
+			int inc = 1;
+			for (Integer sl : entity.getDealIds()) {
+				if (sl != null) {
+					strategyForm.param("deal." + inc + ".id", String.valueOf(sl));
 				}
 				inc++;
 			}
