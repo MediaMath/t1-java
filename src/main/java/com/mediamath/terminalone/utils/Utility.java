@@ -37,6 +37,8 @@ public class Utility {
   private static Properties vConfigProp = new Properties();
 
   private static Properties vEntityReadOnlyFields = new Properties();
+  
+  private static Properties vServicesPathForEntity = new Properties();
 
   public static Properties getConfigProperties() {
     return vConfigProp;
@@ -135,6 +137,41 @@ public class Utility {
 
     return vEntityReadOnlyFields;
   }
+  
+
+  /**
+   * This utility is used to load the MicroServices URLs for specific entities by reading the property files.
+   * 
+   * @return Property Object.
+   */
+  public static Properties loadServicesPath() {
+    if (vServicesPathForEntity.isEmpty()) {
+      InputStream input = null;
+      try {
+        String filename = "services.properties";
+        input = Utility.class.getClassLoader().getResourceAsStream(filename);
+        if (input == null) {
+          logger.info("Unable to load the configurations");
+          return null;
+        }
+        vServicesPathForEntity.load(input);
+      } catch (IOException ioException) {
+        logStackTrace(ioException);
+      } finally {
+        if (input != null) {
+          try {
+            input.close();
+          } catch (IOException ioException) {
+            logStackTrace(ioException);
+          }
+        }
+      }
+    }
+
+    return vServicesPathForEntity;
+  }
+
+  
 
   /**
    * Utility function to split the string and return an array list.
@@ -174,6 +211,25 @@ public class Utility {
     
     return new Form(multiValMap);
   }
+  
+  /**
+   * Returns a service path for specific entity.
+   * 
+   * @param collection
+   *          specify the entity name for fetching service paths.
+   * @return Form object.
+   */
+  public static String getServicePath(String collection) {
+
+    if (collection == null || collection.isEmpty()) {
+      return null;
+    }
+
+    String servicePath = (T1Service.getEntityServicesPaths().getProperty(collection)!=null) ?  T1Service.getEntityServicesPaths().getProperty(collection): T1Service.getEntityServicesPaths().getProperty("others");
+    
+    return servicePath;
+  }
+  
 
   /**
    * this utility takes in the Exception object and logs the entire stack tracer to the logger.

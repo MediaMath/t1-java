@@ -33,6 +33,8 @@ public class T1Service {
   private static Properties configprop = Utility.loadConfigProperty();
 
   private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
+  
+  private static Properties entityServicesPaths = Utility.loadServicesPath();
 
   private String URL = null;
 
@@ -65,24 +67,34 @@ public class T1Service {
    * constructs a url for a given path.
    * 
    * @param path
-   *          requires a path uri.
+   *          requires a path uri.      
+   * @param collection
+   *          requires a collection to determine service path.         
    * 
    * @return String object.
    */
-  public String constructUrl(StringBuilder path) {
-    return apiBase + pathMgmt + "/" + path.toString();
+  public String constructUrl(StringBuilder path, String collection) {
+	  
+	  String servicePath = null;
+	  String serviceUrl = (Utility.getServicePath(collection) !=null) ? Utility.getServicePath(collection): "";
+	  
+	  switch(serviceUrl){
+	  	case "t1.path_mgmt": servicePath =  pathMgmt; break;
+	  	case "t1.media_path_mgmt": servicePath =  mediaPathMgmt;break;
+	  	default: servicePath =  pathMgmt;break;
+	  }
+	  
+	  servicePath = (servicePath==null) ? pathMgmt : servicePath;
+	  
+	  return apiBase + servicePath + "/" + path.toString();
   }
   
-  public String constructMediaUrl(StringBuilder path) {
-	    return apiBase + mediaPathMgmt + "/" + path.toString();
-  }
-
   public String constructReportingUrl(StringBuilder path) {
-    return apiBase + reportingURL + "/" + path.toString();
+	  return apiBase + reportingURL + "/" + path.toString();
   }
 
   public String constructOauthUrl(StringBuilder path) {
-    return apiBase + oauthURL + "/" + path.toString();
+	  return apiBase + oauthURL + "/" + path.toString();
   }
 
   /**
@@ -156,6 +168,10 @@ public class T1Service {
 
   public static Properties getEntityReadOnlyFields() {
     return entityReadOnlyFields;
+  }
+  
+  public static Properties getEntityServicesPaths() {
+	    return entityServicesPaths;
   }
 
 }

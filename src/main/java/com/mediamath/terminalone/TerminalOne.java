@@ -126,7 +126,7 @@ public class TerminalOne {
 	private void login(String username, String password, String apiKey) throws ClientException {
 		logger.info("Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, apiKey);
-		String url = tOneService.constructUrl(new StringBuilder("login"));
+		String url = tOneService.constructUrl(new StringBuilder("login"),"login");
 		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
@@ -583,7 +583,7 @@ public class TerminalOne {
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
 		StringBuilder path = getService.get(query);
 		//If collection=deals then use for media api base
-		String finalPath = (query.collection.equals("deals")) ? (tOneService.constructMediaUrl(path)) : (tOneService.constructUrl(path));
+		String finalPath = tOneService.constructUrl(path,query.collection);
 		String response = this.connection.get(finalPath, this.getUser());
 		
 		JsonResponse<? extends T1Entity> jsonResponse;
@@ -617,7 +617,7 @@ public class TerminalOne {
 		StringBuilder path = getService.get(query);
 
 		// get the data from t1 servers.
-		String finalPath = tOneService.constructUrl(path);
+		String finalPath = tOneService.constructUrl(path, query.collection);
 		Response response = connection.getReportData(finalPath, this.getUser());
 		BufferedReader reader = null;
 

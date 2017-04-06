@@ -136,15 +136,13 @@ public class PostService {
 		JsonResponse<? extends T1Entity> finalJsonResponse;
 
 		StringBuilder uri = getUri(entity);
-		String collection = uri.toString();
 		String uriPath = entity.getUri();
 
 		if (checkString(uriPath)){
 			uri.append(uriPath);
 		}
 		
-		//if entity is "deals", then use media api base
-		String path =  (collection.equals("deals")) ? (t1Service.constructMediaUrl(uri)) : (t1Service.constructUrl(uri));
+		String path =  t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
 		String responseString = getResponseString(entity, path);
 
@@ -219,7 +217,7 @@ public class PostService {
 			}
 			
 
-			String path = t1Service.constructUrl(uri);
+			String path = t1Service.constructUrl(uri,Constants.entityPaths.get(entity.getEntityname()));
 
 			String responseString = getStrategyResponseString(entity, path);
 
@@ -281,7 +279,7 @@ public class PostService {
 				uri.append("/site_lists");
 			}
 
-			String path = t1Service.constructUrl(uri);
+			String path = t1Service.constructUrl(uri,Constants.entityPaths.get(entity.getEntityname()));
 
 			String responseString = getResponseString(entity, path);
 
@@ -504,7 +502,7 @@ public class PostService {
 			path.append("/delete");
 		}
 
-		String finalPath = t1Service.constructUrl(path);
+		String finalPath = t1Service.constructUrl(path,Constants.entityPaths.get("StrategyConcept"));
 
 		Form strategyConceptForm = new Form();
 
@@ -541,7 +539,7 @@ public class PostService {
 			path.append("/delete");
 		}
 
-		String finalPath = t1Service.constructUrl(path);
+		String finalPath = t1Service.constructUrl(path,Constants.entityPaths.get("StrategyDayPart"));
 
 		Form strategyConceptForm = new Form();
 		if (strategyDayPart.getVersion() > 0) {
@@ -582,7 +580,7 @@ public class PostService {
 
 		TPASCreativeUpload tpasCreativeUploadResponse = null;
 		StringBuilder uri = new StringBuilder("creatives/upload");
-		String response = saveCreativeUploads(uri, filePath, name, fileName);
+		String response = saveCreativeUploads(uri, filePath, name, fileName,"creatives");
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		if (checkString(response)) {
 			tpasCreativeUploadResponse = parseTPASCreativeUploadData(response, parser);
@@ -590,13 +588,13 @@ public class PostService {
 		return tpasCreativeUploadResponse;
 	}
 
-	private String saveCreativeUploads(StringBuilder uri, String filePath, String name, String fileName)
+	private String saveCreativeUploads(StringBuilder uri, String filePath, String name, String fileName, String collection)
 			throws ClientException, IOException {
 		if (filePath == null && name == null && fileName == null) {
 			throw new ClientException("please enter a valid filename and file path");
 		}
 
-		String path = t1Service.constructUrl(uri);
+		String path = t1Service.constructUrl(uri, collection);
 
 		FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
 
@@ -651,7 +649,7 @@ public class PostService {
 
 			if (entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
 				uri.append(entity.getBatchId());
-				String path = t1Service.constructUrl(uri);
+				String path = t1Service.constructUrl(uri,"creatives");
 				TPasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
 				Response responseObj = this.connection.post(path, formData, this.user);
 				String response = responseObj.readEntity(String.class);
@@ -705,7 +703,7 @@ public class PostService {
 
 		TOneASCreativeAssetsUpload assetsUploadResponse = null;
 		StringBuilder uri = new StringBuilder("creative_assets/upload");
-		String response = saveCreativeUploads(uri, filePath, name, fileName);
+		String response = saveCreativeUploads(uri, filePath, name, fileName,"creative_assets");
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		if (checkString(response)) {
 			assetsUploadResponse = parseTOneASCreativeAssetsUploadData(response, parser);
@@ -755,7 +753,7 @@ public class PostService {
 		}
 
 		StringBuilder uri = new StringBuilder(CREATIVE_ASSETS_APPROVE);
-		String path = t1Service.constructUrl(uri);
+		String path = t1Service.constructUrl(uri,"creative_assets");
 		TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
 		Response responseObj = this.connection.post(path, formData, this.user);
 		String jsonResponse = responseObj.readEntity(String.class);
