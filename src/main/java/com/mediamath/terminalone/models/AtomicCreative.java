@@ -102,7 +102,7 @@ public class AtomicCreative implements T1Entity {
   private Date updated_on;
   private int version;
   private int width;
-  private boolean mraid;
+  private boolean is_mraid;
   private expandValues expand;
 
   private Advertiser advertiser;
@@ -471,11 +471,11 @@ public class AtomicCreative implements T1Entity {
   }
 
   public boolean isMraid() {
-    return mraid;
+    return is_mraid;
   }
 
   public void setMraid(boolean mraid) {
-    this.mraid = mraid;
+    this.is_mraid = mraid;
   }
 
   public expandValues getExpand() {
@@ -568,7 +568,7 @@ public class AtomicCreative implements T1Entity {
     if (this.getExpansionTrigger() != null) {
       atomicCreativeForm.param("expansion_trigger", this.getExpansionTrigger().toString());
     } else {
-      atomicCreativeForm.param("expansion_trigger", "CLICK");
+      atomicCreativeForm.param("expansion_trigger", "MOUSEOVER");
     }
 
     if (this.getExternalIdentifier() != null && !this.getExternalIdentifier().isEmpty()) {
@@ -650,7 +650,7 @@ public class AtomicCreative implements T1Entity {
       atomicCreativeForm.param("width", String.valueOf(this.getWidth()));
     }
 
-    atomicCreativeForm.param("mraid", Utility.getOnOrOff(this.isMraid()));
+    atomicCreativeForm.param("is_mraid", Utility.getOnOrOff(this.isMraid()));
 
     if (this.getExpand() != null) {
       atomicCreativeForm.param("expand", this.getExpand().toString());

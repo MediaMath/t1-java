@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * Copyright 2016 MediaMath
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,7 +38,7 @@ public class Organization implements T1Entity {
   private String contact_name;
   private String country;
   private Date created_on;
-  private String curency_code;
+  private String currency_code;
   private int id;
   private String mm_contact_name;
   private String name;
@@ -133,11 +134,11 @@ public class Organization implements T1Entity {
   }
 
   public String getCurencyCode() {
-    return curency_code;
+    return currency_code;
   }
 
   public void setCurencyCode(String curency_code) {
-    this.curency_code = curency_code;
+    this.currency_code = curency_code;
   }
 
   public int getId() {
@@ -388,7 +389,7 @@ public class Organization implements T1Entity {
         Utility.getOnOrOff(this.isRestrictTargetingToDeterministicId()));
     orgForm.param("restrict_targeting_to_same_device_id",
         Utility.getOnOrOff(this.isRestrictTargetingToSameDeviceId()));
-    orgForm.param("terminted", Utility.getOnOrOff(this.isTerminated()));
+    orgForm.param("terminated", Utility.getOnOrOff(this.isTerminated()));
 
     return Utility.getFilteredForm(orgForm, "organization");
   }

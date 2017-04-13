@@ -102,6 +102,8 @@ public class StrategyHelper {
 				strategyForm.param("frequency_amount", String.valueOf(entity.getFrequencyAmount()));
 			}
 
+			strategyForm.param("frequency_optimization", Utility.getOnOrOff(entity.isFrequencyOptimization()));
+
 			if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
 				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 				String endDate = sdf.format(entity.getEndDate());
@@ -128,6 +130,11 @@ public class StrategyHelper {
 				strategyForm.param("max_bid", String.valueOf(entity.getMaxBid().get(0).getValue()));
 			}
 
+			if (entity.getMinBid() != null && !entity.getMinBid().isEmpty()
+					&& entity.getMinBid().get(0).getValue() > 0) {
+				strategyForm.param("min_bid", String.valueOf(entity.getMinBid().get(0).getValue()));
+			}
+
 			if (entity.getMediaType() != null) {
 				strategyForm.param("media_type", String.valueOf(entity.getMediaType()));
 			}
@@ -152,6 +159,10 @@ public class StrategyHelper {
 
 			if (entity.getImpressionPacingInterval() != null) {
 				strategyForm.param("impression_pacing_interval", String.valueOf(entity.getImpressionPacingInterval()));
+			}
+
+			if (entity.getImpressionPacingType() != null) {
+				strategyForm.param("impression_pacing_type", String.valueOf(entity.getImpressionPacingType()));
 			}
 
 			if (entity.getImpressionPacingAmount() > 0) {
@@ -223,7 +234,18 @@ public class StrategyHelper {
 				strategyForm.param("supply_type", String.valueOf(entity.getSupplyType()));
 			}
 
+			if (entity.getTargetingSegmentExcludeOp() != null) {
+				strategyForm.param("targeting_segment_exclude_op",
+						String.valueOf(entity.getTargetingSegmentExcludeOp()));
+			}
+
+			if (entity.getTargetingSegmentIncludeOp() != null) {
+				strategyForm.param("targeting_segment_include_op",
+						String.valueOf(entity.getTargetingSegmentIncludeOp()));
+			}
+
 			strategyForm.param("use_mm_freq", Utility.getOnOrOff(false));
+
 			if (entity.getGoalType() != null && !entity.getGoalType().equals(goalType.spend)) {
 				strategyForm.param("use_optimization", Utility.getOnOrOff(entity.isUseOptimization()));
 			}
@@ -264,6 +286,7 @@ public class StrategyHelper {
 				}
 			}
 		}
+
 		// target values
 		if (!entity.getTargetValues().isEmpty()) {
 			int inc = 1;
@@ -284,7 +307,7 @@ public class StrategyHelper {
 				}
 			}
 		}
-		//site lists
+		// site lists
 		if (!entity.getSiteLists().isEmpty()) {
 			int inc = 1;
 			for (SiteList sl : entity.getSiteLists()) {
@@ -295,8 +318,8 @@ public class StrategyHelper {
 				inc++;
 			}
 		}
-		
-		//Deals
+
+		// Deals
 		if (!entity.getDealIds().isEmpty()) {
 			int inc = 1;
 			for (Integer sl : entity.getDealIds()) {

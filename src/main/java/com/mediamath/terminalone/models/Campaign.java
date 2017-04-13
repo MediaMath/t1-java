@@ -97,6 +97,7 @@ public class Campaign implements T1Entity {
 	private int frequency_amount;
 	private freqInts frequency_interval;
 	private freqTypes frequency_type;
+	private boolean frequency_optimization;
 	private float goal_alert;
 	private goalCats goal_category;
 	private goalTypes goal_type;
@@ -111,16 +112,21 @@ public class Campaign implements T1Entity {
 	private String io_reference_num;
 	private Date initial_start_date;
 	private float margin_pct;
+	private boolean minimize_multi_ads;
 	private int merit_pixel_id;
 	private String name;
+	private boolean override_suspicious_traffic_filter;
 	private int pc_window_minutes;
 	private float pv_pct;
 	private int pv_window_minutes;
+	private boolean restrict_targeting_to_deterministic_id;
+	private boolean restrict_targeting_to_same_device_id;
 	private servTypes service_type;
 	private ArrayList<T1Cost> spend_cap_amount = new ArrayList<T1Cost>();
 	private boolean spend_cap_automatic = true;
 	private Date start_date;
 	private boolean status;
+	private int suspicious_traffic_filter_level;
 	private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
 	private int total_impression_budget;
 	private Date updated_on;
@@ -259,6 +265,14 @@ public class Campaign implements T1Entity {
 		this.frequency_type = frequency_type;
 	}
 
+	public boolean isFrequencyOptimization() {
+		return frequency_optimization;
+	}
+
+	public void setFrequencyOptimization(boolean frequency_optimization) {
+		this.frequency_optimization = frequency_optimization;
+	}
+
 	public float getGoalAlert() {
 		return goal_alert;
 	}
@@ -355,8 +369,24 @@ public class Campaign implements T1Entity {
 		this.margin_pct = margin_pct;
 	}
 
+	public boolean isMinimizeMultiAds() {
+		return minimize_multi_ads;
+	}
+
+	public void setMinimizeMultiAds(boolean minimize_multi_ads) {
+		this.minimize_multi_ads = minimize_multi_ads;
+	}
+
 	public String getName() {
 		return name;
+	}
+
+	public boolean isOverrideSuspiciousTrafficFilter() {
+		return override_suspicious_traffic_filter;
+	}
+
+	public void setOverrideSuspiciousTrafficFilter(boolean override_suspicious_traffic_filter) {
+		this.override_suspicious_traffic_filter = override_suspicious_traffic_filter;
 	}
 
 	public void setName(String name) {
@@ -385,6 +415,22 @@ public class Campaign implements T1Entity {
 
 	public void setPvWindowMinutes(int pv_window_minutes) {
 		this.pv_window_minutes = pv_window_minutes;
+	}
+
+	public boolean isRestrictTargetingToDeterministicId() {
+		return restrict_targeting_to_deterministic_id;
+	}
+
+	public void setRestrictTargetingToDeterministicId(boolean restrict_targeting_to_deterministic_id) {
+		this.restrict_targeting_to_deterministic_id = restrict_targeting_to_deterministic_id;
+	}
+
+	public boolean isRestrictTargetingToSameDeviceId() {
+		return restrict_targeting_to_same_device_id;
+	}
+
+	public void setRestrictTargetingToSameDeviceId(boolean restrict_targeting_to_same_device_id) {
+		this.restrict_targeting_to_same_device_id = restrict_targeting_to_same_device_id;
 	}
 
 	public servTypes getServiceType() {
@@ -417,6 +463,14 @@ public class Campaign implements T1Entity {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public int getSuspiciousTrafficFilterLevel() {
+		return suspicious_traffic_filter_level;
+	}
+
+	public void setSuspiciousTrafficFilterLevel(int suspicious_traffic_filter_level) {
+		this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
 	}
 
 	public Date getUpdatedOn() {
@@ -664,6 +718,8 @@ public class Campaign implements T1Entity {
 			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType()));
 		}
 
+		campaignForm.param("frequency_optimization", Utility.getOnOrOff(this.isFrequencyOptimization()));
+
 		if (this.getGoalAlert() >= 0) {
 			campaignForm.param("goal_alert", String.valueOf(this.getGoalAlert()));
 		}
@@ -703,6 +759,11 @@ public class Campaign implements T1Entity {
 			campaignForm.param("margin_pct", String.valueOf(this.getMarginPct()));
 		}
 
+		campaignForm.param("minimize_multi_ads", Utility.getOnOrOff(this.isMinimizeMultiAds()));
+
+		campaignForm.param("override_suspicious_traffic_filter",
+				Utility.getOnOrOff(this.isOverrideSuspiciousTrafficFilter()));
+
 		if (this.getMeritPixelId() > 0) {
 			campaignForm.param("merit_pixel_id", String.valueOf(this.getMeritPixelId()));
 		}
@@ -719,6 +780,11 @@ public class Campaign implements T1Entity {
 			campaignForm.param("pv_window_minutes", String.valueOf(this.getPvWindowMinutes()));
 		}
 
+		campaignForm.param("restrict_targeting_to_deterministic_id",
+				Utility.getOnOrOff(this.isRestrictTargetingToDeterministicId()));
+		campaignForm.param("restrict_targeting_to_same_device_id",
+				Utility.getOnOrOff(this.isRestrictTargetingToSameDeviceId()));
+
 		campaignForm.param("spend_cap_automatic", Utility.getOnOrOff(this.isSpendCapAutomatic()));
 
 		campaignForm.param("use_default_ad_server", Utility.getOnOrOff(this.isUseDefaultAdServer()));
@@ -728,6 +794,8 @@ public class Campaign implements T1Entity {
 		}
 
 		campaignForm.param("status", Utility.getOnOrOff(this.isStatus()));
+
+		campaignForm.param("suspicious_traffic_filter_level", String.valueOf(this.getSuspiciousTrafficFilterLevel()));
 
 		if (this.getVersion() >= 0) {
 			campaignForm.param("version", String.valueOf(this.getVersion()));
