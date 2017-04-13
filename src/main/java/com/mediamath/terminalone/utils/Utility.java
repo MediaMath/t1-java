@@ -32,170 +32,227 @@ import com.mediamath.terminalone.service.T1Service;
 
 public class Utility {
 
-  private static final Logger logger = LoggerFactory.getLogger(Utility.class);
+	private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-  private static Properties vConfigProp = new Properties();
+	private static Properties vConfigProp = new Properties();
 
-  private static Properties vEntityReadOnlyFields = new Properties();
+	private static Properties vEntityReadOnlyFields = new Properties();
 
-  public static Properties getConfigProperties() {
-    return vConfigProp;
-  }
+	private static Properties vServicesPathForEntity = new Properties();
 
-  /**
-   * gets String "on" or "off" based on the boolean value supplied.
-   * 
-   * @param bool
-   *          requires a boolean value.
-   * @return String either "on" or "off"
-   */
-  public static String getOnOrOff(boolean bool) {
-    String response = "off";
-    if (bool) {
-      response = "on";
-    }
-    return response;
-  }
+	public static Properties getConfigProperties() {
+		return vConfigProp;
+	}
 
-  /**
-   * gets String value of "0" or "1" based on the boolean value supplied.
-   * 
-   * @param bool
-   *          requires a boolean value.
-   * @return String object.
-   */
-  public static String getOneOrZero(boolean bool) {
-    String response = "0";
-    if (bool) {
-      response = "1";
-    }
-    return response;
-  }
+	/**
+	 * gets String "on" or "off" based on the boolean value supplied.
+	 * 
+	 * @param bool
+	 *            requires a boolean value.
+	 * @return String either "on" or "off"
+	 */
+	public static String getOnOrOff(boolean bool) {
+		String response = "off";
+		if (bool) {
+			response = "on";
+		}
+		return response;
+	}
 
-  /**
-   * this utility is used to load the config by reading the property files.
-   * 
-   * @return Properties object.
-   */
-  public static Properties loadConfigProperty() {
-    if (vConfigProp.isEmpty()) {
-      InputStream input = null;
-      try {
-        String filename = "config.properties";
-        input = Utility.class.getClassLoader().getResourceAsStream(filename);
-        if (input == null) {
-          logger.info("Unable to load the configurations");
-          return null;
-        }
-        vConfigProp.load(input);
-      } catch (IOException ioException) {
-        logStackTrace(ioException);
-      } finally {
-        if (input != null) {
-          try {
-            input.close();
-          } catch (IOException ioException) {
-            logStackTrace(ioException);
-          }
-        }
-      }
-    }
+	/**
+	 * gets String value of "0" or "1" based on the boolean value supplied.
+	 * 
+	 * @param bool
+	 *            requires a boolean value.
+	 * @return String object.
+	 */
+	public static String getOneOrZero(boolean bool) {
+		String response = "0";
+		if (bool) {
+			response = "1";
+		}
+		return response;
+	}
 
-    return vConfigProp;
-  }
+	/**
+	 * this utility is used to load the config by reading the property files.
+	 * 
+	 * @return Properties object.
+	 */
+	public static Properties loadConfigProperty() {
+		if (vConfigProp.isEmpty()) {
+			InputStream input = null;
+			try {
+				String filename = "config.properties";
+				input = Utility.class.getClassLoader().getResourceAsStream(filename);
+				if (input == null) {
+					logger.info("Unable to load the configurations");
+					return null;
+				}
+				vConfigProp.load(input);
+			} catch (IOException ioException) {
+				logStackTrace(ioException);
+			} finally {
+				if (input != null) {
+					try {
+						input.close();
+					} catch (IOException ioException) {
+						logStackTrace(ioException);
+					}
+				}
+			}
+		}
 
-  /**
-   * This utility is used to load the readOnlyFields by reading the property files.
-   * 
-   * @return Property Object.
-   */
-  public static Properties loadEntityReadOnlyFields() {
-    if (vEntityReadOnlyFields.isEmpty()) {
-      InputStream input = null;
-      try {
-        String filename = "EntityReadOnlyFields.properties";
-        input = Utility.class.getClassLoader().getResourceAsStream(filename);
-        if (input == null) {
-          logger.info("Unable to load the configurations");
-          return null;
-        }
-        vEntityReadOnlyFields.load(input);
-      } catch (IOException ioException) {
-        logStackTrace(ioException);
-      } finally {
-        if (input != null) {
-          try {
-            input.close();
-          } catch (IOException ioException) {
-            logStackTrace(ioException);
-          }
-        }
-      }
-    }
+		return vConfigProp;
+	}
 
-    return vEntityReadOnlyFields;
-  }
+	/**
+	 * This utility is used to load the readOnlyFields by reading the property
+	 * files.
+	 * 
+	 * @return Property Object.
+	 */
+	public static Properties loadEntityReadOnlyFields() {
+		if (vEntityReadOnlyFields.isEmpty()) {
+			InputStream input = null;
+			try {
+				String filename = "EntityReadOnlyFields.properties";
+				input = Utility.class.getClassLoader().getResourceAsStream(filename);
+				if (input == null) {
+					logger.info("Unable to load the configurations");
+					return null;
+				}
+				vEntityReadOnlyFields.load(input);
+			} catch (IOException ioException) {
+				logStackTrace(ioException);
+			} finally {
+				if (input != null) {
+					try {
+						input.close();
+					} catch (IOException ioException) {
+						logStackTrace(ioException);
+					}
+				}
+			}
+		}
 
-  /**
-   * Utility function to split the string and return an array list.
-   * 
-   * @param propStr
-   *          comma seperated string.
-   * @return List of string.
-   */
-  public static List<String> getList(String propStr) {
-    String[] readOnlyFields = propStr.split(",");
-    return Arrays.asList(readOnlyFields);
-  }
+		return vEntityReadOnlyFields;
+	}
 
-  /**
-   * Returns a filtered Form object.
-   * 
-   * @param entity
-   *          requires a Form object for specific entity
-   * @param entityName
-   *          specify the entity name for fetching read only fields.
-   * @return Form object.
-   */
-  public static Form getFilteredForm(Form entity, String entityName) {
+	/**
+	 * This utility is used to load the MicroServices URLs for specific entities
+	 * by reading the property files.
+	 * 
+	 * @return Property Object.
+	 */
+	public static Properties loadServicesPath() {
+		if (vServicesPathForEntity.isEmpty()) {
+			InputStream input = null;
+			try {
+				String filename = "services.properties";
+				input = Utility.class.getClassLoader().getResourceAsStream(filename);
+				if (input == null) {
+					logger.info("Unable to load the configurations");
+					return null;
+				}
+				vServicesPathForEntity.load(input);
+			} catch (IOException ioException) {
+				logStackTrace(ioException);
+			} finally {
+				if (input != null) {
+					try {
+						input.close();
+					} catch (IOException ioException) {
+						logStackTrace(ioException);
+					}
+				}
+			}
+		}
 
-    if (entityName == null || entityName.isEmpty()) {
-      return null;
-    }
+		return vServicesPathForEntity;
+	}
 
-    MultivaluedMap<String, String> multiValMap = entity.asMap();
-    String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
-    List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
-    for (String str : readOnlyFieldList) {
-      if (multiValMap.containsKey(str)) {
-        multiValMap.remove(str);
-      }
-    }
-    
-    return new Form(multiValMap);
-  }
+	/**
+	 * Utility function to split the string and return an array list.
+	 * 
+	 * @param propStr
+	 *            comma seperated string.
+	 * @return List of string.
+	 */
+	public static List<String> getList(String propStr) {
+		String[] readOnlyFields = propStr.split(",");
+		return Arrays.asList(readOnlyFields);
+	}
 
-  /**
-   * this utility takes in the Exception object and logs the entire stack tracer to the logger.
-   * 
-   * @param exception
-   *          Exception object.
-   */
-  public static void logStackTrace(Exception exception) {
-    StringBuilder strBuilder = new StringBuilder(exception.getMessage());
-    StackTraceElement[] stactTraceElements = exception.getStackTrace();
-    for (StackTraceElement ste : stactTraceElements) {
-      strBuilder.append(ste.toString());
-    }
-    
-    if(!strBuilder.toString().isEmpty()){
-      String logstr = strBuilder.toString();
-      logger.error(logstr);
-    }
-  }
+	/**
+	 * Returns a filtered Form object.
+	 * 
+	 * @param entity
+	 *            requires a Form object for specific entity
+	 * @param entityName
+	 *            specify the entity name for fetching read only fields.
+	 * @return Form object.
+	 */
+	public static Form getFilteredForm(Form entity, String entityName) {
 
-  public boolean isArrayOfType(Object[] array, Class<?> type) {
-    return array.length > 0 && array.getClass().getComponentType().isAssignableFrom(type);
-  }
+		if (entityName == null || entityName.isEmpty()) {
+			return null;
+		}
+
+		MultivaluedMap<String, String> multiValMap = entity.asMap();
+		String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
+		List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
+		for (String str : readOnlyFieldList) {
+			if (multiValMap.containsKey(str)) {
+				multiValMap.remove(str);
+			}
+		}
+
+		return new Form(multiValMap);
+	}
+
+	/**
+	 * Returns a service path for specific entity.
+	 * 
+	 * @param collection
+	 *            specify the entity name for fetching service paths.
+	 * @return Form object.
+	 */
+	public static String getServicePath(String collection) {
+
+		if (collection == null || collection.isEmpty()) {
+			return null;
+		}
+
+		String servicePath = (T1Service.getEntityServicesPaths().getProperty(collection) != null)
+				? T1Service.getEntityServicesPaths().getProperty(collection)
+				: T1Service.getEntityServicesPaths().getProperty("others");
+
+		return servicePath;
+	}
+
+	/**
+	 * this utility takes in the Exception object and logs the entire stack
+	 * tracer to the logger.
+	 * 
+	 * @param exception
+	 *            Exception object.
+	 */
+	public static void logStackTrace(Exception exception) {
+		StringBuilder strBuilder = new StringBuilder(exception.getMessage());
+		StackTraceElement[] stactTraceElements = exception.getStackTrace();
+		for (StackTraceElement ste : stactTraceElements) {
+			strBuilder.append(ste.toString());
+		}
+
+		if (!strBuilder.toString().isEmpty()) {
+			String logstr = strBuilder.toString();
+			logger.error(logstr);
+		}
+	}
+
+	public boolean isArrayOfType(Object[] array, Class<?> type) {
+		return array.length > 0 && array.getClass().getComponentType().isAssignableFrom(type);
+	}
 
 }

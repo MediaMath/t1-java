@@ -82,6 +82,8 @@ public class TerminalOne {
 
 	private static final String UNABLE_TO_GET_O_AUTH_AUTHORIZATION_URL = "Unable to get OAuth authorization URL: ";
 
+	private static final String LOGIN = "login";
+
 	private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
 	private Connection connection = null;
@@ -126,7 +128,7 @@ public class TerminalOne {
 	private void login(String username, String password, String apiKey) throws ClientException {
 		logger.info("Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, apiKey);
-		String url = tOneService.constructUrl(new StringBuilder("login"));
+		String url = tOneService.constructUrl(new StringBuilder("login"), LOGIN);
 		Response loginResponse = connection.post(url, form, null);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
@@ -582,10 +584,10 @@ public class TerminalOne {
 	 */
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
 		StringBuilder path = getService.get(query);
-		//If collection=deals then use for media api base
-		String finalPath = (query.collection.equals("deals")) ? (tOneService.constructMediaUrl(path)) : (tOneService.constructUrl(path));
+		// If collection=deals then use for media api base
+		String finalPath = tOneService.constructUrl(path, query.collection);
 		String response = this.connection.get(finalPath, this.getUser());
-		
+
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try {
@@ -617,12 +619,13 @@ public class TerminalOne {
 		StringBuilder path = getService.get(query);
 
 		// get the data from t1 servers.
-		String finalPath = tOneService.constructUrl(path);
+		String finalPath = tOneService.constructUrl(path, query.collection);
 		Response response = connection.getReportData(finalPath, this.getUser());
 		BufferedReader reader = null;
 
 		if (response.getStatus() != 200) {
-			JsonPostErrorResponse jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response.readEntity(String.class));
+			JsonPostErrorResponse jsonPostErrorResponse = getService
+					.jsonGetErrorResponseParser(response.readEntity(String.class));
 			if (jsonPostErrorResponse != null) {
 				postService.throwExceptions(jsonPostErrorResponse);
 			}
