@@ -16,7 +16,7 @@ You can integrate the latest t1-java build easily by just including the followin
        </dependency>
    	</dependencies>
 
- You can also download the latest jar from Maven Central or from the following source - https://oss.sonatype.org/content/repositories/releases/com/mediamath/t1-java/0.0.2/t1-java-0.0.2.jar
+ You can also download the latest jar from Maven Central or from the following source - https://oss.sonatype.org/content/repositories/releases/com/mediamath/t1-java/0.0.3/t1-java-0.0.3.jar
 
 #Build project from source	
 - For developer build
