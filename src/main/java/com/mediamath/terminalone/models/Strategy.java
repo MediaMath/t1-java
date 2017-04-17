@@ -101,17 +101,19 @@ public class Strategy implements T1Entity {
 
 	private audSegExc audience_segment_exclude_op;
 	private audSegInc audience_segment_include_op;
-	private float bid_aggresiveness;
+	private float bid_aggressiveness;
 	private boolean bid_price_is_media_only;
 	private ArrayList<Currency> budget = new ArrayList<Currency>();
 	private int campaign_id;
 	private String created_on;
+	private String currency_code;
 	private String description;
 	private ArrayList<Currency> effective_goal_value = new ArrayList<Currency>();
 	private Date end_date;
 	private String feature_compatibility;
 	private int frequency_amount;
 	private freqInt frequency_interval;
+	private boolean frequency_optimization;
 	private freqType frequency_type;
 	private goalType goal_type;
 	private ArrayList<Currency> goal_value = new ArrayList<Currency>();
@@ -119,9 +121,11 @@ public class Strategy implements T1Entity {
 	private int impression_cap;
 	private freqType impression_cap_type;
 	private int impression_pacing_amount;
+	private freqType impression_pacing_type;
 	private freqInt impression_pacing_interval;
 	private ArrayList<Currency> max_bid = new ArrayList<Currency>();
 	private mediaType media_type;
+	private  ArrayList<Currency> min_bid = new ArrayList<Currency>();
 	private String name;
 	private ArrayList<Currency> pacing_amount = new ArrayList<Currency>();
 	private pacInt pacing_interval;
@@ -140,6 +144,8 @@ public class Strategy implements T1Entity {
 	private Date start_date;
 	private boolean status;
 	private supplyType supply_type;
+	private String targeting_segment_exclude_op;
+	private String targeting_segment_include_op;
 	private type type;
 	private String updated_on;
 	private boolean use_campaign_end;
@@ -154,9 +160,11 @@ public class Strategy implements T1Entity {
 
 	List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
 	List<Segments> audience_segments = new ArrayList<Segments>();
+	List<Segments> targeting_segments = new ArrayList<Segments>();
 	List<TargetValues> target_values = new ArrayList<TargetValues>();
 	List<Concept> concepts = new ArrayList<Concept>();
 	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
+	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
 
@@ -179,11 +187,11 @@ public class Strategy implements T1Entity {
 	}
 
 	public float getBidAggresiveness() {
-		return bid_aggresiveness;
+		return bid_aggressiveness;
 	}
 
 	public void setBidAggresiveness(float bid_aggresiveness) {
-		this.bid_aggresiveness = bid_aggresiveness;
+		this.bid_aggressiveness = bid_aggresiveness;
 	}
 
 	public boolean isBidPriceIsMediaOnly() {
@@ -210,6 +218,14 @@ public class Strategy implements T1Entity {
 		this.created_on = created_on;
 	}
 
+	public String getCurrencyCode() {
+		return currency_code;
+	}
+
+	public void setCurrencyCode(String currency_code) {
+		this.currency_code = currency_code;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -232,6 +248,14 @@ public class Strategy implements T1Entity {
 
 	public void setFrequencyInterval(freqInt frequency_interval) {
 		this.frequency_interval = frequency_interval;
+	}
+
+	public boolean isFrequencyOptimization() {
+		return frequency_optimization;
+	}
+
+	public void setFrequencyOptimization(boolean frequency_optimization) {
+		this.frequency_optimization = frequency_optimization;
 	}
 
 	public freqType getFrequencyType() {
@@ -280,6 +304,14 @@ public class Strategy implements T1Entity {
 
 	public void setImpressionPacingAmount(int impression_pacing_amount) {
 		this.impression_pacing_amount = impression_pacing_amount;
+	}
+
+	public freqType getImpressionPacingType() {
+		return impression_pacing_type;
+	}
+
+	public void setImpressionPacingType(freqType impression_pacing_type) {
+		this.impression_pacing_type = impression_pacing_type;
 	}
 
 	public freqInt getImpressionPacingInterval() {
@@ -400,6 +432,22 @@ public class Strategy implements T1Entity {
 
 	public void setSupplyType(supplyType supply_type) {
 		this.supply_type = supply_type;
+	}
+
+	public String getTargetingSegmentExcludeOp() {
+		return targeting_segment_exclude_op;
+	}
+
+	public void setTargetingSegmentExcludeOp(String targeting_segment_exclude_op) {
+		this.targeting_segment_exclude_op = targeting_segment_exclude_op;
+	}
+
+	public String getTargetingSegmentIncludeOp() {
+		return targeting_segment_include_op;
+	}
+
+	public void setTargetingSegmentIncludeOp(String targeting_segment_include_op) {
+		this.targeting_segment_include_op = targeting_segment_include_op;
 	}
 
 	public type getType() {
@@ -592,6 +640,20 @@ public class Strategy implements T1Entity {
 		this.max_bid.add(currency);
 	}
 
+	public ArrayList<Currency> getMinBid() {
+		return min_bid;
+	}
+
+	public void setMinBid(ArrayList<Currency> min_bid) {
+		this.min_bid = min_bid;
+	}
+	
+	public void setMinBid(float min_bid) {
+		Currency currency = new Currency();
+		currency.setValue(min_bid);
+		this.min_bid.add(currency);
+	}
+
 	public ArrayList<Currency> getPacingAmount() {
 		return pacing_amount;
 	}
@@ -682,6 +744,22 @@ public class Strategy implements T1Entity {
 
 	public void setDealIds(List<Integer> dealIds) {
 		this.dealIds = dealIds;
+	}
+
+	public List<Segments> getTargetingSegments() {
+		return targeting_segments;
+	}
+
+	public void setTargetingSegments(List<Segments> targeting_segments) {
+		this.targeting_segments = targeting_segments;
+	}
+
+	public List<StrategyTargetingSegment> getStrategyTargetingSegments() {
+		return strategyTargetingSegments;
+	}
+
+	public void setStrategyTargetingSegments(List<StrategyTargetingSegment> strategyTargetingSegments) {
+		this.strategyTargetingSegments = strategyTargetingSegments;
 	}
 
 	@Override

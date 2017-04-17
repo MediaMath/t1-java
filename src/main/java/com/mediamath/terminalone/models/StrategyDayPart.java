@@ -37,7 +37,7 @@ public class StrategyDayPart implements T1Entity {
   private int start_hour;
   private boolean status;
   private int strategy_id;
-  private Date udpated_on;
+  private Date updated_on;
   private boolean user_time;
   private int version;
   private String name;
@@ -101,11 +101,11 @@ public class StrategyDayPart implements T1Entity {
   }
 
   public Date getUdpatedOn() {
-    return udpated_on;
+    return updated_on;
   }
 
   public void setUdpatedOn(Date udpated_on) {
-    this.udpated_on = udpated_on;
+    this.updated_on = udpated_on;
   }
 
   public boolean isUserTime() {
@@ -150,6 +150,10 @@ public class StrategyDayPart implements T1Entity {
 	  Form strategyDayPartForm = new Form();
 
 	    strategyDayPartForm.param("days", String.valueOf(this.getDays()));
+	    
+	    if (this.getName() != null && !this.getName().isEmpty()) {
+	      strategyDayPartForm.param("name", this.getName());
+	    }
 
 	    if (this.getEndHour() > 0 && this.getEndHour() < 23) {
 	      strategyDayPartForm.param("end_hour", String.valueOf(this.getEndHour()));

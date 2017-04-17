@@ -301,6 +301,10 @@ public class Advertiser implements T1Entity {
 
     advertiserForm.param("ad_server_id", String.valueOf(this.getAdServerId()));
 
+    if (this.getAdServerFee() > 0) {
+        advertiserForm.param("ad_server_fee", String.valueOf(this.getAdServerFee()));
+      }
+    
     // optional
     advertiserForm.param("allow_x_strat_optimization",
         Utility.getOnOrOff(this.isAllowXStratOptimization()));
@@ -309,10 +313,6 @@ public class Advertiser implements T1Entity {
 
     if (this.getBillingContactId() > 0) {
       advertiserForm.param("billing_contact_id", String.valueOf(this.getBillingContactId()));
-    }
-
-    if (this.getDomain() != null) {
-      advertiserForm.param("domain", this.getDomain());
     }
 
     if (this.getCreatedOn() != null) {
@@ -362,7 +362,7 @@ public class Advertiser implements T1Entity {
     }
 
     if (this.getDomain() != null) {
-      advertiserForm.param("domain", this.getDomain());
+        advertiserForm.param("domain", this.getDomain());
     }
 
     return Utility.getFilteredForm(advertiserForm, "advertiser");

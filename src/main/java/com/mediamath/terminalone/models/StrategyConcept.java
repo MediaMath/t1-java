@@ -24,153 +24,157 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyConcept implements T1Entity {
 
-  private static final String entityName = "StrategyConcept";
+	private static final String entityName = "StrategyConcept";
 
-  private int advertiser_id;
-  private int concept_id;
-  private Date created_on;
-  private int id;
-  private boolean status;
-  private int strategy_id;
-  private Date updated_on;
-  private int version;
-  String weighting;
-  String name;
+	private int advertiser_id;
+	private int concept_id;
+	private Date created_on;
+	private int id;
+	private boolean status;
+	private int strategy_id;
+	private Date updated_on;
+	private int version;
+	String weighting;
+	String name;
 
-  private Concept concept;
-  private Strategy strategy;
+	private Concept concept;
+	private Strategy strategy;
 
-  public int getConceptId() {
-    return concept_id;
-  }
+	public int getConceptId() {
+		return concept_id;
+	}
 
-  public void setConceptId(int concept_id) {
-    this.concept_id = concept_id;
-  }
+	public void setConceptId(int concept_id) {
+		this.concept_id = concept_id;
+	}
 
-  public Date getCreatedOn() {
-    return created_on;
-  }
+	public Date getCreatedOn() {
+		return created_on;
+	}
 
-  public void setCreatedOn(Date created_on) {
-    this.created_on = created_on;
-  }
+	public void setCreatedOn(Date created_on) {
+		this.created_on = created_on;
+	}
 
-  public int getId() {
-    return id;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public boolean isStatus() {
-    return status;
-  }
+	public boolean isStatus() {
+		return status;
+	}
 
-  public void setStatus(boolean status) {
-    this.status = status;
-  }
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
-  public int getStrategyId() {
-    return strategy_id;
-  }
+	public int getStrategyId() {
+		return strategy_id;
+	}
 
-  public void setStrategyId(int strategy_id) {
-    this.strategy_id = strategy_id;
-  }
+	public void setStrategyId(int strategy_id) {
+		this.strategy_id = strategy_id;
+	}
 
-  public Date getUpdatedOn() {
-    return updated_on;
-  }
+	public Date getUpdatedOn() {
+		return updated_on;
+	}
 
-  public void setUpdatedOn(Date updated_on) {
-    this.updated_on = updated_on;
-  }
+	public void setUpdatedOn(Date updated_on) {
+		this.updated_on = updated_on;
+	}
 
-  public int getVersion() {
-    return version;
-  }
+	public int getVersion() {
+		return version;
+	}
 
-  public void setVersion(int version) {
-    this.version = version;
-  }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-  public Concept getConcept() {
-    return concept;
-  }
+	public Concept getConcept() {
+		return concept;
+	}
 
-  public void setConcept(Concept concept) {
-    this.concept = concept;
-  }
+	public void setConcept(Concept concept) {
+		this.concept = concept;
+	}
 
-  public Strategy getStrategy() {
-    return strategy;
-  }
+	public Strategy getStrategy() {
+		return strategy;
+	}
 
-  public void setStrategy(Strategy strategy) {
-    this.strategy = strategy;
-  }
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
 
-  @Override
-  public String getEntityname() {
-    return entityName;
-  }
+	@Override
+	public String getEntityname() {
+		return entityName;
+	}
 
-  public int getAdvertiserId() {
-    return advertiser_id;
-  }
+	public int getAdvertiserId() {
+		return advertiser_id;
+	}
 
-  public void setAdvertiserId(int advertiserId) {
-    this.advertiser_id = advertiserId;
-  }
+	public void setAdvertiserId(int advertiserId) {
+		this.advertiser_id = advertiserId;
+	}
 
-  public String getWeighting() {
-    return weighting;
-  }
+	public String getWeighting() {
+		return weighting;
+	}
 
-  public void setWeighting(String weighting) {
-    this.weighting = weighting;
-  }
+	public void setWeighting(String weighting) {
+		this.weighting = weighting;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
-  
-  @Override
-  public Form getForm() {
-	  Form strategyConceptForm = new Form();
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	    if (getConceptId() > 0) {
-	      strategyConceptForm.param("concept_id", String.valueOf(getConceptId()));
-	    }
+	@Override
+	public Form getForm() {
+		Form strategyConceptForm = new Form();
 
-	    if (getStrategyId() > 0) {
-	      strategyConceptForm.param("strategy_id", String.valueOf(getStrategyId()));
-	    }
+		if (this.getConceptId() > 0) {
+			strategyConceptForm.param("concept_id", String.valueOf(this.getConceptId()));
+		}
 
-	    strategyConceptForm.param("status", Utility.getOnOrOff(isStatus()));
+		if (this.getStrategyId() > 0) {
+			strategyConceptForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+		}
 
-	    if (getVersion() >= 0) {
-	      strategyConceptForm.param("version", String.valueOf(getVersion()));
-	    }
+		strategyConceptForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
-	    return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
-	    
-  }
+		if (this.getVersion() >= 0) {
+			strategyConceptForm.param("version", String.valueOf(this.getVersion()));
+		}
 
-  @Override
-  public String getUri() {
-	  StringBuilder uri = new StringBuilder();
-	    
-	    if (this.getId() > 0) {
-	      uri.append("/" + this.getId());
-	    }
+		if (this.getWeighting() != null) {
+			strategyConceptForm.param("weighting", this.getWeighting());
+		}
+
+		return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
+
+	}
+
+	@Override
+	public String getUri() {
+		StringBuilder uri = new StringBuilder();
+
+		if (this.getId() > 0) {
+			uri.append("/" + this.getId());
+		}
 		return uri.toString();
-  }
+	}
 
 }

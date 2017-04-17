@@ -38,6 +38,15 @@ public class StrategyTargetingSegment implements T1Entity {
   private String name;
 
   private Strategy strategy;
+  
+  public StrategyTargetingSegment(){}
+
+  public StrategyTargetingSegment(int id, String restriction, float user_cpm,String operator) {
+	this.id = id;
+	this.operator = operator;
+	this.restriction = restriction;
+	this.user_cpm = user_cpm;
+  }
 
   public Date getCreatedOn() {
     return created_on;
