@@ -44,9 +44,11 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.models.TargetDimension;
 import com.mediamath.terminalone.models.TargetValues;
+import com.mediamath.terminalone.models.TargetingSegment;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.Vendor;
 import com.mediamath.terminalone.models.VendorContract;
@@ -68,9 +70,11 @@ public final class Constants {
 	private static final String CREATIVE_APPROVAL = "creative_approval";
 
 	private static final String STRATEGY_AUDIENCE_SEGMENT = "strategy_audience_segment";
+	private static final String STRATEGY_TARGETING_SEGMENT = "strategy_targeting_segment";
 
 	private static final String STRATEGY_AUDIENCE_SEGMENTS = "strategy_audience_segments";
-
+	private static final String STRATEGY_TARGETING_SEGMENTS = "strategy_targeting_segments";
+	
 	private static final String SITE_PLACEMENT = "site_placement";
 
 	private static final String SITE_LIST_U = "site_list";
@@ -85,6 +89,8 @@ public final class Constants {
 	private static final String AD_SERVER = "ad_server";
 
 	private static final String AUDIENCE_SEGMENT = "audience_segment";
+	
+	private static final String TARGETING_SEGMENT = "targeting_segment";
 
 	private static final String VERTICAL = "vertical";
 
@@ -234,11 +240,9 @@ public final class Constants {
 
 	public static HashMap<String, HashMap<String, Integer>> childPaths = new HashMap<String, HashMap<String, Integer>>();
 
-	// TODO: clean up
 	// get the type of entity.. required for parsing.
 	public static HashMap<String, Type> getEntityType = new HashMap<String, Type>();
 
-	// TODO: clean up
 	// get the type of list of entity.. required for parsing.
 	public static HashMap<String, Type> getListoFEntityType = new HashMap<String, Type>();
 
@@ -263,6 +267,9 @@ public final class Constants {
 		getEntityType.put(AUDIENCE_SEGMENTS, new TypeToken<JsonResponse<AudienceSegment>>() {
 		}.getType());
 
+		getEntityType.put(TARGETING_SEGMENT, new TypeToken<JsonResponse<TargetingSegment>>() {
+		}.getType());
+		
 		getEntityType.put(CAMPAIGNS, new TypeToken<JsonResponse<Campaign>>() {
 		}.getType());
 		getEntityType.put(CAMPAIGN, new TypeToken<JsonResponse<Campaign>>() {
@@ -519,6 +526,12 @@ public final class Constants {
 		getListoFEntityType.put(STRATEGY_AUDIENCE_SEGMENT,
 				new TypeToken<JsonResponse<ArrayList<StrategyAudienceSegment>>>() {
 				}.getType());
+		getListoFEntityType.put(STRATEGY_TARGETING_SEGMENTS,
+				new TypeToken<JsonResponse<ArrayList<StrategyTargetingSegment>>>() {
+				}.getType());
+		getListoFEntityType.put(STRATEGY_TARGETING_SEGMENT,
+				new TypeToken<JsonResponse<ArrayList<StrategyTargetingSegment>>>() {
+				}.getType());
 		getListoFEntityType.put(USERS, new TypeToken<JsonResponse<ArrayList<User>>>() {
 		}.getType());
 		getListoFEntityType.put(USER, new TypeToken<JsonResponse<ArrayList<User>>>() {
@@ -617,7 +630,7 @@ public final class Constants {
 		entityPaths.put("SitePlacement", SITE_PLACEMENTS);
 		entityPaths.put("Strategy", STRATEGIES);
 		entityPaths.put("StrategyConcept", STRATEGY_CONCEPTS);
-		entityPaths.put("StrategyDayPart", STRATEGY_DAY_PARTS);
+		entityPaths.put("StrategyDayPart", STRATEGY_DAY_PARTS_U);
 		entityPaths.put("StrategyDomain", STRATEGY_DOMAIN_RESTRICTIONS);
 		entityPaths.put("StrategySupplySource", STRATEGY_SUPPLY_SOURCES);
 		entityPaths.put("SupplySource", SUPPLY_SOURCES);
