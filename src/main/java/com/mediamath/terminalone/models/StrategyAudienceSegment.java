@@ -33,7 +33,7 @@ public class StrategyAudienceSegment implements T1Entity {
   private int strategy_id;
   private String type;
   private Date updated_on;
-  private float user_cpm;
+  private Currency user_cpm;
   private int version;
   private String name;
 
@@ -112,12 +112,18 @@ public class StrategyAudienceSegment implements T1Entity {
     this.updated_on = updated_on;
   }
 
-  public float getUserCpm() {
+  public Currency getUserCpm() {
     return user_cpm;
   }
 
-  public void setUserCpm(float user_cpm) {
+  public void setUserCpm(Currency user_cpm) {
     this.user_cpm = user_cpm;
+  }
+  
+  public void setUserCpm(float user_cpm) {
+	Currency curr = new Currency();
+	curr.setValue(user_cpm);
+	this.user_cpm = curr;
   }
 
   public int getVersion() {

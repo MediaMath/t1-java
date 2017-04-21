@@ -33,8 +33,8 @@ public class AudienceSegment implements T1Entity {
   private int id;
   private String name;
   private int parent_audience_segment_id;
-  private float retail_cpm;
-  private float wholesale_cpm;
+  private Currency retail_cpm;
+  private Currency wholesale_cpm;
   private String tag;
   private int uniques;
   private Date updated_on;
@@ -112,22 +112,34 @@ public class AudienceSegment implements T1Entity {
     this.parent_audience_segment_id = parent_audience_segment_id;
   }
 
-  public float getRetailCpm() {
+  public Currency getRetailCpm() {
     return retail_cpm;
   }
 
-  public void setRetailCpm(float retail_cpm) {
+  public void setRetailCpm(Currency retail_cpm) {
     this.retail_cpm = retail_cpm;
   }
+  
+  public void setRetailCpm(float retail_cpm) {
+	Currency curr = new Currency();
+	curr.setValue(retail_cpm);
+	this.retail_cpm = curr;
+  }
 
-  public float getWholesaleCpm() {
+  public Currency getWholesaleCpm() {
     return wholesale_cpm;
   }
 
-  public void setWholesaleCpm(float wholesale_cpm) {
+  public void setWholesaleCpm(Currency wholesale_cpm) {
     this.wholesale_cpm = wholesale_cpm;
   }
-
+  
+  public void setWholesaleCpm(float wholesale_cpm) {
+	Currency curr = new Currency();
+	curr.setValue(wholesale_cpm);
+	this.wholesale_cpm = curr;
+  }
+  
   public String getTag() {
     return tag;
   }

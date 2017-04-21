@@ -108,6 +108,12 @@ public class TargetingSegment implements T1Entity {
 	public void setRetail_cpm(Currency retail_cpm) {
 		this.retail_cpm = retail_cpm;
 	}
+	
+	public void setRetailCpm(float retail_cpm) {
+		Currency curr = new Currency();
+		curr.setValue(retail_cpm);
+		this.retail_cpm = curr;
+	}
 
 	public Currency getWholesale_cpm() {
 		return wholesale_cpm;
@@ -115,6 +121,12 @@ public class TargetingSegment implements T1Entity {
 
 	public void setWholesale_cpm(Currency wholesale_cpm) {
 		this.wholesale_cpm = wholesale_cpm;
+	}
+	
+	public void setWholesaleCpm(float wholesale_cpm) {
+		Currency curr = new Currency();
+		curr.setValue(wholesale_cpm);
+		this.wholesale_cpm = curr;
 	}
 
 	public String getTag() {
