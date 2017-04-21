@@ -16,9 +16,16 @@
 
 package com.mediamath.terminalone.models;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
+
+import com.google.gson.Gson;
+import com.mediamath.terminalone.utils.Utility;
 
 public class Deal implements T1Entity {
 
@@ -283,7 +290,101 @@ public class Deal implements T1Entity {
   
   @Override
   public Form getForm() {
-    return null;
+	  final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ssZ";
+		final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
+		Gson gson = new Gson();
+		Form dealForm = new Form();
+				
+		if (this.getName() != null) {
+			dealForm.param("name", this.getName());
+		}
+		
+		
+		if (this.getPrice() != null && this.getPrice().getValue() > 0) {
+			dealForm.param("price", String.valueOf(this.getPrice().getValue()));
+		}
+		
+		if (this.getAdvertiserId() > 0) {
+			dealForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
+		}
+		
+		if(this.getCurrencyCode()!=null){
+			dealForm.param("currency_code", this.getCurrencyCode());
+		}
+		
+		if(this.getDealIdentifier()!=null){
+			dealForm.param("deal_identifier", this.getDealIdentifier());
+		}
+		
+		if(this.getDealSource() != null){
+			dealForm.param("deal_source", String.valueOf(this.getDealSource()));
+		}
+		
+		if(this.getDescription()!=null){
+			dealForm.param("description", this.getDescription());
+		}
+		
+		if(this.getMediaType()!=null){
+			dealForm.param("media_type", String.valueOf(this.getMediaType()));
+		}
+		
+		if(this.getOwner()!=null){
+			Map<String, Object> oMap = new HashMap<String, Object>();
+			oMap.put("type", this.getOwner().getType());
+			oMap.put("id", this.getOwner().getId());
+			dealForm.param("owner", gson.toJson(oMap));
+		}
+		
+		if(this.getPermissions()!=null){
+			Map<String, Object> pMap = new HashMap<String, Object>();
+			pMap.put("advertiser_ids", this.getPermissions().getAdvertiser_ids());
+			pMap.put("agency_ids", this.getPermissions().getAgency_ids());
+			pMap.put("organization_ids", this.getPermissions().getOrganization_ids());
+			pMap.put("all_organizations", this.getPermissions().isAll_organizations());
+			
+			dealForm.param("permissions",gson.toJson(pMap));
+		}
+		
+		if(this.getPriceMethod()!=null){
+			dealForm.param("price_method", String.valueOf(this.getPriceMethod()));
+		}
+		
+		if(this.getPriceType()!=null){
+			dealForm.param("price_type", String.valueOf(this.getPriceType()));
+		}
+		
+		if(this.getPublisherId()> 0){
+			dealForm.param("publisher_id", String.valueOf(this.getPublisherId()));
+		}
+		
+		if(this.getSupplySourceId()> 0){
+			dealForm.param("supply_source_id", String.valueOf(this.getSupplySourceId()));
+		}
+		
+		if(this.getVersion()>0){
+			dealForm.param("supply_source_id", String.valueOf(this.getVersion()));
+		}
+		
+		if(this.getZoneName()!=null){
+			dealForm.param("zone_name", this.getZoneName());
+		}
+		
+		dealForm.param("status", Utility.getOnOrOff(this.isStatus()));
+		dealForm.param("partner_sourced", Utility.getOneOrZero(this.isPartnerSourced()));
+		
+		if (this.getEndDatetime() != null) {
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String endDate = sdf.format(this.getEndDatetime());
+			dealForm.param("end_datetime", endDate);
+		}
+
+		if (this.getStartDatetime() != null) {
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String startDate = sdf.format(this.getStartDatetime());
+			dealForm.param("start_datetime", startDate);
+		}
+		
+		return Utility.getFilteredForm(dealForm, "deal");
   }
 
   @Override
