@@ -45,8 +45,14 @@ import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Currency;
+import com.mediamath.terminalone.models.Deal;
+import com.mediamath.terminalone.models.Deal.priceMethods;
+import com.mediamath.terminalone.models.Deal.priceTypes;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
+import com.mediamath.terminalone.models.Owner;
+import com.mediamath.terminalone.models.Permissions;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
@@ -60,6 +66,7 @@ import com.mediamath.terminalone.models.StrategyDayPart.daysEnum;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -277,7 +284,7 @@ public class PostFunctionalTestIT {
 		// camp.setId(268746);
 
 		camp.setAdServerId(9);
-		camp.setAdvertiserId(122631);
+		camp.setAdvertiserId(182395);
 		camp.setName("CampaignTest One");
 		camp.setAdServerFee(10.01, null);
 		camp.setConversionType("variable");
@@ -480,7 +487,7 @@ public class PostFunctionalTestIT {
 		// camp.setId(268746);
 
 		camp.setAdServerId(9);
-		camp.setAdvertiserId(122631);
+		camp.setAdvertiserId(182395);
 		camp.setName("CampaignTest One");
 		camp.setAdServerFee(10.01, null);
 		camp.setConversionType("variable");
@@ -525,7 +532,7 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 		Campaign campaignCreated = (Campaign) jsonresponse.getData();
-		assertEquals(122631, campaignCreated.getAdvertiserId());
+		assertEquals(182395, campaignCreated.getAdvertiserId());
 		assertEquals(Campaign.goalTypes.cpa, campaignCreated.getGoalType());
 		assertEquals(Campaign.servTypes.SELF, campaignCreated.getServiceType());
 		assertEquals(800781, campaignCreated.getMeritPixelId());
@@ -591,7 +598,7 @@ public class PostFunctionalTestIT {
 
 		Advertiser adv = new Advertiser();
 		adv.setAdServerId(9);
-		adv.setAgencyId(109308);
+		adv.setAgencyId(116678);
 		adv.setDomain("http://www.advertiser.com");
 		adv.setName("TestAdvertiser");
 		adv.setVerticalId(11);
@@ -614,7 +621,7 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Advertiser advertiserCreated = (Advertiser) jsonresponse.getData();
 		// assertEquals("TestAdvertiser", advertiserCreated.getName());
-		assertEquals(109308, advertiserCreated.getAgencyId());
+		assertEquals(116678, advertiserCreated.getAgencyId());
 		assertEquals(9, advertiserCreated.getAdServerId());
 		assertEquals(11, advertiserCreated.getVerticalId());
 	}
@@ -674,7 +681,7 @@ public class PostFunctionalTestIT {
 		Strategy str = new Strategy();
 		str.setName("TestStrategy");
 		str.setBudget(100.12f);
-		str.setCampaignId(269897);
+		str.setCampaignId(349751);
 		str.setFrequencyType(freqType.asap);
 		str.setFrequencyAmount(10);
 		str.setFrequencyInterval(freqInt.day);
@@ -685,7 +692,7 @@ public class PostFunctionalTestIT {
 		str.setType(type.REM);
 		str.setUseCampaignStart(false);
 
-		str.setUseCampaignEnd(false);
+		str.setUseCampaignEnd(true);
 
 		// str.setStart_date("2016-09-22T21:42:29+0000");
 
@@ -697,12 +704,11 @@ public class PostFunctionalTestIT {
 		Date startDate = cal.getTime();
 		str.setStartDate(startDate);
 
-		cal.roll(Calendar.DATE, true);
+/*		cal.roll(Calendar.DATE, true);
 		cal.roll(Calendar.MONTH, true);
 		Date endd = cal.getTime();
-
-		// str.setEndDate(endd);
-
+		str.setEndDate(endd);
+*/
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
@@ -723,7 +729,7 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Strategy strategyCreated = (Strategy) jsonresponse.getData();
 		// assertEquals("TestStrategy", strategyCreated.getName());
-		assertEquals(267881, strategyCreated.getCampaignId());
+		assertEquals(349751, strategyCreated.getCampaignId());
 		assertEquals(goalType.spend, strategyCreated.getGoalType());
 		assertEquals(type.REM, strategyCreated.getType());
 		assertEquals(freqType.asap, strategyCreated.getFrequencyType());
@@ -739,7 +745,7 @@ public class PostFunctionalTestIT {
 	public void testStrategyUpdatePost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1378068).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2205653).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -784,7 +790,7 @@ public class PostFunctionalTestIT {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		Strategy str = new Strategy();
-		str.setId(1377524);
+		str.setId(2205653);
 		str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
 		str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
 		List<Segments> asList = new ArrayList<Segments>();
@@ -834,7 +840,7 @@ public class PostFunctionalTestIT {
 		strategyDayPart.setDays(daysEnum.W);
 		strategyDayPart.setEndHour(15);
 		strategyDayPart.setStartHour(10);
-		strategyDayPart.setStrategyId(1377524);
+		strategyDayPart.setStrategyId(2196344);
 		strategyDayPart.setUserTime(true);
 
 		try {
@@ -842,7 +848,7 @@ public class PostFunctionalTestIT {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
+		assertNotNull(strategyDayPart);
 	}
 
 	/**
@@ -896,7 +902,7 @@ public class PostFunctionalTestIT {
 
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(1376197).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2195001).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -932,7 +938,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOrganizationPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-		QueryCriteria query = QueryCriteria.builder().setCollection("organizations").setEntity(100048).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("organizations").setEntity(101558).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -944,10 +950,11 @@ public class PostFunctionalTestIT {
 		}
 
 		Organization org = (Organization) jsonresponse.getData();
-		org.setId(100048);
+		org.setId(101558);
 
-		org.setAddress1("First Lane, New York");
-		org.setCity("New York");
+		org.setAddress1("14 World Trade Center");
+		org.setZip("10008");
+		org.setTerminated(false);
 
 		try {
 			org = (Organization) jt1.save(org);
@@ -965,7 +972,7 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 		Organization orgCreated = (Organization) jsonresponse.getData();
-		assertEquals(100048, orgCreated.getId());
+		assertEquals(101558, orgCreated.getId());
 		// assertEquals("TestOrg", orgCreated.getName());
 	}
 
@@ -1038,7 +1045,7 @@ public class PostFunctionalTestIT {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		StrategySupplySource strategySupplySource = new StrategySupplySource();
-		strategySupplySource.setStrategyId(129253);
+		strategySupplySource.setStrategyId(2195001);
 		strategySupplySource.setSupplySourceId(17);
 
 		try {
@@ -1078,7 +1085,7 @@ public class PostFunctionalTestIT {
 		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
 		Campaign camp = new Campaign();
-		camp.setId(269896);
+		camp.setId(349751);
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -1);
 		camp.setMargins(cal.getTime(), (double) 5.02145);
@@ -1110,7 +1117,7 @@ public class PostFunctionalTestIT {
 		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
 		Concept camp = new Concept();
-		camp.setAdvertiserId(122631);
+		camp.setAdvertiserId(182395);
 		camp.setName("TestConcept1");
 		camp.setStatus(true);
 
@@ -1120,7 +1127,7 @@ public class PostFunctionalTestIT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		assertNotNull(camp);;
 	}
 
 	/**
@@ -1320,9 +1327,9 @@ public class PostFunctionalTestIT {
 
 		AtomicCreative ac = new AtomicCreative();
 		ac.setAdServerType(ac.getAdServerType().DART);
-		ac.setAdvertiserId(150577);
-		ac.setConceptId(622519);
-		ac.setExternalIdentifier("1234567890abcd");
+		ac.setAdvertiserId(182395);
+		ac.setConceptId(1162348);
+		ac.setExternalIdentifier("182395AC");
 		ac.setFileType(ac.getFileType().jpeg);
 		ac.setHeight(72);
 		ac.setName("MyTestAtomicCreative");
@@ -1330,6 +1337,7 @@ public class PostFunctionalTestIT {
 		ac.setTagType(ac.getTagType().IMG);
 		ac.setTpasAdTagName("Sample IMG TAG");
 		ac.setWidth(72);
+		ac.setMraid(false);
 
 		try {
 			ac = (AtomicCreative) t1.save(ac);
@@ -1338,6 +1346,8 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 
+		assertNotNull(ac);
+		
 	}
 
 	/**
@@ -1503,5 +1513,62 @@ public class PostFunctionalTestIT {
 	    assertNotNull(cmp);
 		assertTrue(!cmp.getDeals().isEmpty());
     }
+
+	@Test
+	public void testDealsPost() throws ClientException {
+
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		Deal deal  = new Deal();
+		
+		deal.setAdvertiserId(182395);
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		cal.roll(Calendar.DATE, true);
+		Date startDate = cal.getTime();
+		deal.setStartDatetime(startDate);
+
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
+		deal.setEndDatetime(endd);
+		deal.setName("TEST DEAL 1");
+		deal.setCurrencyCode("USD");
+		//deal.setPublisherId(100);
+		
+		Owner owner =  new Owner();
+		owner.setType("ADVERTISER");
+		owner.setId(182395);
+		deal.setOwner(owner);
+		
+		deal.setDealIdentifier("TEST DEAL 1- Identifier");
+		deal.setPriceMethod(priceMethods.CPM);
+		deal.setPriceType(priceTypes.FLOOR);
+		deal.setStatus(false);
+		deal.setSupplySourceId(100);
+		
+		Currency curr = new Currency();
+		curr.setCurrencyCode("USD");
+		curr.setValue(10f);
+		deal.setPrice(curr);
+		
+		Permissions perm = new Permissions();
+		List<Integer> advertiserIds = new ArrayList<>();
+		advertiserIds.add(182395);
+		perm.setAdvertiser_ids(advertiserIds);
+		
+		deal.setPermissions(perm);
+		
+		try {
+	      deal = (Deal) t1.save(deal);
+	
+		} catch (ParseException e) {
+	      // TODO Auto-generated catch block
+	      e.printStackTrace();
+	    }
+	    
+	    assertNotNull(deal);
+
+    }
+	
 
 }

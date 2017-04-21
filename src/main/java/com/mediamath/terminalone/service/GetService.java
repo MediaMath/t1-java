@@ -146,6 +146,14 @@ public class GetService {
 				path.append("?full=" + fullPath);
 			}
 		}
+		//param parent can be id only
+		if(query.parent > 0){
+			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
+				path.append("&parent=" + query.parent);
+			} else {
+				path.append("?parent=" + query.parent);
+			}
+		}
 
 		// param QUERY example
 		path = constructQueryPath(query, path);
