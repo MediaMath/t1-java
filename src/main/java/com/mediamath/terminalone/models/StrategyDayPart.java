@@ -155,11 +155,11 @@ public class StrategyDayPart implements T1Entity {
 	      strategyDayPartForm.param("name", this.getName());
 	    }
 
-	    if (this.getEndHour() > 0 && this.getEndHour() < 23) {
+	    if (this.getEndHour() >= 0 && this.getEndHour() <= 23) {
 	      strategyDayPartForm.param("end_hour", String.valueOf(this.getEndHour()));
 	    }
 
-	    if (this.getStartHour() > 0 && this.getStartHour() < 23) {
+	    if (this.getStartHour() >= 0 && this.getStartHour() <= 23) {
 	      strategyDayPartForm.param("start_hour", String.valueOf(this.getStartHour()));
 	    }
 
