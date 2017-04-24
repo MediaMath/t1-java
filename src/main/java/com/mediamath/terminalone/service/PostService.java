@@ -51,6 +51,7 @@ import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
@@ -215,6 +216,11 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
 			}
+			
+			if (entity.getId() > 0 && !entity.getStrategyTargetingSegments().isEmpty()
+					&& entity.getTargetingSegmentExcludeOp() != null && entity.getTargetingSegmentIncludeOp() != null) {
+				uri.append("/targeting_segments");
+			}
 
 			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
 				uri.append("/deals");
@@ -237,6 +243,10 @@ public class PostService {
 				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
 					strategy = entity;
 					strategy.setStrategyAudienceSegments(dataList);
+				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTargetingSegment) {
+					strategy = entity;
+					strategy.setStrategyTargetingSegments(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
 					strategy = entity;

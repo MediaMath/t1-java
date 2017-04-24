@@ -41,11 +41,13 @@ public class StrategyTargetingSegment implements T1Entity {
   
   public StrategyTargetingSegment(){}
 
-  public StrategyTargetingSegment(int id, String restriction, Currency user_cpm,String operator) {
+  public StrategyTargetingSegment(int id, String restriction, float user_cpm,String operator) {
 	this.id = id;
 	this.operator = operator;
 	this.restriction = restriction;
-	this.user_cpm = user_cpm;
+	Currency curr = new Currency();
+	curr.setValue(user_cpm);
+	this.user_cpm = curr;
   }
 
   public Date getCreatedOn() {

@@ -33,6 +33,14 @@ public class Strategy implements T1Entity {
 	public enum audSegInc {
 		AND, OR
 	}
+	
+	public enum tgtSegExc {
+		AND, OR
+	}
+
+	public enum tgtSegInc {
+		AND, OR
+	}
 
 	public enum freqInt {
 		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable("not-applcable");
@@ -144,8 +152,8 @@ public class Strategy implements T1Entity {
 	private Date start_date;
 	private boolean status;
 	private supplyType supply_type;
-	private String targeting_segment_exclude_op;
-	private String targeting_segment_include_op;
+	private tgtSegExc targeting_segment_exclude_op;
+	private tgtSegInc targeting_segment_include_op;
 	private type type;
 	private String updated_on;
 	private boolean use_campaign_end;
@@ -434,19 +442,19 @@ public class Strategy implements T1Entity {
 		this.supply_type = supply_type;
 	}
 
-	public String getTargetingSegmentExcludeOp() {
+	public tgtSegExc getTargetingSegmentExcludeOp() {
 		return targeting_segment_exclude_op;
 	}
 
-	public void setTargetingSegmentExcludeOp(String targeting_segment_exclude_op) {
+	public void setTargetingSegmentExcludeOp(tgtSegExc targeting_segment_exclude_op) {
 		this.targeting_segment_exclude_op = targeting_segment_exclude_op;
 	}
 
-	public String getTargetingSegmentIncludeOp() {
+	public tgtSegInc getTargetingSegmentIncludeOp() {
 		return targeting_segment_include_op;
 	}
 
-	public void setTargetingSegmentIncludeOp(String targeting_segment_include_op) {
+	public void setTargetingSegmentIncludeOp(tgtSegInc targeting_segment_include_op) {
 		this.targeting_segment_include_op = targeting_segment_include_op;
 	}
 
@@ -623,6 +631,12 @@ public class Strategy implements T1Entity {
 	public void setGoalValue(float goal_value) {
 		Currency currency = new Currency();
 		currency.setValue(goal_value);
+		this.goal_value.add(currency);
+	}
+	
+	public void setGoalValue(String goal_value) {
+		Currency currency = new Currency();
+		currency.setValue(Float.valueOf(goal_value));
 		this.goal_value.add(currency);
 	}
 

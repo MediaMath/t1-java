@@ -21,12 +21,12 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.models.Deal;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.models.StrategyDomain;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
@@ -66,8 +66,6 @@ public class StrategyHelper {
 				strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBidAggresiveness()));
 			}
 
-			strategyForm.param("bid_price_is_media_only", Utility.getOneOrZero(entity.isBidPriceIsMediaOnly()));
-
 			if (entity.getBudget() != null && !entity.getBudget().isEmpty()
 					&& entity.getBudget().get(0).getValue() > 0) {
 				strategyForm.param("budget", String.valueOf(entity.getBudget().get(0).getValue()));
@@ -101,8 +99,6 @@ public class StrategyHelper {
 			if (entity.getFrequencyAmount() > 0) {
 				strategyForm.param("frequency_amount", String.valueOf(entity.getFrequencyAmount()));
 			}
-
-			strategyForm.param("frequency_optimization", Utility.getOnOrOff(entity.isFrequencyOptimization()));
 
 			if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
 				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -215,36 +211,50 @@ public class StrategyHelper {
 				strategyForm.param("roi_target", String.valueOf(entity.getRoiTarget().get(0).getValue()));
 			}
 
-			strategyForm.param("run_on_all_exchanges", Utility.getOnOrOff(entity.isRunOnAllExchanges()));
-			strategyForm.param("run_on_all_pmp", Utility.getOnOrOff(entity.isRunOnAllPmp()));
-			strategyForm.param("run_on_display", Utility.getOnOrOff(entity.isRunOnDisplay()));
-			strategyForm.param("run_on_mobile", Utility.getOnOrOff(entity.isRunOnMobile()));
-			strategyForm.param("run_on_streaming", Utility.getOnOrOff(entity.isRunOnStreaming()));
+			if (entity.getTargetValues().isEmpty()
+			    && entity.getStrategyDomainRestrictions().isEmpty()
+			    && entity.getAudienceSegments().isEmpty()
+			    && entity.getStrategyTargetingSegments().isEmpty()
+			    && entity.getSiteLists().isEmpty()
+			    && entity.getDealIds().isEmpty()) {
+				strategyForm.param("frequency_optimization", Utility.getOnOrOff(entity.isFrequencyOptimization()));
+				strategyForm.param("bid_price_is_media_only", Utility.getOneOrZero(entity.isBidPriceIsMediaOnly()));
+				strategyForm.param("run_on_all_exchanges", Utility.getOnOrOff(entity.isRunOnAllExchanges()));
+				strategyForm.param("run_on_all_pmp", Utility.getOnOrOff(entity.isRunOnAllPmp()));
+				strategyForm.param("run_on_display", Utility.getOnOrOff(entity.isRunOnDisplay()));
+				strategyForm.param("run_on_mobile", Utility.getOnOrOff(entity.isRunOnMobile()));
+				strategyForm.param("run_on_streaming", Utility.getOnOrOff(entity.isRunOnStreaming()));
+				strategyForm.param("site_restriction_transparent_urls",
+						Utility.getOnOrOff(entity.isSiteRestrictionTransparentUrls()));
+				strategyForm.param("use_campaign_start", Utility.getOnOrOff(entity.isUseCampaignStart()));
+				strategyForm.param("use_campaign_end", Utility.getOnOrOff(entity.isUseCampaignEnd()));
+				strategyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
+				strategyForm.param("use_mm_freq", Utility.getOnOrOff(false));
+			}
 			if (entity.getSiteSelectiveness() != null) {
 				strategyForm.param("site_selectiveness", String.valueOf(entity.getSiteSelectiveness()));
 			}
-
-			strategyForm.param("site_restriction_transparent_urls",
-					Utility.getOnOrOff(entity.isSiteRestrictionTransparentUrls()));
-			strategyForm.param("use_campaign_start", Utility.getOnOrOff(entity.isUseCampaignStart()));
-			strategyForm.param("use_campaign_end", Utility.getOnOrOff(entity.isUseCampaignEnd()));
-			strategyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
-
+			
 			if (entity.getSupplyType() != null) {
 				strategyForm.param("supply_type", String.valueOf(entity.getSupplyType()));
 			}
 
-			if (entity.getTargetingSegmentExcludeOp() != null) {
+			if (entity.getTargetingSegmentExcludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
+				strategyForm.param("exclude_op",
+						String.valueOf(entity.getTargetingSegmentExcludeOp()));
+			}else{
 				strategyForm.param("targeting_segment_exclude_op",
 						String.valueOf(entity.getTargetingSegmentExcludeOp()));
 			}
+			
 
-			if (entity.getTargetingSegmentIncludeOp() != null) {
+			if (entity.getTargetingSegmentIncludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
+				strategyForm.param("include_op",
+						String.valueOf(entity.getTargetingSegmentIncludeOp()));
+			}else{
 				strategyForm.param("targeting_segment_include_op",
 						String.valueOf(entity.getTargetingSegmentIncludeOp()));
 			}
-
-			strategyForm.param("use_mm_freq", Utility.getOnOrOff(false));
 
 			if (entity.getGoalType() != null && !entity.getGoalType().equals(goalType.spend)) {
 				strategyForm.param("use_optimization", Utility.getOnOrOff(entity.isUseOptimization()));
@@ -273,7 +283,7 @@ public class StrategyHelper {
 			}
 
 		}
-		// strategy audio segments
+		// strategy audience segments
 		if (!entity.getAudienceSegments().isEmpty() && entity.getAudienceSegmentExcludeOp() != null
 				&& entity.getAudienceSegmentIncludeOp() != null) {
 			int inc = 1;
@@ -282,6 +292,21 @@ public class StrategyHelper {
 					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
 					strategyForm.param("segments." + inc + ".restriction", sd.getRestriction().name());
 
+					inc++;
+				}
+			}
+		}
+		
+		// strategy Targeting segments
+		if (!entity.getStrategyTargetingSegments().isEmpty() && entity.getTargetingSegmentExcludeOp() != null
+				&& entity.getTargetingSegmentIncludeOp() != null) {
+			int inc = 1;
+			for (StrategyTargetingSegment sd : entity.getStrategyTargetingSegments()) {
+				if (sd != null) {
+					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
+					strategyForm.param("segments." + inc + ".restriction", sd.getRestriction());
+					strategyForm.param("segments." + inc + ".user_cpm", String.valueOf(sd.getUserCpm().getValue()));
+					strategyForm.param("segments." + inc + ".operator", sd.getOperator());
 					inc++;
 				}
 			}
