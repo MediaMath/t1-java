@@ -16,41 +16,78 @@
 
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Data {
 
-  public class enabled {
-    String active;
+	public class enabled {
+		String active;
 
-    public String getActive() {
-      return active;
-    }
+		public String getActive() {
+			return active;
+		}
 
-    public void setActive(String active) {
-      this.active = active;
-    }
+		public void setActive(String active) {
+			this.active = active;
+		}
+	}
 
-  }
+	Map<String, String> data = new HashMap<String, String>();
+	public enabled enabled;
+	List<TargetValue> include = new ArrayList<TargetValue>();
+	List<TargetValue> exclude = new ArrayList<TargetValue>();
+	String exclude_op;
+	String include_op;
 
-  Map<String, String> data = new HashMap<String, String>();
-  public enabled enabled;
+	public Map<String, String> getData() {
+		return data;
+	}
 
-  public Map<String, String> getData() {
-    return data;
-  }
+	public void setData(Map<String, String> data) {
+		this.data = data;
+	}
 
-  public void setData(Map<String, String> data) {
-    this.data = data;
-  }
+	public enabled getEnabled() {
+		return enabled;
+	}
 
-  public enabled getEnabled() {
-    return enabled;
-  }
+	public void setEnabled(enabled enabled) {
+		this.enabled = enabled;
+	}
 
-  public void setEnabled(enabled enabled) {
-    this.enabled = enabled;
-  }
+	public List<TargetValue> getInclude() {
+		return include;
+	}
+
+	public void setInclude(List<TargetValue> include) {
+		this.include = include;
+	}
+
+	public List<TargetValue> getExclude() {
+		return exclude;
+	}
+
+	public void setExclude(List<TargetValue> exclude) {
+		this.exclude = exclude;
+	}
+
+	public String getExclude_op() {
+		return exclude_op;
+	}
+
+	public void setExclude_op(String exclude_op) {
+		this.exclude_op = exclude_op;
+	}
+
+	public String getInclude_op() {
+		return include_op;
+	}
+
+	public void setInclude_op(String include_op) {
+		this.include_op = include_op;
+	}
 
 }

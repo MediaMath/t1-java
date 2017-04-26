@@ -16,7 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -33,8 +35,8 @@ public class AudienceSegment implements T1Entity {
   private int id;
   private String name;
   private int parent_audience_segment_id;
-  private Currency retail_cpm;
-  private Currency wholesale_cpm;
+  private List<Currency> retail_cpm = new ArrayList<Currency>();
+  private List<Currency>  wholesale_cpm = new ArrayList<Currency>();;
   private String tag;
   private int uniques;
   private Date updated_on;
@@ -112,32 +114,32 @@ public class AudienceSegment implements T1Entity {
     this.parent_audience_segment_id = parent_audience_segment_id;
   }
 
-  public Currency getRetailCpm() {
+  public List<Currency> getRetailCpm() {
     return retail_cpm;
   }
 
-  public void setRetailCpm(Currency retail_cpm) {
+  public void setRetailCpm(List<Currency> retail_cpm) {
     this.retail_cpm = retail_cpm;
   }
   
   public void setRetailCpm(float retail_cpm) {
 	Currency curr = new Currency();
 	curr.setValue(retail_cpm);
-	this.retail_cpm = curr;
+	this.retail_cpm.add(curr);
   }
 
-  public Currency getWholesaleCpm() {
+  public List<Currency>  getWholesaleCpm() {
     return wholesale_cpm;
   }
 
-  public void setWholesaleCpm(Currency wholesale_cpm) {
+  public void setWholesaleCpm(List<Currency>  wholesale_cpm) {
     this.wholesale_cpm = wholesale_cpm;
   }
   
   public void setWholesaleCpm(float wholesale_cpm) {
 	Currency curr = new Currency();
 	curr.setValue(wholesale_cpm);
-	this.wholesale_cpm = curr;
+	this.wholesale_cpm.add(curr);
   }
   
   public String getTag() {

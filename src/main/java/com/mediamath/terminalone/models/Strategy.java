@@ -173,6 +173,8 @@ public class Strategy implements T1Entity {
 	List<Concept> concepts = new ArrayList<Concept>();
 	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
+	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
+	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
 
@@ -774,6 +776,22 @@ public class Strategy implements T1Entity {
 
 	public void setStrategyTargetingSegments(List<StrategyTargetingSegment> strategyTargetingSegments) {
 		this.strategyTargetingSegments = strategyTargetingSegments;
+	}
+
+	public List<StrategyDayPart> getStrategyDayParts() {
+		return strategyDayParts;
+	}
+
+	public void setStrategyDayParts(List<StrategyDayPart> strategyDayParts) {
+		this.strategyDayParts = strategyDayParts;
+	}
+
+	public List<StrategyTarget> getStrategyTarget() {
+		return strategyTarget;
+	}
+
+	public void setStrategyTarget(List<StrategyTarget> strategyTarget) {
+		this.strategyTarget = strategyTarget;
 	}
 
 	@Override

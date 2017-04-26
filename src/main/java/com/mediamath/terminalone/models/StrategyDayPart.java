@@ -42,6 +42,16 @@ public class StrategyDayPart implements T1Entity {
   private int version;
   private String name;
 
+  public StrategyDayPart(){}
+  
+  public StrategyDayPart(int start_hour, int end_hour, daysEnum days, boolean user_time) {
+	super();
+	this.days = days;
+	this.end_hour = end_hour;
+	this.start_hour = start_hour;
+	this.user_time = user_time;
+  }
+
   private Strategy strategy;
 
   public Date getCreatedOn() {

@@ -45,14 +45,8 @@ import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.Currency;
-import com.mediamath.terminalone.models.Deal;
-import com.mediamath.terminalone.models.Deal.priceMethods;
-import com.mediamath.terminalone.models.Deal.priceTypes;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
-import com.mediamath.terminalone.models.Owner;
-import com.mediamath.terminalone.models.Permissions;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
@@ -66,12 +60,14 @@ import com.mediamath.terminalone.models.StrategyDayPart.daysEnum;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 
@@ -481,7 +477,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testCampaignPostImpressionCapDefault() throws ClientException, java.text.ParseException {
-		TerminalOne t1 = new TerminalOne(user, password, apiKey);
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
 		Campaign camp = new Campaign();
 		// camp.setId(268746);
@@ -492,7 +488,7 @@ public class PostFunctionalTestIT {
 		camp.setAdServerFee(10.01, null);
 		camp.setConversionType("variable");
 		camp.setConversionVariableMinutes(1);
-		camp.setGoalType(Campaign.goalTypes.cpa);
+		camp.setGoalType(Campaign.goalTypes.cpc);
 		camp.setGoalValue(100, null);
 		camp.setServiceType(Campaign.servTypes.SELF);
 
@@ -510,8 +506,9 @@ public class PostFunctionalTestIT {
 
 		camp.setPcWindowMinutes(1);
 		camp.setUseMmFreq(false);
-		camp.setMeritPixelId(800781);
+/*		camp.setMeritPixelId(800781);*/
 		camp.setTotalBudget(200, "USD");
+		camp.setZoneName("Europe/Paris");
 
 		try {
 			camp = (Campaign) t1.save(camp);
@@ -693,9 +690,8 @@ public class PostFunctionalTestIT {
 		str.setUseCampaignStart(false);
 
 		str.setUseCampaignEnd(true);
-
+		
 		// str.setStart_date("2016-09-22T21:42:29+0000");
-
 		// str.setEnd_date("2016-10-15T21:42:29+0000");
 		// 2016-10-22T16:28:35+0530
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -787,7 +783,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyAudienceSegmentsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Strategy str = new Strategy();
 		str.setId(2205653);
@@ -833,13 +829,13 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		StrategyDayPart strategyDayPart = new StrategyDayPart();
 
-		strategyDayPart.setDays(daysEnum.W);
-		strategyDayPart.setEndHour(15);
-		strategyDayPart.setStartHour(10);
+		strategyDayPart.setDays(daysEnum.U);
+		strategyDayPart.setEndHour(23);
+		strategyDayPart.setStartHour(7);
 		strategyDayPart.setStrategyId(2196344);
 		strategyDayPart.setUserTime(true);
 
@@ -1000,7 +996,7 @@ public class PostFunctionalTestIT {
 	 * @throws ClientException
 	 */
 	@Test
-	public void testStrategyConceptPost() throws ClientException {
+	public void testStrategyConceptUpdatePost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		QueryCriteria query = QueryCriteria.builder().setCollection("strategy_concepts").setEntity(3627058).build();
@@ -1034,6 +1030,25 @@ public class PostFunctionalTestIT {
 		assertEquals(false, updatedStrategyConcept.isStatus());
 
 	}
+	
+	@Test
+	public void testStrategyConceptPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		StrategyConcept sc = new StrategyConcept();
+		sc.setStrategyId(2196344);
+		sc.setConceptId(1126309);
+		sc.setStatus(true);
+
+		try {
+			sc = (StrategyConcept) jt1.save(sc);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(sc);
+
+	}	
 
 	/**
 	 * Create Strategy Supply Sources.
@@ -1513,62 +1528,84 @@ public class PostFunctionalTestIT {
 	    assertNotNull(cmp);
 		assertTrue(!cmp.getDeals().isEmpty());
     }
-
+	
 	@Test
-	public void testDealsPost() throws ClientException {
+	public void testStrategyTargetingSegmentsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
-		TerminalOne t1 = new TerminalOne(user, password, productionKey);
-		Deal deal  = new Deal();
+		Strategy str = new Strategy();
+		str.setId(2196344);
+		str.setTargetingSegmentExcludeOp(Strategy.tgtSegExc.OR);
+		str.setTargetingSegmentIncludeOp(Strategy.tgtSegInc.OR);
+		List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
 		
-		deal.setAdvertiserId(182395);
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
+		
+		str.setStrategyTargetingSegments(tsList);
+		try {
+			str = jt1.save(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<StrategyTargetingSegment> targetingSeg = str.getStrategyTargetingSegments();
+		assertTrue(!targetingSeg.isEmpty());
+	}
+	
+	@Test
+	public void testStrategyDayPartsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
-		cal.roll(Calendar.DATE, true);
-		Date startDate = cal.getTime();
-		deal.setStartDatetime(startDate);
-
-		cal.roll(Calendar.DATE, true);
-		cal.roll(Calendar.MONTH, true);
-		Date endd = cal.getTime();
-		deal.setEndDatetime(endd);
-		deal.setName("TEST DEAL 1");
-		deal.setCurrencyCode("USD");
-		//deal.setPublisherId(100);
+		Strategy str = new Strategy();
+		str.setId(2195001);
 		
-		Owner owner =  new Owner();
-		owner.setType("ADVERTISER");
-		owner.setId(182395);
-		deal.setOwner(owner);
+		List<StrategyDayPart> tsList = new ArrayList<StrategyDayPart>();
 		
-		deal.setDealIdentifier("TEST DEAL 1- Identifier");
-		deal.setPriceMethod(priceMethods.CPM);
-		deal.setPriceType(priceTypes.FLOOR);
-		deal.setStatus(false);
-		deal.setSupplySourceId(100);
+		tsList.add(new StrategyDayPart(0, 23, StrategyDayPart.daysEnum.T, true));
+		tsList.add(new StrategyDayPart(6, 15, StrategyDayPart.daysEnum.U, true));
+		tsList.add(new StrategyDayPart(7, 12, StrategyDayPart.daysEnum.W, true));
 		
-		Currency curr = new Currency();
-		curr.setCurrencyCode("USD");
-		curr.setValue(10f);
-		deal.setPrice(curr);
-		
-		Permissions perm = new Permissions();
-		List<Integer> advertiserIds = new ArrayList<>();
-		advertiserIds.add(182395);
-		perm.setAdvertiser_ids(advertiserIds);
-		
-		deal.setPermissions(perm);
+		str.setStrategyDayParts(tsList);
 		
 		try {
-	      deal = (Deal) t1.save(deal);
-	
+			str = jt1.save(str);
 		} catch (ParseException e) {
-	      // TODO Auto-generated catch block
-	      e.printStackTrace();
-	    }
-	    
-	    assertNotNull(deal);
-
-    }
+			e.printStackTrace();
+		}
+		
+		List<StrategyDayPart> sdp = str.getStrategyDayParts();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
+	}
 	
+	@Test
+	public void testStrategyTargetValuePost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
+		Strategy str = new Strategy();
+		str.setId(2196344);
+		
+		List<TargetValues> tsList = new ArrayList<TargetValues>();
+				
+		List<Integer> valueIds2 = new ArrayList<Integer>();
+		valueIds2.add(478);
+		valueIds2.add(479);
+
+		tsList.add(new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE, TargetValues.oper.OR , valueIds2));
+		
+		str.setTargetValues(tsList);
+		
+		try {
+			str = jt1.save(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<StrategyTarget> sdp = str.getStrategyTarget();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
+	}	
+	
+	
+	
 }

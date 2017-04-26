@@ -144,6 +144,27 @@ public class GetFunctionalTestIT {
 	}
 
 	@Test
+	public void testBaiscGetWithParentUsingQueryCriteria() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("audience_segments").setSortBy("id").setParent(27962).setFull(fpv).build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+
+
+	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 

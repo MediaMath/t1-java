@@ -883,5 +883,60 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithParentWithMock() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":[{\"buyable\":false,\"version\":0,\"name\":\"Mosaic\",\"child_count\":19,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"parent_audience_segment_id\":27962,"
+						+"\"created_on\":\"2013-03-22T02:03:49+0000\",\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-Mosaic\",\"type\":\"normal\",\"id\":28038,\"code\":\"161613\"},{\"buyable\":false,\"version\":0,"
+						+"\"name\":\"TrueTouch\",\"child_count\":3,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"parent_audience_segment_id\":27962,\"created_on\":\"2013-03-22T02:03:49+0000\",\"entity_type\":\"audience_segment\","
+						+"\"full_path\":\"Experian-TrueTouch\",\"type\":\"normal\",\"id\":28127,\"code\":\"161523\"},{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.1481}],\"version\":0,\"name\":\"Financial-FMCGDirect\",\"child_count\":11,"
+						+"\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.25}],\"created_on\":\"2014-10-10T20:16:30+0000\",\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\","
+						+"\"full_path\":\"Experian-Financial-FMCGDirect\",\"type\":\"normal\",\"id\":133752,\"code\":\"360861\"},{\"buyable\":false,\"version\":0,\"name\":\"Auto\",\"child_count\":1,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\","
+						+"\"parent_audience_segment_id\":27962,\"created_on\":\"2014-10-10T20:16:30+0000\",\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-Auto\",\"type\":\"normal\",\"id\":133756,\"code\":\"330135\"},"
+						+"{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.3777}],\"version\":0,\"name\":\"LifeEvent\",\"child_count\":3,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\","
+						+"\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.5}],\"created_on\":\"2014-10-10T20:16:30+0000\",\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-LifeEvent\","
+						+"\"type\":\"normal\",\"id\":133837,\"code\":\"363560\"},{\"buyable\":false,\"version\":0,\"name\":\"ExperianUK\",\"child_count\":3,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"created_on\":\"2014-10-10T20:16:30+0000\","
+						+"\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-ExperianUK\",\"type\":\"normal\",\"id\":133848,\"uniques\":343000,\"code\":\"321887\"},"
+						+"{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.3777}],\"version\":0,\"name\":\"PastPurchase\",\"child_count\":51,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\","
+						+"\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.5}],\"created_on\":\"2015-07-20T22:10:40+0000\",\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-PastPurchase\","
+						+"\"type\":\"normal\",\"id\":1425925,\"code\":\"401646\"},{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.1481}],\"version\":0,\"name\":\"Psychographic/Attitudes\",\"child_count\":10,\"audience_vendor_id\":13,"
+						+"\"updated_on\":\"2017-03-23T18:58:02+0000\",\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.25}],\"created_on\":\"2015-07-20T22:10:40+0000\",\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\","
+						+"\"full_path\":\"Experian-Psychographic/Attitudes\",\"type\":\"normal\",\"id\":1425926,\"code\":\"401686\"},{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.1481}],\"version\":0,\"name\":\"LifestyleandInterests\","
+						+"\"child_count\":21,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.25}],\"created_on\":\"2015-07-20T22:10:40+0000\",\"parent_audience_segment_id\":27962,"
+						+"\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-LifestyleandInterests\",\"type\":\"normal\",\"id\":1426135,\"code\":\"362521\"},{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.1481}],\"version\":0,"
+						+"\"name\":\"HousingAttributes\",\"child_count\":3,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.25}],\"created_on\":\"2015-07-20T22:10:40+0000\","
+						+"\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-HousingAttributes\",\"type\":\"normal\",\"id\":1426141,\"code\":\"401481\"},"
+						+"{\"buyable\":true,\"wholesale_cpm\":[{\"currency_code\":\"USD\",\"value\":1.1481}],\"version\":0,\"name\":\"PurchasePredictors\",\"child_count\":4,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\","
+						+"\"retail_cpm\":[{\"currency_code\":\"USD\",\"value\":1.25}],\"created_on\":\"2015-07-20T22:10:40+0000\",\"parent_audience_segment_id\":27962,\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-PurchasePredictors\","
+						+"\"type\":\"normal\",\"id\":1426150,\"code\":\"401688\"},{\"buyable\":false,\"version\":0,\"name\":\"Demographics\",\"child_count\":11,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"parent_audience_segment_id\":27962,"
+						+"\"created_on\":\"2015-07-20T22:10:40+0000\",\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-Demographics\",\"type\":\"normal\",\"id\":1426217,\"code\":\"401455\"},"
+						+"{\"buyable\":false,\"version\":0,\"name\":\"Private\",\"child_count\":1,\"audience_vendor_id\":13,\"updated_on\":\"2017-03-23T18:58:02+0000\",\"parent_audience_segment_id\":27962,\"created_on\":\"2015-07-20T22:10:40+0000\","
+						+"\"entity_type\":\"audience_segment\",\"full_path\":\"Experian-Private\",\"type\":\"normal\",\"id\":1426222}],\"meta\":{\"etag\":\"02770a47052ce815488a5fb424d300db26b62507\",\"count\":13,\"called_on\":\"2017-04-26T10:30:58+0000\",\"status\":\"ok\",\"offset\":0,\"total_count\":13}}");
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("audience_segments").setSortBy("id").setParent(27962).setFull(fpv).build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+	}
+
+	
 
 }

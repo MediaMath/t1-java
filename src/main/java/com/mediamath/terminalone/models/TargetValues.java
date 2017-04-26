@@ -48,6 +48,15 @@ public class TargetValues implements T1Entity {
   private restrictions restriction;
   private oper operation;
   private List<Integer> value_ids = new ArrayList<Integer>();
+  
+  public TargetValues(){}
+
+  public TargetValues(codes code, restrictions restriction, oper operation, List<Integer> value_ids) {
+	this.code = code;
+	this.restriction = restriction;
+	this.operation = operation;
+	this.value_ids = value_ids;
+  }
 
   public String getType() {
     return _type;

@@ -52,12 +52,15 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.StrategyTarget;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 
@@ -123,6 +126,9 @@ private static Properties testConfig = new Properties();
   private static String SITELIST_DOMAIN_RESPONSE = null;
   
   private static String STRATEGY_DEALS_RESPONSE = null;
+  private static String STRATEGY_DAY_PARTS_RESPONSE = null;
+  private static String STRATEGY_TGT_VALUES_RESPONSE = null;
+  private static String STRATEGY_TGT_SEGMENT_RESPONSE = null;
   
   
   private static String LOGIN = null;
@@ -170,6 +176,9 @@ private static Properties testConfig = new Properties();
     CAMPAIGN_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_sitelist.response");
     SITELIST_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.sitelist_domains.response");
     STRATEGY_DEALS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_deals.reaponse");
+    STRATEGY_DAY_PARTS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_day_parts.response");
+    STRATEGY_TGT_VALUES_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_values.response");
+    STRATEGY_TGT_SEGMENT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_segments.response");
   }
   
   @After
@@ -836,6 +845,95 @@ private static Properties testConfig = new Properties();
 	      
 	    assertEquals(null, sl);
 
+	}
+  
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testStrategyTargetingSegmentsPost() throws ClientException {
+		Strategy str = new Strategy();
+		str.setId(2196344);
+		str.setTargetingSegmentExcludeOp(Strategy.tgtSegExc.OR);
+		str.setTargetingSegmentIncludeOp(Strategy.tgtSegInc.OR);
+		List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
+		
+		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
+		
+		str.setStrategyTargetingSegments(tsList);
+		
+		 Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+		 Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_SEGMENT_RESPONSE);
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			str = t1.save(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<StrategyTargetingSegment> targetingSeg = str.getStrategyTargetingSegments();
+		assertTrue(!targetingSeg.isEmpty());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testStrategyDayPartsPost() throws ClientException {
+		Strategy str = new Strategy();
+		str.setId(2195001);
+		
+		List<StrategyDayPart> tsList = new ArrayList<StrategyDayPart>();
+		
+		tsList.add(new StrategyDayPart(0, 23, StrategyDayPart.daysEnum.T, true));
+		tsList.add(new StrategyDayPart(6, 15, StrategyDayPart.daysEnum.U, true));
+		tsList.add(new StrategyDayPart(7, 12, StrategyDayPart.daysEnum.W, true));
+		
+		str.setStrategyDayParts(tsList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAY_PARTS_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			str = t1.save(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<StrategyDayPart> sdp = str.getStrategyDayParts();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testStrategyTargetValuePost() throws ClientException {
+		Strategy str = new Strategy();
+		str.setId(2196344);
+		
+		List<TargetValues> tsList = new ArrayList<TargetValues>();
+				
+		List<Integer> valueIds2 = new ArrayList<Integer>();
+		valueIds2.add(478);
+		valueIds2.add(479);
+
+		tsList.add(new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE, TargetValues.oper.OR , valueIds2));
+		
+		str.setTargetValues(tsList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_VALUES_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			str = t1.save(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		List<StrategyTarget> sdp = str.getStrategyTarget();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
 	}
   
   
