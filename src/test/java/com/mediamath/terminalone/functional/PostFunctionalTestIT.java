@@ -506,7 +506,7 @@ public class PostFunctionalTestIT {
 
 		camp.setPcWindowMinutes(1);
 		camp.setUseMmFreq(false);
-/*		camp.setMeritPixelId(800781);*/
+		/* camp.setMeritPixelId(800781); */
 		camp.setTotalBudget(200, "USD");
 		camp.setZoneName("Europe/Paris");
 
@@ -690,7 +690,7 @@ public class PostFunctionalTestIT {
 		str.setUseCampaignStart(false);
 
 		str.setUseCampaignEnd(true);
-		
+
 		// str.setStart_date("2016-09-22T21:42:29+0000");
 		// str.setEnd_date("2016-10-15T21:42:29+0000");
 		// 2016-10-22T16:28:35+0530
@@ -700,11 +700,10 @@ public class PostFunctionalTestIT {
 		Date startDate = cal.getTime();
 		str.setStartDate(startDate);
 
-/*		cal.roll(Calendar.DATE, true);
-		cal.roll(Calendar.MONTH, true);
-		Date endd = cal.getTime();
-		str.setEndDate(endd);
-*/
+		/*
+		 * cal.roll(Calendar.DATE, true); cal.roll(Calendar.MONTH, true); Date
+		 * endd = cal.getTime(); str.setEndDate(endd);
+		 */
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
@@ -1030,7 +1029,7 @@ public class PostFunctionalTestIT {
 		assertEquals(false, updatedStrategyConcept.isStatus());
 
 	}
-	
+
 	@Test
 	public void testStrategyConceptPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
@@ -1048,7 +1047,7 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(sc);
 
-	}	
+	}
 
 	/**
 	 * Create Strategy Supply Sources.
@@ -1142,7 +1141,8 @@ public class PostFunctionalTestIT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull(camp);;
+		assertNotNull(camp);
+		;
 	}
 
 	/**
@@ -1362,7 +1362,7 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(ac);
-		
+
 	}
 
 	/**
@@ -1504,31 +1504,30 @@ public class PostFunctionalTestIT {
 		assertNotNull(uploadResponse.getStatus());
 	}
 
-	
-    @Test
-    public void testStrategyDealsPost() throws ClientException {
+	@Test
+	public void testStrategyDealsPost() throws ClientException {
 
 		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 		Strategy cmp = new Strategy();
 		cmp.setId(2145568);
-	
+
 		ArrayList<Integer> deals = new ArrayList<>();
 		deals.add(172901);
 		deals.add(173101);
 		deals.add(172912);
 		cmp.setDealIds(deals);
 		try {
-	      cmp = (Strategy) t1.save(cmp);
-	
+			cmp = (Strategy) t1.save(cmp);
+
 		} catch (ParseException e) {
-	      // TODO Auto-generated catch block
-	      e.printStackTrace();
-	    }
-	    
-	    assertNotNull(cmp);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmp);
 		assertTrue(!cmp.getDeals().isEmpty());
-    }
-	
+	}
+
 	@Test
 	public void testStrategyTargetingSegmentsPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
@@ -1538,9 +1537,9 @@ public class PostFunctionalTestIT {
 		str.setTargetingSegmentExcludeOp(Strategy.tgtSegExc.OR);
 		str.setTargetingSegmentIncludeOp(Strategy.tgtSegInc.OR);
 		List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
-		
+
 		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
-		
+
 		str.setStrategyTargetingSegments(tsList);
 		try {
 			str = jt1.save(str);
@@ -1551,61 +1550,60 @@ public class PostFunctionalTestIT {
 		List<StrategyTargetingSegment> targetingSeg = str.getStrategyTargetingSegments();
 		assertTrue(!targetingSeg.isEmpty());
 	}
-	
+
 	@Test
 	public void testStrategyDayPartsPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Strategy str = new Strategy();
 		str.setId(2195001);
-		
+
 		List<StrategyDayPart> tsList = new ArrayList<StrategyDayPart>();
-		
+
 		tsList.add(new StrategyDayPart(0, 23, StrategyDayPart.daysEnum.T, true));
 		tsList.add(new StrategyDayPart(6, 15, StrategyDayPart.daysEnum.U, true));
 		tsList.add(new StrategyDayPart(7, 12, StrategyDayPart.daysEnum.W, true));
-		
+
 		str.setStrategyDayParts(tsList);
-		
+
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		List<StrategyDayPart> sdp = str.getStrategyDayParts();
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
-	
+
 	@Test
 	public void testStrategyTargetValuePost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Strategy str = new Strategy();
 		str.setId(2196344);
-		
+
 		List<TargetValues> tsList = new ArrayList<TargetValues>();
-				
+
 		List<Integer> valueIds2 = new ArrayList<Integer>();
 		valueIds2.add(478);
 		valueIds2.add(479);
 
-		tsList.add(new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE, TargetValues.oper.OR , valueIds2));
-		
+		tsList.add(new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE, TargetValues.oper.OR,
+				valueIds2));
+
 		str.setTargetValues(tsList);
-		
+
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		List<StrategyTarget> sdp = str.getStrategyTarget();
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
-	}	
-	
-	
-	
+	}
+
 }

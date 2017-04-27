@@ -148,7 +148,8 @@ public class GetFunctionalTestIT {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
-		QueryCriteria query = QueryCriteria.builder().setCollection("audience_segments").setSortBy("id").setParent(27962).setFull(fpv).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("audience_segments").setSortBy("id")
+				.setParent(27962).setFull(fpv).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -162,7 +163,6 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 
 	}
-
 
 	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
@@ -615,12 +615,12 @@ public class GetFunctionalTestIT {
 		assertNotNull(strategy);
 		assertNotNull(strategy.getAggregate());
 	}
-	
+
 	@Test
 	public void testGetForStrategyDeals() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2145568)
-				.setChild("deals").setPageLimit(1).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2145568).setChild("deals")
+				.setPageLimit(1).build();
 
 		JsonResponse<?> jsonresponse = null;
 		try {
@@ -633,7 +633,7 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Strategy strategy = (Strategy) jsonresponse.getData();
 		assertNotNull(strategy);
-		//assertNotNull(strategy.getAggregate());
+		// assertNotNull(strategy.getAggregate());
 	}
 
 	@Test
@@ -946,7 +946,7 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 
 	}
-	
+
 	@Test
 	public void testBaiscGetWithDealUsingQC() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -965,15 +965,16 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 
 	}
-	
+
 	@Test
 	public void testBaiscGetWithDealUsingQC1() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
-		
+
 		Map<String, Long> limitList = new HashMap<String, Long>();
 		limitList.put("permissions.advertiser_id", Long.valueOf(145998));
-		
-		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setLimit(limitList).setSortBy("-id").build();
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("deals").setLimit(limitList).setSortBy("-id")
+				.build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -986,7 +987,5 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 	}
-	
-	
-	
+
 }

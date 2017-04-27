@@ -124,7 +124,6 @@ public class StrategyConcept implements T1Entity {
 		this.weighting = weighting;
 	}
 
-
 	public String getName() {
 		return name;
 	}
@@ -156,7 +155,6 @@ public class StrategyConcept implements T1Entity {
 		}
 
 		return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
-
 	}
 
 	@Override

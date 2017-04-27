@@ -33,7 +33,7 @@ public class Strategy implements T1Entity {
 	public enum audSegInc {
 		AND, OR
 	}
-	
+
 	public enum tgtSegExc {
 		AND, OR
 	}
@@ -133,7 +133,7 @@ public class Strategy implements T1Entity {
 	private freqInt impression_pacing_interval;
 	private ArrayList<Currency> max_bid = new ArrayList<Currency>();
 	private mediaType media_type;
-	private  ArrayList<Currency> min_bid = new ArrayList<Currency>();
+	private ArrayList<Currency> min_bid = new ArrayList<Currency>();
 	private String name;
 	private ArrayList<Currency> pacing_amount = new ArrayList<Currency>();
 	private pacInt pacing_interval;
@@ -593,7 +593,6 @@ public class Strategy implements T1Entity {
 		this.frequency_amount = frequency_amount;
 	}
 
-	///
 	public ArrayList<Currency> getBudget() {
 		return budget;
 	}
@@ -635,7 +634,7 @@ public class Strategy implements T1Entity {
 		currency.setValue(goal_value);
 		this.goal_value.add(currency);
 	}
-	
+
 	public void setGoalValue(String goal_value) {
 		Currency currency = new Currency();
 		currency.setValue(Float.valueOf(goal_value));
@@ -663,7 +662,7 @@ public class Strategy implements T1Entity {
 	public void setMinBid(ArrayList<Currency> min_bid) {
 		this.min_bid = min_bid;
 	}
-	
+
 	public void setMinBid(float min_bid) {
 		Currency currency = new Currency();
 		currency.setValue(min_bid);

@@ -7,27 +7,25 @@ import javax.ws.rs.core.Form;
 import com.mediamath.terminalone.exceptions.ClientException;
 
 public class TargetingSegment implements T1Entity {
-	
+
 	private static final String entityName = "TargetingSegment";
 
-	  private int targeting_vendor_id;
-	  private boolean buyable;
-	  private int child_count;
-	  private String code;
-	  private Date created_on;
-	  private String full_path;
-	  private int id;
-	  private String name;
-	  private int parent_targeting_segment_id;
-	  private Currency retail_cpm;
-	  private Currency wholesale_cpm;
-	  private String tag;
-	  private int objective_id;
-	  private String external_code;
-	  private Date updated_on;
-	  private int version;
-	
-	
+	private int targeting_vendor_id;
+	private boolean buyable;
+	private int child_count;
+	private String code;
+	private Date created_on;
+	private String full_path;
+	private int id;
+	private String name;
+	private int parent_targeting_segment_id;
+	private Currency retail_cpm;
+	private Currency wholesale_cpm;
+	private String tag;
+	private int objective_id;
+	private String external_code;
+	private Date updated_on;
+	private int version;
 
 	public int getTargeting_vendor_id() {
 		return targeting_vendor_id;
@@ -108,7 +106,7 @@ public class TargetingSegment implements T1Entity {
 	public void setRetail_cpm(Currency retail_cpm) {
 		this.retail_cpm = retail_cpm;
 	}
-	
+
 	public void setRetailCpm(float retail_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(retail_cpm);
@@ -122,7 +120,7 @@ public class TargetingSegment implements T1Entity {
 	public void setWholesale_cpm(Currency wholesale_cpm) {
 		this.wholesale_cpm = wholesale_cpm;
 	}
-	
+
 	public void setWholesaleCpm(float wholesale_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(wholesale_cpm);
@@ -171,7 +169,7 @@ public class TargetingSegment implements T1Entity {
 
 	@Override
 	public String getEntityname() {
-		 return entityName;
+		return entityName;
 	}
 
 	@Override
@@ -184,12 +182,12 @@ public class TargetingSegment implements T1Entity {
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
 
-	    if (this.getId() > 0) {
-	      uri.append("/");
-	      uri.append(this.getId());
-	    }
+		if (this.getId() > 0) {
+			uri.append("/");
+			uri.append(this.getId());
+		}
 
-	    return uri.toString();
+		return uri.toString();
 	}
 
 }

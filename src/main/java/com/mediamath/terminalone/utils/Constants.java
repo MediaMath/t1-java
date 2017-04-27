@@ -75,7 +75,7 @@ public final class Constants {
 
 	private static final String STRATEGY_AUDIENCE_SEGMENTS = "strategy_audience_segments";
 	private static final String STRATEGY_TARGETING_SEGMENTS = "strategy_targeting_segments";
-	
+
 	private static final String SITE_PLACEMENT = "site_placement";
 
 	private static final String SITE_LIST_U = "site_list";
@@ -88,11 +88,11 @@ public final class Constants {
 	private static final String DEAL = "deal";
 
 	private static final String AD_SERVER = "ad_server";
-	
+
 	private static final String DAY_PART = "day_part";
 
 	private static final String AUDIENCE_SEGMENT = "audience_segment";
-	
+
 	private static final String TARGETING_SEGMENT = "targeting_segment";
 
 	private static final String VERTICAL = "vertical";
@@ -150,7 +150,7 @@ public final class Constants {
 	private static final String SUPPLY_SOURCES = "supply_sources";
 
 	private static final String STRATEGY_SUPPLY_SOURCES = "strategy_supply_sources";
-	
+
 	private static final String STRATEGY_TARGET = "strategy_target";
 
 	private static final String STRATEGY_DOMAIN_RESTRICTIONS = "strategy_domain_restrictions";
@@ -232,7 +232,7 @@ public final class Constants {
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
 
 	// required for converting requested string path names to entity names when
-	// collection demended
+	// collection demanded
 	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String, String>();
 
 	// Required for converting entity names to path names [to form paths.]
@@ -274,7 +274,7 @@ public final class Constants {
 
 		getEntityType.put(TARGETING_SEGMENT, new TypeToken<JsonResponse<TargetingSegment>>() {
 		}.getType());
-		
+
 		getEntityType.put(CAMPAIGNS, new TypeToken<JsonResponse<Campaign>>() {
 		}.getType());
 		getEntityType.put(CAMPAIGN, new TypeToken<JsonResponse<Campaign>>() {
@@ -357,7 +357,7 @@ public final class Constants {
 		}.getType());
 		getEntityType.put(STRATEGY_SUPPLY_SOURCE, new TypeToken<JsonResponse<StrategySupplySource>>() {
 		}.getType());
-		
+
 		getEntityType.put(STRATEGY_TARGET, new TypeToken<JsonResponse<StrategyTarget>>() {
 		}.getType());
 
@@ -775,7 +775,6 @@ public final class Constants {
 		HashMap<String, Integer> subMap24 = new HashMap<String, Integer>();
 		subMap24.put(AUDIENCE_SEGMENTS, 0);
 		childPaths.put(AUDIENCE_SEGMENTS, subMap24);
-
 	}
 
 }

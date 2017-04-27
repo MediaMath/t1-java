@@ -217,16 +217,16 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
 			}
-			
+
 			if (entity.getId() > 0 && !entity.getStrategyTargetingSegments().isEmpty()
 					&& entity.getTargetingSegmentExcludeOp() != null && entity.getTargetingSegmentIncludeOp() != null) {
 				uri.append("/targeting_segments");
 			}
-			
+
 			if (entity.getId() > 0 && !entity.getTargetValues().isEmpty()) {
 				uri.append("/target_values");
 			}
-			
+
 			if (entity.getId() > 0 && !entity.getStrategyDayParts().isEmpty()) {
 				uri.append("/day_parts");
 			}
