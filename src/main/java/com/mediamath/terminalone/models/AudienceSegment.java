@@ -16,162 +16,176 @@
 
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
 public class AudienceSegment implements T1Entity {
 
-  private static final String entityName = "AudienceSegment";
+	private static final String entityName = "AudienceSegment";
 
-  private int audience_vendor_id;
-  private boolean buyable;
-  private int child_count;
-  private String code;
-  private Date created_on;
-  private String full_path;
-  private int id;
-  private String name;
-  private int parent_audience_segment_id;
-  private float retail_cpm;
-  private float wholesale_cpm;
-  private String tag;
-  private int uniques;
-  private Date updated_on;
-  private int version;
+	private int audience_vendor_id;
+	private boolean buyable;
+	private int child_count;
+	private String code;
+	private Date created_on;
+	private String full_path;
+	private int id;
+	private String name;
+	private int parent_audience_segment_id;
+	private List<Currency> retail_cpm = new ArrayList<Currency>();
+	private List<Currency> wholesale_cpm = new ArrayList<Currency>();;
+	private String tag;
+	private int uniques;
+	private Date updated_on;
+	private int version;
 
-  public int getAudienceVendorId() {
-    return audience_vendor_id;
-  }
+	public int getAudienceVendorId() {
+		return audience_vendor_id;
+	}
 
-  public void setAudienceVendorId(int audience_vendor_id) {
-    this.audience_vendor_id = audience_vendor_id;
-  }
+	public void setAudienceVendorId(int audience_vendor_id) {
+		this.audience_vendor_id = audience_vendor_id;
+	}
 
-  public boolean isBuyable() {
-    return buyable;
-  }
+	public boolean isBuyable() {
+		return buyable;
+	}
 
-  public void setBuyable(boolean buyable) {
-    this.buyable = buyable;
-  }
+	public void setBuyable(boolean buyable) {
+		this.buyable = buyable;
+	}
 
-  public int getChildCount() {
-    return child_count;
-  }
+	public int getChildCount() {
+		return child_count;
+	}
 
-  public void setChildCount(int child_count) {
-    this.child_count = child_count;
-  }
+	public void setChildCount(int child_count) {
+		this.child_count = child_count;
+	}
 
-  public String getCode() {
-    return code;
-  }
+	public String getCode() {
+		return code;
+	}
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-  public Date getCreatedOn() {
-    return created_on;
-  }
+	public Date getCreatedOn() {
+		return created_on;
+	}
 
-  public void setCreatedOn(Date created_on) {
-    this.created_on = created_on;
-  }
+	public void setCreatedOn(Date created_on) {
+		this.created_on = created_on;
+	}
 
-  public String getFullPath() {
-    return full_path;
-  }
+	public String getFullPath() {
+		return full_path;
+	}
 
-  public void setFullPath(String full_path) {
-    this.full_path = full_path;
-  }
+	public void setFullPath(String full_path) {
+		this.full_path = full_path;
+	}
 
-  public int getId() {
-    return id;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public int getParentAudienceSegmentId() {
-    return parent_audience_segment_id;
-  }
+	public int getParentAudienceSegmentId() {
+		return parent_audience_segment_id;
+	}
 
-  public void setParentAudienceSegmentId(int parent_audience_segment_id) {
-    this.parent_audience_segment_id = parent_audience_segment_id;
-  }
+	public void setParentAudienceSegmentId(int parent_audience_segment_id) {
+		this.parent_audience_segment_id = parent_audience_segment_id;
+	}
 
-  public float getRetailCpm() {
-    return retail_cpm;
-  }
+	public List<Currency> getRetailCpm() {
+		return retail_cpm;
+	}
 
-  public void setRetailCpm(float retail_cpm) {
-    this.retail_cpm = retail_cpm;
-  }
+	public void setRetailCpm(List<Currency> retail_cpm) {
+		this.retail_cpm = retail_cpm;
+	}
 
-  public float getWholesaleCpm() {
-    return wholesale_cpm;
-  }
+	public void setRetailCpm(float retail_cpm) {
+		Currency curr = new Currency();
+		curr.setValue(retail_cpm);
+		this.retail_cpm.add(curr);
+	}
 
-  public void setWholesaleCpm(float wholesale_cpm) {
-    this.wholesale_cpm = wholesale_cpm;
-  }
+	public List<Currency> getWholesaleCpm() {
+		return wholesale_cpm;
+	}
 
-  public String getTag() {
-    return tag;
-  }
+	public void setWholesaleCpm(List<Currency> wholesale_cpm) {
+		this.wholesale_cpm = wholesale_cpm;
+	}
 
-  public void setTag(String tag) {
-    this.tag = tag;
-  }
+	public void setWholesaleCpm(float wholesale_cpm) {
+		Currency curr = new Currency();
+		curr.setValue(wholesale_cpm);
+		this.wholesale_cpm.add(curr);
+	}
 
-  public int getUniques() {
-    return uniques;
-  }
+	public String getTag() {
+		return tag;
+	}
 
-  public void setUniques(int uniques) {
-    this.uniques = uniques;
-  }
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
-  public Date getUpdatedOn() {
-    return updated_on;
-  }
+	public int getUniques() {
+		return uniques;
+	}
 
-  public void setUpdatedOn(Date updated_on) {
-    this.updated_on = updated_on;
-  }
+	public void setUniques(int uniques) {
+		this.uniques = uniques;
+	}
 
-  public int getVersion() {
-    return version;
-  }
+	public Date getUpdatedOn() {
+		return updated_on;
+	}
 
-  public void setVersion(int version) {
-    this.version = version;
-  }
+	public void setUpdatedOn(Date updated_on) {
+		this.updated_on = updated_on;
+	}
 
-  @Override
-  public String getEntityname() {
-    return entityName;
-  }
+	public int getVersion() {
+		return version;
+	}
 
-  @Override
-  public Form getForm() {
-    return null;
-  }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-  @Override
-  public String getUri() {
-    return null;
-  }
+	@Override
+	public String getEntityname() {
+		return entityName;
+	}
+
+	@Override
+	public Form getForm() {
+		return null;
+	}
+
+	@Override
+	public String getUri() {
+		return null;
+	}
 }

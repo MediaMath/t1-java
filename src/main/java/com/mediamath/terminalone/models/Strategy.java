@@ -34,6 +34,14 @@ public class Strategy implements T1Entity {
 		AND, OR
 	}
 
+	public enum tgtSegExc {
+		AND, OR
+	}
+
+	public enum tgtSegInc {
+		AND, OR
+	}
+
 	public enum freqInt {
 		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable("not-applcable");
 		String value;
@@ -125,7 +133,7 @@ public class Strategy implements T1Entity {
 	private freqInt impression_pacing_interval;
 	private ArrayList<Currency> max_bid = new ArrayList<Currency>();
 	private mediaType media_type;
-	private  ArrayList<Currency> min_bid = new ArrayList<Currency>();
+	private ArrayList<Currency> min_bid = new ArrayList<Currency>();
 	private String name;
 	private ArrayList<Currency> pacing_amount = new ArrayList<Currency>();
 	private pacInt pacing_interval;
@@ -144,8 +152,8 @@ public class Strategy implements T1Entity {
 	private Date start_date;
 	private boolean status;
 	private supplyType supply_type;
-	private String targeting_segment_exclude_op;
-	private String targeting_segment_include_op;
+	private tgtSegExc targeting_segment_exclude_op;
+	private tgtSegInc targeting_segment_include_op;
 	private type type;
 	private String updated_on;
 	private boolean use_campaign_end;
@@ -165,6 +173,8 @@ public class Strategy implements T1Entity {
 	List<Concept> concepts = new ArrayList<Concept>();
 	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
+	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
+	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
 
@@ -434,19 +444,19 @@ public class Strategy implements T1Entity {
 		this.supply_type = supply_type;
 	}
 
-	public String getTargetingSegmentExcludeOp() {
+	public tgtSegExc getTargetingSegmentExcludeOp() {
 		return targeting_segment_exclude_op;
 	}
 
-	public void setTargetingSegmentExcludeOp(String targeting_segment_exclude_op) {
+	public void setTargetingSegmentExcludeOp(tgtSegExc targeting_segment_exclude_op) {
 		this.targeting_segment_exclude_op = targeting_segment_exclude_op;
 	}
 
-	public String getTargetingSegmentIncludeOp() {
+	public tgtSegInc getTargetingSegmentIncludeOp() {
 		return targeting_segment_include_op;
 	}
 
-	public void setTargetingSegmentIncludeOp(String targeting_segment_include_op) {
+	public void setTargetingSegmentIncludeOp(tgtSegInc targeting_segment_include_op) {
 		this.targeting_segment_include_op = targeting_segment_include_op;
 	}
 
@@ -583,7 +593,6 @@ public class Strategy implements T1Entity {
 		this.frequency_amount = frequency_amount;
 	}
 
-	///
 	public ArrayList<Currency> getBudget() {
 		return budget;
 	}
@@ -626,6 +635,12 @@ public class Strategy implements T1Entity {
 		this.goal_value.add(currency);
 	}
 
+	public void setGoalValue(String goal_value) {
+		Currency currency = new Currency();
+		currency.setValue(Float.valueOf(goal_value));
+		this.goal_value.add(currency);
+	}
+
 	public ArrayList<Currency> getMaxBid() {
 		return max_bid;
 	}
@@ -647,7 +662,7 @@ public class Strategy implements T1Entity {
 	public void setMinBid(ArrayList<Currency> min_bid) {
 		this.min_bid = min_bid;
 	}
-	
+
 	public void setMinBid(float min_bid) {
 		Currency currency = new Currency();
 		currency.setValue(min_bid);
@@ -760,6 +775,22 @@ public class Strategy implements T1Entity {
 
 	public void setStrategyTargetingSegments(List<StrategyTargetingSegment> strategyTargetingSegments) {
 		this.strategyTargetingSegments = strategyTargetingSegments;
+	}
+
+	public List<StrategyDayPart> getStrategyDayParts() {
+		return strategyDayParts;
+	}
+
+	public void setStrategyDayParts(List<StrategyDayPart> strategyDayParts) {
+		this.strategyDayParts = strategyDayParts;
+	}
+
+	public List<StrategyTarget> getStrategyTarget() {
+		return strategyTarget;
+	}
+
+	public void setStrategyTarget(List<StrategyTarget> strategyTarget) {
+		this.strategyTarget = strategyTarget;
 	}
 
 	@Override

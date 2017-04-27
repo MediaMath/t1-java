@@ -24,167 +24,177 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyDayPart implements T1Entity {
 
-  private static final String entityName = "StrategyDayPart";
+	private static final String entityName = "StrategyDayPart";
 
-  public enum daysEnum {
-    M, T, W, R, F, S, U
-  }
+	public enum daysEnum {
+		M, T, W, R, F, S, U
+	}
 
-  private Date created_on;
-  private daysEnum days;
-  private int end_hour;
-  private int id;
-  private int start_hour;
-  private boolean status;
-  private int strategy_id;
-  private Date updated_on;
-  private boolean user_time;
-  private int version;
-  private String name;
+	private Date created_on;
+	private daysEnum days;
+	private int end_hour;
+	private int id;
+	private int start_hour;
+	private boolean status;
+	private int strategy_id;
+	private Date updated_on;
+	private boolean user_time;
+	private int version;
+	private String name;
 
-  private Strategy strategy;
+	public StrategyDayPart() {
+	}
 
-  public Date getCreatedOn() {
-    return created_on;
-  }
+	public StrategyDayPart(int start_hour, int end_hour, daysEnum days, boolean user_time) {
+		super();
+		this.days = days;
+		this.end_hour = end_hour;
+		this.start_hour = start_hour;
+		this.user_time = user_time;
+	}
 
-  public void setCreatedOn(Date created_on) {
-    this.created_on = created_on;
-  }
+	private Strategy strategy;
 
-  public daysEnum getDays() {
-    return days;
-  }
+	public Date getCreatedOn() {
+		return created_on;
+	}
 
-  public void setDays(daysEnum days) {
-    this.days = days;
-  }
+	public void setCreatedOn(Date created_on) {
+		this.created_on = created_on;
+	}
 
-  public int getEndHour() {
-    return end_hour;
-  }
+	public daysEnum getDays() {
+		return days;
+	}
 
-  public void setEndHour(int end_hour) {
-    this.end_hour = end_hour;
-  }
+	public void setDays(daysEnum days) {
+		this.days = days;
+	}
 
-  public int getId() {
-    return id;
-  }
+	public int getEndHour() {
+		return end_hour;
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public void setEndHour(int end_hour) {
+		this.end_hour = end_hour;
+	}
 
-  public int getStartHour() {
-    return start_hour;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public void setStartHour(int start_hour) {
-    this.start_hour = start_hour;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public boolean isStatus() {
-    return status;
-  }
+	public int getStartHour() {
+		return start_hour;
+	}
 
-  public void setStatus(boolean status) {
-    this.status = status;
-  }
+	public void setStartHour(int start_hour) {
+		this.start_hour = start_hour;
+	}
 
-  public int getStrategyId() {
-    return strategy_id;
-  }
+	public boolean isStatus() {
+		return status;
+	}
 
-  public void setStrategyId(int strategy_id) {
-    this.strategy_id = strategy_id;
-  }
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
-  public Date getUdpatedOn() {
-    return updated_on;
-  }
+	public int getStrategyId() {
+		return strategy_id;
+	}
 
-  public void setUdpatedOn(Date udpated_on) {
-    this.updated_on = udpated_on;
-  }
+	public void setStrategyId(int strategy_id) {
+		this.strategy_id = strategy_id;
+	}
 
-  public boolean isUserTime() {
-    return user_time;
-  }
+	public Date getUdpatedOn() {
+		return updated_on;
+	}
 
-  public void setUserTime(boolean user_time) {
-    this.user_time = user_time;
-  }
+	public void setUdpatedOn(Date udpated_on) {
+		this.updated_on = udpated_on;
+	}
 
-  public int getVersion() {
-    return version;
-  }
+	public boolean isUserTime() {
+		return user_time;
+	}
 
-  public void setVersion(int version) {
-    this.version = version;
-  }
+	public void setUserTime(boolean user_time) {
+		this.user_time = user_time;
+	}
 
-  public Strategy getStrategy() {
-    return strategy;
-  }
+	public int getVersion() {
+		return version;
+	}
 
-  public void setStrategy(Strategy strategy) {
-    this.strategy = strategy;
-  }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-  @Override
-  public String getEntityname() {
-    return entityName;
-  }
+	public Strategy getStrategy() {
+		return strategy;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
-  
-  @Override
-  public Form getForm() {
-	  Form strategyDayPartForm = new Form();
+	@Override
+	public String getEntityname() {
+		return entityName;
+	}
 
-	    strategyDayPartForm.param("days", String.valueOf(this.getDays()));
-	    
-	    if (this.getName() != null && !this.getName().isEmpty()) {
-	      strategyDayPartForm.param("name", this.getName());
-	    }
+	public String getName() {
+		return name;
+	}
 
-	    if (this.getEndHour() > 0 && this.getEndHour() < 23) {
-	      strategyDayPartForm.param("end_hour", String.valueOf(this.getEndHour()));
-	    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	    if (this.getStartHour() > 0 && this.getStartHour() < 23) {
-	      strategyDayPartForm.param("start_hour", String.valueOf(this.getStartHour()));
-	    }
+	@Override
+	public Form getForm() {
+		Form strategyDayPartForm = new Form();
 
-	    if (this.getStrategyId() > 0) {
-	      strategyDayPartForm.param("strategy_id", String.valueOf(this.getStrategyId()));
-	    }
+		strategyDayPartForm.param("days", String.valueOf(this.getDays()));
 
-	    strategyDayPartForm.param("user_time", Utility.getOnOrOff(this.isUserTime()));
+		if (this.getName() != null && !this.getName().isEmpty()) {
+			strategyDayPartForm.param("name", this.getName());
+		}
 
-	    if (this.getVersion() >= 0) {
-	      strategyDayPartForm.param("version", String.valueOf(this.getVersion()));
-	    }
+		if (this.getEndHour() >= 0 && this.getEndHour() <= 23) {
+			strategyDayPartForm.param("end_hour", String.valueOf(this.getEndHour()));
+		}
 
-	    return Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
-	    
-  }
+		if (this.getStartHour() >= 0 && this.getStartHour() <= 23) {
+			strategyDayPartForm.param("start_hour", String.valueOf(this.getStartHour()));
+		}
 
-  @Override
-  public String getUri() {
-	  StringBuilder uri = new StringBuilder();
-	    
-	    if (this.getId() > 0) {
-	      uri.append("/" + this.getId());
-	    }
+		if (this.getStrategyId() > 0) {
+			strategyDayPartForm.param("strategy_id", String.valueOf(this.getStrategyId()));
+		}
+
+		strategyDayPartForm.param("user_time", Utility.getOnOrOff(this.isUserTime()));
+
+		if (this.getVersion() >= 0) {
+			strategyDayPartForm.param("version", String.valueOf(this.getVersion()));
+		}
+
+		return Utility.getFilteredForm(strategyDayPartForm, "strategydaypart");
+	}
+
+	@Override
+	public String getUri() {
+		StringBuilder uri = new StringBuilder();
+
+		if (this.getId() > 0) {
+			uri.append("/" + this.getId());
+		}
 		return uri.toString();
-  }
+	}
 
 }

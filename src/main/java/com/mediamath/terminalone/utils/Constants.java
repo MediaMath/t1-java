@@ -44,6 +44,7 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.models.TargetDimension;
@@ -74,7 +75,7 @@ public final class Constants {
 
 	private static final String STRATEGY_AUDIENCE_SEGMENTS = "strategy_audience_segments";
 	private static final String STRATEGY_TARGETING_SEGMENTS = "strategy_targeting_segments";
-	
+
 	private static final String SITE_PLACEMENT = "site_placement";
 
 	private static final String SITE_LIST_U = "site_list";
@@ -88,8 +89,10 @@ public final class Constants {
 
 	private static final String AD_SERVER = "ad_server";
 
+	private static final String DAY_PART = "day_part";
+
 	private static final String AUDIENCE_SEGMENT = "audience_segment";
-	
+
 	private static final String TARGETING_SEGMENT = "targeting_segment";
 
 	private static final String VERTICAL = "vertical";
@@ -147,6 +150,8 @@ public final class Constants {
 	private static final String SUPPLY_SOURCES = "supply_sources";
 
 	private static final String STRATEGY_SUPPLY_SOURCES = "strategy_supply_sources";
+
+	private static final String STRATEGY_TARGET = "strategy_target";
 
 	private static final String STRATEGY_DOMAIN_RESTRICTIONS = "strategy_domain_restrictions";
 
@@ -227,7 +232,7 @@ public final class Constants {
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
 
 	// required for converting requested string path names to entity names when
-	// collection demended
+	// collection demanded
 	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String, String>();
 
 	// Required for converting entity names to path names [to form paths.]
@@ -269,7 +274,7 @@ public final class Constants {
 
 		getEntityType.put(TARGETING_SEGMENT, new TypeToken<JsonResponse<TargetingSegment>>() {
 		}.getType());
-		
+
 		getEntityType.put(CAMPAIGNS, new TypeToken<JsonResponse<Campaign>>() {
 		}.getType());
 		getEntityType.put(CAMPAIGN, new TypeToken<JsonResponse<Campaign>>() {
@@ -351,6 +356,9 @@ public final class Constants {
 		getEntityType.put(STRATEGY_SUPPLY_SOURCES, new TypeToken<JsonResponse<StrategySupplySource>>() {
 		}.getType());
 		getEntityType.put(STRATEGY_SUPPLY_SOURCE, new TypeToken<JsonResponse<StrategySupplySource>>() {
+		}.getType());
+
+		getEntityType.put(STRATEGY_TARGET, new TypeToken<JsonResponse<StrategyTarget>>() {
 		}.getType());
 
 		getEntityType.put(SUPPLY_SOURCES, new TypeToken<JsonResponse<SupplySource>>() {
@@ -507,6 +515,10 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(STRATEGY_DAY_PART, new TypeToken<JsonResponse<ArrayList<StrategyDayPart>>>() {
 		}.getType());
+		getListoFEntityType.put(STRATEGY_DAY_PARTS_U, new TypeToken<JsonResponse<ArrayList<StrategyDayPart>>>() {
+		}.getType());
+		getListoFEntityType.put(STRATEGY_DAY_PART_U, new TypeToken<JsonResponse<ArrayList<StrategyDayPart>>>() {
+		}.getType());
 		getListoFEntityType.put(STRATEGY_DOMAIN_RESTRICTION, new TypeToken<JsonResponse<ArrayList<StrategyDomain>>>() {
 		}.getType());
 		getListoFEntityType.put(STRATEGY_DOMAIN_RESTRICTIONS, new TypeToken<JsonResponse<ArrayList<StrategyDomain>>>() {
@@ -532,6 +544,8 @@ public final class Constants {
 		getListoFEntityType.put(STRATEGY_TARGETING_SEGMENT,
 				new TypeToken<JsonResponse<ArrayList<StrategyTargetingSegment>>>() {
 				}.getType());
+		getListoFEntityType.put(STRATEGY_TARGET, new TypeToken<JsonResponse<ArrayList<StrategyTarget>>>() {
+		}.getType());
 		getListoFEntityType.put(USERS, new TypeToken<JsonResponse<ArrayList<User>>>() {
 		}.getType());
 		getListoFEntityType.put(USER, new TypeToken<JsonResponse<ArrayList<User>>>() {
@@ -581,6 +595,7 @@ public final class Constants {
 		pathToCollectionEntity.put(CREATIVES, "Creative");
 		pathToCollectionEntity.put(CREATIVE_APPROVALS, "CreativeApproval");
 		pathToCollectionEntity.put(DEALS, "Deal");
+		pathToCollectionEntity.put(DAY_PART, "DayPart");
 		pathToCollectionEntity.put(ORGANIZATIONS, "Organization");
 		pathToCollectionEntity.put(PIXELS, "ChildPixel");
 		pathToCollectionEntity.put(PIXEL_BUNDLES, "PixelBundle");
@@ -619,6 +634,7 @@ public final class Constants {
 		entityPaths.put("Creative", CREATIVES);
 		entityPaths.put("CreativeApproval", ATOMIC_CREATIVES);
 		entityPaths.put("Deal", DEALS);
+		entityPaths.put("DayPart", DAY_PART);
 		entityPaths.put("Organization", ORGANIZATIONS);
 		entityPaths.put("ChildPixel", PIXELS);
 		entityPaths.put("PixelBundle", PIXEL_BUNDLES);
@@ -657,6 +673,7 @@ public final class Constants {
 		pathToEntity.put(CREATIVE, "Creative");
 		pathToEntity.put(CREATIVE_APPROVAL, "CreativeApproval");
 		pathToEntity.put(DEAL, "Deal");
+		pathToEntity.put(DAY_PART, "DayPart");
 		pathToEntity.put(ORGANIZATION, "Organization");
 		pathToEntity.put(PIXEL, "ChildPixel");
 		pathToEntity.put(PIXEL_BUNDLE, "PixelBundle");
@@ -758,7 +775,6 @@ public final class Constants {
 		HashMap<String, Integer> subMap24 = new HashMap<String, Integer>();
 		subMap24.put(AUDIENCE_SEGMENTS, 0);
 		childPaths.put(AUDIENCE_SEGMENTS, subMap24);
-
 	}
 
 }

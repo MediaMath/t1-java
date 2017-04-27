@@ -51,6 +51,8 @@ import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
+import com.mediamath.terminalone.models.StrategyTarget;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.models.T1Meta;
@@ -216,6 +218,19 @@ public class PostService {
 				uri.append("/site_lists");
 			}
 
+			if (entity.getId() > 0 && !entity.getStrategyTargetingSegments().isEmpty()
+					&& entity.getTargetingSegmentExcludeOp() != null && entity.getTargetingSegmentIncludeOp() != null) {
+				uri.append("/targeting_segments");
+			}
+
+			if (entity.getId() > 0 && !entity.getTargetValues().isEmpty()) {
+				uri.append("/target_values");
+			}
+
+			if (entity.getId() > 0 && !entity.getStrategyDayParts().isEmpty()) {
+				uri.append("/day_parts");
+			}
+
 			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
 				uri.append("/deals");
 			}
@@ -238,9 +253,21 @@ public class PostService {
 					strategy = entity;
 					strategy.setStrategyAudienceSegments(dataList);
 				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTargetingSegment) {
+					strategy = entity;
+					strategy.setStrategyTargetingSegments(dataList);
+				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
 					strategy = entity;
 					strategy.setSiteLists(dataList);
+				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyDayPart) {
+					strategy = entity;
+					strategy.setStrategyDayParts(dataList);
+				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTarget) {
+					strategy = entity;
+					strategy.setStrategyTarget(dataList);
 				}
 			} else {
 				strategy = (Strategy) finalJsonResponse.getData();

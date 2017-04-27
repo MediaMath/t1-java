@@ -26,7 +26,6 @@ public class StrategyConcept implements T1Entity {
 
 	private static final String entityName = "StrategyConcept";
 
-	private int advertiser_id;
 	private int concept_id;
 	private Date created_on;
 	private int id;
@@ -34,8 +33,8 @@ public class StrategyConcept implements T1Entity {
 	private int strategy_id;
 	private Date updated_on;
 	private int version;
-	String weighting;
-	String name;
+	private String weighting;
+	private String name;
 
 	private Concept concept;
 	private Strategy strategy;
@@ -117,14 +116,6 @@ public class StrategyConcept implements T1Entity {
 		return entityName;
 	}
 
-	public int getAdvertiserId() {
-		return advertiser_id;
-	}
-
-	public void setAdvertiserId(int advertiserId) {
-		this.advertiser_id = advertiserId;
-	}
-
 	public String getWeighting() {
 		return weighting;
 	}
@@ -164,7 +155,6 @@ public class StrategyConcept implements T1Entity {
 		}
 
 		return Utility.getFilteredForm(strategyConceptForm, "strategyconcept");
-
 	}
 
 	@Override

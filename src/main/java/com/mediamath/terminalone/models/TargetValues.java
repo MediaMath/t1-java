@@ -23,125 +23,135 @@ import javax.ws.rs.core.Form;
 
 public class TargetValues implements T1Entity {
 
-  private static final String entityName = "TargetValues";
+	private static final String entityName = "TargetValues";
 
-  public enum oper {
-    AND, OR
-  }
+	public enum oper {
+		AND, OR
+	}
 
-  public enum restrictions {
-    INCLUDE, EXCLUDE
-  }
+	public enum restrictions {
+		INCLUDE, EXCLUDE
+	}
 
-  public enum codes {
-    BSER, CSPD, DVCE, FOLD, ISPX, INVT, DMAX, REGN, CHNL, SFTY, VAUD, VCON, VLIN, VPSZ
-  }
+	public enum codes {
+		BSER, CSPD, DVCE, FOLD, ISPX, INVT, DMAX, REGN, CHNL, SFTY, VAUD, VCON, VLIN, VPSZ
+	}
 
-  private String _type;
-  private codes code;
-  private int id;
-  private boolean is_targetable;
-  private String name;
-  private int target_dimension_id;
-  private int value;
+	private String _type;
+	private codes code;
+	private int id;
+	private boolean is_targetable;
+	private String name;
+	private int target_dimension_id;
+	private int value;
 
-  private restrictions restriction;
-  private oper operation;
-  private List<Integer> value_ids = new ArrayList<Integer>();
+	private restrictions restriction;
+	private oper operation;
+	private List<Integer> value_ids = new ArrayList<Integer>();
 
-  public String getType() {
-    return _type;
-  }
+	public TargetValues() {
+	}
 
-  public void setType(String _type) {
-    this._type = _type;
-  }
+	public TargetValues(codes code, restrictions restriction, oper operation, List<Integer> value_ids) {
+		this.code = code;
+		this.restriction = restriction;
+		this.operation = operation;
+		this.value_ids = value_ids;
+	}
 
-  public codes getCode() {
-    return code;
-  }
+	public String getType() {
+		return _type;
+	}
 
-  public void setCode(codes code) {
-    this.code = code;
-  }
+	public void setType(String _type) {
+		this._type = _type;
+	}
 
-  public int getId() {
-    return id;
-  }
+	public codes getCode() {
+		return code;
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public void setCode(codes code) {
+		this.code = code;
+	}
 
-  public boolean isTargetable() {
-    return is_targetable;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public void setIsTargetable(boolean is_targetable) {
-    this.is_targetable = is_targetable;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public boolean isTargetable() {
+		return is_targetable;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setIsTargetable(boolean is_targetable) {
+		this.is_targetable = is_targetable;
+	}
 
-  public int getTargetDimensionId() {
-    return target_dimension_id;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setTargetDimensionId(int target_dimension_id) {
-    this.target_dimension_id = target_dimension_id;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public int getValue() {
-    return value;
-  }
+	public int getTargetDimensionId() {
+		return target_dimension_id;
+	}
 
-  public void setValue(int value) {
-    this.value = value;
-  }
+	public void setTargetDimensionId(int target_dimension_id) {
+		this.target_dimension_id = target_dimension_id;
+	}
 
-  @Override
-  public String getEntityname() {
-    return entityName;
-  }
+	public int getValue() {
+		return value;
+	}
 
-  public restrictions getRestriction() {
-    return restriction;
-  }
+	public void setValue(int value) {
+		this.value = value;
+	}
 
-  public void setRestriction(restrictions restriction) {
-    this.restriction = restriction;
-  }
+	@Override
+	public String getEntityname() {
+		return entityName;
+	}
 
-  public oper getOperation() {
-    return operation;
-  }
+	public restrictions getRestriction() {
+		return restriction;
+	}
 
-  public void setOperation(oper operation) {
-    this.operation = operation;
-  }
+	public void setRestriction(restrictions restriction) {
+		this.restriction = restriction;
+	}
 
-  public List<Integer> getValueIds() {
-    return value_ids;
-  }
+	public oper getOperation() {
+		return operation;
+	}
 
-  public void setValueIds(List<Integer> value_ids) {
-    this.value_ids = value_ids;
-  }
-  
-  @Override
-  public Form getForm() {
-    return null;
-  }
+	public void setOperation(oper operation) {
+		this.operation = operation;
+	}
 
-  @Override
-  public String getUri() {
-    return null;
-  }
+	public List<Integer> getValueIds() {
+		return value_ids;
+	}
+
+	public void setValueIds(List<Integer> value_ids) {
+		this.value_ids = value_ids;
+	}
+
+	@Override
+	public Form getForm() {
+		return null;
+	}
+
+	@Override
+	public String getUri() {
+		return null;
+	}
 
 }
