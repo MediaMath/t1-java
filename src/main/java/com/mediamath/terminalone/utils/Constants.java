@@ -255,6 +255,8 @@ public final class Constants {
 
 		getEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<AdServer>>() {
 		}.getType());
+		getEntityType.put(AD_SERVER, new TypeToken<JsonResponse<AdServer>>() {
+		}.getType());
 		getEntityType.put(ADVERTISERS, new TypeToken<JsonResponse<Advertiser>>() {
 		}.getType());
 		getEntityType.put(ADVERTISER, new TypeToken<JsonResponse<Advertiser>>() {
