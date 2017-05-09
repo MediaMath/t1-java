@@ -67,6 +67,9 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.TargetDimensions;
+import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
+import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
@@ -197,7 +200,7 @@ public class PostFunctionalTestIT {
 
 		Agency agency = new Agency();
 		agency.setName("TestAgency");
-		agency.setOrganizationId(100048);
+		agency.setOrganizationId(101558);
 		try {
 			agency = (Agency) t1.save(agency);
 		} catch (ParseException e) {
@@ -218,7 +221,7 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Agency agencyCreated = (Agency) jsonresponse.getData();
 		assertEquals("TestAgency", agencyCreated.getName());
-		assertEquals(100048, agencyCreated.getOrganizationId());
+		assertEquals(101558, agencyCreated.getOrganizationId());
 
 	}
 
@@ -232,7 +235,7 @@ public class PostFunctionalTestIT {
 
 		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setEntity(114244).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setEntity(116678).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -477,7 +480,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testCampaignPostImpressionCapDefault() throws ClientException, java.text.ParseException {
-		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
 		Campaign camp = new Campaign();
 		// camp.setId(268746);
@@ -632,7 +635,7 @@ public class PostFunctionalTestIT {
 	public void testAdvertiserUpdatePost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setEntity(165803).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setEntity(187006).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -782,7 +785,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyAudienceSegmentsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		Strategy str = new Strategy();
 		str.setId(2205653);
@@ -828,13 +831,13 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		StrategyDayPart strategyDayPart = new StrategyDayPart();
 
 		strategyDayPart.setDays(daysEnum.U);
 		strategyDayPart.setEndHour(23);
-		strategyDayPart.setStartHour(7);
+		strategyDayPart.setStartHour(0);
 		strategyDayPart.setStrategyId(2196344);
 		strategyDayPart.setUserTime(true);
 
@@ -1032,7 +1035,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyConceptPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		StrategyConcept sc = new StrategyConcept();
 		sc.setStrategyId(2196344);
@@ -1142,7 +1145,7 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 		assertNotNull(camp);
-		;
+		
 	}
 
 	/**
@@ -1473,7 +1476,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
@@ -1507,7 +1510,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testStrategyDealsPost() throws ClientException {
 
-		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 		Strategy cmp = new Strategy();
 		cmp.setId(2145568);
 
@@ -1530,7 +1533,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyTargetingSegmentsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		Strategy str = new Strategy();
 		str.setId(2196344);
@@ -1553,7 +1556,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyDayPartsPost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		Strategy str = new Strategy();
 		str.setId(2195001);
@@ -1579,7 +1582,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyTargetValuePost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
 
 		Strategy str = new Strategy();
 		str.setId(2196344);
@@ -1605,5 +1608,41 @@ public class PostFunctionalTestIT {
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
+	
+	@Test
+	public void testStrategyTargetDimensionsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+
+		Strategy str = new Strategy();
+		str.setId(2195001);
+
+		TargetDimensions td = new  TargetDimensions();
+		td.setId(7);
+		List<Integer> exclude = new ArrayList<Integer>();
+		exclude.add(20);
+		exclude.add(22);
+		td.setExclude(exclude);
+		
+		List<Integer> include = new ArrayList<Integer>();
+		include.add(21);
+		td.setInclude(include);
+		
+		td.setExclude_op(excludeOp.OR);
+		td.setInclude_op(includeOp.OR);
+		
+		str.setTargetDimensions(td);
+
+		try {
+			str = jt1.save(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		List<StrategyTarget> sdp = str.getStrategyTarget();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
+	}
+	
+	
 
 }

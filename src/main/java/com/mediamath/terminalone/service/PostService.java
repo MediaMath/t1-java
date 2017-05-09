@@ -52,6 +52,7 @@ import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyTarget;
+import com.mediamath.terminalone.models.StrategyTargetValues;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
@@ -234,7 +235,13 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
 				uri.append("/deals");
 			}
-
+			if (entity.getId() > 0 && entity.getTargetDimensions()!=null ) {
+				uri.append("/target_dimensions");
+				if(entity.getTargetDimensions().getId()>0){
+					uri.append("/"+ String.valueOf(entity.getTargetDimensions().getId()));
+				}
+			}
+			
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
 			String responseString = getStrategyResponseString(entity, path);
@@ -270,7 +277,12 @@ public class PostService {
 					strategy.setStrategyTarget(dataList);
 				}
 			} else {
-				strategy = (Strategy) finalJsonResponse.getData();
+				if(finalJsonResponse.getData() instanceof StrategyTargetValues){
+					strategy = entity;
+					strategy.setStrategyTargetValues((StrategyTargetValues) finalJsonResponse.getData());
+				}else{
+					strategy = (Strategy) finalJsonResponse.getData();
+				}
 			}
 		}
 		return strategy;
@@ -1061,8 +1073,7 @@ public class PostService {
 
 			} else if (element.isJsonObject()) {
 				JsonObject obj = element.getAsJsonObject();
-				JsonElement entityTypeElement = obj.get("entity_type");
-				String entityType = entityTypeElement.getAsString();
+				String entityType = getEntityType(obj);
 				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
 			}
 		} else {
@@ -1075,6 +1086,16 @@ public class PostService {
 			}
 		}
 		return finalJsonResponse;
+	}
+	
+	private String getEntityType(JsonObject obj){
+		JsonElement entityTypeElement = obj.get("entity_type");
+		if(entityTypeElement==null && obj.get("exclude_op") !=null 
+		   &&  obj.get("include_op")!=null &&  obj.get("enabled")!=null){
+			return "strategy_target_values";
+		}else{
+			return entityTypeElement.getAsString();
+		}
 	}
 
 	private JsonResponse<? extends T1Entity> parseJsonArrayDataList(String response, T1JsonToObjParser parser,

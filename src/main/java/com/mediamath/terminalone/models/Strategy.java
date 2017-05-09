@@ -165,16 +165,20 @@ public class Strategy implements T1Entity {
 	private Aggregate aggregate;
 
 	private Campaign campaign;
+	private TargetDimensions targetDimensions;
+	private StrategyTargetValues strategyTargetValues;
 
 	List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
 	List<Segments> audience_segments = new ArrayList<Segments>();
 	List<Segments> targeting_segments = new ArrayList<Segments>();
 	List<TargetValues> target_values = new ArrayList<TargetValues>();
+	List<TargetDimensions> target_dimensions = new ArrayList<TargetDimensions>();
 	List<Concept> concepts = new ArrayList<Concept>();
 	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
 	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
+	
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
 
@@ -791,6 +795,22 @@ public class Strategy implements T1Entity {
 
 	public void setStrategyTarget(List<StrategyTarget> strategyTarget) {
 		this.strategyTarget = strategyTarget;
+	}
+
+	public TargetDimensions getTargetDimensions() {
+		return targetDimensions;
+	}
+
+	public void setTargetDimensions(TargetDimensions targetDimensions) {
+		this.targetDimensions = targetDimensions;
+	}
+
+	public StrategyTargetValues getStrategyTargetValues() {
+		return strategyTargetValues;
+	}
+
+	public void setStrategyTargetValues(StrategyTargetValues strategyTargetValues) {
+		this.strategyTargetValues = strategyTargetValues;
 	}
 
 	@Override

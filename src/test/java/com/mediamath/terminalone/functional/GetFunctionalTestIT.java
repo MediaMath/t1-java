@@ -987,5 +987,144 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 	}
+	
+	@Test
+	public void testAdServerAllGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("ad_servers").setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	@Test
+	public void testSingleAdServerGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("ad_servers").setEntity(9).setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	public void testAdvertiserAllGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	@Test
+	public void testSingleAdvertiserGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setEntity(186504).setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	public void testAgencyAllGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	@Test
+	public void testSingleAgencyGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setEntity(117099).setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
 
+	@Test
+	public void testCampaignAllGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	@Test
+	public void testSingleCampaignGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(364126).setFull(fpv).setSortBy("-id")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	@Test
+	public void testStrategyTgtDimensionGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2195001).setChild("target_dimensions").setChild(String.valueOf(7))
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
 }

@@ -366,6 +366,28 @@ public class StrategyHelper {
 				}
 			}
 		}
+		
+		//Target Dimensions -> target values
+		if(entity.getTargetDimensions()!=null){
+			if(entity.getTargetDimensions().getInclude().size() > 0){
+				for(Integer i : entity.getTargetDimensions().getInclude()){
+					strategyForm.param("include", String.valueOf(i));
+				}
+			}
+			if(entity.getTargetDimensions().getExclude().size() > 0){
+				for(Integer i : entity.getTargetDimensions().getExclude()){
+					strategyForm.param("exclude", String.valueOf(i));
+				}
+			}
+			
+			if(entity.getTargetDimensions().getExclude_op()!=null){
+				strategyForm.param("exclude_op", entity.getTargetDimensions().getExclude_op().toString());
+			}
+
+			if(entity.getTargetDimensions().getInclude_op()!=null){
+				strategyForm.param("include_op", entity.getTargetDimensions().getInclude_op().toString());
+			}
+		}
 
 		return Utility.getFilteredForm(strategyForm, "strategy");
 	}
