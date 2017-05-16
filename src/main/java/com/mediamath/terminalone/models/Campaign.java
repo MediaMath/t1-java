@@ -622,6 +622,15 @@ public class Campaign implements T1Entity {
 		}
 	}
 
+	public void setGoalValue(double value) {
+		this.goal_value.clear();
+		if (value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
+			this.goal_value.add(cost);
+		}
+	}
+	
 	public ArrayList<SiteList> getSiteLists() {
 		return site_lists;
 	}

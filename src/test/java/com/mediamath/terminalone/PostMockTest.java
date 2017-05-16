@@ -52,6 +52,8 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
+import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
@@ -60,6 +62,7 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.TargetDimensions;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
@@ -127,6 +130,7 @@ public class PostMockTest {
 	private static String STRATEGY_DAY_PARTS_RESPONSE = null;
 	private static String STRATEGY_TGT_VALUES_RESPONSE = null;
 	private static String STRATEGY_TGT_SEGMENT_RESPONSE = null;
+	private static String STRATEGY_TGT_DIMENSIONS_RESPONSE = null;
 
 	private static String LOGIN = null;
 
@@ -182,6 +186,7 @@ public class PostMockTest {
 		STRATEGY_DAY_PARTS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_day_parts.response");
 		STRATEGY_TGT_VALUES_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_values.response");
 		STRATEGY_TGT_SEGMENT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_segments.response");
+		STRATEGY_TGT_DIMENSIONS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_dimensions.response");
 	}
 
 	@After
@@ -962,6 +967,47 @@ public class PostMockTest {
 		List<StrategyTarget> sdp = str.getStrategyTarget();
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
+	}
+	
+	@Test
+	public void testStrategyTargetDimensionsPost() throws ClientException {
+
+		Strategy str = new Strategy();
+		str.setId(2195001);
+
+		TargetDimensions td = new  TargetDimensions();
+		td.setId(7);
+		List<Integer> exclude = new ArrayList<Integer>();
+		exclude.add(20);
+		exclude.add(22);
+		td.setExclude(exclude);
+		
+		List<Integer> include = new ArrayList<Integer>();
+		include.add(21);
+		td.setInclude(include);
+		
+		td.setExclude_op(excludeOp.OR);
+		td.setInclude_op(includeOp.OR);
+		
+		str.setTargetDimensions(td);
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_DIMENSIONS_RESPONSE);
+		
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			str = t1.save(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(str);
+		assertNotNull(str.getTargetDimensions());
+		
 	}
 
 	@SuppressWarnings("unchecked")

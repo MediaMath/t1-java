@@ -16,6 +16,10 @@
 
 package com.mediamath.terminalone.utils;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.models.AdServer;
 import com.mediamath.terminalone.models.Advertiser;
@@ -45,6 +49,7 @@ import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.StrategyTarget;
+import com.mediamath.terminalone.models.StrategyTargetValues;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.models.TargetDimension;
@@ -57,10 +62,6 @@ import com.mediamath.terminalone.models.VendorDomain;
 import com.mediamath.terminalone.models.VendorPixel;
 import com.mediamath.terminalone.models.VendorPixelDomain;
 import com.mediamath.terminalone.models.Vertical;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public final class Constants {
 
@@ -75,6 +76,8 @@ public final class Constants {
 
 	private static final String STRATEGY_AUDIENCE_SEGMENTS = "strategy_audience_segments";
 	private static final String STRATEGY_TARGETING_SEGMENTS = "strategy_targeting_segments";
+	
+	private static final String STRATEGY_TARGET_VALUES = "strategy_target_values";
 
 	private static final String SITE_PLACEMENT = "site_placement";
 
@@ -255,6 +258,8 @@ public final class Constants {
 
 		getEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<AdServer>>() {
 		}.getType());
+		getEntityType.put(AD_SERVER, new TypeToken<JsonResponse<AdServer>>() {
+		}.getType());
 		getEntityType.put(ADVERTISERS, new TypeToken<JsonResponse<Advertiser>>() {
 		}.getType());
 		getEntityType.put(ADVERTISER, new TypeToken<JsonResponse<Advertiser>>() {
@@ -356,6 +361,8 @@ public final class Constants {
 		getEntityType.put(STRATEGY_SUPPLY_SOURCES, new TypeToken<JsonResponse<StrategySupplySource>>() {
 		}.getType());
 		getEntityType.put(STRATEGY_SUPPLY_SOURCE, new TypeToken<JsonResponse<StrategySupplySource>>() {
+		}.getType());
+		getEntityType.put(STRATEGY_TARGET_VALUES, new TypeToken<JsonResponse<StrategyTargetValues>>() {
 		}.getType());
 
 		getEntityType.put(STRATEGY_TARGET, new TypeToken<JsonResponse<StrategyTarget>>() {
@@ -649,6 +656,7 @@ public final class Constants {
 		entityPaths.put("StrategyDayPart", STRATEGY_DAY_PARTS_U);
 		entityPaths.put("StrategyDomain", STRATEGY_DOMAIN_RESTRICTIONS);
 		entityPaths.put("StrategySupplySource", STRATEGY_SUPPLY_SOURCES);
+		entityPaths.put("StrategyTargetValues", STRATEGY_TARGET_VALUES);
 		entityPaths.put("SupplySource", SUPPLY_SOURCES);
 		entityPaths.put("User", USERS);
 		entityPaths.put("TargetDimension", TARGET_DIMENSIONS);
