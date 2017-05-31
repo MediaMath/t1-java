@@ -133,7 +133,7 @@ public class PostMockTest {
 	private static String STRATEGY_TGT_VALUES_RESPONSE = null;
 	private static String STRATEGY_TGT_SEGMENT_RESPONSE = null;
 	private static String STRATEGY_TGT_DIMENSIONS_RESPONSE = null;
-	
+
 	private static String STRATEGY_COPY_RESPONSE = null;
 	private static String CAMPAIGN_COPY_RESPONSE = null;
 	private static String STRATEGY_BULK_COPY_RESPONSE = null;
@@ -193,8 +193,8 @@ public class PostMockTest {
 		STRATEGY_TGT_VALUES_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_values.response");
 		STRATEGY_TGT_SEGMENT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_segments.response");
 		STRATEGY_TGT_DIMENSIONS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_dimensions.response");
-		STRATEGY_COPY_RESPONSE	= testConfig.getProperty("t1.mock.save.strategy_copy.response");
-		CAMPAIGN_COPY_RESPONSE	= testConfig.getProperty("t1.mock.save.campaign_copy.response");
+		STRATEGY_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_copy.response");
+		CAMPAIGN_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_copy.response");
 		STRATEGY_BULK_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_bulkcopy.response");
 	}
 
@@ -977,48 +977,47 @@ public class PostMockTest {
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
-	
+
 	@Test
 	public void testStrategyTargetDimensionsPost() throws ClientException {
 
 		Strategy str = new Strategy();
 		str.setId(2195001);
 
-		TargetDimensions td = new  TargetDimensions();
+		TargetDimensions td = new TargetDimensions();
 		td.setId(7);
 		List<Integer> exclude = new ArrayList<Integer>();
 		exclude.add(20);
 		exclude.add(22);
 		td.setExclude(exclude);
-		
+
 		List<Integer> include = new ArrayList<Integer>();
 		include.add(21);
 		td.setInclude(include);
-		
+
 		td.setExclude_op(excludeOp.OR);
 		td.setInclude_op(includeOp.OR);
-		
+
 		str.setTargetDimensions(td);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
+				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_DIMENSIONS_RESPONSE);
-		
-		
+
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
 			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
-			Mockito.any(T1User.class));
+					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		assertNotNull(str);
 		assertNotNull(str.getTargetDimensions());
-		
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCopyPost() throws ClientException, java.text.ParseException {
@@ -1037,11 +1036,11 @@ public class PostMockTest {
 		camp.setEndDate(endd);
 		camp.setStartDate(startd);
 		camp.setCopyCampaign(true);
-		
+
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_COPY_RESPONSE);		
-		
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_COPY_RESPONSE);
+
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			camp = (Campaign) t1.save(camp);
@@ -1051,10 +1050,10 @@ public class PostMockTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertNotNull(camp);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testStrategyCopyPost() throws ClientException {
@@ -1066,16 +1065,17 @@ public class PostMockTest {
 		cal.roll(Calendar.DATE, true);
 		Date startDate = cal.getTime();
 		str.setStartDate(startDate);
-		cal.roll(Calendar.DATE, true); cal.roll(Calendar.MONTH, true); Date
-		endd = cal.getTime(); 
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
 		str.setEndDate(endd);
-		
+
 		str.setCopyStrategy(true);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_COPY_RESPONSE);		
-		
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_COPY_RESPONSE);
+
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
@@ -1088,7 +1088,7 @@ public class PostMockTest {
 
 		assertNotNull(str);
 	}
-	
+
 	@Test
 	public void testStrategyBulkCopyPost() throws ClientException {
 
@@ -1096,19 +1096,19 @@ public class PostMockTest {
 		Strategy str = new Strategy();
 		str.setFromCampaignId(332185);
 		str.setToCampaignId(377685);
-		
+
 		List<BulkStrategy> bsList = new ArrayList<BulkStrategy>();
 		bsList.add(new BulkStrategy(1966119, "BulkCopyTest1", false, false, false, false, false, false, false, false));
-		
+
 		str.setBulkStrategy(bsList);
-		
+
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
+				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_BULK_COPY_RESPONSE);
-		 
+
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-			jsonResponse = t1.BulkCopy(str);
+			jsonResponse = t1.bulkCopy(str);
 			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {

@@ -134,7 +134,7 @@ public class Campaign implements T1Entity {
 	private boolean use_mm_freq;
 	private int version;
 	private String zone_name;
-	private boolean copyCampaign=false;
+	private boolean copyCampaign = false;
 	private Map<Date, Double> margins = new HashMap<Date, Double>();
 
 	private Advertiser advertiser;
@@ -639,7 +639,7 @@ public class Campaign implements T1Entity {
 			this.goal_value.add(cost);
 		}
 	}
-	
+
 	public ArrayList<SiteList> getSiteLists() {
 		return site_lists;
 	}
@@ -685,27 +685,27 @@ public class Campaign implements T1Entity {
 			campaignForm.param("advertiser_id", String.valueOf(this.getAdvertiserId()));
 		}
 
-		if(this.getConversionType()!=null){
+		if (this.getConversionType() != null) {
 			campaignForm.param("conversion_type", this.getConversionType());
 		}
 
 		if (this.getConversionVariableMinutes() > 0) {
 			campaignForm.param("conversion_variable_minutes", String.valueOf(this.getConversionVariableMinutes()));
 		}
-		
+
 		if (this.getEndDate() != null) {
 			String endDate = SDF.format(this.getEndDate());
 			campaignForm.param("end_date", endDate);
 		}
 
-		if(this.getGoalType()!=null){
+		if (this.getGoalType() != null) {
 			campaignForm.param("goal_type", String.valueOf(this.getGoalType()));
 		}
-		
-		if(this.getServiceType()!=null){
+
+		if (this.getServiceType() != null) {
 			campaignForm.param("service_type", String.valueOf(this.getServiceType()));
 		}
-		
+
 		if (this.getStartDate() != null) {
 			String startDate = SDF.format(this.getStartDate());
 			campaignForm.param("start_date", startDate);
@@ -740,8 +740,6 @@ public class Campaign implements T1Entity {
 			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType()));
 		}
 
-
-
 		if (this.getGoalAlert() > 0) {
 			campaignForm.param("goal_alert", String.valueOf(this.getGoalAlert()));
 		}
@@ -750,7 +748,7 @@ public class Campaign implements T1Entity {
 			campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
 		}
 
-		if(!this.isCopyCampaign()){
+		if (!this.isCopyCampaign()) {
 			campaignForm.param("use_mm_freq", Utility.getOnOrOff(this.isUseMmFreq()));
 			campaignForm.param("dcs_data_is_campaign_level", Utility.getOnOrOff(this.isDcsDataIsCampaignLevel()));
 			campaignForm.param("frequency_optimization", Utility.getOnOrOff(this.isFrequencyOptimization()));
@@ -767,7 +765,7 @@ public class Campaign implements T1Entity {
 			campaignForm.param("status", Utility.getOnOrOff(this.isStatus()));
 			campaignForm.param("use_default_ad_server", Utility.getOnOrOff(this.isUseDefaultAdServer()));
 		}
-		
+
 		if (this.getImpressionCapAmount() > 0) {
 			campaignForm.param("impression_cap_amount", String.valueOf(this.getImpressionCapAmount()));
 		}
@@ -815,11 +813,10 @@ public class Campaign implements T1Entity {
 			campaignForm.param("zone_name", this.getZoneName());
 		}
 
-		
-
 		if (this.getSuspiciousTrafficFilterLevel() > 0) {
-			campaignForm.param("suspicious_traffic_filter_level", String.valueOf(this.getSuspiciousTrafficFilterLevel()));
-		}	
+			campaignForm.param("suspicious_traffic_filter_level",
+					String.valueOf(this.getSuspiciousTrafficFilterLevel()));
+		}
 
 		if (this.getVersion() > 0) {
 			campaignForm.param("version", String.valueOf(this.getVersion()));

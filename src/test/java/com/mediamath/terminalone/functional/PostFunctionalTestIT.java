@@ -1146,7 +1146,7 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 		assertNotNull(camp);
-		
+
 	}
 
 	/**
@@ -1609,7 +1609,7 @@ public class PostFunctionalTestIT {
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
-	
+
 	@Test
 	public void testStrategyTargetDimensionsPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -1617,20 +1617,20 @@ public class PostFunctionalTestIT {
 		Strategy str = new Strategy();
 		str.setId(2195001);
 
-		TargetDimensions td = new  TargetDimensions();
+		TargetDimensions td = new TargetDimensions();
 		td.setId(7);
 		List<Integer> exclude = new ArrayList<Integer>();
 		exclude.add(20);
 		exclude.add(22);
 		td.setExclude(exclude);
-		
+
 		List<Integer> include = new ArrayList<Integer>();
 		include.add(21);
 		td.setInclude(include);
-		
+
 		td.setExclude_op(excludeOp.OR);
 		td.setInclude_op(includeOp.OR);
-		
+
 		str.setTargetDimensions(td);
 
 		try {
@@ -1643,7 +1643,7 @@ public class PostFunctionalTestIT {
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
-	
+
 	@Test
 	public void testCampaignCopyPost() throws ClientException, java.text.ParseException {
 		TerminalOne t1 = new TerminalOne(user, password, productionKey);
@@ -1664,17 +1664,17 @@ public class PostFunctionalTestIT {
 		camp.setEndDate(endd);
 		camp.setStartDate(startd);
 		camp.setCopyCampaign(true);
-		
+
 		try {
 			camp = (Campaign) t1.save(camp);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertNotNull(camp);
 	}
-	
+
 	@Test
 	public void testStrategyCopyPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
@@ -1686,12 +1686,13 @@ public class PostFunctionalTestIT {
 		cal.roll(Calendar.DATE, true);
 		Date startDate = cal.getTime();
 		str.setStartDate(startDate);
-		cal.roll(Calendar.DATE, true); cal.roll(Calendar.MONTH, true); Date
-		endd = cal.getTime(); 
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
 		str.setEndDate(endd);
-		
+
 		str.setCopyStrategy(true);
-		 
+
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
@@ -1701,7 +1702,7 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(str);
 	}
-	
+
 	@Test
 	public void testStrategyBulkCopyPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
@@ -1710,14 +1711,14 @@ public class PostFunctionalTestIT {
 		Strategy str = new Strategy();
 		str.setFromCampaignId(332185);
 		str.setToCampaignId(377685);
-		
+
 		List<BulkStrategy> bsList = new ArrayList<BulkStrategy>();
 		bsList.add(new BulkStrategy(1966119, "BulkCopyTest1", false, false, false, false, false, false, false, false));
-		
+
 		str.setBulkStrategy(bsList);
-		 
+
 		try {
-			jsonResponse = jt1.BulkCopy(str);
+			jsonResponse = jt1.bulkCopy(str);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1727,6 +1728,5 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonResponse.getData());
 
 	}
-	
 
 }

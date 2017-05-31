@@ -163,10 +163,10 @@ public class Strategy implements T1Entity {
 	private int version;
 	private String zone_name;
 	private Aggregate aggregate;
-	private boolean copyStrategy=false;
+	private boolean copyStrategy = false;
 	private int from_campaign_id;
 	private int to_campaign_id;
-	
+
 	private Campaign campaign;
 	private TargetDimensions targetDimensions;
 	private StrategyTargetValues strategyTargetValues;
@@ -182,7 +182,7 @@ public class Strategy implements T1Entity {
 	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
 	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
 	List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
-	
+
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
 
