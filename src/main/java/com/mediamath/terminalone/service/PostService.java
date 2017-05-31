@@ -235,6 +235,11 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
 				uri.append("/deals");
 			}
+			
+			if (entity.getId() > 0 && entity.isCopyStrategy()==true) {
+				uri.append("/copy");
+			}
+			
 			if (entity.getId() > 0 && entity.getTargetDimensions()!=null ) {
 				uri.append("/target_dimensions");
 				if(entity.getTargetDimensions().getId()>0){
@@ -287,6 +292,45 @@ public class PostService {
 		}
 		return strategy;
 	}
+	
+	/**
+	 * Copies Strategies in bulk from one campaign to another campaign.
+	 * 
+	 * @param entity
+	 *            expects a Strategy entity.
+	 * @return JsonResponse<? extends T1Entity> object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonResponse<? extends T1Entity> BulkCopy(Strategy entity) throws ClientException, ParseException {
+
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
+		if (entity != null) {
+			StringBuilder uri = getUri(entity);
+
+			if(entity.getFromCampaignId()>0 && entity.getToCampaignId()>0){
+				uri.append("/bulk_copy");
+			}else{
+				return null;
+			}
+			
+			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
+
+			String responseString = getStrategyResponseString(entity, path);
+
+			finalJsonResponse = getJsonResponse(entity, responseString);
+		}
+		
+		if (finalJsonResponse != null && finalJsonResponse.getData() == null){
+			return null;
+		}	
+		
+		return finalJsonResponse;
+		
+	}
 
 	/**
 	 * saves a Campaign entity.
@@ -319,6 +363,10 @@ public class PostService {
 
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
+			}
+			
+			if (entity.getId() > 0 && entity.isCopyCampaign()==true) {
+				uri.append("/copy");
 			}
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));

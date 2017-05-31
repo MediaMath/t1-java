@@ -361,6 +361,26 @@ public class TerminalOne {
 		}
 		return strategy;
 	}
+	
+	/**
+	 * Copies Bulk Strategy entities.
+	 * 
+	 * @param entity
+	 *            expects Strategy entity.
+	 * @return Strategy object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonResponse<? extends T1Entity> BulkCopy(Strategy entity) throws ClientException, ParseException {
+		JsonResponse<? extends T1Entity> jsonResponse = null;
+		if (isAuthenticated()) {
+			jsonResponse = postService.BulkCopy(entity);
+		}
+		return jsonResponse;
+	}
 
 	/**
 	 * Saves Campaign entity.

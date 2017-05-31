@@ -21,6 +21,7 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
 import com.mediamath.terminalone.models.Strategy;
@@ -73,11 +74,24 @@ public class StrategyHelper {
 		} else if (entity.getTargetingSegmentIncludeOp() != null) {
 			strategyForm.param("targeting_segment_include_op", String.valueOf(entity.getTargetingSegmentIncludeOp()));
 		}
+		
+		if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String endDate = sdf.format(entity.getEndDate());
+			strategyForm.param("end_date", endDate);
+		}
+
+		if (!entity.isUseCampaignStart() && entity.getStartDate() != null) {
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			String startDate = sdf.format(entity.getStartDate());
+			strategyForm.param("start_date", startDate);
+		}
 
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
 				&& entity.getAudienceSegments().isEmpty() && entity.getStrategyTargetingSegments().isEmpty()
 				&& entity.getSiteLists().isEmpty() && entity.getDealIds().isEmpty()
-				&& entity.getStrategyDayParts().isEmpty()) {
+				&& entity.getStrategyDayParts().isEmpty() && !entity.isCopyStrategy()
+				&& (entity.getFromCampaignId()<=0 && entity.getToCampaignId() <=0)){
 			if (entity.getBidAggresiveness() > 0f) {
 				strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBidAggresiveness()));
 			}
@@ -116,17 +130,6 @@ public class StrategyHelper {
 				strategyForm.param("frequency_amount", String.valueOf(entity.getFrequencyAmount()));
 			}
 
-			if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
-				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-				String endDate = sdf.format(entity.getEndDate());
-				strategyForm.param("end_date", endDate);
-			}
-
-			if (!entity.isUseCampaignStart() && entity.getStartDate() != null) {
-				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-				String startDate = sdf.format(entity.getStartDate());
-				strategyForm.param("start_date", startDate);
-			}
 
 			if (entity.getGoalType() != null) {
 				strategyForm.param("goal_type", String.valueOf(entity.getGoalType()));
@@ -388,6 +391,39 @@ public class StrategyHelper {
 				strategyForm.param("include_op", entity.getTargetDimensions().getInclude_op().toString());
 			}
 		}
+		
+		//Strategy Bulk Copy
+		if(entity.getFromCampaignId()>0){
+			strategyForm.param("from_campaign_id", String.valueOf(entity.getFromCampaignId()));
+		}
+		
+		if(entity.getToCampaignId()>0){
+			strategyForm.param("to_campaign_id", String.valueOf(entity.getToCampaignId()));
+		}
+		
+		if(entity.getFromCampaignId()>0 && entity.getToCampaignId()>0 && !entity.getBulkStrategy().isEmpty()){
+			int inc=1;
+			for(BulkStrategy bk : entity.getBulkStrategy()){
+				if(bk.getId()>0){
+					strategyForm.param("strategies."+inc+".id",String.valueOf(bk.getId()));
+				}
+				if(bk.getName()!=null){
+					strategyForm.param("strategies."+inc+".name",bk.getName());
+				}
+				
+				strategyForm.param("strategies."+inc+".supply_management",Utility.getOneOrZero(bk.isSupplyManagement()));
+				strategyForm.param("strategies."+inc+".contextual_targeting",Utility.getOneOrZero(bk.isContextualTargeting()));
+				strategyForm.param("strategies."+inc+".creative_assignment",Utility.getOneOrZero(bk.isCreativeAssignment()));
+				strategyForm.param("strategies."+inc+".pixel_targeting",Utility.getOneOrZero(bk.isPixelTargeting()));
+				strategyForm.param("strategies."+inc+".audience_targeting",Utility.getOneOrZero(bk.isAudienceTargeting()));
+				strategyForm.param("strategies."+inc+".strategy_targeting",Utility.getOneOrZero(bk.isStrategyTargeting()));
+				strategyForm.param("strategies."+inc+".site_lists",Utility.getOneOrZero(bk.isSiteLists()));
+				strategyForm.param("strategies."+inc+".video_targeting",Utility.getOneOrZero(bk.isVideoTargeting()));
+			}
+			
+		}
+		
+		
 
 		return Utility.getFilteredForm(strategyForm, "strategy");
 	}

@@ -163,7 +163,10 @@ public class Strategy implements T1Entity {
 	private int version;
 	private String zone_name;
 	private Aggregate aggregate;
-
+	private boolean copyStrategy=false;
+	private int from_campaign_id;
+	private int to_campaign_id;
+	
 	private Campaign campaign;
 	private TargetDimensions targetDimensions;
 	private StrategyTargetValues strategyTargetValues;
@@ -178,6 +181,7 @@ public class Strategy implements T1Entity {
 	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
 	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
+	List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
 	
 	List<Deal> deals = new ArrayList<>();
 	List<Integer> dealIds = new ArrayList<>();
@@ -707,6 +711,38 @@ public class Strategy implements T1Entity {
 
 	public void setAggregate(Aggregate aggregate) {
 		this.aggregate = aggregate;
+	}
+
+	public boolean isCopyStrategy() {
+		return copyStrategy;
+	}
+
+	public void setCopyStrategy(boolean copyStrategy) {
+		this.copyStrategy = copyStrategy;
+	}
+
+	public int getFromCampaignId() {
+		return from_campaign_id;
+	}
+
+	public void setFromCampaignId(int from_campaign_id) {
+		this.from_campaign_id = from_campaign_id;
+	}
+
+	public int getToCampaignId() {
+		return to_campaign_id;
+	}
+
+	public void setToCampaignId(int to_campaign_id) {
+		this.to_campaign_id = to_campaign_id;
+	}
+
+	public List<BulkStrategy> getBulkStrategy() {
+		return bulkStrategy;
+	}
+
+	public void setBulkStrategy(List<BulkStrategy> bulkStrategy) {
+		this.bulkStrategy = bulkStrategy;
 	}
 
 	public List<SiteList> getSiteLists() {
