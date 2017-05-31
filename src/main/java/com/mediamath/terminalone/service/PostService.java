@@ -235,13 +235,18 @@ public class PostService {
 			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
 				uri.append("/deals");
 			}
-			if (entity.getId() > 0 && entity.getTargetDimensions()!=null ) {
+
+			if (entity.getId() > 0 && entity.isCopyStrategy() == true) {
+				uri.append("/copy");
+			}
+
+			if (entity.getId() > 0 && entity.getTargetDimensions() != null) {
 				uri.append("/target_dimensions");
-				if(entity.getTargetDimensions().getId()>0){
-					uri.append("/"+ String.valueOf(entity.getTargetDimensions().getId()));
+				if (entity.getTargetDimensions().getId() > 0) {
+					uri.append("/" + String.valueOf(entity.getTargetDimensions().getId()));
 				}
 			}
-			
+
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
 			String responseString = getStrategyResponseString(entity, path);
@@ -277,15 +282,54 @@ public class PostService {
 					strategy.setStrategyTarget(dataList);
 				}
 			} else {
-				if(finalJsonResponse.getData() instanceof StrategyTargetValues){
+				if (finalJsonResponse.getData() instanceof StrategyTargetValues) {
 					strategy = entity;
 					strategy.setStrategyTargetValues((StrategyTargetValues) finalJsonResponse.getData());
-				}else{
+				} else {
 					strategy = (Strategy) finalJsonResponse.getData();
 				}
 			}
 		}
 		return strategy;
+	}
+
+	/**
+	 * Copies Strategies in bulk from one campaign to another campaign.
+	 * 
+	 * @param entity
+	 *            expects a Strategy entity.
+	 * @return JsonResponse<? extends T1Entity> object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonResponse<? extends T1Entity> bulkCopy(Strategy entity) throws ClientException, ParseException {
+
+		JsonResponse<? extends T1Entity> finalJsonResponse = null;
+		if (entity != null) {
+			StringBuilder uri = getUri(entity);
+
+			if (entity.getFromCampaignId() > 0 && entity.getToCampaignId() > 0) {
+				uri.append("/bulk_copy");
+			} else {
+				return null;
+			}
+
+			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
+
+			String responseString = getStrategyResponseString(entity, path);
+
+			finalJsonResponse = getJsonResponse(entity, responseString);
+		}
+
+		if (finalJsonResponse != null && finalJsonResponse.getData() == null) {
+			return null;
+		}
+
+		return finalJsonResponse;
+
 	}
 
 	/**
@@ -319,6 +363,10 @@ public class PostService {
 
 			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
 				uri.append("/site_lists");
+			}
+
+			if (entity.getId() > 0 && entity.isCopyCampaign() == true) {
+				uri.append("/copy");
 			}
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
@@ -1087,13 +1135,13 @@ public class PostService {
 		}
 		return finalJsonResponse;
 	}
-	
-	private String getEntityType(JsonObject obj){
+
+	private String getEntityType(JsonObject obj) {
 		JsonElement entityTypeElement = obj.get("entity_type");
-		if(entityTypeElement==null && obj.get("exclude_op") !=null 
-		   &&  obj.get("include_op")!=null &&  obj.get("enabled")!=null){
+		if (entityTypeElement == null && obj.get("exclude_op") != null && obj.get("include_op") != null
+				&& obj.get("enabled") != null) {
 			return "strategy_target_values";
-		}else{
+		} else {
 			return entityTypeElement.getAsString();
 		}
 	}

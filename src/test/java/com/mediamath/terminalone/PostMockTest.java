@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -33,6 +34,7 @@ import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -132,6 +134,10 @@ public class PostMockTest {
 	private static String STRATEGY_TGT_SEGMENT_RESPONSE = null;
 	private static String STRATEGY_TGT_DIMENSIONS_RESPONSE = null;
 
+	private static String STRATEGY_COPY_RESPONSE = null;
+	private static String CAMPAIGN_COPY_RESPONSE = null;
+	private static String STRATEGY_BULK_COPY_RESPONSE = null;
+
 	private static String LOGIN = null;
 
 	@Mock
@@ -187,6 +193,9 @@ public class PostMockTest {
 		STRATEGY_TGT_VALUES_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_values.response");
 		STRATEGY_TGT_SEGMENT_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_segments.response");
 		STRATEGY_TGT_DIMENSIONS_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_target_dimensions.response");
+		STRATEGY_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_copy.response");
+		CAMPAIGN_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_copy.response");
+		STRATEGY_BULK_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_bulkcopy.response");
 	}
 
 	@After
@@ -968,46 +977,148 @@ public class PostMockTest {
 		assertTrue(!sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
-	
+
 	@Test
 	public void testStrategyTargetDimensionsPost() throws ClientException {
 
 		Strategy str = new Strategy();
 		str.setId(2195001);
 
-		TargetDimensions td = new  TargetDimensions();
+		TargetDimensions td = new TargetDimensions();
 		td.setId(7);
 		List<Integer> exclude = new ArrayList<Integer>();
 		exclude.add(20);
 		exclude.add(22);
 		td.setExclude(exclude);
-		
+
 		List<Integer> include = new ArrayList<Integer>();
 		include.add(21);
 		td.setInclude(include);
-		
+
 		td.setExclude_op(excludeOp.OR);
 		td.setInclude_op(includeOp.OR);
-		
+
 		str.setTargetDimensions(td);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
+				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_DIMENSIONS_RESPONSE);
-		
-		
+
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
 			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
-			Mockito.any(T1User.class));
+					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		assertNotNull(str);
 		assertNotNull(str.getTargetDimensions());
-		
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCopyPost() throws ClientException, java.text.ParseException {
+
+		Campaign camp = new Campaign();
+		camp.setId(349751);
+		camp.setName("CampaignTest OneCopy");
+
+		Calendar endcal = Calendar.getInstance();
+		Calendar startcal = Calendar.getInstance();
+		endcal.roll(Calendar.DATE, true);
+		endcal.roll(Calendar.MONTH, true);
+		Date endd = endcal.getTime();
+
+		Date startd = startcal.getTime();
+		camp.setEndDate(endd);
+		camp.setStartDate(startd);
+		camp.setCopyCampaign(true);
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_COPY_RESPONSE);
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			camp = (Campaign) t1.save(camp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(camp);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testStrategyCopyPost() throws ClientException {
+
+		Strategy str = new Strategy();
+		str.setId(2196344);
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		cal.roll(Calendar.DATE, true);
+		Date startDate = cal.getTime();
+		str.setStartDate(startDate);
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.MONTH, true);
+		Date endd = cal.getTime();
+		str.setEndDate(endd);
+
+		str.setCopyStrategy(true);
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_COPY_RESPONSE);
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			str = t1.save(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(str);
+	}
+
+	@Test
+	public void testStrategyBulkCopyPost() throws ClientException {
+
+		JsonResponse<? extends T1Entity> jsonResponse = null;
+		Strategy str = new Strategy();
+		str.setFromCampaignId(332185);
+		str.setToCampaignId(377685);
+
+		List<BulkStrategy> bsList = new ArrayList<BulkStrategy>();
+		bsList.add(new BulkStrategy(1966119, "BulkCopyTest1", false, false, false, false, false, false, false, false));
+
+		str.setBulkStrategy(bsList);
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_BULK_COPY_RESPONSE);
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonResponse = t1.bulkCopy(str);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonResponse);
+		assertNotNull(jsonResponse.getData());
+
 	}
 
 	@SuppressWarnings("unchecked")
