@@ -1127,4 +1127,52 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 	}
 	
+	@Test
+	public void testCampaignBudgetFlightGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(380492).setChild("budget_flights")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	public void testCampaignBudgetFlightIdGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(380492).setChild("budget_flights").setChild("449087")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	public void testCampaignBudgetFlightRelevantGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(380492).setChild("budget_flights").setChild("relevant")
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
 }

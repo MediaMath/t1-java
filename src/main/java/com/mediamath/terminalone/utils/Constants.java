@@ -26,6 +26,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.AudienceSegment;
+import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
@@ -233,6 +234,10 @@ public final class Constants {
 	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
 
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
+	
+	private static final String BUDGET_FLIGHT = "budget_flight";
+	private static final String BUDGET_FLIGHTS = "budget_flights";
+	
 
 	// required for converting requested string path names to entity names when
 	// collection demanded
@@ -275,6 +280,12 @@ public final class Constants {
 		}.getType());
 
 		getEntityType.put(AUDIENCE_SEGMENTS, new TypeToken<JsonResponse<AudienceSegment>>() {
+		}.getType());
+		
+		getEntityType.put(BUDGET_FLIGHT, new TypeToken<JsonResponse<BudgetFlight>>() {
+		}.getType());
+		
+		getEntityType.put(BUDGET_FLIGHTS, new TypeToken<JsonResponse<BudgetFlight>>() {
 		}.getType());
 
 		getEntityType.put(TARGETING_SEGMENT, new TypeToken<JsonResponse<TargetingSegment>>() {
@@ -444,6 +455,10 @@ public final class Constants {
 		getListoFEntityType.put(AUDIENCE_SEGMENTS, new TypeToken<JsonResponse<ArrayList<AudienceSegment>>>() {
 		}.getType());
 		getListoFEntityType.put(AUDIENCE_SEGMENT, new TypeToken<JsonResponse<ArrayList<AudienceSegment>>>() {
+		}.getType());
+		getListoFEntityType.put(BUDGET_FLIGHT, new TypeToken<JsonResponse<ArrayList<BudgetFlight>>>() {
+		}.getType());
+		getListoFEntityType.put(BUDGET_FLIGHTS, new TypeToken<JsonResponse<ArrayList<BudgetFlight>>>() {
 		}.getType());
 		getListoFEntityType.put(CAMPAIGNS, new TypeToken<JsonResponse<ArrayList<Campaign>>>() {
 		}.getType());

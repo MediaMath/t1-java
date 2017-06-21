@@ -42,6 +42,7 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
@@ -63,6 +64,7 @@ import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
+import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -1728,5 +1730,59 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonResponse.getData());
 
 	}
+	
+	@Test
+	public void testCampaignBudgetFlightBulkPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+		BudgetFlight bf2 = new BudgetFlight();
+		
+		bf1.setStartDate(startd);
+		bf1.setEndDate(endd);
+		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		
+		bf2.setStartDate(startd1);
+		bf2.setEndDate(endd1);
+		bf2.setTotalBudget(15000, "USD");
+		bf2.setTotalImpressionBudget(180000);
+
+		cmp.getBudgetFlights().add(bf1);
+		cmp.getBudgetFlights().add(bf2);
+		
+		Campaign cmpSave =null;
+		try {
+			cmpSave = jt1.save(cmp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+	
 }

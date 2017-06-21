@@ -34,6 +34,7 @@ import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
@@ -58,6 +59,7 @@ import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
+import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
@@ -137,6 +139,8 @@ public class PostMockTest {
 	private static String STRATEGY_COPY_RESPONSE = null;
 	private static String CAMPAIGN_COPY_RESPONSE = null;
 	private static String STRATEGY_BULK_COPY_RESPONSE = null;
+	
+	private static String CAMPAIGN_BUDGET_FLIGHT_BULK = null;
 
 	private static String LOGIN = null;
 
@@ -196,6 +200,7 @@ public class PostMockTest {
 		STRATEGY_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_copy.response");
 		CAMPAIGN_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_copy.response");
 		STRATEGY_BULK_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_bulkcopy.response");
+		CAMPAIGN_BUDGET_FLIGHT_BULK = testConfig.getProperty("t1.mock.save.budget_flight_bulk.response");
 	}
 
 	@After
@@ -1120,6 +1125,71 @@ public class PostMockTest {
 		assertNotNull(jsonResponse.getData());
 
 	}
+	
+
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightBulkPost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+		BudgetFlight bf2 = new BudgetFlight();
+		
+		bf1.setStartDate(startd);
+		bf1.setEndDate(endd);
+		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		
+		bf2.setStartDate(startd1);
+		bf2.setEndDate(endd1);
+		bf2.setTotalBudget(15000, "USD");
+		bf2.setTotalImpressionBudget(180000);
+
+		cmp.getBudgetFlights().add(bf1);
+		cmp.getBudgetFlights().add(bf2);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_BUDGET_FLIGHT_BULK);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+
+	
 
 	@SuppressWarnings("unchecked")
 	@Test

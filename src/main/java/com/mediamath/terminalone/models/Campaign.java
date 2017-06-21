@@ -141,6 +141,7 @@ public class Campaign implements T1Entity {
 	private AdServer ad_server;
 	private Pixel merit_pixel;
 	private ArrayList<SiteList> site_lists = new ArrayList<SiteList>();
+	private ArrayList<BudgetFlight> budget_flights = new ArrayList<>();
 
 	public void setMargins(Date date, Double doubleval) {
 		margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());
@@ -648,6 +649,14 @@ public class Campaign implements T1Entity {
 		this.site_lists = siteLists;
 	}
 
+	public ArrayList<BudgetFlight> getBudgetFlights() {
+		return budget_flights;
+	}
+
+	public void setBudgetFlights(ArrayList<BudgetFlight> budget_flights) {
+		this.budget_flights = budget_flights;
+	}
+
 	@Override
 	public Form getForm() {
 
@@ -748,7 +757,7 @@ public class Campaign implements T1Entity {
 			campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
 		}
 
-		if (!this.isCopyCampaign()) {
+		if (!this.isCopyCampaign() && this.getBudgetFlights().isEmpty()) {
 			campaignForm.param("use_mm_freq", Utility.getOnOrOff(this.isUseMmFreq()));
 			campaignForm.param("dcs_data_is_campaign_level", Utility.getOnOrOff(this.isDcsDataIsCampaignLevel()));
 			campaignForm.param("frequency_optimization", Utility.getOnOrOff(this.isFrequencyOptimization()));
@@ -822,12 +831,44 @@ public class Campaign implements T1Entity {
 			campaignForm.param("version", String.valueOf(this.getVersion()));
 		}
 
+		//site lists
 		if (!this.getSiteLists().isEmpty()) {
 			int inc = 1;
 			for (SiteList sl : this.getSiteLists()) {
 				if (sl != null && sl.getId() > 0) {
 					campaignForm.param("site_lists." + inc + ".id", String.valueOf(sl.getId()));
 					campaignForm.param("site_lists." + inc + ".assigned", Utility.getOneOrZero(sl.isAssigned()));
+				}
+				inc++;
+			}
+		}
+		
+		//budget flights bulk
+		if(!this.getBudgetFlights().isEmpty()){
+			int inc = 1;
+			for (BudgetFlight sl : this.getBudgetFlights()) {
+				if (sl != null) 
+				{
+					if(sl.getId()> 0){
+						campaignForm.param("budget_flights." + inc + ".id", String.valueOf(sl.getId()));
+					}
+					
+					campaignForm.param("budget_flights." + inc + ".version", String.valueOf(sl.getVersion()));
+					
+					if(sl.getStartDate()!=null){
+						campaignForm.param("budget_flights." + inc + ".start_date", SDF.format(sl.getStartDate()));
+					}
+					if(sl.getEndDate()!=null){
+						campaignForm.param("budget_flights." + inc + ".end_date", SDF.format(sl.getEndDate()));
+					}
+					
+					if(!sl.getTotalBudget().isEmpty()){
+						campaignForm.param("budget_flights." + inc + ".total_budget", String.valueOf(sl.getTotalBudget().get(0).getValue()));
+					}
+					
+					if(sl.getTotalImpressionBudget() > 0){
+						campaignForm.param("budget_flights." + inc + ".total_impression_budget", String.valueOf(sl.getTotalImpressionBudget()));
+					}
 				}
 				inc++;
 			}

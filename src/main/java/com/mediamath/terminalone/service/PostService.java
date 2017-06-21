@@ -42,6 +42,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
+import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
@@ -368,6 +369,14 @@ public class PostService {
 			if (entity.getId() > 0 && entity.isCopyCampaign() == true) {
 				uri.append("/copy");
 			}
+			
+			/*if (entity.getId() > 0 && entity.getBudgetFlights().size()==1) {
+				uri.append("/budget_flights");
+			}*/
+			
+			if (entity.getId() > 0 && entity.getBudgetFlights().size()>1) {
+				uri.append("/budget_flights/bulk");
+			}
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
@@ -386,6 +395,10 @@ public class PostService {
 				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
 					campaign = entity;
 					campaign.setSiteLists(dataList);
+				}
+				if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
+					campaign = entity;
+					campaign.setBudgetFlights(dataList);
 				}
 			} else {
 				campaign = (Campaign) finalJsonResponse.getData();
