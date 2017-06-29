@@ -264,22 +264,27 @@ public class PostService {
 				List dataList = (ArrayList) finalJsonResponse.getData();
 				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
 					strategy = entity;
+					strategy.getStrategyAudienceSegments().clear();
 					strategy.setStrategyAudienceSegments(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTargetingSegment) {
 					strategy = entity;
+					strategy.getStrategyTargetingSegments().clear();
 					strategy.setStrategyTargetingSegments(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
 					strategy = entity;
+					strategy.getSiteLists().clear();
 					strategy.setSiteLists(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyDayPart) {
 					strategy = entity;
+					strategy.getStrategyDayParts().clear();
 					strategy.setStrategyDayParts(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTarget) {
 					strategy = entity;
+					strategy.getStrategyTarget().clear();
 					strategy.setStrategyTarget(dataList);
 				}
 			} else {
@@ -370,9 +375,16 @@ public class PostService {
 				uri.append("/copy");
 			}
 			
-			/*if (entity.getId() > 0 && entity.getBudgetFlights().size()==1) {
+			if (entity.getId() > 0 && entity.getBudgetFlights().size()==1) {
 				uri.append("/budget_flights");
-			}*/
+				if(entity.getBudgetFlights().get(0).getId()> 0){
+					uri.append("/");
+					uri.append(entity.getBudgetFlights().get(0).getId());
+				}
+				if(entity.getBudgetFlights().get(0).isDeleted()){
+					uri.append("/delete");
+				}
+			}
 			
 			if (entity.getId() > 0 && entity.getBudgetFlights().size()>1) {
 				uri.append("/budget_flights/bulk");
@@ -394,14 +406,24 @@ public class PostService {
 				ArrayList dataList = (ArrayList) finalJsonResponse.getData();
 				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
 					campaign = entity;
+					campaign.getSiteLists().clear();
 					campaign.setSiteLists(dataList);
 				}
 				if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
 					campaign = entity;
+					campaign.getBudgetFlights().clear();
 					campaign.setBudgetFlights(dataList);
 				}
 			} else {
-				campaign = (Campaign) finalJsonResponse.getData();
+				
+				if (finalJsonResponse.getData() instanceof BudgetFlight) {
+					campaign = entity;
+					BudgetFlight bfData =  (BudgetFlight)finalJsonResponse.getData();
+					campaign.getBudgetFlights().clear();
+					campaign.getBudgetFlights().add(bfData);
+				}else{
+					campaign = (Campaign) finalJsonResponse.getData();
+				}
 			}
 		}
 

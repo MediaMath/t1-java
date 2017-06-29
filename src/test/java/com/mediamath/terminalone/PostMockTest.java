@@ -140,7 +140,10 @@ public class PostMockTest {
 	private static String CAMPAIGN_COPY_RESPONSE = null;
 	private static String STRATEGY_BULK_COPY_RESPONSE = null;
 	
+	private static String CAMPAIGN_BUDGET_FLIGHT_SINGLE = null;
 	private static String CAMPAIGN_BUDGET_FLIGHT_BULK = null;
+	private static String CAMPAIGN_BUDGET_FLIGHT_UPDATE=null;
+	private static String CAMPAIGN_BUDGET_FLIGHT_DELETE=null;
 
 	private static String LOGIN = null;
 
@@ -200,7 +203,10 @@ public class PostMockTest {
 		STRATEGY_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_copy.response");
 		CAMPAIGN_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_copy.response");
 		STRATEGY_BULK_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_bulkcopy.response");
+		CAMPAIGN_BUDGET_FLIGHT_SINGLE = testConfig.getProperty("t1.mock.save.budget_flight_single.response");
 		CAMPAIGN_BUDGET_FLIGHT_BULK = testConfig.getProperty("t1.mock.save.budget_flight_bulk.response");
+		CAMPAIGN_BUDGET_FLIGHT_UPDATE = testConfig.getProperty("t1.mock.update.budget_flight_bulk.response");
+		CAMPAIGN_BUDGET_FLIGHT_DELETE = testConfig.getProperty("t1.mock.delete.budget_flight_bulk.response");
 	}
 
 	@After
@@ -1126,7 +1132,132 @@ public class PostMockTest {
 
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightPost() throws ClientException {
 
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+		BudgetFlight bf2 = new BudgetFlight();
+		
+		bf1.setStartDate(startd1);
+		bf1.setEndDate(endd1);
+		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_BUDGET_FLIGHT_SINGLE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightUpdatePost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+
+		bf1.setId(458041);
+		bf1.setStartDate(startd1);
+		bf1.setEndDate(endd1);
+		bf1.setTotalBudget(3000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		bf1.setIsRelevant(true);
+		bf1.setVersion(2);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_BUDGET_FLIGHT_UPDATE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightDeletePost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		BudgetFlight bf1 = new BudgetFlight();
+
+		bf1.setId(458042);
+		bf1.setVersion(0);
+		bf1.setDeleted(true);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_BUDGET_FLIGHT_DELETE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Test
