@@ -135,6 +135,7 @@ public class Campaign implements T1Entity {
 	private int version;
 	private String zone_name;
 	private boolean copyCampaign = false;
+	private BudgetFlight relevant_budget_flight;
 	private Map<Date, Double> margins = new HashMap<Date, Double>();
 
 	private Advertiser advertiser;
@@ -521,6 +522,14 @@ public class Campaign implements T1Entity {
 
 	public void setCopyCampaign(boolean copyCampaign) {
 		this.copyCampaign = copyCampaign;
+	}
+
+	public BudgetFlight getRelevantBudgetFlight() {
+		return relevant_budget_flight;
+	}
+
+	public void setRelevantBudgetFlight(BudgetFlight relevant_budget_flight) {
+		this.relevant_budget_flight = relevant_budget_flight;
 	}
 
 	@Override

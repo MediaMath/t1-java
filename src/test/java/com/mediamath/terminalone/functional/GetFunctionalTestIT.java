@@ -1175,4 +1175,20 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 	}
 	
+	@Test
+	public void testCampaignBudgetFlightWithRelevantGet() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(380492).setInclude(new ConditionQuery("relevant_budget_flight"))
+				.build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		assertNotNull(jsonresponse);
+	}
+	
 }
