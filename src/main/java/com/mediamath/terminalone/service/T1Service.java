@@ -35,6 +35,10 @@ public class T1Service {
 	private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
 
 	private static Properties entityServicesPaths = Utility.loadServicesPath();
+	
+	private static final String OAUTH_GRANT_TYPE = "password";
+	
+	private static final String OAUTH_SCOPE = "openid profile";
 
 	private String URL = null;
 
@@ -100,7 +104,7 @@ public class T1Service {
 	}
 
 	public String constructOauthUrl(StringBuilder path) {
-		return apiBase + oauthURL + "/" + path.toString();
+		return oauthURL + "/" + path.toString();
 	}
 
 	/**
@@ -120,6 +124,30 @@ public class T1Service {
 		form.param("user", username);
 		form.param("password", password);
 		form.param("api_key", apiKey);
+
+		return form;
+	}
+	
+	/**
+	 * gets form object of login related information.
+	 * 
+	 * @param username
+	 *            requires a valid username.
+	 * @param password
+	 *            requires a valid password.
+	 * @param apiKey
+	 *            requires a valid environment api key.
+	 * @return Form object.
+	 */
+	public Form getOAuthFormData(String username, String password, String clientId, String clientSecret) {
+
+		Form form = new Form();
+		form.param("username", username);
+		form.param("password", password);
+		form.param("client_id", clientId);
+		form.param("client_secret", clientSecret);
+		form.param("grant_type",OAUTH_GRANT_TYPE);
+		form.param("scope", OAUTH_SCOPE);
 
 		return form;
 	}
