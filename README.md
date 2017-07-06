@@ -12,11 +12,11 @@ You can integrate the latest t1-java build easily by just including the followin
       <dependency>
            <groupId>com.mediamath</groupId>
            <artifactId>t1-java</artifactId>
-           <version>0.0.4</version>
+           <version>0.0.5</version>
        </dependency>
    	</dependencies>
 
- You can also download the latest jar from Maven Central or from the following source - https://oss.sonatype.org/content/repositories/releases/com/mediamath/t1-java/0.0.4/t1-java-0.0.4.jar
+ You can also download the latest jar from Maven Central or from the following source - https://oss.sonatype.org/content/repositories/releases/com/mediamath/t1-java/0.0.4/t1-java-0.0.5.jar
 
 #Build project from source	
 - For developer build
