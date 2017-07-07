@@ -100,6 +100,30 @@ public class Connection {
     response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
     return response;
   }
+  
+  /**
+   * Handles the POST operation to a given endpoint -> Mainly Used for Login.
+   * 
+   * @param url
+   *          api end point url.
+   * @param data
+   *          requires a Form data object.
+   * @return Response object.
+   * @throws ClientException
+   *           throws a client exception.
+   */
+  public Response post(String url, Form data) throws ClientException {
+
+    if (data == null) {
+      throw new ClientException(NO_POST_DATA);
+    }
+
+    Response response;
+    Client client = instantiateSimpleClient();
+    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, null, client);
+    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+    return response;
+  }
 
   private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
     if(url != null && !url.isEmpty()) {
