@@ -9,149 +9,170 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 public class BudgetFlight implements T1Entity {
 
-  private static final String entityName = "BudgetFlight";
+	private static final String entityName = "BudgetFlight";
 
-  private int id;
-  private int campaign_id;
-  private String created_on;
-  private String currency_code;
-  private Date end_date;
-  private boolean is_relevant;
-  private String name;
-  private Date start_date;
-  private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
-  private Date updated_on;
-  private int version;
-  private String zone_name;
+	private int id;
+	private int campaign_id;
+	private String created_on;
+	private String currency_code;
+	private Date end_date;
+	private boolean is_relevant;
+	private String name;
+	private Date start_date;
+	private ArrayList<T1Cost> total_budget = new ArrayList<T1Cost>();
+	private Date updated_on;
+	private int version;
+	private String zone_name;
+	private int total_impression_budget;
+	private boolean isDeleted = false;
 
-  public int getId() {
-    return id;
-  }
+	public BudgetFlight() {
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public int getCampaign_id() {
-    return campaign_id;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public void setCampaign_id(int campaign_id) {
-    this.campaign_id = campaign_id;
-  }
+	public int getCampaignId() {
+		return campaign_id;
+	}
 
-  public String getCreated_on() {
-    return created_on;
-  }
+	public void setCampaignId(int campaign_id) {
+		this.campaign_id = campaign_id;
+	}
 
-  public void setCreated_on(String created_on) {
-    this.created_on = created_on;
-  }
+	public String getCreatedOn() {
+		return created_on;
+	}
 
-  public String getCurrency_code() {
-    return currency_code;
-  }
+	public void setCreatedOn(String created_on) {
+		this.created_on = created_on;
+	}
 
-  public void setCurrency_code(String currency_code) {
-    this.currency_code = currency_code;
-  }
+	public String getCurrencyCode() {
+		return currency_code;
+	}
 
-  public Date getEnd_date() {
-    return end_date;
-  }
+	public void setCurrencyCode(String currency_code) {
+		this.currency_code = currency_code;
+	}
 
-  public void setEnd_date(Date end_date) {
-    this.end_date = end_date;
-  }
+	public Date getEndDate() {
+		return end_date;
+	}
 
-  public boolean isIs_relevant() {
-    return is_relevant;
-  }
+	public void setEndDate(Date end_date) {
+		this.end_date = end_date;
+	}
 
-  public void setIs_relevant(boolean is_relevant) {
-    this.is_relevant = is_relevant;
-  }
+	public boolean isIsRelevant() {
+		return is_relevant;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public void setIsRelevant(boolean is_relevant) {
+		this.is_relevant = is_relevant;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public Date getStart_date() {
-    return start_date;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public void setStart_date(Date start_date) {
-    this.start_date = start_date;
-  }
+	public Date getStartDate() {
+		return start_date;
+	}
 
-  public ArrayList<T1Cost> getTotal_budget() {
-    return total_budget;
-  }
+	public void setStartDate(Date start_date) {
+		this.start_date = start_date;
+	}
 
-  public Date getUpdated_on() {
-    return updated_on;
-  }
+	public ArrayList<T1Cost> getTotalBudget() {
+		return total_budget;
+	}
 
-  public void setUpdated_on(Date updated_on) {
-    this.updated_on = updated_on;
-  }
+	public Date getUpdatedOn() {
+		return updated_on;
+	}
 
-  public int getVersion() {
-    return version;
-  }
+	public void setUpdatedOn(Date updated_on) {
+		this.updated_on = updated_on;
+	}
 
-  public void setVersion(int version) {
-    this.version = version;
-  }
+	public int getVersion() {
+		return version;
+	}
 
-  public String getZone_name() {
-    return zone_name;
-  }
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-  public void setZone_name(String zone_name) {
-    this.zone_name = zone_name;
-  }
+	public String getZoneName() {
+		return zone_name;
+	}
 
-  public void setTotalBudget(double value, String currency_code) {
-    this.total_budget.clear();
-    if (value > 0) {
-      T1Cost cost = new T1Cost();
-      cost.setValue(value);
+	public void setZoneName(String zone_name) {
+		this.zone_name = zone_name;
+	}
 
-      if (currency_code != null && !currency_code.isEmpty()) {
-        cost.setCurrency_code(currency_code);
-      }
+	public int getTotalImpressionBudget() {
+		return total_impression_budget;
+	}
 
-      this.total_budget.add(cost);
-    }
-  }
+	public void setTotalImpressionBudget(int total_impression_budget) {
+		this.total_impression_budget = total_impression_budget;
+	}
 
-  @Override
-  public String getEntityname() {
-    // TODO Auto-generated method stub
-    return entityName;
-  }
+	public void setTotalBudget(double value, String currency_code) {
+		this.total_budget.clear();
+		if (value > 0) {
+			T1Cost cost = new T1Cost();
+			cost.setValue(value);
 
-  @Override
-  public Form getForm() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+			if (currency_code != null && !currency_code.isEmpty()) {
+				cost.setCurrency_code(currency_code);
+			}
 
-  @Override
-  public String getUri() throws ClientException {
-    StringBuilder uri = new StringBuilder();
+			this.total_budget.add(cost);
+		}
+	}
 
-    if (this.getId() > 0) {
-      uri.append("/");
-      uri.append(this.getId());
-    }
+	public boolean isDeleted() {
+		return isDeleted;
+	}
 
-    return uri.toString();
-  }
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	@Override
+	public String getEntityname() {
+		// TODO Auto-generated method stub
+		return entityName;
+	}
+
+	@Override
+	public Form getForm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUri() throws ClientException {
+		StringBuilder uri = new StringBuilder();
+
+		if (this.getId() > 0) {
+			uri.append("/");
+			uri.append(this.getId());
+		}
+
+		return uri.toString();
+	}
 
 }

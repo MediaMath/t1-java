@@ -34,6 +34,7 @@ import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
@@ -58,6 +59,7 @@ import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
+import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
@@ -137,6 +139,11 @@ public class PostMockTest {
 	private static String STRATEGY_COPY_RESPONSE = null;
 	private static String CAMPAIGN_COPY_RESPONSE = null;
 	private static String STRATEGY_BULK_COPY_RESPONSE = null;
+	
+	private static String CAMPAIGN_BUDGET_FLIGHT_SINGLE = null;
+	private static String CAMPAIGN_BUDGET_FLIGHT_BULK = null;
+	private static String CAMPAIGN_BUDGET_FLIGHT_UPDATE=null;
+	private static String CAMPAIGN_BUDGET_FLIGHT_DELETE=null;
 
 	private static String LOGIN = null;
 
@@ -148,6 +155,9 @@ public class PostMockTest {
 
 	@Mock
 	Response response;
+	
+	@Mock
+	Response responseLogin;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -196,6 +206,10 @@ public class PostMockTest {
 		STRATEGY_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_copy.response");
 		CAMPAIGN_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.campaign_copy.response");
 		STRATEGY_BULK_COPY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_bulkcopy.response");
+		CAMPAIGN_BUDGET_FLIGHT_SINGLE = testConfig.getProperty("t1.mock.save.budget_flight_single.response");
+		CAMPAIGN_BUDGET_FLIGHT_BULK = testConfig.getProperty("t1.mock.save.budget_flight_bulk.response");
+		CAMPAIGN_BUDGET_FLIGHT_UPDATE = testConfig.getProperty("t1.mock.update.budget_flight_bulk.response");
+		CAMPAIGN_BUDGET_FLIGHT_DELETE = testConfig.getProperty("t1.mock.delete.budget_flight_bulk.response");
 	}
 
 	@After
@@ -218,16 +232,19 @@ public class PostMockTest {
 		Agency agency = new Agency();
 		agency.setName("TestAgency");
 		agency.setOrganizationId(100048);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, AGENCY_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(AGENCY_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			agency = (Agency) t1.save(agency);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -267,16 +284,19 @@ public class PostMockTest {
 		camp.setTotalBudget(100, null);
 		camp.setUseMmFreq(false);
 		camp.setMeritPixelId(800781);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			camp = (Campaign) t1.save(camp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -298,14 +318,18 @@ public class PostMockTest {
 		adv.setName("TestAdvertiser");
 		adv.setVerticalId(11);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ADVERTISER_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(ADVERTISER_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			adv = (Advertiser) t1.save(adv);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -329,17 +353,20 @@ public class PostMockTest {
 
 		Advertiser adv1 = null;
 		try {
+			Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+			Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+			
 			Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 					.thenReturn(response);
-			Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ADVERTISER_ERROR_RESPONSE);
+			Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(ADVERTISER_ERROR_RESPONSE);
 		} catch (ClientException ce) {
 
 		}
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			adv1 = (Advertiser) t1.save(adv);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -391,14 +418,17 @@ public class PostMockTest {
 		str.setUseCampaignStart(false);
 		str.setUseCampaignEnd(false);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -420,16 +450,19 @@ public class PostMockTest {
 
 		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
 		str.setAudienceSegments(asList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN,
-				STRATEGY_AUDIENCE_SEGMENTS_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_AUDIENCE_SEGMENTS_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -451,16 +484,19 @@ public class PostMockTest {
 		sdList.add(new StrategyDomain("google.com", restrictions.EXCLUDE));
 		sdList.add(new StrategyDomain("gmail.com", restrictions.INCLUDE));
 		str.setStrategyDomainRestrictions(sdList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN,
-				STRATEGY_DOMAIN_RESTRICTIONS_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DOMAIN_RESTRICTIONS_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -479,14 +515,18 @@ public class PostMockTest {
 		sd.setStrategyId(2035005);
 		// sd.setVersion(0);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DOMAIN_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DOMAIN_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			sd = (StrategyDomain) t1.save(sd);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -514,15 +554,19 @@ public class PostMockTest {
 		org.setCountry("US");
 		org.setMmContactName("Mark");
 		org.setPhone("408 345 7758");
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ORGANIZATION_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(ORGANIZATION_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			org = (Organization) t1.save(org);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -551,15 +595,19 @@ public class PostMockTest {
 		camp.setMargins(cal.getTime(), (double) 12.25);
 		cal.add(Calendar.DATE, -5);
 		camp.setMargins(cal.getTime(), (double) 13.1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_MARGIN_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_MARGIN_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			camp = (Campaign) t1.save(camp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -579,15 +627,20 @@ public class PostMockTest {
 		camp.setName("TestConcept1");
 		camp.setStatus(true);
 
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CONCEPT_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONCEPT_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			camp = (Concept) t1.save(camp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -609,16 +662,20 @@ public class PostMockTest {
 		sc.setStrategyId(2035005);
 		sc.setConceptId(1064563);
 		sc.setVersion(0);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_CONCEPT_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_CONCEPT_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			sc = (StrategyConcept) t1.save(sc);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -643,16 +700,20 @@ public class PostMockTest {
 		sc.setStatus(true);
 		sc.setUserTime(true);
 		sc.setVersion(0);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAYPART_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DAYPART_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			sc = (StrategyDayPart) t1.save(sc);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -673,16 +734,20 @@ public class PostMockTest {
 		StrategyConcept sc = new StrategyConcept();
 		sc.setId(4795645);
 		sc.setVersion(0);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_CONCEPT_DELETE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_CONCEPT_DELETE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jr = t1.delete(sc);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -702,16 +767,20 @@ public class PostMockTest {
 
 		StrategyDayPart sc = new StrategyDayPart();
 		sc.setId(1611126);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAY_PART_DELETE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DAY_PART_DELETE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jr = t1.delete(sc);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -731,16 +800,20 @@ public class PostMockTest {
 
 		StrategyDayPart sc = new StrategyDayPart();
 		StrategyDayPart sc1 = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEDY_DAYPART_META_ERROR_CHK);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEDY_DAYPART_META_ERROR_CHK);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			sc1 = (StrategyDayPart) t1.save(sc);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -764,16 +837,20 @@ public class PostMockTest {
 		siteList.add(new SiteList(99059, false));
 
 		cmp.setSiteLists(siteList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_SITELIST_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_SITELIST_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			cmp = (Strategy) t1.save(cmp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -798,16 +875,20 @@ public class PostMockTest {
 		deals.add(173101);
 		deals.add(172912);
 		cmp.setDealIds(deals);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DEALS_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DEALS_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			cmp = (Strategy) t1.save(cmp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -832,14 +913,18 @@ public class PostMockTest {
 
 		cmp.setSiteLists(siteList);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_SITELIST_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_SITELIST_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			cmp = (Campaign) t1.save(cmp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -861,16 +946,20 @@ public class PostMockTest {
 		domains.add("google.com");
 
 		sl.setDomains(domains);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, SITELIST_DOMAIN_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(SITELIST_DOMAIN_RESPONSE);
 
 		try {
 
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			sl = (SiteList) t1.save(sl);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 
 		} catch (ParseException e) {
@@ -894,14 +983,18 @@ public class PostMockTest {
 		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
 
 		str.setStrategyTargetingSegments(tsList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_SEGMENT_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_TGT_SEGMENT_RESPONSE);
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -925,14 +1018,18 @@ public class PostMockTest {
 
 		str.setStrategyDayParts(tsList);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_DAY_PARTS_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_DAY_PARTS_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -959,15 +1056,19 @@ public class PostMockTest {
 				valueIds2));
 
 		str.setTargetValues(tsList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_VALUES_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_TGT_VALUES_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -999,15 +1100,19 @@ public class PostMockTest {
 		td.setInclude_op(includeOp.OR);
 
 		str.setTargetDimensions(td);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_TGT_DIMENSIONS_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_TGT_DIMENSIONS_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -1036,15 +1141,19 @@ public class PostMockTest {
 		camp.setEndDate(endd);
 		camp.setStartDate(startd);
 		camp.setCopyCampaign(true);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, CAMPAIGN_COPY_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_COPY_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			camp = (Campaign) t1.save(camp);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -1071,15 +1180,19 @@ public class PostMockTest {
 		str.setEndDate(endd);
 
 		str.setCopyStrategy(true);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_COPY_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_COPY_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			str = t1.save(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -1101,15 +1214,19 @@ public class PostMockTest {
 		bsList.add(new BulkStrategy(1966119, "BulkCopyTest1", false, false, false, false, false, false, false, false));
 
 		str.setBulkStrategy(bsList);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, STRATEGY_BULK_COPY_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_BULK_COPY_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonResponse = t1.bulkCopy(str);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -1120,6 +1237,212 @@ public class PostMockTest {
 		assertNotNull(jsonResponse.getData());
 
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightPost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+		BudgetFlight bf2 = new BudgetFlight();
+		
+		bf1.setStartDate(startd1);
+		bf1.setEndDate(endd1);
+		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_BUDGET_FLIGHT_SINGLE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightUpdatePost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+
+		bf1.setId(458041);
+		bf1.setStartDate(startd1);
+		bf1.setEndDate(endd1);
+		bf1.setTotalBudget(3000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		bf1.setIsRelevant(true);
+		bf1.setVersion(2);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_BUDGET_FLIGHT_UPDATE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightDeletePost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		BudgetFlight bf1 = new BudgetFlight();
+
+		bf1.setId(458042);
+		bf1.setVersion(0);
+		bf1.setDeleted(true);
+		cmp.getBudgetFlights().add(bf1);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_BUDGET_FLIGHT_DELETE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignBudgetFlightBulkPost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(349751);
+		
+		Calendar startcal = Calendar.getInstance();
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date startd1 = startcal.getTime();
+		
+		startcal.roll(Calendar.DATE, true);
+		startcal.roll(Calendar.MONTH, true);
+		Date endd1 = startcal.getTime();
+
+
+		BudgetFlight bf1 = new BudgetFlight();
+		BudgetFlight bf2 = new BudgetFlight();
+		
+		bf1.setStartDate(startd);
+		bf1.setEndDate(endd);
+		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalImpressionBudget(120000);
+		
+		bf2.setStartDate(startd1);
+		bf2.setEndDate(endd1);
+		bf2.setTotalBudget(15000, "USD");
+		bf2.setTotalImpressionBudget(180000);
+
+		cmp.getBudgetFlights().add(bf1);
+		cmp.getBudgetFlights().add(bf2);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_BUDGET_FLIGHT_BULK);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+
+	}
+
+	
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -1137,18 +1460,18 @@ public class PostMockTest {
 		videoCreative.setSkippableDuration(15);
 		videoCreative.setVendors(1006);
 		videoCreative.setVendors(1046);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-				.thenReturn(response);
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.anyString(), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, VIDEO_CREATIVE_SAVE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_SAVE);
 
 		VideoCreativeResponse saveResponse = null;
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 		saveResponse = t1.saveVideoCreatives(videoCreative);
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-				Mockito.any(T1User.class));
+		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.anyString(),
 				Mockito.any(T1User.class));
 
@@ -1164,17 +1487,17 @@ public class PostMockTest {
 		String filePath = "C:\\Users\\chaudhari_j\\Desktop\\t1attachements\\blah1234.flv";
 		String fileName = "blah1234.flv";
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-				.thenReturn(response);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
 				Mockito.any(T1User.class))).thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, VIDEO_CREATIVE_UPLOAD);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
 
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, String.valueOf(3595840));
 
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-				Mockito.any(T1User.class));
+		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
 				Mockito.any(T1User.class));
 
@@ -1187,18 +1510,17 @@ public class PostMockTest {
 	public void testVideoCreativeUploadStatus() throws ClientException, IOException, ParseException {
 
 		// STAGE 3 : CHECK UPLOAD STATUS--------------------------
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-				.thenReturn(response);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
 				.thenReturn(VIDEO_CREATIVE_UPLOAD_STATUS);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 
 		// check video creative status VideoCreativeUploadStatus uploadStatus =
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 		t1.getVideoCreativeUploadStatus(String.valueOf(3595840));
 		Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-				Mockito.any(T1User.class));
+		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 	}
 
@@ -1219,14 +1541,18 @@ public class PostMockTest {
 		ac.setTpasAdTagName("Sample IMG TAG");
 		ac.setWidth(72);
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 				.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, ATOMICCREATIVE_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(ATOMICCREATIVE_RESPONSE);
 
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			ac = (AtomicCreative) t1.save(ac);
-			Mockito.verify(connectionmock, times(2)).post(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -1241,12 +1567,12 @@ public class PostMockTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void test3pasCreativeUpload() throws ClientException, IOException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-				.thenReturn(response);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
 				Mockito.any(T1User.class))).thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN,
-				THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE, THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(THREEPASCREATIVE_UPLOAD_FIRSTCALL_RESPONSE, 
+				THREEPASCREATIVE_UPLOAD_SECONDCALL_RESPONSE);
 
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 
@@ -1279,11 +1605,11 @@ public class PostMockTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-				.thenReturn(response);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
 				Mockito.any(T1User.class))).thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, TONEAS_CREATIVE_UPLOAD_FIRSTCALL,
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(TONEAS_CREATIVE_UPLOAD_FIRSTCALL,
 				TONEAS_CREATIVE_UPLOAD_SECONDCALL);
 
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");

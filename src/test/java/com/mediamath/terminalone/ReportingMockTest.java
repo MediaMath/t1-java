@@ -34,310 +34,321 @@ import com.mediamath.terminalone.models.reporting.meta.MetaData;
 @RunWith(MockitoJUnitRunner.class)
 public class ReportingMockTest {
 
-  private static String VALIDATE_PERFORMANCE_REPORT = null;
+	private static String VALIDATE_PERFORMANCE_REPORT = null;
 
-  private static String META = null;
-  
-  private static String REPORTSMETA = null;
-  
-  private static String REPORTSERROR = null;
-  
-  private static Properties testConfig = new Properties();
-  
-  private static String LOGIN = null;
-  
-  @Mock
-  Connection connectionmock;
+	private static String META = null;
 
-  @InjectMocks
-  TerminalOne t1 = new TerminalOne();
-  
-  @Mock 
-  Response response;
-  
-  @Mock
-  InputStream stream;
-  
-  @Mock
-  MediaType type;
-  
-  @BeforeClass
-  public static void init() throws Exception {
-    InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
-    testConfig.load(input);
-    LOGIN = testConfig.getProperty("t1.mock.loginResponse");
-    VALIDATE_PERFORMANCE_REPORT = testConfig.getProperty("t1.mock.reporting.validate.performance.report");
-    META = testConfig.getProperty("t1.mock.reporting.meta");
-    REPORTSMETA = testConfig.getProperty("t1.mock.reporting.reportsmeta");
-    REPORTSERROR = testConfig.getProperty("t1.mock.reporting.error");
-  }
-  
-  @After
-  public final void tearDown() throws InterruptedException {
-    Thread.sleep(5000);
-  }
+	private static String REPORTSMETA = null;
 
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testGetMeta() throws ClientException {
+	private static String REPORTSERROR = null;
 
-    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, META);
-    Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(META);
+	private static Properties testConfig = new Properties();
 
-    //login and get the reports.
-    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    JsonResponse<?> response = t1.getMeta();
+	private static String LOGIN = null;
 
-    assertNotNull(response.getData());
-    
-  }
-  
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testReportsMeta() throws ClientException {
-    
-    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, REPORTSMETA);
-    Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(REPORTSMETA);
-    
-    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    MetaData response = t1.getReportsMeta(Reports.GEO);
-    
-    assertNotNull(response);
-    
-  }
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testPerformanceReport() throws ClientException, ParseException {
-    
-    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.getMediaType()).thenReturn(type);
-    Mockito.when(response.getMediaType().getType()).thenReturn("text");
-    Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
-    Mockito.when(response.getStatus()).thenReturn(200);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, stream);
+	@Mock
+	Connection connectionmock;
 
-    ReportCriteria report = new ReportCriteria();
+	@InjectMocks
+	TerminalOne t1 = new TerminalOne();
 
-    report.setDimension("advertiser_name");
-    report.setDimension("campaign_id");
-    report.setDimension("campaign_name");
-    report.setFilter("organization_id", "=", "100048");
-    report.setMetric("impressions");
-    report.setMetric("clicks");
-    report.setMetric("total_conversions");
-    report.setMetric("media_cost");
-    report.setMetric("total_spend");
+	@Mock
+	Response response;
 
-    // set having
-    // report.setHaving("key1", "=", "val1,val2");
+	@Mock
+	Response responseLogin;
 
-    // set time_rollup
-    report.setTimeRollup("by_day");
+	@Mock
+	InputStream stream;
 
-    // set time_window only when no start date and end date specified.
-    // report.setTime_window("last_60_days");
+	@Mock
+	MediaType type;
 
-    /*
-     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
-     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
-     */
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-    String dateInString = "2015-02-06";
-    String endDateInString = "2015-04-16";
-
-    String startDate = df.format(df.parse(dateInString));
-    String endDate = df.format(df.parse(endDateInString));
-
-    report.setStartDate(startDate);
-    report.setEndDate(endDate);
-    
-    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
-    
-    assertNotNull(reader);
-    
-  }
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testPerformanceReportWithAllCreiteria() throws ClientException, ParseException {
-    
-    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.getMediaType()).thenReturn(type);
-    Mockito.when(response.getMediaType().getType()).thenReturn("text");
-    Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
-    Mockito.when(response.getStatus()).thenReturn(200);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, stream);
-
-    ReportCriteria report = new ReportCriteria();
-
-    report.setDimension("advertiser_name");
-    report.setDimension("campaign_id");
-    report.setDimension("campaign_name");
-    report.setFilter("organization_id", "=", "100048");
-    report.setMetric("impressions");
-    report.setMetric("clicks");
-    report.setMetric("total_conversions");
-    report.setMetric("media_cost");
-    report.setMetric("total_spend");
-
-    // set having
-    // report.setHaving("key1", "=", "val1,val2");
-
-    // set time_rollup
-    report.setTimeRollup("by_day");
-
-    report.setTimeRollup("by_day");
-    report.setPageOffset("0");
-    report.setPageLimit("10");
-    report.setPrecision(2);
-    
-    report.setHaving("impressions", ">", "500");
-    
-    report.setOrder("-clicks");
-    
-    // set time_window only when no start date and end date specified.
-    // report.setTime_window("last_60_days");
-
-    /*
-     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
-     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
-     */
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-    String dateInString = "2015-02-06";
-    String endDateInString = "2015-04-16";
-
-    String startDate = df.format(df.parse(dateInString));
-    String endDate = df.format(df.parse(endDateInString));
-
-    report.setStartDate(startDate);
-    report.setEndDate(endDate);
-    
-    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
-    
-    assertNotNull(reader);
-    
-  }
-  
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testValidatePerformanceReport() throws ParseException, ClientException {
-
-    Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
-    
-    Mockito.when(response.getMediaType()).thenReturn(type);
-    Mockito.when(response.getMediaType().getType()).thenReturn("text");
-    Mockito.when(response.getMediaType().getSubtype()).thenReturn("xml");
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, VALIDATE_PERFORMANCE_REPORT);
-    
-    
-    ReportCriteria report = new ReportCriteria();
-
-    report.setDimension("advertiser_name");
-    report.setDimension("campaign_id");
-    report.setDimension("campaign_name");
-    report.setFilter("organization_id", "=", "100048");
-    report.setMetric("impressions");
-    report.setMetric("clicks");
-    report.setMetric("total_conversions");
-    report.setMetric("media_cost");
-    report.setMetric("total_spend");
-
-    // set having
-    // report.setHaving("key1", "=", "val1,val2");
-
-    // set time_rollup
-    report.setTimeRollup("by_day");
-
-    // set time_window only when no start date and end date specified.
-    // report.setTime_window("last_60_days");
-
-    /*
-     * start date & end_date supported format month - YYYY-MM day - YYYY-MM-DD hour - YYYY-MM-DDThh
-     * minute - YYYY-MM-DDThh:mi second - YYYY-MM-DDThh:mi:ss
-     */
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-    String dateInString = "2015-02-06";
-    String endDateInString = "2015-04-16";
-
-    String startDate = df.format(df.parse(dateInString));
-    String endDate = df.format(df.parse(endDateInString));
-
-    report.setStartDate(startDate);
-    report.setEndDate(endDate);
-    
-    t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-    ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
-    
-    assertNotNull(response);
-    assertEquals("ok", response.getStatus()[0].getCode());
-
-  }
-  
-  @SuppressWarnings("unchecked")
-  @Test
-  public void testPerformanceReportErrorHandling() {
-    
-    try {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class))).thenReturn(response);
-	} catch (ClientException e) {
-		e.printStackTrace();
+	@BeforeClass
+	public static void init() throws Exception {
+		InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
+		testConfig.load(input);
+		LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+		VALIDATE_PERFORMANCE_REPORT = testConfig.getProperty("t1.mock.reporting.validate.performance.report");
+		META = testConfig.getProperty("t1.mock.reporting.meta");
+		REPORTSMETA = testConfig.getProperty("t1.mock.reporting.reportsmeta");
+		REPORTSERROR = testConfig.getProperty("t1.mock.reporting.error");
 	}
-    Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
-    Mockito.when(response.getMediaType()).thenReturn(type);
-    Mockito.when(response.getMediaType().getType()).thenReturn("text");
-    Mockito.when(response.getMediaType().getSubtype()).thenReturn("xml");
-    Mockito.when(response.getStatus()).thenReturn(100);
-    Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN, REPORTSERROR);
 
-    ReportCriteria report = new ReportCriteria();
-
-    report.setDimension("advertiser_name");
-    report.setDimension("campaign_id");
-    report.setDimension("campaign_name");
-    report.setFilter("organization_id", "=", "AAAA");
-    report.setMetric("impressions");
-    // set time_rollup
-    report.setTimeRollup("by_day");
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-    String dateInString = "2015-02-06";
-    String endDateInString = "2015-04-16";
-
-    String startDate, endDate;
-	try {
-		startDate = df.format(df.parse(dateInString));
-		endDate = df.format(df.parse(endDateInString));
-	    report.setStartDate(startDate);
-	    report.setEndDate(endDate);
-	} catch (ParseException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	@After
+	public final void tearDown() throws InterruptedException {
+		Thread.sleep(5000);
 	}
-   
-	BufferedReader reader=null;
 
-    try{
-    	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-        reader = t1.getReport(Reports.PERFORMANCE, report);
-    }catch(ClientException ce){
-    	assertNull(reader);
-    }
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetMeta() throws ClientException {
 
-  }
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 
-  
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(META);
+
+		// login and get the reports.
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		JsonResponse<?> response = t1.getMeta();
+
+		assertNotNull(response.getData());
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testReportsMeta() throws ClientException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(REPORTSMETA);
+
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		MetaData response = t1.getReportsMeta(Reports.GEO);
+
+		assertNotNull(response);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPerformanceReport() throws ClientException, ParseException {
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.getMediaType()).thenReturn(type);
+		Mockito.when(response.getMediaType().getType()).thenReturn("text");
+		Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(stream);
+
+		ReportCriteria report = new ReportCriteria();
+
+		report.setDimension("advertiser_name");
+		report.setDimension("campaign_id");
+		report.setDimension("campaign_name");
+		report.setFilter("organization_id", "=", "100048");
+		report.setMetric("impressions");
+		report.setMetric("clicks");
+		report.setMetric("total_conversions");
+		report.setMetric("media_cost");
+		report.setMetric("total_spend");
+
+		// set having
+		// report.setHaving("key1", "=", "val1,val2");
+
+		// set time_rollup
+		report.setTimeRollup("by_day");
+
+		// set time_window only when no start date and end date specified.
+		// report.setTime_window("last_60_days");
+
+		/*
+		 * start date & end_date supported format month - YYYY-MM day -
+		 * YYYY-MM-DD hour - YYYY-MM-DDThh minute - YYYY-MM-DDThh:mi second -
+		 * YYYY-MM-DDThh:mi:ss
+		 */
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		String dateInString = "2015-02-06";
+		String endDateInString = "2015-04-16";
+
+		String startDate = df.format(df.parse(dateInString));
+		String endDate = df.format(df.parse(endDateInString));
+
+		report.setStartDate(startDate);
+		report.setEndDate(endDate);
+
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+
+		assertNotNull(reader);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPerformanceReportWithAllCreiteria() throws ClientException, ParseException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.getMediaType()).thenReturn(type);
+		Mockito.when(response.getMediaType().getType()).thenReturn("text");
+		Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
+		Mockito.when(response.getStatus()).thenReturn(200);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(stream);
+
+		ReportCriteria report = new ReportCriteria();
+
+		report.setDimension("advertiser_name");
+		report.setDimension("campaign_id");
+		report.setDimension("campaign_name");
+		report.setFilter("organization_id", "=", "100048");
+		report.setMetric("impressions");
+		report.setMetric("clicks");
+		report.setMetric("total_conversions");
+		report.setMetric("media_cost");
+		report.setMetric("total_spend");
+
+		// set having
+		// report.setHaving("key1", "=", "val1,val2");
+
+		// set time_rollup
+		report.setTimeRollup("by_day");
+
+		report.setTimeRollup("by_day");
+		report.setPageOffset("0");
+		report.setPageLimit("10");
+		report.setPrecision(2);
+
+		report.setHaving("impressions", ">", "500");
+
+		report.setOrder("-clicks");
+
+		// set time_window only when no start date and end date specified.
+		// report.setTime_window("last_60_days");
+
+		/*
+		 * start date & end_date supported format month - YYYY-MM day -
+		 * YYYY-MM-DD hour - YYYY-MM-DDThh minute - YYYY-MM-DDThh:mi second -
+		 * YYYY-MM-DDThh:mi:ss
+		 */
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		String dateInString = "2015-02-06";
+		String endDateInString = "2015-04-16";
+
+		String startDate = df.format(df.parse(dateInString));
+		String endDate = df.format(df.parse(endDateInString));
+
+		report.setStartDate(startDate);
+		report.setEndDate(endDate);
+
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		BufferedReader reader = t1.getReport(Reports.PERFORMANCE, report);
+
+		assertNotNull(reader);
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testValidatePerformanceReport() throws ParseException, ClientException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+
+		Mockito.when(response.getMediaType()).thenReturn(type);
+		Mockito.when(response.getMediaType().getType()).thenReturn("text");
+		Mockito.when(response.getMediaType().getSubtype()).thenReturn("xml");
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VALIDATE_PERFORMANCE_REPORT);
+
+		ReportCriteria report = new ReportCriteria();
+
+		report.setDimension("advertiser_name");
+		report.setDimension("campaign_id");
+		report.setDimension("campaign_name");
+		report.setFilter("organization_id", "=", "100048");
+		report.setMetric("impressions");
+		report.setMetric("clicks");
+		report.setMetric("total_conversions");
+		report.setMetric("media_cost");
+		report.setMetric("total_spend");
+
+		// set having
+		// report.setHaving("key1", "=", "val1,val2");
+
+		// set time_rollup
+		report.setTimeRollup("by_day");
+
+		// set time_window only when no start date and end date specified.
+		// report.setTime_window("last_60_days");
+
+		/*
+		 * start date & end_date supported format month - YYYY-MM day -
+		 * YYYY-MM-DD hour - YYYY-MM-DDThh minute - YYYY-MM-DDThh:mi second -
+		 * YYYY-MM-DDThh:mi:ss
+		 */
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		String dateInString = "2015-02-06";
+		String endDateInString = "2015-04-16";
+
+		String startDate = df.format(df.parse(dateInString));
+		String endDate = df.format(df.parse(endDateInString));
+
+		report.setStartDate(startDate);
+		report.setEndDate(endDate);
+
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+		ReportValidationResponse response = t1.validateReport(Reports.PERFORMANCE, report);
+
+		assertNotNull(response);
+		assertEquals("ok", response.getStatus()[0].getCode());
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testPerformanceReportErrorHandling() {
+
+		try {
+			Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+			Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+		
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.getMediaType()).thenReturn(type);
+		Mockito.when(response.getMediaType().getType()).thenReturn("text");
+		Mockito.when(response.getMediaType().getSubtype()).thenReturn("xml");
+		Mockito.when(response.getStatus()).thenReturn(100);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(REPORTSERROR);
+
+		ReportCriteria report = new ReportCriteria();
+
+		report.setDimension("advertiser_name");
+		report.setDimension("campaign_id");
+		report.setDimension("campaign_name");
+		report.setFilter("organization_id", "=", "AAAA");
+		report.setMetric("impressions");
+		// set time_rollup
+		report.setTimeRollup("by_day");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+		String dateInString = "2015-02-06";
+		String endDateInString = "2015-04-16";
+
+		String startDate, endDate;
+		try {
+			startDate = df.format(df.parse(dateInString));
+			endDate = df.format(df.parse(endDateInString));
+			report.setStartDate(startDate);
+			report.setEndDate(endDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		BufferedReader reader = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			reader = t1.getReport(Reports.PERFORMANCE, report);
+		} catch (ClientException ce) {
+			assertNull(reader);
+		}
+
+	}
+
 }

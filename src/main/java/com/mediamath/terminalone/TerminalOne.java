@@ -129,7 +129,7 @@ public class TerminalOne {
 		logger.info("Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, apiKey);
 		String url = tOneService.constructUrl(new StringBuilder("login"), LOGIN);
-		Response loginResponse = connection.post(url, form, null);
+		Response loginResponse = connection.post(url, form);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
 		setUserSessionInfo(response);

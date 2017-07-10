@@ -71,7 +71,7 @@ public class GetMockTest {
 	@Test
 	public void testAdvertiserGettWithMocks() throws ClientException, ParseException {
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -88,8 +88,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -105,7 +104,7 @@ public class GetMockTest {
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteriaWithMocks() throws ClientException, ParseException {
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -138,8 +137,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,7 +154,7 @@ public class GetMockTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteriaWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -176,8 +174,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -193,7 +190,7 @@ public class GetMockTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithPageLimitWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -213,8 +210,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,7 +225,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithPageLimitOffsetWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -248,8 +244,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -261,7 +256,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithLimitWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -279,8 +274,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -293,7 +287,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithLimitnGetAllWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -332,8 +326,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -347,7 +340,7 @@ public class GetMockTest {
 	@Test
 	public void testBaiscGetErrorHandling() throws ClientException {
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
@@ -365,8 +358,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -380,7 +372,7 @@ public class GetMockTest {
 	@Test
 	public void testBaiscGetWithQueryWithMock() throws ClientException, ParseException {
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -405,8 +397,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -419,7 +410,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithFindWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -439,8 +430,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.find(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -452,7 +442,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithFind1WithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -469,8 +459,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.find(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -483,7 +472,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithFind2WithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -502,8 +491,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.find(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -516,7 +504,7 @@ public class GetMockTest {
 
 	@Test
 	public void testGetWithFullBooleanWithMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -541,8 +529,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -556,7 +543,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithFullStringWithMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -575,9 +562,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
-
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -590,7 +575,7 @@ public class GetMockTest {
 
 	@Test
 	public void testBaiscGetWithFullListWithMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -617,8 +602,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -632,7 +616,7 @@ public class GetMockTest {
 
 	@Test
 	public void testGetWithChildByUsingQC() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -652,8 +636,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -668,7 +651,7 @@ public class GetMockTest {
 	}
 
 	public void testGetWithStrategyConceptUsingMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -683,8 +666,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -699,7 +681,7 @@ public class GetMockTest {
 
 	@SuppressWarnings("unchecked")
 	public void testGetWithStrategyTotalSpendUsingMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -714,8 +696,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -731,7 +712,7 @@ public class GetMockTest {
 
 	@SuppressWarnings("unchecked")
 	public void testGetWithStrategyChildBrowserUsingMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
@@ -745,8 +726,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -762,7 +742,7 @@ public class GetMockTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testGetWithStrategyChildDealsUsingMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -786,8 +766,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -803,7 +782,7 @@ public class GetMockTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testGetWithDealsUsingMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -820,8 +799,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -834,7 +812,7 @@ public class GetMockTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testGetWithDealsUsingAdvertiserIdMocks() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -872,8 +850,7 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
@@ -886,7 +863,7 @@ public class GetMockTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithParentWithMock() throws ClientException, ParseException {
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
@@ -928,8 +905,8 @@ public class GetMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			jsonresponse = t1.get(query);
 			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
-					Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
