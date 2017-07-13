@@ -111,7 +111,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testJTerminalOneStringStringString() throws ClientException {
 		TerminalOne t1;
-		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "98waz2495u8n5udu7pzczfh5");
+		t1 = new TerminalOne(user,password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 	}
 
@@ -119,8 +119,8 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthResponse oauthResponse = t1.getOAuthToken("karthik87.mit@gmail.com", "Pm_oauthtest", "kRmmCjUNSTPhYnOlYPcl7ltIkBSITAVM",
-				"amvwZ0SlqqtIN8b5AIg4BUWnuEPUc6jjTPg_Y7iZaMApxFtE1ryw7AyXDMOfeOrG");		
+		OAuthResponse oauthResponse = t1.getOAuthToken(user, password,oauthKey ,
+				"oauthSecret");		
 		t1.authenticate(oauthResponse.getAccessToken());
 		assertEquals(true, t1.isAuthenticated());
 
@@ -154,8 +154,8 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthResponse oauthResponse = t1.getOAuthToken("username", "password", "clientId",
-				"password");
+		OAuthResponse oauthResponse = t1.getOAuthToken(user, password, oauthKey,
+				"oauthSecret");
 		assertNotNull(oauthResponse);
 	}
 

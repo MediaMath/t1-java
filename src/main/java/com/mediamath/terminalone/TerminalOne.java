@@ -249,9 +249,7 @@ public class TerminalOne {
 		Response oauthResponse = connection.post(oauthTokenUrl, form, null);
 		parseLoginError(oauthResponse);
 		String response = oauthResponse.readEntity(String.class);
-		logger.info("OAuth Response as String:"+response);
 		OAuthResponse parsedOAuthResponse = parseOAuthResponse(response);
-		logger.info("Parsed OAuth Response:"+parsedOAuthResponse);
 		return parsedOAuthResponse;
 	}
 	
