@@ -47,6 +47,7 @@ import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.OAuthResponse;
 import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
@@ -79,8 +80,6 @@ public class TerminalOne {
 	private static final String TOKEN = "token";
 
 	private static final String UNABLE_TO_GET_O_AUTH_TOKEN = "Unable to get OAuth token: ";
-
-	private static final String UNABLE_TO_GET_O_AUTH_AUTHORIZATION_URL = "Unable to get OAuth authorization URL: ";
 
 	private static final String LOGIN = "login";
 
@@ -228,30 +227,6 @@ public class TerminalOne {
 	}
 
 	/**
-	 * Get Authorization url for oauth login.
-	 * 
-	 * @param redirectUri
-	 *            valid redirect uri is required.
-	 * @param apiKey
-	 *            valid apiKey is required.
-	 * @return String object.
-	 * @throws ClientException
-	 *             a client exception is thrown if any error occurs.
-	 */
-	public String getAuthorizationUrl(String redirectUri, String apiKey) throws ClientException {
-		String oauthAuthorizationUrl = tOneService.constructOauthUrl(new StringBuilder("authorize"));
-		OAuthClientRequest request = null;
-		try {
-			request = OAuthClientRequest.authorizationLocation(oauthAuthorizationUrl).setClientId(apiKey)
-					.setRedirectURI(redirectUri).setResponseType(ResponseType.CODE.toString()).buildQueryMessage();
-		} catch (OAuthSystemException oauthSystemException) {
-			Utility.logStackTrace(oauthSystemException);
-			throw new ClientException(UNABLE_TO_GET_O_AUTH_AUTHORIZATION_URL + oauthSystemException.getMessage());
-		}
-		return request.getLocationUri();
-	}
-
-	/**
 	 * Gets OAuthTokens.
 	 * 
 	 * @param code
@@ -266,22 +241,25 @@ public class TerminalOne {
 	 * @throws ClientException
 	 *             a client exception is thrown if any error occurs.
 	 */
-	public OAuthJSONAccessTokenResponse getOauthToken(String code, String apiKey, String secret, String redirectUri)
+	public OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
 			throws ClientException {
 		String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
-		try {
-			OAuthClientRequest request = OAuthClientRequest.tokenLocation(oauthTokenUrl)
-					.setGrantType(GrantType.AUTHORIZATION_CODE).setClientId(apiKey).setClientSecret(secret)
-					.setRedirectURI(redirectUri).setCode(code).buildQueryMessage();
-			OAuthClient oauthClient = new OAuthClient(new URLConnectionClient());
-			return oauthClient.accessToken(request, OAuthJSONAccessTokenResponse.class);
-		} catch (OAuthSystemException oauthSystemException) {
-			Utility.logStackTrace(oauthSystemException);
-			throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthSystemException.getMessage());
-		} catch (OAuthProblemException oauthProblemException) {
-			Utility.logStackTrace(oauthProblemException);
-			throw new ClientException(UNABLE_TO_GET_O_AUTH_TOKEN + oauthProblemException.getMessage());
-		}
+		logger.info("Authenticating via OAuth Auth0.");
+		Form form = tOneService.getOAuthFormData(username, password, clientId, clientSecret);
+		Response oauthResponse = connection.post(oauthTokenUrl, form, null);
+		parseLoginError(oauthResponse);
+		String response = oauthResponse.readEntity(String.class);
+		OAuthResponse parsedOAuthResponse = parseOAuthResponse(response);
+		return parsedOAuthResponse;
+	}
+	
+	private OAuthResponse parseOAuthResponse (String response) {
+		Gson gson = new Gson();
+		OAuthResponse resp;
+		Type responseTypeInfo = new TypeToken<OAuthResponse>() {
+		}.getType();
+		resp = gson.fromJson(response, responseTypeInfo);
+		return resp;
 	}
 
 	/**

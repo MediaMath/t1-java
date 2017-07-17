@@ -48,6 +48,7 @@ import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.OAuthResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
@@ -113,15 +114,17 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testJTerminalOneStringStringString() throws ClientException {
 		TerminalOne t1;
-		t1 = new TerminalOne("nitesh.chauhan@xoriant.com", "xoriant123#", "98waz2495u8n5udu7pzczfh5");
+		t1 = new TerminalOne(user,password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 	}
 
+	// TEST WILL FAIL UNTIL AUTHO WORKS IN PRODUCTION
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		t1.authenticate("rydgu76jyap9sjaj5vyqpbg7");
-
+		OAuthResponse oauthResponse = t1.getOAuthToken(user, password,oauthKey ,
+				oauthSecret);		
+		t1.authenticate(oauthResponse.getAccessToken());
 		assertEquals(true, t1.isAuthenticated());
 
 		Agency agency = new Agency();
@@ -150,46 +153,13 @@ public class PostFunctionalTestIT {
 		assertEquals(100048, agencyCreated.getOrganizationId());
 	}
 
-	@Test
-	public void testOAuthHGetAuthorizationUrl() throws ClientException {
-		TerminalOne t1 = new TerminalOne();
-		String authorizationUrl = t1.getAuthorizationUrl("https://blog.mediamath.com/", oauthKey);
-		String expectedAuthorizationUrl = "https://api.mediamath.com/oauth2/v1.0/authorize";
-		System.out.println("Auth URL:" + authorizationUrl);
-		assertTrue(authorizationUrl.contains(expectedAuthorizationUrl));
-	}
-
-	/*
-	 * Can't be run from CI. Need a manual process of granting permission by
-	 * hitting the authorization URL
-	 */
+	//TEST WILL FAIL UNTIL AUTHO WORKS IN PRODUCTION
 	@Test
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("taqszg4upr8ap3m888fdvsvy", oauthKey, oauthSecret,
-				"https://blog.mediamath.com/");
-		assertNotNull(oauthResponse);
-	}
-
-	// Can't be run from CI. Need a manual process of granting permission by
-	// hitting the authorization
-	// URL
-	@Test
-	public void testOAuthHRefreshToken() throws ClientException {
-		TerminalOne t1 = new TerminalOne();
-		OAuthJSONAccessTokenResponse oauthResponse = t1.getOauthToken("yfdwzubxjghhaxjsh7hb3u8v", oauthKey, oauthSecret,
-				"https://blog.mediamath.com/");
-		assertNotNull(oauthResponse);
-		String refreshToken = oauthResponse.getRefreshToken();
-		String accessToken = oauthResponse.getAccessToken();
-		Long expiresIn = oauthResponse.getExpiresIn();
-		OAuthJSONAccessTokenResponse refreshOauthTokenResponse = t1.refreshOauthToken(refreshToken, oauthKey,
+		OAuthResponse oauthResponse = t1.getOAuthToken(user, password, oauthKey,
 				oauthSecret);
-		assertNotNull(refreshOauthTokenResponse);
-		String accessTokenAfterRefresh = refreshOauthTokenResponse.getAccessToken();
-		Long expiresInAfterRefresh = refreshOauthTokenResponse.getExpiresIn();
-		assertFalse(accessToken.equals(accessTokenAfterRefresh));
-
+		assertNotNull(oauthResponse);
 	}
 
 	/**
