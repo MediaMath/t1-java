@@ -120,7 +120,7 @@ public class PostFunctionalTestIT {
 	public void testOauthTokenAuthentication() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
 		OAuthResponse oauthResponse = t1.getOAuthToken(user, password,oauthKey ,
-				"oauthSecret");		
+				oauthSecret);		
 		t1.authenticate(oauthResponse.getAccessToken());
 		assertEquals(true, t1.isAuthenticated());
 
@@ -155,7 +155,7 @@ public class PostFunctionalTestIT {
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
 		OAuthResponse oauthResponse = t1.getOAuthToken(user, password, oauthKey,
-				"oauthSecret");
+				oauthSecret);
 		assertNotNull(oauthResponse);
 	}
 
