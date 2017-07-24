@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -14,9 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.ws.rs.core.Form;
+
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.TerminalOne;
@@ -37,6 +41,7 @@ import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.SupplySource;
+import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -1188,6 +1193,40 @@ public class GetFunctionalTestIT {
 		} catch (ClientException | ParseException e) {
 			e.printStackTrace();
 		}
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithCampaignCBS() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithCampaignCBSWithId() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").setChild("143213").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		assertNotNull(jsonresponse);
 	}
 	

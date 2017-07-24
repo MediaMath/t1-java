@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
+import java.util.concurrent.Semaphore;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -37,6 +38,8 @@ import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
@@ -55,11 +58,8 @@ import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
-import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
@@ -67,6 +67,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.TargetDimensions;
+import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
+import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
@@ -144,6 +146,10 @@ public class PostMockTest {
 	private static String CAMPAIGN_BUDGET_FLIGHT_BULK = null;
 	private static String CAMPAIGN_BUDGET_FLIGHT_UPDATE=null;
 	private static String CAMPAIGN_BUDGET_FLIGHT_DELETE=null;
+	
+	private static String CAMPAIGN_CUSTOM_BRAIN_SELECTION_SINGLE= null;
+	private static String CAMPAIGN_CUSTOM_BRAIN_SELECTION_BULK= null;
+	private static String CAMPAIGN_CUSTOM_BRAIN_SELECTION_DELETE = null;
 
 	private static String LOGIN = null;
 
@@ -210,6 +216,9 @@ public class PostMockTest {
 		CAMPAIGN_BUDGET_FLIGHT_BULK = testConfig.getProperty("t1.mock.save.budget_flight_bulk.response");
 		CAMPAIGN_BUDGET_FLIGHT_UPDATE = testConfig.getProperty("t1.mock.update.budget_flight_bulk.response");
 		CAMPAIGN_BUDGET_FLIGHT_DELETE = testConfig.getProperty("t1.mock.delete.budget_flight_bulk.response");
+		CAMPAIGN_CUSTOM_BRAIN_SELECTION_SINGLE = testConfig.getProperty("t1.mock.save.custom_brain_selection_single.response");
+		CAMPAIGN_CUSTOM_BRAIN_SELECTION_BULK =  testConfig.getProperty("t1.mock.save.custom_brain_selection_bulk.response");
+		CAMPAIGN_CUSTOM_BRAIN_SELECTION_DELETE =  testConfig.getProperty("t1.mock.delete.custom_brain_selection.response");
 	}
 
 	@After
@@ -1441,8 +1450,125 @@ public class PostMockTest {
 		assertTrue(cmpSave.getBudgetFlights().size()>=1);
 
 	}
-
 	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionPost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(300982);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setActive(true);
+		cCBS.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS.setSelectionId(691);
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_CUSTOM_BRAIN_SELECTION_SINGLE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionBulkPost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(300982);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setActive(true);
+		cCBS.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS.setSelectionId(691);
+		
+		CampaignCustomBrainSelection cCBS1 = new CampaignCustomBrainSelection();
+		cCBS1.setActive(true);
+		cCBS1.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS1.setSelectionId(692);
+		
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cCBSList.add(cCBS1);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_CUSTOM_BRAIN_SELECTION_BULK);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionDeletePost() throws ClientException {
+
+		Campaign cmp = new Campaign();
+		cmp.setId(338158);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setId(143213);
+		cCBS.setDeleted(true);
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_CUSTOM_BRAIN_SELECTION_DELETE);
+
+		Campaign cmpSave =null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			cmpSave = t1.save(cmp);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Test

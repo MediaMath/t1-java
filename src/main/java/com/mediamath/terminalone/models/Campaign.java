@@ -143,6 +143,8 @@ public class Campaign implements T1Entity {
 	private Pixel merit_pixel;
 	private ArrayList<SiteList> site_lists = new ArrayList<SiteList>();
 	private ArrayList<BudgetFlight> budget_flights = new ArrayList<>();
+	
+	private ArrayList<CampaignCustomBrainSelection> campaign_custom_brain_selection = new ArrayList<>();
 
 	public void setMargins(Date date, Double doubleval) {
 		margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());
@@ -649,6 +651,22 @@ public class Campaign implements T1Entity {
 			this.goal_value.add(cost);
 		}
 	}
+	
+	public freqTypes getSpendCapType() {
+		return spend_cap_type;
+	}
+
+	public void setSpendCapType(freqTypes spend_cap_type) {
+		this.spend_cap_type = spend_cap_type;
+	}
+
+	public int getTotalImpressionBudget() {
+		return total_impression_budget;
+	}
+
+	public void setTotalImpressionBudget(int total_impressions_budget) {
+		this.total_impression_budget = total_impressions_budget;
+	}
 
 	public ArrayList<SiteList> getSiteLists() {
 		return site_lists;
@@ -666,6 +684,14 @@ public class Campaign implements T1Entity {
 		this.budget_flights = budget_flights;
 	}
 
+	public ArrayList<CampaignCustomBrainSelection> getCampaignCustomBrainSelection() {
+		return campaign_custom_brain_selection;
+	}
+
+	public void setCampaignCustomBrainSelection(ArrayList<CampaignCustomBrainSelection> campaign_custom_brain_selection) {
+		this.campaign_custom_brain_selection = campaign_custom_brain_selection;
+	}
+
 	@Override
 	public Form getForm() {
 
@@ -673,8 +699,10 @@ public class Campaign implements T1Entity {
 
 		Form campaignForm = new Form();
 
-		campaignForm.param("name", this.getName());
-
+		if(this.getName()!=null){
+			campaignForm.param("name", this.getName());
+		}
+		
 		if (!this.getAdServerFee().isEmpty()) {
 			campaignForm.param("ad_server_fee", String.valueOf(this.getAdServerFee().get(0).getValue()));
 		}
@@ -766,7 +794,7 @@ public class Campaign implements T1Entity {
 			campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
 		}
 
-		if (!this.isCopyCampaign() && this.getBudgetFlights().isEmpty()) {
+		if (!this.isCopyCampaign() && this.getBudgetFlights().isEmpty() && this.getCampaignCustomBrainSelection().isEmpty()) {
 			campaignForm.param("use_mm_freq", Utility.getOnOrOff(this.isUseMmFreq()));
 			campaignForm.param("dcs_data_is_campaign_level", Utility.getOnOrOff(this.isDcsDataIsCampaignLevel()));
 			campaignForm.param("frequency_optimization", Utility.getOnOrOff(this.isFrequencyOptimization()));
@@ -883,6 +911,43 @@ public class Campaign implements T1Entity {
 			}
 		}
 
+		//custom brain selections - single
+		if (!this.getCampaignCustomBrainSelection().isEmpty() && this.getCampaignCustomBrainSelection().size()==1) {
+			for (CampaignCustomBrainSelection ccbs : this.getCampaignCustomBrainSelection()) {
+				if (ccbs != null) {
+					if(ccbs.getSelectionId()> 0){
+						campaignForm.param("selection_id", String.valueOf(ccbs.getSelectionId()));
+					}
+					if(ccbs.getSelectionType()!=null){
+						campaignForm.param("selection_type", ccbs.getSelectionType().value);
+					}
+					if(ccbs.getSelectionId() > 0){
+						campaignForm.param("active", Utility.getOneOrZero(ccbs.isActive()));
+					}	
+				}
+			}
+		}
+
+		
+		//custom brain selections
+		if (!this.getCampaignCustomBrainSelection().isEmpty() && this.getCampaignCustomBrainSelection().size()>1) {
+			int inc = 1;
+			for (CampaignCustomBrainSelection ccbs : this.getCampaignCustomBrainSelection()) {
+				if (ccbs != null) {
+					if(ccbs.getSelectionId()> 0){
+						campaignForm.param("custom_brain_selections." + inc + ".selection_id", String.valueOf(ccbs.getSelectionId()));
+					}
+					if(ccbs.getSelectionType()!=null){
+						campaignForm.param("custom_brain_selections." + inc + ".selection_type", ccbs.getSelectionType().value);
+					}
+					if(ccbs.getSelectionId() > 0){
+						campaignForm.param("custom_brain_selections." + inc + ".active", Utility.getOneOrZero(ccbs.isActive()));
+					}
+				}
+				inc++;
+			}
+		}
+
 		campaignForm = Utility.getFilteredForm(campaignForm, "campaign");
 
 		return campaignForm;
@@ -892,22 +957,6 @@ public class Campaign implements T1Entity {
 	@Override
 	public String getUri() {
 		return null;
-	}
-
-	public freqTypes getSpendCapType() {
-		return spend_cap_type;
-	}
-
-	public void setSpendCapType(freqTypes spend_cap_type) {
-		this.spend_cap_type = spend_cap_type;
-	}
-
-	public int getTotalImpressionBudget() {
-		return total_impression_budget;
-	}
-
-	public void setTotalImpressionBudget(int total_impressions_budget) {
-		this.total_impression_budget = total_impressions_budget;
 	}
 
 }
