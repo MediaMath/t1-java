@@ -17,10 +17,8 @@
 package com.mediamath.terminalone.functional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,13 +29,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import javax.ws.rs.core.Form;
-
-import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.TerminalOne;
@@ -50,6 +44,7 @@ import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -70,9 +65,7 @@ import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
@@ -83,7 +76,6 @@ import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 
 public class PostFunctionalTestIT {
 

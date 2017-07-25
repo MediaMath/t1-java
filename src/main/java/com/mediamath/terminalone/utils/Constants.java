@@ -217,7 +217,6 @@ public final class Constants {
 	private static final String CAMPAIGNS = "campaigns";
 	
 	private static final String CAMPAIGN_CUSTOM_BRAIN_SELECTION = "campaign_custom_brain_selection";
-	private static final String CAMPAIGN_CUSTOM_BRAIN_SELECTIONS = "campaign_custom_brain_selections";
 	
 	private static final String AUDIENCE_SEGMENTS = "audience_segments";
 
