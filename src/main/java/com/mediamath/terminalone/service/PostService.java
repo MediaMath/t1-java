@@ -425,12 +425,12 @@ public class PostService {
 					campaign.getSiteLists().clear();
 					campaign.setSiteLists(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
+				else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
 					campaign = entity;
 					campaign.getBudgetFlights().clear();
 					campaign.setBudgetFlights(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
+				else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
 					campaign = entity;
 					campaign.getCampaignCustomBrainSelection().clear();
 					campaign.setCampaignCustomBrainSelection(dataList);
@@ -443,7 +443,7 @@ public class PostService {
 					campaign.getBudgetFlights().clear();
 					campaign.getBudgetFlights().add(bfData);
 				}
-				if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
+				else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
 					campaign = entity;
 					CampaignCustomBrainSelection ccbsData =  (CampaignCustomBrainSelection)finalJsonResponse.getData();
 					campaign.getCampaignCustomBrainSelection().clear();
