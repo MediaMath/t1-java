@@ -915,5 +915,62 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
 	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithCampaignCBS() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":[{\"entity_type\":\"campaign_custom_brain_selection\",\"name\":\"CampaignCustomBrainSelections#143213\",\"id\":143213}],"
+		+"\"meta\":{\"etag\":\"528884ebf3a2df890f76e184e732f748d8dbc27b\",\"count\":1,\"called_on\":\"2017-07-24T11:28:10+0000\",\"status\":\"ok\",\"offset\":0,\"total_count\":1}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithCampaignCBSWithId() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":{\"version\":0,\"active\":true,\"selection_id\":1084588,\"name\":\"CampaignCustomBrainSelections#143213\",\"campaign_id\":338158,"
+			+"\"selection_name\":\"karthik-home-page\",\"selection_type\":\"EventPixel\",\"entity_type\":\"campaign_custom_brain_selection\",\"uniques\":0,"
+			+"\"id\":143213,\"owner_name\":\"Karthik-Adaptive-Seg-Adv\"},\"meta\":{\"etag\":\"b189d8640ad718aeb7dfacfebd961c9c93b723c5\",\"called_on\":\"2017-07-24T11:30:57+0000\",\"status\":\"ok\"}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").setChild("143213").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+
+	
 
 }

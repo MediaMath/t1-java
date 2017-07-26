@@ -17,7 +17,6 @@
 package com.mediamath.terminalone.functional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +29,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -45,6 +43,8 @@ import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -65,7 +65,6 @@ import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Cost;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -1754,5 +1753,96 @@ public class PostFunctionalTestIT {
 		assertTrue(cmpSave.getBudgetFlights().size()>=1);
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionPost() throws ClientException {
+
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		Campaign cmp = new Campaign();
+		cmp.setId(300982);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setActive(true);
+		cCBS.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS.setSelectionId(691);
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+
+		Campaign cmpSave =null;
+		try {
+			cmpSave = jt1.save(cmp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionBulkPost() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		Campaign cmp = new Campaign();
+		cmp.setId(300982);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setActive(true);
+		cCBS.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS.setSelectionId(691);
+		
+		CampaignCustomBrainSelection cCBS1 = new CampaignCustomBrainSelection();
+		cCBS1.setActive(true);
+		cCBS1.setSelectionType(SELTYPES.AudienceTarget);
+		cCBS1.setSelectionId(692);
+		
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cCBSList.add(cCBS1);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+
+		Campaign cmpSave =null;
+		try {
+			cmpSave = jt1.save(cmp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testCampaignCustomBrainSelectionDeletePost() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		Campaign cmp = new Campaign();
+		cmp.setId(338158);
+		
+		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
+		cCBS.setId(143213);
+		cCBS.setDeleted(true);
+		
+		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
+		cCBSList.add(cCBS);
+		cmp.setCampaignCustomBrainSelection(cCBSList);
+		Campaign cmpSave =null;
+		try {
+			cmpSave = jt1.save(cmp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(cmpSave);
+	}
+
 	
 }

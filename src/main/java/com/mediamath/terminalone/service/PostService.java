@@ -44,6 +44,7 @@ import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -389,6 +390,21 @@ public class PostService {
 			if (entity.getId() > 0 && entity.getBudgetFlights().size()>1) {
 				uri.append("/budget_flights/bulk");
 			}
+			
+			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size()==1) {
+				uri.append("/custom_brain_selections");
+				if(entity.getCampaignCustomBrainSelection().get(0)!=null && entity.getCampaignCustomBrainSelection().get(0).getId()>0){
+					uri.append("/");
+					uri.append(entity.getCampaignCustomBrainSelection().get(0).getId());
+				}
+				if(entity.getCampaignCustomBrainSelection().get(0)!=null && entity.getCampaignCustomBrainSelection().get(0).isDeleted()){
+					uri.append("/delete");
+				}
+			}
+			
+			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size()>1) {
+				uri.append("/custom_brain_selections/bulk");
+			}
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
@@ -409,10 +425,15 @@ public class PostService {
 					campaign.getSiteLists().clear();
 					campaign.setSiteLists(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
+				else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
 					campaign = entity;
 					campaign.getBudgetFlights().clear();
 					campaign.setBudgetFlights(dataList);
+				}
+				else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
+					campaign = entity;
+					campaign.getCampaignCustomBrainSelection().clear();
+					campaign.setCampaignCustomBrainSelection(dataList);
 				}
 			} else {
 				
@@ -421,7 +442,14 @@ public class PostService {
 					BudgetFlight bfData =  (BudgetFlight)finalJsonResponse.getData();
 					campaign.getBudgetFlights().clear();
 					campaign.getBudgetFlights().add(bfData);
-				}else{
+				}
+				else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
+					campaign = entity;
+					CampaignCustomBrainSelection ccbsData =  (CampaignCustomBrainSelection)finalJsonResponse.getData();
+					campaign.getCampaignCustomBrainSelection().clear();
+					campaign.getCampaignCustomBrainSelection().add(ccbsData);
+				}
+				else{
 					campaign = (Campaign) finalJsonResponse.getData();
 				}
 			}

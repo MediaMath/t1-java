@@ -28,6 +28,7 @@ import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Contact;
@@ -214,7 +215,9 @@ public final class Constants {
 	private static final String CAMPAIGN = "campaign";
 
 	private static final String CAMPAIGNS = "campaigns";
-
+	
+	private static final String CAMPAIGN_CUSTOM_BRAIN_SELECTION = "campaign_custom_brain_selection";
+	
 	private static final String AUDIENCE_SEGMENTS = "audience_segments";
 
 	private static final String ATOMIC_CREATIVE = "atomic_creative";
@@ -295,6 +298,10 @@ public final class Constants {
 		}.getType());
 		getEntityType.put(CAMPAIGN, new TypeToken<JsonResponse<Campaign>>() {
 		}.getType());
+		
+		getEntityType.put(CAMPAIGN_CUSTOM_BRAIN_SELECTION, new TypeToken<JsonResponse<CampaignCustomBrainSelection>>() {
+		}.getType());
+		
 		getEntityType.put(CONCEPTS, new TypeToken<JsonResponse<Concept>>() {
 		}.getType());
 		getEntityType.put(CONCEPT, new TypeToken<JsonResponse<Concept>>() {
@@ -464,6 +471,8 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(CAMPAIGN, new TypeToken<JsonResponse<ArrayList<Campaign>>>() {
 		}.getType());
+		getListoFEntityType.put(CAMPAIGN_CUSTOM_BRAIN_SELECTION, new TypeToken<JsonResponse<ArrayList<CampaignCustomBrainSelection>>>() {
+		}.getType());
 		getListoFEntityType.put(CONCEPTS, new TypeToken<JsonResponse<ArrayList<Concept>>>() {
 		}.getType());
 		getListoFEntityType.put(CONCEPT, new TypeToken<JsonResponse<ArrayList<Concept>>>() {
@@ -613,6 +622,7 @@ public final class Constants {
 		pathToCollectionEntity.put(ATOMIC_CREATIVES, "AtomicCreative");
 		pathToCollectionEntity.put(AUDIENCE_SEGMENTS, "AudienceSegment");
 		pathToCollectionEntity.put(CAMPAIGNS, "Campaign");
+		pathToCollectionEntity.put(CAMPAIGN_CUSTOM_BRAIN_SELECTION, "CampaignCustomBrainSelection");
 		pathToCollectionEntity.put(CONCEPTS, "Concept");
 		pathToCollectionEntity.put(CREATIVES, "Creative");
 		pathToCollectionEntity.put(CREATIVE_APPROVALS, "CreativeApproval");
@@ -652,6 +662,7 @@ public final class Constants {
 		entityPaths.put("AtomicCreative", ATOMIC_CREATIVES);
 		entityPaths.put("AudienceSegment", AUDIENCE_SEGMENTS);
 		entityPaths.put("Campaign", CAMPAIGNS);
+		entityPaths.put("CampaignCustomBrainSelection", CAMPAIGN_CUSTOM_BRAIN_SELECTION);
 		entityPaths.put("Concept", CONCEPTS);
 		entityPaths.put("Creative", CREATIVES);
 		entityPaths.put("CreativeApproval", ATOMIC_CREATIVES);
