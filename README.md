@@ -29,7 +29,7 @@ You can integrate the latest t1-java build easily by just including the followin
 
 - make sure the build path entries in your project are pointing to the jar file created.
 
-### Authentication
+### Authentication - Cookie Auth (default)
 
 - using constructor
 
@@ -38,7 +38,16 @@ You can integrate the latest t1-java build easily by just including the followin
 - using authenticate method
 	
 		TerminalOne one = new TerminalOne();
-	 	one.authenticate(username, password, key) 
+	 	one.authenticate(username, password, key);
+
+
+## OAuth2 (Password - Resource Owner flow):
+
+T1 Java is designed to be used for scripts. If you wish to make a UI for 3rd parties, we recommend use use the Application Code flow, which may require a little more engineering than what's covered here.
+Note: As of 2017-06-29 OAuth2 is not available everywhere within the MediaMath environment. Until then, for production, we recommend using the Cookie flow. This message will be updated with more services as the rollout completes.
+
+		TerminalOne one = new TerminalOne();
+		one.authenticate(username, password, clientId, clientSecret);
 
 
 ###Fetching Entities and Collections

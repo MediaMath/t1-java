@@ -121,9 +121,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthResponse oauthResponse = t1.getOAuthToken(user, password,oauthKey ,
-				oauthSecret);		
-		t1.authenticate(oauthResponse.getAccessToken());
+		t1.authenticate(user, password,oauthKey,oauthSecret);		
 		assertEquals(true, t1.isAuthenticated());
 
 		Agency agency = new Agency();
@@ -156,9 +154,9 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		OAuthResponse oauthResponse = t1.getOAuthToken(user, password, oauthKey,
+		boolean isAuthenticated = t1.authenticate(user, password, oauthKey,
 				oauthSecret);
-		assertNotNull(oauthResponse);
+		assertTrue(isAuthenticated);
 	}
 
 	/**

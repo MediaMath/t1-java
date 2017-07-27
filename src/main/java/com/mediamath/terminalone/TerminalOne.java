@@ -210,12 +210,15 @@ public class TerminalOne {
 	 * @throws ClientException
 	 *             a client exception is thrown if any error occurs.
 	 */
-	public boolean authenticate(String token) throws ClientException {
+	public boolean authenticate(String username, String password, String clientId, String clientSecret) throws ClientException {
 
 		logger.info("Authenticating.");
-
+		
 		user = new T1User();
-		user.setToken(token);
+		OAuthResponse oauthResponse = this.getOAuthToken(username, password, clientId, clientSecret);
+		if (oauthResponse !=null && oauthResponse.getAccessToken() !=null){
+			user.setToken(oauthResponse.getAccessToken());
+		}
 
 		setServices();
 
@@ -241,7 +244,7 @@ public class TerminalOne {
 	 * @throws ClientException
 	 *             a client exception is thrown if any error occurs.
 	 */
-	public OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
+	private OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
 			throws ClientException {
 		String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
 		logger.info("Authenticating via OAuth Auth0.");
