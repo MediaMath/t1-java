@@ -244,7 +244,7 @@ public class TerminalOne {
 	 * @throws ClientException
 	 *             a client exception is thrown if any error occurs.
 	 */
-	private OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
+	OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
 			throws ClientException {
 		String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
 		logger.info("Authenticating via OAuth Auth0.");

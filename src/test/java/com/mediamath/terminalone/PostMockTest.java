@@ -27,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import static org.mockito.Mockito.*;
 
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
@@ -41,6 +42,7 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
+import com.mediamath.terminalone.models.OAuthResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
@@ -151,6 +153,8 @@ public class PostMockTest {
 	private static String CAMPAIGN_CUSTOM_BRAIN_SELECTION_DELETE = null;
 
 	private static String LOGIN = null;
+	
+	private static String OAUTH = null;
 
 	@Mock
 	Connection connectionmock;
@@ -170,6 +174,7 @@ public class PostMockTest {
 		InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
 		testConfig.load(input);
 		LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+		OAUTH = testConfig.getProperty("t1.mock.oauthResponse");
 		AGENCY_RESPONSE = testConfig.getProperty("t1.mock.save.agency.response");
 		CAMPAIGN_RESPONSE = testConfig.getProperty("t1.mock.save.campaign.response");
 		ADVERTISER_RESPONSE = testConfig.getProperty("t1.mock.save.advertiser.response");
@@ -227,8 +232,10 @@ public class PostMockTest {
 
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
-		TerminalOne t1 = new TerminalOne();
-		t1.authenticate("rydgu76jyap9sjaj5vyqpbg7");
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), isNull(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(OAUTH);
+		t1.authenticate("user","password","clientId","clientSecret");
 
 		assertEquals(true, t1.isAuthenticated());
 	}
