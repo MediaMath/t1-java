@@ -106,6 +106,10 @@ public class T1Service {
 	public String constructOauthUrl(StringBuilder path) {
 		return oauthURL + "/" + path.toString();
 	}
+	public String constructVideoCreativeUrl(StringBuilder path) {
+		return apiBase + videoCreativeURL + "/" + path.toString();
+	}
+	
 
 	/**
 	 * gets form object of login related information.

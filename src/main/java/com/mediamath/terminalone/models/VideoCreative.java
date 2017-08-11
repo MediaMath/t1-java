@@ -18,7 +18,11 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-public class VideoCreative {
+import javax.ws.rs.core.Form;
+
+import com.mediamath.terminalone.exceptions.ClientException;
+
+public class VideoCreative implements T1Entity {
 
   private String name;
   private long startTime;
@@ -33,7 +37,7 @@ public class VideoCreative {
   private long concept;
   private String clickthroughUrl;
   private boolean active;
-  private eventPixelsEnum eventPixels;
+  private ArrayList<eventPixelsEnum> eventPixels = new ArrayList();
   private long creativeId;
 
   public enum eventPixelsEnum {
@@ -150,11 +154,11 @@ public class VideoCreative {
     this.active = active;
   }
 
-  public eventPixelsEnum getEventPixels() {
+  public ArrayList<eventPixelsEnum> getEventPixels() {
     return eventPixels;
   }
 
-  public void setEventPixels(eventPixelsEnum eventPixels) {
+  public void setEventPixels(ArrayList<eventPixelsEnum> eventPixels) {
     this.eventPixels = eventPixels;
   }
 
@@ -173,5 +177,23 @@ public class VideoCreative {
   public void setStartTime(long startTime) {
     this.startTime = startTime;
   }
+
+@Override
+public String getEntityname() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Form getForm() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String getUri() throws ClientException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 }
