@@ -24,176 +24,177 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 public class VideoCreative implements T1Entity {
 
-  private String name;
-  private long startTime;
-  private String landingUrl;
-  private String customVAST;
-  private ArrayList<Long> vendors = new ArrayList<Long>();
-  private long advertiser;
-  private boolean desktopEncoding;
-  private long endTime;
-  private Integer skippableDuration; // null = non skippable as per documentation.
-  private boolean mobileEncoding;
-  private long concept;
-  private String clickthroughUrl;
-  private boolean active;
-  private ArrayList<eventPixelsEnum> eventPixels = new ArrayList();
-  private long creativeId;
+	private String name;
+	private long startTime;
+	private String landingUrl;
+	private String customVAST;
+	private ArrayList<Long> vendors = new ArrayList<Long>();
+	private long advertiser;
+	private boolean desktopEncoding;
+	private long endTime;
+	private Integer skippableDuration; // null = non skippable as per
+										// documentation.
+	private boolean mobileEncoding;
+	private long concept;
+	private String clickthroughUrl;
+	private boolean active;
+	private ArrayList<eventPixelsEnum> eventPixels = new ArrayList();
+	private long creativeId;
 
-  public enum eventPixelsEnum {
+	public enum eventPixelsEnum {
 
-    ImpSkippable("imp:skippable"), Complete("complete"), CreativeClick(
-        "creative:click"), FullScreen("fullscreen"), FirstQuartile("firstQuartile"), CreativeError(
-            "creative:err"), Rewind("rewind"), MidPoint("midpoint"), Start("start"), CreativeImp(
-                "creative:imp"), CreativeView("creativeView"), Expand("expand"), Close(
-                    "close"), Collapse("collapse"), AcceptInvitation("acceptInvitation"), Mute(
-                        "mute"), ThirdQuartile("thirdQuartile"), Unmute("unmute"), Resume(
-                            "resume"), Pause("pause"), Skip("skip"), EngagedView("engagedView");
+		ImpSkippable("imp:skippable"), Complete("complete"), CreativeClick("creative:click"), FullScreen(
+				"fullscreen"), FirstQuartile("firstQuartile"), CreativeError("creative:err"), Rewind(
+						"rewind"), MidPoint("midpoint"), Start("start"), CreativeImp("creative:imp"), CreativeView(
+								"creativeView"), Expand("expand"), Close("close"), Collapse(
+										"collapse"), AcceptInvitation("acceptInvitation"), Mute("mute"), ThirdQuartile(
+												"thirdQuartile"), Unmute("unmute"), Resume("resume"), Pause(
+														"pause"), Skip("skip"), EngagedView("engagedView");
 
-    String val;
+		String val;
 
-    eventPixelsEnum(String pVal) {
-      val = pVal;
-    }
+		eventPixelsEnum(String pVal) {
+			val = pVal;
+		}
 
-  }
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getLandingUrl() {
-    return landingUrl;
-  }
+	public String getLandingUrl() {
+		return landingUrl;
+	}
 
-  public void setLandingUrl(String landingUrl) {
-    this.landingUrl = landingUrl;
-  }
+	public void setLandingUrl(String landingUrl) {
+		this.landingUrl = landingUrl;
+	}
 
-  public String getCustomVAST() {
-    return customVAST;
-  }
+	public String getCustomVAST() {
+		return customVAST;
+	}
 
-  public void setCustomVAST(String customVAST) {
-    this.customVAST = customVAST;
-  }
+	public void setCustomVAST(String customVAST) {
+		this.customVAST = customVAST;
+	}
 
-  public ArrayList<Long> getVendors() {
-    return vendors;
-  }
+	public ArrayList<Long> getVendors() {
+		return vendors;
+	}
 
-  public void setVendors(long pVendor) {
-    this.vendors.add(pVendor);
-  }
+	public void setVendors(long pVendor) {
+		this.vendors.add(pVendor);
+	}
 
-  public long getAdvertiser() {
-    return advertiser;
-  }
+	public long getAdvertiser() {
+		return advertiser;
+	}
 
-  public void setAdvertiser(long advertiser) {
-    this.advertiser = advertiser;
-  }
+	public void setAdvertiser(long advertiser) {
+		this.advertiser = advertiser;
+	}
 
-  public boolean isDesktopEncoding() {
-    return desktopEncoding;
-  }
+	public boolean isDesktopEncoding() {
+		return desktopEncoding;
+	}
 
-  public void setDesktopEncoding(boolean desktopEncoding) {
-    this.desktopEncoding = desktopEncoding;
-  }
+	public void setDesktopEncoding(boolean desktopEncoding) {
+		this.desktopEncoding = desktopEncoding;
+	}
 
-  public long getEndTime() {
-    return endTime;
-  }
+	public long getEndTime() {
+		return endTime;
+	}
 
-  public void setEndTime(long endTime) {
-    this.endTime = endTime;
-  }
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
 
-  public int getSkippableDuration() {
-    return skippableDuration;
-  }
+	public int getSkippableDuration() {
+		return skippableDuration;
+	}
 
-  public void setSkippableDuration(int skippableDuration) {
-    this.skippableDuration = skippableDuration;
-  }
+	public void setSkippableDuration(int skippableDuration) {
+		this.skippableDuration = skippableDuration;
+	}
 
-  public boolean isMobileEncoding() {
-    return mobileEncoding;
-  }
+	public boolean isMobileEncoding() {
+		return mobileEncoding;
+	}
 
-  public void setMobileEncoding(boolean mobileEncoding) {
-    this.mobileEncoding = mobileEncoding;
-  }
+	public void setMobileEncoding(boolean mobileEncoding) {
+		this.mobileEncoding = mobileEncoding;
+	}
 
-  public long getConcept() {
-    return concept;
-  }
+	public long getConcept() {
+		return concept;
+	}
 
-  public void setConcept(long concept) {
-    this.concept = concept;
-  }
+	public void setConcept(long concept) {
+		this.concept = concept;
+	}
 
-  public String getClickthroughUrl() {
-    return clickthroughUrl;
-  }
+	public String getClickthroughUrl() {
+		return clickthroughUrl;
+	}
 
-  public void setClickthroughUrl(String clickthroughUrl) {
-    this.clickthroughUrl = clickthroughUrl;
-  }
+	public void setClickthroughUrl(String clickthroughUrl) {
+		this.clickthroughUrl = clickthroughUrl;
+	}
 
-  public boolean isActive() {
-    return active;
-  }
+	public boolean isActive() {
+		return active;
+	}
 
-  public void setActive(boolean active) {
-    this.active = active;
-  }
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
-  public ArrayList<eventPixelsEnum> getEventPixels() {
-    return eventPixels;
-  }
+	public ArrayList<eventPixelsEnum> getEventPixels() {
+		return eventPixels;
+	}
 
-  public void setEventPixels(ArrayList<eventPixelsEnum> eventPixels) {
-    this.eventPixels = eventPixels;
-  }
+	public void setEventPixels(ArrayList<eventPixelsEnum> eventPixels) {
+		this.eventPixels = eventPixels;
+	}
 
-  public long getCreativeId() {
-    return creativeId;
-  }
+	public long getCreativeId() {
+		return creativeId;
+	}
 
-  public void setCreativeId(long creativeId) {
-    this.creativeId = creativeId;
-  }
+	public void setCreativeId(long creativeId) {
+		this.creativeId = creativeId;
+	}
 
-  public long getStartTime() {
-    return startTime;
-  }
+	public long getStartTime() {
+		return startTime;
+	}
 
-  public void setStartTime(long startTime) {
-    this.startTime = startTime;
-  }
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
 
-@Override
-public String getEntityname() {
-	// TODO Auto-generated method stub
-	return null;
-}
+	@Override
+	public String getEntityname() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-@Override
-public Form getForm() {
-	// TODO Auto-generated method stub
-	return null;
-}
+	@Override
+	public Form getForm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-@Override
-public String getUri() throws ClientException {
-	// TODO Auto-generated method stub
-	return null;
-}
+	@Override
+	public String getUri() throws ClientException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
