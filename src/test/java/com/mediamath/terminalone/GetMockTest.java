@@ -25,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.functional.PostFunctionalTestIT;
@@ -970,6 +971,38 @@ public class GetMockTest {
 
 		assertNotNull(jsonresponse);
 	}
+		
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithVideoCreativeToOrg() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"details\":{\"active\":true,\"advertiser\":144197,\"name\":\"TestCreativeJC2\",\"concept\":1350397,\"clickthroughUrl\":\"http://www.example.com\","
+				+"\"landingUrl\":\"http://www.example.com\",\"eventPixels\":[],\"vendors\":[1133,1134],\"disabledVariants\":[]},\"companionIds\":[],\"duration\":6,"
+				+"\"isUploaded\":true,\"unsecureUrls\":{},\"status\":{\"code\":\"ok\"},\"readyToServe\":true,"
+				+"\"thumbnail\":\"https://s3.amazonaws.com/mm-video-assets-us-east-1/1d3fc62d-39d3-4332-a44c-6d2fe534b8ac-00002.png\",\"autoVendors\":[522],"
+				+"\"percent\":100,\"isSecure\":true,\"isRotating\":false,\"isDynamic\":false,\"isAudio\":false,\"vastVersion\":2}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4534579).setCreativeType(CreativeType.video).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+
+	
 
 	
 
