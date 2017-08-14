@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
+import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
@@ -29,6 +30,7 @@ import com.mediamath.terminalone.models.AudienceSegment;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.CreativeApproval;
+import com.mediamath.terminalone.models.CreativeDetailsResponse;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Pixel;
@@ -1224,4 +1226,26 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 	}
+	
+	@Test
+	public void testGetWithVideoCreativeToOrg() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4534579).setCreativeType(CreativeType.video).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+
+		assertNotNull(jsonresponse);
+		assertNotNull(cdr);
+	}
+	
+
 }

@@ -35,9 +35,9 @@ public class T1Service {
 	private static Properties entityReadOnlyFields = Utility.loadEntityReadOnlyFields();
 
 	private static Properties entityServicesPaths = Utility.loadServicesPath();
-	
+
 	private static final String OAUTH_GRANT_TYPE = "password";
-	
+
 	private static final String OAUTH_SCOPE = "openid profile";
 
 	private String URL = null;
@@ -107,6 +107,10 @@ public class T1Service {
 		return oauthURL + "/" + path.toString();
 	}
 
+	public String constructVideoCreativeUrl(StringBuilder path) {
+		return apiBase + videoCreativeURL + "/" + path.toString();
+	}
+
 	/**
 	 * gets form object of login related information.
 	 * 
@@ -127,7 +131,7 @@ public class T1Service {
 
 		return form;
 	}
-	
+
 	/**
 	 * gets form object of login related information.
 	 * 
@@ -146,7 +150,7 @@ public class T1Service {
 		form.param("password", password);
 		form.param("client_id", clientId);
 		form.param("client_secret", clientSecret);
-		form.param("grant_type",OAUTH_GRANT_TYPE);
+		form.param("grant_type", OAUTH_GRANT_TYPE);
 		form.param("scope", OAUTH_SCOPE);
 
 		return form;

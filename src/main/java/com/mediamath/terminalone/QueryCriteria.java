@@ -26,6 +26,10 @@ import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
 public class QueryCriteria {
+	
+	public enum CreativeType {
+	    video, normal;
+	}
 
 	public String collection = null;
 
@@ -58,6 +62,8 @@ public class QueryCriteria {
 	public QueryParamValues queryParams = null;
 
 	public FullParamValues full = null;
+	
+	public CreativeType creativeType;
 
 	/**
 	 * Query Criteria builder object.
@@ -100,6 +106,8 @@ public class QueryCriteria {
 		queryOperator = builder.queryOperator;
 
 		downloadSiteList = builder.downloadSiteList;
+		
+		creativeType = builder.creativeType;
 	}
 
 	public static Builder builder() {
@@ -143,6 +151,8 @@ public class QueryCriteria {
 		private FullParamValues full = null;
 
 		private boolean downloadSiteList = false;
+		
+		public CreativeType creativeType;
 
 		private Builder() {
 		}
@@ -180,6 +190,8 @@ public class QueryCriteria {
 			queryParams = old.queryParams;
 
 			downloadSiteList = old.downloadSiteList;
+			
+			creativeType = old.creativeType;
 		}
 
 		public Builder setCollection(String value) {
@@ -264,6 +276,11 @@ public class QueryCriteria {
 
 		public Builder setDownloadSiteList(boolean downloadSiteList) {
 			this.downloadSiteList = downloadSiteList;
+			return this;
+		}
+		
+		public Builder setCreativeType(CreativeType creativeType) {
+			this.creativeType = creativeType;
 			return this;
 		}
 

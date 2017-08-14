@@ -32,7 +32,6 @@ import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
-import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,9 +40,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Campaign;
+import com.mediamath.terminalone.models.CreativeDetailsResponse;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -585,15 +586,21 @@ public class TerminalOne {
 	 */
 	public JsonResponse<? extends T1Entity> get(QueryCriteria query) throws ClientException, ParseException {
 		StringBuilder path = getService.get(query);
-		// If collection=deals then use for media api base
-		String finalPath = tOneService.constructUrl(path, query.collection);
+		String finalPath;
+		
+		if(query.collection.equals("creatives") && (query.creativeType!=null && query.creativeType.equals(CreativeType.video))){
+			finalPath = tOneService.constructVideoCreativeUrl(path);
+		}else{
+			// If collection=deals then use for media api base
+			finalPath = tOneService.constructUrl(path, query.collection);
+		}
+		
 		String response = this.connection.get(finalPath, this.getUser());
 
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try {
 			jsonResponse = parseGetData(response, query);
-			// jsonResponse = checkResponseEntities(jsonResponse);
 		} catch (ParseException parseException) {
 			throw new ClientException("Unable to parse the response");
 		}
@@ -806,8 +813,8 @@ public class TerminalOne {
 				if (entityType != null && !"".equalsIgnoreCase(entityType)) {
 					finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
 				} else {
-					finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
-					}.getType());
+						finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
+						}.getType());
 				}
 
 			}
@@ -817,11 +824,17 @@ public class TerminalOne {
 			if (query.collection == null) {
 				return null;
 			}
-
+			if(query.collection.equals("creatives") && (query.creativeType!=null && query.creativeType.equals(CreativeType.video))){
+				String finResponse = "{\"data\":"+response + "}";
+				finalJsonResponse = parser.parseJsonToObj(finResponse, new TypeToken<JsonResponse<CreativeDetailsResponse>>() {
+				}.getType());
+			}
+			else{
 			finalJsonResponse = parser.parseJsonToObj(response,
 					Constants.getEntityType.get(query.collection.toLowerCase()));
-
-			if (finalJsonResponse != null) {
+			}
+			
+			if (finalJsonResponse != null && !(query.collection.equals("creatives") && (query.creativeType!=null && query.creativeType.equals(CreativeType.video)))) {
 				finalJsonResponse.setData(null);
 			}
 		}
