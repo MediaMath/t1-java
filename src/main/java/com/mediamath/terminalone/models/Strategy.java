@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 
-public class Strategy implements T1Entity {
+public class Strategy implements T1Entity, Cloneable {
 
 	private static final String entityName = "Strategy";
 
@@ -859,4 +859,8 @@ public class Strategy implements T1Entity {
 		return null;
 	}
 
+	
+	public Strategy clone() throws CloneNotSupportedException{
+		return (Strategy) super.clone();
+	}
 }

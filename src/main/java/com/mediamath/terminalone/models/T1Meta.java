@@ -23,6 +23,7 @@ public class T1Meta {
   String count;
   String offset;
   String total_count;
+  String next_page;
 
   public String getEtag() {
     return etag;
@@ -71,5 +72,13 @@ public class T1Meta {
   public void setTotal_count(String total_count) {
     this.total_count = total_count;
   }
+
+public String getNext_page() {
+	return next_page;
+}
+
+public void setNext_page(String next_page) {
+	this.next_page = next_page;
+}
 
 }

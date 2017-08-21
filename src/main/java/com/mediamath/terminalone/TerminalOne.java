@@ -21,6 +21,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -39,6 +48,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
@@ -83,7 +93,7 @@ public class TerminalOne {
 	private static final String UNABLE_TO_GET_O_AUTH_TOKEN = "Unable to get OAuth token: ";
 
 	private static final String LOGIN = "login";
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
 	private Connection connection = null;
@@ -343,6 +353,48 @@ public class TerminalOne {
 		}
 		return strategy;
 	}
+	
+	/** Saves List of Strategy entity ie. bulk strategy update
+	 * 
+	 * @param strategyList
+	 * @return List<Strategy>
+	 */
+	public List<Strategy> save(List<Strategy> strategyList) {
+		List<Strategy> finList = new ArrayList<Strategy>();
+		ExecutorService exec = Executors.newFixedThreadPool(20);
+		List<FutureTask<Strategy>> taskList = new ArrayList<FutureTask<Strategy>>();
+		if (isAuthenticated()) {
+			for(final Strategy str: strategyList){
+				
+				FutureTask<Strategy> futureTask = new FutureTask<Strategy>(new Callable<Strategy>() {
+		            @Override
+		            public Strategy call() {
+		            	Strategy strRes=null;
+		                try {
+		                	strRes= postService.save(str);
+						} catch (ClientException | ParseException e) {
+							logger.info("Error Log: "+ e.getStackTrace());
+						}
+						return strRes;
+		            }
+		        });
+		        taskList.add(futureTask);
+				exec.execute(futureTask);
+			}
+			
+		    
+			for(FutureTask<Strategy> futureTsk: taskList){
+				try {
+					finList.add(futureTsk.get());
+				} catch (InterruptedException | ExecutionException e) {
+					logger.info("Error Log: "+ e.getStackTrace());
+				}
+			}
+			exec.shutdown();
+		}
+		return finList;
+	}
+
 
 	/**
 	 * Copies Bulk Strategy entities.
@@ -596,7 +648,7 @@ public class TerminalOne {
 		}
 		
 		String response = this.connection.get(finalPath, this.getUser());
-
+		
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try {
@@ -604,8 +656,93 @@ public class TerminalOne {
 		} catch (ParseException parseException) {
 			throw new ClientException("Unable to parse the response");
 		}
+		
+		
+		jsonResponse = checkGetAllResponse(query, response, jsonResponse);
 
 		return jsonResponse;
+	}
+
+	/** If get_all is true, then fetch all data from server and add to existing records.
+	 * @param query
+	 * @param response
+	 * @param jsonResponse
+	 * @return
+	 * @throws ClientException
+	 */
+	private JsonResponse<? extends T1Entity> checkGetAllResponse(QueryCriteria query, String response,
+			JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
+
+		//Using NEXT_PAGE param of meta from each call, in case of get_all
+
+		if(jsonResponse!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
+			JsonArray mainData = extractData(response);
+			String lastCallResponse = null;
+			//loop till next_page !=null
+			while(jsonResponse.getMeta().getNext_page()!=null){
+				String pageResponse = this.connection.get(jsonResponse.getMeta().getNext_page(), this.getUser());
+				
+				JsonArray data = extractData(pageResponse);
+				mainData.addAll(data);
+				
+				JsonResponse<? extends T1Entity> pageJsonResponse1;
+				// parse the data to entities.
+				try {
+					pageJsonResponse1 = parseGetData(pageResponse, query);
+				} catch (ParseException parseException) {
+					throw new ClientException("Unable to parse the response");
+				}
+				
+				jsonResponse = pageJsonResponse1;
+				lastCallResponse=pageResponse;
+			}
+
+			JsonParser parser = new JsonParser();
+			JsonObject obj = parser.parse(response).getAsJsonObject();
+			obj.add("data", mainData);
+			//add last call meta to response string
+			if(lastCallResponse!=null){
+				obj.add("meta", new JsonParser().parse(lastCallResponse).getAsJsonObject().get("meta"));
+			}
+			jsonResponse = null;
+
+			try {
+				jsonResponse = parseGetData(obj.toString(),query);
+			} catch (ParseException parseException) {
+				throw new ClientException("Unable to parse the response");
+			}
+		}
+		return jsonResponse;
+	}
+	
+	/** Extract Data from Json Response String
+	 * 
+	 * @param response
+	 * @return
+	 */
+	private JsonArray extractData(String response) {
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(response).getAsJsonObject();
+		return obj.get("data").getAsJsonArray();
+	}
+	
+	
+	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) throws CloneNotSupportedException, ClientException, ParseException{
+		
+		List<Strategy> UpdatorStrategyList = new ArrayList<Strategy>();
+		for(Strategy str : strategyList){
+			Strategy updatorCopy = updator.clone();
+			updatorCopy.setId(str.getId());
+			updatorCopy.setVersion(str.getVersion());
+			//Adding compulsary fields
+			updatorCopy.setUseCampaignEnd(str.isUseCampaignEnd());
+			updatorCopy.setUseCampaignStart(str.isUseCampaignStart());
+			updatorCopy.setEndDate(str.getEndDate());
+
+			UpdatorStrategyList.add(updatorCopy);
+		}
+		
+		return this.save(UpdatorStrategyList);
 	}
 
 	/**
