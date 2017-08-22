@@ -20,15 +20,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import javax.ws.rs.core.Form;
@@ -726,23 +727,55 @@ public class TerminalOne {
 		return obj.get("data").getAsJsonArray();
 	}
 	
-	
-	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) throws CloneNotSupportedException, ClientException, ParseException{
-		
-		List<Strategy> UpdatorStrategyList = new ArrayList<Strategy>();
-		for(Strategy str : strategyList){
-			Strategy updatorCopy = updator.clone();
-			updatorCopy.setId(str.getId());
-			updatorCopy.setVersion(str.getVersion());
-			//Adding compulsary fields
-			updatorCopy.setUseCampaignEnd(str.isUseCampaignEnd());
-			updatorCopy.setUseCampaignStart(str.isUseCampaignStart());
-			updatorCopy.setEndDate(str.getEndDate());
+	/** Updates all strategies from any campaign using provided strategy updater object
+	 * 
+	 * @param strategyList
+	 * @param updator
+	 * @return
+	 */
+	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) {
+		String overridedMethods = "getForm,getUri,clone,getId,getEntityname";
+		List<Strategy> updatorStrategyList = new ArrayList<Strategy>();
+		for (Strategy strategyRecord : strategyList) {
+			for (Method method : updator.getClass().getDeclaredMethods()) {
+				if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0
+						&& method.getReturnType() != void.class
+						&& (method.getName().startsWith("get") || method.getName().startsWith("is"))) {
+					Object value = null;
+					try {
+						value = method.invoke(updator);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					if (method.getName().startsWith("get") && value != null
+							&& overridedMethods.indexOf(method.getName()) == -1) {
+						String settingMethodName = "set" + method.getName().substring(3);
+						Method method1;
+						try {
+							method1 = strategyRecord.getClass().getMethod(settingMethodName, method.getReturnType());
+							method1.invoke(strategyRecord, value);
+						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+								| IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+					if (method.getName().startsWith("is") && (value != null && !(value.equals(Boolean.FALSE)))) {
+						String boolMethodName = "set" + method.getName().substring(2);
+						Method method1;
+						try {
+							method1 = strategyRecord.getClass().getMethod(boolMethodName, method.getReturnType());
+							method1.invoke(strategyRecord, value);
+						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+								| IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				} // if
+			} // for method list
+			updatorStrategyList.add(strategyRecord);
+		} // for strategy list
 
-			UpdatorStrategyList.add(updatorCopy);
-		}
-		
-		return this.save(UpdatorStrategyList);
+		return this.save(updatorStrategyList);
 	}
 
 	/**

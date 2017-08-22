@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1250,13 +1251,13 @@ public class GetFunctionalTestIT {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException {
+	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		FullParamValues fpm = new FullParamValues();
 		fpm.setStrValue("strategy");
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setQuery("campaign_id==349751").setFull(fpm).setGetAll(true).build();
 		Map<String, Long> limitMap = new HashMap<String, Long>();
-		limitMap.put("campaign", (long) 349751);
+		limitMap.put("campaign", (long) 406396);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setLimit(limitMap).setFull(fpm).setGetAll(true).build();
 		List<Strategy> strategyList = new ArrayList<Strategy>();
 		
 		JsonResponse<?> jsonresponse = null;
@@ -1270,16 +1271,11 @@ public class GetFunctionalTestIT {
 		Strategy updator = new Strategy();
 		updator.setBidAggresiveness(100f);
 		List<Strategy> updatedStrategyList =null;
-		try {
-			long startTime = System.currentTimeMillis();
-			System.out.println("start= "+startTime);
-			updatedStrategyList =	jt1.bulkUpdate(strategyList, updator);
-			System.out.println("total time = "+((new Date()).getTime() - startTime)/1000);
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		long startTime = System.currentTimeMillis();
+		System.out.println("start= "+startTime);
+		updatedStrategyList =	jt1.bulkUpdate(strategyList, updator);
+		System.out.println("total time = "+((new Date()).getTime() - startTime)/1000);
 
 		assertNotNull(updatedStrategyList);
 	}
-
 }
