@@ -25,7 +25,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
 
@@ -48,7 +50,6 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.OAuthResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
@@ -74,6 +75,7 @@ import com.mediamath.terminalone.models.TargetDimensions;
 import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
+import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 
@@ -1841,6 +1843,70 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(cmpSave);
 	}
+
+	
+	@Test
+	public void testUsersPost() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		User user = new User();
+		
+		user.setFirstName("Test");
+		user.setLastName("Jitendra");
+		user.setTitle("Test+Jitendra");
+		user.setName("Test-Jitendra");
+		user.setPhone("808888080");
+		user.setUsername("testjitendra11@yopmail.com");
+		user.setEmail("testjitendra@yopmail.com");
+		user.setPassword("TestPwd");
+		user.setLinkLdap(false);
+		user.setEditCampaigns(true);
+		user.setEditMarginsAndPerformance(true);
+		user.setViewOrganizations(true);
+		user.setActive(true);
+		user.setType("AGENCY");
+		user.setScope("SELECT");
+		user.setRole("MANAGER");
+		user.setViewSegments(false);
+		user.setEditSegments(false);
+		user.setViewDataDefinition(false);
+		user.setEditDataDefinition(false);
+		user.setViewDmpReports(false);
+		
+		User userSaved=null;
+		try {
+			userSaved = (User) jt1.save(user);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(userSaved);
+	}
+	
+	@Test
+	public void testUserPermissionPost() throws ClientException {
+		
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		User user =  new User();
+		user.setId(22512);
+		Map<String, Integer> permissions = new HashMap<String, Integer>();
+		
+		permissions.put("agency_id", 116678);
+		user.setPermissionList(permissions);
+		
+		User userSaved=null;
+		try {
+			userSaved = (User) jt1.save(user);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(userSaved);
+		assertNotNull(userSaved.getPermissions());
+		
+	}	
 
 	
 }

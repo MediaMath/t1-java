@@ -64,6 +64,8 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.UserPermissions;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -182,6 +184,58 @@ public class PostService {
 
 		return response;
 	}
+	
+	
+	/**Saves User entity and its permissions.
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public User save(User entity) throws ClientException, ParseException {
+
+		User userSaved = null;	
+		
+		if (entity == null){
+			return null;
+		}else{
+			StringBuilder uri = getUri(entity);
+			if (entity.getId() > 0) {
+				uri.append("/");
+				uri.append(entity.getId());
+			}
+
+			if (entity.getId() > 0 && !entity.getPermissionsList().isEmpty()) {
+				uri.append("/permissions");
+				entity.setEntityname("UserPermissions");
+			}
+
+			JsonResponse<? extends T1Entity> finalJsonResponse;
+
+			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
+
+			String responseString = getResponseString(entity, path);
+
+			finalJsonResponse = getJsonResponse(entity, responseString);
+
+			if (finalJsonResponse == null)
+				return null;
+			
+			if (finalJsonResponse.getData() instanceof User) {
+				userSaved = (User) finalJsonResponse.getData();
+			} else if (finalJsonResponse.getData() instanceof UserPermissions){
+				UserPermissions uPerm = (UserPermissions) finalJsonResponse.getData();
+				userSaved = (User) uPerm.getUser();
+				userSaved.setPermissions(uPerm.getPermissions());
+			}
+
+		}
+				
+
+		return userSaved;
+	}
+
 
 	/**
 	 * saves a Strategy entity.
@@ -1185,7 +1239,11 @@ public class PostService {
 			} else if (element.isJsonObject()) {
 				JsonObject obj = element.getAsJsonObject();
 				String entityType = getEntityType(obj);
-				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
+				if(entityType!=null){
+					finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
+				}else{
+					finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+				}
 			}
 		} else {
 			if (entity != null) {
@@ -1204,8 +1262,9 @@ public class PostService {
 		if (entityTypeElement == null && obj.get("exclude_op") != null && obj.get("include_op") != null
 				&& obj.get("enabled") != null) {
 			return "strategy_target_values";
-		} else {
-			return entityTypeElement.getAsString();
+		}
+		else {
+			return ((entityTypeElement != null) ? entityTypeElement.getAsString() : null);
 		}
 	}
 

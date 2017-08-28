@@ -1002,7 +1002,108 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 	}
 
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithAllUsers() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":[{\"entity_type\":\"user\",\"name\":\"mjptestuser@gmail.com\",\"id\":21904},{\"entity_type\":\"user\",\"name\":\"rcm@reporter.com\",\"id\":21790},"
+						+"{\"entity_type\":\"user\",\"name\":\"soledadborneo@yahoo.comar\",\"id\":21613},{\"entity_type\":\"user\",\"name\":\"sdavies+2@mediamath.com\",\"id\":21542},"
+						+"{\"entity_type\":\"user\",\"name\":\"restricted_user@mediamath.com\",\"id\":21505},{\"entity_type\":\"user\",\"name\":\"tpiron-test@bar.com\",\"id\":21306},"
+						+"{\"entity_type\":\"user\",\"name\":\"clpkeenan+agencyadmin@gmail.com\",\"id\":21204},{\"entity_type\":\"user\",\"name\":\"ss@ss.com\",\"id\":21155},"
+						+"{\"entity_type\":\"user\",\"name\":\"sptest12@mm.com\",\"id\":21154},{\"entity_type\":\"user\",\"name\":\"social_user@mediamath.com\",\"id\":21038},"
+						+"{\"entity_type\":\"user\",\"name\":\"sonic@3.456\",\"id\":20787},{\"entity_type\":\"user\",\"name\":\"clpkeenan+roletest2@gmail.com\",\"id\":20747},"
+						+"{\"entity_type\":\"user\",\"name\":\"clpkeenan+roletest@gmail.com\",\"id\":20746},{\"entity_type\":\"user\",\"name\":\"test1@affiperf.com\",\"id\":20708},"
+						+"{\"entity_type\":\"user\",\"name\":\"fsargent+test@mediamath.com\",\"id\":20628},{\"entity_type\":\"user\",\"name\":\"estefania.alba@headwaydigital.com\",\"id\":20534},"
+						+"{\"entity_type\":\"user\",\"name\":\"soledad.borneo@headwaydigital.com\",\"id\":20513},"
+						+"{\"entity_type\":\"user\",\"name\":\"auto_test_agency_reporter@mediamath.com\",\"id\":20481},"
+						+"{\"entity_type\":\"user\",\"name\":\"auto_test_agency_manager@mediamath.com\",\"id\":20480},"
+						+"{\"entity_type\":\"user\",\"name\":\"auto_test_agency_admin@mediamath.com\",\"id\":20479}],"
+						+"\"meta\":{\"next_page\":\"https://api.mediamath.com/api/v2.0/users?api_key=65nvvagvbay89b5jnj6zazsj&page_limit=20&page_offset=20\","
+						+"\"etag\":\"ac6375e4ca73e65460d3c3840475434d87d209d4\",\"count\":20,\"called_on\":\"2017-07-27T08:00:04+0000\",\"status\":\"ok\",\"offset\":0,\"total_count\":232}}");
+		QueryCriteria query = QueryCriteria.builder().setCollection("users").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
 	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithSingleUsers() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":{\"edit_data_definition\":true,\"view_data_definition\":true,\"edit_campaigns\":true,\"access_internal_fees\":false,\"labs_enable_rmx\":false,"
+						+"\"updated_on\":\"2017-05-24T17:56:20+0000\",\"last_name\":\"qa\",\"email\":\"qatest3@mm.com\",\"view_segments\":true,\"created_on\":\"2017-04-20T06:04:46+0000\","
+						+"\"view_organizations\":true,\"entity_type\":\"user\",\"view_dmp_reports\":true,\"id\":20301,\"creator_id\":9070,\"scope\":\"SELECT\","
+						+"\"link_saml\":false,\"edit_segments\":true,\"version\":3,\"name\":\"qatest3@mm.com\",\"active\":true,\"phone\":\"123456789\",\"username\":\"qatest3@mm.com\","
+						+"\"edit_margins_and_performance\":true,\"link_ldap\":false,\"last_login_on\":\"2017-04-20T06:08:56+0000\",\"title\":\"qa\",\"type\":\"AGENCY\",\"role\":\"ADMIN\","
+						+"\"first_name\":\"qatest3\"},\"meta\":{\"etag\":\"09fd5feba7c0a2ed429adbefb4a6c46da342e837\",\"called_on\":\"2017-07-27T08:04:24+0000\",\"status\":\"ok\"}}");
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("users").setEntity(20301).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
+	
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testGetWithUserPermissions() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\":{\"permissions\":{\"flags\":[{\"access\":[{\"value\":1,\"type\":\"edit_data_definition\"},{\"value\":1,\"type\":\"view_data_definition\"},{\"value\":1,\"type\":\"edit_segments\"},"
+						+"{\"value\":1,\"type\":\"edit_campaigns\"},{\"value\":0,\"type\":\"access_internal_fees\"},{\"value\":1,\"type\":\"edit_margins_and_performance\"},"
+						+"{\"value\":1,\"type\":\"view_organizations\"},{\"value\":1,\"type\":\"view_segments\"},{\"value\":1,\"type\":\"view_dmp_reports\"},{\"value\":\"AGENCY\",\"type\":\"type\"},"
+						+"{\"value\":\"ADMIN\",\"type\":\"role\"},{\"value\":\"SELECT\",\"type\":\"scope\"}]}],"
+						+"\"entities\":{\"advertiser\":[{\"access\":[{\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"agency_id\":101600,\"name\":\"KinectedT1BetaTest\",\"id\":\"111213\"},"
+						+"{\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"agency_id\":103570,\"name\":\"ADV_release_v2.83.0\",\"id\":\"125846\"},{\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"agency_id\":101224,"
+						+"\"name\":\"Geoffrey\",\"id\":\"107105\"},{\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"agency_id\":103615,\"name\":\"GoFast\",\"id\":\"126261\"}]}],"
+						+"\"agency\":[{\"access\":[{\"organization_id\":100048,\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"name\":\"TESTJPPMP\",\"child_count\":1,\"id\":\"109915\"},"
+						+"{\"organization_id\":100048,\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"name\":\"JasonTest\",\"child_count\":0,\"id\":\"103181\"},{\"organization_id\":100048,\"value\":\"w\","
+						+"\"dmp_enabled\":\"enabled\",\"name\":\"B54\",\"child_count\":1,\"id\":\"114232\"},{\"organization_id\":100048,\"value\":\"w\",\"dmp_enabled\":\"enabled\",\"name\":\"test_agency_py_2.126.1\","
+						+"\"child_count\":1,\"id\":\"113421\"}]}],\"organization\":[{\"access\":[{\"value\":\"r\",\"dmp_enabled\":\"enabled\",\"name\":\"ACMEOrg\",\"child_count\":416,\"id\":\"100048\"}]}]"
+						+"}},\"user\":{\"entity_type\":\"user\",\"name\":\"ss@ss.com\",\"id\":21155}},\"meta\":{\"status\":\"ok\"}}");
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("users").setEntity(20301).setChild("permissions").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+	}
 
 	
 

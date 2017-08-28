@@ -337,9 +337,9 @@ public class Deal implements T1Entity {
 		if (this.getPermissions() != null) {
 			Map<String, Object> pMap = new HashMap<String, Object>();
 			pMap.put("advertiser_ids", this.getPermissions().getAdvertiser_ids());
-			pMap.put("agency_ids", this.getPermissions().getAgency_ids());
-			pMap.put("organization_ids", this.getPermissions().getOrganization_ids());
-			pMap.put("all_organizations", this.getPermissions().isAll_organizations());
+			pMap.put("agency_ids", this.getPermissions().getAgencyIds());
+			pMap.put("organization_ids", this.getPermissions().getOrganizationIds());
+			pMap.put("all_organizations", this.getPermissions().isAllOrganizations());
 
 			dealForm.param("permissions", gson.toJson(pMap));
 		}
