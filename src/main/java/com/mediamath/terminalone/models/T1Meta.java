@@ -17,59 +17,69 @@
 package com.mediamath.terminalone.models;
 
 public class T1Meta {
-  String etag;
-  String called_on;
-  String status;
-  String count;
-  String offset;
-  String total_count;
 
-  public String getEtag() {
-    return etag;
-  }
+	private String etag;
+	private String called_on;
+	private String status;
+	private String count;
+	private String offset;
+	private String total_count;
+	private String next_page;
 
-  public void setEtag(String etag) {
-    this.etag = etag;
-  }
+	public String getEtag() {
+		return etag;
+	}
 
-  public String getCalled_on() {
-    return called_on;
-  }
+	public void setEtag(String etag) {
+		this.etag = etag;
+	}
 
-  public void setCalled_on(String called_on) {
-    this.called_on = called_on;
-  }
+	public String getCalled_on() {
+		return called_on;
+	}
 
-  public String getStatus() {
-    return status;
-  }
+	public void setCalled_on(String called_on) {
+		this.called_on = called_on;
+	}
 
-  public void setStatus(String status) {
-    this.status = status;
-  }
+	public String getStatus() {
+		return status;
+	}
 
-  public String getCount() {
-    return count;
-  }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-  public void setCount(String count) {
-    this.count = count;
-  }
+	public String getCount() {
+		return count;
+	}
 
-  public String getOffset() {
-    return offset;
-  }
+	public void setCount(String count) {
+		this.count = count;
+	}
 
-  public void setOffset(String offset) {
-    this.offset = offset;
-  }
+	public String getOffset() {
+		return offset;
+	}
 
-  public String getTotal_count() {
-    return total_count;
-  }
+	public void setOffset(String offset) {
+		this.offset = offset;
+	}
 
-  public void setTotal_count(String total_count) {
-    this.total_count = total_count;
-  }
+	public String getTotal_count() {
+		return total_count;
+	}
+
+	public void setTotal_count(String total_count) {
+		this.total_count = total_count;
+	}
+
+	public String getNext_page() {
+		return next_page;
+	}
+
+	public void setNext_page(String next_page) {
+		this.next_page = next_page;
+	}
 
 }

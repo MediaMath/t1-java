@@ -8,7 +8,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1247,5 +1249,33 @@ public class GetFunctionalTestIT {
 		assertNotNull(cdr);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		FullParamValues fpm = new FullParamValues();
+		fpm.setStrValue("strategy");
+		Map<String, Long> limitMap = new HashMap<String, Long>();
+		limitMap.put("campaign", (long) 406396);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setLimit(limitMap).setFull(fpm).setGetAll(true).build();
+		List<Strategy> strategyList = new ArrayList<Strategy>();
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		strategyList = (List<Strategy>) jsonresponse.getData();
+		
+		Strategy updator = new Strategy();
+		updator.setBidAggresiveness(100f);
+		List<Strategy> updatedStrategyList =null;
+		long startTime = System.currentTimeMillis();
+		System.out.println("start= "+startTime);
+		updatedStrategyList =	jt1.bulkUpdate(strategyList, updator);
+		System.out.println("total time = "+((new Date()).getTime() - startTime)/1000);
 
+		assertNotNull(updatedStrategyList);
+	}
 }

@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 
-public class Strategy implements T1Entity {
+public class Strategy implements T1Entity, Cloneable {
 
 	private static final String entityName = "Strategy";
 
@@ -171,20 +171,20 @@ public class Strategy implements T1Entity {
 	private TargetDimensions targetDimensions;
 	private StrategyTargetValues strategyTargetValues;
 
-	List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
-	List<Segments> audience_segments = new ArrayList<Segments>();
-	List<Segments> targeting_segments = new ArrayList<Segments>();
-	List<TargetValues> target_values = new ArrayList<TargetValues>();
-	List<TargetDimensions> target_dimensions = new ArrayList<TargetDimensions>();
-	List<Concept> concepts = new ArrayList<Concept>();
-	List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
-	List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
-	List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
-	List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
-	List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
+	private List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
+	private List<Segments> audience_segments = new ArrayList<Segments>();
+	private List<Segments> targeting_segments = new ArrayList<Segments>();
+	private List<TargetValues> target_values = new ArrayList<TargetValues>();
+	private List<TargetDimensions> target_dimensions = new ArrayList<TargetDimensions>();
+	private List<Concept> concepts = new ArrayList<Concept>();
+	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
+	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
+	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
+	private List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
+	private List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
 
-	List<Deal> deals = new ArrayList<>();
-	List<Integer> dealIds = new ArrayList<>();
+	private List<Deal> deals = new ArrayList<>();
+	private List<Integer> dealIds = new ArrayList<>();
 
 	private List<SiteList> site_lists = new ArrayList<SiteList>();
 
@@ -859,4 +859,8 @@ public class Strategy implements T1Entity {
 		return null;
 	}
 
+	
+	public Strategy clone() throws CloneNotSupportedException{
+		return (Strategy) super.clone();
+	}
 }

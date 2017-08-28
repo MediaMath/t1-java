@@ -238,8 +238,8 @@ public class StrategyHelper {
 			strategyForm.param("run_on_streaming", Utility.getOnOrOff(entity.isRunOnStreaming()));
 			strategyForm.param("site_restriction_transparent_urls",
 					Utility.getOnOrOff(entity.isSiteRestrictionTransparentUrls()));
-			strategyForm.param("use_campaign_start", Utility.getOnOrOff(entity.isUseCampaignStart()));
-			strategyForm.param("use_campaign_end", Utility.getOnOrOff(entity.isUseCampaignEnd()));
+			strategyForm.param("use_campaign_start", Utility.getOneOrZero(entity.isUseCampaignStart()));
+			strategyForm.param("use_campaign_end", Utility.getOneOrZero(entity.isUseCampaignEnd()));
 			strategyForm.param("status", Utility.getOnOrOff(entity.isStatus()));
 			strategyForm.param("use_mm_freq", Utility.getOnOrOff(false));
 

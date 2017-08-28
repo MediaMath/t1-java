@@ -20,7 +20,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -39,6 +49,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
@@ -83,7 +94,7 @@ public class TerminalOne {
 	private static final String UNABLE_TO_GET_O_AUTH_TOKEN = "Unable to get OAuth token: ";
 
 	private static final String LOGIN = "login";
-
+	
 	private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
 	private Connection connection = null;
@@ -343,6 +354,48 @@ public class TerminalOne {
 		}
 		return strategy;
 	}
+	
+	/** Saves List of Strategy entity ie. bulk strategy update
+	 * 
+	 * @param strategyList
+	 * @return List<Strategy>
+	 */
+	public List<Strategy> save(List<Strategy> strategyList) {
+		List<Strategy> finList = new ArrayList<Strategy>();
+		ExecutorService exec = Executors.newFixedThreadPool(20);
+		List<FutureTask<Strategy>> taskList = new ArrayList<FutureTask<Strategy>>();
+		if (isAuthenticated()) {
+			for(final Strategy str: strategyList){
+				
+				FutureTask<Strategy> futureTask = new FutureTask<Strategy>(new Callable<Strategy>() {
+		            @Override
+		            public Strategy call() {
+		            	Strategy strRes=null;
+		                try {
+		                	strRes= postService.save(str);
+						} catch (ClientException | ParseException e) {
+							logger.info("Error Log: "+ e.getStackTrace());
+						}
+						return strRes;
+		            }
+		        });
+		        taskList.add(futureTask);
+				exec.execute(futureTask);
+			}
+			
+		    
+			for(FutureTask<Strategy> futureTsk: taskList){
+				try {
+					finList.add(futureTsk.get());
+				} catch (InterruptedException | ExecutionException e) {
+					logger.info("Error Log: "+ e.getStackTrace());
+				}
+			}
+			exec.shutdown();
+		}
+		return finList;
+	}
+
 
 	/**
 	 * Copies Bulk Strategy entities.
@@ -596,7 +649,7 @@ public class TerminalOne {
 		}
 		
 		String response = this.connection.get(finalPath, this.getUser());
-
+		
 		JsonResponse<? extends T1Entity> jsonResponse;
 		// parse the data to entities.
 		try {
@@ -604,8 +657,125 @@ public class TerminalOne {
 		} catch (ParseException parseException) {
 			throw new ClientException("Unable to parse the response");
 		}
+		
+		
+		jsonResponse = checkGetAllResponse(query, response, jsonResponse);
 
 		return jsonResponse;
+	}
+
+	/** If get_all is true, then fetch all data from server and add to existing records.
+	 * @param query
+	 * @param response
+	 * @param jsonResponse
+	 * @return
+	 * @throws ClientException
+	 */
+	private JsonResponse<? extends T1Entity> checkGetAllResponse(QueryCriteria query, String response,
+			JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
+
+		//Using NEXT_PAGE param of meta from each call, in case of get_all
+
+		if(jsonResponse!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
+			JsonArray mainData = extractData(response);
+			String lastCallResponse = null;
+			//loop till next_page !=null
+			while(jsonResponse.getMeta().getNext_page()!=null){
+				String pageResponse = this.connection.get(jsonResponse.getMeta().getNext_page(), this.getUser());
+				
+				JsonArray data = extractData(pageResponse);
+				mainData.addAll(data);
+				
+				JsonResponse<? extends T1Entity> pageJsonResponse1;
+				// parse the data to entities.
+				try {
+					pageJsonResponse1 = parseGetData(pageResponse, query);
+				} catch (ParseException parseException) {
+					throw new ClientException("Unable to parse the response");
+				}
+				
+				jsonResponse = pageJsonResponse1;
+				lastCallResponse=pageResponse;
+			}
+
+			JsonParser parser = new JsonParser();
+			JsonObject obj = parser.parse(response).getAsJsonObject();
+			obj.add("data", mainData);
+			//add last call meta to response string
+			if(lastCallResponse!=null){
+				obj.add("meta", new JsonParser().parse(lastCallResponse).getAsJsonObject().get("meta"));
+			}
+			jsonResponse = null;
+
+			try {
+				jsonResponse = parseGetData(obj.toString(),query);
+			} catch (ParseException parseException) {
+				throw new ClientException("Unable to parse the response");
+			}
+		}
+		return jsonResponse;
+	}
+	
+	/** Extract Data from Json Response String
+	 * 
+	 * @param response
+	 * @return
+	 */
+	private JsonArray extractData(String response) {
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(response).getAsJsonObject();
+		return obj.get("data").getAsJsonArray();
+	}
+	
+	/** Updates all strategies from any campaign using provided strategy updater object
+	 * 
+	 * @param strategyList
+	 * @param updator
+	 * @return
+	 */
+	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) {
+		String overridedMethods = "getForm,getUri,clone,getId,getEntityname";
+		List<Strategy> updatorStrategyList = new ArrayList<Strategy>();
+		for (Strategy strategyRecord : strategyList) {
+			for (Method method : updator.getClass().getDeclaredMethods()) {
+				if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0
+						&& method.getReturnType() != void.class
+						&& (method.getName().startsWith("get") || method.getName().startsWith("is"))) {
+					Object value = null;
+					try {
+						value = method.invoke(updator);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					if (method.getName().startsWith("get") && value != null
+							&& overridedMethods.indexOf(method.getName()) == -1) {
+						String settingMethodName = "set" + method.getName().substring(3);
+						Method method1;
+						try {
+							method1 = strategyRecord.getClass().getMethod(settingMethodName, method.getReturnType());
+							method1.invoke(strategyRecord, value);
+						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+								| IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+					if (method.getName().startsWith("is") && (value != null && !(value.equals(Boolean.FALSE)))) {
+						String boolMethodName = "set" + method.getName().substring(2);
+						Method method1;
+						try {
+							method1 = strategyRecord.getClass().getMethod(boolMethodName, method.getReturnType());
+							method1.invoke(strategyRecord, value);
+						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+								| IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
+						}
+					}
+				} // if
+			} // for method list
+			updatorStrategyList.add(strategyRecord);
+		} // for strategy list
+
+		return this.save(updatorStrategyList);
 	}
 
 	/**
