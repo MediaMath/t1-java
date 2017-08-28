@@ -41,6 +41,9 @@ public class Data {
 	List<TargetValue> exclude = new ArrayList<TargetValue>();
 	String exclude_op;
 	String include_op;
+	
+	private User user;
+	private Permissions permissions;
 
 	public Map<String, String> getData() {
 		return data;
@@ -88,6 +91,22 @@ public class Data {
 
 	public void setInclude_op(String include_op) {
 		this.include_op = include_op;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Permissions getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Permissions permissions) {
+		this.permissions = permissions;
 	}
 
 }
