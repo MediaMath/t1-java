@@ -292,34 +292,25 @@ public class GetMockTest {
 				.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
-				"{\"data\": [{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 166077},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 166076},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166074},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166072},{\"entity_type\": \"advertiser\","
-						+ "\"name\": \"Riot\",\"id\": 166069},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166068},{\"entity_type\": \"advertiser\",\"name\": \"Riot\",\"id\": 166067"
-						+ "},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165985},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165984},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165978},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165977},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165968},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165967},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165966},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165804},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165803},{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\",\"id\": 165802},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"TestAdvertiser\", \"id\": 165801},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165778},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165776},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165775},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165656},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165615},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165612},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165611},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\", \"id\": 165608},{\"entity_type\": \"advertiser\",\"name\": \"ABC Advertisers\",\"id\": 165607},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"Test_Hector\",\"id\": 165343 },{ \"entity_type\": \"advertiser\",\"name\": \"AutoDesk\",\"id\": 165316},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"Ciel- Luisa\",\"id\": 165304 },{ \"entity_type\": \"advertiser\",\"name\": \"Wade Test Advertiser\",\"id\": 165169},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"KMAC\",\"id\": 164903},{  \"entity_type\": \"advertiser\",\"name\": \"JMADVERTISER5\",\"id\": 163257},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"JMADVERTISER4\",\"id\": 163256},{\"entity_type\": \"advertiser\",\"name\": \"Julie Test Advertiser 3\",\"id\": 163057},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"HL Advertiser\",\"id\": 162863},{\"entity_type\": \"advertiser\",\"name\": \"Fan Giraffe Hotel\",\"id\": 162808},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"JoyTestAdvertiser\",\"id\": 162654},{\"entity_type\": \"advertiser\",\"name\": \"B17ADVERTISER\",\"id\": 162650},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"Jesse's Girls Kids Clothing\",\"id\": 162385},{\"entity_type\": \"advertiser\",\"name\": \"Shoes by Olive\",\"id\": 162384},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"JP_Pub_Test\",\"id\": 162373},{ \"entity_type\": \"advertiser\",\"name\": \"ALYSE TEST ADVERTISER 2\",\"id\": 162185},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"Gillette\", \"id\": 162142},{\"entity_type\": \"advertiser\",\"name\": \"Anj Advertiser\",\"id\": 162141},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"033116 - Advertiser\",\"id\": 161967},{\"entity_type\": \"advertiser\",\"name\": \"test 2.127.0 adv\",\"id\": 161966},"
-						+ "{\"entity_type\": \"advertiser\",\"name\": \"test_Adv_2.126.1_py\",\"id\": 161498},{\"entity_type\": \"advertiser\",\"name\": \"test_update_postgres\",\"id\": 161359}],"
-						+ "\"meta\": {\"next_page\": \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers?page_offset=100&api_key=98waz2495u8n5udu7pzczfh5&get_all=true\",\"etag\": \"dacfb09f38adbe1df5de1b6b5bd4cffa52f38df4\", \"count\": 70,"
-						+ "\"called_on\": \"2017-02-17T06:55:58+0000\",\"status\": \"ok\",\"offset\": 0,\"total_count\": 459}}");
+				"{\"data\":[{\"entity_type\":\"advertiser\",\"name\":\"josealexandre\",\"id\":195651},{\"entity_type\":\"advertiser\",\"name\":\"Varsha_Test_Advertiser\",\"id\":194823},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"Reaction1.1AcceptanceTest-DEACTIVATED\",\"id\":194805},{\"entity_type\":\"advertiser\",\"name\":\"test_Amelie\",\"id\":194784},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"Benji'sTestingAdvertiser\",\"id\":193175},{\"entity_type\":\"advertiser\",\"name\":\"TestAdvertiser\",\"id\":192314},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"Matt\",\"id\":191640},{\"entity_type\":\"advertiser\",\"name\":\"Piper'sTestQAAgency\",\"id\":191420},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"Test_Hector_V3\",\"id\":191219},{\"entity_type\":\"advertiser\",\"name\":\"Test_hector_V2\",\"id\":191216},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED4\",\"id\":191183},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED3\",\"id\":191181},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED2\",\"id\":191180},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191179},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191178},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191177},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191176},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191175},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTest-ForNewAdvertiserPixelIssues-UPDATED\",\"id\":191174},"
+						+"{\"entity_type\":\"advertiser\",\"name\":\"SeanTestAdvertiser-Plsdonottouch\",\"id\":191034}],"
+						+"\"meta\":{\"next_page\":\"https://api.mediamath.com/api/v2.0/advertisers?api_key=65nvvagvbay89b5jnj6zazsj&get_all=true&page_limit=20&page_offset=20\","
+						+"\"etag\":\"bde4c59fdf5f8c05a14b3dcf0275c3cb1538ac27\",\"count\":20,\"called_on\":\"2017-08-29T07:13:12+0000\",\"status\":\"ok\",\"offset\":0,\"total_count\":616}}");
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setGetAll(true).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").build();
 
 		JsonResponse<?> jsonresponse = null;
 

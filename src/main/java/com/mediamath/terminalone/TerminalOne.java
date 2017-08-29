@@ -697,7 +697,7 @@ public class TerminalOne {
 
 		//Using NEXT_PAGE param of meta from each call, in case of get_all
 
-		if(jsonResponse!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
+		if(jsonResponse!=null && jsonResponse.getMeta()!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
 			JsonArray mainData = extractData(response);
 			String lastCallResponse = null;
 			//loop till next_page !=null
