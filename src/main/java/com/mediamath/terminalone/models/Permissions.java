@@ -28,23 +28,23 @@ public class Permissions {
 	private List<Integer> advertiser_ids = new ArrayList<>();
 	
 	class Access{
-		List<Map<String, String>> access = new ArrayList<Map<String, String>>();
+		public List<Map<String, String>> access = new ArrayList<Map<String, String>>();
 	}
 	
 	class AccessAdvertiser{
-		List<Advertiser> access = new ArrayList<Advertiser>(); 
+		public List<Advertiser> access = new ArrayList<Advertiser>(); 
 	}
 	class AccessAgency{
-		List<Agency> access = new ArrayList<Agency>(); 
+		public List<Agency> access = new ArrayList<Agency>(); 
 	}
 	class AccessOrganization{
-		List<Organization> access = new ArrayList<Organization>(); 
+		public List<Organization> access = new ArrayList<Organization>(); 
 	}
 	
 	class Entities{
-		List<AccessAdvertiser> advertiser = new ArrayList<AccessAdvertiser>();
-		List<AccessAdvertiser> agency = new ArrayList<AccessAdvertiser>();
-		List<AccessAdvertiser> organization = new ArrayList<AccessAdvertiser>();
+		public List<AccessAdvertiser> advertiser = new ArrayList<AccessAdvertiser>();
+		public List<AccessAdvertiser> agency = new ArrayList<AccessAdvertiser>();
+		public List<AccessAdvertiser> organization = new ArrayList<AccessAdvertiser>();
 	}
 	
 	private Entities entities;

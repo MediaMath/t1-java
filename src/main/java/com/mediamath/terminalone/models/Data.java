@@ -23,6 +23,9 @@ import java.util.Map;
 
 public class Data {
 
+	private User user;
+	private Permissions permissions;
+	
 	public class enabled {
 		String active;
 
@@ -35,15 +38,13 @@ public class Data {
 		}
 	}
 
-	Map<String, String> data = new HashMap<String, String>();
+	private Map<String, String> data = new HashMap<String, String>();
 	public enabled enabled;
-	List<TargetValue> include = new ArrayList<TargetValue>();
-	List<TargetValue> exclude = new ArrayList<TargetValue>();
-	String exclude_op;
-	String include_op;
-	
-	private User user;
-	private Permissions permissions;
+	private List<TargetValue> include = new ArrayList<TargetValue>();
+	private List<TargetValue> exclude = new ArrayList<TargetValue>();
+	private String exclude_op;
+	private String include_op;
+
 
 	public Map<String, String> getData() {
 		return data;
