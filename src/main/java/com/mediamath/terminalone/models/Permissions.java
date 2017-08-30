@@ -18,6 +18,7 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Permissions {
 
@@ -25,24 +26,47 @@ public class Permissions {
 	private List<Integer> organization_ids = new ArrayList<>();
 	private List<Integer> agency_ids = new ArrayList<>();
 	private List<Integer> advertiser_ids = new ArrayList<>();
+	
+	class Access{
+		public List<Map<String, String>> access = new ArrayList<Map<String, String>>();
+	}
+	
+	class AccessAdvertiser{
+		public List<Advertiser> access = new ArrayList<Advertiser>(); 
+	}
+	class AccessAgency{
+		public List<Agency> access = new ArrayList<Agency>(); 
+	}
+	class AccessOrganization{
+		public List<Organization> access = new ArrayList<Organization>(); 
+	}
+	
+	class Entities{
+		public List<AccessAdvertiser> advertiser = new ArrayList<AccessAdvertiser>();
+		public List<AccessAdvertiser> agency = new ArrayList<AccessAdvertiser>();
+		public List<AccessAdvertiser> organization = new ArrayList<AccessAdvertiser>();
+	}
+	
+	private Entities entities;
+	private List<Access> flags = new ArrayList<Access>();
 
-	public boolean isAll_organizations() {
+	public boolean isAllOrganizations() {
 		return all_organizations;
 	}
 
-	public void setAll_organizations(boolean all_organizations) {
+	public void setAllOrganizations(boolean all_organizations) {
 		this.all_organizations = all_organizations;
 	}
 
-	public List<Integer> getOrganization_ids() {
+	public List<Integer> getOrganizationIds() {
 		return organization_ids;
 	}
 
-	public void setOrganization_ids(List<Integer> organization_ids) {
+	public void setOrganizationIds(List<Integer> organization_ids) {
 		this.organization_ids = organization_ids;
 	}
 
-	public List<Integer> getAgency_ids() {
+	public List<Integer> getAgencyIds() {
 		return agency_ids;
 	}
 
@@ -54,8 +78,24 @@ public class Permissions {
 		return advertiser_ids;
 	}
 
-	public void setAdvertiser_ids(List<Integer> advertiser_ids) {
+	public void setAdvertiserIds(List<Integer> advertiser_ids) {
 		this.advertiser_ids = advertiser_ids;
+	}
+
+	public Entities getEntities() {
+		return entities;
+	}
+
+	public void setEntities(Entities entities) {
+		this.entities = entities;
+	}
+
+	public List<Access> getFlags() {
+		return flags;
+	}
+
+	public void setFlags(List<Access> flags) {
+		this.flags = flags;
 	}
 
 }

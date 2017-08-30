@@ -37,6 +37,7 @@ import com.mediamath.terminalone.models.CreativeApproval;
 import com.mediamath.terminalone.models.Deal;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
+import com.mediamath.terminalone.models.Permissions;
 import com.mediamath.terminalone.models.Pixel;
 import com.mediamath.terminalone.models.PixelProvider;
 import com.mediamath.terminalone.models.PlacementSlot;
@@ -58,6 +59,7 @@ import com.mediamath.terminalone.models.TargetDimension;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.TargetingSegment;
 import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.UserPermissions;
 import com.mediamath.terminalone.models.Vendor;
 import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VendorDomain;
@@ -70,6 +72,7 @@ public final class Constants {
 	private static final String REPORTS = "reports";
 
 	private static final String PERMISSIONS = "permissions";
+	private static final String USER_PERMISSIONS = "userpermissions";
 
 	private static final String CREATIVE_APPROVAL = "creative_approval";
 
@@ -334,6 +337,8 @@ public final class Constants {
 		}.getType());
 		getEntityType.put(PLACEMENT_SLOTS, new TypeToken<JsonResponse<PlacementSlot>>() {
 		}.getType());
+		getEntityType.put(PERMISSIONS, new TypeToken<JsonResponse<Permissions>>() {
+		}.getType());
 
 		getEntityType.put(PUBLISHERS, new TypeToken<JsonResponse<Publisher>>() {
 		}.getType());
@@ -394,6 +399,8 @@ public final class Constants {
 		getEntityType.put(USERS, new TypeToken<JsonResponse<User>>() {
 		}.getType());
 		getEntityType.put(USER, new TypeToken<JsonResponse<User>>() {
+		}.getType());
+		getEntityType.put(USER_PERMISSIONS, new TypeToken<JsonResponse<UserPermissions>>() {
 		}.getType());
 
 		getEntityType.put(TARGET_DIMENSIONS, new TypeToken<JsonResponse<TargetDimension>>() {
@@ -688,6 +695,7 @@ public final class Constants {
 		entityPaths.put("TargetDimension", TARGET_DIMENSIONS);
 		entityPaths.put("TargetValue", TARGET_VALUES);
 		entityPaths.put("Permission", PERMISSIONS);
+		entityPaths.put("UserPermissions", USER_PERMISSIONS);
 		entityPaths.put("Report", REPORTS);
 		entityPaths.put("Vendor", VENDORS);
 		entityPaths.put("VendorContract", VENDOR_CONTRACTS);

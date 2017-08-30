@@ -201,13 +201,17 @@ public class Utility {
 
 		MultivaluedMap<String, String> multiValMap = entity.asMap();
 		String readOnlyFields = T1Service.getEntityReadOnlyFields().getProperty(entityName);
-		List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
-		for (String str : readOnlyFieldList) {
-			if (multiValMap.containsKey(str)) {
-				multiValMap.remove(str);
+		if(readOnlyFields!=null){
+			List<String> readOnlyFieldList = Utility.getList(readOnlyFields);
+			if(readOnlyFieldList!=null){
+				for (String str : readOnlyFieldList) {
+					if (multiValMap.containsKey(str)) {
+						multiValMap.remove(str);
+					}
+				}
 			}
 		}
-
+		
 		return new Form(multiValMap);
 	}
 

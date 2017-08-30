@@ -69,6 +69,7 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
+import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -438,6 +439,26 @@ public class TerminalOne {
 	}
 
 	/**
+	 * Saves User entity and its permissions.
+	 * 
+	 * @param entity
+	 *            expects User entity.
+	 * @return User object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public User save(User entity) throws ClientException, ParseException {
+		User userSaved = null;
+		if (isAuthenticated()) {
+			userSaved = postService.save(entity);
+		}
+		return userSaved;
+	}	
+	
+	/**
 	 * saves 3pas creative upload file. first call to upload the file. <br>
 	 * <br>
 	 * example:<br>
@@ -676,7 +697,7 @@ public class TerminalOne {
 
 		//Using NEXT_PAGE param of meta from each call, in case of get_all
 
-		if(jsonResponse!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
+		if(jsonResponse!=null && jsonResponse.getMeta()!=null && jsonResponse.getMeta().getNext_page()!=null && query.getAll){
 			JsonArray mainData = extractData(response);
 			String lastCallResponse = null;
 			//loop till next_page !=null

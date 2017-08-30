@@ -17,12 +17,16 @@
 package com.mediamath.terminalone.models;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.utils.Utility;
+
 public class User implements T1Entity {
 
-  private static final String entityName = "User";
+	private String entityName = "User";
 
   private boolean access_internal_fees;
   private boolean active;
@@ -32,14 +36,15 @@ public class User implements T1Entity {
   private boolean edit_campaigns;
   private boolean edit_margins_and_performance;
   private boolean edit_segments;
-  private String fax;
+	private String email;
   private String first_name;
   private int id;
   private boolean labs_enable_rmx;
   private Date last_login_on;
   private String last_name;
   private boolean link_ldap;
-  private String mobile;
+	private boolean link_saml;
+	private String name;
   private String password;
   private Date password_reset_sent;
   private String password_reset_token;
@@ -57,6 +62,9 @@ public class User implements T1Entity {
   private boolean view_dmp_reports;
   private boolean view_organizations;
   private boolean view_segments;
+
+	private Permissions permissions;
+	private Map<String, Integer> permissionList = new HashMap<String, Integer>();
 
   public boolean isAccessInternalFees() {
     return access_internal_fees;
@@ -122,12 +130,12 @@ public class User implements T1Entity {
     this.edit_segments = edit_segments;
   }
 
-  public String getFax() {
-    return fax;
+	public String getEmail() {
+		return email;
   }
 
-  public void setFax(String fax) {
-    this.fax = fax;
+	public void setEmail(String email) {
+		this.email = email;
   }
 
   public String getFirstName() {
@@ -178,12 +186,12 @@ public class User implements T1Entity {
     this.link_ldap = link_ldap;
   }
 
-  public String getMobile() {
-    return mobile;
+	public String getName() {
+		return name;
   }
 
-  public void setMobile(String mobile) {
-    this.mobile = mobile;
+	public void setName(String name) {
+		this.name = name;
   }
 
   public String getPassword() {
@@ -322,14 +330,106 @@ public class User implements T1Entity {
     this.view_segments = view_segments;
   }
 
+	public boolean isLinkSaml() {
+		return link_saml;
+	}
+
+	public void setLinkSaml(boolean link_saml) {
+		this.link_saml = link_saml;
+	}
+
+	public Map<String, Integer> getPermissionsList() {
+		return permissionList;
+	}
+
+	public void setPermissionList(Map<String, Integer> permissions) {
+		this.permissionList = permissions;
+	}
+
+	public Permissions getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Permissions permissions) {
+		this.permissions = permissions;
+	}
+
   @Override
   public String getEntityname() {
     return entityName;
   }
   
+	public void setEntityname(String eName) {
+		this.entityName = eName;
+	}
+
   @Override
   public Form getForm() {
-    return null;
+
+		Form userForm = new Form();
+
+		if (this.getCreatorId() > 0) {
+			userForm.param("creator_id", String.valueOf(this.getCreatorId()));
+		}
+		if (this.getFirstName() != null) {
+			userForm.param("first_name", this.getFirstName());
+		}
+		if (this.getLastName() != null) {
+			userForm.param("last_name", this.getLastName());
+		}
+
+		if (this.getPassword() != null) {
+			userForm.param("password", this.getPassword());
+		}
+
+		if (this.getPhone() != null) {
+			userForm.param("phone", this.getPhone());
+		}
+		if (this.getRole() != null) {
+			userForm.param("role", this.getRole());
+		}
+		if (this.getScope() != null) {
+			userForm.param("scope", this.getScope());
+		}
+
+		if (this.getTitle() != null) {
+			userForm.param("title", this.getTitle());
+		}
+		if (this.getType() != null) {
+			userForm.param("type", this.getType());
+		}
+		if (this.getUsername() != null) {
+			userForm.param("username", this.getUsername());
+		}
+		if (this.getVersion() >= 0) {
+			userForm.param("version", String.valueOf(this.getVersion()));
+		}
+
+		if (permissionList != null && permissionList.isEmpty()) {
+			userForm.param("access_internal_fees", Utility.getOneOrZero(this.isAccessInternalFees()));
+			userForm.param("active", String.valueOf(this.isActive()));
+			userForm.param("edit_campaigns", Utility.getOneOrZero(this.isEditCampaigns()));
+			userForm.param("edit_data_definition", Utility.getOneOrZero(this.isEditDataDefinition()));
+			userForm.param("edit_margins_and_performance", Utility.getOneOrZero(this.isEditMarginsAndPerformance()));
+			userForm.param("edit_segments", Utility.getOneOrZero(this.isEditSegments()));
+			userForm.param("labs_enable_rmx", Utility.getOneOrZero(this.isLabsEnableRmx()));
+			userForm.param("link_ldap", Utility.getOneOrZero(this.isLinkLdap()));
+			userForm.param("view_data_definition", Utility.getOneOrZero(this.isViewDataDefinition()));
+			userForm.param("view_dmp_reports", Utility.getOneOrZero(this.isViewDmpReports()));
+			userForm.param("view_organizations", Utility.getOneOrZero(this.isViewOrganizations()));
+			userForm.param("view_segments", Utility.getOneOrZero(this.isViewSegments()));
+		}
+
+		// set permissions
+		if (permissionList != null && !permissionList.isEmpty()) {
+			for (String key : permissionList.keySet()) {
+				if (permissionList.get(key) != null) {
+					userForm.param(key, String.valueOf(permissionList.get(key)));
+				}
+			}
+		}
+
+		return Utility.getFilteredForm(userForm, "user");
   }
 
   @Override
