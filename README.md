@@ -274,7 +274,7 @@ Here QueryCriteria has 3 parameters
 	 
 -	you need to import the Entities from the package `com.mediamath.terminalone.models.*;`
 
-	######Example
+	###### Example
 		
 		TerminalOne one = new TerminalOne();
 		one.authenticate("someUser", "somepwd", "somekey");
@@ -293,7 +293,7 @@ Here QueryCriteria has 3 parameters
 
 	The return type of the save method can be the same Type of Entity as passed into the argument OR it will be a null or in some special cases it will be `JsonResponse<? extends T1Entity>`
 
-- ####Video Creatives
+- #### Video Creatives
 	
 	uploading a video creative is broken down into two steps.
 	- first call creates a video creative and it returns a creative id.
@@ -301,7 +301,7 @@ Here QueryCriteria has 3 parameters
 
 	first call requires a `VideoCreative` entity as an input param.
 
-	#######Example
+	####### Example
 
 		TerminalOne t1 = new TerminalOne(user, password,production_key);
 	
@@ -330,7 +330,7 @@ Here QueryCriteria has 3 parameters
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
 
-- ####3PAS Creative Upload
+- #### 3PAS Creative Upload
 	the 3PAS creative upload is broken down into two steps as shown below.
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
@@ -363,11 +363,11 @@ Here QueryCriteria has 3 parameters
 	the second call returns `JsonResponse<? extends T1Entity>`.
 
 
-- ####T1AS Creative Upload
+- #### T1AS Creative Upload
 	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
-	#######Example
+	####### Example
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
@@ -403,7 +403,7 @@ The Reports API on TerminalOne Platform allows advertisers to access, query and 
 	
 There are two types of requests that can be made against Reports API: requests for metadata information, and requests for data retrieval. All data retrieval requests are performed synchronously.
 
-- ####Get the meta data on number of the reports supported by the API
+- #### Get the meta data on number of the reports supported by the API
 
 		t1 = new TerminalOne(user, password, api_key);
 		JsonResponse<? extends T1Entity> jsonresponse = t1.getMeta();
@@ -411,7 +411,7 @@ There are two types of requests that can be made against Reports API: requests f
 	the above code snippets fetches all the supported reports information
 	it returns a Meta object containing all the meta data.
 
-- ####Get Individual Report Definition
+- #### Get Individual Report Definition
 	
 	you can get meta data for each report as shown below.
 	
@@ -422,7 +422,7 @@ There are two types of requests that can be made against Reports API: requests f
 
 	the method returns a MetaData object which contains meta data like dimension and metrics for the specified report. 
 
-- ####Get Report Data
+- #### Get Report Data
 	retrieve report data as shown below.
 	> t1.getReport(Reports.PERFORMANCE, report);
 
@@ -459,12 +459,14 @@ There are two types of requests that can be made against Reports API: requests f
 
 ### Miscellaneous
 
-- ####Bulk Strategy update using campaign id
+- #### Bulk Strategy update using campaign id
+	
+	Below are the basic steps to follow
+ 
 		
+	**1. Get all strategies to update**
 		
-	#####1. Get all strategies to update
-		
-	######Example
+	###### Example
 
 		FullParamValues fpm = new FullParamValues();
 		fpm.setStrValue("strategy");
@@ -481,17 +483,17 @@ There are two types of requests that can be made against Reports API: requests f
 		}
 		StrategiesToUpdate = (List<Strategy>) jsonresponse.getData();
 		
-	#####2. Create Updater Strategy object
+	**2. Create Updater Strategy object**
 	
 	Create new Strategy entity and add parametervalues to it which you want to update in all strategies.
 
-	######Example
+	###### Example
 
 		Strategy updater = new Strategy();
 		updater.setBidAggresiveness(100f);
 		...
 
-	#####3. Update Strategies using updater Strategy
+	**3. Update Strategies using updater Strategy**
 	Update all strategies using method of TerminalOne class as below. 
 	> terminalOne.bulkUpdate(StrategiesToUpdate, Updater Strategy)
 
@@ -501,7 +503,7 @@ There are two types of requests that can be made against Reports API: requests f
 	 
 	2.Updater Strategy object.
 	
-	######Example
+	###### Example
 
 		List<Strategy> updatedStrategyList =null;
 		updatedStrategyList =	terminalOne.bulkUpdate(StrategiesToUpdate, updater);
