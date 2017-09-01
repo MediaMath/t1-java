@@ -25,7 +25,7 @@ You can integrate the latest t1-java build easily by just including the followin
 - For Production build
 	>mvn clean install -Pprod
 
-# Usage
+## Usage
 
 - make sure the build path entries in your project are pointing to the jar file created.
 
@@ -41,7 +41,7 @@ You can integrate the latest t1-java build easily by just including the followin
 	 	one.authenticate(username, password, key);
 
 
-## OAuth2 (Password - Resource Owner flow):
+### OAuth2 (Password - Resource Owner flow):
 
 T1 Java is designed to be used for scripts. If you wish to make a UI for 3rd parties, we recommend use use the Application Code flow, which may require a little more engineering than what's covered here.
 Note: As of 2017-06-29 OAuth2 is not available everywhere within the MediaMath environment. Until then, for production, we recommend using the Cookie flow. This message will be updated with more services as the rollout completes.
@@ -50,7 +50,7 @@ Note: As of 2017-06-29 OAuth2 is not available everywhere within the MediaMath e
 		one.authenticate(username, password, clientId, clientSecret);
 
 
-###Fetching Entities and Collections
+### Fetching Entities and Collections
 Using **get** method of TerminalOne we can fetch entities and collections.
 
 
@@ -135,6 +135,30 @@ Returns: If single entity is specified, returns a single entity object. If multi
 				 3.As List of list/strings of hierarchical relations
 					query.setInclude(new ConditionQuery("ad_server"))
 						 .setInclude(new ConditionQuery("vertical"))
+-  **creativeType:** String(video/normal) Specifies which type of creative to 	fetch. Use "*video*" while fetching video creatives and "*normal*" for other 	types of creatives.
+	
+		Example: query.setCreativeType(CreativeType.video);
+- **downloadSiteList:** Boolean(true/false) when *true*, performs the retrieval 	of 	the sites defined within the site_list. default value is *false*.
+
+		Example:
+		QueryCriteria query = QueryCriteria.builder().setCollection("site_lists").setEntity(12345)
+				.setDownloadSiteList(true).build();
+
+		BufferedReader reader = null;
+
+		try {
+			reader = terminalOne.getSiteListData(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	Following methods of TerminalOne class is used to fetch sitelist.
+	> terminalOne.getSiteListData(query);
+	
+	Method returns BufferedReader object. 
+	 	
+
 -  **query:** String search parameters. Invoked by **`find`**. 
 		
 		Example: query.setQuery("agency_id%3E=109308");
@@ -432,3 +456,53 @@ There are two types of requests that can be made against Reports API: requests f
 	- second - YYYY-MM-DDThh:mi:ss
 
 	the response is always a file object.
+
+### Miscellaneous
+
+- ####Bulk Strategy update using campaign id
+		
+		
+	#####1. Get all strategies to update
+		
+	######Example
+
+		FullParamValues fpm = new FullParamValues();
+		fpm.setStrValue("strategy");
+		Map<String, Long> limitMap = new HashMap<String, Long>();
+		limitMap.put("campaign", (long) 12345);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setLimit(limitMap).setFull(fpm).setGetAll(true).build();
+		List<Strategy> StrategiesToUpdate = new ArrayList<Strategy>();
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = terminalOne.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		StrategiesToUpdate = (List<Strategy>) jsonresponse.getData();
+		
+	#####2. Create Updater Strategy object
+	
+	Create new Strategy entity and add parametervalues to it which you want to update in all strategies.
+
+	######Example
+
+		Strategy updater = new Strategy();
+		updater.setBidAggresiveness(100f);
+		...
+
+	#####3. Update Strategies using updater Strategy
+	Update all strategies using method of TerminalOne class as below. 
+	> terminalOne.bulkUpdate(StrategiesToUpdate, Updater Strategy)
+
+	This method accepts 2 parameters,
+ 
+	1.list of strategies which needs to be updated
+	 
+	2.Updater Strategy object.
+	
+	######Example
+
+		List<Strategy> updatedStrategyList =null;
+		updatedStrategyList =	terminalOne.bulkUpdate(StrategiesToUpdate, updater);
+
