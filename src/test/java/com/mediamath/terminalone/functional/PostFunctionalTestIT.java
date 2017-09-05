@@ -118,6 +118,14 @@ public class PostFunctionalTestIT {
 		t1 = new TerminalOne(user,password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 	}
+	
+	@Test
+	public void testAuthenticateCookie() throws ClientException {
+		TerminalOne t1 = new TerminalOne();
+		//t1.authenticate(user,password, productionKey);
+		t1.authenticate("fausto@infiniamobile.com", "Infiniafausto0919!","gtybp9ru7ajkvfhz6pzaq732");
+		assertEquals(true, t1.isAuthenticated());
+	}
 
 	// TEST WILL FAIL UNTIL AUTHO WORKS IN PRODUCTION
 	@Test
