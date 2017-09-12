@@ -59,10 +59,10 @@ public class Strategy implements T1Entity, Cloneable {
 		freqType(String s) {
 			value = s;
 		}
-	} // should be no-limit
+	} // should be no-limit  'ctr', 'vcpm', 'vcr' and 'viewability_rate'
 
 	public enum goalType {
-		spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi");
+		spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi"), ctr("ctr"), vcpm("vcpm"), vcr("vcr"), viewability_rate("viewability_rate");
 
 		String value;
 
