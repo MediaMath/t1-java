@@ -67,6 +67,7 @@ import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1File;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
@@ -1433,14 +1434,41 @@ public class PostFunctionalTestIT {
 		TerminalOne t1 = new TerminalOne(user, password, apiKey);
 
 		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(
-				"C:\\Users\\chauhan_n\\Desktop\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+				"D:\\MediaMath\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
 
 		assertNotNull(response);
 
 		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
-		creativeAssetsApprove.create(false, "165615", "http://ad.vendor.com/clicktracker/?id=1234",
+		creativeAssetsApprove.create(false, "182395", "http://ad.vendor.com/clicktracker/?id=1234",
 				"http://theactuallandingpage.com", "BBVA_CaminoaleÔxito_160x600.swf",
-				"BBVA_CaminoaleÔxito_160x600.swf", "665888");
+				"BBVA_CaminoaleÔxito_160x600.swf", "1162348");
+
+		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
+		assertNotNull(secondresponse.getData());
+	}
+	
+	@Test
+	public void testTOneASCreativeAssetUploadMultiple() throws ClientException, IOException {
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+		T1File t1File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.jpg", "D:\\MediaMath\\html5\\disney_captamerica_300x250.jpg");
+		T1File t2File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.zip", "D:\\MediaMath\\html5\\disney_captamerica_300x250.zip");
+		T1File t3File = new T1File(null,null,null);
+		
+		List<T1File> fileList = new ArrayList<>();
+		
+		fileList.add(t1File);
+		fileList.add(t2File);
+		fileList.add(t3File);
+		
+		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(fileList);
+
+		assertNotNull(response);
+		
+		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
+		creativeAssetsApprove.create(false, "182395", "http://ad.vendor.com/clicktracker/?id=1234",
+				"http://theactuallandingpage.com", "disney_captamerica_300x250",
+				"disney_captamerica_300x250.jpg", "1162348");
 
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
