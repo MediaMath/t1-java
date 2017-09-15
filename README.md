@@ -367,7 +367,7 @@ Here QueryCriteria has 3 parameters
 	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
-	####### Example
+	####### Example -> Simple File Upload
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
@@ -386,6 +386,33 @@ Here QueryCriteria has 3 parameters
 		
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 
+	####### Example -> HTML5 Files Upload with Backup File
+
+		TerminalOne t1 = new TerminalOne(user, password,api_key);
+		
+		//Backup File (Mandatory)
+		T1File t1File = new T1File("BBVA_CaminoaleÔxito_160x600.jpg", "BBVA_CaminoaleÔxito_160x600.jpg", "D:\\MediaMath\\html5\\BBVA_CaminoaleÔxito_160x600.jpg");
+		//Required Zip File
+		T1File t2File = new T1File("BBVA_CaminoaleÔxito_160x600.jpg", "BBVA_CaminoaleÔxito_160x600.zip", "D:\\MediaMath\\html5\\BBVA_CaminoaleÔxito_160x600.zip");
+
+		List<T1File> fileList = new ArrayList<>();
+		fileList.add(t1File);
+		fileList.add(t2File);
+		
+		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(fileList);
+		
+		assertNotNull(response);
+		
+		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove(); 
+		creativeAssetsApprove.create(false, 
+				"165615", 
+				"http://ad.vendor.com/clicktracker/?id=1234", 
+				"http://theactuallandingpage.com", 
+				"BBVA_CaminoaleÔxito_160x600", 
+				"BBVA_CaminoaleÔxito_160x600.jpg", 
+				"665888");
+		
+		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 
 	the first call to save T1AS Creative Assets uploads the file and returns the `TOneASCreativeAssetsApprove` obj in response.
 

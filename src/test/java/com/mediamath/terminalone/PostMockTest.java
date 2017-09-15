@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 
 import java.io.IOException;
@@ -29,7 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.mockito.Mockito.*;
 
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
@@ -44,7 +44,6 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.OAuthResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
 import com.mediamath.terminalone.models.SiteList;
@@ -64,6 +63,7 @@ import com.mediamath.terminalone.models.StrategyDomain.restrictions;
 import com.mediamath.terminalone.models.StrategyTarget;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1File;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -157,6 +157,10 @@ public class PostMockTest {
 	
 	private static String USER_RESPONSE = null;
 	private static String USER_PERMISSIONS_RESPONSE = null;
+	
+	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
+
+	private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = null;
 
 	private static String LOGIN = null;
 	
@@ -231,6 +235,10 @@ public class PostMockTest {
 		CAMPAIGN_CUSTOM_BRAIN_SELECTION_DELETE =  testConfig.getProperty("t1.mock.delete.custom_brain_selection.response");
 		USER_PERMISSIONS_RESPONSE =  testConfig.getProperty("t1.mock.save.user.permissions.response");
 		USER_RESPONSE =  testConfig.getProperty("t1.mock.save.user.response");
+		TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = testConfig
+				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.firstcall.response");
+		TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = testConfig
+				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.secondcall.response");
 	}
 
 	@After
@@ -1847,6 +1855,39 @@ public class PostMockTest {
 		creativeAssetsApprove.create(false, "165615", "http://ad.vendor.com/clicktracker/?id=1234",
 				"http://theactuallandingpage.com", "BBVA_CaminoaleÔxito_160x600.swf",
 				"BBVA_CaminoaleÔxito_160x600.swf", "665888");
+
+		// second call
+		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
+		assertNotNull(secondresponse.getData());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testTOneASCreativeAssetUploadMultiple() throws ClientException, IOException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+				Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE,
+				TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE);
+
+		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+
+		// first call
+		T1File t1File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.jpg", "D:\\MediaMath\\html5\\disney_captamerica_300x250.jpg");
+		T1File t2File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.zip", "D:\\MediaMath\\html5\\disney_captamerica_300x250.zip");
+		List<T1File> fileList = new ArrayList<>();
+		
+		fileList.add(t1File);
+		fileList.add(t2File);
+		
+		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(fileList);
+		assertNotNull(response);
+
+		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
+		creativeAssetsApprove.create(false, "182395", "http://ad.vendor.com/clicktracker/?id=1234",
+				"http://theactuallandingpage.com", "disney_captamerica_300x250",
+				"disney_captamerica_300x250.jpg", "1162348");
 
 		// second call
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);

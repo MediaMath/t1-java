@@ -64,6 +64,7 @@ import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyConcept;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.T1Entity;
+import com.mediamath.terminalone.models.T1File;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
@@ -546,6 +547,35 @@ public class TerminalOne {
 		TOneASCreativeAssetsUpload response = null;
 		if (isAuthenticated()) {
 			response = postService.saveTOneASCreativeAssets(filePath, fileName, name);
+		}
+		return response;
+	}
+	
+	/**
+	 * saves HTML5 file upload to T1AS. first call to upload the HTML5 file along with backup file. <br>
+	 * <br>
+	 * example: <br>
+	 * <br>
+	 * <i>saveT1ASCreativeAssetsUpload(List<T1File> fileList);</i>
+	 * 
+	 * @param fileList
+	 *            a valid list of T1File object is required.
+	 * 			  T1File Object, can accept name, filename and filepath	
+	 * 
+	 * @return TOneASCreativeAssetsUpload object.
+	 * 
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * 
+	 * @throws IOException
+	 *             a IOException is thrown when the file cannot be uploaded.
+	 */
+	public TOneASCreativeAssetsUpload saveTOneASCreativeAssetsUpload(List<T1File> fileList)
+			throws ClientException, IOException {
+
+		TOneASCreativeAssetsUpload response = null;
+		if (isAuthenticated()) {
+			response = postService.saveTOneASCreativeAssets(fileList);
 		}
 		return response;
 	}

@@ -58,6 +58,7 @@ import com.mediamath.terminalone.models.StrategyTargetValues;
 import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.T1Entity;
 import com.mediamath.terminalone.models.T1Error;
+import com.mediamath.terminalone.models.T1File;
 import com.mediamath.terminalone.models.T1Meta;
 import com.mediamath.terminalone.models.T1User;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
@@ -805,11 +806,38 @@ public class PostService {
 		FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
 		FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
 				.field("name", name).bodyPart(filePart);
-
+		
 		Response responseObj = this.connection.post(path, multipart, this.user);
 		String response = responseObj.readEntity(String.class);
 
 		formDataMultiPart.close();
+		multipart.close();
+
+		return response;
+	}
+	
+	
+	private String saveCreativeMultipleUploads(StringBuilder uri, List<T1File> fileList,
+			String collection) throws ClientException, IOException {
+		if (fileList == null) {
+			throw new ClientException("please enter a valid filename and file path");
+		}
+
+		String path = t1Service.constructUrl(uri, collection);
+
+		FormDataMultiPart multipart = new FormDataMultiPart();
+
+		for(T1File t1File : fileList){
+			if(t1File!=null && (t1File.getFile()!=null && t1File.getFilename()!=null && t1File.getName()!=null)){
+			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(t1File.getFile()));
+			
+			multipart.field("filename", t1File.getFilename()).field("name", t1File.getName()).bodyPart(filePart);
+			}
+		}
+
+		Response responseObj = this.connection.post(path, multipart, this.user);
+		String response = responseObj.readEntity(String.class);
+
 		multipart.close();
 
 		return response;
@@ -908,6 +936,33 @@ public class PostService {
 		TOneASCreativeAssetsUpload assetsUploadResponse = null;
 		StringBuilder uri = new StringBuilder("creative_assets/upload");
 		String response = saveCreativeUploads(uri, filePath, name, fileName, CREATIVE_ASSETS);
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		if (checkString(response)) {
+			assetsUploadResponse = parseTOneASCreativeAssetsUploadData(response, parser);
+		}
+		return assetsUploadResponse;
+	}
+	
+	/**saves multiple file upload to T1AS. first call to upload the HTML5 file along with backup files. <br>
+	 * <br>
+	 * example: <br>
+	 * <br>
+	 * <i>saveT1ASCreativeAssetsUpload(List<T1File> fileList);</i>
+	 * 
+	 * @param fileList
+	 * 			a valid list of T1File object is required.
+	 * 			T1File Object, can accept name, filename and filepath	
+	 * 
+	 * @return TOneASCreativeAssetsUpload
+	 * @throws ClientException
+	 * @throws IOException
+	 */
+	public TOneASCreativeAssetsUpload saveTOneASCreativeAssets(List<T1File> fileList)
+			throws ClientException, IOException {
+
+		TOneASCreativeAssetsUpload assetsUploadResponse = null;
+		StringBuilder uri = new StringBuilder("creative_assets/upload");
+		String response = saveCreativeMultipleUploads(uri, fileList, CREATIVE_ASSETS);
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		if (checkString(response)) {
 			assetsUploadResponse = parseTOneASCreativeAssetsUploadData(response, parser);
