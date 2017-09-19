@@ -17,7 +17,9 @@
 package com.mediamath.terminalone.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -635,23 +637,19 @@ public class PostService {
 					+ "/" + creativeId + "/upload?fileName=" + fileName);
 
 			String finalPath = path.toString();
-			FormDataMultiPart formDataMultiPart = null;
+			InputStream inputStream = null;
 
 			// post binary only
 			try {
-				FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
-				formDataMultiPart = new FormDataMultiPart();
-				final FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.bodyPart(filePart);
-
-				Response responseObj = this.connection.post(finalPath, multipart, this.user);
+				inputStream = new FileInputStream(new File(filePath));
+				Response responseObj = this.connection.post(finalPath, inputStream, this.user);
 
 				String response = responseObj.readEntity(String.class);
 
 				T1JsonToObjParser parser = new T1JsonToObjParser();
 
 				if (response.isEmpty()) {
-					formDataMultiPart.close();
-					multipart.close();
+					inputStream.close();
 					return null;
 				}
 
@@ -666,10 +664,9 @@ public class PostService {
 					videoCreative = parsedVideoCreativeResponse;
 				}
 
-				multipart.close();
 			} finally {
-				if (formDataMultiPart != null) {
-					formDataMultiPart.close();
+				if (inputStream != null) {
+					inputStream.close();
 				}
 			}
 		}

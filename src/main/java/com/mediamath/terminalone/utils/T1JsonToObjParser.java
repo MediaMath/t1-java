@@ -206,6 +206,7 @@ public class T1JsonToObjParser {
 
     GsonBuilder builder = new GsonBuilder();
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+    builder.setLenient();
     Gson gson = builder.create();
     response = gson.fromJson(pResponse, VideoCreativeResponse.class);
 

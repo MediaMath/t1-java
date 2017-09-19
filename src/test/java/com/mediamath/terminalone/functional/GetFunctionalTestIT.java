@@ -1325,4 +1325,24 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 	}
+	
+	@Test
+	public void testGetWithVideoCreativeUpload() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4784583).setCreativeType(CreativeType.video).setChild("upload").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+
+		assertNotNull(jsonresponse);
+		assertNotNull(cdr);
+	}
 }

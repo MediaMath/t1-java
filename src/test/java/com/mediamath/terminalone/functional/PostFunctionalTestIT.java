@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 
 public class PostFunctionalTestIT {
 
@@ -1484,7 +1486,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne(user, password, apiKey);
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
@@ -1943,6 +1945,37 @@ public class PostFunctionalTestIT {
 		assertNotNull(userSaved.getPermissions());
 		
 	}	
+	
+	@Test
+	 public void testVideoCreatives() throws ClientException, IOException, ParseException {
+	  // will work only on production.
+	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+	  VideoCreative videoCreative = new VideoCreative();
+	  videoCreative.setName("videoCreative2");
+	  videoCreative.setStartTime(1468486396);
+	  videoCreative.setLandingUrl("http://www.somedomain.com");
+	  videoCreative.setAdvertiser(122631);
+	  videoCreative.setEndTime(1470009600);
+	  videoCreative.setConcept(847527);
+	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
+
+	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+	  // upload the file.
+	  String filePath = "D:\\MediaMath\\t1attachements\\MOV_0234.mp4";
+		String fileName = "MOV_0234.flv";
+	  VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
+
+	  VideoCreativeUploadStatus status = null;
+	  
+	  // check video creative status VideoCreativeUploadStatus uploadStatus =
+	  status = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
+	  	  
+	  assertNotNull(saveResponse);
+	  assertNotNull(uploadResponse);
+	  assertNotNull(uploadResponse.getStatus());
+	 }
 
 	
 }
