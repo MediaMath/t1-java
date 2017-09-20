@@ -576,7 +576,11 @@ public class PostService {
 
 				videoCreative = parsedVideoCreativeResponse;
 			}
-
+			else if(entity.getCreativeId() > 0){
+				videoCreative = new VideoCreativeResponse();
+				videoCreative.setCreativeId(String.valueOf(entity.getCreativeId()));
+				videoCreative.setStatus(parsedVideoCreativeResponse.getStatus());
+			}
 		}
 		return videoCreative;
 	}

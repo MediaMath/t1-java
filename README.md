@@ -313,6 +313,12 @@ Here QueryCriteria has 3 parameters
 		videoCreative.setEndTime(1470009600); //unix timestamp
 		videoCreative.setConcept(847527);
 		videoCreative.setClickthroughUrl("http://www.somedomain.com");
+		//set event pixels
+		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+	  	eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+	  	eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+	  
+	  	videoCreative.setEventPixels(eventPixels);
 		
 		VideoCreativeResponse videoCreativeResponse = t1.saveVideoCreatives(videoCreative);
   
@@ -329,6 +335,31 @@ Here QueryCriteria has 3 parameters
 		VideoCreativeUploadStatus uploadStatus = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
+
+	####### Example - Video Creative Update 
+	
+		//Step 1 : Get Video Creative details
+		TerminalOne t1 = new TerminalOne(user, password,production_key);
+	
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(12345).setCreativeType(CreativeType.video).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+
+		//Step 2 : Update Video Creative
+	    VideoCreative videoCreative = cdr.getDetails();
+	    videoCreative.setCreativeId(12345);
+	    videoCreative.setClickthroughUrl("http://www.mysomedomain.com");
+		
+		VideoCreativeResponse videoCreativeResponse = t1.saveVideoCreatives(videoCreative);
+
+	Video Creative Update returns VideoCreativeResponse with 	CreativeId and Status.
 
 - #### 3PAS Creative Upload
 	the 3PAS creative upload is broken down into two steps as shown below.
@@ -367,7 +398,7 @@ Here QueryCriteria has 3 parameters
 	the T1AS Creative upload is done in 2 steps
 	as shown below.
 
-	####### Example -> Simple File Upload
+	####### Example - Simple File Upload
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		
@@ -386,7 +417,7 @@ Here QueryCriteria has 3 parameters
 		
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 
-	####### Example -> HTML5 Files Upload with Backup File
+	####### Example - HTML5 Files Upload with Backup File
 
 		TerminalOne t1 = new TerminalOne(user, password,api_key);
 		

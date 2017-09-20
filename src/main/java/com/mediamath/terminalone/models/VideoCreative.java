@@ -41,7 +41,7 @@ public class VideoCreative implements T1Entity {
 	private boolean active;
 	private List<EventPixel> eventPixels = new ArrayList();
 	
-	private long creativeId;
+	private int creativeId;
 
 	public String getName() {
 		return name;
@@ -147,11 +147,11 @@ public class VideoCreative implements T1Entity {
 		this.eventPixels = eventPixels;
 	}
 
-	public long getCreativeId() {
+	public int getCreativeId() {
 		return creativeId;
 	}
 
-	public void setCreativeId(long creativeId) {
+	public void setCreativeId(int creativeId) {
 		this.creativeId = creativeId;
 	}
 
@@ -165,13 +165,11 @@ public class VideoCreative implements T1Entity {
 
 	@Override
 	public String getEntityname() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Form getForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
