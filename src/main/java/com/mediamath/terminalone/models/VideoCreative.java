@@ -17,6 +17,7 @@
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -38,26 +39,9 @@ public class VideoCreative implements T1Entity {
 	private long concept;
 	private String clickthroughUrl;
 	private boolean active;
-	private ArrayList<eventPixelsEnum> eventPixels = new ArrayList();
+	private List<EventPixel> eventPixels = new ArrayList();
+	
 	private long creativeId;
-
-	public enum eventPixelsEnum {
-
-		ImpSkippable("imp:skippable"), Complete("complete"), CreativeClick("creative:click"), FullScreen(
-				"fullscreen"), FirstQuartile("firstQuartile"), CreativeError("creative:err"), Rewind(
-						"rewind"), MidPoint("midpoint"), Start("start"), CreativeImp("creative:imp"), CreativeView(
-								"creativeView"), Expand("expand"), Close("close"), Collapse(
-										"collapse"), AcceptInvitation("acceptInvitation"), Mute("mute"), ThirdQuartile(
-												"thirdQuartile"), Unmute("unmute"), Resume("resume"), Pause(
-														"pause"), Skip("skip"), EngagedView("engagedView");
-
-		String val;
-
-		eventPixelsEnum(String pVal) {
-			val = pVal;
-		}
-
-	}
 
 	public String getName() {
 		return name;
@@ -155,11 +139,11 @@ public class VideoCreative implements T1Entity {
 		this.active = active;
 	}
 
-	public ArrayList<eventPixelsEnum> getEventPixels() {
+	public List<EventPixel> getEventPixels() {
 		return eventPixels;
 	}
 
-	public void setEventPixels(ArrayList<eventPixelsEnum> eventPixels) {
+	public void setEventPixels(List<EventPixel> eventPixels) {
 		this.eventPixels = eventPixels;
 	}
 

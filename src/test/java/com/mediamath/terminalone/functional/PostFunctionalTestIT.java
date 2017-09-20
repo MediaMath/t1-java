@@ -20,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -50,6 +49,8 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.EventPixel;
+import com.mediamath.terminalone.models.EventPixel.EventPixelsEnum;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
@@ -1960,11 +1961,17 @@ public class PostFunctionalTestIT {
 	  videoCreative.setConcept(847527);
 	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
 
+	  List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+	  eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+	  eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+	  
+	  videoCreative.setEventPixels(eventPixels);
+	  
 	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 
 	  // upload the file.
-	  String filePath = "D:\\MediaMath\\t1attachements\\MOV_0234.mp4";
-		String fileName = "MOV_0234.flv";
+	  String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
 	  VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
 
 	  VideoCreativeUploadStatus status = null;
