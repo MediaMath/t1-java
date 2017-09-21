@@ -37,6 +37,7 @@ import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
 import com.mediamath.terminalone.TerminalOne;
+import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
@@ -49,6 +50,9 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.CreativeDetailsResponse;
+import com.mediamath.terminalone.models.EventPixel;
+import com.mediamath.terminalone.models.EventPixel.EventPixelsEnum;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
@@ -79,6 +83,7 @@ import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 
 public class PostFunctionalTestIT {
 
@@ -1484,7 +1489,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testVideoCreative() throws ClientException, IOException, ParseException {
 		// will work only on production.
-		TerminalOne t1 = new TerminalOne(user, password, apiKey);
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("videoCreative2");
@@ -1943,6 +1948,97 @@ public class PostFunctionalTestIT {
 		assertNotNull(userSaved.getPermissions());
 		
 	}	
-
 	
+	@Test
+	 public void testVideoCreatives() throws ClientException, IOException, ParseException {
+	  // will work only on production.
+	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+	  VideoCreative videoCreative = new VideoCreative();
+	  videoCreative.setName("videoCreative2");
+	  videoCreative.setStartTime(1468486396);
+	  videoCreative.setLandingUrl("http://www.somedomain.com");
+	  videoCreative.setAdvertiser(122631);
+	  videoCreative.setEndTime(1470009600);
+	  videoCreative.setConcept(847527);
+	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
+
+	  List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+	  eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+	  eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+	  
+	  videoCreative.setEventPixels(eventPixels);
+	  
+	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+	  // upload the file.
+	  String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
+	  VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
+
+	  VideoCreativeUploadStatus status = null;
+	  
+	  // check video creative status VideoCreativeUploadStatus uploadStatus =
+	  status = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
+		 
+		
+	  assertNotNull(status);  
+	  assertNotNull(saveResponse);
+	  assertNotNull(uploadResponse);
+	  assertNotNull(uploadResponse.getStatus());
+	 }
+	
+	@Test
+	 public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
+	  // will work only on production.
+	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+	  VideoCreative videoCreative = new VideoCreative();
+	  videoCreative.setName("videoCreative2");
+	  videoCreative.setStartTime(1468486396);
+	  videoCreative.setLandingUrl("http://www.somedomain.com");
+	  videoCreative.setAdvertiser(122631);
+	  videoCreative.setEndTime(1470009600);
+	  videoCreative.setConcept(847527);
+	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
+
+	  List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+	  eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+	  eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+	  
+	  videoCreative.setEventPixels(eventPixels);
+	  
+	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+	  	  
+	  assertNotNull(saveResponse);
+	 }
+
+
+	@Test
+	 public void testVideoCreativeUpdate() throws ClientException, IOException, ParseException {
+	  // will work only on production.
+	  	
+	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+	  
+	  QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4791256).setCreativeType(CreativeType.video).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+
+	  VideoCreative videoCreative = cdr.getDetails();
+	  videoCreative.setCreativeId(4791256);
+	  videoCreative.setClickthroughUrl("http://www.mysomedomain.com");
+
+	  
+	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+	  assertNotNull(saveResponse);
+	  
+	 }
 }

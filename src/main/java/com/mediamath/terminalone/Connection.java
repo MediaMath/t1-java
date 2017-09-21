@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.ws.rs.client.Client;
@@ -45,216 +46,243 @@ import com.mediamath.terminalone.utils.Utility;
  */
 public class Connection {
 
-  private static final String BEARER = "Bearer ";
+	private static final String BEARER = "Bearer ";
 
-  private static final String AUTHORIZATION = "Authorization";
+	private static final String AUTHORIZATION = "Authorization";
 
-  private static final String ADAMA_SESSION = "adama_session";
+	private static final String ADAMA_SESSION = "adama_session";
 
-  private static final String APPLICATION_VND_MEDIAMATH_V1_JSON = "application/vnd.mediamath.v1+json";
+	private static final String APPLICATION_VND_MEDIAMATH_V1_JSON = "application/vnd.mediamath.v1+json";
 
-  private static final String ACCEPT = "Accept";
+	private static final String ACCEPT = "Accept";
 
-  private static final String USER_AGENT = "User-Agent";
+	private static final String USER_AGENT = "User-Agent";
 
-  private static final String TARGET_URL = "Target URL: %s";
+	private static final String TARGET_URL = "Target URL: %s";
 
-  private static final String NO_POST_DATA = "No Post Data";
+	private static final String NO_POST_DATA = "No Post Data";
 
-  private static final Logger logger = LoggerFactory.getLogger(Connection.class);
+	private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
-  private static Properties configprop = Utility.loadConfigProperty();
+	private static Properties configprop = Utility.loadConfigProperty();
 
-  private String userAgent = null;
+	private String userAgent = null;
 
-  /**
-   * Constructor.
-   * 
-   */
-  public Connection() {
-    userAgent = generateUserAgent();
-  }
+	/**
+	 * Constructor.
+	 * 
+	 */
+	public Connection() {
+		userAgent = generateUserAgent();
+	}
 
-  /**
-   * Handles the POST operation to a given endpoint.
-   * 
-   * @param url
-   *          api end point url.
-   * @param data
-   *          requires a Form data object.
-   * @param userMap
-   *          requires a valid user login session.
-   * @return Response object.
-   * @throws ClientException
-   *           throws a client exception.
-   */
-  public Response post(String url, Form data, T1User userMap) throws ClientException {
+	/**
+	 * Handles the POST operation to a given endpoint.
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param data
+	 *            requires a Form data object.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             throws a client exception.
+	 */
+	public Response post(String url, Form data, T1User userMap) throws ClientException {
 
-    if (data == null) {
-      throw new ClientException(NO_POST_DATA);
-    }
+		if (data == null) {
+			throw new ClientException(NO_POST_DATA);
+		}
 
-    Response response;
-    Client client = instantiateSimpleClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-    return response;
-  }
-  
-  /**
-   * Handles the POST operation to a given endpoint -> Mainly Used for Login.
-   * 
-   * @param url
-   *          api end point url.
-   * @param data
-   *          requires a Form data object.
-   * @return Response object.
-   * @throws ClientException
-   *           throws a client exception.
-   */
-  public Response post(String url, Form data) throws ClientException {
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
 
-    if (data == null) {
-      throw new ClientException(NO_POST_DATA);
-    }
+	/**
+	 * Handles the POST operation to a given endpoint -> Mainly Used for Login.
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param data
+	 *            requires a Form data object.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             throws a client exception.
+	 */
+	public Response post(String url, Form data) throws ClientException {
 
-    Response response;
-    Client client = instantiateSimpleClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, null, client);
-    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-    return response;
-  }
+		if (data == null) {
+			throw new ClientException(NO_POST_DATA);
+		}
 
-  private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
-    if(url != null && !url.isEmpty()) {
-      String targetURL = String.format(TARGET_URL, url); 
-      logger.info(targetURL);
-    }
-    WebTarget webTarget = client.target(url);
-    Invocation.Builder invocationBuilder = webTarget.request();
-    invocationBuilder.header(USER_AGENT, userAgent);
-    invocationBuilder.header(ACCEPT, APPLICATION_VND_MEDIAMATH_V1_JSON);
-    userSessionCheck(userMap, invocationBuilder);
-    return invocationBuilder;
-  }
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, null, client);
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
 
-  /**
-   * POST multipart data.
-   * 
-   * @param url
-   *          api endpoint url.
-   * @param data
-   *          FormDataMultiPart object.
-   * @param userMap
-   *          requires a valid logged in user session.
-   * @return Response object.
-   * @throws ClientException
-   *           exception
-   */
-  public Response post(String url, FormDataMultiPart data, T1User userMap) throws ClientException {
-    if (data == null) {
-      throw new ClientException(NO_POST_DATA);
-    }
+	private Invocation.Builder configureInvocationBuilder(String url, T1User userMap, Client client) {
+		if (url != null && !url.isEmpty()) {
+			String targetURL = String.format(TARGET_URL, url);
+			logger.info(targetURL);
+		}
+		WebTarget webTarget = client.target(url);
+		Invocation.Builder invocationBuilder = webTarget.request();
+		invocationBuilder.header(USER_AGENT, userAgent);
+		invocationBuilder.header(ACCEPT, APPLICATION_VND_MEDIAMATH_V1_JSON);
+		userSessionCheck(userMap, invocationBuilder);
+		return invocationBuilder;
+	}
 
-    Response response;
-    Client client = instantiateMultipartClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-    response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
-    return response;
+	/**
+	 * POST multipart data.
+	 * 
+	 * @param url
+	 *            api endpoint url.
+	 * @param data
+	 *            FormDataMultiPart object.
+	 * @param userMap
+	 *            requires a valid logged in user session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             exception
+	 */
+	public Response post(String url, FormDataMultiPart data, T1User userMap) throws ClientException {
+		if (data == null) {
+			throw new ClientException(NO_POST_DATA);
+		}
 
-  }
+		Response response;
+		Client client = instantiateMultipartClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
+		return response;
 
-  /**
-   * Application / Json POST.
-   * 
-   * @param url
-   *          requires api end point url.
-   * @param data
-   *          Json String to post.
-   * @param userMap
-   *          requires a valid login user information.
-   * @return Response object.
-   * @throws ClientException
-   *           exception.
-   */
-  public Response post(String url, String data, T1User userMap) throws ClientException {
-    if (data == null) {
-      throw new ClientException(NO_POST_DATA);
-    }
+	}
 
-    Response response;
-    Client client = instantiateMultipartClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-    response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
-    return response;
-  }
+	/**
+	 * POST Binary data.
+	 * 
+	 * @param url
+	 *            api endpoint url.
+	 * @param data
+	 *            InputStream object.
+	 * @param userMap
+	 *            requires a valid logged in user session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             exception
+	 */
+	public Response post(String url, InputStream data, T1User userMap) throws ClientException {
+		if (data == null) {
+			throw new ClientException(NO_POST_DATA);
+		}
 
-  /**
-   * handles GET requests
-   * 
-   * @param url
-   *          api end point url.
-   * @param userMap
-   *          requires a valid user login session.
-   * @return String object.
-   */
-  public String get(String url, T1User userMap) {
-    Response response;
-    Client client = instantiateSimpleClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-    response = invocationBuilder.get();
-    return response.readEntity(String.class);
-  }
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+		return response;
 
-  /**
-   * handles GET requests for Reports.
-   * 
-   * @param url
-   *          requires a valid url api endpoint.
-   * @param userMap
-   *          requires a valid user login session.
-   * @return Response object.
-   */
-  public Response getReportData(String url, T1User userMap) {
-    Response response;
-    Client client = instantiateSimpleClient();
-    Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-    response = invocationBuilder.get();
-    return response;
-  }
+	}
 
-  private Client instantiateSimpleClient() {
-    return ClientBuilder.newClient(new ClientConfig());
-  }
-  
-  private Client instantiateMultipartClient() {
-    return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
-  }
+	/**
+	 * Application / Json POST.
+	 * 
+	 * @param url
+	 *            requires api end point url.
+	 * @param data
+	 *            Json String to post.
+	 * @param userMap
+	 *            requires a valid login user information.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             exception.
+	 */
+	public Response post(String url, String data, T1User userMap) throws ClientException {
+		if (data == null) {
+			throw new ClientException(NO_POST_DATA);
+		}
 
-  private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
-    if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
-      invocationBuilder.header(AUTHORIZATION, BEARER + userMap.getToken());
-    }
-    if (checkUserMapData(userMap) && checkSession(userMap) && checkSessionID(userMap)) {
-        invocationBuilder.cookie(ADAMA_SESSION, userMap.getData().getSession().getSessionid());
-    }
-  }
+		Response response;
+		Client client = instantiateMultipartClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		return response;
+	}
 
-  private boolean checkSessionID(T1User userMap) {
-    return userMap.getData().getSession().getSessionid() != null && !userMap.getData().getSession().getSessionid().isEmpty();
-  }
+	/**
+	 * handles GET requests
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return String object.
+	 */
+	public String get(String url, T1User userMap) {
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.get();
+		return response.readEntity(String.class);
+	}
 
-  private boolean checkUserMapData(T1User userMap) {
-    return userMap != null && userMap.getData() != null;
-  }
+	/**
+	 * handles GET requests for Reports.
+	 * 
+	 * @param url
+	 *            requires a valid url api endpoint.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return Response object.
+	 */
+	public Response getReportData(String url, T1User userMap) {
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.get();
+		return response;
+	}
 
-  private boolean checkSession(T1User userMap) {
-    return userMap.getData().getSession() != null;
-  }
+	private Client instantiateSimpleClient() {
+		return ClientBuilder.newClient(new ClientConfig());
+	}
 
-  private String generateUserAgent() {
-    String version = configprop.getProperty("t1.version");
-    return "t1-java/" + version + " java-client/" + System.getProperty("java.version");
-  }
+	private Client instantiateMultipartClient() {
+		return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+	}
+
+	private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
+		if (userMap != null && userMap.getToken() != null && !userMap.getToken().isEmpty()) {
+			invocationBuilder.header(AUTHORIZATION, BEARER + userMap.getToken());
+		}
+		if (checkUserMapData(userMap) && checkSession(userMap) && checkSessionID(userMap)) {
+			invocationBuilder.cookie(ADAMA_SESSION, userMap.getData().getSession().getSessionid());
+		}
+	}
+
+	private boolean checkSessionID(T1User userMap) {
+		return userMap.getData().getSession().getSessionid() != null
+				&& !userMap.getData().getSession().getSessionid().isEmpty();
+	}
+
+	private boolean checkUserMapData(T1User userMap) {
+		return userMap != null && userMap.getData() != null;
+	}
+
+	private boolean checkSession(T1User userMap) {
+		return userMap.getData().getSession() != null;
+	}
+
+	private String generateUserAgent() {
+		String version = configprop.getProperty("t1.version");
+		return "t1-java/" + version + " java-client/" + System.getProperty("java.version");
+	}
 
 }

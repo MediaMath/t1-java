@@ -1716,13 +1716,13 @@ public class PostMockTest {
 	@Test
 	public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
 
-		String filePath = "C:\\Users\\chaudhari_j\\Desktop\\t1attachements\\blah1234.flv";
+		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
 		String fileName = "blah1234.flv";
 
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
 				Mockito.any(T1User.class))).thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
 
@@ -1730,7 +1730,7 @@ public class PostMockTest {
 		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, String.valueOf(3595840));
 
 		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
 				Mockito.any(T1User.class));
 
 		assertNotNull(uploadResponse);
