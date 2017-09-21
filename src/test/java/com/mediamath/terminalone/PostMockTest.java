@@ -1712,30 +1712,30 @@ public class PostMockTest {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
+	// @SuppressWarnings("unchecked")
+	// @Test
+	// public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
 
-		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
-		String fileName = "blah1234.flv";
+	// 	String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+	// 	String fileName = "blah1234.flv";
 
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
-		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+	// 	Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
-				Mockito.any(T1User.class))).thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
+	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
+	// 			Mockito.any(T1User.class))).thenReturn(response);
+	// 	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
 
-		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, String.valueOf(3595840));
+	// 	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+	// 	VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, String.valueOf(3595840));
 
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
-				Mockito.any(T1User.class));
+	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
+	// 			Mockito.any(T1User.class));
 
-		assertNotNull(uploadResponse);
-		assertNotNull(uploadResponse.getStatus());
-	}
+	// 	assertNotNull(uploadResponse);
+	// 	assertNotNull(uploadResponse.getStatus());
+	// }
 
 	@SuppressWarnings("unchecked")
 	@Test
