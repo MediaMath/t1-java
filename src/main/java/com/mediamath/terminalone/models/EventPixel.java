@@ -3,6 +3,9 @@ package com.mediamath.terminalone.models;
 import java.util.Arrays;
 
 public class EventPixel {
+	
+	private String typ;
+	private String url;
 
 	public enum EventPixelsEnum {
 
@@ -31,9 +34,6 @@ public class EventPixel {
 		this.typ = typ;
 		this.url = url;
 	}
-
-	private String typ;
-	private String url;
 
 	public String getTyp() {
 		return typ;
