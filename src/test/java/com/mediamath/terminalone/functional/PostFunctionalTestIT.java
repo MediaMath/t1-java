@@ -1980,7 +1980,9 @@ public class PostFunctionalTestIT {
 	  
 	  // check video creative status VideoCreativeUploadStatus uploadStatus =
 	  status = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
-	  	  
+		 
+		
+	  assertNotNull(status);  
 	  assertNotNull(saveResponse);
 	  assertNotNull(uploadResponse);
 	  assertNotNull(uploadResponse.getStatus());
