@@ -2069,7 +2069,6 @@ public class PostFunctionalTestIT {
 				e.printStackTrace();
 			}
 		} // strategy for loop
-
 	}
 
 	@Test
@@ -2106,6 +2105,47 @@ public class PostFunctionalTestIT {
 			}
 			System.out.println("saved.....");
 		} // strategy for loop
+	}
+
+	@Test
+	public void testAddTSForOrganizationWithGET() throws ClientException, IOException, ParseException {
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		// Get Strategies
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("campaign.advertiser.agency.organization", Long.valueOf(101558));
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+
+		QueryCriteria query1 = QueryCriteria.builder().setCollection("strategies").setLimit(limitList) // limit
+				.setGetAll(true).setFull(fpv) // getAll
+				.build();
+		JsonResponse<?> jsonresponse1 = one.get(query1);
+		List<Strategy> strategies = (List<Strategy>) jsonresponse1.getData();
+
+		for (int j = 0; j < strategies.size(); j++) {
+			Strategy strategy = strategies.get(j);
+			// get previous Targeting Segments
+			QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(strategy.getId())
+					.setChild("targeting_segments") // limit
+					.setFull(fpv) // getAll
+					.build();
+			JsonResponse<?> jsonresponse = one.get(query);
+
+			List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
+			tsList = (List<StrategyTargetingSegment>) jsonresponse.getData();
+			// add new TS
+			tsList.add(new StrategyTargetingSegment(119, "INCLUDE", 7.0f, "OR"));
+
+			strategy.setStrategyTargetingSegments(tsList);
+			try {
+				strategy = one.save(strategy);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		} // strategy for loop
+
 	}
 
 }

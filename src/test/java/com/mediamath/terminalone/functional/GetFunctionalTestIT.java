@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
+import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
@@ -1345,4 +1347,21 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		assertNotNull(cdr);
 	}
+	
+	@Test
+	public void testGetWithStrategyTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2099177).setChild("targeting_segments") // limit
+				.setFull(fpv) // getAll
+				.build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	
 }

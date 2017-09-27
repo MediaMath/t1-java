@@ -310,9 +310,11 @@ public class StrategyHelper {
 			int inc = 1;
 			for (StrategyTargetingSegment sd : entity.getStrategyTargetingSegments()) {
 				if (sd != null) {
-					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
+					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getTargetingSegmentId()));
 					strategyForm.param("segments." + inc + ".restriction", sd.getRestriction());
-					strategyForm.param("segments." + inc + ".user_cpm", String.valueOf(sd.getUserCpm().getValue()));
+					if(sd.getUserCpm()!=null && sd.getUserCpm().size()>0){
+						strategyForm.param("segments." + inc + ".user_cpm", String.valueOf(sd.getUserCpm().get(0).getValue()));
+					}
 					strategyForm.param("segments." + inc + ".operator", sd.getOperator());
 					inc++;
 				}
