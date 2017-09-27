@@ -79,6 +79,7 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.TargetDimensions;
 import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
+import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
@@ -121,15 +122,15 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testJTerminalOneStringStringString() throws ClientException {
 		TerminalOne t1;
-		t1 = new TerminalOne(user,password, apiKey);
+		t1 = new TerminalOne(user, password, apiKey);
 		assertEquals(true, t1.isAuthenticated());
 	}
-	
+
 	@Test
 	public void testAuthenticateCookie() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		//t1.authenticate(user,password, productionKey);
-		t1.authenticate("fausto@infiniamobile.com", "Infiniafausto0919!","gtybp9ru7ajkvfhz6pzaq732");
+		// t1.authenticate(user,password, productionKey);
+		t1.authenticate("fausto@infiniamobile.com", "Infiniafausto0919!", "gtybp9ru7ajkvfhz6pzaq732");
 		assertEquals(true, t1.isAuthenticated());
 	}
 
@@ -137,7 +138,7 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		t1.authenticate(user, password,oauthKey,oauthSecret);		
+		t1.authenticate(user, password, oauthKey, oauthSecret);
 		assertEquals(true, t1.isAuthenticated());
 
 		Agency agency = new Agency();
@@ -166,12 +167,11 @@ public class PostFunctionalTestIT {
 		assertEquals(100048, agencyCreated.getOrganizationId());
 	}
 
-	//TEST WILL FAIL UNTIL AUTHO WORKS IN PRODUCTION
+	// TEST WILL FAIL UNTIL AUTHO WORKS IN PRODUCTION
 	@Test
 	public void testOAuthHGetToken() throws ClientException {
 		TerminalOne t1 = new TerminalOne();
-		boolean isAuthenticated = t1.authenticate(user, password, oauthKey,
-				oauthSecret);
+		boolean isAuthenticated = t1.authenticate(user, password, oauthKey, oauthSecret);
 		assertTrue(isAuthenticated);
 	}
 
@@ -1451,29 +1451,31 @@ public class PostFunctionalTestIT {
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
 	}
-	
+
 	@Test
 	public void testTOneASCreativeAssetUploadMultiple() throws ClientException, IOException {
 		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
-		T1File t1File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.jpg", "D:\\MediaMath\\html5\\disney_captamerica_300x250.jpg");
-		T1File t2File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.zip", "D:\\MediaMath\\html5\\disney_captamerica_300x250.zip");
-		T1File t3File = new T1File(null,null,null);
-		
+		T1File t1File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.jpg",
+				"D:\\MediaMath\\html5\\disney_captamerica_300x250.jpg");
+		T1File t2File = new T1File("disney_captamerica_300x250.jpg", "disney_captamerica_300x250.zip",
+				"D:\\MediaMath\\html5\\disney_captamerica_300x250.zip");
+		T1File t3File = new T1File(null, null, null);
+
 		List<T1File> fileList = new ArrayList<>();
-		
+
 		fileList.add(t1File);
 		fileList.add(t2File);
 		fileList.add(t3File);
-		
+
 		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(fileList);
 
 		assertNotNull(response);
-		
+
 		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
 		creativeAssetsApprove.create(false, "182395", "http://ad.vendor.com/clicktracker/?id=1234",
-				"http://theactuallandingpage.com", "disney_captamerica_300x250",
-				"disney_captamerica_300x250.jpg", "1162348");
+				"http://theactuallandingpage.com", "disney_captamerica_300x250", "disney_captamerica_300x250.jpg",
+				"1162348");
 
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
@@ -1740,40 +1742,39 @@ public class PostFunctionalTestIT {
 		assertNotNull(jsonResponse.getData());
 
 	}
-	
+
 	@Test
 	public void testCampaignBudgetFlightBulkPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Campaign cmp = new Campaign();
 		cmp.setId(349751);
-		
+
 		Calendar startcal = Calendar.getInstance();
 		startcal.roll(Calendar.DATE, true);
 		startcal.roll(Calendar.MONTH, true);
 		Date startd = startcal.getTime();
-		
+
 		startcal.roll(Calendar.DATE, true);
 		startcal.roll(Calendar.MONTH, true);
 		Date endd = startcal.getTime();
-		
+
 		startcal.roll(Calendar.DATE, true);
 		startcal.roll(Calendar.MONTH, true);
 		Date startd1 = startcal.getTime();
-		
+
 		startcal.roll(Calendar.DATE, true);
 		startcal.roll(Calendar.MONTH, true);
 		Date endd1 = startcal.getTime();
 
-
 		BudgetFlight bf1 = new BudgetFlight();
 		BudgetFlight bf2 = new BudgetFlight();
-		
+
 		bf1.setStartDate(startd);
 		bf1.setEndDate(endd);
 		bf1.setTotalBudget(10000, "USD");
 		bf1.setTotalImpressionBudget(120000);
-		
+
 		bf2.setStartDate(startd1);
 		bf2.setEndDate(endd1);
 		bf2.setTotalBudget(15000, "USD");
@@ -1781,8 +1782,8 @@ public class PostFunctionalTestIT {
 
 		cmp.getBudgetFlights().add(bf1);
 		cmp.getBudgetFlights().add(bf2);
-		
-		Campaign cmpSave =null;
+
+		Campaign cmpSave = null;
 		try {
 			cmpSave = jt1.save(cmp);
 		} catch (ParseException e) {
@@ -1791,10 +1792,10 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(cmpSave);
-		assertTrue(cmpSave.getBudgetFlights().size()>=1);
+		assertTrue(cmpSave.getBudgetFlights().size() >= 1);
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCustomBrainSelectionPost() throws ClientException {
@@ -1802,17 +1803,17 @@ public class PostFunctionalTestIT {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		Campaign cmp = new Campaign();
 		cmp.setId(300982);
-		
+
 		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
 		cCBS.setActive(true);
 		cCBS.setSelectionType(SELTYPES.AudienceTarget);
 		cCBS.setSelectionId(691);
-		
+
 		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
 		cCBSList.add(cCBS);
 		cmp.setCampaignCustomBrainSelection(cCBSList);
 
-		Campaign cmpSave =null;
+		Campaign cmpSave = null;
 		try {
 			cmpSave = jt1.save(cmp);
 		} catch (ParseException e) {
@@ -1822,33 +1823,31 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(cmpSave);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCustomBrainSelectionBulkPost() throws ClientException {
-		
+
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		Campaign cmp = new Campaign();
 		cmp.setId(300982);
-		
+
 		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
 		cCBS.setActive(true);
 		cCBS.setSelectionType(SELTYPES.AudienceTarget);
 		cCBS.setSelectionId(691);
-		
+
 		CampaignCustomBrainSelection cCBS1 = new CampaignCustomBrainSelection();
 		cCBS1.setActive(true);
 		cCBS1.setSelectionType(SELTYPES.AudienceTarget);
 		cCBS1.setSelectionId(692);
-		
-		
+
 		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
 		cCBSList.add(cCBS);
 		cCBSList.add(cCBS1);
 		cmp.setCampaignCustomBrainSelection(cCBSList);
 
-		Campaign cmpSave =null;
+		Campaign cmpSave = null;
 		try {
 			cmpSave = jt1.save(cmp);
 		} catch (ParseException e) {
@@ -1858,23 +1857,23 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(cmpSave);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCustomBrainSelectionDeletePost() throws ClientException {
-		
+
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		Campaign cmp = new Campaign();
 		cmp.setId(338158);
-		
+
 		CampaignCustomBrainSelection cCBS = new CampaignCustomBrainSelection();
 		cCBS.setId(143213);
 		cCBS.setDeleted(true);
-		
+
 		ArrayList<CampaignCustomBrainSelection> cCBSList = new ArrayList<>();
 		cCBSList.add(cCBS);
 		cmp.setCampaignCustomBrainSelection(cCBSList);
-		Campaign cmpSave =null;
+		Campaign cmpSave = null;
 		try {
 			cmpSave = jt1.save(cmp);
 		} catch (ParseException e) {
@@ -1885,14 +1884,13 @@ public class PostFunctionalTestIT {
 		assertNotNull(cmpSave);
 	}
 
-	
 	@Test
 	public void testUsersPost() throws ClientException {
-		
+
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		User user = new User();
-		
+
 		user.setFirstName("Test");
 		user.setLastName("Jitendra");
 		user.setTitle("Test+Jitendra");
@@ -1914,8 +1912,8 @@ public class PostFunctionalTestIT {
 		user.setViewDataDefinition(false);
 		user.setEditDataDefinition(false);
 		user.setViewDmpReports(false);
-		
-		User userSaved=null;
+
+		User userSaved = null;
 		try {
 			userSaved = (User) jt1.save(user);
 		} catch (ParseException e) {
@@ -1925,19 +1923,19 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(userSaved);
 	}
-	
+
 	@Test
 	public void testUserPermissionPost() throws ClientException {
-		
+
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		User user =  new User();
+		User user = new User();
 		user.setId(22513);
 		Map<String, Integer> permissions = new HashMap<String, Integer>();
-		
+
 		permissions.put("agency_id", 116678);
 		user.setPermissionList(permissions);
-		
-		User userSaved=null;
+
+		User userSaved = null;
 		try {
 			userSaved = (User) jt1.save(user);
 		} catch (ParseException e) {
@@ -1946,81 +1944,80 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(userSaved);
 		assertNotNull(userSaved.getPermissions());
-		
-	}	
-	
+
+	}
+
 	@Test
-	 public void testVideoCreatives() throws ClientException, IOException, ParseException {
-	  // will work only on production.
-	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+	public void testVideoCreatives() throws ClientException, IOException, ParseException {
+		// will work only on production.
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
-	  VideoCreative videoCreative = new VideoCreative();
-	  videoCreative.setName("videoCreative2");
-	  videoCreative.setStartTime(1468486396);
-	  videoCreative.setLandingUrl("http://www.somedomain.com");
-	  videoCreative.setAdvertiser(122631);
-	  videoCreative.setEndTime(1470009600);
-	  videoCreative.setConcept(847527);
-	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
+		VideoCreative videoCreative = new VideoCreative();
+		videoCreative.setName("videoCreative2");
+		videoCreative.setStartTime(1468486396);
+		videoCreative.setLandingUrl("http://www.somedomain.com");
+		videoCreative.setAdvertiser(122631);
+		videoCreative.setEndTime(1470009600);
+		videoCreative.setConcept(847527);
+		videoCreative.setClickthroughUrl("http://www.somedomain.com");
 
-	  List<EventPixel> eventPixels = new ArrayList<EventPixel>();
-	  eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
-	  eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
-	  
-	  videoCreative.setEventPixels(eventPixels);
-	  
-	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
 
-	  // upload the file.
-	  String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		videoCreative.setEventPixels(eventPixels);
+
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+		// upload the file.
+		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
 		String fileName = "blah1234.flv";
-	  VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
+		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, saveResponse.getCreativeId());
 
-	  VideoCreativeUploadStatus status = null;
-	  
-	  // check video creative status VideoCreativeUploadStatus uploadStatus =
-	  status = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
-		 
-		
-	  assertNotNull(status);  
-	  assertNotNull(saveResponse);
-	  assertNotNull(uploadResponse);
-	  assertNotNull(uploadResponse.getStatus());
-	 }
-	
-	@Test
-	 public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
-	  // will work only on production.
-	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		VideoCreativeUploadStatus status = null;
 
-	  VideoCreative videoCreative = new VideoCreative();
-	  videoCreative.setName("videoCreative2");
-	  videoCreative.setStartTime(1468486396);
-	  videoCreative.setLandingUrl("http://www.somedomain.com");
-	  videoCreative.setAdvertiser(122631);
-	  videoCreative.setEndTime(1470009600);
-	  videoCreative.setConcept(847527);
-	  videoCreative.setClickthroughUrl("http://www.somedomain.com");
+		// check video creative status VideoCreativeUploadStatus uploadStatus =
+		status = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
 
-	  List<EventPixel> eventPixels = new ArrayList<EventPixel>();
-	  eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
-	  eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
-	  
-	  videoCreative.setEventPixels(eventPixels);
-	  
-	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
-	  	  
-	  assertNotNull(saveResponse);
-	 }
-
+		assertNotNull(status);
+		assertNotNull(saveResponse);
+		assertNotNull(uploadResponse);
+		assertNotNull(uploadResponse.getStatus());
+	}
 
 	@Test
-	 public void testVideoCreativeUpdate() throws ClientException, IOException, ParseException {
-	  // will work only on production.
-	  	
-	  TerminalOne t1 = new TerminalOne(user, password, productionKey);
-	  
-	  QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4791256).setCreativeType(CreativeType.video).build();
+	public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
+		// will work only on production.
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+		VideoCreative videoCreative = new VideoCreative();
+		videoCreative.setName("videoCreative2");
+		videoCreative.setStartTime(1468486396);
+		videoCreative.setLandingUrl("http://www.somedomain.com");
+		videoCreative.setAdvertiser(122631);
+		videoCreative.setEndTime(1470009600);
+		videoCreative.setConcept(847527);
+		videoCreative.setClickthroughUrl("http://www.somedomain.com");
+
+		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+
+		videoCreative.setEventPixels(eventPixels);
+
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+		assertNotNull(saveResponse);
+	}
+
+	@Test
+	public void testVideoCreativeUpdate() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(4791256)
+				.setCreativeType(CreativeType.video).build();
 
 		JsonResponse<?> jsonresponse = null;
 		try {
@@ -2032,13 +2029,83 @@ public class PostFunctionalTestIT {
 
 		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
 
-	  VideoCreative videoCreative = cdr.getDetails();
-	  videoCreative.setCreativeId(4791256);
-	  videoCreative.setClickthroughUrl("http://www.mysomedomain.com");
+		VideoCreative videoCreative = cdr.getDetails();
+		videoCreative.setCreativeId(4791256);
+		videoCreative.setClickthroughUrl("http://www.mysomedomain.com");
 
-	  
-	  VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
-	  assertNotNull(saveResponse);
-	  
-	 }
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+		assertNotNull(saveResponse);
+
+	}
+
+	@Test
+	public void testAddTSForOrganization() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("campaign.advertiser.agency.organization", Long.valueOf(101558));
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+
+		QueryCriteria query1 = QueryCriteria.builder().setCollection("strategies").setLimit(limitList) // limit
+				.setGetAll(true).setFull(fpv) // getAll
+				.build();
+		JsonResponse<?> jsonresponse1 = one.get(query1);
+		@SuppressWarnings("unchecked")
+		List<Strategy> strategies = (List<Strategy>) jsonresponse1.getData();
+
+		for (int j = 0; j < strategies.size(); j++) {
+			List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
+			tsList.add(new StrategyTargetingSegment(17484, "EXCLUDE", 0.0f, "OR"));
+			Strategy strategy = strategies.get(j);
+			strategy.setStrategyTargetingSegments(tsList);
+			try {
+				strategy = one.save(strategy);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} // strategy for loop
+
+	}
+
+	@Test
+	public void testAllASForOrganization() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("campaign.advertiser.agency.organization", Long.valueOf(101558));
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+
+		QueryCriteria query1 = QueryCriteria.builder().setCollection("strategies").setLimit(limitList) // limit
+				.setGetAll(true).setFull(fpv) // getAll
+				.build();
+		JsonResponse<?> jsonresponse1 = one.get(query1);
+		@SuppressWarnings("unchecked")
+		List<Strategy> strategies = (List<Strategy>) jsonresponse1.getData();
+
+		for (int j = 0; j < strategies.size(); j++) {
+			List<Segments> asList = new ArrayList<Segments>();
+			asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+
+			Strategy strategy = strategies.get(j);
+			strategy.setAudienceSegments(asList);
+			try {
+				System.out.println("getting saved...");
+				strategy = one.save(strategy);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("saved.....");
+		} // strategy for loop
+	}
+
 }

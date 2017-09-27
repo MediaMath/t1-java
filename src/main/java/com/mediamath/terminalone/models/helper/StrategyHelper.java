@@ -51,40 +51,20 @@ public class StrategyHelper {
 
 		Form strategyForm = new Form();
 
-		if (entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegments().isEmpty()) {
-			strategyForm.param("audience_segment_exclude_op", entity.getAudienceSegmentExcludeOp().toString());
-		} else if (entity.getAudienceSegmentExcludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
+		if (entity.getAudienceSegmentExcludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
 			strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
 		}
 
-		if (entity.getAudienceSegmentIncludeOp() != null && entity.getAudienceSegments().isEmpty()) {
-			strategyForm.param("audience_segment_include_op", entity.getAudienceSegmentIncludeOp().toString());
-		} else if (entity.getAudienceSegmentIncludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
+		if (entity.getAudienceSegmentIncludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
 			strategyForm.param("include_op", entity.getAudienceSegmentIncludeOp().toString());
 		}
 
 		if (entity.getTargetingSegmentExcludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
 			strategyForm.param("exclude_op", String.valueOf(entity.getTargetingSegmentExcludeOp()));
-		} else if (entity.getTargetingSegmentExcludeOp() != null) {
-			strategyForm.param("targeting_segment_exclude_op", String.valueOf(entity.getTargetingSegmentExcludeOp()));
 		}
 
 		if (entity.getTargetingSegmentIncludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
 			strategyForm.param("include_op", String.valueOf(entity.getTargetingSegmentIncludeOp()));
-		} else if (entity.getTargetingSegmentIncludeOp() != null) {
-			strategyForm.param("targeting_segment_include_op", String.valueOf(entity.getTargetingSegmentIncludeOp()));
-		}
-
-		if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-			String endDate = sdf.format(entity.getEndDate());
-			strategyForm.param("end_date", endDate);
-		}
-
-		if (!entity.isUseCampaignStart() && entity.getStartDate() != null) {
-			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-			String startDate = sdf.format(entity.getStartDate());
-			strategyForm.param("start_date", startDate);
 		}
 
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
@@ -92,6 +72,37 @@ public class StrategyHelper {
 				&& entity.getSiteLists().isEmpty() && entity.getDealIds().isEmpty()
 				&& entity.getStrategyDayParts().isEmpty() && !entity.isCopyStrategy()
 				&& (entity.getFromCampaignId() <= 0 && entity.getToCampaignId() <= 0)) {
+
+			if (entity.getEndDate() != null && !entity.isUseCampaignEnd()) {
+				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+				String endDate = sdf.format(entity.getEndDate());
+				strategyForm.param("end_date", endDate);
+			}
+
+			if (!entity.isUseCampaignStart() && entity.getStartDate() != null) {
+				sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+				String startDate = sdf.format(entity.getStartDate());
+				strategyForm.param("start_date", startDate);
+			}
+
+			if (entity.getAudienceSegmentExcludeOp() != null) {
+				strategyForm.param("audience_segment_exclude_op", entity.getAudienceSegmentExcludeOp().toString());
+			}
+
+			if (entity.getAudienceSegmentIncludeOp() != null) {
+				strategyForm.param("audience_segment_include_op", entity.getAudienceSegmentIncludeOp().toString());
+			}
+
+			if (entity.getTargetingSegmentExcludeOp() != null) {
+				strategyForm.param("targeting_segment_exclude_op",
+						String.valueOf(entity.getTargetingSegmentExcludeOp()));
+			}
+
+			if (entity.getTargetingSegmentIncludeOp() != null) {
+				strategyForm.param("targeting_segment_include_op",
+						String.valueOf(entity.getTargetingSegmentIncludeOp()));
+			}
+
 			if (entity.getBidAggresiveness() > 0f) {
 				strategyForm.param("bid_aggressiveness", String.valueOf(entity.getBidAggresiveness()));
 			}
