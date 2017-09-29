@@ -102,7 +102,7 @@ public class VideoCreativeHelper {
 	}
 
 	private static void setSkippableDuration(VideoCreative entity, Form form) {
-		if (entity.getSkippableDuration() > 0) {
+		if (entity.getSkippableDuration() !=null) {
 			form.param("skippableDuration", String.valueOf(entity.getSkippableDuration()));
 		}
 	}

@@ -29,11 +29,11 @@ public class TargetingSegment implements T1Entity {
 	private Date updated_on;
 	private int version;
 
-	public int getTargeting_vendor_id() {
+	public int getTargetingVendorId() {
 		return targeting_vendor_id;
 	}
 
-	public void setTargeting_vendor_id(int targeting_vendor_id) {
+	public void setTargetingVendorId(int targeting_vendor_id) {
 		this.targeting_vendor_id = targeting_vendor_id;
 	}
 
@@ -45,11 +45,11 @@ public class TargetingSegment implements T1Entity {
 		this.buyable = buyable;
 	}
 
-	public int getChild_count() {
+	public int getChildCount() {
 		return child_count;
 	}
 
-	public void setChild_count(int child_count) {
+	public void setChildCount(int child_count) {
 		this.child_count = child_count;
 	}
 
@@ -61,19 +61,19 @@ public class TargetingSegment implements T1Entity {
 		this.code = code;
 	}
 
-	public Date getCreated_on() {
+	public Date getCreatedOn() {
 		return created_on;
 	}
 
-	public void setCreated_on(Date created_on) {
+	public void setCreatedOn(Date created_on) {
 		this.created_on = created_on;
 	}
 
-	public String getFull_path() {
+	public String getFullPath() {
 		return full_path;
 	}
 
-	public void setFull_path(String full_path) {
+	public void setFullPath(String full_path) {
 		this.full_path = full_path;
 	}
 
@@ -93,19 +93,19 @@ public class TargetingSegment implements T1Entity {
 		this.name = name;
 	}
 
-	public int getParent_targeting_segment_id() {
+	public int getParentTargetingSegmentId() {
 		return parent_targeting_segment_id;
 	}
 
-	public void setParent_targeting_segment_id(int parent_targeting_segment_id) {
+	public void setParentTargetingSegmentId(int parent_targeting_segment_id) {
 		this.parent_targeting_segment_id = parent_targeting_segment_id;
 	}
 
-	public List<Currency> getRetail_cpm() {
+	public List<Currency> getRetailCpm() {
 		return retail_cpm;
 	}
 
-	public void setRetail_cpm(List<Currency> retail_cpm) {
+	public void setRetailCpm(List<Currency> retail_cpm) {
 		this.retail_cpm = retail_cpm;
 	}
 
@@ -115,11 +115,11 @@ public class TargetingSegment implements T1Entity {
 		this.retail_cpm.add(curr);
 	}
 
-	public List<Currency> getWholesale_cpm() {
+	public List<Currency> getWholesaleCpm() {
 		return wholesale_cpm;
 	}
 
-	public void setWholesale_cpm(List<Currency> wholesale_cpm) {
+	public void setWholesaleCpm(List<Currency> wholesale_cpm) {
 		this.wholesale_cpm = wholesale_cpm;
 	}
 
@@ -137,27 +137,27 @@ public class TargetingSegment implements T1Entity {
 		this.tag = tag;
 	}
 
-	public int getObjective_id() {
+	public int getObjectiveId() {
 		return objective_id;
 	}
 
-	public void setObjective_id(int objective_id) {
+	public void setObjectiveId(int objective_id) {
 		this.objective_id = objective_id;
 	}
 
-	public String getExternal_code() {
+	public String getExternalCode() {
 		return external_code;
 	}
 
-	public void setExternal_code(String external_code) {
+	public void setExternalCode(String external_code) {
 		this.external_code = external_code;
 	}
 
-	public Date getUpdated_on() {
+	public Date getUpdatedOn() {
 		return updated_on;
 	}
 
-	public void setUpdated_on(Date updated_on) {
+	public void setUpdatedOn(Date updated_on) {
 		this.updated_on = updated_on;
 	}
 
@@ -176,7 +176,6 @@ public class TargetingSegment implements T1Entity {
 
 	@Override
 	public Form getForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -26,13 +26,13 @@ import com.mediamath.terminalone.exceptions.ClientException;
 public class VideoCreative implements T1Entity {
 
 	private String name;
-	private long startTime;
+	private Long startTime;
 	private String landingUrl;
 	private String customVAST;
 	private ArrayList<Long> vendors = new ArrayList<Long>();
 	private long advertiser;
 	private boolean desktopEncoding;
-	private long endTime;
+	private Long endTime;
 	private Integer skippableDuration; // null = non skippable as per
 										// documentation.
 	private boolean mobileEncoding;
@@ -99,11 +99,11 @@ public class VideoCreative implements T1Entity {
 		this.endTime = endTime;
 	}
 
-	public int getSkippableDuration() {
+	public Integer getSkippableDuration() {
 		return skippableDuration;
 	}
 
-	public void setSkippableDuration(int skippableDuration) {
+	public void setSkippableDuration(Integer skippableDuration) {
 		this.skippableDuration = skippableDuration;
 	}
 
@@ -175,7 +175,6 @@ public class VideoCreative implements T1Entity {
 
 	@Override
 	public String getUri() throws ClientException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
