@@ -41,7 +41,6 @@ import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
 import com.mediamath.terminalone.models.SupplySource;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
@@ -1363,5 +1362,29 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);	
 	}
 	
+	@Test
+	public void testGetWithAllTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("targeting_segments").setFull(fpv).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
 	
+	@Test
+	public void testGetWithTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("targeting_segments").setEntity(4943).setFull(fpv).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
 }
