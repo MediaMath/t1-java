@@ -131,6 +131,9 @@ public class VideoCreativeHelper {
 		if (entity.getCustomVAST() != null && !entity.getCustomVAST().isEmpty()) {
 			form.param("customVAST", entity.getCustomVAST());
 		}
+		if (entity.getCustomVASTUrl() != null && !entity.getCustomVASTUrl().isEmpty()) {
+			form.param("customVASTUrl", entity.getCustomVASTUrl());
+		}
 	}
 
 	private static void setLandingURL(VideoCreative entity, Form form) {

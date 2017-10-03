@@ -29,6 +29,7 @@ public class VideoCreative implements T1Entity {
 	private Long startTime;
 	private String landingUrl;
 	private String customVAST;
+	private String customVASTUrl;
 	private ArrayList<Long> vendors = new ArrayList<Long>();
 	private long advertiser;
 	private boolean desktopEncoding;
@@ -65,6 +66,14 @@ public class VideoCreative implements T1Entity {
 
 	public void setCustomVAST(String customVAST) {
 		this.customVAST = customVAST;
+	}
+
+	public String getCustomVASTUrl() {
+		return customVASTUrl;
+	}
+
+	public void setCustomVASTUrl(String customVASTUrl) {
+		this.customVASTUrl = customVASTUrl;
 	}
 
 	public ArrayList<Long> getVendors() {

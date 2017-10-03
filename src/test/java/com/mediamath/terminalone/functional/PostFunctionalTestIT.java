@@ -36,8 +36,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.mediamath.terminalone.QueryCriteria;
-import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
+import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Advertiser;
@@ -79,12 +79,12 @@ import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.TargetDimensions;
 import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
-import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.utils.FullParamValues;
 
 public class PostFunctionalTestIT {
 
@@ -2145,7 +2145,32 @@ public class PostFunctionalTestIT {
 				e.printStackTrace();
 			}
 		} // strategy for loop
-
 	}
+	
+	@Test
+	public void testVideoCreativesCustomVAST() throws ClientException, IOException, ParseException {
+		// will work only on production.
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+		VideoCreative videoCreative = new VideoCreative();
+		videoCreative.setName("TestVASTCreative");
+		//videoCreative.setStartTime(1468486396);
+		videoCreative.setLandingUrl("http://www.vasttestdomain.com");
+		videoCreative.setAdvertiser(122631);
+		//videoCreative.setEndTime(1470009600);
+		videoCreative.setConcept(847527);
+		videoCreative.setCustomVASTUrl("https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=22617024&PluID=0&pos=897&ord=7464&cim=1");
+
+		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+
+		videoCreative.setEventPixels(eventPixels);
+	
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+		assertNotNull(saveResponse);
+	}
+
 
 }
