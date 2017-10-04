@@ -592,6 +592,8 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(TARGET_DIMENSION, new TypeToken<JsonResponse<ArrayList<TargetDimension>>>() {
 		}.getType());
+		getListoFEntityType.put(TARGETING_SEGMENT, new TypeToken<JsonResponse<ArrayList<TargetingSegment>>>() {
+		}.getType());
 		getListoFEntityType.put(TARGET_VALUES, new TypeToken<JsonResponse<ArrayList<TargetValues>>>() {
 		}.getType());
 		getListoFEntityType.put(TARGET_VALUE, new TypeToken<JsonResponse<ArrayList<TargetValues>>>() {
@@ -653,6 +655,7 @@ public final class Constants {
 		pathToCollectionEntity.put(USERS, "User");
 		pathToCollectionEntity.put(TARGET_DIMENSIONS, "TargetDimension");
 		pathToCollectionEntity.put(TARGET_VALUES, "TargetValue");
+		pathToCollectionEntity.put(TARGETING_SEGMENT, "TargetingSegment");
 		pathToCollectionEntity.put(PERMISSIONS, "Permission");
 		pathToCollectionEntity.put(REPORTS, "Report");
 		pathToCollectionEntity.put(VENDORS, "Vendor");
@@ -694,6 +697,8 @@ public final class Constants {
 		entityPaths.put("User", USERS);
 		entityPaths.put("TargetDimension", TARGET_DIMENSIONS);
 		entityPaths.put("TargetValue", TARGET_VALUES);
+		entityPaths.put("TargetingSegment", TARGETING_SEGMENT);
+		
 		entityPaths.put("Permission", PERMISSIONS);
 		entityPaths.put("UserPermissions", USER_PERMISSIONS);
 		entityPaths.put("Report", REPORTS);

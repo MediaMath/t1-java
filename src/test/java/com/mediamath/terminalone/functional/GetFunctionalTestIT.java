@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -1344,5 +1345,46 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 		assertNotNull(cdr);
+	}
+	
+	@Test
+	public void testGetWithStrategyTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2099177).setChild("targeting_segments") // limit
+				.setFull(fpv) // getAll
+				.build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithAllTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("targeting_segments").setFull(fpv).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithTargetingSegments() throws ClientException, IOException, ParseException {
+		// will work only on production.
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("targeting_segments").setEntity(4943).setFull(fpv).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
 	}
 }

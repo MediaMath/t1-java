@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.ws.rs.core.Form;
@@ -33,7 +34,7 @@ public class StrategyTargetingSegment implements T1Entity {
 	private int targeting_segment_id;
 	private String type;
 	private Date updated_on;
-	private Currency user_cpm;
+	private ArrayList<Currency> user_cpm = new ArrayList<Currency>();;
 	private int version;
 	private String name;
 
@@ -43,12 +44,10 @@ public class StrategyTargetingSegment implements T1Entity {
 	}
 
 	public StrategyTargetingSegment(int id, String restriction, float user_cpm, String operator) {
-		this.id = id;
+		this.targeting_segment_id = id;
 		this.operator = operator;
 		this.restriction = restriction;
-		Currency curr = new Currency();
-		curr.setValue(user_cpm);
-		this.user_cpm = curr;
+		this.setUserCpm(user_cpm);
 	}
 
 	public Date getCreatedOn() {
@@ -123,18 +122,18 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.updated_on = updated_on;
 	}
 
-	public Currency getUserCpm() {
+	public ArrayList<Currency> getUserCpm() {
 		return user_cpm;
 	}
 
-	public void setUserCpm(Currency user_cpm) {
+	public void setUserCpm(ArrayList<Currency> user_cpm) {
 		this.user_cpm = user_cpm;
 	}
 
 	public void setUserCpm(float user_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(user_cpm);
-		this.user_cpm = curr;
+		this.user_cpm.add(curr);
 	}
 
 	public int getVersion() {

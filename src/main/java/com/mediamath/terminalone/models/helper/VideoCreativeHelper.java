@@ -102,7 +102,7 @@ public class VideoCreativeHelper {
 	}
 
 	private static void setSkippableDuration(VideoCreative entity, Form form) {
-		if (entity.getSkippableDuration() > 0) {
+		if (entity.getSkippableDuration() !=null) {
 			form.param("skippableDuration", String.valueOf(entity.getSkippableDuration()));
 		}
 	}
@@ -130,6 +130,9 @@ public class VideoCreativeHelper {
 	private static void setCustomVAST(VideoCreative entity, Form form) {
 		if (entity.getCustomVAST() != null && !entity.getCustomVAST().isEmpty()) {
 			form.param("customVAST", entity.getCustomVAST());
+		}
+		if (entity.getCustomVASTUrl() != null && !entity.getCustomVASTUrl().isEmpty()) {
+			form.param("customVASTUrl", entity.getCustomVASTUrl());
 		}
 	}
 
