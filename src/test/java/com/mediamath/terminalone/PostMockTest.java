@@ -76,6 +76,8 @@ import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.ZipCodes;
+import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
@@ -158,6 +160,8 @@ public class PostMockTest {
 	private static String USER_RESPONSE = null;
 	private static String USER_PERMISSIONS_RESPONSE = null;
 	
+	private static String ZIPCODE_RESPONSE= null;
+	
 	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
 
 	private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = null;
@@ -239,6 +243,7 @@ public class PostMockTest {
 				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.firstcall.response");
 		TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = testConfig
 				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.secondcall.response");
+		ZIPCODE_RESPONSE = testConfig.getProperty("t1.mock.save.zipcode.response");
 	}
 
 	@After
@@ -1673,7 +1678,33 @@ public class PostMockTest {
 		assertNotNull(userSaved);
 		assertNotNull(userSaved.getPermissions());
 		
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testStrategyPostCodesPost() throws ClientException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+				Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(ZIPCODE_RESPONSE);
+		
+		ZipCodesJsonResponse response = null;
+		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true, true, true);
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			response = (ZipCodesJsonResponse) t1.save(zipCode);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(response);
+	}
 	
 
 	@SuppressWarnings("unchecked")
@@ -1715,24 +1746,21 @@ public class PostMockTest {
 	// @SuppressWarnings("unchecked")
 	// @Test
 	// public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
-
-	// 	String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
-	// 	String fileName = "blah1234.flv";
-
+    //
 	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 	// 	Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
-		
+	//	
 	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
 	// 			Mockito.any(T1User.class))).thenReturn(response);
 	// 	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
-
+    //
 	// 	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-	// 	VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, String.valueOf(3595840));
-
+	// 	VideoCreativeResponse uploadResponse = t1.uploadVideoCreative("D:\\MediaMat\\t1attachements\\blah1234.flv", "blah1234.flv", String.valueOf(3595840));
+    //
 	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
 	// 			Mockito.any(T1User.class));
-
+    //
 	// 	assertNotNull(uploadResponse);
 	// 	assertNotNull(uploadResponse.getStatus());
 	// }

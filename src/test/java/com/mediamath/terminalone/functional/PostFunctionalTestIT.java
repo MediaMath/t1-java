@@ -84,6 +84,8 @@ import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.models.ZipCodes;
+import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.utils.FullParamValues;
 
 public class PostFunctionalTestIT {
@@ -2172,5 +2174,18 @@ public class PostFunctionalTestIT {
 		assertNotNull(saveResponse);
 	}
 
+	@Test
+	public void testStrategyPostCodesPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		ZipCodesJsonResponse response = null;
+		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true, true, true);
+		try {
+			response = (ZipCodesJsonResponse) jt1.save(zipCode);
+		} catch (ParseException e) {
 
+			e.printStackTrace();
+		}
+
+		assertNotNull(response);
+	}
 }
