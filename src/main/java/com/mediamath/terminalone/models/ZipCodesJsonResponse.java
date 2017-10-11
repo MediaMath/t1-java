@@ -24,16 +24,16 @@ public class ZipCodesJsonResponse {
 
 
   @SerializedName("data")
-  ArrayList<T1Data> data;
+  private ArrayList<T1Data> data;
 
   @SerializedName("errors")
-  ArrayList<T1Error> errors;
+  private ArrayList<T1Error> errors;
 
   @SerializedName("meta")
-  T1Meta meta;
+  private T1Meta meta;
 
   @SerializedName("entity_type")
-  String entity_type;
+  private String entity_type;
   
   public ZipCodesJsonResponse() {
     //default.
@@ -67,11 +67,11 @@ public class ZipCodesJsonResponse {
     this.meta = meta;
   }
 
-  public String getEntity_type() {
+  public String getEntityType() {
     return entity_type;
   }
 
-  public void setEntity_type(String entity_type) {
+  public void setEntityType(String entity_type) {
     this.entity_type = entity_type;
   }
 

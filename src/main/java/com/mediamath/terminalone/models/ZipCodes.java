@@ -27,8 +27,6 @@ public class ZipCodes implements T1Entity {
 		INCLUDE, EXCLUDE
 	}
 	
-	public ZipCodes(){}
-
 	private int strategyId;
 	private restrictions restriction;
 	private String file;
@@ -36,6 +34,7 @@ public class ZipCodes implements T1Entity {
 	private boolean ignore_errors;
 	private boolean active;
 	
+	public ZipCodes(){}
 	
 	public ZipCodes(int strategyId, restrictions restriction, String file, boolean validate_only, boolean ignore_errors,
 			boolean active) {
