@@ -74,6 +74,8 @@ import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.models.ZipCodes;
+import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
@@ -355,6 +357,26 @@ public class TerminalOne {
 			strategy = postService.save(entity);
 		}
 		return strategy;
+	}
+	
+	/**
+	 * Saves ZipCodes against Strategy entity.
+	 * 
+	 * @param entity
+	 *            expects ZipCodes entity.
+	 * @return ZipCodesJsonResponse object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public ZipCodesJsonResponse save(ZipCodes entity) throws ClientException, ParseException {
+		ZipCodesJsonResponse response = null;
+		if (isAuthenticated()) {
+			response = postService.save(entity);
+		}
+		return response;
 	}
 	
 	/** Saves List of Strategy entity ie. bulk strategy update

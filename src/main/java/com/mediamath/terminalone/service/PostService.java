@@ -38,6 +38,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
@@ -72,12 +73,15 @@ import com.mediamath.terminalone.models.UserPermissions;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.models.ZipCodes;
+import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.TPasCreativeUploadBatchHelper;
 import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
+import com.mediamath.terminalone.utils.Utility;
 
 public class PostService {
 
@@ -90,6 +94,8 @@ public class PostService {
 	private static final String CREATIVES_STR = "creatives";
 
 	private static final String CREATIVE_ASSETS = "creative_assets";
+	
+    private static final String COULD_NOT_PARSE_RESPONSE = "Could not parse response";
 
 	private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
@@ -178,7 +184,7 @@ public class PostService {
 		Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
 		return readPostResponseToString(responseObj);
 	}
-
+	
 	private String readPostResponseToString(Response responseObj) throws ClientException {
 		String response = responseObj.readEntity(String.class);
 		JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
@@ -249,6 +255,7 @@ public class PostService {
 	 * @throws ParseException
 	 *             a parse exception is thrown when the response cannot be
 	 *             parsed.
+	 * @throws IOException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Strategy save(Strategy entity) throws ClientException, ParseException {
@@ -303,10 +310,11 @@ public class PostService {
 					uri.append("/" + String.valueOf(entity.getTargetDimensions().getId()));
 				}
 			}
-
+			
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
-
-			String responseString = getStrategyResponseString(entity, path);
+			
+			String responseString;
+			responseString = getStrategyResponseString(entity, path);
 
 			finalJsonResponse = getJsonResponse(entity, responseString);
 
@@ -353,6 +361,67 @@ public class PostService {
 			}
 		}
 		return strategy;
+	}
+	
+	/**
+	 * saves a ZipCodes against Strategy entity.
+	 * 
+	 * @param entity
+	 *            expects a ZipCodes entity.
+	 * @return ZipCodesJsonResponse object.
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 * @throws IOException 
+	 */
+	public ZipCodesJsonResponse save(ZipCodes entity) throws ClientException, ParseException {
+
+		ZipCodesJsonResponse finalJsonResponse = null;
+		if (entity != null) {
+			StringBuilder uri = new StringBuilder("strategies");
+
+			if (entity.getStrategyId() > 0) {
+				uri.append("/");
+				uri.append(entity.getStrategyId());
+				uri.append("/target_postcodes");
+			}
+
+			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
+
+			String responseString;
+
+			FormDataMultiPart multipart = new FormDataMultiPart();
+			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(entity.getFile()));
+
+			multipart.field("restriction", entity.getRestriction().toString())
+					.field("validate_only", Utility.getOneOrZero(entity.isValidateOnly()))
+					.field("ignore_errors", Utility.getOneOrZero(entity.isIgnoreErrors()))
+					.field("active", Utility.getOneOrZero(entity.isActive())).bodyPart(filePart);
+
+			Response responseObj = this.connection.post(path, multipart, this.user);
+			try {
+				multipart.close();
+			} catch (IOException e) {
+				logger.error(" "+e.getCause());
+			}
+
+			responseString = responseObj.readEntity(String.class);
+			JsonPostErrorResponse error = jsonPostErrorResponseParser(responseString, responseObj);
+			if (error != null)
+				throwExceptions(error);
+
+			try {
+				Gson gson = new GsonBuilder().setDateFormat(YYYY_MM_DD_T_HH_MM_SS).create();
+				finalJsonResponse = gson.fromJson(responseString, ZipCodesJsonResponse.class);
+			} catch (JsonParseException parseException) {
+				Utility.logStackTrace(parseException);
+				throw new ParseException(COULD_NOT_PARSE_RESPONSE);
+			}
+
+		}
+		return finalJsonResponse;
 	}
 
 	/**
@@ -1074,7 +1143,7 @@ public class PostService {
 	}
 
 	private boolean checkErrorAndErrorsElement(JsonElement errorsElement, JsonElement errorElement) {
-		return errorsElement != null || errorElement != null;
+		return ((errorsElement != null && errorsElement.isJsonArray() && errorsElement.getAsJsonArray().size() > 0) || errorElement != null);
 	}
 
 	private void parseMetaElement(Response responseObj, JsonElement metaElement, JsonPostErrorResponse errorResponse,
