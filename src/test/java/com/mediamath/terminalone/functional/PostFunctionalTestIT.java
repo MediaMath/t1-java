@@ -50,7 +50,9 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.CreativeDetailsResponse;
+import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.EventPixel;
 import com.mediamath.terminalone.models.EventPixel.EventPixelsEnum;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -729,9 +731,9 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyUpdatePost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2205653).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2196344).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -2187,5 +2189,91 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(response);
+	}
+	
+	@Test
+	public void testContractsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		Currency curr = new Currency();
+		curr.setCurrencyCode("USD");
+		curr.setValue(100f);
+		
+		List<Currency> cList = new ArrayList<Currency>();
+		cList.add(curr);
+		
+		Contract contract = new Contract();
+		contract.setAdaptiveSegmentCpm(cList);
+		contract.setContractNumber(1111);
+		contract.setCurrencyCode("USD");
+		contract.setEvidonPrivacyCostCpm(cList);
+		contract.setExternalMediaTrackingCpm(cList);
+		contract.setFbxDynamicCpm(cList);
+		contract.setManagedServiceFeePct(11);
+		contract.setManagedServiceFeeUnit("PCT_TOTAL_COST");
+		/*contract.setName("JC Contract");*/
+		contract.setOptimizationFeePct(11);
+		contract.setOptimizationFeeUnit("PCT_TOTAL_COST");
+		contract.setOrganizationId(101558);
+/*		contract.setPeer39ChannelFeeCpm(cList);
+		contract.setPeer39CustomFeeCpm(cList);*/
+		contract.setPeer39QualityFeeCpm(cList);
+		contract.setPeer39SafetyFeeCpm(cList);
+		contract.setPlatformAccessFeePct(11);
+		contract.setPlatformAccessFeeUnit("PCT_TOTAL_COST");
+		contract.setPlatformMonthlyMin(11);
+		contract.setPmpOptimizationOffFeeCpm(cList);
+		contract.setPmpOptimizationOffUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOnFeeCpm(cList);
+		contract.setPmpOptimizationOnUnit("PCT_TOTAL_COST");
+		contract.setProfitShareFeePct(11);
+		contract.setSpendCap(100);
+		contract.setT1AsFeeCpm(cList);
+		contract.setT1Html5FeeCpm(cList);
+		contract.setT1VadsFeeCpm(cList);
+		contract.setExcludeAgencyMargin(true);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(contract);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+	
+	
+	@Test
+	public void testContractsUpdate() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			jsonresponse = jt1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Contract ctrt = (Contract) jsonresponse.getData();
+		
+		ctrt.setManagedServiceFeePct(11);
+		ctrt.setOptimizationFeePct(11);
+		ctrt.setSpendCap(100);
+		ctrt.setExcludeAgencyMargin(true);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(ctrt);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
 	}
 }

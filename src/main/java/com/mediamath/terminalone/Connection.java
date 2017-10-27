@@ -61,6 +61,8 @@ public class Connection {
 	private static final String TARGET_URL = "Target URL: %s";
 
 	private static final String NO_POST_DATA = "No Post Data";
+	
+	private static final String NO_PUT_DATA = "No Put Data";
 
 	private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
@@ -99,6 +101,32 @@ public class Connection {
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
 		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
+	
+	/**
+	 * Handles the POST operation to a given endpoint.
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param data
+	 *            requires a Form data object.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             throws a client exception.
+	 */
+	public Response put(String url, Form data, T1User userMap) throws ClientException {
+
+		if (data == null) {
+			throw new ClientException(NO_PUT_DATA);
+		}
+
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.put(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 		return response;
 	}
 

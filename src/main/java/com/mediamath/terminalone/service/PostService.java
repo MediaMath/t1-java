@@ -175,7 +175,14 @@ public class PostService {
 	}
 
 	private String getResponseString(T1Entity entity, String path) throws ClientException {
-		Response responseObj = this.connection.post(path, entity.getForm(), this.user);
+		String uriPath = entity.getUri();
+		Response responseObj;
+		if(entity.getEntityname() != null && ("Contract").equals(entity.getEntityname()) && (uriPath!=null && !uriPath.isEmpty())){
+			responseObj = this.connection.put(path, entity.getForm(), this.user);
+		}else{
+			responseObj = this.connection.post(path, entity.getForm(), this.user);
+		}
+		
 		return readPostResponseToString(responseObj);
 
 	}
