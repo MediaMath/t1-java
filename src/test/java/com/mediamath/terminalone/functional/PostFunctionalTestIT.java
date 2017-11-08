@@ -83,6 +83,7 @@ import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
@@ -2210,12 +2211,9 @@ public class PostFunctionalTestIT {
 		contract.setFbxDynamicCpm(cList);
 		contract.setManagedServiceFeePct(11);
 		contract.setManagedServiceFeeUnit("PCT_TOTAL_COST");
-		/*contract.setName("JC Contract");*/
 		contract.setOptimizationFeePct(11);
 		contract.setOptimizationFeeUnit("PCT_TOTAL_COST");
 		contract.setOrganizationId(101558);
-/*		contract.setPeer39ChannelFeeCpm(cList);
-		contract.setPeer39CustomFeeCpm(cList);*/
 		contract.setPeer39QualityFeeCpm(cList);
 		contract.setPeer39SafetyFeeCpm(cList);
 		contract.setPlatformAccessFeePct(11);
@@ -2223,14 +2221,25 @@ public class PostFunctionalTestIT {
 		contract.setPlatformMonthlyMin(11);
 		contract.setPmpOptimizationOffFeeCpm(cList);
 		contract.setPmpOptimizationOffUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOffFeePct(11);
 		contract.setPmpOptimizationOnFeeCpm(cList);
 		contract.setPmpOptimizationOnUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOnFeePct(11);
 		contract.setProfitShareFeePct(11);
 		contract.setSpendCap(100);
 		contract.setT1AsFeeCpm(cList);
 		contract.setT1Html5FeeCpm(cList);
 		contract.setT1VadsFeeCpm(cList);
 		contract.setExcludeAgencyMargin(true);
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		cal.roll(Calendar.DATE, true);
+		Date startDate = cal.getTime();
+		contract.setEffectiveStartDate(startDate);
+
+		cal.roll(Calendar.DATE, true); cal.roll(Calendar.YEAR, true); Date
+		endd = cal.getTime(); 
+		contract.setEffectiveEndDate(endd);
 
 		Contract contractFinal = null;
 		try {
@@ -2265,6 +2274,8 @@ public class PostFunctionalTestIT {
 		ctrt.setOptimizationFeePct(11);
 		ctrt.setSpendCap(100);
 		ctrt.setExcludeAgencyMargin(true);
+		ctrt.setName(null);
+		
 
 		Contract contractFinal = null;
 		try {
@@ -2276,4 +2287,27 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
+	
+	@Test
+	public void testVendorContractsSave() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		VendorContract venContract = new VendorContract();
+		venContract.setCampaignId(349751);
+		venContract.setPrice(2.8f);
+		venContract.setRateCardType("");
+		venContract.setUseMmContract(false);
+		venContract.setVendorId(633);
+		
+
+		VendorContract contractFinal = null;
+		try {
+			contractFinal = (VendorContract) jt1.save(venContract);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+	
 }

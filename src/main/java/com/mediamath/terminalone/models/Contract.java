@@ -42,8 +42,10 @@ public class Contract implements T1Entity {
 	private int platform_monthly_min;
 	private List<Currency> pmp_optimization_off_fee_cpm = new ArrayList<Currency>();
 	private String pmp_optimization_off_unit;
+	private int pmp_optimization_off_fee_pct;
 	private List<Currency> pmp_optimization_on_fee_cpm = new ArrayList<Currency>();
 	private String pmp_optimization_on_unit;
+	private int pmp_optimization_on_fee_pct;
 	private int profit_share_fee_pct;
 	private int spend_cap;
 	private List<Currency> t1_as_fee_cpm = new ArrayList<Currency>();
@@ -332,6 +334,22 @@ public class Contract implements T1Entity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+	public int getPmpOptimizationOffFeePct() {
+		return pmp_optimization_off_fee_pct;
+	}
+
+	public void setPmpOptimizationOffFeePct(int pmp_optimization_off_fee_pct) {
+		this.pmp_optimization_off_fee_pct = pmp_optimization_off_fee_pct;
+	}
+
+	public int getPmpOptimizationOnFeePct() {
+		return pmp_optimization_on_fee_pct;
+	}
+
+	public void setPmpOptimizationOnFeePct(int pmp_optimization_on_fee_pct) {
+		this.pmp_optimization_on_fee_pct = pmp_optimization_on_fee_pct;
+	}
 
 	@Override
 	public String getEntityname() {
@@ -415,11 +433,17 @@ public class Contract implements T1Entity {
 		if(this.getPmpOptimizationOffUnit()!=null){
 			contractForm.param("pmp_optimization_off_unit", this.getPmpOptimizationOffUnit());	
 		}
+		if(this.getPmpOptimizationOffFeePct()> 0){
+			contractForm.param("pmp_optimization_off_fee_pct", String.valueOf(this.getPmpOptimizationOffFeePct()));
+		}
 		if(!this.getPmpOptimizationOnFeeCpm().isEmpty()){
 			contractForm.param("pmp_optimization_on_fee_cpm", String.valueOf(this.getPmpOptimizationOnFeeCpm().get(0).getValue()));
 		}
 		if(this.getPmpOptimizationOnUnit()!=null){
 			contractForm.param("pmp_optimization_on_unit", this.getPmpOptimizationOnUnit());	
+		}
+		if(this.getPmpOptimizationOnFeePct()> 0){
+			contractForm.param("pmp_optimization_on_fee_pct", String.valueOf(this.getPmpOptimizationOnFeePct()));
 		}
 		if(this.getProfitShareFeePct()>0){
 			contractForm.param("profit_share_fee_pct", String.valueOf(this.getProfitShareFeePct()));

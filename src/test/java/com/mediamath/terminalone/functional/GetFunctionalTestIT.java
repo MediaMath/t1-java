@@ -1408,4 +1408,28 @@ public class GetFunctionalTestIT {
 		JsonResponse<?> jsonresponse = one.get(query);	
 		assertNotNull(jsonresponse);	
 	}
+	
+	@Test
+	public void testGetWithVendorContacts() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithSingleVendorContact() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32505).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
 }
