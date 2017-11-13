@@ -55,7 +55,7 @@ import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.CreativeDetailsResponse;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -71,8 +71,10 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
@@ -666,6 +668,37 @@ public class TerminalOne {
 		}
 		return response;
 	}
+	
+	/**TEMPORARY SOLUTION, DO BE DEPRECATED ONCE VIDEO CREATIVE UPLOAD PROBLEM SOLVES
+	 * 
+	 * second call to upload video creative media using the creativeId.
+	 * 
+	 * @param filePath
+	 *            a valid filePath is required.
+	 * @param fileName
+	 *            a valid fileName is required.
+	 * @param key
+	 *            a valid key is required.
+	 * @param host
+	 *            a valid host is required.
+	 * 
+	 * @return VideoCreativeResponse object.
+	 * 
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws IOException
+	 *             IoException is thrown in case if there is an error while
+	 *             uploading a file.
+	 * 
+	 */
+	public VideoCreativeUploadResponse videoCreativeUpload(String filePath, String fileName, String key, String host)
+			throws ClientException, IOException {
+		VideoCreativeUploadResponse response = null;
+		if (isAuthenticated() && checkFilePath(filePath) && checkFileName(fileName) && checkKey(key)) {
+			response = postService.videoCreativeUpload(filePath, fileName, key, host);
+		}
+		return response;
+	}
 
 	private boolean checkCreativeID(String creativeId) {
 		return creativeId != null && !creativeId.isEmpty();
@@ -677,6 +710,10 @@ public class TerminalOne {
 
 	private boolean checkFilePath(String filePath) {
 		return filePath != null && !filePath.isEmpty();
+	}
+	
+	private boolean checkKey(String key) {
+		return key != null && !key.isEmpty();
 	}
 
 	/**
@@ -1069,7 +1106,7 @@ public class TerminalOne {
 			}
 			if(query.collection.equals("creatives") && (query.creativeType!=null && query.creativeType.equals(CreativeType.video))){
 				String finResponse = "{\"data\":"+response + "}";
-				finalJsonResponse = parser.parseJsonToObj(finResponse, new TypeToken<JsonResponse<CreativeDetailsResponse>>() {
+				finalJsonResponse = parser.parseJsonToObj(finResponse, new TypeToken<JsonResponse<VideoCreativeResponse>>() {
 				}.getType());
 			}
 			else{
@@ -1105,6 +1142,47 @@ public class TerminalOne {
 		query.query = paramVal;
 		return this.get(query);
 
+	}
+	
+	/**
+	 * deletes a Contracts entity.
+	 * 
+	 * @param Contracts
+	 *            expects a Contracts entity
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonResponse<? extends T1Entity> delete(Contract contract)
+			throws ParseException, ClientException {
+		JsonResponse<? extends T1Entity> response = null;
+		if (isAuthenticated()) {
+			response = postService.delete(contract);
+		}
+		return response;
+	}
+	
+	/**
+	 * deletes a Vendor Contracts entity.
+	 * 
+	 * @param Contracts
+	 *            expects a Vendor Contracts entity
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonResponse<? extends T1Entity> delete(VendorContract vc) throws ClientException, ParseException {
+		JsonResponse<? extends T1Entity> response = null;
+		if (isAuthenticated()) {
+			response = postService.delete(vc);
+		}
+		return response;
 	}
 
 	/**
@@ -1170,5 +1248,4 @@ public class TerminalOne {
 		this.authenticated = bool;
 
 	}
-
 }

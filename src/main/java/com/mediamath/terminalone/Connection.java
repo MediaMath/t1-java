@@ -105,7 +105,7 @@ public class Connection {
 	}
 	
 	/**
-	 * Handles the POST operation to a given endpoint.
+	 * Handles the PUT operation to a given endpoint.
 	 * 
 	 * @param url
 	 *            api end point url.
@@ -127,6 +127,26 @@ public class Connection {
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
 		response = invocationBuilder.put(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
+	
+	/**
+	 * Handles the DELETE operation to a given endpoint.
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             throws a client exception.
+	 */
+	public Response delete(String url, T1User userMap) throws ClientException {
+
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.delete();
 		return response;
 	}
 

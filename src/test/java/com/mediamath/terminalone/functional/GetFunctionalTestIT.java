@@ -42,6 +42,7 @@ import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.SupplySource;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -1341,7 +1342,7 @@ public class GetFunctionalTestIT {
 			e.printStackTrace();
 		}
 
-		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+		VideoCreativeResponse cdr = (VideoCreativeResponse) jsonresponse.getData();
 
 		assertNotNull(jsonresponse);
 		assertNotNull(cdr);

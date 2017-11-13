@@ -43,6 +43,8 @@ import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Contract;
+import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.Organization;
 import com.mediamath.terminalone.models.Segments;
@@ -162,6 +164,8 @@ public class PostMockTest {
 	
 	private static String ZIPCODE_RESPONSE= null;
 	
+	private static String CONTRACTS_RESPONSE= null;
+	
 	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
 
 	private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = null;
@@ -244,6 +248,7 @@ public class PostMockTest {
 		TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = testConfig
 				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.secondcall.response");
 		ZIPCODE_RESPONSE = testConfig.getProperty("t1.mock.save.zipcode.response");
+		CONTRACTS_RESPONSE  = testConfig.getProperty("t1.mock.save.contracts.response");
 	}
 
 	@After
@@ -1678,6 +1683,78 @@ public class PostMockTest {
 		assertNotNull(userSaved);
 		assertNotNull(userSaved.getPermissions());
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testContractsPost() throws ClientException {
+
+		Currency curr = new Currency();
+		curr.setCurrencyCode("USD");
+		curr.setValue(100f);
+		
+		List<Currency> cList = new ArrayList<Currency>();
+		cList.add(curr);
+		
+		Contract contract = new Contract();
+		contract.setAdaptiveSegmentCpm(cList);
+		contract.setContractNumber(1111);
+		contract.setCurrencyCode("USD");
+		contract.setEvidonPrivacyCostCpm(cList);
+		contract.setExternalMediaTrackingCpm(cList);
+		contract.setFbxDynamicCpm(cList);
+		contract.setManagedServiceFeePct(11);
+		contract.setManagedServiceFeeUnit("PCT_TOTAL_COST");
+		contract.setOptimizationFeePct(11);
+		contract.setOptimizationFeeUnit("PCT_TOTAL_COST");
+		contract.setOrganizationId(101558);
+		contract.setPeer39QualityFeeCpm(cList);
+		contract.setPeer39SafetyFeeCpm(cList);
+		contract.setPlatformAccessFeePct(11);
+		contract.setPlatformAccessFeeUnit("PCT_TOTAL_COST");
+		contract.setPlatformMonthlyMin(11);
+		contract.setPmpOptimizationOffFeeCpm(cList);
+		contract.setPmpOptimizationOffUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOffFeePct(11);
+		contract.setPmpOptimizationOnFeeCpm(cList);
+		contract.setPmpOptimizationOnUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOnFeePct(11);
+		contract.setProfitShareFeePct(11);
+		contract.setSpendCap(100);
+		contract.setT1AsFeeCpm(cList);
+		contract.setT1Html5FeeCpm(cList);
+		contract.setT1VadsFeeCpm(cList);
+		contract.setExcludeAgencyMargin(true);
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		cal.roll(Calendar.DATE, true);
+		Date startDate = cal.getTime();
+		contract.setEffectiveStartDate(startDate);
+
+		cal.roll(Calendar.DATE, true); cal.roll(Calendar.YEAR, true); Date
+		endd = cal.getTime(); 
+		contract.setEffectiveEndDate(endd);
+
+		Contract contractFinal = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONTRACTS_RESPONSE);
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			contractFinal = (Contract) t1.save(contract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
 	}
 	
 	@SuppressWarnings("unchecked")

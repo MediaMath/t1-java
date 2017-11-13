@@ -36,6 +36,7 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
 import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 
 public class T1JsonToObjParser {
@@ -209,6 +210,25 @@ public class T1JsonToObjParser {
     builder.setLenient();
     Gson gson = builder.create();
     response = gson.fromJson(pResponse, VideoCreativeResponse.class);
+
+    return response;
+  }
+  
+  /**
+   * parse video creative to VideoCreativeReponse entity.
+   * 
+   * @param pResponse
+   *          response String.
+   * @return VideoCreativeResponse object.
+   */
+  public VideoCreativeUploadResponse parseVideoCreativeUpload(String pResponse) {
+	  VideoCreativeUploadResponse response;
+
+    GsonBuilder builder = new GsonBuilder();
+    builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
+    builder.setLenient();
+    Gson gson = builder.create();
+    response = gson.fromJson(pResponse, VideoCreativeUploadResponse.class);
 
     return response;
   }

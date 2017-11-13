@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -48,6 +49,7 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -70,8 +72,10 @@ import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.UserPermissions;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
@@ -752,6 +756,77 @@ public class PostService {
 		}
 		return videoCreative;
 	}
+	
+	/** TEMPORARY SOLUTION, DO BE DEPRECATED ONCE VIDEO CREATIVE UPLOAD PROBLEM SOLVES
+	 * 
+	 * this method uploads the given video creative file.
+	 * 
+	 * @param filePath
+	 *            path to the actual file data.
+	 * 
+	 * @param fileName
+	 *            name of the file.
+	 * 
+	 * @param key
+	 *            requires a key string.
+	 *            
+	 * @param host
+	 *            requires a host string.
+	 * 
+	 * @return VideoCreativeResponse object.
+	 * 
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws IOException
+	 * 
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public VideoCreativeUploadResponse videoCreativeUpload(String filePath, String fileName, String key, String host)
+			throws ClientException, IOException {
+
+		VideoCreativeUploadResponse videoCreative = null;
+
+		if (checkString(filePath) && checkString(key) && checkString(fileName)) {
+
+			String finalPath = "https://"+host;
+			
+			try {
+				FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
+
+				FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+				FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("key", key, MediaType.TEXT_PLAIN_TYPE).bodyPart(filePart);
+				
+				Response responseObj = this.connection.post(finalPath, multipart, this.user);
+				String response = responseObj.readEntity(String.class);
+				//close resources
+				multipart.close();
+				formDataMultiPart.close();
+
+
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+
+				if (response.isEmpty()) {
+					return null;
+				}
+
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+
+				if (error != null)
+					throwExceptions(error);
+
+				VideoCreativeUploadResponse parsedVideoCreativeResponse = parser.parseVideoCreativeUpload(response);
+				if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
+					videoCreative = parsedVideoCreativeResponse;
+				}
+
+			} finally {
+				
+			}
+		}
+		return videoCreative;
+	}
 
 	private boolean checkString(String str) {
 		return str != null && !str.isEmpty();
@@ -824,7 +899,7 @@ public class PostService {
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyDayPart"));
 
 		Form strategyConceptForm = new Form();
-		if (strategyDayPart.getVersion() > 0) {
+		if (strategyDayPart.getVersion() >= 0) {
 			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
 		}
 
@@ -834,6 +909,63 @@ public class PostService {
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 
 		return parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
+	}
+	
+	/** Delete Contract Entity
+	 * 
+	 * @param contract
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 *         entity.
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public JsonResponse<? extends T1Entity> delete(Contract contract) throws ClientException, ParseException {
+		StringBuilder path = new StringBuilder();
+
+		if (contract.getId() > 0) {
+			path.append(Constants.entityPaths.get("Contract"));
+			path.append("/");
+			path.append(contract.getId());
+		}
+
+		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("Contract"));
+
+		Response responseObj = connection.delete(finalPath, this.user);
+		String response = responseObj.readEntity(String.class);
+
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+
+		return getJsonResponse(contract, response);
+	}
+	
+	/** Delete Vendor Contract Entity
+	 * 
+	 * @param Vendor Contract Entity
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 *         entity.
+	 * @throws ClientException 
+	 * @throws ParseException 
+	 */
+	public JsonResponse<? extends T1Entity> delete(VendorContract contract) throws ClientException, ParseException {
+		StringBuilder path = new StringBuilder();
+
+		if (contract.getId() > 0) {
+			path.append(Constants.entityPaths.get("VendorContract"));
+			path.append("/");
+			path.append(contract.getId());
+			path.append("/delete");
+		}
+
+		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("VendorContract"));
+		
+		Form contractForm = new Form();
+		if (contract.getVersion() >= 0) {
+			contractForm.param("version", String.valueOf(contract.getVersion()));
+		}
+		Response responseObj = connection.post(finalPath, contractForm, this.user);
+		String response = responseObj.readEntity(String.class);
+
+		return getJsonResponse(contract, response);
 	}
 
 	/**
@@ -1420,5 +1552,4 @@ public class PostService {
 		}
 		return finalJsonResponse;
 	}
-
 }
