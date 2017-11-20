@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
@@ -141,12 +142,12 @@ public class Connection {
 	 * @throws ClientException
 	 *             throws a client exception.
 	 */
-	public Response delete(String url, T1User userMap) throws ClientException {
+	public Response delete(String url,Form data, T1User userMap) throws ClientException {
 
 		Response response;
-		Client client = instantiateSimpleClient();
+		Client client = instantiateSimpleClientSupressed();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.delete();
+		response = invocationBuilder.method("DELETE",Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 		return response;
 	}
 
@@ -301,7 +302,13 @@ public class Connection {
 	private Client instantiateSimpleClient() {
 		return ClientBuilder.newClient(new ClientConfig());
 	}
-
+	
+	private Client instantiateSimpleClientSupressed() {
+		ClientConfig clientConfig = new ClientConfig();
+		clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+		return ClientBuilder.newClient(clientConfig);
+	}
+	
 	private Client instantiateMultipartClient() {
 		return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
 	}

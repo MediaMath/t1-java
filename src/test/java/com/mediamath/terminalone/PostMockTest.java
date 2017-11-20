@@ -76,6 +76,7 @@ import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.ZipCodes;
@@ -165,6 +166,12 @@ public class PostMockTest {
 	private static String ZIPCODE_RESPONSE= null;
 	
 	private static String CONTRACTS_RESPONSE= null;
+	private static String CONTRACTS_UPDATE_RESPONSE= null;
+	private static String CONTRACTS_DELETE_RESPONSE= null;
+	
+	private static String VENDOR_CONTRACTS_RESPONSE= null;
+	private static String VENDOR_CONTRACTS_UPDATE_RESPONSE= null;
+	private static String VENDOR_CONTRACTS_DELETE_RESPONSE= null;
 	
 	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
 
@@ -249,6 +256,11 @@ public class PostMockTest {
 				.getProperty("t1.mock.save.toneas.creative.assets.upload.multiple.secondcall.response");
 		ZIPCODE_RESPONSE = testConfig.getProperty("t1.mock.save.zipcode.response");
 		CONTRACTS_RESPONSE  = testConfig.getProperty("t1.mock.save.contracts.response");
+		CONTRACTS_UPDATE_RESPONSE  = testConfig.getProperty("t1.mock.update.contracts.response");
+		CONTRACTS_DELETE_RESPONSE  = testConfig.getProperty("t1.mock.delete.contracts.response");
+		VENDOR_CONTRACTS_RESPONSE= testConfig.getProperty("t1.mock.save.vendor_contracts.response");
+		VENDOR_CONTRACTS_UPDATE_RESPONSE= testConfig.getProperty("t1.mock.update.vendor_contracts.response");
+		VENDOR_CONTRACTS_DELETE_RESPONSE= testConfig.getProperty("t1.mock.delete.vendor_contracts.response");
 	}
 
 	@After
@@ -1759,6 +1771,155 @@ public class PostMockTest {
 	
 	@SuppressWarnings("unchecked")
 	@Test
+	public void testContractsUpdatePost() throws ClientException {
+
+		Contract contract = new Contract();
+		contract.setId(4447);
+		contract.setSpendCap(101);
+		Contract contractFinal = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.put(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONTRACTS_UPDATE_RESPONSE);
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			contractFinal = (Contract) t1.save(contract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).put(Mockito.anyString(), Mockito.any(Form.class),
+					Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testContractsDelete() throws ClientException {
+
+		Contract contract = new Contract();
+		contract.setId(5198);
+		JsonResponse<? extends T1Entity> jr = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.delete(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONTRACTS_DELETE_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jr = t1.delete(contract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).delete(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(jr);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testVendorContractsSave() throws ClientException {
+
+		VendorContract venContract = new VendorContract();
+		venContract.setCampaignId(349751);
+		venContract.setPrice(2.8f);
+		venContract.setRateCardType("");
+		venContract.setUseMmContract(false);
+		venContract.setVendorId(633);
+		
+		VendorContract contractFinal = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VENDOR_CONTRACTS_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			contractFinal = (VendorContract) t1.save(venContract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testVendorContractsUpdate() throws ClientException {
+
+		VendorContract venContract = new VendorContract();
+		
+		venContract.setPrice(2.8f);
+		venContract.setUseMmContract(false);
+		
+		VendorContract contractFinal = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VENDOR_CONTRACTS_UPDATE_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			contractFinal = (VendorContract) t1.save(venContract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testVendorContractsDelete() throws ClientException {
+
+		VendorContract venContract = new VendorContract();
+		
+		venContract.setId(32774);;
+		venContract.setVersion(0);;
+		
+		VendorContract contractFinal = null;
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VENDOR_CONTRACTS_DELETE_RESPONSE);
+		
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			contractFinal = (VendorContract) t1.save(venContract);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}	
+	
+	@SuppressWarnings("unchecked")
+	@Test
 	public void testStrategyPostCodesPost() throws ClientException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
@@ -1998,5 +2159,7 @@ public class PostMockTest {
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
 	}
+	
+	
 
 }

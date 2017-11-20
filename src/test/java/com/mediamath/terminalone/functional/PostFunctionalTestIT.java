@@ -823,7 +823,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		StrategyDayPart strategyDayPart = new StrategyDayPart();
 
@@ -1068,20 +1068,25 @@ public class PostFunctionalTestIT {
 
 	/**
 	 * Delete Strategy Day Parts.
+	 * @throws ClientException 
+	 * @throws ParseException 
 	 * 
 	 */
 	@Test
-	public void testStrategyDayPartDelete() {
-		TerminalOne T1;
-		StrategyDayPart sc = new StrategyDayPart();
-		sc.setId(952850);
+	public void testStrategyDayPartDelete() throws ClientException, ParseException {
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategy_day_parts").setEntity(2044892).build();
+		JsonResponse<?> jsonresponse = t1.get(query);
+		StrategyDayPart sc = (StrategyDayPart) jsonresponse.getData();
+		JsonResponse<? extends T1Entity> jr=null;
 		try {
-			T1 = new TerminalOne(user, password, apiKey);
-			JsonResponse<? extends T1Entity> jr = T1.delete(sc);
+			jr = t1.delete(sc);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertNotNull(jr);
 	}
 
 	/**
@@ -2033,7 +2038,7 @@ public class PostFunctionalTestIT {
 		VideoCreativeUploadStatus status = null;
 
 		// check video creative status VideoCreativeUploadStatus uploadStatus =
-		status = t1.getVideoCreativeUploadStatus(cdr.getCreativeId());
+		status = t1.getVideoCreativeUploadStatus(saveResponse.getCreativeId());
 
 		assertNotNull(status);
 		assertNotNull(saveResponse);
@@ -2041,6 +2046,15 @@ public class PostFunctionalTestIT {
 		assertNotNull(uploadResponse.getStatus());
 	}
 
+	@Test
+	public void testVideoCreativeupload() throws ClientException, IOException, ParseException {
+	
+	TerminalOne t1 = new TerminalOne(user, password, productionKey);
+	String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+	String fileName = "blah1234.flv";
+	VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, "5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891", "video-uploader.mathtag.com");
+	
+	}
 
 	@Test
 	public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
@@ -2309,25 +2323,8 @@ public class PostFunctionalTestIT {
 	public void testContractsUpdate() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		
-		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
-
-		JsonResponse<?> jsonresponse = null;
-
-		try {
-			jsonresponse = jt1.get(query);
-		} catch (ClientException | ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		Contract ctrt = (Contract) jsonresponse.getData();
-		
-		ctrt.setManagedServiceFeePct(11);
-		ctrt.setOptimizationFeePct(11);
+		Contract ctrt = new Contract();
 		ctrt.setSpendCap(100);
-		ctrt.setExcludeAgencyMargin(true);
-		ctrt.setName(null);
-		
 
 		Contract contractFinal = null;
 		try {
@@ -2344,7 +2341,7 @@ public class PostFunctionalTestIT {
 	public void testContractsDelete() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		
-		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(631).build();
 		JsonResponse<?> jsonresponse = jt1.get(query);	
 		
 		Contract contract = (Contract) jsonresponse.getData();
@@ -2369,7 +2366,7 @@ public class PostFunctionalTestIT {
 		venContract.setPrice(2.8f);
 		venContract.setRateCardType("");
 		venContract.setUseMmContract(false);
-		venContract.setVendorId(633);
+		venContract.setVendorId(632);
 		
 		VendorContract contractFinal = null;
 		try {
@@ -2387,12 +2384,12 @@ public class PostFunctionalTestIT {
 		
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
-		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32505).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32773).build();
 		JsonResponse<?> jsonresponse = jt1.get(query);	
 		
 		VendorContract vc = (VendorContract) jsonresponse.getData();
 		
-		vc.setPrice(2.8f);
+		vc.setPrice(2.9f);
 		vc.setUseMmContract(false);
 				
 		VendorContract contractFinal = null;
@@ -2411,7 +2408,7 @@ public class PostFunctionalTestIT {
 		
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
-		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32042).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32774).build();
 		JsonResponse<?> jsonresponse = jt1.get(query);	
 		
 		VendorContract vc = (VendorContract) jsonresponse.getData();

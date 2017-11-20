@@ -18,7 +18,7 @@ package com.mediamath.terminalone.models;
 
 public class VideoCreativeUploadResponse {
 
-	private String status;
+	private Status status;
 
 	private long size;
 
@@ -34,11 +34,11 @@ public class VideoCreativeUploadResponse {
 
 	private T1Error errors;
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 

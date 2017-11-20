@@ -28,6 +28,8 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
@@ -791,19 +793,20 @@ public class PostService {
 		if (checkString(filePath) && checkString(key) && checkString(fileName)) {
 
 			String finalPath = "https://"+host;
-			
+			final File fileToUpload=new File(filePath);
 			try {
-				FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
-
-				FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-				FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("key", key, MediaType.TEXT_PLAIN_TYPE).bodyPart(filePart);
-				
-				Response responseObj = this.connection.post(finalPath, multipart, this.user);
+				//add key
+				final FormDataMultiPart multiPart=new FormDataMultiPart();
+				multiPart.field("key", key);
+				//add file
+				if(!fileToUpload.equals(null)){
+					FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(FormDataContentDisposition.name("file").fileName(fileName).build(),fileToUpload, MediaType.APPLICATION_OCTET_STREAM_TYPE);
+					multiPart.bodyPart(fileDataBodyPart);
+				}
+				Response responseObj = this.connection.post(finalPath, multiPart, this.user);
 				String response = responseObj.readEntity(String.class);
 				//close resources
-				multipart.close();
-				formDataMultiPart.close();
-
+				multiPart.close();
 
 				T1JsonToObjParser parser = new T1JsonToObjParser();
 
@@ -929,8 +932,13 @@ public class PostService {
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("Contract"));
-
-		Response responseObj = connection.delete(finalPath, this.user);
+		
+		Form contractForm = new Form();
+		if (contract.getVersion() >= 0) {
+			contractForm.param("version", String.valueOf(contract.getVersion()));
+		}
+		Response responseObj = connection.delete(finalPath,contractForm, this.user);
+		
 		String response = responseObj.readEntity(String.class);
 
 		T1JsonToObjParser parser = new T1JsonToObjParser();

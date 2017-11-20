@@ -153,7 +153,7 @@ public class VendorContract implements T1Entity {
 			contractForm.param("vendor_id", String.valueOf(this.getVendorId()));
 		}
 		
-		if(this.getVersion()>0){
+		if(this.getVersion()>=0){
 			contractForm.param("version", String.valueOf(this.getVersion()));
 		}
 		
