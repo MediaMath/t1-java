@@ -1781,7 +1781,7 @@ public class PostMockTest {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		
-		Mockito.when(connectionmock.put(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
 		.thenReturn(response);
 		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONTRACTS_UPDATE_RESPONSE);
 
@@ -1789,7 +1789,7 @@ public class PostMockTest {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 			contractFinal = (Contract) t1.save(contract);
 			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-			Mockito.verify(connectionmock, times(1)).put(Mockito.anyString(), Mockito.any(Form.class),
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class),
 					Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();

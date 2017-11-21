@@ -62,7 +62,7 @@ public class Connection {
 	private static final String TARGET_URL = "Target URL: %s";
 
 	private static final String NO_POST_DATA = "No Post Data";
-	
+
 	private static final String NO_PUT_DATA = "No Put Data";
 
 	private static final Logger logger = LoggerFactory.getLogger(Connection.class);
@@ -104,33 +104,7 @@ public class Connection {
 		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 		return response;
 	}
-	
-	/**
-	 * Handles the PUT operation to a given endpoint.
-	 * 
-	 * @param url
-	 *            api end point url.
-	 * @param data
-	 *            requires a Form data object.
-	 * @param userMap
-	 *            requires a valid user login session.
-	 * @return Response object.
-	 * @throws ClientException
-	 *             throws a client exception.
-	 */
-	public Response put(String url, Form data, T1User userMap) throws ClientException {
 
-		if (data == null) {
-			throw new ClientException(NO_PUT_DATA);
-		}
-
-		Response response;
-		Client client = instantiateSimpleClient();
-		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.put(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
-		return response;
-	}
-	
 	/**
 	 * Handles the DELETE operation to a given endpoint.
 	 * 
@@ -142,12 +116,12 @@ public class Connection {
 	 * @throws ClientException
 	 *             throws a client exception.
 	 */
-	public Response delete(String url,Form data, T1User userMap) throws ClientException {
+	public Response delete(String url, Form data, T1User userMap) throws ClientException {
 
 		Response response;
 		Client client = instantiateSimpleClientSupressed();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.method("DELETE",Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		response = invocationBuilder.method("DELETE", Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 		return response;
 	}
 
@@ -302,13 +276,13 @@ public class Connection {
 	private Client instantiateSimpleClient() {
 		return ClientBuilder.newClient(new ClientConfig());
 	}
-	
+
 	private Client instantiateSimpleClientSupressed() {
 		ClientConfig clientConfig = new ClientConfig();
 		clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
 		return ClientBuilder.newClient(clientConfig);
 	}
-	
+
 	private Client instantiateMultipartClient() {
 		return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
 	}

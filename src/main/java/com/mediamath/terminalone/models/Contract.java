@@ -12,10 +12,10 @@ import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.utils.Utility;
 
 public class Contract implements T1Entity {
-	
+
 	private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 	private static final String entityName = "Contract";
-	
+
 	private List<Currency> adaptive_segment_cpm = new ArrayList<Currency>();
 	private int contract_number;
 	private Date created_on;
@@ -53,8 +53,7 @@ public class Contract implements T1Entity {
 	private List<Currency> t1_vads_fee_cpm = new ArrayList<Currency>();
 	private Date updated_on;
 	private int version;
-	
-	
+
 	public List<Currency> getAdaptiveSegmentCpm() {
 		return adaptive_segment_cpm;
 	}
@@ -334,7 +333,7 @@ public class Contract implements T1Entity {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+
 	public int getPmpOptimizationOffFeePct() {
 		return pmp_optimization_off_fee_pct;
 	}
@@ -361,110 +360,115 @@ public class Contract implements T1Entity {
 		final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
 		Form contractForm = new Form();
-		
-		if(!this.getAdaptiveSegmentCpm().isEmpty()){
+
+		if (!this.getAdaptiveSegmentCpm().isEmpty()) {
 			contractForm.param("adaptive_segment_cpm", String.valueOf(this.getAdaptiveSegmentCpm().get(0).getValue()));
 		}
-		if(this.getContractNumber()>0){
+		if (this.getContractNumber() > 0) {
 			contractForm.param("contract_number", String.valueOf(this.getContractNumber()));
 		}
-		if(this.getCurrencyCode()!=null){
+		if (this.getCurrencyCode() != null) {
 			contractForm.param("currency_code", this.getCurrencyCode());
 		}
-		if(this.getEffectiveEndDate()!=null){
+		if (this.getEffectiveEndDate() != null) {
 			contractForm.param("effective_end_date", sdf.format(this.getEffectiveEndDate()));
 		}
-		if(this.getEffectiveStartDate()!=null){
+		if (this.getEffectiveStartDate() != null) {
 			contractForm.param("effective_start_date", sdf.format(this.getEffectiveStartDate()));
 		}
-		if(!this.getEvidonPrivacyCostCpm().isEmpty()){
-			contractForm.param("evidon_privacy_cost_cpm", String.valueOf(this.getEvidonPrivacyCostCpm().get(0).getValue()));
+		if (!this.getEvidonPrivacyCostCpm().isEmpty()) {
+			contractForm.param("evidon_privacy_cost_cpm",
+					String.valueOf(this.getEvidonPrivacyCostCpm().get(0).getValue()));
 		}
 		contractForm.param("exclude_agency_margin", Utility.getOneOrZero(this.isExcludeAgencyMargin()));
-		
-		if(!this.getExternalMediaTrackingCpm().isEmpty()){
-			contractForm.param("external_media_tracking_cpm", String.valueOf(this.getExternalMediaTrackingCpm().get(0).getValue()));
+
+		if (!this.getExternalMediaTrackingCpm().isEmpty() && this.getExternalMediaTrackingCpm().get(0).getValue() > 0) {
+			contractForm.param("external_media_tracking_cpm",
+					String.valueOf(this.getExternalMediaTrackingCpm().get(0).getValue()));
 		}
-		if(!this.getFbxDynamicCpm().isEmpty()){
+		if (!this.getFbxDynamicCpm().isEmpty()) {
 			contractForm.param("fbx_dynamic_cpm", String.valueOf(this.getFbxDynamicCpm().get(0).getValue()));
 		}
-		if(this.getManagedServiceFeePct()>0){
+		if (this.getManagedServiceFeePct() > 0) {
 			contractForm.param("managed_service_fee_pct", String.valueOf(this.getManagedServiceFeePct()));
 		}
-		if(this.getManagedServiceFeeUnit()!=null){
-			contractForm.param("managed_service_fee_unit", this.getManagedServiceFeeUnit());	
+		if (this.getManagedServiceFeeUnit() != null) {
+			contractForm.param("managed_service_fee_unit", this.getManagedServiceFeeUnit());
 		}
-		if(this.getName()!=null){
+		if (this.getName() != null) {
 			contractForm.param("name", this.getName());
 		}
-		if(this.getOptimizationFeePct()>0){
+		if (this.getOptimizationFeePct() > 0) {
 			contractForm.param("optimization_fee_pct", String.valueOf(this.getOptimizationFeePct()));
 		}
-		if(this.getOptimizationFeeUnit()!=null){
-			contractForm.param("optimization_fee_unit", this.getOptimizationFeeUnit());	
+		if (this.getOptimizationFeeUnit() != null) {
+			contractForm.param("optimization_fee_unit", this.getOptimizationFeeUnit());
 		}
-		if(this.getOrganizationId()>0){
+		if (this.getOrganizationId() > 0) {
 			contractForm.param("organization_id", String.valueOf(this.getOrganizationId()));
 		}
-		if(!this.getPeer39ChannelFeeCpm().isEmpty()){
-			contractForm.param("peer39_channel_fee_cpm", String.valueOf(this.getPeer39ChannelFeeCpm().get(0).getValue()));
+		if (!this.getPeer39ChannelFeeCpm().isEmpty()) {
+			contractForm.param("peer39_channel_fee_cpm",
+					String.valueOf(this.getPeer39ChannelFeeCpm().get(0).getValue()));
 		}
-		if(!this.getPeer39CustomFeeCpm().isEmpty()){
+		if (!this.getPeer39CustomFeeCpm().isEmpty()) {
 			contractForm.param("peer39_custom_fee_cpm", String.valueOf(this.getPeer39CustomFeeCpm().get(0).getValue()));
 		}
-		if(!this.getPeer39QualityFeeCpm().isEmpty()){
-			contractForm.param("peer39_quality_fee_cpm", String.valueOf(this.getPeer39QualityFeeCpm().get(0).getValue()));
+		if (!this.getPeer39QualityFeeCpm().isEmpty()) {
+			contractForm.param("peer39_quality_fee_cpm",
+					String.valueOf(this.getPeer39QualityFeeCpm().get(0).getValue()));
 		}
-		if(!this.getPeer39SafetyFeeCpm().isEmpty()){
+		if (!this.getPeer39SafetyFeeCpm().isEmpty()) {
 			contractForm.param("peer39_safety_fee_cpm", String.valueOf(this.getPeer39SafetyFeeCpm().get(0).getValue()));
 		}
-		if(this.getPlatformAccessFeePct()>0){
+		if (this.getPlatformAccessFeePct() > 0) {
 			contractForm.param("platform_access_fee_pct", String.valueOf(this.getPlatformAccessFeePct()));
 		}
-		if(this.getPlatformAccessFeeUnit()!=null){
-			contractForm.param("platform_access_fee_unit", this.getPlatformAccessFeeUnit());	
+		if (this.getPlatformAccessFeeUnit() != null) {
+			contractForm.param("platform_access_fee_unit", this.getPlatformAccessFeeUnit());
 		}
-		if(this.getPlatformMonthlyMin()>0){
+		if (this.getPlatformMonthlyMin() > 0) {
 			contractForm.param("platform_monthly_min", String.valueOf(this.getPlatformMonthlyMin()));
 		}
-		if(!this.getPmpOptimizationOffFeeCpm().isEmpty()){
-			contractForm.param("pmp_optimization_off_fee_cpm", String.valueOf(this.getPmpOptimizationOffFeeCpm().get(0).getValue()));
+		if (!this.getPmpOptimizationOffFeeCpm().isEmpty()) {
+			contractForm.param("pmp_optimization_off_fee_cpm",
+					String.valueOf(this.getPmpOptimizationOffFeeCpm().get(0).getValue()));
 		}
-		if(this.getPmpOptimizationOffUnit()!=null){
-			contractForm.param("pmp_optimization_off_unit", this.getPmpOptimizationOffUnit());	
+		if (this.getPmpOptimizationOffUnit() != null) {
+			contractForm.param("pmp_optimization_off_unit", this.getPmpOptimizationOffUnit());
 		}
-		if(this.getPmpOptimizationOffFeePct()> 0){
+		if (this.getPmpOptimizationOffFeePct() > 0) {
 			contractForm.param("pmp_optimization_off_fee_pct", String.valueOf(this.getPmpOptimizationOffFeePct()));
 		}
-		if(!this.getPmpOptimizationOnFeeCpm().isEmpty()){
-			contractForm.param("pmp_optimization_on_fee_cpm", String.valueOf(this.getPmpOptimizationOnFeeCpm().get(0).getValue()));
+		if (!this.getPmpOptimizationOnFeeCpm().isEmpty()) {
+			contractForm.param("pmp_optimization_on_fee_cpm",
+					String.valueOf(this.getPmpOptimizationOnFeeCpm().get(0).getValue()));
 		}
-		if(this.getPmpOptimizationOnUnit()!=null){
-			contractForm.param("pmp_optimization_on_unit", this.getPmpOptimizationOnUnit());	
+		if (this.getPmpOptimizationOnUnit() != null) {
+			contractForm.param("pmp_optimization_on_unit", this.getPmpOptimizationOnUnit());
 		}
-		if(this.getPmpOptimizationOnFeePct()> 0){
+		if (this.getPmpOptimizationOnFeePct() > 0) {
 			contractForm.param("pmp_optimization_on_fee_pct", String.valueOf(this.getPmpOptimizationOnFeePct()));
 		}
-		if(this.getProfitShareFeePct()>0){
+		if (this.getProfitShareFeePct() > 0) {
 			contractForm.param("profit_share_fee_pct", String.valueOf(this.getProfitShareFeePct()));
 		}
-		if(this.getSpendCap()>0){
+		if (this.getSpendCap() > 0) {
 			contractForm.param("spend_cap", String.valueOf(this.getSpendCap()));
 		}
-		if(!this.getT1AsFeeCpm().isEmpty()){
+		if (!this.getT1AsFeeCpm().isEmpty()) {
 			contractForm.param("t1_as_fee_cpm", String.valueOf(this.getT1AsFeeCpm().get(0).getValue()));
 		}
-		if(!this.getT1Html5FeeCpm().isEmpty()){
+		if (!this.getT1Html5FeeCpm().isEmpty()) {
 			contractForm.param("t1_html5_fee_cpm", String.valueOf(this.getT1Html5FeeCpm().get(0).getValue()));
 		}
-		if(!this.getT1VadsFeeCpm().isEmpty()){
+		if (!this.getT1VadsFeeCpm().isEmpty()) {
 			contractForm.param("t1_vads_fee_cpm", String.valueOf(this.getT1VadsFeeCpm().get(0).getValue()));
 		}
-		if(this.getVersion()>0){
+		if (this.getVersion() >= 0) {
 			contractForm.param("version", String.valueOf(this.getVersion()));
 		}
-		
-		
+
 		contractForm = Utility.getFilteredForm(contractForm, "contract");
 
 		return contractForm;
@@ -474,11 +478,11 @@ public class Contract implements T1Entity {
 	@Override
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
-	    if (this.getId() > 0) {
-	      uri.append("/");
-	      uri.append(this.getId());
-	    }
-	    return uri.toString();
+		if (this.getId() > 0) {
+			uri.append("/");
+			uri.append(this.getId());
+		}
+		return uri.toString();
 	}
 
 }

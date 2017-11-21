@@ -1068,8 +1068,9 @@ public class PostFunctionalTestIT {
 
 	/**
 	 * Delete Strategy Day Parts.
-	 * @throws ClientException 
-	 * @throws ParseException 
+	 * 
+	 * @throws ClientException
+	 * @throws ParseException
 	 * 
 	 */
 	@Test
@@ -1078,14 +1079,14 @@ public class PostFunctionalTestIT {
 		QueryCriteria query = QueryCriteria.builder().setCollection("strategy_day_parts").setEntity(2044892).build();
 		JsonResponse<?> jsonresponse = t1.get(query);
 		StrategyDayPart sc = (StrategyDayPart) jsonresponse.getData();
-		JsonResponse<? extends T1Entity> jr=null;
+		JsonResponse<? extends T1Entity> jr = null;
 		try {
 			jr = t1.delete(sc);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertNotNull(jr);
 	}
 
@@ -1995,7 +1996,7 @@ public class PostFunctionalTestIT {
 		assertNotNull(uploadResponse);
 		assertNotNull(uploadResponse.getStatus());
 	}
-	
+
 	@Test
 	public void testVideoCreativesTemp() throws ClientException, IOException, ParseException {
 		// will work only on production.
@@ -2019,7 +2020,9 @@ public class PostFunctionalTestIT {
 		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 
 		// upload the file.
-		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(Long.parseLong(saveResponse.getCreativeId())).setCreativeType(CreativeType.video).setChild("upload").build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives")
+				.setEntity(Long.parseLong(saveResponse.getCreativeId())).setCreativeType(CreativeType.video)
+				.setChild("upload").build();
 
 		JsonResponse<?> jsonresponse = null;
 		try {
@@ -2030,10 +2033,11 @@ public class PostFunctionalTestIT {
 		}
 
 		VideoCreativeResponse cdr = (VideoCreativeResponse) jsonresponse.getData();
-		
+
 		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
 		String fileName = "blah1234.flv";
-		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, cdr.getKey(), cdr.getUploader().getHost());
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, cdr.getKey(),
+				cdr.getUploader().getHost());
 
 		VideoCreativeUploadStatus status = null;
 
@@ -2048,12 +2052,13 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testVideoCreativeupload() throws ClientException, IOException, ParseException {
-	
-	TerminalOne t1 = new TerminalOne(user, password, productionKey);
-	String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
-	String fileName = "blah1234.flv";
-	VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, "5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891", "video-uploader.mathtag.com");
-	
+
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName,
+				"5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891", "video-uploader.mathtag.com");
+
 	}
 
 	@Test
@@ -2217,7 +2222,7 @@ public class PostFunctionalTestIT {
 			}
 		} // strategy for loop
 	}
-	
+
 	@Test
 	public void testVideoCreativesCustomVAST() throws ClientException, IOException, ParseException {
 		// will work only on production.
@@ -2225,19 +2230,20 @@ public class PostFunctionalTestIT {
 
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("TestVASTCreative");
-		//videoCreative.setStartTime(1468486396);
+		// videoCreative.setStartTime(1468486396);
 		videoCreative.setLandingUrl("http://www.vasttestdomain.com");
 		videoCreative.setAdvertiser(122631);
-		//videoCreative.setEndTime(1470009600);
+		// videoCreative.setEndTime(1470009600);
 		videoCreative.setConcept(847527);
-		videoCreative.setCustomVASTUrl("https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=22617024&PluID=0&pos=897&ord=7464&cim=1");
+		videoCreative.setCustomVASTUrl(
+				"https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=22617024&PluID=0&pos=897&ord=7464&cim=1");
 
 		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
 		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
 		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
 
 		videoCreative.setEventPixels(eventPixels);
-	
+
 		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 
 		assertNotNull(saveResponse);
@@ -2247,7 +2253,8 @@ public class PostFunctionalTestIT {
 	public void testStrategyPostCodesPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		ZipCodesJsonResponse response = null;
-		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true, true, true);
+		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true,
+				true, true);
 		try {
 			response = (ZipCodesJsonResponse) jt1.save(zipCode);
 		} catch (ParseException e) {
@@ -2257,17 +2264,17 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(response);
 	}
-	
+
 	@Test
 	public void testContractsPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		Currency curr = new Currency();
 		curr.setCurrencyCode("USD");
 		curr.setValue(100f);
-		
+
 		List<Currency> cList = new ArrayList<Currency>();
 		cList.add(curr);
-		
+
 		Contract contract = new Contract();
 		contract.setAdaptiveSegmentCpm(cList);
 		contract.setContractNumber(1111);
@@ -2303,8 +2310,9 @@ public class PostFunctionalTestIT {
 		Date startDate = cal.getTime();
 		contract.setEffectiveStartDate(startDate);
 
-		cal.roll(Calendar.DATE, true); cal.roll(Calendar.YEAR, true); Date
-		endd = cal.getTime(); 
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.YEAR, true);
+		Date endd = cal.getTime();
 		contract.setEffectiveEndDate(endd);
 
 		Contract contractFinal = null;
@@ -2317,14 +2325,16 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
-	
-	
+
 	@Test
 	public void testContractsUpdate() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		Contract ctrt = new Contract();
+		ctrt.setId(633);
 		ctrt.setSpendCap(100);
+		ctrt.setPlatformMonthlyMin(4);
+		ctrt.setVersion(3);
 
 		Contract contractFinal = null;
 		try {
@@ -2336,16 +2346,16 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
-	
+
 	@Test
 	public void testContractsDelete() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(631).build();
-		JsonResponse<?> jsonresponse = jt1.get(query);	
-		
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
 		Contract contract = (Contract) jsonresponse.getData();
-		
+
 		JsonResponse<? extends T1Entity> jr = null;
 		try {
 			jr = jt1.delete(contract);
@@ -2355,19 +2365,19 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(jr);
-	}	
-	
+	}
+
 	@Test
 	public void testVendorContractsSave() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		VendorContract venContract = new VendorContract();
 		venContract.setCampaignId(349751);
 		venContract.setPrice(2.8f);
 		venContract.setRateCardType("");
 		venContract.setUseMmContract(false);
 		venContract.setVendorId(632);
-		
+
 		VendorContract contractFinal = null;
 		try {
 			contractFinal = (VendorContract) jt1.save(venContract);
@@ -2377,21 +2387,21 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
-	
+
 	@Test
 	public void testVendorContractsUpdate() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
 		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32773).build();
-		JsonResponse<?> jsonresponse = jt1.get(query);	
-		
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
 		VendorContract vc = (VendorContract) jsonresponse.getData();
-		
+
 		vc.setPrice(2.9f);
 		vc.setUseMmContract(false);
-				
+
 		VendorContract contractFinal = null;
 		try {
 			contractFinal = (VendorContract) jt1.save(vc);
@@ -2401,18 +2411,18 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
-	
+
 	@Test
 	public void testVendorContractsDelete() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-		
+
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
 		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32774).build();
-		JsonResponse<?> jsonresponse = jt1.get(query);	
-		
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
 		VendorContract vc = (VendorContract) jsonresponse.getData();
-				
+
 		JsonResponse<? extends T1Entity> jr = null;
 		try {
 			jr = jt1.delete(vc);
@@ -2422,5 +2432,5 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(jr);
 	}
-	
+
 }
