@@ -2346,6 +2346,27 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(contractFinal);
 	}
+	
+	@Test
+	public void testContractsUpdateNew() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
+		JsonResponse<?> jsonresponse = jt1.get(query);	
+		
+		Contract ctrt = (Contract) jsonresponse.getData();
+		ctrt.setSpendCap(100);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(ctrt);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
 
 	@Test
 	public void testContractsDelete() throws ClientException, ParseException {
