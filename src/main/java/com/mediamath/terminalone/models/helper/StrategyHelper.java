@@ -324,12 +324,13 @@ public class StrategyHelper {
 		// target values
 		if (!entity.getTargetValues().isEmpty()) {
 			int inc = 1;
-			String valueIds = "";
+			
 			for (TargetValues tv : entity.getTargetValues()) {
 				if (tv != null) {
 					strategyForm.param("dimensions." + inc + ".code", tv.getCode().name());
 					strategyForm.param("dimensions." + inc + ".restriction", tv.getRestriction().name());
 					int cntr = 1;
+					String valueIds = "";
 					if (!tv.getValueIds().isEmpty()) {
 						for (Integer vi : tv.getValueIds()) {
 							valueIds += vi.toString();
@@ -353,8 +354,9 @@ public class StrategyHelper {
 				if (sl != null && sl.getId() > 0) {
 					strategyForm.param("site_lists." + inc + ".id", String.valueOf(sl.getId()));
 					strategyForm.param("site_lists." + inc + ".assigned", Utility.getOneOrZero(sl.isAssigned()));
+					inc++;
 				}
-				inc++;
+				
 			}
 		}
 
@@ -364,8 +366,9 @@ public class StrategyHelper {
 			for (Integer sl : entity.getDealIds()) {
 				if (sl != null) {
 					strategyForm.param("deal." + inc + ".id", String.valueOf(sl));
+					inc++;
 				}
-				inc++;
+				
 			}
 		}
 
@@ -378,6 +381,7 @@ public class StrategyHelper {
 					strategyForm.param("day_parts." + inc + ".end_hour", String.valueOf(sdp.getEndHour()));
 					strategyForm.param("day_parts." + inc + ".days", String.valueOf(sdp.getDays()));
 					strategyForm.param("day_parts." + inc + ".user_time", Utility.getOneOrZero(sdp.isUserTime()));
+					inc++;
 				}
 			}
 		}
@@ -416,28 +420,31 @@ public class StrategyHelper {
 		if (entity.getFromCampaignId() > 0 && entity.getToCampaignId() > 0 && !entity.getBulkStrategy().isEmpty()) {
 			int inc = 1;
 			for (BulkStrategy bk : entity.getBulkStrategy()) {
-				if (bk.getId() > 0) {
-					strategyForm.param("strategies." + inc + ".id", String.valueOf(bk.getId()));
+				if(bk!=null){
+					if (bk.getId() > 0) {
+						strategyForm.param("strategies." + inc + ".id", String.valueOf(bk.getId()));
+					}
+					if (bk.getName() != null) {
+						strategyForm.param("strategies." + inc + ".name", bk.getName());
+					}
+	
+					strategyForm.param("strategies." + inc + ".supply_management",
+							Utility.getOneOrZero(bk.isSupplyManagement()));
+					strategyForm.param("strategies." + inc + ".contextual_targeting",
+							Utility.getOneOrZero(bk.isContextualTargeting()));
+					strategyForm.param("strategies." + inc + ".creative_assignment",
+							Utility.getOneOrZero(bk.isCreativeAssignment()));
+					strategyForm.param("strategies." + inc + ".pixel_targeting",
+							Utility.getOneOrZero(bk.isPixelTargeting()));
+					strategyForm.param("strategies." + inc + ".audience_targeting",
+							Utility.getOneOrZero(bk.isAudienceTargeting()));
+					strategyForm.param("strategies." + inc + ".strategy_targeting",
+							Utility.getOneOrZero(bk.isStrategyTargeting()));
+					strategyForm.param("strategies." + inc + ".site_lists", Utility.getOneOrZero(bk.isSiteLists()));
+					strategyForm.param("strategies." + inc + ".video_targeting",
+							Utility.getOneOrZero(bk.isVideoTargeting()));
+					inc++;
 				}
-				if (bk.getName() != null) {
-					strategyForm.param("strategies." + inc + ".name", bk.getName());
-				}
-
-				strategyForm.param("strategies." + inc + ".supply_management",
-						Utility.getOneOrZero(bk.isSupplyManagement()));
-				strategyForm.param("strategies." + inc + ".contextual_targeting",
-						Utility.getOneOrZero(bk.isContextualTargeting()));
-				strategyForm.param("strategies." + inc + ".creative_assignment",
-						Utility.getOneOrZero(bk.isCreativeAssignment()));
-				strategyForm.param("strategies." + inc + ".pixel_targeting",
-						Utility.getOneOrZero(bk.isPixelTargeting()));
-				strategyForm.param("strategies." + inc + ".audience_targeting",
-						Utility.getOneOrZero(bk.isAudienceTargeting()));
-				strategyForm.param("strategies." + inc + ".strategy_targeting",
-						Utility.getOneOrZero(bk.isStrategyTargeting()));
-				strategyForm.param("strategies." + inc + ".site_lists", Utility.getOneOrZero(bk.isSiteLists()));
-				strategyForm.param("strategies." + inc + ".video_targeting",
-						Utility.getOneOrZero(bk.isVideoTargeting()));
 			}
 
 		}

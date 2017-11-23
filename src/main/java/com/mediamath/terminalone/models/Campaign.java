@@ -875,8 +875,8 @@ public class Campaign implements T1Entity {
 				if (sl != null && sl.getId() > 0) {
 					campaignForm.param("site_lists." + inc + ".id", String.valueOf(sl.getId()));
 					campaignForm.param("site_lists." + inc + ".assigned", Utility.getOneOrZero(sl.isAssigned()));
+					inc++;
 				}
-				inc++;
 			}
 		}
 		
@@ -906,8 +906,8 @@ public class Campaign implements T1Entity {
 					if(sl.getTotalImpressionBudget() > 0){
 						campaignForm.param("budget_flights." + inc + ".total_impression_budget", String.valueOf(sl.getTotalImpressionBudget()));
 					}
+					inc++;
 				}
-				inc++;
 			}
 		}
 
@@ -943,8 +943,9 @@ public class Campaign implements T1Entity {
 					if(ccbs.getSelectionId() > 0){
 						campaignForm.param("custom_brain_selections." + inc + ".active", Utility.getOneOrZero(ccbs.isActive()));
 					}
+					inc++;
 				}
-				inc++;
+				
 			}
 		}
 

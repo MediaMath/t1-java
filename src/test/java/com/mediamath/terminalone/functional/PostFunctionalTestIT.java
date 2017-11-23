@@ -1609,7 +1609,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyTargetValuePost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Strategy str = new Strategy();
 		str.setId(2196344);
@@ -2452,6 +2452,108 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(jr);
+	}
+	
+	@Test
+	public void testStrategyTargetValuePostNew() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		List<Integer> acceptedDevice = new ArrayList<Integer>();
+		acceptedDevice.add(301523);
+		acceptedDevice.add(301524);
+		List<Integer> blockedDevice = new ArrayList<Integer>();
+		blockedDevice.add(301526);
+		blockedDevice.add(674590);
+
+		List<Integer> acceptedInventory = new ArrayList<Integer>();
+		acceptedInventory.add(477326);
+		List<Integer> blockedInventory = new ArrayList<Integer>();
+		blockedInventory.add(477325);
+
+		List<Integer> acceptedConnection = new ArrayList<Integer>();
+		acceptedConnection.add(15);
+		List<Integer> blockedConnection = new ArrayList<Integer>();
+		blockedConnection.add(13);
+		blockedConnection.add(14);
+
+		List<Integer> acceptedIsp = new ArrayList<Integer>();
+		acceptedIsp.add(481);
+		acceptedIsp.add(492);
+		List<Integer> blockedIsp = new ArrayList<Integer>();
+		blockedIsp.add(478);
+
+		List<Integer> acceptedBrowser = new ArrayList<Integer>();
+		acceptedBrowser.add(45017);
+		acceptedBrowser.add(3);
+		List<Integer> blockedBrowser = new ArrayList<Integer>();
+		blockedBrowser.add(1);
+		blockedBrowser.add(2);
+
+		List<Integer> acceptedLocation = new ArrayList<Integer>();
+		acceptedLocation.add(37);
+		acceptedLocation.add(38);
+		List<Integer> blockedLocation = new ArrayList<Integer>();
+		blockedLocation.add(20);
+		blockedLocation.add(21);
+
+		List<TargetValues> tsList = new ArrayList<TargetValues>();
+
+		TargetValues targetValues1 = new TargetValues(TargetValues.codes.DVCE, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedDevice);
+		tsList.add(targetValues1);
+
+		TargetValues targetValues2 = new TargetValues(TargetValues.codes.DVCE, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedDevice);
+		tsList.add(targetValues2);
+
+		TargetValues targetValues3 = new TargetValues(TargetValues.codes.INVT, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedInventory);
+		tsList.add(targetValues3);
+
+		TargetValues targetValues4 = new TargetValues(TargetValues.codes.INVT, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedInventory);
+		tsList.add(targetValues4);
+
+		TargetValues targetValues5 = new TargetValues(TargetValues.codes.CSPD, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedConnection);
+		tsList.add(targetValues5);
+
+		TargetValues targetValues6 = new TargetValues(TargetValues.codes.CSPD, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedConnection);
+		tsList.add(targetValues6);
+
+		TargetValues targetValues7 = new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedIsp);
+		tsList.add(targetValues7);
+
+		TargetValues targetValues8 = new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedIsp);
+		tsList.add(targetValues8);
+
+		TargetValues targetValues9 = new TargetValues(TargetValues.codes.BSER, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedBrowser);
+		tsList.add(targetValues9);
+
+		TargetValues targetValues10 = new TargetValues(TargetValues.codes.BSER, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedBrowser);
+		tsList.add(targetValues10);
+
+		TargetValues targetValues11 = new TargetValues(TargetValues.codes.REGN, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedLocation);
+		tsList.add(targetValues11);
+
+		TargetValues targetValues12 = new TargetValues(TargetValues.codes.REGN, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedLocation);
+		tsList.add(targetValues12);
+
+		Strategy strategy = new Strategy();
+		strategy.setId(2323968);
+		strategy.setTargetValues(tsList);
+		strategy = jt1.save(strategy);
+		
+		List<StrategyTarget> sdp = strategy.getStrategyTarget();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
 	}
 
 }
