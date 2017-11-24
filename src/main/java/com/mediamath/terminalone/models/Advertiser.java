@@ -33,6 +33,9 @@ public class Advertiser implements T1Entity {
     dmpSettings(String s) {
       val = s;
     }
+    public String getValue(){
+		return val;
+	}
 
   }
 
@@ -43,6 +46,9 @@ public class Advertiser implements T1Entity {
     freqInts(String s) {
       val = s;
     }
+    public String getValue(){
+		return val;
+	}
   }
 
   public enum freqTypes {
@@ -52,6 +58,9 @@ public class Advertiser implements T1Entity {
     freqTypes(String s) {
       val = s;
     }
+    public String getValue(){
+		return val;
+	}
   }
 
   private int id;
@@ -320,13 +329,13 @@ public class Advertiser implements T1Entity {
     }
 
     if (this.getFrequencyType() != null) {
-      advertiserForm.param("frequency_type", this.getFrequencyType().toString());
+      advertiserForm.param("frequency_type", this.getFrequencyType().getValue());
     } else {
       advertiserForm.param("frequency_type", "no-limit");
     }
 
     if (this.getFrequencyInterval() != null) {
-      advertiserForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+      advertiserForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval().getValue()));
     } else {
       advertiserForm.param("frequency_interval", "not-applicable");
     }
@@ -356,7 +365,7 @@ public class Advertiser implements T1Entity {
     }
 
     if (this.getDmpEnabled() != null) {
-      advertiserForm.param("dmp_enabled", String.valueOf(this.getDmpEnabled()));
+      advertiserForm.param("dmp_enabled", String.valueOf(this.getDmpEnabled().getValue()));
     } else {
       advertiserForm.param("dmp_enabled", "inherits");
     }

@@ -11,6 +11,9 @@ public class CampaignCustomBrainSelection {
 		SELTYPES(String s) {
 			value = s;
 		}
+		public String getValue(){
+			return value;
+		}
 	};
 
 	private int campaign_id;

@@ -43,11 +43,15 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	public enum freqInt {
-		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign"), not_applicable("not-applcable");
+		hour("hour"), day("day"), week("week"), month("month"), campaign("campaign");
 		String value;
 
 		freqInt(String s) {
 			value = s;
+		}
+		
+		public String getValue(){
+			return value;
 		}
 	} // should be not-applicable
 
@@ -59,6 +63,11 @@ public class Strategy implements T1Entity, Cloneable {
 		freqType(String s) {
 			value = s;
 		}
+		
+		public String getValue(){
+			return value;
+		}
+
 	} // should be no-limit  'ctr', 'vcpm', 'vcr' and 'viewability_rate'
 
 	public enum goalType {
@@ -69,6 +78,11 @@ public class Strategy implements T1Entity, Cloneable {
 		goalType(String s) {
 			value = s;
 		}
+		
+		public String getValue(){
+			return value;
+		}
+
 	}
 
 	public enum mediaType {
@@ -83,6 +97,11 @@ public class Strategy implements T1Entity, Cloneable {
 		pacInt(String s) {
 			value = s;
 		}
+		
+		public String getValue(){
+			return value;
+		}
+
 	}
 
 	public enum pacType {
@@ -93,6 +112,10 @@ public class Strategy implements T1Entity, Cloneable {
 		pacType(String s) {
 			value = s;
 		}
+		public String getValue(){
+			return value;
+		}
+
 	}
 
 	public enum siteSelect {

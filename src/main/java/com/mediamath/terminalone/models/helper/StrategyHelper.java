@@ -130,11 +130,11 @@ public class StrategyHelper {
 			}
 
 			if (entity.getFrequencyType() != null) {
-				strategyForm.param("frequency_type", entity.getFrequencyType().toString());
+				strategyForm.param("frequency_type", entity.getFrequencyType().getValue());
 			}
 
 			if (entity.getFrequencyInterval() != null) {
-				strategyForm.param("frequency_interval", String.valueOf(entity.getFrequencyInterval()));
+				strategyForm.param("frequency_interval", String.valueOf(entity.getFrequencyInterval().getValue()));
 			}
 
 			if (entity.getFrequencyAmount() > 0) {
@@ -142,7 +142,7 @@ public class StrategyHelper {
 			}
 
 			if (entity.getGoalType() != null) {
-				strategyForm.param("goal_type", String.valueOf(entity.getGoalType()));
+				strategyForm.param("goal_type", String.valueOf(entity.getGoalType().getValue()));
 			}
 
 			if (entity.getGoalType() != null && !entity.getGoalValue().isEmpty()
@@ -172,22 +172,22 @@ public class StrategyHelper {
 				strategyForm.param("pacing_amount", String.valueOf(entity.getPacingAmount().get(0).getValue()));
 			}
 			if (entity.getPacingInterval() != null) {
-				strategyForm.param("pacing_interval", String.valueOf(entity.getPacingInterval()));
+				strategyForm.param("pacing_interval", String.valueOf(entity.getPacingInterval().getValue()));
 			}
 			if (entity.getPacingType() != null) {
-				strategyForm.param("pacing_type", String.valueOf(entity.getPacingType()));
+				strategyForm.param("pacing_type", String.valueOf(entity.getPacingType().getValue()));
 			}
 
 			if (entity.getImpressionCapType() != null) {
-				strategyForm.param("impression_cap_type", String.valueOf(entity.getImpressionCapType()));
+				strategyForm.param("impression_cap_type", String.valueOf(entity.getImpressionCapType().getValue()));
 			}
 
 			if (entity.getImpressionPacingInterval() != null) {
-				strategyForm.param("impression_pacing_interval", String.valueOf(entity.getImpressionPacingInterval()));
+				strategyForm.param("impression_pacing_interval", String.valueOf(entity.getImpressionPacingInterval().getValue()));
 			}
 
 			if (entity.getImpressionPacingType() != null) {
-				strategyForm.param("impression_pacing_type", String.valueOf(entity.getImpressionPacingType()));
+				strategyForm.param("impression_pacing_type", String.valueOf(entity.getImpressionPacingType().getValue()));
 			}
 
 			if (entity.getImpressionPacingAmount() > 0) {
