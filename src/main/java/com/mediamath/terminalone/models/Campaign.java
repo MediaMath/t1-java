@@ -46,6 +46,9 @@ public class Campaign implements T1Entity {
 		freqInts(String s) {
 			value = s;
 		}
+		public String getValue(){
+			return value;
+		}
 	} // should be not-applicable
 
 	public enum freqTypes {
@@ -54,6 +57,9 @@ public class Campaign implements T1Entity {
 
 		freqTypes(String s) {
 			value = s;
+		}
+		public String getValue(){
+			return value;
 		}
 	} // should be no-limit
 
@@ -65,6 +71,9 @@ public class Campaign implements T1Entity {
 		goalCats(String s) {
 			value = s;
 		}
+		public String getValue(){
+			return value;
+		}
 	}
 
 	public enum goalTypes {
@@ -74,6 +83,9 @@ public class Campaign implements T1Entity {
 
 		goalTypes(String s) {
 			value = s;
+		}
+		public String getValue(){
+			return value;
 		}
 
 	}
@@ -745,7 +757,7 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getGoalType() != null) {
-			campaignForm.param("goal_type", String.valueOf(this.getGoalType()));
+			campaignForm.param("goal_type", String.valueOf(this.getGoalType().getValue()));
 		}
 
 		if (this.getServiceType() != null) {
@@ -779,11 +791,11 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getFrequencyInterval() != null) {
-			campaignForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+			campaignForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval().getValue()));
 		}
 
 		if (this.getFrequencyType() != null) {
-			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType()));
+			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType().getValue()));
 		}
 
 		if (this.getGoalAlert() > 0) {
@@ -791,7 +803,7 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getGoalCategory() != null) {
-			campaignForm.param("goal_category", String.valueOf(this.getGoalCategory()));
+			campaignForm.param("goal_category", String.valueOf(this.getGoalCategory().getValue()));
 		}
 
 		if (!this.isCopyCampaign() && this.getBudgetFlights().isEmpty() && this.getCampaignCustomBrainSelection().isEmpty()) {
@@ -817,11 +829,11 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getImpressionCapType() != null) {
-			campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType()));
+			campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType().getValue()));
 		}
 
 		if (this.getSpendCapType() != null) {
-			campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
+			campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType().getValue()));
 		} /*
 			 * else { campaignForm.param("spend_cap_type",
 			 * freqTypes.no_limit.value); }
@@ -875,8 +887,8 @@ public class Campaign implements T1Entity {
 				if (sl != null && sl.getId() > 0) {
 					campaignForm.param("site_lists." + inc + ".id", String.valueOf(sl.getId()));
 					campaignForm.param("site_lists." + inc + ".assigned", Utility.getOneOrZero(sl.isAssigned()));
+					inc++;
 				}
-				inc++;
 			}
 		}
 		
@@ -906,8 +918,8 @@ public class Campaign implements T1Entity {
 					if(sl.getTotalImpressionBudget() > 0){
 						campaignForm.param("budget_flights." + inc + ".total_impression_budget", String.valueOf(sl.getTotalImpressionBudget()));
 					}
+					inc++;
 				}
-				inc++;
 			}
 		}
 
@@ -943,8 +955,9 @@ public class Campaign implements T1Entity {
 					if(ccbs.getSelectionId() > 0){
 						campaignForm.param("custom_brain_selections." + inc + ".active", Utility.getOneOrZero(ccbs.isActive()));
 					}
+					inc++;
 				}
-				inc++;
+				
 			}
 		}
 

@@ -297,7 +297,9 @@ Here QueryCriteria has 3 parameters
 	
 	uploading a video creative is broken down into two steps.
 	- first call creates a video creative and it returns a creative id.
-	- second call uploads the file using the creative id received from the first step.
+	- second call uploads the file using the creative id received from the first step. 
+	- Before Second call, we need to get Key and Uploader host by calling 
+		GET https://{HOST}/{API_BASE}/creatives/{creative Id}/upload
 
 	first call requires a `VideoCreative` entity as an input param.
 
@@ -323,16 +325,28 @@ Here QueryCriteria has 3 parameters
 		VideoCreativeResponse videoCreativeResponse = t1.saveVideoCreatives(videoCreative);
   
 
-	the second call requires the creative id received from the step above. this will return a new `VideoCreativeResponse` with appropriate status.
+	Before second call, get KEY and Uploader Host from GET query, which are needed in second call.
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives").setEntity(Long.parseLong(videoCreativeResponse.getCreativeId())).setCreativeType(CreativeType.video).setChild("upload").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		VideoCreativeResponse cdr = (VideoCreativeResponse) jsonresponse.getData();	
+
+	The second call requires the creative id received from the step above. this will return a new `VideoCreativeResponse` with appropriate status. Use request data from above GET call.
 	
 		String filePath = "C:\\dir1\\subdir1\\file1234.flv";
 		String fileName = "file1234.flv";
-		VideoCreativeResponse uploadResponse = t1.uploadVideoCreative(filePath, fileName, videoCreativeResponse.getCreativeId());
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, cdr.getKey(), cdr.getUploader().getHost());
 	
 	
 	you can also check the upload status by calling 
 		
-		VideoCreativeUploadStatus uploadStatus = t1.getVideoCreativeUploadStatus(uploadResponse.getCreativeId());
+		VideoCreativeUploadStatus uploadStatus = t1.getVideoCreativeUploadStatus(videoCreativeResponse.getCreativeId());
 
 	which returns a `VideoCreativeUplaodStatus` obj with appropriate response.
 

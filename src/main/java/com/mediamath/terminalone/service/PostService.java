@@ -25,8 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
@@ -48,6 +51,7 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -70,8 +74,10 @@ import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
 import com.mediamath.terminalone.models.TPASCreativeUpload;
 import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.UserPermissions;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
@@ -94,8 +100,8 @@ public class PostService {
 	private static final String CREATIVES_STR = "creatives";
 
 	private static final String CREATIVE_ASSETS = "creative_assets";
-	
-    private static final String COULD_NOT_PARSE_RESPONSE = "Could not parse response";
+
+	private static final String COULD_NOT_PARSE_RESPONSE = "Could not parse response";
 
 	private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
@@ -175,7 +181,9 @@ public class PostService {
 	}
 
 	private String getResponseString(T1Entity entity, String path) throws ClientException {
-		Response responseObj = this.connection.post(path, entity.getForm(), this.user);
+		Response responseObj;
+		responseObj = this.connection.post(path, entity.getForm(), this.user);
+
 		return readPostResponseToString(responseObj);
 
 	}
@@ -184,7 +192,7 @@ public class PostService {
 		Response responseObj = this.connection.post(path, StrategyHelper.getForm(entity), this.user);
 		return readPostResponseToString(responseObj);
 	}
-	
+
 	private String readPostResponseToString(Response responseObj) throws ClientException {
 		String response = responseObj.readEntity(String.class);
 		JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
@@ -194,7 +202,8 @@ public class PostService {
 		return response;
 	}
 
-	/**Saves User entity and its permissions.
+	/**
+	 * Saves User entity and its permissions.
 	 * 
 	 * @param entity
 	 * @return
@@ -203,11 +212,11 @@ public class PostService {
 	 */
 	public User save(User entity) throws ClientException, ParseException {
 
-		User userSaved = null;	
-		
-		if (entity == null){
+		User userSaved = null;
+
+		if (entity == null) {
 			return null;
-		}else{
+		} else {
 			StringBuilder uri = getUri(entity);
 			if (entity.getId() > 0) {
 				uri.append("/");
@@ -229,21 +238,20 @@ public class PostService {
 
 			if (finalJsonResponse == null)
 				return null;
-			
+
 			if (finalJsonResponse.getData() instanceof User) {
 				userSaved = (User) finalJsonResponse.getData();
-			} else if (finalJsonResponse.getData() instanceof UserPermissions){
+			} else if (finalJsonResponse.getData() instanceof UserPermissions) {
 				UserPermissions uPerm = (UserPermissions) finalJsonResponse.getData();
 				userSaved = (User) uPerm.getUser();
 				userSaved.setPermissions(uPerm.getPermissions());
 			}
 
 		}
-				
 
 		return userSaved;
 	}
-	
+
 	/**
 	 * saves a Strategy entity.
 	 * 
@@ -255,7 +263,7 @@ public class PostService {
 	 * @throws ParseException
 	 *             a parse exception is thrown when the response cannot be
 	 *             parsed.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Strategy save(Strategy entity) throws ClientException, ParseException {
@@ -310,9 +318,9 @@ public class PostService {
 					uri.append("/" + String.valueOf(entity.getTargetDimensions().getId()));
 				}
 			}
-			
+
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
-			
+
 			String responseString;
 			responseString = getStrategyResponseString(entity, path);
 
@@ -362,7 +370,7 @@ public class PostService {
 		}
 		return strategy;
 	}
-	
+
 	/**
 	 * saves a ZipCodes against Strategy entity.
 	 * 
@@ -374,7 +382,7 @@ public class PostService {
 	 * @throws ParseException
 	 *             a parse exception is thrown when the response cannot be
 	 *             parsed.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public ZipCodesJsonResponse save(ZipCodes entity) throws ClientException, ParseException {
 
@@ -404,7 +412,7 @@ public class PostService {
 			try {
 				multipart.close();
 			} catch (IOException e) {
-				logger.error(" "+e.getCause());
+				logger.error(" " + e.getCause());
 			}
 
 			responseString = responseObj.readEntity(String.class);
@@ -499,34 +507,36 @@ public class PostService {
 			if (entity.getId() > 0 && entity.isCopyCampaign() == true) {
 				uri.append("/copy");
 			}
-			
-			if (entity.getId() > 0 && entity.getBudgetFlights().size()==1) {
+
+			if (entity.getId() > 0 && entity.getBudgetFlights().size() == 1) {
 				uri.append("/budget_flights");
-				if(entity.getBudgetFlights().get(0).getId()> 0){
+				if (entity.getBudgetFlights().get(0).getId() > 0) {
 					uri.append("/");
 					uri.append(entity.getBudgetFlights().get(0).getId());
 				}
-				if(entity.getBudgetFlights().get(0).isDeleted()){
+				if (entity.getBudgetFlights().get(0).isDeleted()) {
 					uri.append("/delete");
 				}
 			}
-			
-			if (entity.getId() > 0 && entity.getBudgetFlights().size()>1) {
+
+			if (entity.getId() > 0 && entity.getBudgetFlights().size() > 1) {
 				uri.append("/budget_flights/bulk");
 			}
-			
-			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size()==1) {
+
+			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size() == 1) {
 				uri.append("/custom_brain_selections");
-				if(entity.getCampaignCustomBrainSelection().get(0)!=null && entity.getCampaignCustomBrainSelection().get(0).getId()>0){
+				if (entity.getCampaignCustomBrainSelection().get(0) != null
+						&& entity.getCampaignCustomBrainSelection().get(0).getId() > 0) {
 					uri.append("/");
 					uri.append(entity.getCampaignCustomBrainSelection().get(0).getId());
 				}
-				if(entity.getCampaignCustomBrainSelection().get(0)!=null && entity.getCampaignCustomBrainSelection().get(0).isDeleted()){
+				if (entity.getCampaignCustomBrainSelection().get(0) != null
+						&& entity.getCampaignCustomBrainSelection().get(0).isDeleted()) {
 					uri.append("/delete");
 				}
 			}
-			
-			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size()>1) {
+
+			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size() > 1) {
 				uri.append("/custom_brain_selections/bulk");
 			}
 
@@ -548,32 +558,28 @@ public class PostService {
 					campaign = entity;
 					campaign.getSiteLists().clear();
 					campaign.setSiteLists(dataList);
-				}
-				else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
+				} else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
 					campaign = entity;
 					campaign.getBudgetFlights().clear();
 					campaign.setBudgetFlights(dataList);
-				}
-				else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
+				} else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
 					campaign = entity;
 					campaign.getCampaignCustomBrainSelection().clear();
 					campaign.setCampaignCustomBrainSelection(dataList);
 				}
 			} else {
-				
+
 				if (finalJsonResponse.getData() instanceof BudgetFlight) {
 					campaign = entity;
-					BudgetFlight bfData =  (BudgetFlight)finalJsonResponse.getData();
+					BudgetFlight bfData = (BudgetFlight) finalJsonResponse.getData();
 					campaign.getBudgetFlights().clear();
 					campaign.getBudgetFlights().add(bfData);
-				}
-				else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
+				} else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
 					campaign = entity;
-					CampaignCustomBrainSelection ccbsData =  (CampaignCustomBrainSelection)finalJsonResponse.getData();
+					CampaignCustomBrainSelection ccbsData = (CampaignCustomBrainSelection) finalJsonResponse.getData();
 					campaign.getCampaignCustomBrainSelection().clear();
 					campaign.getCampaignCustomBrainSelection().add(ccbsData);
-				}
-				else{
+				} else {
 					campaign = (Campaign) finalJsonResponse.getData();
 				}
 			}
@@ -644,8 +650,7 @@ public class PostService {
 					&& !parsedVideoCreativeResponse.getCreativeId().isEmpty()) {
 
 				videoCreative = parsedVideoCreativeResponse;
-			}
-			else if(entity.getCreativeId() > 0){
+			} else if (entity.getCreativeId() > 0) {
 				videoCreative = new VideoCreativeResponse();
 				videoCreative.setCreativeId(String.valueOf(entity.getCreativeId()));
 				videoCreative.setStatus(parsedVideoCreativeResponse.getStatus());
@@ -746,6 +751,82 @@ public class PostService {
 		return videoCreative;
 	}
 
+	/**
+	 * TEMPORARY SOLUTION, DO BE DEPRECATED ONCE VIDEO CREATIVE UPLOAD PROBLEM
+	 * SOLVES
+	 * 
+	 * this method uploads the given video creative file.
+	 * 
+	 * @param filePath
+	 *            path to the actual file data.
+	 * 
+	 * @param fileName
+	 *            name of the file.
+	 * 
+	 * @param key
+	 *            requires a key string.
+	 * 
+	 * @param host
+	 *            requires a host string.
+	 * 
+	 * @return VideoCreativeResponse object.
+	 * 
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws IOException
+	 * 
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public VideoCreativeUploadResponse videoCreativeUpload(String filePath, String fileName, String key, String host)
+			throws ClientException, IOException {
+
+		VideoCreativeUploadResponse videoCreative = null;
+
+		if (checkString(filePath) && checkString(key) && checkString(fileName)) {
+
+			String finalPath = "https://" + host;
+			final File fileToUpload = new File(filePath);
+			try {
+				// add key
+				final FormDataMultiPart multiPart = new FormDataMultiPart();
+				multiPart.field("key", key);
+				// add file
+				if (!fileToUpload.equals(null)) {
+					FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(
+							FormDataContentDisposition.name("file").fileName(fileName).build(), fileToUpload,
+							MediaType.APPLICATION_OCTET_STREAM_TYPE);
+					multiPart.bodyPart(fileDataBodyPart);
+				}
+				Response responseObj = this.connection.post(finalPath, multiPart, this.user);
+				String response = responseObj.readEntity(String.class);
+				// close resources
+				multiPart.close();
+
+				T1JsonToObjParser parser = new T1JsonToObjParser();
+
+				if (response.isEmpty()) {
+					return null;
+				}
+
+				JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+
+				if (error != null)
+					throwExceptions(error);
+
+				VideoCreativeUploadResponse parsedVideoCreativeResponse = parser.parseVideoCreativeUpload(response);
+				if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
+					videoCreative = parsedVideoCreativeResponse;
+				}
+
+			} finally {
+
+			}
+		}
+		return videoCreative;
+	}
+
 	private boolean checkString(String str) {
 		return str != null && !str.isEmpty();
 	}
@@ -817,7 +898,7 @@ public class PostService {
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyDayPart"));
 
 		Form strategyConceptForm = new Form();
-		if (strategyDayPart.getVersion() > 0) {
+		if (strategyDayPart.getVersion() >= 0) {
 			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
 		}
 
@@ -827,6 +908,71 @@ public class PostService {
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 
 		return parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
+	}
+
+	/**
+	 * Delete Contract Entity
+	 * 
+	 * @param contract
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 *         entity.
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(Contract contract) throws ClientException, ParseException {
+		StringBuilder path = new StringBuilder();
+
+		if (contract.getId() > 0) {
+			path.append(Constants.entityPaths.get("Contract"));
+			path.append("/");
+			path.append(contract.getId());
+		}
+
+		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("Contract"));
+
+		Form contractForm = new Form();
+		if (contract.getVersion() >= 0) {
+			contractForm.param("version", String.valueOf(contract.getVersion()));
+		}
+		Response responseObj = connection.delete(finalPath, contractForm, this.user);
+
+		String response = responseObj.readEntity(String.class);
+
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+
+		return getJsonResponse(contract, response);
+	}
+
+	/**
+	 * Delete Vendor Contract Entity
+	 * 
+	 * @param Vendor
+	 *            Contract Entity
+	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
+	 *         entity.
+	 * @throws ClientException
+	 * @throws ParseException
+	 */
+	public JsonResponse<? extends T1Entity> delete(VendorContract contract) throws ClientException, ParseException {
+		StringBuilder path = new StringBuilder();
+
+		if (contract.getId() > 0) {
+			path.append(Constants.entityPaths.get("VendorContract"));
+			path.append("/");
+			path.append(contract.getId());
+			path.append("/delete");
+		}
+
+		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("VendorContract"));
+
+		Form contractForm = new Form();
+		if (contract.getVersion() >= 0) {
+			contractForm.param("version", String.valueOf(contract.getVersion()));
+		}
+		Response responseObj = connection.post(finalPath, contractForm, this.user);
+		String response = responseObj.readEntity(String.class);
+
+		return getJsonResponse(contract, response);
 	}
 
 	/**
@@ -876,7 +1022,7 @@ public class PostService {
 		FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
 		FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
 				.field("name", name).bodyPart(filePart);
-		
+
 		Response responseObj = this.connection.post(path, multipart, this.user);
 		String response = responseObj.readEntity(String.class);
 
@@ -885,10 +1031,9 @@ public class PostService {
 
 		return response;
 	}
-	
-	
-	private String saveCreativeMultipleUploads(StringBuilder uri, List<T1File> fileList,
-			String collection) throws ClientException, IOException {
+
+	private String saveCreativeMultipleUploads(StringBuilder uri, List<T1File> fileList, String collection)
+			throws ClientException, IOException {
 		if (fileList == null) {
 			throw new ClientException("please enter a valid filename and file path");
 		}
@@ -897,11 +1042,12 @@ public class PostService {
 
 		FormDataMultiPart multipart = new FormDataMultiPart();
 
-		for(T1File t1File : fileList){
-			if(t1File!=null && (t1File.getFile()!=null && t1File.getFilename()!=null && t1File.getName()!=null)){
-			FileDataBodyPart filePart = new FileDataBodyPart("file", new File(t1File.getFile()));
-			
-			multipart.field("filename", t1File.getFilename()).field("name", t1File.getName()).bodyPart(filePart);
+		for (T1File t1File : fileList) {
+			if (t1File != null
+					&& (t1File.getFile() != null && t1File.getFilename() != null && t1File.getName() != null)) {
+				FileDataBodyPart filePart = new FileDataBodyPart("file", new File(t1File.getFile()));
+
+				multipart.field("filename", t1File.getFilename()).field("name", t1File.getName()).bodyPart(filePart);
 			}
 		}
 
@@ -1012,16 +1158,18 @@ public class PostService {
 		}
 		return assetsUploadResponse;
 	}
-	
-	/**saves multiple file upload to T1AS. first call to upload the HTML5 file along with backup files. <br>
+
+	/**
+	 * saves multiple file upload to T1AS. first call to upload the HTML5 file
+	 * along with backup files. <br>
 	 * <br>
 	 * example: <br>
 	 * <br>
 	 * <i>saveT1ASCreativeAssetsUpload(List<T1File> fileList);</i>
 	 * 
 	 * @param fileList
-	 * 			a valid list of T1File object is required.
-	 * 			T1File Object, can accept name, filename and filepath	
+	 *            a valid list of T1File object is required. T1File Object, can
+	 *            accept name, filename and filepath
 	 * 
 	 * @return TOneASCreativeAssetsUpload
 	 * @throws ClientException
@@ -1143,7 +1291,8 @@ public class PostService {
 	}
 
 	private boolean checkErrorAndErrorsElement(JsonElement errorsElement, JsonElement errorElement) {
-		return ((errorsElement != null && errorsElement.isJsonArray() && errorsElement.getAsJsonArray().size() > 0) || errorElement != null);
+		return ((errorsElement != null && errorsElement.isJsonArray() && errorsElement.getAsJsonArray().size() > 0)
+				|| errorElement != null);
 	}
 
 	private void parseMetaElement(Response responseObj, JsonElement metaElement, JsonPostErrorResponse errorResponse,
@@ -1362,10 +1511,11 @@ public class PostService {
 			} else if (element.isJsonObject()) {
 				JsonObject obj = element.getAsJsonObject();
 				String entityType = getEntityType(obj);
-				if(entityType!=null){
+				if (entityType != null) {
 					finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
-				}else{
-					finalJsonResponse = parser.parseJsonToObj(response,Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+				} else {
+					finalJsonResponse = parser.parseJsonToObj(response,
+							Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
 				}
 			}
 		} else {
@@ -1413,5 +1563,4 @@ public class PostService {
 		}
 		return finalJsonResponse;
 	}
-
 }

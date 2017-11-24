@@ -50,7 +50,9 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.CreativeDetailsResponse;
+import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.EventPixel;
 import com.mediamath.terminalone.models.EventPixel.EventPixelsEnum;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -81,8 +83,10 @@ import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
 import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.models.User;
+import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
@@ -729,9 +733,9 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyUpdatePost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2205653).build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2196344).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -819,7 +823,7 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testStrategyDayParts() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		StrategyDayPart strategyDayPart = new StrategyDayPart();
 
@@ -1065,19 +1069,25 @@ public class PostFunctionalTestIT {
 	/**
 	 * Delete Strategy Day Parts.
 	 * 
+	 * @throws ClientException
+	 * @throws ParseException
+	 * 
 	 */
 	@Test
-	public void testStrategyDayPartDelete() {
-		TerminalOne T1;
-		StrategyDayPart sc = new StrategyDayPart();
-		sc.setId(952850);
+	public void testStrategyDayPartDelete() throws ClientException, ParseException {
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategy_day_parts").setEntity(2044892).build();
+		JsonResponse<?> jsonresponse = t1.get(query);
+		StrategyDayPart sc = (StrategyDayPart) jsonresponse.getData();
+		JsonResponse<? extends T1Entity> jr = null;
 		try {
-			T1 = new TerminalOne(user, password, apiKey);
-			JsonResponse<? extends T1Entity> jr = T1.delete(sc);
+			jr = t1.delete(sc);
 		} catch (ClientException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		assertNotNull(jr);
 	}
 
 	/**
@@ -1599,7 +1609,7 @@ public class PostFunctionalTestIT {
 
 	@Test
 	public void testStrategyTargetValuePost() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
 		Strategy str = new Strategy();
 		str.setId(2196344);
@@ -1988,6 +1998,70 @@ public class PostFunctionalTestIT {
 	}
 
 	@Test
+	public void testVideoCreativesTemp() throws ClientException, IOException, ParseException {
+		// will work only on production.
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+
+		VideoCreative videoCreative = new VideoCreative();
+		videoCreative.setName("videoCreative2");
+		videoCreative.setStartTime(1468486396);
+		videoCreative.setLandingUrl("http://www.somedomain.com");
+		videoCreative.setAdvertiser(122631);
+		videoCreative.setEndTime(1470009600);
+		videoCreative.setConcept(847527);
+		videoCreative.setClickthroughUrl("http://www.somedomain.com");
+
+		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
+		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
+		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
+
+		videoCreative.setEventPixels(eventPixels);
+
+		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
+
+		// upload the file.
+		QueryCriteria query = QueryCriteria.builder().setCollection("creatives")
+				.setEntity(Long.parseLong(saveResponse.getCreativeId())).setCreativeType(CreativeType.video)
+				.setChild("upload").build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		VideoCreativeResponse cdr = (VideoCreativeResponse) jsonresponse.getData();
+
+		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName, cdr.getKey(),
+				cdr.getUploader().getHost());
+
+		VideoCreativeUploadStatus status = null;
+
+		// check video creative status VideoCreativeUploadStatus uploadStatus =
+		status = t1.getVideoCreativeUploadStatus(saveResponse.getCreativeId());
+
+		assertNotNull(status);
+		assertNotNull(saveResponse);
+		assertNotNull(uploadResponse);
+		assertNotNull(uploadResponse.getStatus());
+	}
+
+	@Test
+	public void testVideoCreativeupload() throws ClientException, IOException, ParseException {
+
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
+		String filePath = "D:\\MediaMath\\t1attachements\\blah1234.flv";
+		String fileName = "blah1234.flv";
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName,
+				"5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891", "video-uploader.mathtag.com");
+
+	}
+
+	@Test
 	public void testVideoCreativeSave() throws ClientException, IOException, ParseException {
 		// will work only on production.
 		TerminalOne t1 = new TerminalOne(user, password, productionKey);
@@ -2148,7 +2222,7 @@ public class PostFunctionalTestIT {
 			}
 		} // strategy for loop
 	}
-	
+
 	@Test
 	public void testVideoCreativesCustomVAST() throws ClientException, IOException, ParseException {
 		// will work only on production.
@@ -2156,19 +2230,20 @@ public class PostFunctionalTestIT {
 
 		VideoCreative videoCreative = new VideoCreative();
 		videoCreative.setName("TestVASTCreative");
-		//videoCreative.setStartTime(1468486396);
+		// videoCreative.setStartTime(1468486396);
 		videoCreative.setLandingUrl("http://www.vasttestdomain.com");
 		videoCreative.setAdvertiser(122631);
-		//videoCreative.setEndTime(1470009600);
+		// videoCreative.setEndTime(1470009600);
 		videoCreative.setConcept(847527);
-		videoCreative.setCustomVASTUrl("https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=22617024&PluID=0&pos=897&ord=7464&cim=1");
+		videoCreative.setCustomVASTUrl(
+				"https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=22617024&PluID=0&pos=897&ord=7464&cim=1");
 
 		List<EventPixel> eventPixels = new ArrayList<EventPixel>();
 		eventPixels.add(new EventPixel(EventPixelsEnum.ImpSkippable.toString(), "http://google.com"));
 		eventPixels.add(new EventPixel(EventPixelsEnum.Skip.toString(), "http://yahoo.com"));
 
 		videoCreative.setEventPixels(eventPixels);
-	
+
 		VideoCreativeResponse saveResponse = t1.saveVideoCreatives(videoCreative);
 
 		assertNotNull(saveResponse);
@@ -2178,7 +2253,8 @@ public class PostFunctionalTestIT {
 	public void testStrategyPostCodesPost() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		ZipCodesJsonResponse response = null;
-		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true, true, true);
+		ZipCodes zipCode = new ZipCodes(2187813, ZipCodes.restrictions.EXCLUDE, "D:\\MediaMath\\Noname1.csv", true,
+				true, true);
 		try {
 			response = (ZipCodesJsonResponse) jt1.save(zipCode);
 		} catch (ParseException e) {
@@ -2188,4 +2264,296 @@ public class PostFunctionalTestIT {
 
 		assertNotNull(response);
 	}
+
+	@Test
+	public void testContractsPost() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		Currency curr = new Currency();
+		curr.setCurrencyCode("USD");
+		curr.setValue(100f);
+
+		List<Currency> cList = new ArrayList<Currency>();
+		cList.add(curr);
+
+		Contract contract = new Contract();
+		contract.setAdaptiveSegmentCpm(cList);
+		contract.setContractNumber(1111);
+		contract.setCurrencyCode("USD");
+		contract.setEvidonPrivacyCostCpm(cList);
+		contract.setExternalMediaTrackingCpm(cList);
+		contract.setFbxDynamicCpm(cList);
+		contract.setManagedServiceFeePct(11);
+		contract.setManagedServiceFeeUnit("PCT_TOTAL_COST");
+		contract.setOptimizationFeePct(11);
+		contract.setOptimizationFeeUnit("PCT_TOTAL_COST");
+		contract.setOrganizationId(101558);
+		contract.setPeer39QualityFeeCpm(cList);
+		contract.setPeer39SafetyFeeCpm(cList);
+		contract.setPlatformAccessFeePct(11);
+		contract.setPlatformAccessFeeUnit("PCT_TOTAL_COST");
+		contract.setPlatformMonthlyMin(11);
+		contract.setPmpOptimizationOffFeeCpm(cList);
+		contract.setPmpOptimizationOffUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOffFeePct(11);
+		contract.setPmpOptimizationOnFeeCpm(cList);
+		contract.setPmpOptimizationOnUnit("PCT_TOTAL_COST");
+		contract.setPmpOptimizationOnFeePct(11);
+		contract.setProfitShareFeePct(11);
+		contract.setSpendCap(100);
+		contract.setT1AsFeeCpm(cList);
+		contract.setT1Html5FeeCpm(cList);
+		contract.setT1VadsFeeCpm(cList);
+		contract.setExcludeAgencyMargin(true);
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+		cal.roll(Calendar.DATE, true);
+		Date startDate = cal.getTime();
+		contract.setEffectiveStartDate(startDate);
+
+		cal.roll(Calendar.DATE, true);
+		cal.roll(Calendar.YEAR, true);
+		Date endd = cal.getTime();
+		contract.setEffectiveEndDate(endd);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(contract);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+
+	@Test
+	public void testContractsUpdate() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		Contract ctrt = new Contract();
+		ctrt.setId(633);
+		ctrt.setSpendCap(100);
+		ctrt.setPlatformMonthlyMin(4);
+		ctrt.setVersion(3);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(ctrt);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+	
+	@Test
+	public void testContractsUpdateNew() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
+		JsonResponse<?> jsonresponse = jt1.get(query);	
+		
+		Contract ctrt = (Contract) jsonresponse.getData();
+		ctrt.setSpendCap(100);
+
+		Contract contractFinal = null;
+		try {
+			contractFinal = (Contract) jt1.save(ctrt);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+
+	@Test
+	public void testContractsDelete() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(631).build();
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
+		Contract contract = (Contract) jsonresponse.getData();
+
+		JsonResponse<? extends T1Entity> jr = null;
+		try {
+			jr = jt1.delete(contract);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+		}
+
+		assertNotNull(jr);
+	}
+
+	@Test
+	public void testVendorContractsSave() throws ClientException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		VendorContract venContract = new VendorContract();
+		venContract.setCampaignId(349751);
+		venContract.setPrice(2.8f);
+		venContract.setRateCardType("");
+		venContract.setUseMmContract(false);
+		venContract.setVendorId(632);
+
+		VendorContract contractFinal = null;
+		try {
+			contractFinal = (VendorContract) jt1.save(venContract);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+
+	@Test
+	public void testVendorContractsUpdate() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32773).build();
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
+		VendorContract vc = (VendorContract) jsonresponse.getData();
+
+		vc.setPrice(2.9f);
+		vc.setUseMmContract(false);
+
+		VendorContract contractFinal = null;
+		try {
+			contractFinal = (VendorContract) jt1.save(vc);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(contractFinal);
+	}
+
+	@Test
+	public void testVendorContractsDelete() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32774).build();
+		JsonResponse<?> jsonresponse = jt1.get(query);
+
+		VendorContract vc = (VendorContract) jsonresponse.getData();
+
+		JsonResponse<? extends T1Entity> jr = null;
+		try {
+			jr = jt1.delete(vc);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(jr);
+	}
+	
+	@Test
+	public void testStrategyTargetValuePostNew() throws ClientException, ParseException {
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+
+		List<Integer> acceptedDevice = new ArrayList<Integer>();
+		acceptedDevice.add(301523);
+		acceptedDevice.add(301524);
+		List<Integer> blockedDevice = new ArrayList<Integer>();
+		blockedDevice.add(301526);
+		blockedDevice.add(674590);
+
+		List<Integer> acceptedInventory = new ArrayList<Integer>();
+		acceptedInventory.add(477326);
+		List<Integer> blockedInventory = new ArrayList<Integer>();
+		blockedInventory.add(477325);
+
+		List<Integer> acceptedConnection = new ArrayList<Integer>();
+		acceptedConnection.add(15);
+		List<Integer> blockedConnection = new ArrayList<Integer>();
+		blockedConnection.add(13);
+		blockedConnection.add(14);
+
+		List<Integer> acceptedIsp = new ArrayList<Integer>();
+		acceptedIsp.add(481);
+		acceptedIsp.add(492);
+		List<Integer> blockedIsp = new ArrayList<Integer>();
+		blockedIsp.add(478);
+
+		List<Integer> acceptedBrowser = new ArrayList<Integer>();
+		acceptedBrowser.add(45017);
+		acceptedBrowser.add(3);
+		List<Integer> blockedBrowser = new ArrayList<Integer>();
+		blockedBrowser.add(1);
+		blockedBrowser.add(2);
+
+		List<Integer> acceptedLocation = new ArrayList<Integer>();
+		acceptedLocation.add(37);
+		acceptedLocation.add(38);
+		List<Integer> blockedLocation = new ArrayList<Integer>();
+		blockedLocation.add(20);
+		blockedLocation.add(21);
+
+		List<TargetValues> tsList = new ArrayList<TargetValues>();
+
+		TargetValues targetValues1 = new TargetValues(TargetValues.codes.DVCE, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedDevice);
+		tsList.add(targetValues1);
+
+		TargetValues targetValues2 = new TargetValues(TargetValues.codes.DVCE, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedDevice);
+		tsList.add(targetValues2);
+
+		TargetValues targetValues3 = new TargetValues(TargetValues.codes.INVT, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedInventory);
+		tsList.add(targetValues3);
+
+		TargetValues targetValues4 = new TargetValues(TargetValues.codes.INVT, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedInventory);
+		tsList.add(targetValues4);
+
+		TargetValues targetValues5 = new TargetValues(TargetValues.codes.CSPD, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedConnection);
+		tsList.add(targetValues5);
+
+		TargetValues targetValues6 = new TargetValues(TargetValues.codes.CSPD, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedConnection);
+		tsList.add(targetValues6);
+
+		TargetValues targetValues7 = new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedIsp);
+		tsList.add(targetValues7);
+
+		TargetValues targetValues8 = new TargetValues(TargetValues.codes.ISPX, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedIsp);
+		tsList.add(targetValues8);
+
+		TargetValues targetValues9 = new TargetValues(TargetValues.codes.BSER, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedBrowser);
+		tsList.add(targetValues9);
+
+		TargetValues targetValues10 = new TargetValues(TargetValues.codes.BSER, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedBrowser);
+		tsList.add(targetValues10);
+
+		TargetValues targetValues11 = new TargetValues(TargetValues.codes.REGN, TargetValues.restrictions.INCLUDE,
+				TargetValues.oper.OR, acceptedLocation);
+		tsList.add(targetValues11);
+
+		TargetValues targetValues12 = new TargetValues(TargetValues.codes.REGN, TargetValues.restrictions.EXCLUDE,
+				TargetValues.oper.OR, blockedLocation);
+		tsList.add(targetValues12);
+
+		Strategy strategy = new Strategy();
+		strategy.setId(2323968);
+		strategy.setTargetValues(tsList);
+		strategy = jt1.save(strategy);
+		
+		List<StrategyTarget> sdp = strategy.getStrategyTarget();
+		assertTrue(!sdp.isEmpty());
+		assertTrue(sdp.get(0).getId() > 0);
+	}
+
 }

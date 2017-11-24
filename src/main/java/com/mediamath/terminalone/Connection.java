@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
@@ -61,6 +62,8 @@ public class Connection {
 	private static final String TARGET_URL = "Target URL: %s";
 
 	private static final String NO_POST_DATA = "No Post Data";
+
+	private static final String NO_PUT_DATA = "No Put Data";
 
 	private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
@@ -99,6 +102,26 @@ public class Connection {
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
 		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		return response;
+	}
+
+	/**
+	 * Handles the DELETE operation to a given endpoint.
+	 * 
+	 * @param url
+	 *            api end point url.
+	 * @param userMap
+	 *            requires a valid user login session.
+	 * @return Response object.
+	 * @throws ClientException
+	 *             throws a client exception.
+	 */
+	public Response delete(String url, Form data, T1User userMap) throws ClientException {
+
+		Response response;
+		Client client = instantiateSimpleClientSupressed();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.method("DELETE", Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
 		return response;
 	}
 
@@ -252,6 +275,12 @@ public class Connection {
 
 	private Client instantiateSimpleClient() {
 		return ClientBuilder.newClient(new ClientConfig());
+	}
+
+	private Client instantiateSimpleClientSupressed() {
+		ClientConfig clientConfig = new ClientConfig();
+		clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+		return ClientBuilder.newClient(clientConfig);
 	}
 
 	private Client instantiateMultipartClient() {

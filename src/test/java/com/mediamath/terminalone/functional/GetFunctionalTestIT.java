@@ -42,6 +42,7 @@ import com.mediamath.terminalone.models.StrategyAudienceSegment;
 import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategySupplySource;
 import com.mediamath.terminalone.models.SupplySource;
+import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
@@ -1341,7 +1342,7 @@ public class GetFunctionalTestIT {
 			e.printStackTrace();
 		}
 
-		CreativeDetailsResponse cdr = (CreativeDetailsResponse) jsonresponse.getData();
+		VideoCreativeResponse cdr = (VideoCreativeResponse) jsonresponse.getData();
 
 		assertNotNull(jsonresponse);
 		assertNotNull(cdr);
@@ -1349,7 +1350,6 @@ public class GetFunctionalTestIT {
 	
 	@Test
 	public void testGetWithStrategyTargetingSegments() throws ClientException, IOException, ParseException {
-		// will work only on production.
 
 		TerminalOne one = new TerminalOne(user, password, productionKey);
 
@@ -1364,7 +1364,6 @@ public class GetFunctionalTestIT {
 	
 	@Test
 	public void testGetWithAllTargetingSegments() throws ClientException, IOException, ParseException {
-		// will work only on production.
 
 		TerminalOne one = new TerminalOne(user, password, productionKey);
 
@@ -1377,13 +1376,60 @@ public class GetFunctionalTestIT {
 	
 	@Test
 	public void testGetWithTargetingSegments() throws ClientException, IOException, ParseException {
-		// will work only on production.
 
 		TerminalOne one = new TerminalOne(user, password, productionKey);
 
 		FullParamValues fpv = new FullParamValues();
 		fpv.setBoolValue(true);
 		QueryCriteria query = QueryCriteria.builder().setCollection("targeting_segments").setEntity(4943).setFull(fpv).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithContacts() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithSingleContact() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(4447).build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithVendorContacts() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").build();
+		JsonResponse<?> jsonresponse = one.get(query);	
+		assertNotNull(jsonresponse);	
+	}
+	
+	@Test
+	public void testGetWithSingleVendorContact() throws ClientException, IOException, ParseException {
+
+		TerminalOne one = new TerminalOne(user, password, productionKey);
+
+		FullParamValues fpv = new FullParamValues();
+		fpv.setBoolValue(true);
+		QueryCriteria query = QueryCriteria.builder().setCollection("vendor_contracts").setEntity(32505).build();
 		JsonResponse<?> jsonresponse = one.get(query);	
 		assertNotNull(jsonresponse);	
 	}

@@ -32,6 +32,7 @@ import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.ChildPixel;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Contact;
+import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.Creative;
 import com.mediamath.terminalone.models.CreativeApproval;
 import com.mediamath.terminalone.models.Deal;
@@ -244,6 +245,9 @@ public final class Constants {
 	private static final String BUDGET_FLIGHT = "budget_flight";
 	private static final String BUDGET_FLIGHTS = "budget_flights";
 	
+	private static final String CONTRACTS = "contracts";
+	private static final String CONTRACT = "contract";
+	
 
 	// required for converting requested string path names to entity names when
 	// collection demanded
@@ -309,7 +313,10 @@ public final class Constants {
 		}.getType());
 		getEntityType.put(CONCEPT, new TypeToken<JsonResponse<Concept>>() {
 		}.getType());
-
+		getEntityType.put(CONTRACT, new TypeToken<JsonResponse<Contract>>() {
+		}.getType());
+		getEntityType.put(CONTRACTS, new TypeToken<JsonResponse<Contract>>() {
+		}.getType());
 		getEntityType.put(CREATIVES, new TypeToken<JsonResponse<Creative>>() {
 		}.getType());
 		getEntityType.put(CREATIVE, new TypeToken<JsonResponse<Creative>>() {
@@ -484,6 +491,10 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(CONCEPT, new TypeToken<JsonResponse<ArrayList<Concept>>>() {
 		}.getType());
+		getListoFEntityType.put(CONTRACTS, new TypeToken<JsonResponse<ArrayList<Contract>>>() {
+		}.getType());
+		getListoFEntityType.put(CONTRACT, new TypeToken<JsonResponse<ArrayList<Contract>>>() {
+		}.getType());
 		getListoFEntityType.put(CREATIVES, new TypeToken<JsonResponse<ArrayList<Creative>>>() {
 		}.getType());
 		getListoFEntityType.put(CREATIVE, new TypeToken<JsonResponse<ArrayList<Creative>>>() {
@@ -624,7 +635,7 @@ public final class Constants {
 		}.getType());
 
 		// required for converting requested string path names to entity names
-		// when collection demended
+		// when collection demanded
 		pathToCollectionEntity.put(AD_SERVERS, "AdServer");
 		pathToCollectionEntity.put(ADVERTISERS, "Advertiser");
 		pathToCollectionEntity.put(AGENCIES, "Agency");
@@ -633,6 +644,7 @@ public final class Constants {
 		pathToCollectionEntity.put(CAMPAIGNS, "Campaign");
 		pathToCollectionEntity.put(CAMPAIGN_CUSTOM_BRAIN_SELECTION, "CampaignCustomBrainSelection");
 		pathToCollectionEntity.put(CONCEPTS, "Concept");
+		pathToCollectionEntity.put(CONTRACTS, "Contract");
 		pathToCollectionEntity.put(CREATIVES, "Creative");
 		pathToCollectionEntity.put(CREATIVE_APPROVALS, "CreativeApproval");
 		pathToCollectionEntity.put(DEALS, "Deal");
@@ -674,6 +686,7 @@ public final class Constants {
 		entityPaths.put("Campaign", CAMPAIGNS);
 		entityPaths.put("CampaignCustomBrainSelection", CAMPAIGN_CUSTOM_BRAIN_SELECTION);
 		entityPaths.put("Concept", CONCEPTS);
+		entityPaths.put("Contract", CONTRACTS);
 		entityPaths.put("Creative", CREATIVES);
 		entityPaths.put("CreativeApproval", ATOMIC_CREATIVES);
 		entityPaths.put("Deal", DEALS);
