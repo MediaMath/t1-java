@@ -779,11 +779,11 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getFrequencyInterval() != null) {
-			campaignForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval()));
+			campaignForm.param("frequency_interval", String.valueOf(this.getFrequencyInterval().value));
 		}
 
 		if (this.getFrequencyType() != null) {
-			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType()));
+			campaignForm.param("frequency_type", String.valueOf(this.getFrequencyType().value));
 		}
 
 		if (this.getGoalAlert() > 0) {
@@ -817,11 +817,11 @@ public class Campaign implements T1Entity {
 		}
 
 		if (this.getImpressionCapType() != null) {
-			campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType()));
+			campaignForm.param("impression_cap_type", String.valueOf(this.getImpressionCapType().value));
 		}
 
 		if (this.getSpendCapType() != null) {
-			campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType()));
+			campaignForm.param("spend_cap_type", String.valueOf(this.getSpendCapType().value));
 		} /*
 			 * else { campaignForm.param("spend_cap_type",
 			 * freqTypes.no_limit.value); }
