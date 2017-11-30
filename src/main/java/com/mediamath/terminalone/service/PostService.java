@@ -51,7 +51,6 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
-import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -90,6 +89,10 @@ import com.mediamath.terminalone.utils.T1JsonToObjParser;
 import com.mediamath.terminalone.utils.Utility;
 
 public class PostService {
+
+	private static final String VERSION = "version";
+
+	private static final String DELETE = "/delete";
 
 	private static final String CREATIVE_ASSETS_APPROVE = "creative_assets/approve";
 
@@ -243,7 +246,7 @@ public class PostService {
 				userSaved = (User) finalJsonResponse.getData();
 			} else if (finalJsonResponse.getData() instanceof UserPermissions) {
 				UserPermissions uPerm = (UserPermissions) finalJsonResponse.getData();
-				userSaved = (User) uPerm.getUser();
+				userSaved = uPerm.getUser();
 				userSaved.setPermissions(uPerm.getPermissions());
 			}
 
@@ -308,14 +311,14 @@ public class PostService {
 				uri.append("/deals");
 			}
 
-			if (entity.getId() > 0 && entity.isCopyStrategy() == true) {
+			if (entity.getId() > 0 && entity.isCopyStrategy()) {
 				uri.append("/copy");
 			}
 
 			if (entity.getId() > 0 && entity.getTargetDimensions() != null) {
 				uri.append("/target_dimensions");
 				if (entity.getTargetDimensions().getId() > 0) {
-					uri.append("/" + String.valueOf(entity.getTargetDimensions().getId()));
+					uri.append("/" + entity.getTargetDimensions().getId());
 				}
 			}
 
@@ -504,7 +507,7 @@ public class PostService {
 				uri.append("/site_lists");
 			}
 
-			if (entity.getId() > 0 && entity.isCopyCampaign() == true) {
+			if (entity.getId() > 0 && entity.isCopyCampaign()) {
 				uri.append("/copy");
 			}
 
@@ -515,7 +518,7 @@ public class PostService {
 					uri.append(entity.getBudgetFlights().get(0).getId());
 				}
 				if (entity.getBudgetFlights().get(0).isDeleted()) {
-					uri.append("/delete");
+					uri.append(DELETE);
 				}
 			}
 
@@ -532,7 +535,7 @@ public class PostService {
 				}
 				if (entity.getCampaignCustomBrainSelection().get(0) != null
 						&& entity.getCampaignCustomBrainSelection().get(0).isDeleted()) {
-					uri.append("/delete");
+					uri.append(DELETE);
 				}
 			}
 
@@ -589,7 +592,7 @@ public class PostService {
 	}
 
 	private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, String response)
-			throws ClientException, ParseException {
+			throws ParseException {
 
 		JsonResponse<? extends T1Entity> finalJsonResponse;
 
@@ -650,7 +653,7 @@ public class PostService {
 					&& !parsedVideoCreativeResponse.getCreativeId().isEmpty()) {
 
 				videoCreative = parsedVideoCreativeResponse;
-			} else if (entity.getCreativeId() > 0) {
+			} else if (parsedVideoCreativeResponse != null && entity.getCreativeId() > 0) {
 				videoCreative = new VideoCreativeResponse();
 				videoCreative.setCreativeId(String.valueOf(entity.getCreativeId()));
 				videoCreative.setStatus(parsedVideoCreativeResponse.getStatus());
@@ -715,12 +718,14 @@ public class PostService {
 					+ "/" + creativeId + "/upload?fileName=" + fileName);
 
 			String finalPath = path.toString();
-			InputStream inputStream = null;
+
 
 			// post binary only
-			try {
-				inputStream = new FileInputStream(new File(filePath));
+			try(InputStream inputStream = new FileInputStream(new File(filePath));) {
+				
 				Response responseObj = this.connection.post(finalPath, inputStream, this.user);
+
+				inputStream.close();
 
 				String response = responseObj.readEntity(String.class);
 
@@ -742,10 +747,6 @@ public class PostService {
 					videoCreative = parsedVideoCreativeResponse;
 				}
 
-			} finally {
-				if (inputStream != null) {
-					inputStream.close();
-				}
 			}
 		}
 		return videoCreative;
@@ -788,20 +789,20 @@ public class PostService {
 
 			String finalPath = "https://" + host;
 			final File fileToUpload = new File(filePath);
-			try {
+			try(final FormDataMultiPart multiPart = new FormDataMultiPart();) {
+
 				// add key
-				final FormDataMultiPart multiPart = new FormDataMultiPart();
 				multiPart.field("key", key);
 				// add file
-				if (!fileToUpload.equals(null)) {
-					FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(
-							FormDataContentDisposition.name("file").fileName(fileName).build(), fileToUpload,
-							MediaType.APPLICATION_OCTET_STREAM_TYPE);
-					multiPart.bodyPart(fileDataBodyPart);
-				}
+				FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(
+						FormDataContentDisposition.name("file").fileName(fileName).build(), fileToUpload,
+						MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				multiPart.bodyPart(fileDataBodyPart);
+
 				Response responseObj = this.connection.post(finalPath, multiPart, this.user);
 				String response = responseObj.readEntity(String.class);
 				// close resources
+				
 				multiPart.close();
 
 				T1JsonToObjParser parser = new T1JsonToObjParser();
@@ -819,9 +820,6 @@ public class PostService {
 				if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
 					videoCreative = parsedVideoCreativeResponse;
 				}
-
-			} finally {
-
 			}
 		}
 		return videoCreative;
@@ -855,7 +853,7 @@ public class PostService {
 			path.append(Constants.entityPaths.get("StrategyConcept"));
 			path.append("/");
 			path.append(strategyConcept.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyConcept"));
@@ -892,14 +890,14 @@ public class PostService {
 			path.append(Constants.entityPaths.get("StrategyDayPart"));
 			path.append("/");
 			path.append(strategyDayPart.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyDayPart"));
 
 		Form strategyConceptForm = new Form();
 		if (strategyDayPart.getVersion() >= 0) {
-			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
+			strategyConceptForm.param(VERSION, String.valueOf(strategyDayPart.getVersion()));
 		}
 
 		Response responseObj = connection.post(finalPath, strategyConceptForm, this.user);
@@ -910,38 +908,6 @@ public class PostService {
 		return parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
 	}
 
-	/**
-	 * Delete Contract Entity
-	 * 
-	 * @param contract
-	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
-	 *         entity.
-	 * @throws ClientException
-	 * @throws ParseException
-	 */
-	public JsonResponse<? extends T1Entity> delete(Contract contract) throws ClientException, ParseException {
-		StringBuilder path = new StringBuilder();
-
-		if (contract.getId() > 0) {
-			path.append(Constants.entityPaths.get("Contract"));
-			path.append("/");
-			path.append(contract.getId());
-		}
-
-		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("Contract"));
-
-		Form contractForm = new Form();
-		if (contract.getVersion() >= 0) {
-			contractForm.param("version", String.valueOf(contract.getVersion()));
-		}
-		Response responseObj = connection.delete(finalPath, contractForm, this.user);
-
-		String response = responseObj.readEntity(String.class);
-
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-
-		return getJsonResponse(contract, response);
-	}
 
 	/**
 	 * Delete Vendor Contract Entity
@@ -960,14 +926,14 @@ public class PostService {
 			path.append(Constants.entityPaths.get("VendorContract"));
 			path.append("/");
 			path.append(contract.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("VendorContract"));
 
 		Form contractForm = new Form();
 		if (contract.getVersion() >= 0) {
-			contractForm.param("version", String.valueOf(contract.getVersion()));
+			contractForm.param(VERSION, String.valueOf(contract.getVersion()));
 		}
 		Response responseObj = connection.post(finalPath, contractForm, this.user);
 		String response = responseObj.readEntity(String.class);
@@ -1010,7 +976,9 @@ public class PostService {
 	}
 
 	private String saveCreativeUploads(StringBuilder uri, String filePath, String name, String fileName,
-			String collection) throws ClientException, IOException {
+			String collection) throws ClientException {
+		String response =null;
+		
 		if (filePath == null && name == null && fileName == null) {
 			throw new ClientException("please enter a valid filename and file path");
 		}
@@ -1019,15 +987,19 @@ public class PostService {
 
 		FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
 
-		FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-		FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
-				.field("name", name).bodyPart(filePart);
+		try(FormDataMultiPart formDataMultiPart = new FormDataMultiPart();) {
+			
+			FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
+					.field("name", name).bodyPart(filePart);
 
-		Response responseObj = this.connection.post(path, multipart, this.user);
-		String response = responseObj.readEntity(String.class);
-
-		formDataMultiPart.close();
-		multipart.close();
+			Response responseObj = this.connection.post(path, multipart, this.user);
+			response = responseObj.readEntity(String.class);
+			formDataMultiPart.close();
+			multipart.close();
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
 
 		return response;
 	}
@@ -1297,11 +1269,9 @@ public class PostService {
 
 	private void parseMetaElement(Response responseObj, JsonElement metaElement, JsonPostErrorResponse errorResponse,
 			Gson gson) {
-		if (metaElement != null) {
-			if (responseObj != null && responseObj.getStatus() == 403) {
+		if (metaElement != null && responseObj != null && responseObj.getStatus() == 403) {
 				T1Meta meta = gson.fromJson(metaElement, T1Meta.class);
 				errorResponse.setMeta(meta);
-			}
 		}
 	}
 

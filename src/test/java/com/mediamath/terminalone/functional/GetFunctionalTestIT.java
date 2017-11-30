@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -1253,7 +1254,7 @@ public class GetFunctionalTestIT {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException, ExecutionException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		FullParamValues fpm = new FullParamValues();
 		fpm.setStrValue("strategy");

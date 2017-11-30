@@ -18,34 +18,34 @@ package com.mediamath.terminalone.models.reporting;
 
 public class ReportFilter {
 
-  String key;
+	private String key;
 
-  String operator;
+	private String operator;
 
-  String value;
+	private String value;
 
-  public String getKey() {
-    return key;
-  }
+	public String getKey() {
+		return key;
+	}
 
-  public void setKey(String key) {
-    this.key = key;
-  }
+	public void setKey(String key) {
+		this.key = key;
+	}
 
-  public String getValue() {
-    return value;
-  }
+	public String getValue() {
+		return value;
+	}
 
-  public void setValue(String value) {
-    this.value = value;
-  }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-  public String getOperator() {
-    return operator;
-  }
+	public String getOperator() {
+		return operator;
+	}
 
-  public void setOperator(String operator) {
-    this.operator = operator;
-  }
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
 }

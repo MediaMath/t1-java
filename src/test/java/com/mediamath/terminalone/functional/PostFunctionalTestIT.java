@@ -1654,8 +1654,8 @@ public class PostFunctionalTestIT {
 		include.add(21);
 		td.setInclude(include);
 
-		td.setExclude_op(excludeOp.OR);
-		td.setInclude_op(includeOp.OR);
+		td.setExcludeOp(excludeOp.OR);
+		td.setIncludeOp(includeOp.OR);
 
 		str.setTargetDimensions(td);
 
@@ -2369,26 +2369,6 @@ public class PostFunctionalTestIT {
 	}
 
 	@Test
-	public void testContractsDelete() throws ClientException, ParseException {
-		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
-
-		QueryCriteria query = QueryCriteria.builder().setCollection("contracts").setEntity(631).build();
-		JsonResponse<?> jsonresponse = jt1.get(query);
-
-		Contract contract = (Contract) jsonresponse.getData();
-
-		JsonResponse<? extends T1Entity> jr = null;
-		try {
-			jr = jt1.delete(contract);
-		} catch (ParseException e) {
-
-			e.printStackTrace();
-		}
-
-		assertNotNull(jr);
-	}
-
-	@Test
 	public void testVendorContractsSave() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
@@ -2547,7 +2527,7 @@ public class PostFunctionalTestIT {
 		tsList.add(targetValues12);
 
 		Strategy strategy = new Strategy();
-		strategy.setId(2323968);
+		strategy.setId(2195001);
 		strategy.setTargetValues(tsList);
 		strategy = jt1.save(strategy);
 		

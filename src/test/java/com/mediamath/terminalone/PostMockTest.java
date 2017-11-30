@@ -1149,8 +1149,8 @@ public class PostMockTest {
 		include.add(21);
 		td.setInclude(include);
 
-		td.setExclude_op(excludeOp.OR);
-		td.setInclude_op(includeOp.OR);
+		td.setExcludeOp(excludeOp.OR);
+		td.setIncludeOp(includeOp.OR);
 
 		str.setTargetDimensions(td);
 		
@@ -1797,34 +1797,6 @@ public class PostMockTest {
 
 		assertNotNull(contractFinal);
 	}	
-	
-	
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testContractsDelete() throws ClientException {
-
-		Contract contract = new Contract();
-		contract.setId(5198);
-		JsonResponse<? extends T1Entity> jr = null;
-		
-		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
-		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
-		
-		Mockito.when(connectionmock.delete(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
-		.thenReturn(response);
-		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CONTRACTS_DELETE_RESPONSE);
-		
-		try {
-			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-			jr = t1.delete(contract);
-			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-			Mockito.verify(connectionmock, times(1)).delete(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		assertNotNull(jr);
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Test

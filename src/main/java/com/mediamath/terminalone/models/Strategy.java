@@ -882,7 +882,7 @@ public class Strategy implements T1Entity, Cloneable {
 		return null;
 	}
 
-	
+	@Override
 	public Strategy clone() throws CloneNotSupportedException{
 		return (Strategy) super.clone();
 	}

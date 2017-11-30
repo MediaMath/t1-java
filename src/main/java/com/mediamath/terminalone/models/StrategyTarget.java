@@ -13,7 +13,7 @@ public class StrategyTarget {
 	private boolean active;
 	private String target_op;
 	private int target_dimension_id;
-	List<TargetValue> target_values = new ArrayList<TargetValue>();
+	private List<TargetValue> target_values = new ArrayList<TargetValue>();
 
 	public int getId() {
 		return id;

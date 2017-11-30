@@ -18,19 +18,19 @@ package com.mediamath.terminalone.models;
 
 public class TOneASCreativeAssetsApproveData {
 
-  boolean is_https;
+  private boolean is_https;
 
-  String advertiserid;
+  private String advertiserid;
 
-  String landingPage;
+  private String landingPage;
 
-  String click_url;
+  private String click_url;
 
-  String primary;
+  private String primary;
 
-  String backup;
+  private String backup;
 
-  String concept;
+  private String concept;
 
   public boolean isHttps() {
     return is_https;

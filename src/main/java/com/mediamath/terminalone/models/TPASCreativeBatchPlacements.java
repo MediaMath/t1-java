@@ -20,23 +20,23 @@ import java.util.ArrayList;
 
 public class TPASCreativeBatchPlacements {
 
-  ArrayList<TPASCreativePlacementInvalid> invalid;
-  ArrayList<TPASCreativePlacementValid> valid;
+	private ArrayList<TPASCreativePlacementInvalid> invalid;
+	private ArrayList<TPASCreativePlacementValid> valid;
 
-  public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
-    return invalid;
-  }
+	public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
+		return invalid;
+	}
 
-  public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
-    this.invalid = invalid;
-  }
+	public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
+		this.invalid = invalid;
+	}
 
-  public ArrayList<TPASCreativePlacementValid> getValid() {
-    return valid;
-  }
+	public ArrayList<TPASCreativePlacementValid> getValid() {
+		return valid;
+	}
 
-  public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
-    this.valid = valid;
-  }
+	public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
+		this.valid = valid;
+	}
 
 }

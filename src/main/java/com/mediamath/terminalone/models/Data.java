@@ -25,6 +25,11 @@ public class Data {
 
 	private User user;
 	private Permissions permissions;
+	private Map<String, String> data = new HashMap<>();
+	private List<TargetValue> include = new ArrayList<>();
+	private List<TargetValue> exclude = new ArrayList<>();
+	private String exclude_op;
+	private String include_op;
 	
 	public class enabled {
 		String active;
@@ -38,13 +43,7 @@ public class Data {
 		}
 	}
 
-	private Map<String, String> data = new HashMap<String, String>();
 	public enabled enabled;
-	private List<TargetValue> include = new ArrayList<TargetValue>();
-	private List<TargetValue> exclude = new ArrayList<TargetValue>();
-	private String exclude_op;
-	private String include_op;
-
 
 	public Map<String, String> getData() {
 		return data;

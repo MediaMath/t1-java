@@ -22,70 +22,70 @@ import javax.ws.rs.core.Form;
 
 public class TPASCreativeBatchApprove implements T1Entity {
 
-  private static final String entityName = "ThreePasCreativeBatchApprove";
+	private static final String entityName = "ThreePasCreativeBatchApprove";
 
-  String batchId;
+	private String batchId;
 
-  String advertiser_id;
+	private String advertiser_id;
 
-  ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<TPASCreativeBatchIndex>();
+	private ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<>();
 
-  public String getBatchId() {
-    return batchId;
-  }
+	public String getBatchId() {
+		return batchId;
+	}
 
-  public void setBatchId(String batchId) {
-    this.batchId = batchId;
-  }
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
 
-  public String getAdvertiserId() {
-    return advertiser_id;
-  }
+	public String getAdvertiserId() {
+		return advertiser_id;
+	}
 
-  public void setAdvertiserId(String advertiser_id) {
-    this.advertiser_id = advertiser_id;
-  }
+	public void setAdvertiserId(String advertiser_id) {
+		this.advertiser_id = advertiser_id;
+	}
 
-  public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
+	public void setBatchIndex(String pBatchIndex, String concept, String click_url) {
 
-    TPASCreativeBatchIndex batchIndex = null;
+		TPASCreativeBatchIndex batchIndex = null;
 
-    if (pBatchIndex != null && !pBatchIndex.isEmpty()) {
-      batchIndex = new TPASCreativeBatchIndex();
+		if (pBatchIndex != null && !pBatchIndex.isEmpty()) {
+			batchIndex = new TPASCreativeBatchIndex();
 
-      batchIndex.setBatchIndex(pBatchIndex);
+			batchIndex.setBatchIndex(pBatchIndex);
 
-      if (concept != null && !concept.isEmpty()) {
-        batchIndex.setConceptId(concept);
-      }
+			if (concept != null && !concept.isEmpty()) {
+				batchIndex.setConceptId(concept);
+			}
 
-      if (click_url != null && !click_url.isEmpty()) {
-        batchIndex.setClickUrl(click_url);
-      }
-    }
+			if (click_url != null && !click_url.isEmpty()) {
+				batchIndex.setClickUrl(click_url);
+			}
+		}
 
-    if (batchIndex != null) {
-      batch.add(batchIndex);
-    }
-  }
+		if (batchIndex != null) {
+			batch.add(batchIndex);
+		}
+	}
 
-  @Override
-  public String getEntityname() {
-    return entityName;
-  }
+	@Override
+	public String getEntityname() {
+		return entityName;
+	}
 
-  public ArrayList<TPASCreativeBatchIndex> getBatch() {
-    return batch;
-  }
-  
-  @Override
-  public Form getForm() {
-    return null;
-  }
+	public ArrayList<TPASCreativeBatchIndex> getBatch() {
+		return batch;
+	}
 
-  @Override
-  public String getUri() {
-    return null;
-  }
+	@Override
+	public Form getForm() {
+		return null;
+	}
+
+	@Override
+	public String getUri() {
+		return null;
+	}
 
 }

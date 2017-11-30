@@ -20,54 +20,54 @@ import java.util.ArrayList;
 
 public class MetaDimensionData {
 
-  boolean access;
+	private boolean access;
 
-  String name;
+	private String name;
 
-  String type;
+	private String type;
 
-  long maxLength;
+	private long maxLength;
 
-  ArrayList<String> values;
+	private ArrayList<String> values;
 
-  public boolean isAccess() {
-    return access;
-  }
+	public boolean isAccess() {
+		return access;
+	}
 
-  public void setAccess(boolean access) {
-    this.access = access;
-  }
+	public void setAccess(boolean access) {
+		this.access = access;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getType() {
-    return type;
-  }
+	public String getType() {
+		return type;
+	}
 
-  public void setType(String type) {
-    this.type = type;
-  }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-  public long getMaxLength() {
-    return maxLength;
-  }
+	public long getMaxLength() {
+		return maxLength;
+	}
 
-  public void setMaxLength(long maxLength) {
-    this.maxLength = maxLength;
-  }
+	public void setMaxLength(long maxLength) {
+		this.maxLength = maxLength;
+	}
 
-  public ArrayList<String> getValues() {
-    return values;
-  }
+	public ArrayList<String> getValues() {
+		return values;
+	}
 
-  public void setValues(ArrayList<String> values) {
-    this.values = values;
-  }
+	public void setValues(ArrayList<String> values) {
+		this.values = values;
+	}
 
 }

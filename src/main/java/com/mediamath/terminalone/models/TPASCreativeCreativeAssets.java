@@ -20,14 +20,14 @@ import java.util.ArrayList;
 
 public class TPASCreativeCreativeAssets {
 
-  ArrayList<TPASCreativeCreativeAsset> asset;
+	private ArrayList<TPASCreativeCreativeAsset> asset;
 
-  public ArrayList<TPASCreativeCreativeAsset> getAsset() {
-    return asset;
-  }
+	public ArrayList<TPASCreativeCreativeAsset> getAsset() {
+		return asset;
+	}
 
-  public void setAsset(ArrayList<TPASCreativeCreativeAsset> asset) {
-    this.asset = asset;
-  }
+	public void setAsset(ArrayList<TPASCreativeCreativeAsset> asset) {
+		this.asset = asset;
+	}
 
 }

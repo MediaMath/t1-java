@@ -18,11 +18,11 @@ package com.mediamath.terminalone.models;
 
 public class OAuthResponse {
 
-	String access_token;
+	private String access_token;
 
-	Long expiresIn;
+	private Long expiresIn;
 
-	String token_type;
+	private String token_type;
 
 	public String getAccessToken() {
 		return access_token;

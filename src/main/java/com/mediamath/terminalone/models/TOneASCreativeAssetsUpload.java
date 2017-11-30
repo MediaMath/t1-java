@@ -20,8 +20,24 @@ import java.util.ArrayList;
 
 public class TOneASCreativeAssetsUpload {
 
-  ArrayList<TOneASCreativeAssetsData> data = new ArrayList<TOneASCreativeAssetsData>();
+	private ArrayList<TOneASCreativeAssetsData> data = new ArrayList<TOneASCreativeAssetsData>();
 
-  T1Meta meta;
+	private T1Meta meta;
+
+	public ArrayList<TOneASCreativeAssetsData> getData() {
+		return data;
+	}
+
+	public void setData(ArrayList<TOneASCreativeAssetsData> data) {
+		this.data = data;
+	}
+
+	public T1Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(T1Meta meta) {
+		this.meta = meta;
+	}
 
 }

@@ -20,14 +20,14 @@ import java.util.ArrayList;
 
 public class TPASCreativePlacementValid {
 
-  ArrayList<TPASCreativeBatchPlacement> placement;
+	private ArrayList<TPASCreativeBatchPlacement> placement;
 
-  public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
-    return placement;
-  }
+	public ArrayList<TPASCreativeBatchPlacement> getPlacement() {
+		return placement;
+	}
 
-  public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
-    this.placement = placement;
-  }
+	public void setPlacement(ArrayList<TPASCreativeBatchPlacement> placement) {
+		this.placement = placement;
+	}
 
 }

@@ -32,14 +32,6 @@ public class SiteList implements T1Entity {
 		INCLUDE, EXCLUDE
 	}
 
-	public SiteList() {
-	}
-
-	public SiteList(int id, boolean assigned) {
-		this.id = id;
-		this.assigned = assigned;
-	}
-
 	private Date created_on;
 	private String filename;
 	private int id;
@@ -56,6 +48,15 @@ public class SiteList implements T1Entity {
 	private Organization organization;
 
 	private List<String> domains = new ArrayList<String>();
+
+	/* condtructor */
+	public SiteList() {
+	}
+
+	public SiteList(int id, boolean assigned) {
+		this.id = id;
+		this.assigned = assigned;
+	}
 
 	public Date getCreatedOn() {
 		return created_on;

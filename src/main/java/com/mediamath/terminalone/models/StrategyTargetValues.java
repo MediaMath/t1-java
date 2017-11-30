@@ -41,11 +41,11 @@ public class StrategyTargetValues implements T1Entity
 		}
 	}
 
-	public enabled enabled;
-	List<TargetValue> include = new ArrayList<TargetValue>();
-	List<TargetValue> exclude = new ArrayList<TargetValue>();
-	String exclude_op;
-	String include_op;
+	private enabled enabled;
+	private List<TargetValue> include = new ArrayList<>();
+	private List<TargetValue> exclude = new ArrayList<>();
+	private String exclude_op;
+	private String include_op;
 
 	public enabled getEnabled() {
 		return enabled;
@@ -94,13 +94,11 @@ public class StrategyTargetValues implements T1Entity
 
 	@Override
 	public Form getForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUri() throws ClientException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

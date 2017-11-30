@@ -26,29 +26,31 @@ public class Permissions {
 	private List<Integer> organization_ids = new ArrayList<>();
 	private List<Integer> agency_ids = new ArrayList<>();
 	private List<Integer> advertiser_ids = new ArrayList<>();
-	
-	class Access{
-		public List<Map<String, String>> access = new ArrayList<Map<String, String>>();
+
+	class Access {
+		public List<Map<String, String>> access = new ArrayList<>();
 	}
-	
-	class AccessAdvertiser{
-		public List<Advertiser> access = new ArrayList<Advertiser>(); 
+
+	class AccessAdvertiser {
+		public List<Advertiser> access = new ArrayList<>();
 	}
-	class AccessAgency{
-		public List<Agency> access = new ArrayList<Agency>(); 
+
+	class AccessAgency {
+		public List<Agency> access = new ArrayList<>();
 	}
-	class AccessOrganization{
-		public List<Organization> access = new ArrayList<Organization>(); 
+
+	class AccessOrganization {
+		public List<Organization> access = new ArrayList<>();
 	}
-	
-	class Entities{
-		public List<AccessAdvertiser> advertiser = new ArrayList<AccessAdvertiser>();
-		public List<AccessAdvertiser> agency = new ArrayList<AccessAdvertiser>();
-		public List<AccessAdvertiser> organization = new ArrayList<AccessAdvertiser>();
+
+	class Entities {
+		public List<AccessAdvertiser> advertiser = new ArrayList<>();
+		public List<AccessAdvertiser> agency = new ArrayList<>();
+		public List<AccessAdvertiser> organization = new ArrayList<>();
 	}
-	
+
 	private Entities entities;
-	private List<Access> flags = new ArrayList<Access>();
+	private List<Access> flags = new ArrayList<>();
 
 	public boolean isAllOrganizations() {
 		return all_organizations;

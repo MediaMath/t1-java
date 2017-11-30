@@ -34,6 +34,14 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyHelper {
 
+	private static final String INCLUDE_OP = "include_op";
+	private static final String EXCLUDE_OP = "exclude_op";
+	private static final String STRATEGIES = "strategies.";
+	private static final String DAY_PARTS = "day_parts.";
+	private static final String DIMENSIONS = "dimensions.";
+	private static final String SEGMENTS = "segments.";
+	private static final String RESTRICTION = ".restriction";
+
 	private StrategyHelper() {
 		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
 	}
@@ -52,19 +60,19 @@ public class StrategyHelper {
 		Form strategyForm = new Form();
 
 		if (entity.getAudienceSegmentExcludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
-			strategyForm.param("exclude_op", entity.getAudienceSegmentExcludeOp().toString());
+			strategyForm.param(EXCLUDE_OP, entity.getAudienceSegmentExcludeOp().toString());
 		}
 
 		if (entity.getAudienceSegmentIncludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
-			strategyForm.param("include_op", entity.getAudienceSegmentIncludeOp().toString());
+			strategyForm.param(INCLUDE_OP, entity.getAudienceSegmentIncludeOp().toString());
 		}
 
 		if (entity.getTargetingSegmentExcludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
-			strategyForm.param("exclude_op", String.valueOf(entity.getTargetingSegmentExcludeOp()));
+			strategyForm.param(EXCLUDE_OP, String.valueOf(entity.getTargetingSegmentExcludeOp()));
 		}
 
 		if (entity.getTargetingSegmentIncludeOp() != null && !entity.getStrategyTargetingSegments().isEmpty()) {
-			strategyForm.param("include_op", String.valueOf(entity.getTargetingSegmentIncludeOp()));
+			strategyForm.param(INCLUDE_OP, String.valueOf(entity.getTargetingSegmentIncludeOp()));
 		}
 
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
@@ -285,7 +293,7 @@ public class StrategyHelper {
 			for (StrategyDomain sd : entity.getStrategyDomainRestrictions()) {
 				if (sd != null) {
 					strategyForm.param("domains." + inc + ".domain", sd.getDomain());
-					strategyForm.param("domains." + inc + ".restriction", sd.getRestriction().name());
+					strategyForm.param("domains." + inc + RESTRICTION, sd.getRestriction().name());
 					inc++;
 				}
 			}
@@ -297,8 +305,8 @@ public class StrategyHelper {
 			int inc = 1;
 			for (Segments sd : entity.getAudienceSegments()) {
 				if (sd != null) {
-					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getId()));
-					strategyForm.param("segments." + inc + ".restriction", sd.getRestriction().name());
+					strategyForm.param(SEGMENTS + inc + ".id", String.valueOf(sd.getId()));
+					strategyForm.param(SEGMENTS + inc + RESTRICTION, sd.getRestriction().name());
 					inc++;
 				}
 			}
@@ -310,12 +318,12 @@ public class StrategyHelper {
 			int inc = 1;
 			for (StrategyTargetingSegment sd : entity.getStrategyTargetingSegments()) {
 				if (sd != null) {
-					strategyForm.param("segments." + inc + ".id", String.valueOf(sd.getTargetingSegmentId()));
-					strategyForm.param("segments." + inc + ".restriction", sd.getRestriction());
-					if(sd.getUserCpm()!=null && sd.getUserCpm().size()>0){
-						strategyForm.param("segments." + inc + ".user_cpm", String.valueOf(sd.getUserCpm().get(0).getValue()));
+					strategyForm.param(SEGMENTS + inc + ".id", String.valueOf(sd.getTargetingSegmentId()));
+					strategyForm.param(SEGMENTS + inc + RESTRICTION, sd.getRestriction());
+					if(sd.getUserCpm()!=null && !sd.getUserCpm().isEmpty()){
+						strategyForm.param(SEGMENTS + inc + ".user_cpm", String.valueOf(sd.getUserCpm().get(0).getValue()));
 					}
-					strategyForm.param("segments." + inc + ".operator", sd.getOperator());
+					strategyForm.param(SEGMENTS + inc + ".operator", sd.getOperator());
 					inc++;
 				}
 			}
@@ -327,21 +335,21 @@ public class StrategyHelper {
 			
 			for (TargetValues tv : entity.getTargetValues()) {
 				if (tv != null) {
-					strategyForm.param("dimensions." + inc + ".code", tv.getCode().name());
-					strategyForm.param("dimensions." + inc + ".restriction", tv.getRestriction().name());
+					strategyForm.param(DIMENSIONS + inc + ".code", tv.getCode().name());
+					strategyForm.param(DIMENSIONS + inc + RESTRICTION, tv.getRestriction().name());
 					int cntr = 1;
-					String valueIds = "";
+					StringBuilder valueIds = new StringBuilder();
 					if (!tv.getValueIds().isEmpty()) {
 						for (Integer vi : tv.getValueIds()) {
-							valueIds += vi.toString();
+							valueIds.append(vi.toString());
 							if (tv.getValueIds().size() != cntr) {
-								valueIds += ",";
+								valueIds.append(",");
 							}
 							cntr++;
 						}
 					}
-					strategyForm.param("dimensions." + inc + ".value_ids", valueIds);
-					strategyForm.param("dimensions." + inc + ".operation", tv.getOperation().toString());
+					strategyForm.param(DIMENSIONS + inc + ".value_ids", valueIds.toString());
+					strategyForm.param(DIMENSIONS + inc + ".operation", tv.getOperation().toString());
 					inc++;
 				}
 			}
@@ -377,10 +385,10 @@ public class StrategyHelper {
 			int inc = 1;
 			for (StrategyDayPart sdp : entity.getStrategyDayParts()) {
 				if (sdp != null) {
-					strategyForm.param("day_parts." + inc + ".start_hour", String.valueOf(sdp.getStartHour()));
-					strategyForm.param("day_parts." + inc + ".end_hour", String.valueOf(sdp.getEndHour()));
-					strategyForm.param("day_parts." + inc + ".days", String.valueOf(sdp.getDays()));
-					strategyForm.param("day_parts." + inc + ".user_time", Utility.getOneOrZero(sdp.isUserTime()));
+					strategyForm.param(DAY_PARTS + inc + ".start_hour", String.valueOf(sdp.getStartHour()));
+					strategyForm.param(DAY_PARTS + inc + ".end_hour", String.valueOf(sdp.getEndHour()));
+					strategyForm.param(DAY_PARTS + inc + ".days", String.valueOf(sdp.getDays()));
+					strategyForm.param(DAY_PARTS + inc + ".user_time", Utility.getOneOrZero(sdp.isUserTime()));
 					inc++;
 				}
 			}
@@ -388,23 +396,23 @@ public class StrategyHelper {
 
 		// Target Dimensions -> target values
 		if (entity.getTargetDimensions() != null) {
-			if (entity.getTargetDimensions().getInclude().size() > 0) {
+			if (!entity.getTargetDimensions().getInclude().isEmpty()) {
 				for (Integer i : entity.getTargetDimensions().getInclude()) {
 					strategyForm.param("include", String.valueOf(i));
 				}
 			}
-			if (entity.getTargetDimensions().getExclude().size() > 0) {
+			if (!entity.getTargetDimensions().getExclude().isEmpty()) {
 				for (Integer i : entity.getTargetDimensions().getExclude()) {
 					strategyForm.param("exclude", String.valueOf(i));
 				}
 			}
 
-			if (entity.getTargetDimensions().getExclude_op() != null) {
-				strategyForm.param("exclude_op", entity.getTargetDimensions().getExclude_op().toString());
+			if (entity.getTargetDimensions().getExcludeOp() != null) {
+				strategyForm.param(EXCLUDE_OP, entity.getTargetDimensions().getExcludeOp().toString());
 			}
 
-			if (entity.getTargetDimensions().getInclude_op() != null) {
-				strategyForm.param("include_op", entity.getTargetDimensions().getInclude_op().toString());
+			if (entity.getTargetDimensions().getIncludeOp() != null) {
+				strategyForm.param(INCLUDE_OP, entity.getTargetDimensions().getIncludeOp().toString());
 			}
 		}
 
@@ -422,26 +430,26 @@ public class StrategyHelper {
 			for (BulkStrategy bk : entity.getBulkStrategy()) {
 				if(bk!=null){
 					if (bk.getId() > 0) {
-						strategyForm.param("strategies." + inc + ".id", String.valueOf(bk.getId()));
+						strategyForm.param(STRATEGIES + inc + ".id", String.valueOf(bk.getId()));
 					}
 					if (bk.getName() != null) {
-						strategyForm.param("strategies." + inc + ".name", bk.getName());
+						strategyForm.param(STRATEGIES + inc + ".name", bk.getName());
 					}
 	
-					strategyForm.param("strategies." + inc + ".supply_management",
+					strategyForm.param(STRATEGIES + inc + ".supply_management",
 							Utility.getOneOrZero(bk.isSupplyManagement()));
-					strategyForm.param("strategies." + inc + ".contextual_targeting",
+					strategyForm.param(STRATEGIES + inc + ".contextual_targeting",
 							Utility.getOneOrZero(bk.isContextualTargeting()));
-					strategyForm.param("strategies." + inc + ".creative_assignment",
+					strategyForm.param(STRATEGIES + inc + ".creative_assignment",
 							Utility.getOneOrZero(bk.isCreativeAssignment()));
-					strategyForm.param("strategies." + inc + ".pixel_targeting",
+					strategyForm.param(STRATEGIES + inc + ".pixel_targeting",
 							Utility.getOneOrZero(bk.isPixelTargeting()));
-					strategyForm.param("strategies." + inc + ".audience_targeting",
+					strategyForm.param(STRATEGIES + inc + ".audience_targeting",
 							Utility.getOneOrZero(bk.isAudienceTargeting()));
-					strategyForm.param("strategies." + inc + ".strategy_targeting",
+					strategyForm.param(STRATEGIES + inc + ".strategy_targeting",
 							Utility.getOneOrZero(bk.isStrategyTargeting()));
-					strategyForm.param("strategies." + inc + ".site_lists", Utility.getOneOrZero(bk.isSiteLists()));
-					strategyForm.param("strategies." + inc + ".video_targeting",
+					strategyForm.param(STRATEGIES + inc + ".site_lists", Utility.getOneOrZero(bk.isSiteLists()));
+					strategyForm.param(STRATEGIES + inc + ".video_targeting",
 							Utility.getOneOrZero(bk.isVideoTargeting()));
 					inc++;
 				}

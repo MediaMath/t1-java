@@ -55,7 +55,6 @@ import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -94,6 +93,12 @@ import com.mediamath.terminalone.utils.Utility;
  *
  */
 public class TerminalOne {
+
+	private static final String CONTEXT = "context";
+
+	private static final String UNABLE_TO_PARSE_THE_RESPONSE = "Unable to parse the response";
+
+	private static final String CREATIVES = "creatives";
 
 	private static final String TOKEN = "token";
 
@@ -145,7 +150,7 @@ public class TerminalOne {
 	private void login(String username, String password, String apiKey) throws ClientException {
 		logger.info("Authenticating.");
 		Form form = tOneService.getLoginFormData(username, password, apiKey);
-		String url = tOneService.constructUrl(new StringBuilder("login"), LOGIN);
+		String url = tOneService.constructUrl(new StringBuilder(LOGIN), LOGIN);
 		Response loginResponse = connection.post(url, form);
 		parseLoginError(loginResponse);
 		String response = loginResponse.readEntity(String.class);
@@ -271,8 +276,7 @@ public class TerminalOne {
 		Response oauthResponse = connection.post(oauthTokenUrl, form, null);
 		parseLoginError(oauthResponse);
 		String response = oauthResponse.readEntity(String.class);
-		OAuthResponse parsedOAuthResponse = parseOAuthResponse(response);
-		return parsedOAuthResponse;
+		return parseOAuthResponse(response);
 	}
 
 	private OAuthResponse parseOAuthResponse(String response) {
@@ -387,24 +391,20 @@ public class TerminalOne {
 	 * 
 	 * @param strategyList
 	 * @return List<Strategy>
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public List<Strategy> save(List<Strategy> strategyList) {
-		List<Strategy> finList = new ArrayList<Strategy>();
+	public List<Strategy> save(List<Strategy> strategyList) throws InterruptedException, ExecutionException {
+		List<Strategy> finList = new ArrayList<>();
 		ExecutorService exec = Executors.newFixedThreadPool(20);
-		List<FutureTask<Strategy>> taskList = new ArrayList<FutureTask<Strategy>>();
+		List<FutureTask<Strategy>> taskList = new ArrayList<>();
 		if (isAuthenticated()) {
 			for (final Strategy str : strategyList) {
 
-				FutureTask<Strategy> futureTask = new FutureTask<Strategy>(new Callable<Strategy>() {
+				FutureTask<Strategy> futureTask = new FutureTask<>(new Callable<Strategy>() {
 					@Override
-					public Strategy call() {
-						Strategy strRes = null;
-						try {
-							strRes = postService.save(str);
-						} catch (ClientException | ParseException e) {
-							logger.info("Error Log: " + e.getStackTrace());
-						}
-						return strRes;
+					public Strategy call() throws ClientException, ParseException {
+						return postService.save(str);
 					}
 				});
 				taskList.add(futureTask);
@@ -412,11 +412,7 @@ public class TerminalOne {
 			}
 
 			for (FutureTask<Strategy> futureTsk : taskList) {
-				try {
-					finList.add(futureTsk.get());
-				} catch (InterruptedException | ExecutionException e) {
-					logger.info("Error Log: " + e.getStackTrace());
-				}
+				finList.add(futureTsk.get());
 			}
 			exec.shutdown();
 		}
@@ -754,7 +750,7 @@ public class TerminalOne {
 		StringBuilder path = getService.get(query);
 		String finalPath;
 
-		if (query.collection.equals("creatives")
+		if (query.collection.equals(CREATIVES)
 				&& (query.creativeType != null && query.creativeType.equals(CreativeType.video))) {
 			finalPath = tOneService.constructVideoCreativeUrl(path);
 		} else {
@@ -769,7 +765,7 @@ public class TerminalOne {
 		try {
 			jsonResponse = parseGetData(response, query);
 		} catch (ParseException parseException) {
-			throw new ClientException("Unable to parse the response");
+			throw new ClientException(UNABLE_TO_PARSE_THE_RESPONSE);
 		}
 
 		jsonResponse = checkGetAllResponse(query, response, jsonResponse);
@@ -797,7 +793,7 @@ public class TerminalOne {
 			JsonArray mainData = extractData(response);
 			String lastCallResponse = null;
 			// loop till next_page !=null
-			while (jsonResponse.getMeta().getNext_page() != null) {
+			while (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNext_page() != null) {
 				String pageResponse = this.connection.get(jsonResponse.getMeta().getNext_page(), this.getUser());
 
 				JsonArray data = extractData(pageResponse);
@@ -808,7 +804,7 @@ public class TerminalOne {
 				try {
 					pageJsonResponse1 = parseGetData(pageResponse, query);
 				} catch (ParseException parseException) {
-					throw new ClientException("Unable to parse the response");
+					throw new ClientException(UNABLE_TO_PARSE_THE_RESPONSE);
 				}
 
 				jsonResponse = pageJsonResponse1;
@@ -827,7 +823,7 @@ public class TerminalOne {
 			try {
 				jsonResponse = parseGetData(obj.toString(), query);
 			} catch (ParseException parseException) {
-				throw new ClientException("Unable to parse the response");
+				throw new ClientException(UNABLE_TO_PARSE_THE_RESPONSE);
 			}
 		}
 		return jsonResponse;
@@ -852,10 +848,12 @@ public class TerminalOne {
 	 * @param strategyList
 	 * @param updator
 	 * @return
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) {
+	public List<Strategy> bulkUpdate(List<Strategy> strategyList, Strategy updator) throws InterruptedException, ExecutionException {
 		String overridedMethods = "getForm,getUri,clone,getId,getEntityname";
-		List<Strategy> updatorStrategyList = new ArrayList<Strategy>();
+		List<Strategy> updatorStrategyList = new ArrayList<>();
 		for (Strategy strategyRecord : strategyList) {
 			for (Method method : updator.getClass().getDeclaredMethods()) {
 				if (Modifier.isPublic(method.getModifiers()) && method.getParameterTypes().length == 0
@@ -865,7 +863,7 @@ public class TerminalOne {
 					try {
 						value = method.invoke(updator);
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
+						 logger.info(CONTEXT, e);
 					}
 					if (method.getName().startsWith("get") && value != null
 							&& overridedMethods.indexOf(method.getName()) == -1) {
@@ -876,7 +874,7 @@ public class TerminalOne {
 							method1.invoke(strategyRecord, value);
 						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
 								| IllegalArgumentException | InvocationTargetException e) {
-							e.printStackTrace();
+							logger.info(CONTEXT, e);
 						}
 					}
 					if (method.getName().startsWith("is") && (value != null && !(value.equals(Boolean.FALSE)))) {
@@ -887,7 +885,7 @@ public class TerminalOne {
 							method1.invoke(strategyRecord, value);
 						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
 								| IllegalArgumentException | InvocationTargetException e) {
-							e.printStackTrace();
+							logger.info(CONTEXT, e);
 						}
 					}
 				} // if
@@ -1048,73 +1046,68 @@ public class TerminalOne {
 
 		JsonElement element = parser.getDataFromResponse(response);
 
-		if (element != null) {
+		if (element != null && element.isJsonArray()) {
 
-			if (element.isJsonArray()) {
+			JsonArray dataList = element.getAsJsonArray();
 
-				JsonArray dataList = element.getAsJsonArray();
-
-				if (dataList.size() <= 0) {
-					if (query.collection != null) {
-						finalJsonResponse = parser.parseJsonToObj(response,
-								Constants.getListoFEntityType.get(query.collection.toLowerCase()));
-						return finalJsonResponse;
-					}
-				}
-
-				JsonElement data = dataList.get(0);
-
-				if (data == null) {
-					return null;
-				}
-
-				JsonObject dataObj = data.getAsJsonObject();
-
-				if (dataObj == null) {
-					return null;
-				}
-
-				JsonElement entityTypeElem = dataObj.get("entity_type");
-
-				if (entityTypeElem == null) {
-					return null;
-				}
-
-				String entityType = entityTypeElem.getAsString();
-
-				if (entityType == null || entityType.isEmpty()) {
-					return null;
-				}
-
-				if (Constants.getListoFEntityType.get(entityType) == null) {
-					return null;
-				}
-
-				finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
-
+			if (dataList!=null && dataList.size() <= 0 && query.collection != null) {
+					finalJsonResponse = parser.parseJsonToObj(response,
+							Constants.getListoFEntityType.get(query.collection.toLowerCase()));
+					return finalJsonResponse;
 			}
 
-			if (element.isJsonObject()) {
+			JsonElement data = ((dataList!=null) ? dataList.get(0) : null);
 
-				JsonObject obj = element.getAsJsonObject();
-				JsonElement entityTypeElement = obj.get("entity_type");
-				String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
-
-				if (entityType != null && !"".equalsIgnoreCase(entityType)) {
-					finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
-				} else {
-					finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
-					}.getType());
-				}
-
+			if (data == null) {
+				return null;
 			}
+
+			JsonObject dataObj = data.getAsJsonObject();
+
+			if (dataObj == null) {
+				return null;
+			}
+
+			JsonElement entityTypeElem = dataObj.get("entity_type");
+
+			if (entityTypeElem == null) {
+				return null;
+			}
+
+			String entityType = entityTypeElem.getAsString();
+
+			if (entityType == null || entityType.isEmpty()) {
+				return null;
+			}
+
+			if (Constants.getListoFEntityType.get(entityType) == null) {
+				return null;
+			}
+
+			finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
+
+		}
+
+		if (element != null && element.isJsonObject()) {
+
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement entityTypeElement = obj.get("entity_type");
+			String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
+
+			if (entityType != null && !"".equalsIgnoreCase(entityType)) {
+				finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
+			} else {
+				finalJsonResponse = parser.parseJsonToObj(response, new TypeToken<JsonResponse<Data>>() {
+				}.getType());
+			}
+
 		}
 
 		if (element == null) {
 			if (query.collection == null) {
 				return null;
 			}
-			if (query.collection.equals("creatives")
+			if (query.collection.equals(CREATIVES)
 					&& (query.creativeType != null && query.creativeType.equals(CreativeType.video))) {
 				String finResponse = "{\"data\":" + response + "}";
 				finalJsonResponse = parser.parseJsonToObj(finResponse,
@@ -1125,7 +1118,7 @@ public class TerminalOne {
 						Constants.getEntityType.get(query.collection.toLowerCase()));
 			}
 
-			if (finalJsonResponse != null && !(query.collection.equals("creatives")
+			if (finalJsonResponse != null && !(query.collection.equals(CREATIVES)
 					&& (query.creativeType != null && query.creativeType.equals(CreativeType.video)))) {
 				finalJsonResponse.setData(null);
 			}
@@ -1154,26 +1147,6 @@ public class TerminalOne {
 		query.query = paramVal;
 		return this.get(query);
 
-	}
-
-	/**
-	 * deletes a Contracts entity.
-	 * 
-	 * @param Contracts
-	 *            expects a Contracts entity
-	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
-	 * @throws ClientException
-	 *             a client exception is thrown if any error occurs.
-	 * @throws ParseException
-	 *             a parse exception is thrown when the response cannot be
-	 *             parsed.
-	 */
-	public JsonResponse<? extends T1Entity> delete(Contract contract) throws ParseException, ClientException {
-		JsonResponse<? extends T1Entity> response = null;
-		if (isAuthenticated()) {
-			response = postService.delete(contract);
-		}
-		return response;
 	}
 
 	/**

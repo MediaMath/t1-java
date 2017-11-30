@@ -72,19 +72,19 @@ public class TargetDimensions implements T1Entity {
 		this.include = include;
 	}
 
-	public includeOp getInclude_op() {
+	public includeOp getIncludeOp() {
 		return include_op;
 	}
 
-	public void setInclude_op(includeOp include_op) {
+	public void setIncludeOp(includeOp include_op) {
 		this.include_op = include_op;
 	}
 
-	public excludeOp getExclude_op() {
+	public excludeOp getExcludeOp() {
 		return exclude_op;
 	}
 
-	public void setExclude_op(excludeOp exclude_op) {
+	public void setExcludeOp(excludeOp exclude_op) {
 		this.exclude_op = exclude_op;
 	}
 
