@@ -7,8 +7,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.times;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -81,6 +85,8 @@ import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
+import com.mediamath.terminalone.service.PostService;
+import com.mediamath.terminalone.utils.FullParamValues;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
@@ -176,6 +182,9 @@ public class PostMockTest {
 	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
 
 	private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = null;
+	
+	private static String STRATEGY_GET_RESPONSE = null;
+	private static String CAMPAIGN_BULK_STRATEGY_SAVE_RESPONSE = null;
 
 	private static String LOGIN = null;
 	
@@ -186,12 +195,21 @@ public class PostMockTest {
 
 	@InjectMocks
 	TerminalOne t1 = new TerminalOne();
+	
+	@Mock
+	PostService ps = new PostService();
 
 	@Mock
 	Response response;
 	
 	@Mock
 	Response responseLogin;
+	
+	@Mock
+	FileInputStream inputStream;
+	
+	@Mock 
+	File fileMock;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -261,6 +279,8 @@ public class PostMockTest {
 		VENDOR_CONTRACTS_RESPONSE= testConfig.getProperty("t1.mock.save.vendor_contracts.response");
 		VENDOR_CONTRACTS_UPDATE_RESPONSE= testConfig.getProperty("t1.mock.update.vendor_contracts.response");
 		VENDOR_CONTRACTS_DELETE_RESPONSE= testConfig.getProperty("t1.mock.delete.vendor_contracts.response");
+		STRATEGY_GET_RESPONSE= testConfig.getProperty("t1.mock.get.strategy.response");
+		CAMPAIGN_BULK_STRATEGY_SAVE_RESPONSE= testConfig.getProperty("t1.mock.update.bulk_strategy.response");
 	}
 
 	@After
@@ -2132,6 +2152,46 @@ public class PostMockTest {
 		assertNotNull(secondresponse.getData());
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException, ExecutionException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(STRATEGY_GET_RESPONSE);
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(CAMPAIGN_BULK_STRATEGY_SAVE_RESPONSE);
+		
+		FullParamValues fpm = new FullParamValues();
+		fpm.setStrValue("strategy");
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2865594).setFull(fpm).build();
+		List<Strategy> strategyList = new ArrayList<Strategy>();
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+		strategyList.add((Strategy) jsonresponse.getData());
+		
+		
+		
+		Strategy updator = new Strategy();
+		updator.setBidAggresiveness(100f);
+		List<Strategy> updatedStrategyList =null;
+		long startTime = System.currentTimeMillis();
+		System.out.println("start= "+startTime);
+		
+		updatedStrategyList =	t1.bulkUpdate(strategyList, updator);
+		System.out.println("total time = "+((new Date()).getTime() - startTime)/1000);
+
+		assertNotNull(updatedStrategyList);
+	}
 	
 
 }

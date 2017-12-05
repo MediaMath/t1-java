@@ -46,6 +46,9 @@ public class GetMockTest {
 
 	private static Properties testConfig = new Properties();
 	private static String LOGIN = null;
+	private static String GET_ALL_RESPONSE_1 = null;
+	private static String GET_ALL_RESPONSE_2 = null;
+	private static String GET_ALL_RESPONSE_3 = null;
 
 	@Mock
 	Connection connectionmock;
@@ -61,6 +64,9 @@ public class GetMockTest {
 		InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("mocktest.properties");
 		testConfig.load(input);
 		LOGIN = testConfig.getProperty("t1.mock.loginResponse");
+		GET_ALL_RESPONSE_1 = testConfig.getProperty("t1.mock.get_all.response_1");
+		GET_ALL_RESPONSE_2 = testConfig.getProperty("t1.mock.get_all.response_2");
+		GET_ALL_RESPONSE_3 = testConfig.getProperty("t1.mock.get_all.response_3");
 	}
 
 	@After
@@ -1096,6 +1102,30 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAgencyGetAllWithMocks() throws ClientException, ParseException {
+
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(GET_ALL_RESPONSE_1,GET_ALL_RESPONSE_2,GET_ALL_RESPONSE_3);
+
+		QueryCriteria query = QueryCriteria.builder().setCollection("agencies").setGetAll(true).build();
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+	}
 	
 
 }
