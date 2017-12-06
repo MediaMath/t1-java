@@ -44,8 +44,8 @@ public class MetaStructure {
     return time_field;
   }
 
-  public void setTimeField(TimeField time_field) {
-    this.time_field = time_field;
+  public void setTimeField(TimeField timeField) {
+    this.time_field = timeField;
   }
 
 }

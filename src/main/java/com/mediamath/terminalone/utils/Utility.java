@@ -32,6 +32,8 @@ import com.mediamath.terminalone.service.T1Service;
 
 public class Utility {
 
+	private static final String UNABLE_TO_LOAD_THE_CONFIGURATIONS = "Unable to load the configurations";
+
 	private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
 	private static Properties vConfigProp = new Properties();
@@ -86,7 +88,7 @@ public class Utility {
 				String filename = "config.properties";
 				input = Utility.class.getClassLoader().getResourceAsStream(filename);
 				if (input == null) {
-					logger.info("Unable to load the configurations");
+					logger.info(UNABLE_TO_LOAD_THE_CONFIGURATIONS);
 					return null;
 				}
 				vConfigProp.load(input);
@@ -119,7 +121,7 @@ public class Utility {
 				String filename = "EntityReadOnlyFields.properties";
 				input = Utility.class.getClassLoader().getResourceAsStream(filename);
 				if (input == null) {
-					logger.info("Unable to load the configurations");
+					logger.info(UNABLE_TO_LOAD_THE_CONFIGURATIONS);
 					return null;
 				}
 				vEntityReadOnlyFields.load(input);
@@ -152,7 +154,7 @@ public class Utility {
 				String filename = "services.properties";
 				input = Utility.class.getClassLoader().getResourceAsStream(filename);
 				if (input == null) {
-					logger.info("Unable to load the configurations");
+					logger.info(UNABLE_TO_LOAD_THE_CONFIGURATIONS);
 					return null;
 				}
 				vServicesPathForEntity.load(input);
@@ -228,11 +230,9 @@ public class Utility {
 			return null;
 		}
 
-		String servicePath = (T1Service.getEntityServicesPaths().getProperty(collection) != null)
+		return (T1Service.getEntityServicesPaths().getProperty(collection) != null)
 				? T1Service.getEntityServicesPaths().getProperty(collection)
 				: T1Service.getEntityServicesPaths().getProperty("others");
-
-		return servicePath;
 	}
 
 	/**

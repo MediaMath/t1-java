@@ -133,9 +133,9 @@ public class GetFunctionalTestIT {
 
 	@Test
 	public void testBaiscGetWithSortByUsingQueryCriteria() throws ClientException {
-		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 
-		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setSortBy("-id").build();
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setGetAll(true).build();
 
 		JsonResponse<?> jsonresponse = null;
 
@@ -684,7 +684,7 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Data data = (Data) jsonresponse.getData();
 		assertNotNull(data);
-		assertTrue(data.enabled.getActive() == "true");
+		assertTrue(data.getEnabled().getActive() == "true");
 
 	}
 
@@ -1322,7 +1322,6 @@ public class GetFunctionalTestIT {
 		try {
 			jsonresponse = jt1.get(query);
 		} catch (ClientException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

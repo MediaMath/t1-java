@@ -27,7 +27,7 @@ public class QueryParamValues {
 
   private Number numberValue = null;
 
-  private List<Object> listValue = new ArrayList<Object>();
+  private List<Object> listValue = new ArrayList<>();
 
   public QueryParamValues(String strValue) {
     this.strValue = strValue;

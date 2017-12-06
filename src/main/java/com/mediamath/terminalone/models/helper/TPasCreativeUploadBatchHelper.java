@@ -36,7 +36,7 @@ public class TPasCreativeUploadBatchHelper {
    *          expects a TPASCreativeBatchApprove entity.
    * @return Form object.
    */
-  public static Form getForm(TPASCreativeBatchApprove entity) {
+/*  public static Form getForm(TPASCreativeBatchApprove entity) {
     Form creativeBatchForm = new Form();
 
     setAdvertiserID(entity, creativeBatchForm);
@@ -75,7 +75,7 @@ public class TPasCreativeUploadBatchHelper {
       creativeBatchForm.param("concept_" + batchIndex.getBatchIndex(),
           batchIndex.getConceptId());
     }
-  }
+  }*/
 
   /**
    * Creates a MultiPart Form object

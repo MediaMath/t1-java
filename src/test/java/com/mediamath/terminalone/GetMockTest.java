@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.After;
@@ -24,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner.Silent;
 
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
@@ -41,7 +44,7 @@ import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(Silent.class)
 public class GetMockTest {
 
 	private static Properties testConfig = new Properties();
@@ -49,6 +52,7 @@ public class GetMockTest {
 	private static String GET_ALL_RESPONSE_1 = null;
 	private static String GET_ALL_RESPONSE_2 = null;
 	private static String GET_ALL_RESPONSE_3 = null;
+	private static String SITE_LIST_DATA_ERROR=null;
 
 	@Mock
 	Connection connectionmock;
@@ -58,6 +62,12 @@ public class GetMockTest {
 
 	@Mock
 	Response response;
+	
+	@Mock
+	MediaType type;
+	
+	@Mock
+	InputStream stream;
 
 	@BeforeClass
 	public static void init() throws Exception {
@@ -67,6 +77,7 @@ public class GetMockTest {
 		GET_ALL_RESPONSE_1 = testConfig.getProperty("t1.mock.get_all.response_1");
 		GET_ALL_RESPONSE_2 = testConfig.getProperty("t1.mock.get_all.response_2");
 		GET_ALL_RESPONSE_3 = testConfig.getProperty("t1.mock.get_all.response_3");
+		SITE_LIST_DATA_ERROR = testConfig.getProperty("t1.mock.sitelist.error.response");
 	}
 
 	@After
@@ -734,7 +745,7 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 		Data data = (Data) jsonresponse.getData();
 		assertNotNull(data);
-		assertNotNull(data.enabled.getActive());
+		assertNotNull(data.getEnabled().getActive());
 	}
 
 	@Test
@@ -1126,6 +1137,64 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetForSiteListDownload() throws ClientException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN,stream);
+		
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.getMediaType()).thenReturn(type);
+		Mockito.when(response.getMediaType().getType()).thenReturn("text");
+		Mockito.when(response.getMediaType().getSubtype()).thenReturn("csv");
+		Mockito.when(response.getStatus()).thenReturn(200);
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("site_lists").setEntity(95358)
+				.setDownloadSiteList(true).setPageLimit(0).build();
+
+		BufferedReader reader = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			reader = t1.getSiteListData(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(reader);
+
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testGetForSiteListDownloadError() throws ClientException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		//Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Mockito.when(connectionmock.getReportData(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(response);
+		Mockito.when(response.getStatus()).thenReturn(100);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(SITE_LIST_DATA_ERROR);
+		
+		QueryCriteria query = QueryCriteria.builder().setCollection("site_lists").setEntity(9538)
+				.setDownloadSiteList(true).setPageLimit(0).build();
+
+		BufferedReader reader = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			reader = t1.getSiteListData(query);
+		} catch (ClientException | ParseException e) {
+			assertNull(reader);
+		}
+
+	}
+
+
 	
 
 }

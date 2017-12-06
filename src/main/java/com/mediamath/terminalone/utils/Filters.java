@@ -30,7 +30,6 @@ public final class Filters {
 	public static final String LESS = "%3C";
 	public static final String LESS_OR_EQUAL = "%3C=";
 	public static final String CASE_INS_STRING = "=:";
-
-	private Filters() {
-	}
+	
+	private Filters(){}
 }

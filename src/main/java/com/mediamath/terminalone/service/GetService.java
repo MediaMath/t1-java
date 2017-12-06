@@ -57,7 +57,7 @@ public class GetService {
 	 * @throws ParseException
 	 *             exception.
 	 */
-	public StringBuilder get(QueryCriteria query) throws ClientException, ParseException {
+	public StringBuilder get(QueryCriteria query) throws ClientException {
 
 		StringBuilder path = new StringBuilder("");
 
@@ -89,7 +89,7 @@ public class GetService {
 		if (query.limit.size() == 1) {
 			// for deals, "/media/" API base is used, which supports
 			// ?[related_entity_name]_id=[related_entity ID]
-			if (query.collection.equals("deals")) {
+			if (("deals").equals(query.collection)) {
 				path.append("?");
 			} else {
 				path.append("/limit/");
@@ -215,7 +215,7 @@ public class GetService {
 	 * @throws ParseException
 	 *             exception.
 	 */
-	public String find(QueryCriteria query) throws ClientException, ParseException {
+	public String find(QueryCriteria query) throws ClientException {
 
 		StringBuilder paramVal = new StringBuilder();
 
@@ -243,9 +243,9 @@ public class GetService {
 				paramVal.append(query.queryParams.getStrValue());
 			} else if (query.queryParams.getNumberValue() != null) {
 				paramVal.append(query.queryParams.getNumberValue());
-			} else if (query.queryParams.getBoolValue() == true) {
+			} else if (query.queryParams.getBoolValue()) {
 				paramVal.append(1);
-			} else if (query.queryParams.getBoolValue() == false) {
+			} else if (!query.queryParams.getBoolValue()) {
 				paramVal.append(0);
 			}
 		} // else

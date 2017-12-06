@@ -43,7 +43,7 @@ public class Data {
 		}
 	}
 
-	public enabled enabled;
+	private enabled enabled;
 
 	public Map<String, String> getData() {
 		return data;

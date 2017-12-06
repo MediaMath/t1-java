@@ -376,7 +376,7 @@ public class ReportService {
     Type type = new TypeToken<MetaData>() {
     }.getType();
 
-    HashMap<String, MetaData> metaData = new HashMap<String, MetaData>();
+    HashMap<String, MetaData> metaData = new HashMap<>();
 
     GsonBuilder builder = new GsonBuilder();
     builder.setDateFormat(YYYY_MM_DD_T_HH_MM_SS);
@@ -388,7 +388,7 @@ public class ReportService {
       metaData.put(key, value);
     }
     meta.setMetaData(metaData);
-    finalResponse = new JsonResponse<Meta>(meta);
+    finalResponse = new JsonResponse<>(meta);
 
     return finalResponse;
   }
@@ -432,7 +432,7 @@ public class ReportService {
     if (timefieldObj != null) {
 
       TimeField timefield = new TimeField();
-      HashMap<String, TimeInterval> timeFieldMap = new HashMap<String, TimeInterval>();
+      HashMap<String, TimeInterval> timeFieldMap = new HashMap<>();
 
       for (Entry<String, JsonElement> a : timefieldObj.entrySet()) {
         String key = a.getKey();
@@ -448,7 +448,7 @@ public class ReportService {
   private void parseMetrics(Gson gson, MetaData data, JsonObject metricsObj) {
     if (metricsObj != null) {
       MetaMetrics metrics = new MetaMetrics();
-      HashMap<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
+      HashMap<String, MetricsData> metricsMap = new HashMap<>();
 
       for (Entry<String, JsonElement> a : metricsObj.entrySet()) {
         String key = a.getKey();
@@ -464,7 +464,7 @@ public class ReportService {
   private void parseDimensions(Gson gson, MetaData data, JsonObject dimensionObj) {
     if (dimensionObj != null) {
       MetaDimensions dimensions = new MetaDimensions();
-      HashMap<String, MetaDimensionData> dimensionsInfoMap = new HashMap<String, MetaDimensionData>();
+      HashMap<String, MetaDimensionData> dimensionsInfoMap = new HashMap<>();
 
       for (Entry<String, JsonElement> a : dimensionObj.entrySet()) {
         String key = a.getKey();

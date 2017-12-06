@@ -16,7 +16,7 @@
 
 package com.mediamath.terminalone.models.reporting.meta;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MetaDimensionData {
 
@@ -28,7 +28,7 @@ public class MetaDimensionData {
 
 	private long maxLength;
 
-	private ArrayList<String> values;
+	private List<String> values;
 
 	public boolean isAccess() {
 		return access;
@@ -62,11 +62,11 @@ public class MetaDimensionData {
 		this.maxLength = maxLength;
 	}
 
-	public ArrayList<String> getValues() {
+	public List<String> getValues() {
 		return values;
 	}
 
-	public void setValues(ArrayList<String> values) {
+	public void setValues(List<String> values) {
 		this.values = values;
 	}
 

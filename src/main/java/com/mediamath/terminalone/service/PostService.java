@@ -18,6 +18,7 @@ package com.mediamath.terminalone.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -625,7 +626,7 @@ public class PostService {
 		if (entity != null) {
 
 			StringBuilder path = new StringBuilder(
-					t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES);
+					t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES);
 
 			if (entity.getCreativeId() > 0) {
 				path.append("/" + entity.getCreativeId());
@@ -674,7 +675,7 @@ public class PostService {
 	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
 		VideoCreativeUploadStatus uploadStatus = null;
 		if (checkString(creativeId)) {
-			StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES
+			StringBuilder path = new StringBuilder(t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES
 					+ "/" + creativeId + "/status");
 			String pathstr = path.toString();
 			logger.info(pathstr);
@@ -714,7 +715,7 @@ public class PostService {
 
 		if (checkString(filePath) && checkString(creativeId) && checkString(fileName)) {
 
-			StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES
+			StringBuilder path = new StringBuilder(t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES
 					+ "/" + creativeId + "/upload?fileName=" + fileName);
 
 			String finalPath = path.toString();

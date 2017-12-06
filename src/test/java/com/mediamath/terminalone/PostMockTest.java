@@ -41,6 +41,11 @@ import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
+import com.mediamath.terminalone.models.AtomicCreative.adFormats;
+import com.mediamath.terminalone.models.AtomicCreative.expandTrig;
+import com.mediamath.terminalone.models.AtomicCreative.expandValues;
+import com.mediamath.terminalone.models.AtomicCreative.fileTypes;
+import com.mediamath.terminalone.models.AtomicCreative.mediaTypes;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.BulkStrategy;
 import com.mediamath.terminalone.models.Campaign;
@@ -83,8 +88,10 @@ import com.mediamath.terminalone.models.User;
 import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
+import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
 import com.mediamath.terminalone.service.PostService;
 import com.mediamath.terminalone.utils.FullParamValues;
 
@@ -136,6 +143,8 @@ public class PostMockTest {
 	private static String VIDEO_CREATIVE_SAVE = null;
 
 	private static String VIDEO_CREATIVE_UPLOAD = null;
+	
+	private static String VIDEO_CREATIVE_UPLOAD_TEMP = null;
 
 	private static String VIDEO_CREATIVE_UPLOAD_STATUS = null;
 
@@ -246,6 +255,7 @@ public class PostMockTest {
 		STRATEGY_DOMAIN_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_domain.response");
 		VIDEO_CREATIVE_SAVE = testConfig.getProperty("t1.mock.save.video_creative.response");
 		VIDEO_CREATIVE_UPLOAD = testConfig.getProperty("t1.mock.upload.video_creative.response");
+		VIDEO_CREATIVE_UPLOAD_TEMP = testConfig.getProperty("t1.mock.upload.video_creative.temp.response");
 		VIDEO_CREATIVE_UPLOAD_STATUS = testConfig.getProperty("t1.mock.status.video_creative_upload.response");
 		STRATEGY_RESPONSE = testConfig.getProperty("t1.mock.save.strategy.response");
 		STRATEGY_SITELIST_RESPONSE = testConfig.getProperty("t1.mock.save.strategy_sitelist.response");
@@ -1886,10 +1896,10 @@ public class PostMockTest {
 
 		VendorContract venContract = new VendorContract();
 		
-		venContract.setId(32774);;
-		venContract.setVersion(0);;
+		venContract.setId(32774);
+		venContract.setVersion(0);
 		
-		VendorContract contractFinal = null;
+		JsonResponse<? extends T1Entity> responseDel = null;
 		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
@@ -1900,14 +1910,14 @@ public class PostMockTest {
 		
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-			contractFinal = (VendorContract) t1.save(venContract);
+			responseDel =  t1.delete(venContract);
 			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(),Mockito.any(Form.class), Mockito.any(T1User.class));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		assertNotNull(contractFinal);
+		assertNotNull(responseDel);
 	}	
 	
 	@SuppressWarnings("unchecked")
@@ -1973,27 +1983,27 @@ public class PostMockTest {
 
 	}
 
-	// @SuppressWarnings("unchecked")
-	// @Test
-	// public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
-    //
-	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
-	// 	Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
-	//	
-	// 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
-	// 			Mockito.any(T1User.class))).thenReturn(response);
-	// 	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
-    //
-	// 	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-	// 	VideoCreativeResponse uploadResponse = t1.uploadVideoCreative("D:\\MediaMat\\t1attachements\\blah1234.flv", "blah1234.flv", String.valueOf(3595840));
-    //
-	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-	// 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
-	// 			Mockito.any(T1User.class));
-    //
-	// 	assertNotNull(uploadResponse);
-	// 	assertNotNull(uploadResponse.getStatus());
-	// }
+	 @SuppressWarnings("unchecked")
+	 @Test
+	 public void testVideoCreativeUpload() throws ClientException, IOException, ParseException {
+    
+	 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+	 	Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+	 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(InputStream.class),
+	 			Mockito.any(T1User.class))).thenReturn(response);
+	 	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD);
+    
+	 	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+	 	VideoCreativeResponse uploadResponse = t1.uploadVideoCreative("src/test/resources/MockFile.html", "MockFile.html", String.valueOf(3595840));
+    
+	 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+	 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(InputStream.class),
+	 			Mockito.any(T1User.class));
+    
+	 	assertNotNull(uploadResponse);
+	 	assertNotNull(uploadResponse.getStatus());
+	}
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -2012,6 +2022,33 @@ public class PostMockTest {
 		Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
 		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
 
+	}
+	
+	 @SuppressWarnings("unchecked")
+	 @Test
+	 public void testUploadVideoCreative() throws ClientException, IOException, ParseException {
+   
+	 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
+	 	Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+	 	Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+	 			Mockito.any(T1User.class))).thenReturn(response);
+	 	Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD_TEMP);
+   
+	 	t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+	 		 	
+		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload("src/test/resources/MockFile.html", 
+				"MockFile.html",
+				"5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891",
+				"video-uploader.mathtag.com");
+	 	
+   
+	 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+	 	Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(FormDataMultiPart.class),
+	 			Mockito.any(T1User.class));
+   
+	 	assertNotNull(uploadResponse);
+	 	assertNotNull(uploadResponse.getStatus());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -2156,6 +2193,7 @@ public class PostMockTest {
 	@Test
 	public void testUpdateStrategiestoCampaign() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException, ExecutionException {
 		
+		
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
 		Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
 		
@@ -2183,6 +2221,7 @@ public class PostMockTest {
 		
 		Strategy updator = new Strategy();
 		updator.setBidAggresiveness(100f);
+		updator.setBidPriceIsMediaOnly(true);
 		List<Strategy> updatedStrategyList =null;
 		long startTime = System.currentTimeMillis();
 		System.out.println("start= "+startTime);
@@ -2192,6 +2231,53 @@ public class PostMockTest {
 
 		assertNotNull(updatedStrategyList);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testAtomicCreativeHelper() throws ClientException, ParseException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, InterruptedException, ExecutionException {
+		
+		AtomicCreative ac = new AtomicCreative();
+		ac.setAdServerType(ac.getAdServerType().DART);
+		ac.setAdvertiserId(150577);
+		ac.setAdFormat(adFormats.DISPLAY);
+		ac.setApprovalStatus("PENDING");
+		ac.setBuildDate(new Date());
+		ac.setBuildErrors("");
+		ac.setBuilt(false);
+		ac.setBuiltByUserId(11428);
+		ac.setClickThroughUrl("http://yahoo.com");
+		ac.setClickUrl("http://yahoo.com");
+		ac.setCreativeImportFileId(1);
+		ac.setEditedTag("NA");
+		ac.setEndDate(new Date());
+		ac.setExpand(expandValues.D);
+		ac.setExpansionTrigger(expandTrig.CLICK);
+		ac.setFileType(fileTypes.html5);
+		ac.setHasSound(false);
+		ac.setIsHttps(false);
+		ac.setIsMultiCreative(true);
+		ac.setMediaType(mediaTypes.display);
+		ac.setMraid(true);
+		ac.setRejectedReason("NA");
+		ac.setRichMedia(true);
+		ac.setRichMediaProvider("SELF");
+		ac.setStatus(true);
+		ac.setT1as(true);
+		ac.setConceptId(622519);
+		ac.setExternalIdentifier("1234567890abcd");
+		ac.setFileType(ac.getFileType().jpeg);
+		ac.setHeight(72);
+		ac.setName("MyTestAtomicCreative");
+		ac.setTag("https://ad.doubleclick.net;sz=1x1;ord=[RANDOM_NUMBER]?");
+		ac.setTagType(ac.getTagType().IMG);
+		ac.setTpasAdTagName("Sample IMG TAG");
+		ac.setWidth(72);
+
+		Form achForm = AtomicCreativeHelper.getForm(ac);
+		assertNotNull(achForm);
+	}
+	
+	
 	
 
 }

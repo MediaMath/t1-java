@@ -1908,8 +1908,8 @@ public class PostFunctionalTestIT {
 		user.setTitle("Test+Jitendra");
 		user.setName("Test-Jitendra");
 		user.setPhone("808888080");
-		user.setUsername("testjitendra12@yopmail.com");
-		user.setEmail("testjitendra@yopmail.com");
+		user.setUsername("testjitendra122@yopmail.com");
+		user.setEmail("testjitendra1@yopmail.com");
 		user.setPassword("TestPwd");
 		user.setLinkLdap(false);
 		user.setEditCampaigns(true);
@@ -2144,6 +2144,7 @@ public class PostFunctionalTestIT {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			assertNotNull(strategy);
 		} // strategy for loop
 	}
 
@@ -2179,6 +2180,7 @@ public class PostFunctionalTestIT {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			assertNotNull(strategy);
 			System.out.println("saved.....");
 		} // strategy for loop
 	}
@@ -2220,6 +2222,7 @@ public class PostFunctionalTestIT {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			assertNotNull(strategy);
 		} // strategy for loop
 	}
 
