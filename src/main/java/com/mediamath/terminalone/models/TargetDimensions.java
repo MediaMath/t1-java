@@ -33,8 +33,8 @@ public class TargetDimensions implements T1Entity {
 		AND, OR
 	}
 	
-	int id;
-	int name;
+	private int id;
+	private int name;
 	private List<Integer> exclude = new ArrayList<Integer>();
 	private List<Integer> include = new ArrayList<Integer>();
 	private includeOp include_op;

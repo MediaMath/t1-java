@@ -77,19 +77,19 @@ public class Data {
 		this.exclude = exclude;
 	}
 
-	public String getExclude_op() {
+	public String getExcludeOp() {
 		return exclude_op;
 	}
 
-	public void setExclude_op(String exclude_op) {
+	public void setExcludeOp(String exclude_op) {
 		this.exclude_op = exclude_op;
 	}
 
-	public String getInclude_op() {
+	public String getIncludeOp() {
 		return include_op;
 	}
 
-	public void setInclude_op(String include_op) {
+	public void setIncludeOp(String include_op) {
 		this.include_op = include_op;
 	}
 

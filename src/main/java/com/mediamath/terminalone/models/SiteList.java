@@ -47,7 +47,7 @@ public class SiteList implements T1Entity {
 
 	private Organization organization;
 
-	private List<String> domains = new ArrayList<String>();
+	private List<String> domains = new ArrayList<>();
 
 	/* condtructor */
 	public SiteList() {

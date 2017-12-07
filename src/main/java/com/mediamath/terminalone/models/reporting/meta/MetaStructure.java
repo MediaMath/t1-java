@@ -18,11 +18,11 @@ package com.mediamath.terminalone.models.reporting.meta;
 
 public class MetaStructure {
 
-  MetaDimensions dimensions;
+  private MetaDimensions dimensions;
   
-  MetaMetrics metrics;
+  private MetaMetrics metrics;
   
-  TimeField time_field;
+  private TimeField time_field;
 
   public MetaDimensions getDimensions() {
     return dimensions;

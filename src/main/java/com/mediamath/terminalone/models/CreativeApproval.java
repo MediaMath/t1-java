@@ -40,7 +40,7 @@ public class CreativeApproval implements T1Entity {
   private Date updated_on;
   private int version;
 
-  public String getAdditional_detail() {
+  public String getAdditionalDetail() {
     return additional_detail;
   }
 
@@ -136,11 +136,11 @@ public class CreativeApproval implements T1Entity {
     this.deal_status = deal_status;
   }
 
-  public String getEntity_type() {
+  public String getEntityType() {
 	return entity_type;
 }
 
-public void setEntity_type(String entity_type) {
+public void setEntityType(String entity_type) {
 	this.entity_type = entity_type;
 }
 

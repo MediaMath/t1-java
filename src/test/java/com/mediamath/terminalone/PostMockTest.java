@@ -1,6 +1,7 @@
 package com.mediamath.terminalone;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -89,6 +90,7 @@ import com.mediamath.terminalone.models.VendorContract;
 import com.mediamath.terminalone.models.VideoCreative;
 import com.mediamath.terminalone.models.VideoCreativeResponse;
 import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
+import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
 import com.mediamath.terminalone.models.ZipCodes;
 import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
@@ -182,21 +184,18 @@ public class PostMockTest {
 	
 	private static String CONTRACTS_RESPONSE= null;
 	private static String CONTRACTS_UPDATE_RESPONSE= null;
-	private static String CONTRACTS_DELETE_RESPONSE= null;
 	
 	private static String VENDOR_CONTRACTS_RESPONSE= null;
 	private static String VENDOR_CONTRACTS_UPDATE_RESPONSE= null;
 	private static String VENDOR_CONTRACTS_DELETE_RESPONSE= null;
 	
 	private static String TONEAS_CREATIVE_UPLOAD_FIRSTCALL_MULTIPLE = null;
-
 	private static String TONEAS_CREATIVE_UPLOAD_SECONDCALL_MULTIPLE = null;
 	
 	private static String STRATEGY_GET_RESPONSE = null;
 	private static String CAMPAIGN_BULK_STRATEGY_SAVE_RESPONSE = null;
 
 	private static String LOGIN = null;
-	
 	private static String OAUTH = null;
 
 	@Mock
@@ -285,7 +284,6 @@ public class PostMockTest {
 		ZIPCODE_RESPONSE = testConfig.getProperty("t1.mock.save.zipcode.response");
 		CONTRACTS_RESPONSE  = testConfig.getProperty("t1.mock.save.contracts.response");
 		CONTRACTS_UPDATE_RESPONSE  = testConfig.getProperty("t1.mock.update.contracts.response");
-		CONTRACTS_DELETE_RESPONSE  = testConfig.getProperty("t1.mock.delete.contracts.response");
 		VENDOR_CONTRACTS_RESPONSE= testConfig.getProperty("t1.mock.save.vendor_contracts.response");
 		VENDOR_CONTRACTS_UPDATE_RESPONSE= testConfig.getProperty("t1.mock.update.vendor_contracts.response");
 		VENDOR_CONTRACTS_DELETE_RESPONSE= testConfig.getProperty("t1.mock.delete.vendor_contracts.response");
@@ -298,6 +296,7 @@ public class PostMockTest {
 		Thread.sleep(5000);
 	}
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Test
 	public void testOauthTokenAuthentication() throws ClientException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), isNull(T1User.class)))
@@ -879,8 +878,6 @@ public class PostMockTest {
 	@Test
 	public void testStrategyDayPartPostMetaError() throws ClientException {
 
-		JsonResponse jr = null;
-
 		StrategyDayPart sc = new StrategyDayPart();
 		StrategyDayPart sc1 = null;
 		
@@ -984,6 +981,7 @@ public class PostMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSiteListAssignmentToCampaign() throws ClientException {
 
@@ -1019,6 +1017,7 @@ public class PostMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSiteListAddDomainsPost() throws ClientException {
 		SiteList sl = new SiteList();
@@ -1084,7 +1083,7 @@ public class PostMockTest {
 			e.printStackTrace();
 		}
 		List<StrategyTargetingSegment> targetingSeg = str.getStrategyTargetingSegments();
-		assertTrue(!targetingSeg.isEmpty());
+		assertFalse(targetingSeg.isEmpty());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1119,7 +1118,7 @@ public class PostMockTest {
 		}
 
 		List<StrategyDayPart> sdp = str.getStrategyDayParts();
-		assertTrue(!sdp.isEmpty());
+		assertFalse(sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 
@@ -1162,6 +1161,7 @@ public class PostMockTest {
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testStrategyTargetDimensionsPost() throws ClientException {
 
@@ -1285,6 +1285,7 @@ public class PostMockTest {
 		assertNotNull(str);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testStrategyBulkCopyPost() throws ClientException {
 
@@ -1340,7 +1341,6 @@ public class PostMockTest {
 
 
 		BudgetFlight bf1 = new BudgetFlight();
-		BudgetFlight bf2 = new BudgetFlight();
 		
 		bf1.setStartDate(startd1);
 		bf1.setEndDate(endd1);
@@ -1644,6 +1644,7 @@ public class PostMockTest {
 		assertNotNull(cmpSave);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testUsersPost() throws ClientException {
 	
@@ -2018,10 +2019,10 @@ public class PostMockTest {
 
 		// check video creative status VideoCreativeUploadStatus uploadStatus =
 		t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
-		t1.getVideoCreativeUploadStatus(String.valueOf(3595840));
+		VideoCreativeUploadStatus  vcus = t1.getVideoCreativeUploadStatus(String.valueOf(3595840));
 		Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
 		Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
-
+		assertNotNull(vcus);
 	}
 	
 	 @SuppressWarnings("unchecked")

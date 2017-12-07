@@ -25,7 +25,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.runners.MockitoJUnitRunner.Silent;
 
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
@@ -33,7 +32,6 @@ import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.Concept;
 import com.mediamath.terminalone.models.Data;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -119,6 +117,7 @@ public class GetMockTest {
 		assertNotNull(jsonresponse.getMeta());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithChildUsingQueryCriteriaWithMocks() throws ClientException, ParseException {
 
@@ -241,6 +240,7 @@ public class GetMockTest {
 		assertNotNull(jsonresponse.getMeta());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithPageLimitOffsetWithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -272,6 +272,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithLimitWithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -303,6 +304,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithLimitnGetAllWithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -346,6 +348,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetErrorHandling() throws ClientException {
 
@@ -417,6 +420,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFindWithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -449,6 +453,7 @@ public class GetMockTest {
 		assertNotNull(jsonresponse);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFind1WithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -479,6 +484,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFind2WithMock() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -511,6 +517,7 @@ public class GetMockTest {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetWithFullBooleanWithMocks() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -547,9 +554,9 @@ public class GetMockTest {
 
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
-		ArrayList<Campaign> campaigns = ((ArrayList<Campaign>) jsonresponse.getData());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFullStringWithMocks() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -579,9 +586,9 @@ public class GetMockTest {
 
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
-		ArrayList<Campaign> campaigns = ((ArrayList<Campaign>) jsonresponse.getData());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFullListWithMocks() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -620,9 +627,9 @@ public class GetMockTest {
 
 		assertNotNull(jsonresponse);
 		assertNotNull(jsonresponse.getData());
-		ArrayList<Campaign> campaigns = ((ArrayList<Campaign>) jsonresponse.getData());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetWithChildByUsingQC() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
@@ -659,6 +666,7 @@ public class GetMockTest {
 		assertNotNull(strategy.getStrategyDomainRestrictions());
 	}
 
+	@SuppressWarnings("unchecked")
 	public void testGetWithStrategyConceptUsingMocks() throws ClientException, ParseException {
 		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
 				.thenReturn(response);
@@ -713,7 +721,6 @@ public class GetMockTest {
 		}
 
 		assertNotNull(jsonresponse);
-		@SuppressWarnings("unchecked")
 		ArrayList<Concept> concept = (ArrayList<Concept>) jsonresponse.getData();
 		assertNotNull(concept);
 		assertNotNull(concept.get(0));

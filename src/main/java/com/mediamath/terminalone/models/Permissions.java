@@ -26,6 +26,9 @@ public class Permissions {
 	private List<Integer> organization_ids = new ArrayList<>();
 	private List<Integer> agency_ids = new ArrayList<>();
 	private List<Integer> advertiser_ids = new ArrayList<>();
+	
+	private Entities entities;
+	private List<Access> flags = new ArrayList<>();
 
 	class Access {
 		private List<Map<String, String>> access = new ArrayList<>();
@@ -99,9 +102,6 @@ public class Permissions {
 		}
 	}
 
-	private Entities entities;
-	private List<Access> flags = new ArrayList<>();
-
 	public boolean isAllOrganizations() {
 		return all_organizations;
 	}
@@ -122,11 +122,11 @@ public class Permissions {
 		return agency_ids;
 	}
 
-	public void setAgency_ids(List<Integer> agency_ids) {
+	public void setAgencyIds(List<Integer> agency_ids) {
 		this.agency_ids = agency_ids;
 	}
 
-	public List<Integer> getAdvertiser_ids() {
+	public List<Integer> getAdvertiserIds() {
 		return advertiser_ids;
 	}
 

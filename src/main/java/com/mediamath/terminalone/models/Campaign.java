@@ -594,7 +594,7 @@ public class Campaign implements T1Entity {
 			cost.setValue(value);
 
 			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrency_code(currency_code);
+				cost.setCurrencyCode(currency_code);
 			}
 
 			this.total_budget.add(cost);
@@ -612,7 +612,7 @@ public class Campaign implements T1Entity {
 			cost.setValue(value);
 
 			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrency_code(currency_code);
+				cost.setCurrencyCode(currency_code);
 			}
 
 			this.ad_server_fee.add(cost);
@@ -630,7 +630,7 @@ public class Campaign implements T1Entity {
 			cost.setValue(value);
 
 			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrency_code(currency_code);
+				cost.setCurrencyCode(currency_code);
 			}
 
 			this.spend_cap_amount.add(cost);
@@ -648,7 +648,7 @@ public class Campaign implements T1Entity {
 			cost.setValue(value);
 
 			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrency_code(currency_code);
+				cost.setCurrencyCode(currency_code);
 			}
 
 			this.goal_value.add(cost);

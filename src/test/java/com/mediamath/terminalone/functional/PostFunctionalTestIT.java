@@ -17,6 +17,7 @@
 package com.mediamath.terminalone.functional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -794,6 +795,7 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 		List<Segments> audienceSeg = str.getAudienceSegments();
+		assertNotNull(audienceSeg);
 	}
 
 	@Test
@@ -814,6 +816,7 @@ public class PostFunctionalTestIT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		assertNotNull(str);
 	}
 
 	/**
@@ -910,13 +913,17 @@ public class PostFunctionalTestIT {
 
 		// exclude
 		str.setExcludePixels(987860);
+		
+		Strategy strategy=null;
 
 		try {
-			jt1.save(str);
+			strategy = jt1.save(str);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertNotNull(strategy);
 
 	}
 
@@ -973,15 +980,17 @@ public class PostFunctionalTestIT {
 	@Test
 	public void testStrategyConceptDelete() {
 		TerminalOne T1;
+		JsonResponse<?> jr = null;
 		StrategyConcept sc = new StrategyConcept();
 		sc.setId(2903693);
 		try {
 			T1 = new TerminalOne(user, password, apiKey);
-			JsonResponse jr = T1.delete(sc);
+			jr = T1.delete(sc);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		assertNotNull(jr);
 	}
 
 	/**
@@ -1119,6 +1128,7 @@ public class PostFunctionalTestIT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		assertNotNull(camp);
 
 	}
 
@@ -1210,6 +1220,8 @@ public class PostFunctionalTestIT {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertNotNull(px);
 
 	}
 
@@ -1301,7 +1313,7 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(cmp);
-		assertTrue(!cmp.getSiteLists().isEmpty());
+		assertFalse(cmp.getSiteLists().isEmpty());
 
 	}
 
@@ -1327,7 +1339,7 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(cmp);
-		assertTrue(!cmp.getSiteLists().isEmpty());
+		assertFalse(cmp.getSiteLists().isEmpty());
 
 	}
 
@@ -1555,7 +1567,7 @@ public class PostFunctionalTestIT {
 		}
 
 		assertNotNull(cmp);
-		assertTrue(!cmp.getDeals().isEmpty());
+		assertFalse(cmp.getDeals().isEmpty());
 	}
 
 	@Test
@@ -1578,7 +1590,7 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 		List<StrategyTargetingSegment> targetingSeg = str.getStrategyTargetingSegments();
-		assertTrue(!targetingSeg.isEmpty());
+		assertFalse(targetingSeg.isEmpty());
 	}
 
 	@Test
@@ -1603,7 +1615,7 @@ public class PostFunctionalTestIT {
 		}
 
 		List<StrategyDayPart> sdp = str.getStrategyDayParts();
-		assertTrue(!sdp.isEmpty());
+		assertFalse(sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 
@@ -1632,7 +1644,7 @@ public class PostFunctionalTestIT {
 		}
 
 		List<StrategyTarget> sdp = str.getStrategyTarget();
-		assertTrue(!sdp.isEmpty());
+		assertFalse(sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 
@@ -1666,7 +1678,7 @@ public class PostFunctionalTestIT {
 		}
 
 		List<StrategyTarget> sdp = str.getStrategyTarget();
-		assertTrue(!sdp.isEmpty());
+		assertFalse(sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 
@@ -1808,7 +1820,6 @@ public class PostFunctionalTestIT {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCustomBrainSelectionPost() throws ClientException {
 
@@ -1836,7 +1847,7 @@ public class PostFunctionalTestIT {
 		assertNotNull(cmpSave);
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Test
 	public void testCampaignCustomBrainSelectionBulkPost() throws ClientException {
 
@@ -1870,7 +1881,6 @@ public class PostFunctionalTestIT {
 		assertNotNull(cmpSave);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testCampaignCustomBrainSelectionDeletePost() throws ClientException {
 
@@ -2058,6 +2068,8 @@ public class PostFunctionalTestIT {
 		String fileName = "blah1234.flv";
 		VideoCreativeUploadResponse uploadResponse = t1.videoCreativeUpload(filePath, fileName,
 				"5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891", "video-uploader.mathtag.com");
+		
+		assertNotNull(uploadResponse);
 
 	}
 
@@ -2185,6 +2197,7 @@ public class PostFunctionalTestIT {
 		} // strategy for loop
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddTSForOrganizationWithGET() throws ClientException, IOException, ParseException {
 		TerminalOne one = new TerminalOne(user, password, productionKey);
@@ -2535,7 +2548,7 @@ public class PostFunctionalTestIT {
 		strategy = jt1.save(strategy);
 		
 		List<StrategyTarget> sdp = strategy.getStrategyTarget();
-		assertTrue(!sdp.isEmpty());
+		assertFalse(sdp.isEmpty());
 		assertTrue(sdp.get(0).getId() > 0);
 	}
 

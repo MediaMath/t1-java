@@ -17,6 +17,7 @@
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.Form;
 
@@ -28,7 +29,7 @@ public class TPASCreativeBatchApprove implements T1Entity {
 
 	private String advertiser_id;
 
-	private ArrayList<TPASCreativeBatchIndex> batch = new ArrayList<>();
+	private List<TPASCreativeBatchIndex> batch = new ArrayList<>();
 
 	public String getBatchId() {
 		return batchId;
@@ -74,7 +75,7 @@ public class TPASCreativeBatchApprove implements T1Entity {
 		return entityName;
 	}
 
-	public ArrayList<TPASCreativeBatchIndex> getBatch() {
+	public List<TPASCreativeBatchIndex> getBatch() {
 		return batch;
 	}
 

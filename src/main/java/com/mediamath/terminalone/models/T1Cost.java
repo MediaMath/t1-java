@@ -21,11 +21,11 @@ public class T1Cost {
 	private String currency_code;
 	private double value;
 
-	public String getCurrency_code() {
+	public String getCurrencyCode() {
 		return currency_code;
 	}
 
-	public void setCurrency_code(String currency_code) {
+	public void setCurrencyCode(String currency_code) {
 		this.currency_code = currency_code;
 	}
 

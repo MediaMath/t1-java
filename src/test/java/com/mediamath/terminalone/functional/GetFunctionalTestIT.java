@@ -61,10 +61,6 @@ public class GetFunctionalTestIT {
 
 	private static String productionKey = null;
 
-	private static String oauthKey = null;
-
-	private static String oauthSecret = null;
-
 	@BeforeClass
 	public static void init() throws Exception {
 		InputStream input = PostFunctionalTestIT.class.getClassLoader().getResourceAsStream("test.properties");
@@ -73,8 +69,6 @@ public class GetFunctionalTestIT {
 		password = testConfig.getProperty("t1.password");
 		apiKey = testConfig.getProperty("t1.sandbox_api_key");
 		productionKey = testConfig.getProperty("t1.production_api_key");
-		oauthKey = testConfig.getProperty("t1.oauth_api_key");
-		oauthSecret = testConfig.getProperty("t1.oauth_secret");
 	}
 
 	@After
@@ -171,6 +165,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithPageLimit() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -280,6 +275,7 @@ public class GetFunctionalTestIT {
 		}
 
 		assertNotNull(jsonresponse);
+		@SuppressWarnings("unchecked")
 		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
 
 		for (int i = 0; i < advertisers.size(); i++) {
@@ -288,6 +284,7 @@ public class GetFunctionalTestIT {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithQuery() throws ClientException {
 
@@ -309,6 +306,7 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 
+		
 		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
 
 		for (int i = 0; i < advertisers.size(); i++) {
@@ -318,6 +316,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithGetAll() throws ClientException {
 
@@ -351,6 +350,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFullBoolean() throws ClientException {
 
@@ -387,6 +387,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFullString() throws ClientException {
 
@@ -423,6 +424,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFullList() throws ClientException {
 
@@ -468,6 +470,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFind() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -498,6 +501,7 @@ public class GetFunctionalTestIT {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFind1() throws ClientException {
 
@@ -528,6 +532,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBaiscGetWithFind2() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -582,6 +587,7 @@ public class GetFunctionalTestIT {
 		assertEquals(2, strategy.getStrategyDomainRestrictions().size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForStrategyConceptsByUsingQC() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -684,10 +690,10 @@ public class GetFunctionalTestIT {
 		assertNotNull(jsonresponse);
 		Data data = (Data) jsonresponse.getData();
 		assertNotNull(data);
-		assertTrue(data.getEnabled().getActive() == "true");
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForStrategyChildAudienceSegments() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -709,6 +715,7 @@ public class GetFunctionalTestIT {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForStrategyChildDayParts() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -730,6 +737,7 @@ public class GetFunctionalTestIT {
 		assertTrue(day_parts.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForSupplySources() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -750,6 +758,7 @@ public class GetFunctionalTestIT {
 		assertTrue(supply_sources.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForAudienceSegments() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -770,6 +779,7 @@ public class GetFunctionalTestIT {
 		assertTrue(audience_segments.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForPixelBundles() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -790,6 +800,7 @@ public class GetFunctionalTestIT {
 		assertTrue(pixel_bundles.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForStrategySupplySources() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -813,6 +824,7 @@ public class GetFunctionalTestIT {
 		assertTrue(strategy_supply_sources.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForConcepts() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -833,6 +845,7 @@ public class GetFunctionalTestIT {
 		assertTrue(concepts.size() > 0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetForAtomicCreatives() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -874,6 +887,7 @@ public class GetFunctionalTestIT {
 		assertNotNull(atomic_creative.getCreativeApprovals());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetCreativeApprovalsAsChild() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, apiKey);
@@ -1010,6 +1024,7 @@ public class GetFunctionalTestIT {
 		}
 		assertNotNull(jsonresponse);
 	}
+	
 	@Test
 	public void testSingleAdServerGet() throws ClientException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
@@ -1199,7 +1214,6 @@ public class GetFunctionalTestIT {
 	}
 	
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testGetWithCampaignCBS() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").build();
@@ -1216,7 +1230,6 @@ public class GetFunctionalTestIT {
 	}
 	
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testGetWithCampaignCBSWithId() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		QueryCriteria query = QueryCriteria.builder().setCollection("campaigns").setEntity(338158).setChild("custom_brain_selections").setChild("143213").build();
@@ -1297,6 +1310,7 @@ public class GetFunctionalTestIT {
 
 		assertNotNull(jsonresponse);
 	}
+	
 	@Test
 	public void testGetWithSingleUsers() throws ClientException, ParseException {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);

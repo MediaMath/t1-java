@@ -34,11 +34,11 @@ public class T1Meta {
 		this.etag = etag;
 	}
 
-	public String getCalled_on() {
+	public String getCalledOn() {
 		return called_on;
 	}
 
-	public void setCalled_on(String called_on) {
+	public void setCalledOn(String called_on) {
 		this.called_on = called_on;
 	}
 
@@ -66,19 +66,19 @@ public class T1Meta {
 		this.offset = offset;
 	}
 
-	public String getTotal_count() {
+	public String getTotalCount() {
 		return total_count;
 	}
 
-	public void setTotal_count(String total_count) {
+	public void setTotalCount(String total_count) {
 		this.total_count = total_count;
 	}
 
-	public String getNext_page() {
+	public String getNextPage() {
 		return next_page;
 	}
 
-	public void setNext_page(String next_page) {
+	public void setNextPage(String next_page) {
 		this.next_page = next_page;
 	}
 

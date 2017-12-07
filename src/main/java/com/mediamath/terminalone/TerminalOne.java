@@ -268,7 +268,7 @@ public class TerminalOne {
 	 * @throws ClientException
 	 *             a client exception is thrown if any error occurs.
 	 */
-	OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
+	public OAuthResponse getOAuthToken(String username, String password, String clientId, String clientSecret)
 			throws ClientException {
 		String oauthTokenUrl = tOneService.constructOauthUrl(new StringBuilder(TOKEN));
 		logger.info("Authenticating via OAuth Auth0.");
@@ -788,13 +788,13 @@ public class TerminalOne {
 
 		// Using NEXT_PAGE param of meta from each call, in case of get_all
 
-		if (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNext_page() != null
+		if (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNextPage() != null
 				&& query.getAll) {
 			JsonArray mainData = extractData(response);
 			String lastCallResponse = null;
 			// loop till next_page !=null
-			while (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNext_page() != null) {
-				String pageResponse = this.connection.get(jsonResponse.getMeta().getNext_page(), this.getUser());
+			while (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNextPage() != null) {
+				String pageResponse = this.connection.get(jsonResponse.getMeta().getNextPage(), this.getUser());
 
 				JsonArray data = extractData(pageResponse);
 				mainData.addAll(data);

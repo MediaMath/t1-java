@@ -16,9 +16,7 @@
 
 package com.mediamath.terminalone.models.reporting.meta;
 
-import com.mediamath.terminalone.models.reporting.meta.MetaStructure;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class MetaData {
 
@@ -42,9 +40,9 @@ public class MetaData {
 
 	private String time_aggregations;
 
-	private ArrayList<String> time_rollups;
+	private List<String> time_rollups;
 
-	private ArrayList<String> time_windows;
+	private List<String> time_windows;
 
 	private String timezone;
 
@@ -128,19 +126,19 @@ public class MetaData {
 		this.time_aggregations = time_aggregations;
 	}
 
-	public ArrayList<String> getTimeRollups() {
+	public List<String> getTimeRollups() {
 		return time_rollups;
 	}
 
-	public void setTimeRollups(ArrayList<String> time_rollups) {
+	public void setTimeRollups(List<String> time_rollups) {
 		this.time_rollups = time_rollups;
 	}
 
-	public ArrayList<String> getTimeWindows() {
+	public List<String> getTimeWindows() {
 		return time_windows;
 	}
 
-	public void setTimeWindows(ArrayList<String> time_windows) {
+	public void setTimeWindows(List<String> time_windows) {
 		this.time_windows = time_windows;
 	}
 

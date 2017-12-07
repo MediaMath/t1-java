@@ -44,9 +44,6 @@ public class Agency implements T1Entity {
   private Contact sales_contact;
   private Contact traffic_contact;
 
-  public Agency() {
-  }
-
   public boolean isAllowXAdvOptimization() {
     return allow_x_adv_optimization;
   }

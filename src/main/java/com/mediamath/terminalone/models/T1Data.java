@@ -32,11 +32,11 @@ public class T1Data {
 		this.session = session;
 	}
 
-	public String getEntity_type() {
+	public String getEntityType() {
 		return entity_type;
 	}
 
-	public void setEntity_type(String entity_type) {
+	public void setEntityType(String entity_type) {
 		this.entity_type = entity_type;
 	}
 

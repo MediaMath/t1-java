@@ -16,19 +16,19 @@
 
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TPASCreativeBatchPlacement {
 
 	private String width;
 	private String media_ext;
-	private ArrayList<String> converted_tag;
+	private List<String> converted_tag;
 	private String batch_index;
 	private String name;
 	private String third_party_uuid;
 	private String height;
 	private String valid;
-	private ArrayList<String> raw_tag;
+	private List<String> raw_tag;
 	private TPASCreativeCreativeAssets assets;
 	private String ad_server_type;
 	private String tag_type;
@@ -51,11 +51,11 @@ public class TPASCreativeBatchPlacement {
 		this.media_ext = media_ext;
 	}
 
-	public ArrayList<String> getConvertedTag() {
+	public List<String> getConvertedTag() {
 		return converted_tag;
 	}
 
-	public void setConvertedTag(ArrayList<String> converted_tag) {
+	public void setConvertedTag(List<String> converted_tag) {
 		this.converted_tag = converted_tag;
 	}
 
@@ -99,11 +99,11 @@ public class TPASCreativeBatchPlacement {
 		this.valid = valid;
 	}
 
-	public ArrayList<String> getRawTag() {
+	public List<String> getRawTag() {
 		return raw_tag;
 	}
 
-	public void setRawTag(ArrayList<String> raw_tag) {
+	public void setRawTag(List<String> raw_tag) {
 		this.raw_tag = raw_tag;
 	}
 
