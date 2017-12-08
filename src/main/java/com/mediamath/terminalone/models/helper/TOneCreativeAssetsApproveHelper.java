@@ -35,9 +35,12 @@ public class TOneCreativeAssetsApproveHelper {
 	 *            expects a TOneASCreativeAssetsApprove entity.
 	 * @param formData
 	 *            expects a FormDataMultiPart formData object.
+	 * @return 
 	 */
-	public static void getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
+	public static FormDataMultiPart getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
 
+		FormDataMultiPart localFormData = formData;
+		
 		if (entity != null && !entity.getDataList().isEmpty()) {
 
 			for (int i = 0; i < entity.getDataList().size(); i++) {
@@ -46,78 +49,87 @@ public class TOneCreativeAssetsApproveHelper {
 
 				TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
 
-				formData = setIsHttps(formData, data);
+				localFormData = setIsHttps(localFormData, data);
 
-				formData = setAdvertiserID(formData, data);
+				localFormData = setAdvertiserID(localFormData, data);
 
-				formData = setLandingPage(formData, inc, data);
+				localFormData = setLandingPage(localFormData, inc, data);
 
-				formData = setClickURL(formData, inc, data);
+				localFormData = setClickURL(localFormData, inc, data);
 
-				formData = setPrimary(formData, inc, data);
+				localFormData = setPrimary(localFormData, inc, data);
 
-				formData = setBackup(formData, inc, data);
+				localFormData = setBackup(localFormData, inc, data);
 
-				formData = setConcept(formData, inc, data);
+				localFormData = setConcept(localFormData, inc, data);
 
 			}
 
 		}
+		
+		return localFormData;
 
 	}
 
 	private static FormDataMultiPart setConcept(FormDataMultiPart formData, int inc,
 			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getConcept() != null && !data.getConcept().isEmpty()) {
-			formData = formData.field("concept." + inc, data.getConcept());
+			localFormData = localFormData.field("concept." + inc, data.getConcept());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setBackup(FormDataMultiPart formData, int inc,
 			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getBackup() != null && !data.getBackup().isEmpty()) {
-			formData = formData.field("backup." + inc, data.getBackup());
+			localFormData = localFormData.field("backup." + inc, data.getBackup());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setPrimary(FormDataMultiPart formData, int inc,
 			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {
-			formData = formData.field("primary." + inc, data.getPrimary());
+			localFormData = localFormData.field("primary." + inc, data.getPrimary());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setClickURL(FormDataMultiPart formData, int inc,
 			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
-			formData = formData.field("click_url." + inc, data.getClickUrl());
+			localFormData = localFormData.field("click_url." + inc, data.getClickUrl());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setLandingPage(FormDataMultiPart formData, int inc,
 			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getLandingPage() != null && !data.getLandingPage().isEmpty()) {
-			formData = formData.field("landingPage." + inc, data.getLandingPage());
+			localFormData = localFormData.field("landingPage." + inc, data.getLandingPage());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setAdvertiserID(FormDataMultiPart formData, TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
-			formData = formData.field("advertiserid", data.getAdvertiserid());
+			localFormData = localFormData.field("advertiserid", data.getAdvertiserid());
 		}
-		return formData;
+		return localFormData;
 	}
 
 	private static FormDataMultiPart setIsHttps(FormDataMultiPart formData, TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
 		if (data.isHttps()) {
-			formData = formData.field("is_https", Utility.getOneOrZero(data.isHttps()));
+			localFormData = localFormData.field("is_https", Utility.getOneOrZero(data.isHttps()));
 		}
-		return formData;
+		return localFormData;
 	}
 
 }

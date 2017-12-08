@@ -2158,6 +2158,7 @@ public class PostFunctionalTestIT {
 			}
 			assertNotNull(strategy);
 		} // strategy for loop
+		assertNotNull(strategies);
 	}
 
 	@Test
@@ -2195,6 +2196,7 @@ public class PostFunctionalTestIT {
 			assertNotNull(strategy);
 			System.out.println("saved.....");
 		} // strategy for loop
+		assertNotNull(strategies);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -2237,6 +2239,7 @@ public class PostFunctionalTestIT {
 			}
 			assertNotNull(strategy);
 		} // strategy for loop
+		assertNotNull(strategies);
 	}
 
 	@Test

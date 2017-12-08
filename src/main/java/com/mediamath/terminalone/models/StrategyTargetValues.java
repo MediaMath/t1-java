@@ -25,10 +25,16 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 public class StrategyTargetValues implements T1Entity
 {
-	private static final String entityName = "StrategyTargetValues";
+	private static final String ENTITYNAME = "StrategyTargetValues";
 	
-	public class enabled {
-		String active;
+	private Enabled enabled;
+	private List<TargetValue> include = new ArrayList<>();
+	private List<TargetValue> exclude = new ArrayList<>();
+	private String exclude_op;
+	private String include_op;
+	
+	public class Enabled {
+		private String active;
 
 		public String getActive() {
 			return active;
@@ -39,17 +45,11 @@ public class StrategyTargetValues implements T1Entity
 		}
 	}
 
-	private enabled enabled;
-	private List<TargetValue> include = new ArrayList<>();
-	private List<TargetValue> exclude = new ArrayList<>();
-	private String exclude_op;
-	private String include_op;
-
-	public enabled getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(enabled enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 
@@ -87,7 +87,7 @@ public class StrategyTargetValues implements T1Entity
 
 	@Override
 	public String getEntityname() {
-		return entityName;
+		return ENTITYNAME;
 	}
 
 	@Override

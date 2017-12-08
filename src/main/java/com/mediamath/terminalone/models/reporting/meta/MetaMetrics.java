@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MetaMetrics {
 
-  Map<String, MetricsData> metricsMap = new HashMap<String, MetricsData>();
+  private Map<String, MetricsData> metricsMap = new HashMap<>();
 
   public Map<String, MetricsData> getMetricsMap() {
     return metricsMap;

@@ -1447,4 +1447,32 @@ public class GetFunctionalTestIT {
 		JsonResponse<?> jsonresponse = one.get(query);	
 		assertNotNull(jsonresponse);	
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFind3() throws ClientException {
+
+		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("status")
+				.setQueryOperator(Filters.EQUAL).setQueryParams(new QueryParamValues(true)).setPageLimit(100)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			jsonresponse = jt1.find(query);
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertNotNull(advertisers);
+
+
+	}
 }

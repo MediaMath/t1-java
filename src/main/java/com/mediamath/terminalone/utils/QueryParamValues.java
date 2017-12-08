@@ -28,6 +28,8 @@ public class QueryParamValues {
   private Number numberValue = null;
 
   private List<Object> listValue = new ArrayList<>();
+  
+  public QueryParamValues() {/*default constructor*/}
 
   public QueryParamValues(String strValue) {
     this.strValue = strValue;

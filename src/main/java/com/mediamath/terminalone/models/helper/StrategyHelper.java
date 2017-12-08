@@ -339,14 +339,12 @@ public class StrategyHelper {
 					strategyForm.param(DIMENSIONS + inc + RESTRICTION, tv.getRestriction().name());
 					int cntr = 1;
 					StringBuilder valueIds = new StringBuilder();
-					if (!tv.getValueIds().isEmpty()) {
-						for (Integer vi : tv.getValueIds()) {
-							valueIds.append(vi.toString());
-							if (tv.getValueIds().size() != cntr) {
-								valueIds.append(",");
-							}
-							cntr++;
+					for (Integer vi : tv.getValueIds()) {
+						valueIds.append(vi.toString());
+						if (tv.getValueIds().size() != cntr) {
+							valueIds.append(",");
 						}
+						cntr++;
 					}
 					strategyForm.param(DIMENSIONS + inc + ".value_ids", valueIds.toString());
 					strategyForm.param(DIMENSIONS + inc + ".operation", tv.getOperation().toString());

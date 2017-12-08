@@ -30,9 +30,10 @@ public class Data {
 	private List<TargetValue> exclude = new ArrayList<>();
 	private String exclude_op;
 	private String include_op;
+	private Enabled enabled;
 	
-	public class enabled {
-		String active;
+	public class Enabled {
+		private String active;
 
 		public String getActive() {
 			return active;
@@ -43,8 +44,6 @@ public class Data {
 		}
 	}
 
-	private enabled enabled;
-
 	public Map<String, String> getData() {
 		return data;
 	}
@@ -53,11 +52,11 @@ public class Data {
 		this.data = data;
 	}
 
-	public enabled getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(enabled enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 
@@ -81,16 +80,16 @@ public class Data {
 		return exclude_op;
 	}
 
-	public void setExcludeOp(String exclude_op) {
-		this.exclude_op = exclude_op;
+	public void setExcludeOp(String excludeOp) {
+		this.exclude_op = excludeOp;
 	}
 
 	public String getIncludeOp() {
 		return include_op;
 	}
 
-	public void setIncludeOp(String include_op) {
-		this.include_op = include_op;
+	public void setIncludeOp(String includeOp) {
+		this.include_op = includeOp;
 	}
 
 	public User getUser() {

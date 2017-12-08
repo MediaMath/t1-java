@@ -787,14 +787,15 @@ public class TerminalOne {
 			JsonResponse<? extends T1Entity> jsonResponse) throws ClientException {
 
 		// Using NEXT_PAGE param of meta from each call, in case of get_all
+		
+		JsonResponse<? extends T1Entity> jsonResponseData = jsonResponse;
 
-		if (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNextPage() != null
-				&& query.getAll) {
+		if (jsonResponseData != null && query.getAll) {
 			JsonArray mainData = extractData(response);
 			String lastCallResponse = null;
 			// loop till next_page !=null
-			while (jsonResponse != null && jsonResponse.getMeta() != null && jsonResponse.getMeta().getNextPage() != null) {
-				String pageResponse = this.connection.get(jsonResponse.getMeta().getNextPage(), this.getUser());
+			while (jsonResponseData != null && jsonResponseData.getMeta() != null && jsonResponseData.getMeta().getNextPage() != null) {
+				String pageResponse = this.connection.get(jsonResponseData.getMeta().getNextPage(), this.getUser());
 
 				JsonArray data = extractData(pageResponse);
 				mainData.addAll(data);
@@ -807,7 +808,7 @@ public class TerminalOne {
 					throw new ClientException(UNABLE_TO_PARSE_THE_RESPONSE);
 				}
 
-				jsonResponse = pageJsonResponse1;
+				jsonResponseData = pageJsonResponse1;
 				lastCallResponse = pageResponse;
 			}
 
@@ -818,15 +819,15 @@ public class TerminalOne {
 			if (lastCallResponse != null) {
 				obj.add("meta", new JsonParser().parse(lastCallResponse).getAsJsonObject().get("meta"));
 			}
-			jsonResponse = null;
+			jsonResponseData = null;
 
 			try {
-				jsonResponse = parseGetData(obj.toString(), query);
+				jsonResponseData = parseGetData(obj.toString(), query);
 			} catch (ParseException parseException) {
 				throw new ClientException(UNABLE_TO_PARSE_THE_RESPONSE);
 			}
 		}
-		return jsonResponse;
+		return jsonResponseData;
 	}
 
 	/**
@@ -867,26 +868,12 @@ public class TerminalOne {
 					}
 					if (method.getName().startsWith("get") && value != null
 							&& overridedMethods.indexOf(method.getName()) == -1) {
-						String settingMethodName = "set" + method.getName().substring(3);
-						Method method1;
-						try {
-							method1 = strategyRecord.getClass().getMethod(settingMethodName, method.getReturnType());
-							method1.invoke(strategyRecord, value);
-						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
-								| IllegalArgumentException | InvocationTargetException e) {
-							logger.info(CONTEXT, e);
-						}
+						String methodName = "set" + method.getName().substring(3);
+						invokeStrategyMethod(strategyRecord, method, value, methodName);
 					}
 					if (method.getName().startsWith("is") && (value != null && !(value.equals(Boolean.FALSE)))) {
-						String boolMethodName = "set" + method.getName().substring(2);
-						Method method1;
-						try {
-							method1 = strategyRecord.getClass().getMethod(boolMethodName, method.getReturnType());
-							method1.invoke(strategyRecord, value);
-						} catch (NoSuchMethodException | SecurityException | IllegalAccessException
-								| IllegalArgumentException | InvocationTargetException e) {
-							logger.info(CONTEXT, e);
-						}
+						String methodName = "set" + method.getName().substring(2);
+						invokeStrategyMethod(strategyRecord, method, value, methodName);
 					}
 				} // if
 			} // for method list
@@ -894,6 +881,23 @@ public class TerminalOne {
 		} // for strategy list
 
 		return this.save(updatorStrategyList);
+	}
+
+	/**
+	 * @param strategyRecord
+	 * @param method
+	 * @param value
+	 * @param methodName
+	 */
+	private void invokeStrategyMethod(Strategy strategyRecord, Method method, Object value, String methodName) {
+		Method method1;
+		try {
+			method1 = strategyRecord.getClass().getMethod(methodName, method.getReturnType());
+			method1.invoke(strategyRecord, value);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			logger.info(CONTEXT, e);
+		}
 	}
 
 	/**

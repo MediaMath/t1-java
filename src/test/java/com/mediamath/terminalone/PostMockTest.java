@@ -43,6 +43,7 @@ import com.mediamath.terminalone.models.Advertiser;
 import com.mediamath.terminalone.models.Agency;
 import com.mediamath.terminalone.models.AtomicCreative;
 import com.mediamath.terminalone.models.AtomicCreative.adFormats;
+import com.mediamath.terminalone.models.AtomicCreative.expandDir;
 import com.mediamath.terminalone.models.AtomicCreative.expandTrig;
 import com.mediamath.terminalone.models.AtomicCreative.expandValues;
 import com.mediamath.terminalone.models.AtomicCreative.fileTypes;
@@ -2116,7 +2117,7 @@ public class PostMockTest {
 		batchApprove.setAdvertiserId("165615");
 		batchApprove.setBatchIndex("1", null, null);
 		batchApprove.setBatchIndex("4", null, null);
-		batchApprove.setBatchIndex("3", null, null);
+		batchApprove.setBatchIndex("3", String.valueOf(622519), "http://batchindex.com");
 		JsonResponse<? extends T1Entity> finalJsonResponse = null;
 
 		try {
@@ -2253,6 +2254,7 @@ public class PostMockTest {
 		ac.setEndDate(new Date());
 		ac.setExpand(expandValues.D);
 		ac.setExpansionTrigger(expandTrig.CLICK);
+		ac.setExpansionDirection(expandDir.NONRESTRICTED);
 		ac.setFileType(fileTypes.html5);
 		ac.setHasSound(false);
 		ac.setIsHttps(false);
@@ -2269,9 +2271,12 @@ public class PostMockTest {
 		ac.setFileType(ac.getFileType().jpeg);
 		ac.setHeight(72);
 		ac.setName("MyTestAtomicCreative");
+		ac.setStartDate(new Date());
 		ac.setTag("https://ad.doubleclick.net;sz=1x1;ord=[RANDOM_NUMBER]?");
 		ac.setTagType(ac.getTagType().IMG);
+		ac.setTpasAdTag("TEMP");
 		ac.setTpasAdTagName("Sample IMG TAG");
+		ac.setType("VIDEO");
 		ac.setWidth(72);
 
 		Form achForm = AtomicCreativeHelper.getForm(ac);

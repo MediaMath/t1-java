@@ -61,10 +61,6 @@ public class GetService {
 
 		StringBuilder path = new StringBuilder("");
 
-		String childPath;
-
-		StringBuilder includePath;
-
 		// param collection String example "advertisers"
 		if (query.collection != null) {
 			path.append(query.collection);
@@ -77,15 +73,96 @@ public class GetService {
 			path.append("/" + query.entity);
 		}
 
-		// param child String example: acl, permissions
-		if (!query.child.isEmpty()) {
-			childPath = constructChildPath(query.child);
-			if (!"".equalsIgnoreCase(childPath)) {
-				path.append(childPath);
-			}
-		} // end of child
+		constructChild(query, path);// param child String example: acl, permissions
+		constructLimit(query, path);// param limit, should be key=value pair. example organization : 123456
 
-		// param limit, should be key=value pair. example organization : 123456
+		// applicable only for sitelist with id
+		if (query.downloadSiteList) {
+			path.append("/download.csv");
+		}
+
+		constructInclude(query, path);// param include
+		constructSortBy(query, path);// param sortby example: sortby=id
+		constructGetAllAndPagingPath(query, path);// get_all and pagination parameters
+		constructFullParam(query, path);// param full can be string, list<String>, boolean
+		constructParentParam(query, path);// param parent can be id only
+		constructQueryPath(query, path);// param QUERY example
+
+		return path;
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 */
+	private void constructParentParam(QueryCriteria query, StringBuilder path) {
+		if (query.parent > 0) {
+			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
+				path.append("&parent=" + query.parent);
+			} else {
+				path.append("?parent=" + query.parent);
+			}
+		}
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 */
+	private void constructFullParam(QueryCriteria query, StringBuilder path) {
+		StringBuilder fullPath = new StringBuilder("");
+		if (query.full != null) {
+			if (!query.full.getListValue().isEmpty()) {
+				fullPath.append(constructFullPath(query.full.getListValue()));
+			} else if (query.full.getBoolValue()) {
+				fullPath.append("*");
+			} else if (query.full.getStrValue() != null) {
+				fullPath.append(query.full.getStrValue());
+			}
+
+			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
+				path.append("&full=" + fullPath);
+			} else {
+				path.append("?full=" + fullPath);
+			}
+		}
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 */
+	private void constructSortBy(QueryCriteria query, StringBuilder path) {
+		if (query.sortBy != null) {
+			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
+				path.append("&sort_by=" + query.sortBy);
+			} else {
+				path.append("?sort_by=" + query.sortBy);
+			}
+		} // end sortby
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 */
+	private void constructInclude(QueryCriteria query, StringBuilder path) {
+		StringBuilder includePath;
+		if (query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
+			includePath = constructIncludePath(query.includeConditionList);
+			if (includePath != null && !("".equals(path.toString()))
+					&& !("".equalsIgnoreCase(includePath.toString()))) {
+				path.append(includePath.toString());
+			}
+		} // end of include
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 * @throws ClientException
+	 */
+	private void constructLimit(QueryCriteria query, StringBuilder path) throws ClientException {
 		if (query.limit.size() == 1) {
 			// for deals, "/media/" API base is used, which supports
 			// ?[related_entity_name]_id=[related_entity ID]
@@ -103,66 +180,40 @@ public class GetService {
 			throw new ClientException(
 					"Limit must consist of one parent collection (or chained parent collection) and a single value for it");
 		}
-
-		// applicable only for sitelist with id
-		if (query.downloadSiteList) {
-			path.append("/download.csv");
-		}
-
-		// param include
-		if (query.includeConditionList != null && !query.includeConditionList.isEmpty()) {
-			includePath = constructIncludePath(query.includeConditionList);
-			if (includePath != null && !("".equals(path.toString()))
-					&& !("".equalsIgnoreCase(includePath.toString()))) {
-				path.append(includePath.toString());
-			}
-		} // end of include
-
-		// param sortby example: sortby=id
-		if (query.sortBy != null) {
-			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
-				path.append("&sort_by=" + query.sortBy);
-			} else {
-				path.append("?sort_by=" + query.sortBy);
-			}
-		} // end sortby
-
-		// get_all and pagination parameters
-		path = constructGetAllAndPagingPath(query, path);
-
-		// param full can be string, list<String>, boolean
-		StringBuilder fullPath = new StringBuilder("");
-		if (query.full != null) {
-			if (!query.full.getListValue().isEmpty()) {
-				fullPath.append(constructFullPath(query.full.getListValue()));
-			} else if (query.full.getBoolValue()) {
-				fullPath.append("*");
-			} else if (query.full.getStrValue() != null) {
-				fullPath.append(query.full.getStrValue());
-			}
-
-			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
-				path.append("&full=" + fullPath);
-			} else {
-				path.append("?full=" + fullPath);
-			}
-		}
-		// param parent can be id only
-		if (query.parent > 0) {
-			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
-				path.append("&parent=" + query.parent);
-			} else {
-				path.append("?parent=" + query.parent);
-			}
-		}
-
-		// param QUERY example
-		path = constructQueryPath(query, path);
-
-		return path;
 	}
 
-	private StringBuilder constructQueryPath(QueryCriteria query, StringBuilder path) {
+	/**
+	 * @param query
+	 * @param path
+	 */
+	private void constructChild(QueryCriteria query, StringBuilder path) {
+		String childPath;
+		if (!query.child.isEmpty()) {
+			childPath = constructChildPath(query.child);
+			if (!"".equalsIgnoreCase(childPath)) {
+				path.append(childPath);
+			}
+		} // end of child
+	}
+	
+	private String constructChildPath(List<String> child) {
+		StringBuilder childPathBuilder = new StringBuilder("");
+		for (String childVal : child) {
+			HashMap<String, Integer> childMap = Constants.childPaths.get(childVal);
+			if (childMap != null) {
+				for (Map.Entry<String, Integer> entry : childMap.entrySet()) {
+					String key = entry.getKey();
+					Integer val = entry.getValue();
+					childPathBuilder.append((val > 0) ? ("/" + key + "/" + val) : ("/" + key));
+				}
+			} else {
+				childPathBuilder.append("/" + childVal);
+			}
+		}
+		return childPathBuilder.toString();
+	}
+
+	private void constructQueryPath(QueryCriteria query, StringBuilder path) {
 		if (query.query != null) {
 			if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
 				path.append("&q=" + query.query);
@@ -170,10 +221,10 @@ public class GetService {
 				path.append("?q=" + query.query);
 			}
 		}
-		return path;
+		
 	}
 
-	private StringBuilder constructGetAllAndPagingPath(QueryCriteria query, StringBuilder path) throws ClientException {
+	private void constructGetAllAndPagingPath(QueryCriteria query, StringBuilder path) throws ClientException {
 		// param get_all, get_all=True removes the need to worry about
 		// pagination
 		if (query.getAll) {
@@ -201,7 +252,6 @@ public class GetService {
 			}
 		} // end pageLimit
 
-		return path;
 	}
 
 	/**
@@ -254,22 +304,7 @@ public class GetService {
 
 	}
 
-	private String constructChildPath(List<String> child) {
-		StringBuilder childPathBuilder = new StringBuilder("");
-		for (String childVal : child) {
-			HashMap<String, Integer> childMap = Constants.childPaths.get(childVal);
-			if (childMap != null) {
-				for (Map.Entry<String, Integer> entry : childMap.entrySet()) {
-					String key = entry.getKey();
-					Integer val = entry.getValue();
-					childPathBuilder.append((val > 0) ? ("/" + key + "/" + val) : ("/" + key));
-				}
-			} else {
-				childPathBuilder.append("/" + childVal);
-			}
-		}
-		return childPathBuilder.toString();
-	}
+
 
 	private StringBuilder constructIncludePath(List<ConditionQuery> includeConditionList) {
 		StringBuilder includePath = new StringBuilder("");

@@ -27,7 +27,7 @@ public class Meta implements T1Entity {
 
   private static final String ENTITYNAME = "meta";
 
-  Map<String, MetaData> metaData = null;
+  private Map<String, MetaData> metaData = null;
 
   @Override
   public String getEntityname() {

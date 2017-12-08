@@ -41,6 +41,7 @@ import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
+import com.mediamath.terminalone.utils.Utility;
 
 @RunWith(Silent.class)
 public class GetMockTest {
@@ -51,6 +52,7 @@ public class GetMockTest {
 	private static String GET_ALL_RESPONSE_2 = null;
 	private static String GET_ALL_RESPONSE_3 = null;
 	private static String SITE_LIST_DATA_ERROR=null;
+	private static String FIND_QPV_RESPONSE = null;
 
 	@Mock
 	Connection connectionmock;
@@ -76,6 +78,7 @@ public class GetMockTest {
 		GET_ALL_RESPONSE_2 = testConfig.getProperty("t1.mock.get_all.response_2");
 		GET_ALL_RESPONSE_3 = testConfig.getProperty("t1.mock.get_all.response_3");
 		SITE_LIST_DATA_ERROR = testConfig.getProperty("t1.mock.sitelist.error.response");
+		FIND_QPV_RESPONSE= testConfig.getProperty("t1.mock.get.find_qpv.response");
 	}
 
 	@After
@@ -452,6 +455,40 @@ public class GetMockTest {
 
 		assertNotNull(jsonresponse);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFindWithMock1() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165615},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165612},{\"entity_type\" : \"advertiser\","
+						+ "\"name\" : \"ABC Advertisers\",\"id\" : 165611},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165608},{\"entity_type\" : \"advertiser\",\"name\" : \"ABC Advertisers\",\"id\" : 165607}],"
+						+ "\"meta\" : {\"next_page\" : \"https://t1sandbox-origin.mediamath.com/api/v2.0/advertisers?page_offset=5&q=agency_id%3E%3D109308&api_key=e34f74vnubr9uxasz2n7bdfv&page_limit=5\","
+						+ "\"etag\" : \"b81e3860fa348058a011846933765bb08a59af6b\",\"count\" : 5,\"called_on\" : \"2016-07-18T08:40:48+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 124}}");
+		QueryParamValues qpv = new QueryParamValues();
+		qpv.setNumberValue(109308);
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("agency_id")
+				.setQueryOperator(Filters.GREATER_OR_EQUAL).setQueryParams(qpv)
+				.setPageLimit(100).build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.find(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			throw new AssertionError();
+		}
+
+		assertNotNull(jsonresponse);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -466,6 +503,40 @@ public class GetMockTest {
 		limitList.put("agency", Long.valueOf(111555));
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("name")
 				.setQueryOperator(Filters.EQUAL).setQueryParams(new QueryParamValues("Retirement")).setPageLimit(100)
+				.build();
+
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.find(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFind11WithMock() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\" : [],\"meta\" : {\"etag\" : \"97d170e1550eee4afc0af065b78cda302a97674c\",\"count\" : 0,\"called_on\" : \"2016-07-18T08:48:22+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 0}}");
+
+		QueryParamValues qpv = new QueryParamValues();
+		qpv.setStrValue("Retirement");
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("name")
+				.setQueryOperator(Filters.EQUAL).setQueryParams(qpv).setPageLimit(100)
 				.build();
 
 		JsonResponse<?> jsonresponse = null;
@@ -501,6 +572,41 @@ public class GetMockTest {
 		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers")
 				.setQueryParams(new QueryParamValues("name")).setQueryOperator(Filters.IN)
 				.setQueryParams(new QueryParamValues(qParams)).build();
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.find(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFind21WithMock() throws ClientException, ParseException {
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(
+				"{\"data\" : [{\"entity_type\" : \"advertiser\",\"name\" : \"Japan Samurai\",\"id\" : 154121},{\"entity_type\" : \"advertiser\",\"name\" : \"upcast_test\",\"id\" : 153226},{\"entity_type\" : \"advertiser\",\"name\" : \"Test_Dell\",\"id\" : 150994}],"
+						+ "\"meta\" : {\"etag\" : \"9c2310a74a3984d3e789895531eb79f30c858231\",\"count\" : 3,\"called_on\" : \"2016-07-18T08:54:54+0000\",\"status\" : \"ok\",\"offset\" : 0,\"total_count\" : 3}}");
+		
+		List<Object> qParams = new ArrayList<Object>();
+		qParams.add(154121);
+		qParams.add(153226);
+		qParams.add(150994);
+		QueryParamValues qpv = new QueryParamValues();
+		qpv.setListValue(qParams);
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers")
+				.setQueryParams(new QueryParamValues("name")).setQueryOperator(Filters.IN)
+				.setQueryParams(qpv).build();
 		JsonResponse<?> jsonresponse = null;
 		try {
 			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
@@ -1200,8 +1306,83 @@ public class GetMockTest {
 		}
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFind3() throws ClientException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("status")
+				.setQueryOperator(Filters.EQUAL).setQueryParams(new QueryParamValues(true)).setPageLimit(10)
+				.build();
+
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(FIND_QPV_RESPONSE);
+
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.find(query);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertNotNull(advertisers);
 
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscGetWithFind4() throws ClientException {
+		
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+		.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		
+		QueryParamValues qpv = new QueryParamValues();
+		qpv.setBoolValue(true);		
+		
+		Map<String, Long> limitList = new HashMap<String, Long>();
+		limitList.put("agency", Long.valueOf(111555));
+		QueryCriteria query = QueryCriteria.builder().setCollection("advertisers").setQueryParamName("status")
+				.setQueryOperator(Filters.EQUAL).setQueryParams(qpv).setPageLimit(10)
+				.build();
+
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(FIND_QPV_RESPONSE);
+
+		
+		JsonResponse<?> jsonresponse = null;
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.find(query);
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+
+		List<Advertiser> advertisers = (List<Advertiser>) jsonresponse.getData();
+		assertNotNull(advertisers);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testLogStackTrace() throws ClientException {
+		ClientException exception = new ClientException("Testing log stack trace");
+		Utility.logStackTrace(exception);
+		assertNotNull(exception);
+	}
 	
 
 }

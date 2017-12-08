@@ -26,9 +26,8 @@ public class Permissions {
 	private List<Integer> organization_ids = new ArrayList<>();
 	private List<Integer> agency_ids = new ArrayList<>();
 	private List<Integer> advertiser_ids = new ArrayList<>();
-	
-	private Entities entities;
 	private List<Access> flags = new ArrayList<>();
+	private Entities entities;
 
 	class Access {
 		private List<Map<String, String>> access = new ArrayList<>();
@@ -82,6 +81,7 @@ public class Permissions {
 		private List<AccessAdvertiser> advertiser = new ArrayList<>();
 		private List<AccessAdvertiser> agency = new ArrayList<>();
 		private List<AccessAdvertiser> organization = new ArrayList<>();
+		
 		public List<AccessAdvertiser> getAdvertiser() {
 			return advertiser;
 		}
