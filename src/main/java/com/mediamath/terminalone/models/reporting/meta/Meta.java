@@ -16,29 +16,29 @@
 
 package com.mediamath.terminalone.models.reporting.meta;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-import com.mediamath.terminalone.models.T1Entity;
-
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.Form;
 
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.models.T1Entity;
+
 public class Meta implements T1Entity {
 
-  private static final String entityName = "meta";
+  private static final String ENTITYNAME = "meta";
 
-  HashMap<String, MetaData> metaData = null;
+  private Map<String, MetaData> metaData = null;
 
   @Override
   public String getEntityname() {
-    return entityName;
+    return ENTITYNAME;
   }
 
-  public HashMap<String, MetaData> getMetaData() {
+  public Map<String, MetaData> getMetaData() {
     return metaData;
   }
 
-  public void setMetaData(HashMap<String, MetaData> metaData) {
+  public void setMetaData(Map<String, MetaData> metaData) {
     this.metaData = metaData;
   }
 

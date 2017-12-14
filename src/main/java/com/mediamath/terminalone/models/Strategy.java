@@ -198,7 +198,6 @@ public class Strategy implements T1Entity, Cloneable {
 	private List<Segments> audience_segments = new ArrayList<Segments>();
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
-	private List<TargetDimensions> target_dimensions = new ArrayList<TargetDimensions>();
 	private List<Concept> concepts = new ArrayList<Concept>();
 	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
@@ -882,7 +881,7 @@ public class Strategy implements T1Entity, Cloneable {
 		return null;
 	}
 
-	
+	@Override
 	public Strategy clone() throws CloneNotSupportedException{
 		return (Strategy) super.clone();
 	}

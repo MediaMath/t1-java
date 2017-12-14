@@ -23,103 +23,113 @@ import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveData;
 import com.mediamath.terminalone.utils.Utility;
 
 public class TOneCreativeAssetsApproveHelper {
-  
-  private TOneCreativeAssetsApproveHelper() {
-    throw new IllegalAccessError("TOneCreativeAssetsApproveHelper cannot be instantiated");
-  }
 
-  /**
-   * Creates a Multi Part Form object.
-   * 
-   * @param entity
-   *          expects a TOneASCreativeAssetsApprove entity.
-   * @param formData
-   *          expects a FormDataMultiPart formData object.
-   */
-  public static void getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
+	private TOneCreativeAssetsApproveHelper() {
+		throw new IllegalAccessError("TOneCreativeAssetsApproveHelper cannot be instantiated");
+	}
 
-    if (entity != null && !entity.getDataList().isEmpty()) {
+	/**
+	 * Creates a Multi Part Form object.
+	 * 
+	 * @param entity
+	 *            expects a TOneASCreativeAssetsApprove entity.
+	 * @param formData
+	 *            expects a FormDataMultiPart formData object.
+	 * @return 
+	 */
+	public static FormDataMultiPart getMultiPartForm(TOneASCreativeAssetsApprove entity, FormDataMultiPart formData) {
 
-      for (int i = 0; i < entity.getDataList().size(); i++) {
+		FormDataMultiPart localFormData = formData;
+		
+		if (entity != null && !entity.getDataList().isEmpty()) {
 
-        int inc = i + 1;
+			for (int i = 0; i < entity.getDataList().size(); i++) {
 
-        TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
+				int inc = i + 1;
 
-        formData = setIsHttps(formData, data);
+				TOneASCreativeAssetsApproveData data = entity.getDataList().get(i);
 
-        formData = setAdvertiserID(formData, data);
+				localFormData = setIsHttps(localFormData, data);
 
-        formData = setLandingPage(formData, inc, data);
+				localFormData = setAdvertiserID(localFormData, data);
 
-        formData = setClickURL(formData, inc, data);
+				localFormData = setLandingPage(localFormData, inc, data);
 
-        formData = setPrimary(formData, inc, data);
+				localFormData = setClickURL(localFormData, inc, data);
 
-        formData = setBackup(formData, inc, data);
+				localFormData = setPrimary(localFormData, inc, data);
 
-        formData = setConcept(formData, inc, data);
+				localFormData = setBackup(localFormData, inc, data);
 
-      }
+				localFormData = setConcept(localFormData, inc, data);
 
-    }
+			}
 
-  }
+		}
+		
+		return localFormData;
 
-  private static FormDataMultiPart setConcept(FormDataMultiPart formData, int inc,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getConcept() != null && !data.getConcept().isEmpty()) {
-      formData = formData.field("concept." + inc, data.getConcept());
-    }
-    return formData;
-  }
+	}
 
-  private static FormDataMultiPart setBackup(FormDataMultiPart formData, int inc,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getBackup() != null && !data.getBackup().isEmpty()) {
-      formData = formData.field("backup." + inc, data.getBackup());
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setConcept(FormDataMultiPart formData, int inc,
+			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getConcept() != null && !data.getConcept().isEmpty()) {
+			localFormData = localFormData.field("concept." + inc, data.getConcept());
+		}
+		return localFormData;
+	}
 
-  private static FormDataMultiPart setPrimary(FormDataMultiPart formData, int inc,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {
-      formData = formData.field("primary." + inc, data.getPrimary());
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setBackup(FormDataMultiPart formData, int inc,
+			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getBackup() != null && !data.getBackup().isEmpty()) {
+			localFormData = localFormData.field("backup." + inc, data.getBackup());
+		}
+		return localFormData;
+	}
 
-  private static FormDataMultiPart setClickURL(FormDataMultiPart formData, int inc,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
-      formData = formData.field("click_url." + inc, data.getClickUrl());
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setPrimary(FormDataMultiPart formData, int inc,
+			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getPrimary() != null && !data.getPrimary().isEmpty()) {
+			localFormData = localFormData.field("primary." + inc, data.getPrimary());
+		}
+		return localFormData;
+	}
 
-  private static FormDataMultiPart setLandingPage(FormDataMultiPart formData, int inc,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getLandingPage() != null && !data.getLandingPage().isEmpty()) {
-      formData = formData.field("landingPage." + inc, data.getLandingPage());
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setClickURL(FormDataMultiPart formData, int inc,
+			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getClickUrl() != null && !data.getClickUrl().isEmpty()) {
+			localFormData = localFormData.field("click_url." + inc, data.getClickUrl());
+		}
+		return localFormData;
+	}
 
-  private static FormDataMultiPart setAdvertiserID(FormDataMultiPart formData,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
-      formData = formData.field("advertiserid", data.getAdvertiserid());
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setLandingPage(FormDataMultiPart formData, int inc,
+			TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getLandingPage() != null && !data.getLandingPage().isEmpty()) {
+			localFormData = localFormData.field("landingPage." + inc, data.getLandingPage());
+		}
+		return localFormData;
+	}
 
-  private static FormDataMultiPart setIsHttps(FormDataMultiPart formData,
-      TOneASCreativeAssetsApproveData data) {
-    if (data.isHttps()) {
-      formData = formData.field("is_https", Utility.getOneOrZero(data.isHttps()));
-    }
-    return formData;
-  }
+	private static FormDataMultiPart setAdvertiserID(FormDataMultiPart formData, TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.getAdvertiserid() != null && !data.getAdvertiserid().isEmpty()) {
+			localFormData = localFormData.field("advertiserid", data.getAdvertiserid());
+		}
+		return localFormData;
+	}
+
+	private static FormDataMultiPart setIsHttps(FormDataMultiPart formData, TOneASCreativeAssetsApproveData data) {
+		FormDataMultiPart localFormData = formData;
+		if (data.isHttps()) {
+			localFormData = localFormData.field("is_https", Utility.getOneOrZero(data.isHttps()));
+		}
+		return localFormData;
+	}
 
 }

@@ -25,9 +25,15 @@ public class Data {
 
 	private User user;
 	private Permissions permissions;
+	private Map<String, String> data = new HashMap<>();
+	private List<TargetValue> include = new ArrayList<>();
+	private List<TargetValue> exclude = new ArrayList<>();
+	private String exclude_op;
+	private String include_op;
+	private Enabled enabled;
 	
-	public class enabled {
-		String active;
+	public class Enabled {
+		private String active;
 
 		public String getActive() {
 			return active;
@@ -38,14 +44,6 @@ public class Data {
 		}
 	}
 
-	private Map<String, String> data = new HashMap<String, String>();
-	public enabled enabled;
-	private List<TargetValue> include = new ArrayList<TargetValue>();
-	private List<TargetValue> exclude = new ArrayList<TargetValue>();
-	private String exclude_op;
-	private String include_op;
-
-
 	public Map<String, String> getData() {
 		return data;
 	}
@@ -54,11 +52,11 @@ public class Data {
 		this.data = data;
 	}
 
-	public enabled getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(enabled enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 
@@ -78,20 +76,20 @@ public class Data {
 		this.exclude = exclude;
 	}
 
-	public String getExclude_op() {
+	public String getExcludeOp() {
 		return exclude_op;
 	}
 
-	public void setExclude_op(String exclude_op) {
-		this.exclude_op = exclude_op;
+	public void setExcludeOp(String excludeOp) {
+		this.exclude_op = excludeOp;
 	}
 
-	public String getInclude_op() {
+	public String getIncludeOp() {
 		return include_op;
 	}
 
-	public void setInclude_op(String include_op) {
-		this.include_op = include_op;
+	public void setIncludeOp(String includeOp) {
+		this.include_op = includeOp;
 	}
 
 	public User getUser() {

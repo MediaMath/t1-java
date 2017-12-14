@@ -17,26 +17,27 @@
 package com.mediamath.terminalone.models.reporting.meta;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TimeField {
 
-  HashMap<String, TimeInterval> data = new HashMap<String, TimeInterval>();
+	private Map<String, TimeInterval> data = new HashMap<>();
 
-  TimeInterval interval;
+	private TimeInterval interval;
 
-  public TimeInterval getInterval() {
-    return interval;
-  }
+	public TimeInterval getInterval() {
+		return interval;
+	}
 
-  public void setInterval(TimeInterval interval) {
-    this.interval = interval;
-  }
+	public void setInterval(TimeInterval interval) {
+		this.interval = interval;
+	}
 
-  public HashMap<String, TimeInterval> getData() {
-    return data;
-  }
+	public Map<String, TimeInterval> getData() {
+		return data;
+	}
 
-  public void setData(HashMap<String, TimeInterval> data) {
-    this.data = data;
-  }
+	public void setData(Map<String, TimeInterval> data) {
+		this.data = data;
+	}
 }

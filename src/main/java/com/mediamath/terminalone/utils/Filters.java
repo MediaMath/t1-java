@@ -18,21 +18,18 @@ package com.mediamath.terminalone.utils;
 
 //Filters for use with JT1.find
 public final class Filters {
-  
-  private Filters() {
-    // Auto-generated constructor stub
-  }
 
-  public static final String IN = "()";
-  public static final String NULL = ":";
-  public static final String NOT_NULL = ":!";
-  // Equals operator is *different* between M&E (==) and Picard (=)
-  public static final String EQUAL = "==";
-  public static final String NOT_EQUAL = "!=";
-  public static final String GREATER = "%3E";
-  public static final String GREATER_OR_EQUAL = "%3E=";
-  public static final String LESS = "%3C";
-  public static final String LESS_OR_EQUAL = "%3C=";
-  public static final String CASE_INS_STRING = "=:";
-
+	public static final String IN = "()";
+	public static final String NULL = ":";
+	public static final String NOT_NULL = ":!";
+	// Equals operator is *different* between M&E (==) and Picard (=)
+	public static final String EQUAL = "==";
+	public static final String NOT_EQUAL = "!=";
+	public static final String GREATER = "%3E";
+	public static final String GREATER_OR_EQUAL = "%3E=";
+	public static final String LESS = "%3C";
+	public static final String LESS_OR_EQUAL = "%3C=";
+	public static final String CASE_INS_STRING = "=:";
+	
+	private Filters(){}
 }

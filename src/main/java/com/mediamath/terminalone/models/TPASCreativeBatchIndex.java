@@ -18,32 +18,32 @@ package com.mediamath.terminalone.models;
 
 public class TPASCreativeBatchIndex {
 
-  String batch_index;
-  String conceptId;
-  String click_url;
+	private String batch_index;
+	private String conceptId;
+	private String click_url;
 
-  public String getConceptId() {
-    return conceptId;
-  }
+	public String getConceptId() {
+		return conceptId;
+	}
 
-  public void setConceptId(String conceptId) {
-    this.conceptId = conceptId;
-  }
+	public void setConceptId(String conceptId) {
+		this.conceptId = conceptId;
+	}
 
-  public String getClickUrl() {
-    return click_url;
-  }
+	public String getClickUrl() {
+		return click_url;
+	}
 
-  public void setClickUrl(String click_url) {
-    this.click_url = click_url;
-  }
+	public void setClickUrl(String click_url) {
+		this.click_url = click_url;
+	}
 
-  public String getBatchIndex() {
-    return batch_index;
-  }
+	public String getBatchIndex() {
+		return batch_index;
+	}
 
-  public void setBatchIndex(String batch_index) {
-    this.batch_index = batch_index;
-  }
+	public void setBatchIndex(String batch_index) {
+		this.batch_index = batch_index;
+	}
 
 }

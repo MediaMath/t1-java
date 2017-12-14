@@ -21,7 +21,7 @@ import javax.ws.rs.core.Form;
 public class TPASCreativeUpload implements T1Entity {
   private static final String entityName = "TPASCreativeUpload";
 
-  TPASCreativeBatch batch;
+  private TPASCreativeBatch batch;
 
   public TPASCreativeBatch getBatch() {
     return batch;

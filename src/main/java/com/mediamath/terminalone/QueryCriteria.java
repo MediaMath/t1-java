@@ -35,9 +35,9 @@ public class QueryCriteria {
 
 	public long entity = 0;
 
-	public List<String> child = new ArrayList<String>();
+	public List<String> child = new ArrayList<>();
 
-	public List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+	public List<ConditionQuery> includeConditionList = new ArrayList<>();
 
 	public String sortBy = null;
 
@@ -49,7 +49,7 @@ public class QueryCriteria {
 
 	public long parent = 0;
 
-	public Map<String, Long> limit = new HashMap<String, Long>();
+	public Map<String, Long> limit = new HashMap<>();
 
 	public String query = null;
 
@@ -124,9 +124,9 @@ public class QueryCriteria {
 
 		private long entity;
 
-		public List<String> child = new ArrayList<String>();
+		public List<String> child = new ArrayList<>();
 
-		List<ConditionQuery> includeConditionList = new ArrayList<ConditionQuery>();
+		private List<ConditionQuery> includeConditionList = new ArrayList<>();
 
 		private String sortBy = null;
 
@@ -138,7 +138,7 @@ public class QueryCriteria {
 
 		private boolean getAll;
 
-		private Map<String, Long> limit = new HashMap<String, Long>();
+		private Map<String, Long> limit = new HashMap<>();
 
 		private String query = null;
 
@@ -152,7 +152,7 @@ public class QueryCriteria {
 
 		private boolean downloadSiteList = false;
 		
-		public CreativeType creativeType;
+		private CreativeType creativeType;
 
 		private Builder() {
 		}

@@ -51,7 +51,6 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
-import com.mediamath.terminalone.models.Contract;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -90,6 +89,10 @@ import com.mediamath.terminalone.utils.T1JsonToObjParser;
 import com.mediamath.terminalone.utils.Utility;
 
 public class PostService {
+
+	private static final String VERSION = "version";
+
+	private static final String DELETE = "/delete";
 
 	private static final String CREATIVE_ASSETS_APPROVE = "creative_assets/approve";
 
@@ -183,9 +186,7 @@ public class PostService {
 	private String getResponseString(T1Entity entity, String path) throws ClientException {
 		Response responseObj;
 		responseObj = this.connection.post(path, entity.getForm(), this.user);
-
 		return readPostResponseToString(responseObj);
-
 	}
 
 	private String getStrategyResponseString(Strategy entity, String path) throws ClientException {
@@ -243,7 +244,7 @@ public class PostService {
 				userSaved = (User) finalJsonResponse.getData();
 			} else if (finalJsonResponse.getData() instanceof UserPermissions) {
 				UserPermissions uPerm = (UserPermissions) finalJsonResponse.getData();
-				userSaved = (User) uPerm.getUser();
+				userSaved = uPerm.getUser();
 				userSaved.setPermissions(uPerm.getPermissions());
 			}
 
@@ -265,7 +266,6 @@ public class PostService {
 	 *             parsed.
 	 * @throws IOException
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Strategy save(Strategy entity) throws ClientException, ParseException {
 
 		Strategy strategy = null;
@@ -273,51 +273,7 @@ public class PostService {
 		if (entity != null) {
 			StringBuilder uri = getUri(entity);
 
-			if (entity.getId() > 0) {
-				uri.append("/");
-				uri.append(entity.getId());
-			}
-
-			if (entity.getId() > 0 && !entity.getStrategyDomainRestrictions().isEmpty()) {
-				uri.append("/domain_restrictions");
-			}
-
-			if (entity.getId() > 0 && !entity.getAudienceSegments().isEmpty()
-					&& entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegmentIncludeOp() != null) {
-				uri.append("/audience_segments");
-			}
-
-			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
-				uri.append("/site_lists");
-			}
-
-			if (entity.getId() > 0 && !entity.getStrategyTargetingSegments().isEmpty()
-					&& entity.getTargetingSegmentExcludeOp() != null && entity.getTargetingSegmentIncludeOp() != null) {
-				uri.append("/targeting_segments");
-			}
-
-			if (entity.getId() > 0 && !entity.getTargetValues().isEmpty()) {
-				uri.append("/target_values");
-			}
-
-			if (entity.getId() > 0 && !entity.getStrategyDayParts().isEmpty()) {
-				uri.append("/day_parts");
-			}
-
-			if (entity.getId() > 0 && !entity.getDealIds().isEmpty()) {
-				uri.append("/deals");
-			}
-
-			if (entity.getId() > 0 && entity.isCopyStrategy() == true) {
-				uri.append("/copy");
-			}
-
-			if (entity.getId() > 0 && entity.getTargetDimensions() != null) {
-				uri.append("/target_dimensions");
-				if (entity.getTargetDimensions().getId() > 0) {
-					uri.append("/" + String.valueOf(entity.getTargetDimensions().getId()));
-				}
-			}
+			constructStrategyURIPath(entity, uri);
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
@@ -332,43 +288,113 @@ public class PostService {
 			if (finalJsonResponse.getData() == null)
 				return null;
 
-			if (finalJsonResponse.getData() instanceof ArrayList) {
-				List dataList = (ArrayList) finalJsonResponse.getData();
-				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyAudienceSegment) {
-					strategy = entity;
-					strategy.getStrategyAudienceSegments().clear();
-					strategy.setStrategyAudienceSegments(dataList);
+			strategy = constructStrategyResponseObject(entity, strategy, finalJsonResponse);
+		}
+		return strategy;
+	}
+
+	/**
+	 * @param entity
+	 * @param strategy
+	 * @param finalJsonResponse
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private Strategy constructStrategyResponseObject(Strategy entity, Strategy strategy,
+			JsonResponse<? extends T1Entity> finalJsonResponse) {
+		Strategy localStrategy = strategy;
+		if (finalJsonResponse.getData() instanceof ArrayList) {
+			List dataList = (ArrayList) finalJsonResponse.getData();
+			if(dataList.get(0) != null){
+				if (dataList.get(0) instanceof StrategyAudienceSegment) {
+					localStrategy = entity;
+					localStrategy.getStrategyAudienceSegments().clear();
+					localStrategy.setStrategyAudienceSegments(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTargetingSegment) {
-					strategy = entity;
-					strategy.getStrategyTargetingSegments().clear();
-					strategy.setStrategyTargetingSegments(dataList);
+				if (dataList.get(0) instanceof StrategyTargetingSegment) {
+					localStrategy = entity;
+					localStrategy.getStrategyTargetingSegments().clear();
+					localStrategy.setStrategyTargetingSegments(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
-					strategy = entity;
-					strategy.getSiteLists().clear();
-					strategy.setSiteLists(dataList);
+				if (dataList.get(0) instanceof SiteList) {
+					localStrategy = entity;
+					localStrategy.getSiteLists().clear();
+					localStrategy.setSiteLists(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyDayPart) {
-					strategy = entity;
-					strategy.getStrategyDayParts().clear();
-					strategy.setStrategyDayParts(dataList);
+				if (dataList.get(0) instanceof StrategyDayPart) {
+					localStrategy = entity;
+					localStrategy.getStrategyDayParts().clear();
+					localStrategy.setStrategyDayParts(dataList);
 				}
-				if (dataList.get(0) != null && dataList.get(0) instanceof StrategyTarget) {
-					strategy = entity;
-					strategy.getStrategyTarget().clear();
-					strategy.setStrategyTarget(dataList);
-				}
+				if (dataList.get(0) instanceof StrategyTarget) {
+					localStrategy = entity;
+					localStrategy.getStrategyTarget().clear();
+					localStrategy.setStrategyTarget(dataList);
+				}	
+			}
+			
+		}else {
+			if (finalJsonResponse.getData() instanceof StrategyTargetValues) {
+				localStrategy = entity;
+				localStrategy.setStrategyTargetValues((StrategyTargetValues) finalJsonResponse.getData());
 			} else {
-				if (finalJsonResponse.getData() instanceof StrategyTargetValues) {
-					strategy = entity;
-					strategy.setStrategyTargetValues((StrategyTargetValues) finalJsonResponse.getData());
-				} else {
-					strategy = (Strategy) finalJsonResponse.getData();
+				localStrategy = (Strategy) finalJsonResponse.getData();
+			}
+		}
+		return localStrategy;
+	}
+
+	/**
+	 * @param entity
+	 * @param uri
+	 */
+	private void constructStrategyURIPath(Strategy entity, StringBuilder uri) {
+		if (entity.getId() > 0) {
+			uri.append("/");
+			uri.append(entity.getId());
+	
+			if (!entity.getStrategyDomainRestrictions().isEmpty()) {
+				uri.append("/domain_restrictions");
+			}
+	
+			if (!entity.getAudienceSegments().isEmpty()
+					&& entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegmentIncludeOp() != null) {
+				uri.append("/audience_segments");
+			}
+	
+			if (!entity.getSiteLists().isEmpty()) {
+				uri.append("/site_lists");
+			}
+	
+			if (!entity.getStrategyTargetingSegments().isEmpty()
+					&& entity.getTargetingSegmentExcludeOp() != null && entity.getTargetingSegmentIncludeOp() != null) {
+				uri.append("/targeting_segments");
+			}
+	
+			if (!entity.getTargetValues().isEmpty()) {
+				uri.append("/target_values");
+			}
+	
+			if (!entity.getStrategyDayParts().isEmpty()) {
+				uri.append("/day_parts");
+			}
+	
+			if (!entity.getDealIds().isEmpty()) {
+				uri.append("/deals");
+			}
+	
+			if (entity.isCopyStrategy()) {
+				uri.append("/copy");
+			}
+	
+			if (entity.getTargetDimensions() != null) {
+				uri.append("/target_dimensions");
+				if (entity.getTargetDimensions().getId() > 0) {
+					uri.append("/" + entity.getTargetDimensions().getId());
 				}
 			}
 		}
-		return strategy;
+	
 	}
 
 	/**
@@ -483,7 +509,6 @@ public class PostService {
 	 *             a parse exception is thrown when the response cannot be
 	 *             parsed.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Campaign save(Campaign entity) throws ClientException, ParseException {
 
 		Campaign campaign = null;
@@ -491,54 +516,7 @@ public class PostService {
 		if (entity != null) {
 			StringBuilder uri = getUri(entity);
 
-			if (entity.getId() > 0) {
-				uri.append("/");
-				uri.append(entity.getId());
-			}
-
-			if (entity.getId() > 0 && entity.getMargins().size() > 0) {
-				uri.append("/margins");
-			}
-
-			if (entity.getId() > 0 && !entity.getSiteLists().isEmpty()) {
-				uri.append("/site_lists");
-			}
-
-			if (entity.getId() > 0 && entity.isCopyCampaign() == true) {
-				uri.append("/copy");
-			}
-
-			if (entity.getId() > 0 && entity.getBudgetFlights().size() == 1) {
-				uri.append("/budget_flights");
-				if (entity.getBudgetFlights().get(0).getId() > 0) {
-					uri.append("/");
-					uri.append(entity.getBudgetFlights().get(0).getId());
-				}
-				if (entity.getBudgetFlights().get(0).isDeleted()) {
-					uri.append("/delete");
-				}
-			}
-
-			if (entity.getId() > 0 && entity.getBudgetFlights().size() > 1) {
-				uri.append("/budget_flights/bulk");
-			}
-
-			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size() == 1) {
-				uri.append("/custom_brain_selections");
-				if (entity.getCampaignCustomBrainSelection().get(0) != null
-						&& entity.getCampaignCustomBrainSelection().get(0).getId() > 0) {
-					uri.append("/");
-					uri.append(entity.getCampaignCustomBrainSelection().get(0).getId());
-				}
-				if (entity.getCampaignCustomBrainSelection().get(0) != null
-						&& entity.getCampaignCustomBrainSelection().get(0).isDeleted()) {
-					uri.append("/delete");
-				}
-			}
-
-			if (entity.getId() > 0 && entity.getCampaignCustomBrainSelection().size() > 1) {
-				uri.append("/custom_brain_selections/bulk");
-			}
+			constructCampaignURIPath(entity, uri);
 
 			String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
 
@@ -552,44 +530,114 @@ public class PostService {
 			if (finalJsonResponse.getData() == null)
 				return null;
 
-			if (finalJsonResponse.getData() instanceof ArrayList) {
-				ArrayList dataList = (ArrayList) finalJsonResponse.getData();
-				if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
-					campaign = entity;
-					campaign.getSiteLists().clear();
-					campaign.setSiteLists(dataList);
-				} else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
-					campaign = entity;
-					campaign.getBudgetFlights().clear();
-					campaign.setBudgetFlights(dataList);
-				} else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
-					campaign = entity;
-					campaign.getCampaignCustomBrainSelection().clear();
-					campaign.setCampaignCustomBrainSelection(dataList);
-				}
-			} else {
-
-				if (finalJsonResponse.getData() instanceof BudgetFlight) {
-					campaign = entity;
-					BudgetFlight bfData = (BudgetFlight) finalJsonResponse.getData();
-					campaign.getBudgetFlights().clear();
-					campaign.getBudgetFlights().add(bfData);
-				} else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
-					campaign = entity;
-					CampaignCustomBrainSelection ccbsData = (CampaignCustomBrainSelection) finalJsonResponse.getData();
-					campaign.getCampaignCustomBrainSelection().clear();
-					campaign.getCampaignCustomBrainSelection().add(ccbsData);
-				} else {
-					campaign = (Campaign) finalJsonResponse.getData();
-				}
-			}
+			campaign = constructCampaignResponseObject(entity, campaign, finalJsonResponse);
 		}
 
 		return campaign;
 	}
 
+	/**
+	 * @param entity
+	 * @param campaign
+	 * @param finalJsonResponse
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Campaign constructCampaignResponseObject(Campaign entity, Campaign campaign,
+			JsonResponse<? extends T1Entity> finalJsonResponse) {
+		Campaign localCampaign = campaign;
+		
+		if (finalJsonResponse.getData() instanceof ArrayList) {
+			ArrayList dataList = (ArrayList) finalJsonResponse.getData();
+			if (dataList.get(0) != null && dataList.get(0) instanceof SiteList) {
+				localCampaign = entity;
+				localCampaign.getSiteLists().clear();
+				localCampaign.setSiteLists(dataList);
+			} else if (dataList.get(0) != null && dataList.get(0) instanceof BudgetFlight) {
+				localCampaign = entity;
+				localCampaign.getBudgetFlights().clear();
+				localCampaign.setBudgetFlights(dataList);
+			} else if (dataList.get(0) != null && dataList.get(0) instanceof CampaignCustomBrainSelection) {
+				localCampaign = entity;
+				localCampaign.getCampaignCustomBrainSelection().clear();
+				localCampaign.setCampaignCustomBrainSelection(dataList);
+			}
+		} else {
+
+			if (finalJsonResponse.getData() instanceof BudgetFlight) {
+				localCampaign = entity;
+				BudgetFlight bfData = (BudgetFlight) finalJsonResponse.getData();
+				localCampaign.getBudgetFlights().clear();
+				localCampaign.getBudgetFlights().add(bfData);
+			} else if (finalJsonResponse.getData() instanceof CampaignCustomBrainSelection) {
+				localCampaign = entity;
+				CampaignCustomBrainSelection ccbsData = (CampaignCustomBrainSelection) finalJsonResponse.getData();
+				localCampaign.getCampaignCustomBrainSelection().clear();
+				localCampaign.getCampaignCustomBrainSelection().add(ccbsData);
+			} else {
+				localCampaign = (Campaign) finalJsonResponse.getData();
+			}
+		}
+		return localCampaign;
+	}
+
+	/**
+	 * @param entity
+	 * @param uri
+	 */
+	private void constructCampaignURIPath(Campaign entity, StringBuilder uri) {
+		
+		if (entity.getId() > 0) {
+			uri.append("/");
+			uri.append(entity.getId());
+
+			if (entity.getMargins().size() > 0) {
+				uri.append("/margins");
+			}
+	
+			else if (!entity.getSiteLists().isEmpty()) {
+				uri.append("/site_lists");
+			}
+	
+			else if (entity.isCopyCampaign()) {
+				uri.append("/copy");
+			}
+	
+			else if (entity.getBudgetFlights().size() == 1) {
+				uri.append("/budget_flights");
+				if (entity.getBudgetFlights().get(0).getId() > 0) {
+					uri.append("/").append(entity.getBudgetFlights().get(0).getId());
+				}
+				if (entity.getBudgetFlights().get(0).isDeleted()) {
+					uri.append(DELETE);
+				}
+			}
+	
+			else if (entity.getBudgetFlights().size() > 1) {
+				uri.append("/budget_flights/bulk");
+			}
+	
+			else if (entity.getCampaignCustomBrainSelection().size() == 1) {
+				uri.append("/custom_brain_selections");
+				if (entity.getCampaignCustomBrainSelection().get(0) != null
+						&& entity.getCampaignCustomBrainSelection().get(0).getId() > 0) {
+					uri.append("/").append(entity.getCampaignCustomBrainSelection().get(0).getId());
+				}
+				if (entity.getCampaignCustomBrainSelection().get(0) != null
+						&& entity.getCampaignCustomBrainSelection().get(0).isDeleted()) {
+					uri.append(DELETE);
+				}
+			}
+	
+			else if (entity.getCampaignCustomBrainSelection().size() > 1) {
+				uri.append("/custom_brain_selections/bulk");
+			}
+		
+		}
+	}
+
 	private JsonResponse<? extends T1Entity> getJsonResponse(T1Entity entity, String response)
-			throws ClientException, ParseException {
+			throws ParseException {
 
 		JsonResponse<? extends T1Entity> finalJsonResponse;
 
@@ -622,7 +670,7 @@ public class PostService {
 		if (entity != null) {
 
 			StringBuilder path = new StringBuilder(
-					t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES);
+					t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES);
 
 			if (entity.getCreativeId() > 0) {
 				path.append("/" + entity.getCreativeId());
@@ -650,7 +698,7 @@ public class PostService {
 					&& !parsedVideoCreativeResponse.getCreativeId().isEmpty()) {
 
 				videoCreative = parsedVideoCreativeResponse;
-			} else if (entity.getCreativeId() > 0) {
+			} else if (parsedVideoCreativeResponse != null && entity.getCreativeId() > 0) {
 				videoCreative = new VideoCreativeResponse();
 				videoCreative.setCreativeId(String.valueOf(entity.getCreativeId()));
 				videoCreative.setStatus(parsedVideoCreativeResponse.getStatus());
@@ -671,7 +719,7 @@ public class PostService {
 	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
 		VideoCreativeUploadStatus uploadStatus = null;
 		if (checkString(creativeId)) {
-			StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES
+			StringBuilder path = new StringBuilder(t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES
 					+ "/" + creativeId + "/status");
 			String pathstr = path.toString();
 			logger.info(pathstr);
@@ -711,16 +759,17 @@ public class PostService {
 
 		if (checkString(filePath) && checkString(creativeId) && checkString(fileName)) {
 
-			StringBuilder path = new StringBuilder(t1Service.getApi_base() + t1Service.getVideoCreativeURL() + CREATIVES
+			StringBuilder path = new StringBuilder(t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES
 					+ "/" + creativeId + "/upload?fileName=" + fileName);
 
 			String finalPath = path.toString();
-			InputStream inputStream = null;
 
 			// post binary only
-			try {
-				inputStream = new FileInputStream(new File(filePath));
+			try(InputStream inputStream = new FileInputStream(new File(filePath));) {
+				
 				Response responseObj = this.connection.post(finalPath, inputStream, this.user);
+
+				inputStream.close();
 
 				String response = responseObj.readEntity(String.class);
 
@@ -742,10 +791,6 @@ public class PostService {
 					videoCreative = parsedVideoCreativeResponse;
 				}
 
-			} finally {
-				if (inputStream != null) {
-					inputStream.close();
-				}
 			}
 		}
 		return videoCreative;
@@ -788,20 +833,20 @@ public class PostService {
 
 			String finalPath = "https://" + host;
 			final File fileToUpload = new File(filePath);
-			try {
+			try(final FormDataMultiPart multiPart = new FormDataMultiPart();) {
+
 				// add key
-				final FormDataMultiPart multiPart = new FormDataMultiPart();
 				multiPart.field("key", key);
 				// add file
-				if (!fileToUpload.equals(null)) {
-					FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(
-							FormDataContentDisposition.name("file").fileName(fileName).build(), fileToUpload,
-							MediaType.APPLICATION_OCTET_STREAM_TYPE);
-					multiPart.bodyPart(fileDataBodyPart);
-				}
+				FormDataBodyPart fileDataBodyPart = new FormDataBodyPart(
+						FormDataContentDisposition.name("file").fileName(fileName).build(), fileToUpload,
+						MediaType.APPLICATION_OCTET_STREAM_TYPE);
+				multiPart.bodyPart(fileDataBodyPart);
+
 				Response responseObj = this.connection.post(finalPath, multiPart, this.user);
 				String response = responseObj.readEntity(String.class);
 				// close resources
+				
 				multiPart.close();
 
 				T1JsonToObjParser parser = new T1JsonToObjParser();
@@ -819,9 +864,6 @@ public class PostService {
 				if (parsedVideoCreativeResponse != null && parsedVideoCreativeResponse.getStatus() != null) {
 					videoCreative = parsedVideoCreativeResponse;
 				}
-
-			} finally {
-
 			}
 		}
 		return videoCreative;
@@ -855,7 +897,7 @@ public class PostService {
 			path.append(Constants.entityPaths.get("StrategyConcept"));
 			path.append("/");
 			path.append(strategyConcept.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyConcept"));
@@ -892,14 +934,14 @@ public class PostService {
 			path.append(Constants.entityPaths.get("StrategyDayPart"));
 			path.append("/");
 			path.append(strategyDayPart.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("StrategyDayPart"));
 
 		Form strategyConceptForm = new Form();
 		if (strategyDayPart.getVersion() >= 0) {
-			strategyConceptForm.param("version", String.valueOf(strategyDayPart.getVersion()));
+			strategyConceptForm.param(VERSION, String.valueOf(strategyDayPart.getVersion()));
 		}
 
 		Response responseObj = connection.post(finalPath, strategyConceptForm, this.user);
@@ -910,38 +952,6 @@ public class PostService {
 		return parser.parseJsonToObj(response, Constants.getEntityType.get("strategy_day_parts"));
 	}
 
-	/**
-	 * Delete Contract Entity
-	 * 
-	 * @param contract
-	 * @return JsonResponse<? extends T1Entity> returns a JsonResponse of type T
-	 *         entity.
-	 * @throws ClientException
-	 * @throws ParseException
-	 */
-	public JsonResponse<? extends T1Entity> delete(Contract contract) throws ClientException, ParseException {
-		StringBuilder path = new StringBuilder();
-
-		if (contract.getId() > 0) {
-			path.append(Constants.entityPaths.get("Contract"));
-			path.append("/");
-			path.append(contract.getId());
-		}
-
-		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("Contract"));
-
-		Form contractForm = new Form();
-		if (contract.getVersion() >= 0) {
-			contractForm.param("version", String.valueOf(contract.getVersion()));
-		}
-		Response responseObj = connection.delete(finalPath, contractForm, this.user);
-
-		String response = responseObj.readEntity(String.class);
-
-		T1JsonToObjParser parser = new T1JsonToObjParser();
-
-		return getJsonResponse(contract, response);
-	}
 
 	/**
 	 * Delete Vendor Contract Entity
@@ -960,14 +970,14 @@ public class PostService {
 			path.append(Constants.entityPaths.get("VendorContract"));
 			path.append("/");
 			path.append(contract.getId());
-			path.append("/delete");
+			path.append(DELETE);
 		}
 
 		String finalPath = t1Service.constructUrl(path, Constants.entityPaths.get("VendorContract"));
 
 		Form contractForm = new Form();
 		if (contract.getVersion() >= 0) {
-			contractForm.param("version", String.valueOf(contract.getVersion()));
+			contractForm.param(VERSION, String.valueOf(contract.getVersion()));
 		}
 		Response responseObj = connection.post(finalPath, contractForm, this.user);
 		String response = responseObj.readEntity(String.class);
@@ -1010,7 +1020,9 @@ public class PostService {
 	}
 
 	private String saveCreativeUploads(StringBuilder uri, String filePath, String name, String fileName,
-			String collection) throws ClientException, IOException {
+			String collection) throws ClientException {
+		String response =null;
+		
 		if (filePath == null && name == null && fileName == null) {
 			throw new ClientException("please enter a valid filename and file path");
 		}
@@ -1019,15 +1031,19 @@ public class PostService {
 
 		FileDataBodyPart filePart = new FileDataBodyPart("file", new File(filePath));
 
-		FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
-		FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
-				.field("name", name).bodyPart(filePart);
+		try(FormDataMultiPart formDataMultiPart = new FormDataMultiPart();) {
+			
+			FormDataMultiPart multipart = (FormDataMultiPart) formDataMultiPart.field("filename", fileName)
+					.field("name", name).bodyPart(filePart);
 
-		Response responseObj = this.connection.post(path, multipart, this.user);
-		String response = responseObj.readEntity(String.class);
-
-		formDataMultiPart.close();
-		multipart.close();
+			Response responseObj = this.connection.post(path, multipart, this.user);
+			response = responseObj.readEntity(String.class);
+			formDataMultiPart.close();
+			multipart.close();
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
 
 		return response;
 	}
@@ -1087,6 +1103,7 @@ public class PostService {
 	 *             is thrown when this method is unable to create a file
 	 *             containing report data.
 	 */
+	@SuppressWarnings("resource")
 	public JsonResponse<? extends T1Entity> saveTPASCreativeUploadBatch(TPASCreativeBatchApprove entity)
 			throws ClientException, IOException, ParseException {
 		FormDataMultiPart formData = new FormDataMultiPart();
@@ -1098,8 +1115,9 @@ public class PostService {
 			if (entity.getBatchId() != null && !entity.getBatchId().isEmpty()) {
 				uri.append(entity.getBatchId());
 				String path = t1Service.constructUrl(uri, CREATIVES_STR);
-				TPasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
+				formData = TPasCreativeUploadBatchHelper.getMultiPartForm(entity, formData);
 				Response responseObj = this.connection.post(path, formData, this.user);
+				formData.close();
 				String response = responseObj.readEntity(String.class);
 
 				T1JsonToObjParser parser = new T1JsonToObjParser();
@@ -1217,6 +1235,7 @@ public class PostService {
 	 * @throws IOException
 	 *             exception is thrown when the multipart form is left open.
 	 */
+	@SuppressWarnings("resource")
 	public JsonResponse<? extends T1Entity> saveTOneASCreativeAssetsApprove(TOneASCreativeAssetsApprove entity)
 			throws ClientException, IOException {
 
@@ -1231,8 +1250,9 @@ public class PostService {
 
 		StringBuilder uri = new StringBuilder(CREATIVE_ASSETS_APPROVE);
 		String path = t1Service.constructUrl(uri, CREATIVE_ASSETS);
-		TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
+		formData = TOneCreativeAssetsApproveHelper.getMultiPartForm(entity, formData);
 		Response responseObj = this.connection.post(path, formData, this.user);
+		formData.close();
 		String jsonResponse = responseObj.readEntity(String.class);
 		T1JsonToObjParser parser = new T1JsonToObjParser();
 		JsonPostErrorResponse jsonPostErrorResponse;
@@ -1297,11 +1317,9 @@ public class PostService {
 
 	private void parseMetaElement(Response responseObj, JsonElement metaElement, JsonPostErrorResponse errorResponse,
 			Gson gson) {
-		if (metaElement != null) {
-			if (responseObj != null && responseObj.getStatus() == 403) {
+		if (metaElement != null && responseObj != null && responseObj.getStatus() == 403) {
 				T1Meta meta = gson.fromJson(metaElement, T1Meta.class);
 				errorResponse.setMeta(meta);
-			}
 		}
 	}
 
@@ -1335,7 +1353,6 @@ public class PostService {
 				for (int i = 0; i < array.size(); i++) {
 					if (!(array.get(i) instanceof JsonPrimitive)) {
 						newArray.add(array.get(i));
-
 					}
 				}
 				if (newArray.size() > 0) {
@@ -1385,15 +1402,18 @@ public class PostService {
 	}
 
 	private StringBuilder parseMetaException(JsonPostErrorResponse jsonPostResponse, StringBuilder strBuilder) {
+		StringBuilder stringBuilder = strBuilder;
+
 		if (jsonPostResponse != null && jsonPostResponse.getMeta() != null
 				&& checkPostResponseMetaStatus(jsonPostResponse)) {
-			if (strBuilder == null) {
-				strBuilder = new StringBuilder(jsonPostResponse.getMeta().getStatus());
+			if (stringBuilder == null) {
+				stringBuilder = new StringBuilder(jsonPostResponse.getMeta().getStatus());
 			} else {
-				strBuilder.append(", Status: " + jsonPostResponse.getMeta().getStatus());
+				stringBuilder.append(", Status: " + jsonPostResponse.getMeta().getStatus());
 			}
 		}
-		return strBuilder;
+
+		return stringBuilder;
 	}
 
 	private boolean checkPostResponseMetaStatus(JsonPostErrorResponse jsonPostResponse) {
@@ -1401,23 +1421,23 @@ public class PostService {
 	}
 
 	private StringBuilder parseErrorsException(JsonPostErrorResponse jsonPostResponse, StringBuilder strBuilder) {
-
+		StringBuilder stringBuilder = strBuilder;
 		if (jsonPostResponse == null)
-			return strBuilder;
+			return stringBuilder;
 
 		if (jsonPostResponse.getErrors() == null)
-			return strBuilder;
+			return stringBuilder;
 
 		if (jsonPostResponse.getErrors() instanceof ArrayList) {
 			@SuppressWarnings("unchecked")
 			ArrayList<T1Error> al = (ArrayList<T1Error>) jsonPostResponse.getErrors();
 			for (T1Error error : al) {
 				if (error.getMessage() != null) {
-					strBuilder = formErrorString(strBuilder, error);
+					stringBuilder = formErrorString(stringBuilder, error);
 				}
 				if (error.getFieldError() != null) {
 					for (FieldError fe : error.getFieldError()) {
-						strBuilder = formFieldErrorString(strBuilder, fe);
+						stringBuilder = formFieldErrorString(stringBuilder, fe);
 					}
 				}
 			}
@@ -1426,71 +1446,74 @@ public class PostService {
 			T1Error error = (T1Error) jsonPostResponse.getErrors();
 
 			if (error.getMessage() != null) {
-				strBuilder = formErrorString(strBuilder, error);
+				stringBuilder = formErrorString(stringBuilder, error);
 			}
 			if (error.getFieldError() != null) {
 				for (FieldError fe : error.getFieldError()) {
-					strBuilder = formFieldErrorString(strBuilder, fe);
+					stringBuilder = formFieldErrorString(stringBuilder, fe);
 				}
 			}
 		}
 
-		return strBuilder;
+		return stringBuilder;
 	}
 
 	private StringBuilder formFieldErrorString(StringBuilder strBuilder, FieldError fe) {
-		if (strBuilder == null) {
-			strBuilder = new StringBuilder(
+		StringBuilder stringBuilder = strBuilder;
+		if (stringBuilder == null) {
+			stringBuilder = new StringBuilder(
 					"Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
 		} else {
-			strBuilder.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
+			stringBuilder.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
 		}
-		return strBuilder;
+		return stringBuilder;
 	}
 
 	private StringBuilder formErrorString(StringBuilder strBuilder, T1Error error) {
-		if (strBuilder == null) {
-			strBuilder = new StringBuilder(error.getMessage()); // add error
+		StringBuilder stringBuilder = strBuilder;
+		if (stringBuilder == null) {
+			stringBuilder = new StringBuilder(error.getMessage()); // add error
 																// field
 		} else {
-			strBuilder.append(", " + error.getMessage());
+			stringBuilder.append(", " + error.getMessage());
 		}
-		return strBuilder;
+		return stringBuilder;
 	}
 
 	private StringBuilder parseErrorException(JsonPostErrorResponse jsonPostResponse, StringBuilder strBuilder) {
+		StringBuilder stringBuilder = strBuilder;
 		if (jsonPostResponse != null && jsonPostResponse.getError() != null) {
 			T1Error error = jsonPostResponse.getError();
 
 			if (error.getContent() != null) {
-				strBuilder = new StringBuilder("Content: " + error.getContent());
+				stringBuilder = new StringBuilder("Content: " + error.getContent());
 			}
 
 			if (error.getField() != null) {
-				if (strBuilder == null) {
-					strBuilder = new StringBuilder("Field: " + error.getField());
+				if (stringBuilder == null) {
+					stringBuilder = new StringBuilder("Field: " + error.getField());
 				} else {
-					strBuilder.append(", " + "Field: " + error.getField());
+					stringBuilder.append(", " + "Field: " + error.getField());
 				}
 			}
 
 			if (error.getMessage() != null) {
-				if (strBuilder == null) {
-					strBuilder = new StringBuilder("Message: " + error.getMessage());
+				if (stringBuilder == null) {
+					stringBuilder = new StringBuilder("Message: " + error.getMessage());
 				} else {
-					strBuilder.append(", " + "Message: " + error.getMessage());
+					stringBuilder.append(", " + "Message: " + error.getMessage());
 				}
 			}
 
 			if (error.getType() != null) {
-				if (strBuilder == null) {
-					strBuilder = new StringBuilder("Type: " + error.getType());
+				if (stringBuilder == null) {
+					stringBuilder = new StringBuilder("Type: " + error.getType());
 				} else {
-					strBuilder.append(", " + "Type: " + error.getType());
+					stringBuilder.append(", " + "Type: " + error.getType());
 				}
 			}
 		}
-		return strBuilder;
+		return stringBuilder;
 	}
 
 	private <T extends T1Entity> JsonResponse<? extends T1Entity> parsePostData(String response,
@@ -1518,15 +1541,14 @@ public class PostService {
 							Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
 				}
 			}
-		} else {
-			if (entity != null) {
+		} else if (entity != null) {
 				finalJsonResponse = parser.parseJsonToObj(response,
 						Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
 				if (finalJsonResponse != null) {
 					finalJsonResponse.setData(null);
 				}
-			}
 		}
+		
 		return finalJsonResponse;
 	}
 
@@ -1536,12 +1558,13 @@ public class PostService {
 				&& obj.get("enabled") != null) {
 			return "strategy_target_values";
 		} else {
-			return ((entityTypeElement != null) ? entityTypeElement.getAsString() : null);
+			return (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
 		}
 	}
 
 	private JsonResponse<? extends T1Entity> parseJsonArrayDataList(String response, T1JsonToObjParser parser,
 			JsonResponse<? extends T1Entity> finalJsonResponse, JsonElement data) throws ParseException {
+		JsonResponse<? extends T1Entity> localJsonResponse = finalJsonResponse;
 		String entityType;
 		if (data != null) {
 			JsonObject dataObj = data.getAsJsonObject();
@@ -1549,18 +1572,20 @@ public class PostService {
 				JsonElement entityTypeElem = dataObj.get("entity_type");
 				if (entityTypeElem != null) {
 					entityType = entityTypeElem.getAsString();
-					finalJsonResponse = parseArrayJsonResponse(response, parser, finalJsonResponse, entityType);
+					localJsonResponse = parseArrayJsonResponse(response, parser, localJsonResponse, entityType);
 				}
 			}
 		}
-		return finalJsonResponse;
+		return localJsonResponse;
 	}
 
 	private JsonResponse<? extends T1Entity> parseArrayJsonResponse(String response, T1JsonToObjParser parser,
 			JsonResponse<? extends T1Entity> finalJsonResponse, String entityType) throws ParseException {
+		JsonResponse<? extends T1Entity> localJsonResponse = finalJsonResponse;
+		
 		if (checkString(entityType) && Constants.getListoFEntityType.get(entityType) != null) {
-			finalJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
+			localJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
 		}
-		return finalJsonResponse;
+		return localJsonResponse;
 	}
 }

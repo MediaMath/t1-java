@@ -16,135 +16,135 @@
 
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TPASCreativeBatchPlacement {
 
-  String width;
-  String media_ext;
-  ArrayList<String> converted_tag;
-  String batch_index;
-  String name;
-  String third_party_uuid;
-  String height;
-  String valid;
-  ArrayList<String> raw_tag;
-  TPASCreativeCreativeAssets assets;
-  String ad_server_type;
-  String tag_type;
-  String tpas_ad_tag_name;
-  String asset_bytes;
+	private String width;
+	private String media_ext;
+	private List<String> converted_tag;
+	private String batch_index;
+	private String name;
+	private String third_party_uuid;
+	private String height;
+	private String valid;
+	private List<String> raw_tag;
+	private TPASCreativeCreativeAssets assets;
+	private String ad_server_type;
+	private String tag_type;
+	private String tpas_ad_tag_name;
+	private String asset_bytes;
 
-  public String getWidth() {
-    return width;
-  }
+	public String getWidth() {
+		return width;
+	}
 
-  public void setWidth(String width) {
-    this.width = width;
-  }
+	public void setWidth(String width) {
+		this.width = width;
+	}
 
-  public String getMediaExt() {
-    return media_ext;
-  }
+	public String getMediaExt() {
+		return media_ext;
+	}
 
-  public void setMediaExt(String media_ext) {
-    this.media_ext = media_ext;
-  }
+	public void setMediaExt(String media_ext) {
+		this.media_ext = media_ext;
+	}
 
-  public ArrayList<String> getConvertedTag() {
-    return converted_tag;
-  }
+	public List<String> getConvertedTag() {
+		return converted_tag;
+	}
 
-  public void setConvertedTag(ArrayList<String> converted_tag) {
-    this.converted_tag = converted_tag;
-  }
+	public void setConvertedTag(List<String> converted_tag) {
+		this.converted_tag = converted_tag;
+	}
 
-  public String getBatchIndex() {
-    return batch_index;
-  }
+	public String getBatchIndex() {
+		return batch_index;
+	}
 
-  public void setBatchIndex(String batch_index) {
-    this.batch_index = batch_index;
-  }
+	public void setBatchIndex(String batch_index) {
+		this.batch_index = batch_index;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getThirdPartyUuid() {
-    return third_party_uuid;
-  }
+	public String getThirdPartyUuid() {
+		return third_party_uuid;
+	}
 
-  public void setThirdPartyUuid(String third_party_uuid) {
-    this.third_party_uuid = third_party_uuid;
-  }
+	public void setThirdPartyUuid(String third_party_uuid) {
+		this.third_party_uuid = third_party_uuid;
+	}
 
-  public String getHeight() {
-    return height;
-  }
+	public String getHeight() {
+		return height;
+	}
 
-  public void setHeight(String height) {
-    this.height = height;
-  }
+	public void setHeight(String height) {
+		this.height = height;
+	}
 
-  public String getValid() {
-    return valid;
-  }
+	public String getValid() {
+		return valid;
+	}
 
-  public void setValid(String valid) {
-    this.valid = valid;
-  }
+	public void setValid(String valid) {
+		this.valid = valid;
+	}
 
-  public ArrayList<String> getRawTag() {
-    return raw_tag;
-  }
+	public List<String> getRawTag() {
+		return raw_tag;
+	}
 
-  public void setRawTag(ArrayList<String> raw_tag) {
-    this.raw_tag = raw_tag;
-  }
+	public void setRawTag(List<String> raw_tag) {
+		this.raw_tag = raw_tag;
+	}
 
-  public TPASCreativeCreativeAssets getAssets() {
-    return assets;
-  }
+	public TPASCreativeCreativeAssets getAssets() {
+		return assets;
+	}
 
-  public void setAssets(TPASCreativeCreativeAssets assets) {
-    this.assets = assets;
-  }
+	public void setAssets(TPASCreativeCreativeAssets assets) {
+		this.assets = assets;
+	}
 
-  public String getAdServerType() {
-    return ad_server_type;
-  }
+	public String getAdServerType() {
+		return ad_server_type;
+	}
 
-  public void setAdServerType(String ad_server_type) {
-    this.ad_server_type = ad_server_type;
-  }
+	public void setAdServerType(String ad_server_type) {
+		this.ad_server_type = ad_server_type;
+	}
 
-  public String getTagType() {
-    return tag_type;
-  }
+	public String getTagType() {
+		return tag_type;
+	}
 
-  public void setTagType(String tag_type) {
-    this.tag_type = tag_type;
-  }
+	public void setTagType(String tag_type) {
+		this.tag_type = tag_type;
+	}
 
-  public String getTpasAdTagName() {
-    return tpas_ad_tag_name;
-  }
+	public String getTpasAdTagName() {
+		return tpas_ad_tag_name;
+	}
 
-  public void setTpasAdTagName(String tpas_ad_tag_name) {
-    this.tpas_ad_tag_name = tpas_ad_tag_name;
-  }
+	public void setTpasAdTagName(String tpas_ad_tag_name) {
+		this.tpas_ad_tag_name = tpas_ad_tag_name;
+	}
 
-  public String getAssetBytes() {
-    return asset_bytes;
-  }
+	public String getAssetBytes() {
+		return asset_bytes;
+	}
 
-  public void setAssetBytes(String asset_bytes) {
-    this.asset_bytes = asset_bytes;
-  }
+	public void setAssetBytes(String asset_bytes) {
+		this.asset_bytes = asset_bytes;
+	}
 
 }

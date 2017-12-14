@@ -41,6 +41,7 @@ public class StrategyDayPart implements T1Entity {
 	private boolean user_time;
 	private int version;
 	private String name;
+	private Strategy strategy;
 
 	public StrategyDayPart() {
 	}
@@ -52,8 +53,6 @@ public class StrategyDayPart implements T1Entity {
 		this.start_hour = start_hour;
 		this.user_time = user_time;
 	}
-
-	private Strategy strategy;
 
 	public Date getCreatedOn() {
 		return created_on;

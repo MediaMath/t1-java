@@ -18,11 +18,11 @@ package com.mediamath.terminalone.models.reporting.meta;
 
 public class MetricsData {
 
-  String description;
+  private String description;
   
-  String name;
+  private String name;
   
-  String type;
+  private String type;
 
   public String getDescription() {
     return description;

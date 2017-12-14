@@ -18,34 +18,34 @@ package com.mediamath.terminalone.models;
 
 public class T1User {
 
-  T1Data data;
+	private T1Data data;
 
-  T1Meta meta;
+	private T1Meta meta;
 
-  String token;
+	private String token;
 
-  public String getToken() {
-    return token;
-  }
+	public String getToken() {
+		return token;
+	}
 
-  public void setToken(String token) {
-    this.token = token;
-  }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-  public T1Data getData() {
-    return data;
-  }
+	public T1Data getData() {
+		return data;
+	}
 
-  public void setData(T1Data data) {
-    this.data = data;
-  }
+	public void setData(T1Data data) {
+		this.data = data;
+	}
 
-  public T1Meta getMeta() {
-    return meta;
-  }
+	public T1Meta getMeta() {
+		return meta;
+	}
 
-  public void setMeta(T1Meta meta) {
-    this.meta = meta;
-  }
+	public void setMeta(T1Meta meta) {
+		this.meta = meta;
+	}
 
 }

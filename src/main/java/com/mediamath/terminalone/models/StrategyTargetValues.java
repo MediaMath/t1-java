@@ -17,9 +17,7 @@
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.core.Form;
 
@@ -27,10 +25,16 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 public class StrategyTargetValues implements T1Entity
 {
-	private static final String entityName = "StrategyTargetValues";
+	private static final String ENTITYNAME = "StrategyTargetValues";
 	
-	public class enabled {
-		String active;
+	private Enabled enabled;
+	private List<TargetValue> include = new ArrayList<>();
+	private List<TargetValue> exclude = new ArrayList<>();
+	private String exclude_op;
+	private String include_op;
+	
+	public class Enabled {
+		private String active;
 
 		public String getActive() {
 			return active;
@@ -41,17 +45,11 @@ public class StrategyTargetValues implements T1Entity
 		}
 	}
 
-	public enabled enabled;
-	List<TargetValue> include = new ArrayList<TargetValue>();
-	List<TargetValue> exclude = new ArrayList<TargetValue>();
-	String exclude_op;
-	String include_op;
-
-	public enabled getEnabled() {
+	public Enabled getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(enabled enabled) {
+	public void setEnabled(Enabled enabled) {
 		this.enabled = enabled;
 	}
 
@@ -71,36 +69,34 @@ public class StrategyTargetValues implements T1Entity
 		this.exclude = exclude;
 	}
 
-	public String getExclude_op() {
+	public String getExcludeOp() {
 		return exclude_op;
 	}
 
-	public void setExclude_op(String exclude_op) {
+	public void setExcludeOp(String exclude_op) {
 		this.exclude_op = exclude_op;
 	}
 
-	public String getInclude_op() {
+	public String getIncludeOp() {
 		return include_op;
 	}
 
-	public void setInclude_op(String include_op) {
+	public void setIncludeOp(String include_op) {
 		this.include_op = include_op;
 	}
 
 	@Override
 	public String getEntityname() {
-		return entityName;
+		return ENTITYNAME;
 	}
 
 	@Override
 	public Form getForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getUri() throws ClientException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

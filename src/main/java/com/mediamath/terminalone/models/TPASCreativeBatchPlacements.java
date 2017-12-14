@@ -16,27 +16,27 @@
 
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TPASCreativeBatchPlacements {
 
-  ArrayList<TPASCreativePlacementInvalid> invalid;
-  ArrayList<TPASCreativePlacementValid> valid;
+	private List<TPASCreativePlacementInvalid> invalid;
+	private List<TPASCreativePlacementValid> valid;
 
-  public ArrayList<TPASCreativePlacementInvalid> getInvalid() {
-    return invalid;
-  }
+	public List<TPASCreativePlacementInvalid> getInvalid() {
+		return invalid;
+	}
 
-  public void setInvalid(ArrayList<TPASCreativePlacementInvalid> invalid) {
-    this.invalid = invalid;
-  }
+	public void setInvalid(List<TPASCreativePlacementInvalid> invalid) {
+		this.invalid = invalid;
+	}
 
-  public ArrayList<TPASCreativePlacementValid> getValid() {
-    return valid;
-  }
+	public List<TPASCreativePlacementValid> getValid() {
+		return valid;
+	}
 
-  public void setValid(ArrayList<TPASCreativePlacementValid> valid) {
-    this.valid = valid;
-  }
+	public void setValid(List<TPASCreativePlacementValid> valid) {
+		this.valid = valid;
+	}
 
 }

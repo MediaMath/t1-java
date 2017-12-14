@@ -40,7 +40,7 @@ public class T1Service {
 
 	private static final String OAUTH_SCOPE = "openid profile";
 
-	private String URL = null;
+	private String url = null;
 
 	private String apiBase = null;
 
@@ -165,14 +165,14 @@ public class T1Service {
 	}
 
 	public String getURL() {
-		return URL;
+		return url;
 	}
 
 	public void setURL(String uRL) {
-		URL = uRL;
+		url = uRL;
 	}
 
-	public String getApi_base() {
+	public String getApiBase() {
 		return apiBase;
 	}
 

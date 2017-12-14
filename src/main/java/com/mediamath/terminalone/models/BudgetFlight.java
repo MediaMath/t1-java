@@ -26,9 +26,6 @@ public class BudgetFlight implements T1Entity {
 	private int total_impression_budget;
 	private boolean isDeleted = false;
 
-	public BudgetFlight() {
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -136,7 +133,7 @@ public class BudgetFlight implements T1Entity {
 			cost.setValue(value);
 
 			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrency_code(currency_code);
+				cost.setCurrencyCode(currency_code);
 			}
 
 			this.total_budget.add(cost);
@@ -153,13 +150,11 @@ public class BudgetFlight implements T1Entity {
 
 	@Override
 	public String getEntityname() {
-		// TODO Auto-generated method stub
 		return entityName;
 	}
 
 	@Override
 	public Form getForm() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

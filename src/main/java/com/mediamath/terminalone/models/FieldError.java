@@ -18,44 +18,44 @@ package com.mediamath.terminalone.models;
 
 public class FieldError {
 
-  String error;
+	private String error;
 
-  String name;
+	private String name;
 
-  String code;
+	private String code;
 
-  String message;
+	private String message;
 
-  public String getError() {
-    return error;
-  }
+	public String getError() {
+		return error;
+	}
 
-  public void setError(String error) {
-    this.error = error;
-  }
+	public void setError(String error) {
+		this.error = error;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public String getCode() {
-    return code;
-  }
+	public String getCode() {
+		return code;
+	}
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-  public String getMessage() {
-    return message;
-  }
+	public String getMessage() {
+		return message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 }

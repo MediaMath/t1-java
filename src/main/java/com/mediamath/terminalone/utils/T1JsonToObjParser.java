@@ -71,7 +71,7 @@ public class T1JsonToObjParser {
    *         2 = Json Element is of type Array.
    * 
    */
-  public int getJsonElementType(String response) {
+/*  public int getJsonElementType(String response) {
     int isArrayObj = 0; // 0 = null
     JsonParser parser = new JsonParser();
     JsonObject obj = parser.parse(response).getAsJsonObject();
@@ -103,7 +103,7 @@ public class T1JsonToObjParser {
       }
     }
     return isArrayObj;
-  }
+  }*/
 
   /**
    * parses Json response String to dynamically selected Entity of type T1Entity.

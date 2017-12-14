@@ -329,7 +329,8 @@ public class ReportingMockTest {
 		String dateInString = "2015-02-06";
 		String endDateInString = "2015-04-16";
 
-		String startDate, endDate;
+		String startDate; 
+		String endDate;
 		try {
 			startDate = df.format(df.parse(dateInString));
 			endDate = df.format(df.parse(endDateInString));

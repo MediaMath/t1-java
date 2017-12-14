@@ -17,11 +17,28 @@
 package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TOneASCreativeAssetsUpload {
 
-  ArrayList<TOneASCreativeAssetsData> data = new ArrayList<TOneASCreativeAssetsData>();
+	private List<TOneASCreativeAssetsData> data = new ArrayList<>();
 
-  T1Meta meta;
+	private T1Meta meta;
+
+	public List<TOneASCreativeAssetsData> getData() {
+		return data;
+	}
+
+	public void setData(List<TOneASCreativeAssetsData> data) {
+		this.data = data;
+	}
+
+	public T1Meta getMeta() {
+		return meta;
+	}
+
+	public void setMeta(T1Meta meta) {
+		this.meta = meta;
+	}
 
 }

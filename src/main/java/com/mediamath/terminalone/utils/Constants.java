@@ -251,23 +251,23 @@ public final class Constants {
 
 	// required for converting requested string path names to entity names when
 	// collection demanded
-	public static HashMap<String, String> pathToCollectionEntity = new HashMap<String, String>();
+	public static final HashMap<String, String> pathToCollectionEntity = new HashMap<>();
 
 	// Required for converting entity names to path names [to form paths.]
-	public static HashMap<String, String> entityPaths = new HashMap<String, String>();
+	public static final HashMap<String, String> entityPaths = new HashMap<>();
 
 	// Required for Identifying entity based on requiested path/entity string
-	public static HashMap<String, String> pathToEntity = new HashMap<String, String>();
+	public static final HashMap<String, String> pathToEntity = new HashMap<>();
 
-	public static HashMap<String, Integer> childPathSub = new HashMap<String, Integer>();
+	public static final HashMap<String, Integer> childPathSub = new HashMap<>();
 
-	public static HashMap<String, HashMap<String, Integer>> childPaths = new HashMap<String, HashMap<String, Integer>>();
+	public static final HashMap<String, HashMap<String, Integer>> childPaths = new HashMap<>();
 
 	// get the type of entity.. required for parsing.
-	public static HashMap<String, Type> getEntityType = new HashMap<String, Type>();
+	public static final HashMap<String, Type> getEntityType = new HashMap<>();
 
 	// get the type of list of entity.. required for parsing.
-	public static HashMap<String, Type> getListoFEntityType = new HashMap<String, Type>();
+	public static final HashMap<String, Type> getListoFEntityType = new HashMap<>();
 
 	static {
 
@@ -762,77 +762,77 @@ public final class Constants {
 		pathToEntity.put(VERTICAL, "Vertical");
 
 		// CHILD PATHS
-		HashMap<String, Integer> subMap1 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap1 = new HashMap<>();
 		subMap1.put("acl", 0);
 		childPaths.put("acl", (new HashMap<String, Integer>()));
-		HashMap<String, Integer> subMap2 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap2 = new HashMap<>();
 		subMap2.put(TARGET_DIMENSIONS, 22);
 		childPaths.put("audio", subMap2);
-		HashMap<String, Integer> subMap3 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap3 = new HashMap<>();
 		subMap3.put(TARGET_DIMENSIONS, 4);
 		childPaths.put("browser", subMap3);
-		HashMap<String, Integer> subMap4 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap4 = new HashMap<>();
 		subMap4.put(TARGET_DIMENSIONS, 16);
 		childPaths.put("channels", subMap4);
-		HashMap<String, Integer> subMap5 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap5 = new HashMap<>();
 		subMap5.put(CONCEPTS, 0);
 		childPaths.put(CONCEPTS, subMap5);
 
-		HashMap<String, Integer> subMap6 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap6 = new HashMap<>();
 		subMap6.put(TARGET_DIMENSIONS, 2);
 		childPaths.put("connection speed", subMap6);
-		HashMap<String, Integer> subMap7 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap7 = new HashMap<>();
 		subMap7.put(TARGET_DIMENSIONS, 21);
 		childPaths.put("content initiation", subMap7);
-		HashMap<String, Integer> subMap8 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap8 = new HashMap<>();
 		subMap8.put(TARGET_DIMENSIONS, 14);
 		childPaths.put("country", subMap8);
-		HashMap<String, Integer> subMap9 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap9 = new HashMap<>();
 		subMap9.put("day_parts", 0);
 		childPaths.put("day_parts", subMap9);
-		HashMap<String, Integer> subMap10 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap10 = new HashMap<>();
 		subMap10.put(TARGET_DIMENSIONS, 24);
 		childPaths.put("device", subMap10);
-		HashMap<String, Integer> subMap11 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap11 = new HashMap<>();
 		subMap11.put(TARGET_DIMENSIONS, 1);
 		childPaths.put("dma", subMap11);
-		HashMap<String, Integer> subMap12 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap12 = new HashMap<>();
 		subMap12.put(TARGET_DIMENSIONS, 19);
 		childPaths.put("fold position", subMap12);
-		HashMap<String, Integer> subMap13 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap13 = new HashMap<>();
 		subMap13.put(TARGET_DIMENSIONS, 3);
 		childPaths.put("isp", subMap13);
-		HashMap<String, Integer> subMap14 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap14 = new HashMap<>();
 		subMap14.put(TARGET_DIMENSIONS, 20);
 		childPaths.put("linear format", subMap14);
-		HashMap<String, Integer> subMap15 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap15 = new HashMap<>();
 		subMap15.put(TARGET_DIMENSIONS, 8);
 		childPaths.put("mathselect250", subMap15);
-		HashMap<String, Integer> subMap16 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap16 = new HashMap<>();
 		subMap16.put(TARGET_DIMENSIONS, 5);
 		childPaths.put("os", subMap16);
-		HashMap<String, Integer> subMap17 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap17 = new HashMap<>();
 		subMap17.put(PERMISSIONS, 0);
 		childPaths.put("permission", subMap17);
-		HashMap<String, Integer> subMap18 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap18 = new HashMap<>();
 		subMap18.put(PERMISSIONS, 0);
 		childPaths.put(PERMISSIONS, subMap18);
-		HashMap<String, Integer> subMap19 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap19 = new HashMap<>();
 		subMap19.put(TARGET_DIMENSIONS, 23);
 		childPaths.put("player size", subMap19);
-		HashMap<String, Integer> subMap20 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap20 = new HashMap<>();
 		subMap20.put(TARGET_DIMENSIONS, 7);
 		childPaths.put("region", subMap20);
-		HashMap<String, Integer> subMap21 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap21 = new HashMap<>();
 		subMap21.put(TARGET_DIMENSIONS, 15);
 		childPaths.put("safety", subMap21);
-		HashMap<String, Integer> subMap22 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap22 = new HashMap<>();
 		subMap22.put("supplies", 0);
 		childPaths.put("supplies", subMap22);
-		HashMap<String, Integer> subMap23 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap23 = new HashMap<>();
 		subMap23.put("targeting_segments", 0);
 		childPaths.put("targeting_segments", subMap23);
-		HashMap<String, Integer> subMap24 = new HashMap<String, Integer>();
+		HashMap<String, Integer> subMap24 = new HashMap<>();
 		subMap24.put(AUDIENCE_SEGMENTS, 0);
 		childPaths.put(AUDIENCE_SEGMENTS, subMap24);
 	}

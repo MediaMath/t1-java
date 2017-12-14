@@ -26,29 +26,81 @@ public class Permissions {
 	private List<Integer> organization_ids = new ArrayList<>();
 	private List<Integer> agency_ids = new ArrayList<>();
 	private List<Integer> advertiser_ids = new ArrayList<>();
-	
-	class Access{
-		public List<Map<String, String>> access = new ArrayList<Map<String, String>>();
-	}
-	
-	class AccessAdvertiser{
-		public List<Advertiser> access = new ArrayList<Advertiser>(); 
-	}
-	class AccessAgency{
-		public List<Agency> access = new ArrayList<Agency>(); 
-	}
-	class AccessOrganization{
-		public List<Organization> access = new ArrayList<Organization>(); 
-	}
-	
-	class Entities{
-		public List<AccessAdvertiser> advertiser = new ArrayList<AccessAdvertiser>();
-		public List<AccessAdvertiser> agency = new ArrayList<AccessAdvertiser>();
-		public List<AccessAdvertiser> organization = new ArrayList<AccessAdvertiser>();
-	}
-	
+	private List<Access> flags = new ArrayList<>();
 	private Entities entities;
-	private List<Access> flags = new ArrayList<Access>();
+
+	class Access {
+		private List<Map<String, String>> access = new ArrayList<>();
+
+		public List<Map<String, String>> getAccess() {
+			return access;
+		}
+
+		public void setAccess(List<Map<String, String>> access) {
+			this.access = access;
+		}
+	}
+
+	class AccessAdvertiser {
+		private List<Advertiser> access = new ArrayList<>();
+
+		public List<Advertiser> getAccess() {
+			return access;
+		}
+
+		public void setAccess(List<Advertiser> access) {
+			this.access = access;
+		}
+	}
+
+	class AccessAgency {
+		private List<Agency> access = new ArrayList<>();
+
+		public List<Agency> getAccess() {
+			return access;
+		}
+
+		public void setAccess(List<Agency> access) {
+			this.access = access;
+		}
+	}
+
+	class AccessOrganization {
+		private List<Organization> access = new ArrayList<>();
+
+		public List<Organization> getAccess() {
+			return access;
+		}
+
+		public void setAccess(List<Organization> access) {
+			this.access = access;
+		}
+	}
+
+	class Entities {
+		private List<AccessAdvertiser> advertiser = new ArrayList<>();
+		private List<AccessAdvertiser> agency = new ArrayList<>();
+		private List<AccessAdvertiser> organization = new ArrayList<>();
+		
+		public List<AccessAdvertiser> getAdvertiser() {
+			return advertiser;
+		}
+		public void setAdvertiser(List<AccessAdvertiser> advertiser) {
+			this.advertiser = advertiser;
+		}
+		public List<AccessAdvertiser> getAgency() {
+			return agency;
+		}
+		public void setAgency(List<AccessAdvertiser> agency) {
+			this.agency = agency;
+		}
+		public List<AccessAdvertiser> getOrganization() {
+			return organization;
+		}
+		public void setOrganization(List<AccessAdvertiser> organization) {
+			this.organization = organization;
+		}
+	}
 
 	public boolean isAllOrganizations() {
 		return all_organizations;
@@ -70,11 +122,11 @@ public class Permissions {
 		return agency_ids;
 	}
 
-	public void setAgency_ids(List<Integer> agency_ids) {
+	public void setAgencyIds(List<Integer> agency_ids) {
 		this.agency_ids = agency_ids;
 	}
 
-	public List<Integer> getAdvertiser_ids() {
+	public List<Integer> getAdvertiserIds() {
 		return advertiser_ids;
 	}
 

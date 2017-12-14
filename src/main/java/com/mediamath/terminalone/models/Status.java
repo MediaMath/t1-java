@@ -18,34 +18,34 @@ package com.mediamath.terminalone.models;
 
 public class Status {
 
-  String code;
+	private String code;
 
-  String content;
+	private String content;
 
-  String message;
+	private String message;
 
-  public String getCode() {
-    return code;
-  }
+	public String getCode() {
+		return code;
+	}
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-  public String getContent() {
-    return content;
-  }
+	public String getContent() {
+		return content;
+	}
 
-  public void setContent(String content) {
-    this.content = content;
-  }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-  public String getMessage() {
-    return message;
-  }
+	public String getMessage() {
+		return message;
+	}
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 }
