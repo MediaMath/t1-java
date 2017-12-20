@@ -1040,8 +1040,14 @@ public class PostService {
 			response = responseObj.readEntity(String.class);
 			formDataMultiPart.close();
 			multipart.close();
+			
+			JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+			if (error != null){
+				throwExceptions(error);
+			}	
+			
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			Utility.logStackTrace(e);
 		}
 		
 
@@ -1071,7 +1077,12 @@ public class PostService {
 		String response = responseObj.readEntity(String.class);
 
 		multipart.close();
-
+		
+		JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+		if (error != null){
+			throwExceptions(error);
+		}
+		
 		return response;
 	}
 
