@@ -1112,7 +1112,7 @@ public class TerminalOne {
 
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement entityTypeElement = obj.get(ENTITY_TYPE);
-			if(entityTypeElement.getAsString().equals(STRATEGY)){
+			if(entityTypeElement!=null && entityTypeElement.getAsString().equals(STRATEGY)){
 				modifiedJsonString = checkAndFixStrategyJson(responseObject);
 			}
 			if(modifiedJsonString==null){
