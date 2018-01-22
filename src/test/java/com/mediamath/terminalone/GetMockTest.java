@@ -53,6 +53,7 @@ public class GetMockTest {
 	private static String GET_ALL_RESPONSE_3 = null;
 	private static String SITE_LIST_DATA_ERROR=null;
 	private static String FIND_QPV_RESPONSE = null;
+	private static String STR_RESPONSE= null;
 
 	@Mock
 	Connection connectionmock;
@@ -79,6 +80,7 @@ public class GetMockTest {
 		GET_ALL_RESPONSE_3 = testConfig.getProperty("t1.mock.get_all.response_3");
 		SITE_LIST_DATA_ERROR = testConfig.getProperty("t1.mock.sitelist.error.response");
 		FIND_QPV_RESPONSE= testConfig.getProperty("t1.mock.get.find_qpv.response");
+		STR_RESPONSE= testConfig.getProperty("t1.mock.get.strategy_save_response");
 	}
 
 	@After
@@ -1384,5 +1386,31 @@ public class GetMockTest {
 		assertNotNull(exception);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testBaiscWithMocks() throws ClientException, ParseException {
 
+		Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class)))
+				.thenReturn(response);
+		Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
+		Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class))).thenReturn(STR_RESPONSE);
+		QueryCriteria query = QueryCriteria.builder().setCollection("strategies").setEntity(2916957).build();
+		
+
+		JsonResponse<?> jsonresponse = null;
+
+		try {
+			t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
+			jsonresponse = t1.get(query);
+			Mockito.verify(connectionmock).get(Mockito.anyString(), Mockito.any(T1User.class));
+			Mockito.verify(connectionmock, times(1)).post(Mockito.anyString(), Mockito.any(Form.class));
+		} catch (ClientException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertNotNull(jsonresponse);
+		assertNotNull(jsonresponse.getData());
+	}
+	
 }

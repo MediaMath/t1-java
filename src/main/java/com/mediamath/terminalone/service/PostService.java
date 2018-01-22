@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,7 @@ import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.BudgetFlight;
 import com.mediamath.terminalone.models.Campaign;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
+import com.mediamath.terminalone.models.Currency;
 import com.mediamath.terminalone.models.FieldError;
 import com.mediamath.terminalone.models.JsonPostErrorResponse;
 import com.mediamath.terminalone.models.JsonResponse;
@@ -90,6 +93,8 @@ import com.mediamath.terminalone.utils.Utility;
 
 public class PostService {
 
+	private static final String ENTITY_TYPE = "entity_type";
+
 	private static final String VERSION = "version";
 
 	private static final String DELETE = "/delete";
@@ -115,6 +120,8 @@ public class PostService {
 	private T1User user = null;
 
 	private static final String YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
+
+	private static final Object STRATEGY = "strategy";
 
 	public PostService() {
 		// default constructor.
@@ -1040,8 +1047,14 @@ public class PostService {
 			response = responseObj.readEntity(String.class);
 			formDataMultiPart.close();
 			multipart.close();
+			
+			JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+			if (error != null){
+				throwExceptions(error);
+			}	
+			
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			Utility.logStackTrace(e);
 		}
 		
 
@@ -1071,7 +1084,12 @@ public class PostService {
 		String response = responseObj.readEntity(String.class);
 
 		multipart.close();
-
+		
+		JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
+		if (error != null){
+			throwExceptions(error);
+		}
+		
 		return response;
 	}
 
@@ -1521,62 +1539,78 @@ public class PostService {
 
 		// parse the string to gson objs
 		JsonResponse<? extends T1Entity> finalJsonResponse = null;
+		JsonParser parsers = new JsonParser();
+		JsonObject responseObject = parsers.parse(new StringReader(response)).getAsJsonObject();
+		String modifiedJsonString = null;
+		
 		JsonElement element = parser.getDataFromResponse(response);
-		if (element != null) {
-			if (element.isJsonArray()) {
-				// do something
-				JsonArray dataList = element.getAsJsonArray();
-				if (dataList.size() > 0) {
-					JsonElement data = dataList.get(0);
-					finalJsonResponse = parseJsonArrayDataList(response, parser, finalJsonResponse, data);
+		if (element != null && element.isJsonArray()) {
+			// do something
+			JsonArray dataList = element.getAsJsonArray();
+			if (dataList.size() > 0) {
+				JsonElement data = dataList.get(0);
+				if (data == null) {
+					return null;
+				}
+				JsonObject dataObj = data.getAsJsonObject();
+				if (dataObj == null) {
+					return null;
+				}
+				// Check whether strategy have values in old format, if yes change them to current format
+				if (dataObj.get(ENTITY_TYPE).equals(STRATEGY)) {
+					modifiedJsonString = checkAndFixStrategyJson(responseObject);
 				}
 
-			} else if (element.isJsonObject()) {
-				JsonObject obj = element.getAsJsonObject();
-				String entityType = getEntityType(obj);
-				if (entityType != null) {
-					finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entityType));
-				} else {
-					finalJsonResponse = parser.parseJsonToObj(response,
-							Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+				if (modifiedJsonString == null) {
+					modifiedJsonString = response;
 				}
+
+				JsonElement entityTypeElem = dataObj.get(ENTITY_TYPE);
+				if (entityTypeElem != null) {
+					String entityType = entityTypeElem.getAsString();
+					finalJsonResponse = parseArrayJsonResponse(modifiedJsonString.replaceAll("\\\\", ""), parser,finalJsonResponse, entityType);
+				}
+
 			}
-		} else if (entity != null) {
-				finalJsonResponse = parser.parseJsonToObj(response,
-						Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
-				if (finalJsonResponse != null) {
-					finalJsonResponse.setData(null);
+
+		}
+		else if (element != null && element.isJsonObject()) {
+			JsonObject obj = element.getAsJsonObject();
+			String entityType = getEntityType(obj);
+			if (entityType != null) {
+				if(entityType.equals(STRATEGY)){
+					modifiedJsonString = checkAndFixStrategyJson(responseObject);
 				}
+				if(modifiedJsonString==null){
+					modifiedJsonString=response;
+				}
+				
+				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
+			} else {
+				if(modifiedJsonString==null){
+					modifiedJsonString=response;
+				}
+				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""),Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+			}
+		}
+		else if (entity != null) {
+			finalJsonResponse = parser.parseJsonToObj(response,	Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+			if (finalJsonResponse != null) {
+				finalJsonResponse.setData(null);
+			}
 		}
 		
 		return finalJsonResponse;
 	}
 
 	private String getEntityType(JsonObject obj) {
-		JsonElement entityTypeElement = obj.get("entity_type");
+		JsonElement entityTypeElement = obj.get(ENTITY_TYPE);
 		if (entityTypeElement == null && obj.get("exclude_op") != null && obj.get("include_op") != null
 				&& obj.get("enabled") != null) {
 			return "strategy_target_values";
 		} else {
 			return (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
 		}
-	}
-
-	private JsonResponse<? extends T1Entity> parseJsonArrayDataList(String response, T1JsonToObjParser parser,
-			JsonResponse<? extends T1Entity> finalJsonResponse, JsonElement data) throws ParseException {
-		JsonResponse<? extends T1Entity> localJsonResponse = finalJsonResponse;
-		String entityType;
-		if (data != null) {
-			JsonObject dataObj = data.getAsJsonObject();
-			if (dataObj != null) {
-				JsonElement entityTypeElem = dataObj.get("entity_type");
-				if (entityTypeElem != null) {
-					entityType = entityTypeElem.getAsString();
-					localJsonResponse = parseArrayJsonResponse(response, parser, localJsonResponse, entityType);
-				}
-			}
-		}
-		return localJsonResponse;
 	}
 
 	private JsonResponse<? extends T1Entity> parseArrayJsonResponse(String response, T1JsonToObjParser parser,
@@ -1587,5 +1621,37 @@ public class PostService {
 			localJsonResponse = parser.parseJsonToObj(response, Constants.getListoFEntityType.get(entityType));
 		}
 		return localJsonResponse;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private String checkAndFixStrategyJson(JsonObject responseObject) {
+		Gson gson = new Gson();
+		JsonObject data = responseObject.getAsJsonObject("data");
+		
+		Class strategyClass = Strategy.class;
+		Field[]fieldList = strategyClass.getDeclaredFields();
+		
+		for(Field field: fieldList){
+			if(field.getType().isInstance(new ArrayList<Currency>()) 
+			&& ("java.util.ArrayList<com.mediamath.terminalone.models.Currency>").equals(field.getGenericType().toString())
+			&& (data.get(field.getName())!=null && data.get(field.getName()).isJsonPrimitive()))
+			{
+					float fieldValue = data.get(field.getName()).getAsFloat();
+					responseObject.getAsJsonObject("data").remove(field.getName());
+					ArrayList<Currency> egvList = new ArrayList<>();
+					Currency curr = new Currency();
+					curr.setValue(fieldValue);
+					if(data.get("currency_code")!=null){
+						curr.setCurrencyCode(data.get("currency_code").getAsString());
+					}
+					egvList.add(curr);
+					JsonParser parser = new JsonParser();
+					JsonElement je = parser.parse(gson.toJson(egvList,ArrayList.class));
+					responseObject.getAsJsonObject("data").add(field.getName(),je);
+					data = responseObject.getAsJsonObject("data");
+			}
+		}
+		
+		return responseObject.toString();
 	}
 }

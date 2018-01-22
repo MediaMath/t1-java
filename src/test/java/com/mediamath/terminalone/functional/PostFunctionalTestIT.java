@@ -1460,17 +1460,17 @@ public class PostFunctionalTestIT {
 	 */
 	@Test
 	public void testTOneASCreativeAssetUpload() throws ClientException, IOException {
-		TerminalOne t1 = new TerminalOne(user, password, apiKey);
+		TerminalOne t1 = new TerminalOne(user, password, productionKey);
 
 		TOneASCreativeAssetsUpload response = t1.saveTOneASCreativeAssetsUpload(
-				"D:\\MediaMath\\t1attachements\\JPGs.zip", "JPGs.zip", "t1asfileupload");
+				"D:\\MediaMath\\t1attachements\\coco_guitars.zip", "coco_guitars.zip", "t1asfileupload");
 
 		assertNotNull(response);
 
 		TOneASCreativeAssetsApprove creativeAssetsApprove = new TOneASCreativeAssetsApprove();
 		creativeAssetsApprove.create(false, "182395", "http://ad.vendor.com/clicktracker/?id=1234",
-				"http://theactuallandingpage.com", "BBVA_CaminoaleÔxito_160x600.swf",
-				"BBVA_CaminoaleÔxito_160x600.swf", "1162348");
+				"http://theactuallandingpage.com", "vidjeo.mp4",
+				"vidjeo.mp4", "1162348");
 
 		JsonResponse<? extends T1Entity> secondresponse = t1.saveTOneASCreativeAssetsApprove(creativeAssetsApprove);
 		assertNotNull(secondresponse.getData());
