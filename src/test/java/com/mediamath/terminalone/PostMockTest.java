@@ -1,29 +1,19 @@
 package com.mediamath.terminalone;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.times;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TimeZone;
-import java.util.concurrent.ExecutionException;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Response;
-
+import com.mediamath.terminalone.exceptions.ClientException;
+import com.mediamath.terminalone.exceptions.ParseException;
+import com.mediamath.terminalone.functional.PostFunctionalTestIT;
 import com.mediamath.terminalone.models.*;
+import com.mediamath.terminalone.models.AtomicCreative.*;
+import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
+import com.mediamath.terminalone.models.Currency;
+import com.mediamath.terminalone.models.Strategy.*;
+import com.mediamath.terminalone.models.StrategyDomain.restrictions;
+import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
+import com.mediamath.terminalone.models.TargetDimensions.includeOp;
+import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
+import com.mediamath.terminalone.service.PostService;
+import com.mediamath.terminalone.utils.FullParamValues;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -34,30 +24,19 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.functional.PostFunctionalTestIT;
-import com.mediamath.terminalone.models.AtomicCreative.adFormats;
-import com.mediamath.terminalone.models.AtomicCreative.expandDir;
-import com.mediamath.terminalone.models.AtomicCreative.expandTrig;
-import com.mediamath.terminalone.models.AtomicCreative.expandValues;
-import com.mediamath.terminalone.models.AtomicCreative.fileTypes;
-import com.mediamath.terminalone.models.AtomicCreative.mediaTypes;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
-import com.mediamath.terminalone.models.Strategy.freqInt;
-import com.mediamath.terminalone.models.Strategy.freqType;
-import com.mediamath.terminalone.models.Strategy.goalType;
-import com.mediamath.terminalone.models.Strategy.pacInt;
-import com.mediamath.terminalone.models.Strategy.pacType;
-import com.mediamath.terminalone.models.Strategy.siteSelect;
-import com.mediamath.terminalone.models.Strategy.supplyType;
-import com.mediamath.terminalone.models.Strategy.type;
-import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
-import com.mediamath.terminalone.models.TargetDimensions.includeOp;
-import com.mediamath.terminalone.models.helper.AtomicCreativeHelper;
-import com.mediamath.terminalone.service.PostService;
-import com.mediamath.terminalone.utils.FullParamValues;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PostMockTest {
@@ -1975,7 +1954,6 @@ public class PostMockTest {
                 .thenReturn(response);
         Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(VIDEO_CREATIVE_UPLOAD_ERROR);
 
-        VideoCreativeResponse saveResponse = null;
         t1.authenticate("abc", "xyz", "adfadslfadkfakjf");
 
         try {
@@ -2047,8 +2025,6 @@ public class PostMockTest {
                 "MockFile.html",
                 "5036698 8420ad739f6e3c166cea9ffa7627900cb25ce891",
                 "video-uploader.mathtag.com");
-
-
 
 
         assertNotNull(uploadResponse);
