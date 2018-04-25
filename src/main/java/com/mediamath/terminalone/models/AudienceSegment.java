@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,176 +16,165 @@
 
 package com.mediamath.terminalone.models;
 
+import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.core.Form;
+public class AudienceSegment extends Entity {
 
-public class AudienceSegment implements T1Entity {
+    private int audience_vendor_id;
 
-	private static final String entityName = "AudienceSegment";
+    private boolean buyable;
+    private int child_count;
+    private String code;
+    private Date created_on;
+    private String full_path;
+    private int id;
+    private String name;
+    private int parent_audience_segment_id;
+    private List<Currency> retail_cpm = new ArrayList<Currency>();
+    private List<Currency> wholesale_cpm = new ArrayList<Currency>();
+    ;
+    private String tag;
+    private int uniques;
+    private Date updated_on;
+    private int version;
 
-	private int audience_vendor_id;
-	private boolean buyable;
-	private int child_count;
-	private String code;
-	private Date created_on;
-	private String full_path;
-	private int id;
-	private String name;
-	private int parent_audience_segment_id;
-	private List<Currency> retail_cpm = new ArrayList<Currency>();
-	private List<Currency> wholesale_cpm = new ArrayList<Currency>();;
-	private String tag;
-	private int uniques;
-	private Date updated_on;
-	private int version;
+    public AudienceSegment() {
+        super("AudienceSegment");
+    }
 
-	public int getAudienceVendorId() {
-		return audience_vendor_id;
-	}
+    public int getAudienceVendorId() {
+        return audience_vendor_id;
+    }
 
-	public void setAudienceVendorId(int audience_vendor_id) {
-		this.audience_vendor_id = audience_vendor_id;
-	}
+    public void setAudienceVendorId(int audience_vendor_id) {
+        this.audience_vendor_id = audience_vendor_id;
+    }
 
-	public boolean isBuyable() {
-		return buyable;
-	}
+    public boolean isBuyable() {
+        return buyable;
+    }
 
-	public void setBuyable(boolean buyable) {
-		this.buyable = buyable;
-	}
+    public void setBuyable(boolean buyable) {
+        this.buyable = buyable;
+    }
 
-	public int getChildCount() {
-		return child_count;
-	}
+    public int getChildCount() {
+        return child_count;
+    }
 
-	public void setChildCount(int child_count) {
-		this.child_count = child_count;
-	}
+    public void setChildCount(int child_count) {
+        this.child_count = child_count;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public Date getCreatedOn() {
-		return created_on;
-	}
+    public Date getCreatedOn() {
+        return created_on;
+    }
 
-	public void setCreatedOn(Date created_on) {
-		this.created_on = created_on;
-	}
+    public void setCreatedOn(Date created_on) {
+        this.created_on = created_on;
+    }
 
-	public String getFullPath() {
-		return full_path;
-	}
+    public String getFullPath() {
+        return full_path;
+    }
 
-	public void setFullPath(String full_path) {
-		this.full_path = full_path;
-	}
+    public void setFullPath(String full_path) {
+        this.full_path = full_path;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public int getParentAudienceSegmentId() {
-		return parent_audience_segment_id;
-	}
+    public int getParentAudienceSegmentId() {
+        return parent_audience_segment_id;
+    }
 
-	public void setParentAudienceSegmentId(int parent_audience_segment_id) {
-		this.parent_audience_segment_id = parent_audience_segment_id;
-	}
+    public void setParentAudienceSegmentId(int parent_audience_segment_id) {
+        this.parent_audience_segment_id = parent_audience_segment_id;
+    }
 
-	public List<Currency> getRetailCpm() {
-		return retail_cpm;
-	}
+    public List<Currency> getRetailCpm() {
+        return retail_cpm;
+    }
 
-	public void setRetailCpm(List<Currency> retail_cpm) {
-		this.retail_cpm = retail_cpm;
-	}
+    public void setRetailCpm(List<Currency> retail_cpm) {
+        this.retail_cpm = retail_cpm;
+    }
 
-	public void setRetailCpm(float retail_cpm) {
-		Currency curr = new Currency();
-		curr.setValue(retail_cpm);
-		this.retail_cpm.add(curr);
-	}
+    public void setRetailCpm(float retail_cpm) {
+        Currency curr = new Currency();
+        curr.setValue(retail_cpm);
+        this.retail_cpm.add(curr);
+    }
 
-	public List<Currency> getWholesaleCpm() {
-		return wholesale_cpm;
-	}
+    public List<Currency> getWholesaleCpm() {
+        return wholesale_cpm;
+    }
 
-	public void setWholesaleCpm(List<Currency> wholesale_cpm) {
-		this.wholesale_cpm = wholesale_cpm;
-	}
+    public void setWholesaleCpm(List<Currency> wholesale_cpm) {
+        this.wholesale_cpm = wholesale_cpm;
+    }
 
-	public void setWholesaleCpm(float wholesale_cpm) {
-		Currency curr = new Currency();
-		curr.setValue(wholesale_cpm);
-		this.wholesale_cpm.add(curr);
-	}
+    public void setWholesaleCpm(float wholesale_cpm) {
+        Currency curr = new Currency();
+        curr.setValue(wholesale_cpm);
+        this.wholesale_cpm.add(curr);
+    }
 
-	public String getTag() {
-		return tag;
-	}
+    public String getTag() {
+        return tag;
+    }
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
-	public int getUniques() {
-		return uniques;
-	}
+    public int getUniques() {
+        return uniques;
+    }
 
-	public void setUniques(int uniques) {
-		this.uniques = uniques;
-	}
+    public void setUniques(int uniques) {
+        this.uniques = uniques;
+    }
 
-	public Date getUpdatedOn() {
-		return updated_on;
-	}
+    public Date getUpdatedOn() {
+        return updated_on;
+    }
 
-	public void setUpdatedOn(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+    public void setUpdatedOn(Date updated_on) {
+        this.updated_on = updated_on;
+    }
 
-	public int getVersion() {
-		return version;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
-
-	@Override
-	public Form getForm() {
-		return null;
-	}
-
-	@Override
-	public String getUri() {
-		return null;
-	}
 }

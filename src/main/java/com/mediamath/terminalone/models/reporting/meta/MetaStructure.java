@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,34 +18,34 @@ package com.mediamath.terminalone.models.reporting.meta;
 
 public class MetaStructure {
 
-  private MetaDimensions dimensions;
-  
-  private MetaMetrics metrics;
-  
-  private TimeField time_field;
+    private MetaDimensions dimensions;
 
-  public MetaDimensions getDimensions() {
-    return dimensions;
-  }
+    private MetaMetrics metrics;
 
-  public void setDimensions(MetaDimensions dimensions) {
-    this.dimensions = dimensions;
-  }
+    private TimeField time_field;
 
-  public MetaMetrics getMetrics() {
-    return metrics;
-  }
+    public MetaDimensions getDimensions() {
+        return dimensions;
+    }
 
-  public void setMetrics(MetaMetrics metrics) {
-    this.metrics = metrics;
-  }
+    public void setDimensions(MetaDimensions dimensions) {
+        this.dimensions = dimensions;
+    }
 
-  public TimeField getTimeField() {
-    return time_field;
-  }
+    public MetaMetrics getMetrics() {
+        return metrics;
+    }
 
-  public void setTimeField(TimeField timeField) {
-    this.time_field = timeField;
-  }
+    public void setMetrics(MetaMetrics metrics) {
+        this.metrics = metrics;
+    }
+
+    public TimeField getTimeField() {
+        return time_field;
+    }
+
+    public void setTimeField(TimeField timeField) {
+        this.time_field = timeField;
+    }
 
 }

@@ -3,54 +3,54 @@ package com.mediamath.terminalone.models;
 import java.util.Arrays;
 
 public class EventPixel {
-	
-	private String typ;
-	private String url;
 
-	public enum EventPixelsEnum {
+    private String typ;
+    private String url;
 
-		ImpSkippable("imp:skippable"), Complete("complete"), CreativeClick("creative:click"), FullScreen(
-				"fullscreen"), FirstQuartile("firstQuartile"), CreativeError("creative:err"), Rewind(
-						"rewind"), MidPoint("midpoint"), Start("start"), CreativeImp("creative:imp"), CreativeView(
-								"creativeView"), Expand("expand"), Close("close"), Collapse(
-										"collapse"), AcceptInvitation("acceptInvitation"), Mute("mute"), ThirdQuartile(
-												"thirdQuartile"), Unmute("unmute"), Resume("resume"), Pause(
-														"pause"), Skip("skip"), EngagedView("engagedView");
+    public enum EventPixelsEnum {
 
-		String val;
+        ImpSkippable("imp:skippable"), Complete("complete"), CreativeClick("creative:click"), FullScreen(
+                "fullscreen"), FirstQuartile("firstQuartile"), CreativeError("creative:err"), Rewind(
+                "rewind"), MidPoint("midpoint"), Start("start"), CreativeImp("creative:imp"), CreativeView(
+                "creativeView"), Expand("expand"), Close("close"), Collapse(
+                "collapse"), AcceptInvitation("acceptInvitation"), Mute("mute"), ThirdQuartile(
+                "thirdQuartile"), Unmute("unmute"), Resume("resume"), Pause(
+                "pause"), Skip("skip"), EngagedView("engagedView");
 
-		EventPixelsEnum(String pVal) {
-			val = pVal;
-		}
+        String val;
 
-		public String toString() {
-			return this.val;
-		}
+        EventPixelsEnum(String pVal) {
+            val = pVal;
+        }
 
-	}
+        public String toString() {
+            return this.val;
+        }
 
-	public EventPixel(String typ, String url) {
-		super();
-		this.typ = typ;
-		this.url = url;
-	}
+    }
 
-	public String getTyp() {
-		return typ;
-	}
+    public EventPixel(String typ, String url) {
+        super();
+        this.typ = typ;
+        this.url = url;
+    }
 
-	public void setTyp(String typ) {
-		if (Arrays.toString(EventPixelsEnum.values()).contains(typ)) {
-			this.typ = typ;
-		}
-	}
+    public String getTyp() {
+        return typ;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public void setTyp(String typ) {
+        if (Arrays.toString(EventPixelsEnum.values()).contains(typ)) {
+            this.typ = typ;
+        }
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
 }

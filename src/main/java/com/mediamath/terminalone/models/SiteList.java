@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,223 +16,216 @@
 
 package com.mediamath.terminalone.models;
 
+import com.mediamath.terminalone.utils.Utility;
+
+import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.ws.rs.core.Form;
+public class SiteList extends Entity {
 
-import com.mediamath.terminalone.utils.Utility;
+    public enum restrictions {
+        INCLUDE, EXCLUDE
+    }
 
-public class SiteList implements T1Entity {
+    private Date created_on;
+    private String filename;
+    private int id;
+    private String name;
+    private int organization_id;
+    private restrictions restriction;
+    private boolean status;
+    private Date updated_on;
+    private int version;
+    private int sites_count;
+    private int sites_count_app;
+    private boolean assigned;
 
-	private static final String entityName = "SiteList";
+    private Organization organization;
 
-	public enum restrictions {
-		INCLUDE, EXCLUDE
-	}
+    private List<String> domains = new ArrayList<>();
 
-	private Date created_on;
-	private String filename;
-	private int id;
-	private String name;
-	private int organization_id;
-	private restrictions restriction;
-	private boolean status;
-	private Date updated_on;
-	private int version;
-	private int sites_count;
-	private int sites_count_app;
-	private boolean assigned;
+    public SiteList() {
+        super("SiteList");
+    }
 
-	private Organization organization;
+    public SiteList(int id, boolean assigned) {
+        super("SiteList");
+        this.id = id;
+        this.assigned = assigned;
+    }
 
-	private List<String> domains = new ArrayList<>();
+    public Date getCreatedOn() {
+        return created_on;
+    }
 
-	/* condtructor */
-	public SiteList() {
-	}
+    public void setCreatedOn(Date created_on) {
+        this.created_on = created_on;
+    }
 
-	public SiteList(int id, boolean assigned) {
-		this.id = id;
-		this.assigned = assigned;
-	}
+    public String getFilename() {
+        return filename;
+    }
 
-	public Date getCreatedOn() {
-		return created_on;
-	}
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
-	public void setCreatedOn(Date created_on) {
-		this.created_on = created_on;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getFilename() {
-		return filename;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getOrganizationId() {
+        return organization_id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setOrganizationId(int organization_id) {
+        this.organization_id = organization_id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public restrictions getRestriction() {
+        return restriction;
+    }
 
-	public int getOrganizationId() {
-		return organization_id;
-	}
+    public void setRestriction(restrictions restriction) {
+        this.restriction = restriction;
+    }
 
-	public void setOrganizationId(int organization_id) {
-		this.organization_id = organization_id;
-	}
+    public boolean isStatus() {
+        return status;
+    }
 
-	public restrictions getRestriction() {
-		return restriction;
-	}
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
-	public void setRestriction(restrictions restriction) {
-		this.restriction = restriction;
-	}
+    public Date getUpdatedOn() {
+        return updated_on;
+    }
 
-	public boolean isStatus() {
-		return status;
-	}
+    public void setUpdatedOn(Date updated_on) {
+        this.updated_on = updated_on;
+    }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public Date getUpdatedOn() {
-		return updated_on;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public void setUpdatedOn(Date updated_on) {
-		this.updated_on = updated_on;
-	}
+    public Organization getOrganization() {
+        return organization;
+    }
 
-	public int getVersion() {
-		return version;
-	}
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public int getSitesCount() {
+        return sites_count;
+    }
 
-	public Organization getOrganization() {
-		return organization;
-	}
+    public void setSitesCount(int sites_count) {
+        this.sites_count = sites_count;
+    }
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+    public int getSitesCountApp() {
+        return sites_count_app;
+    }
 
-	public int getSitesCount() {
-		return sites_count;
-	}
+    public void setSitesCountApp(int sites_count_app) {
+        this.sites_count_app = sites_count_app;
+    }
 
-	public void setSitesCount(int sites_count) {
-		this.sites_count = sites_count;
-	}
+    public List<String> getDomains() {
+        return domains;
+    }
 
-	public int getSitesCountApp() {
-		return sites_count_app;
-	}
+    public void setDomains(List<String> domains) {
+        this.domains = domains;
+    }
 
-	public void setSitesCountApp(int sites_count_app) {
-		this.sites_count_app = sites_count_app;
-	}
+    public boolean isAssigned() {
+        return assigned;
+    }
 
-	public List<String> getDomains() {
-		return domains;
-	}
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
+    }
 
-	public void setDomains(List<String> domains) {
-		this.domains = domains;
-	}
+    @Override
+    public Form getForm() {
+        Form siteListForm = new Form();
 
-	public boolean isAssigned() {
-		return assigned;
-	}
+        if (this.getName() != null) {
+            siteListForm.param("name", this.getName());
+        }
 
-	public void setAssigned(boolean assigned) {
-		this.assigned = assigned;
-	}
+        if (this.getFilename() != null) {
+            siteListForm.param("filename", this.getFilename());
+        }
 
-	@Override
-	public String getEntityname() {
-		return entityName;
-	}
+        if (this.getRestriction() != null) {
+            siteListForm.param("restriction", String.valueOf(this.getRestriction()));
+        } else {
+            siteListForm.param("restriction", "EXCLUDE");
+        }
 
-	@Override
-	public Form getForm() {
-		Form siteListForm = new Form();
+        if (this.getOrganizationId() > 0) {
+            siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
+        }
 
-		if (this.getName() != null) {
-			siteListForm.param("name", this.getName());
-		}
+        siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
 
-		if (this.getFilename() != null) {
-			siteListForm.param("filename", this.getFilename());
-		}
+        if (this.getVersion() >= 0) {
+            siteListForm.param("version", String.valueOf(this.getVersion()));
+        }
 
-		if (this.getRestriction() != null) {
-			siteListForm.param("restriction", String.valueOf(this.getRestriction()));
-		} else {
-			siteListForm.param("restriction", "EXCLUDE");
-		}
+        if (this.getSitesCount() > 0) {
+            siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
+        }
 
-		if (this.getOrganizationId() > 0) {
-			siteListForm.param("organization_id", String.valueOf(this.getOrganizationId()));
-		}
+        if (this.getSitesCountApp() > 0) {
+            siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
+        }
 
-		siteListForm.param("status", Utility.getOnOrOff(this.isStatus()));
+        // for insert/update of domains against site list
+        if (!this.getDomains().isEmpty()) {
+            for (String str : this.getDomains()) {
+                siteListForm.param("domain", str);
+            }
+        }
 
-		if (this.getVersion() >= 0) {
-			siteListForm.param("version", String.valueOf(this.getVersion()));
-		}
+        return siteListForm;
+    }
 
-		if (this.getSitesCount() > 0) {
-			siteListForm.param("sites_count", String.valueOf(this.getSitesCount()));
-		}
+    @Override
+    public String getUri() {
+        StringBuilder uri = new StringBuilder();
 
-		if (this.getSitesCountApp() > 0) {
-			siteListForm.param("sites_count_app", String.valueOf(this.getSitesCountApp()));
-		}
+        if (this.getId() > 0) {
+            uri.append("/" + this.getId());
+        }
+        if (!this.getDomains().isEmpty() && this.getId() > 0) {
+            uri.append("/domains");
+        }
 
-		// for insert/update of domains against site list
-		if (!this.getDomains().isEmpty()) {
-			for (String str : this.getDomains()) {
-				siteListForm.param("domain", str);
-			}
-		}
-
-		return siteListForm;
-	}
-
-	@Override
-	public String getUri() {
-		StringBuilder uri = new StringBuilder();
-
-		if (this.getId() > 0) {
-			uri.append("/" + this.getId());
-		}
-		if (!this.getDomains().isEmpty() && this.getId() > 0) {
-			uri.append("/domains");
-		}
-
-		return uri.toString();
-	}
+        return uri.toString();
+    }
 
 }

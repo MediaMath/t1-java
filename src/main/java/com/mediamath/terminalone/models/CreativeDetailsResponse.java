@@ -2,157 +2,139 @@ package com.mediamath.terminalone.models;
 
 import java.util.ArrayList;
 
-import javax.ws.rs.core.Form;
+public class CreativeDetailsResponse extends Entity {
 
-import com.mediamath.terminalone.exceptions.ClientException;
+    private int duration;
 
-public class CreativeDetailsResponse implements T1Entity {
+    private ArrayList<Long> autoVendors = new ArrayList<Long>();
+    private ArrayList<Integer> companionIds = new ArrayList<Integer>();
+    private String thumbnail;
+    private Status Status;
+    private VideoCreative details;
+    private double percent;
+    private boolean isUploaded;
+    private boolean readyToServe;
+    private boolean isSecure;
+    private boolean isRotating;
+    private boolean isDynamic;
+    private boolean isAudio;
+    private int vastVersion;
 
-	
-	private int duration;
-	private ArrayList<Long> autoVendors = new ArrayList<Long>();
-	private ArrayList<Integer> companionIds = new ArrayList<Integer>();
-	private String thumbnail;
-	private Status Status;
-	private VideoCreative details;
-	private double percent;
-	private boolean isUploaded;
-	private boolean readyToServe;
-	private boolean isSecure;
-	private boolean isRotating;
-	private boolean isDynamic;
-	private boolean isAudio;
-	private int vastVersion;
-	
-	
-	public int getDuration() {
-		return duration;
-	}
+    public CreativeDetailsResponse() {
+        super(null);
+    }
 
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
+    public int getDuration() {
+        return duration;
+    }
 
-	public ArrayList<Long> getAutoVendors() {
-		return autoVendors;
-	}
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
-	public void setAutoVendors(ArrayList<Long> autoVendors) {
-		this.autoVendors = autoVendors;
-	}
+    public ArrayList<Long> getAutoVendors() {
+        return autoVendors;
+    }
 
-	public ArrayList<Integer> getCompanionIds() {
-		return companionIds;
-	}
+    public void setAutoVendors(ArrayList<Long> autoVendors) {
+        this.autoVendors = autoVendors;
+    }
 
-	public void setCompanionIds(ArrayList<Integer> companionIds) {
-		this.companionIds = companionIds;
-	}
+    public ArrayList<Integer> getCompanionIds() {
+        return companionIds;
+    }
 
-	public String getThumbnail() {
-		return thumbnail;
-	}
+    public void setCompanionIds(ArrayList<Integer> companionIds) {
+        this.companionIds = companionIds;
+    }
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
+    public String getThumbnail() {
+        return thumbnail;
+    }
 
-	public Status getStatus() {
-		return Status;
-	}
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
-	public void setStatus(Status status) {
-		Status = status;
-	}
+    public Status getStatus() {
+        return Status;
+    }
 
-	public VideoCreative getDetails() {
-		return details;
-	}
+    public void setStatus(Status status) {
+        Status = status;
+    }
 
-	public void setDetails(VideoCreative details) {
-		this.details = details;
-	}
+    public VideoCreative getDetails() {
+        return details;
+    }
 
-	public double getPercent() {
-		return percent;
-	}
+    public void setDetails(VideoCreative details) {
+        this.details = details;
+    }
 
-	public void setPercent(double percent) {
-		this.percent = percent;
-	}
+    public double getPercent() {
+        return percent;
+    }
 
-	public boolean isUploaded() {
-		return isUploaded;
-	}
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
 
-	public void setUploaded(boolean isUploaded) {
-		this.isUploaded = isUploaded;
-	}
+    public boolean isUploaded() {
+        return isUploaded;
+    }
 
-	public boolean isReadyToServe() {
-		return readyToServe;
-	}
+    public void setUploaded(boolean isUploaded) {
+        this.isUploaded = isUploaded;
+    }
 
-	public void setReadyToServe(boolean readyToServe) {
-		this.readyToServe = readyToServe;
-	}
+    public boolean isReadyToServe() {
+        return readyToServe;
+    }
 
-	public boolean isSecure() {
-		return isSecure;
-	}
+    public void setReadyToServe(boolean readyToServe) {
+        this.readyToServe = readyToServe;
+    }
 
-	public void setSecure(boolean isSecure) {
-		this.isSecure = isSecure;
-	}
+    public boolean isSecure() {
+        return isSecure;
+    }
 
-	public boolean isRotating() {
-		return isRotating;
-	}
+    public void setSecure(boolean isSecure) {
+        this.isSecure = isSecure;
+    }
 
-	public void setRotating(boolean isRotating) {
-		this.isRotating = isRotating;
-	}
+    public boolean isRotating() {
+        return isRotating;
+    }
 
-	public boolean isDynamic() {
-		return isDynamic;
-	}
+    public void setRotating(boolean isRotating) {
+        this.isRotating = isRotating;
+    }
 
-	public void setDynamic(boolean isDynamic) {
-		this.isDynamic = isDynamic;
-	}
+    public boolean isDynamic() {
+        return isDynamic;
+    }
 
-	public boolean isAudio() {
-		return isAudio;
-	}
+    public void setDynamic(boolean isDynamic) {
+        this.isDynamic = isDynamic;
+    }
 
-	public void setAudio(boolean isAudio) {
-		this.isAudio = isAudio;
-	}
+    public boolean isAudio() {
+        return isAudio;
+    }
 
-	public int getVastVersion() {
-		return vastVersion;
-	}
+    public void setAudio(boolean isAudio) {
+        this.isAudio = isAudio;
+    }
 
-	public void setVastVersion(int vastVersion) {
-		this.vastVersion = vastVersion;
-	}
+    public int getVastVersion() {
+        return vastVersion;
+    }
 
-	@Override
-	public String getEntityname() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void setVastVersion(int vastVersion) {
+        this.vastVersion = vastVersion;
+    }
 
-	@Override
-	public Form getForm() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUri() throws ClientException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
