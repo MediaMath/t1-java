@@ -7,7 +7,6 @@ import com.mediamath.terminalone.models.JsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -10,7 +10,6 @@ import com.mediamath.terminalone.utils.ConditionQuery;
 import com.mediamath.terminalone.utils.Filters;
 import com.mediamath.terminalone.utils.FullParamValues;
 import com.mediamath.terminalone.utils.QueryParamValues;
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
