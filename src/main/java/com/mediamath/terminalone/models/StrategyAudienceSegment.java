@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class StrategyAudienceSegment extends Entity {
-
-    public StrategyAudienceSegment() {
-        super("StrategyAudienceSegment");
-    }
 
     private int audience_segment_id;
     private Date created_on;
@@ -40,6 +35,10 @@ public class StrategyAudienceSegment extends Entity {
 
     private Strategy strategy;
     private AudienceSegment audience_segment;
+
+    public StrategyAudienceSegment() {
+        super("StrategyAudienceSegment");
+    }
 
     public int getAudienceSegmentId() {
         return audience_segment_id;

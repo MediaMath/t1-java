@@ -16,17 +16,10 @@
 
 package com.mediamath.terminalone.models;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VideoCreative extends Entity {
-
-    public VideoCreative() {
-        super(null);
-    }
 
     private String name;
     private Long startTime;
@@ -46,6 +39,10 @@ public class VideoCreative extends Entity {
     private List<EventPixel> eventPixels = new ArrayList();
 
     private int creativeId;
+
+    public VideoCreative() {
+        super(null);
+    }
 
     public String getName() {
         return name;

@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class VendorPixelDomain extends Entity {
-
-    public VendorPixelDomain() {
-        super("VendorPixelDomain");
-    }
 
     private Date created_on;
     private String domain;
@@ -34,6 +29,10 @@ public class VendorPixelDomain extends Entity {
 
     private VendorDomain vendor_domain;
     private VendorPixel vendor_pixel;
+
+    public VendorPixelDomain() {
+        super("VendorPixelDomain");
+    }
 
     public Date getCreatedOn() {
         return created_on;

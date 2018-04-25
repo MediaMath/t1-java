@@ -16,13 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
-
 public class TargetValue extends Entity {
-
-    public TargetValue() {
-        super("TargetValue");
-    }
 
     private String _type;
     private String code;
@@ -33,6 +27,10 @@ public class TargetValue extends Entity {
     private int value;
 
     private TargetDimension target_dimension;
+
+    public TargetValue() {
+        super("TargetValue");
+    }
 
     public String getType() {
         return _type;

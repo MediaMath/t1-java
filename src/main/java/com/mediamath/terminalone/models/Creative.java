@@ -16,16 +16,11 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class Creative extends Entity {
-
-    public Creative() {
-        super("Creative");
-    }
-
     private int atomic_creative_id;
+
     private Date created_on;
     private int id;
     private Date last_modified;
@@ -33,6 +28,10 @@ public class Creative extends Entity {
     private String tag_type;
     private int version;
     private String name;
+
+    public Creative() {
+        super("Creative");
+    }
 
     public int getAtomicCreativeId() {
         return atomic_creative_id;

@@ -16,16 +16,12 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class CreativeApproval extends Entity {
 
-    public CreativeApproval() {
-        super("CreativeApproval");
-    }
-
     private String additional_detail;
+
     private String approval_status;
     private int atomic_creative_id;
     private Date created_on;
@@ -40,6 +36,10 @@ public class CreativeApproval extends Entity {
     private int supply_source_id;
     private Date updated_on;
     private int version;
+
+    public CreativeApproval() {
+        super("CreativeApproval");
+    }
 
     public String getAdditionalDetail() {
         return additional_detail;

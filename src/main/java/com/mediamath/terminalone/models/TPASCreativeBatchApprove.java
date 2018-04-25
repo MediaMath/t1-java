@@ -16,21 +16,20 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TPASCreativeBatchApprove extends Entity {
-
-    public TPASCreativeBatchApprove() {
-        super("ThreePasCreativeBatchApprove");
-    }
 
     private String batchId;
 
     private String advertiser_id;
 
     private List<TPASCreativeBatchIndex> batch = new ArrayList<>();
+
+    public TPASCreativeBatchApprove() {
+        super("ThreePasCreativeBatchApprove");
+    }
 
     public String getBatchId() {
         return batchId;

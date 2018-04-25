@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 
 public class TOneASCreativeAssetsApprove extends Entity {
-
-    public TOneASCreativeAssetsApprove() {
-        super("TOneCreativeAssetsApprove");
-    }
 
     private ArrayList<TOneASCreativeAssetsApproveData> dataList = new ArrayList<TOneASCreativeAssetsApproveData>();
 
@@ -52,6 +47,10 @@ public class TOneASCreativeAssetsApprove extends Entity {
             data.setBackup(backup);
 
         dataList.add(data);
+    }
+
+    public TOneASCreativeAssetsApprove() {
+        super("TOneCreativeAssetsApprove");
     }
 
     public ArrayList<TOneASCreativeAssetsApproveData> getDataList() {

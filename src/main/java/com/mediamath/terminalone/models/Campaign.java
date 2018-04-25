@@ -31,14 +31,11 @@ public class Campaign extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-    public Campaign() {
-        super("Campaign");
-    }
+
 
     public enum conv {
-        every, one, variable
+        every, one, variable;
     }
-
     public enum freqInts {
         hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
 
@@ -51,12 +48,12 @@ public class Campaign extends Entity {
         public String getValue() {
             return value;
         }
-    } // should be not-applicable
 
+    } // should be not-applicable
     public enum freqTypes {
         even("even"), asap("asap"), no_limit("no-limit");
-        String value;
 
+        String value;
         freqTypes(String s) {
             value = s;
         }
@@ -64,8 +61,8 @@ public class Campaign extends Entity {
         public String getValue() {
             return value;
         }
-    } // should be no-limit
 
+    } // should be no-limit
     public enum goalCats {
         audience("audience"), engagement("engagement"), response("response"), none("none");
 
@@ -78,8 +75,8 @@ public class Campaign extends Entity {
         public String getValue() {
             return value;
         }
-    }
 
+    }
     public enum goalTypes {
         spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi"), none("none");
 
@@ -93,13 +90,15 @@ public class Campaign extends Entity {
             return value;
         }
 
+
     }
+
 
     public enum servTypes {
-        SELF, MANAGED
+        SELF, MANAGED;
     }
-
     private ArrayList<T1Cost> ad_server_fee = new ArrayList<T1Cost>();
+
     private int ad_server_id;
     private String ad_server_password;
     private String ad_server_username;
@@ -154,14 +153,17 @@ public class Campaign extends Entity {
     private boolean copyCampaign = false;
     private BudgetFlight relevant_budget_flight;
     private Map<Date, Double> margins = new HashMap<Date, Double>();
-
     private Advertiser advertiser;
+
     private AdServer ad_server;
     private Pixel merit_pixel;
     private ArrayList<SiteList> site_lists = new ArrayList<SiteList>();
     private ArrayList<BudgetFlight> budget_flights = new ArrayList<>();
-
     private ArrayList<CampaignCustomBrainSelection> campaign_custom_brain_selection = new ArrayList<>();
+
+    public Campaign() {
+        super("Campaign");
+    }
 
     public void setMargins(Date date, Double doubleval) {
         margins.put(date, new BigDecimal(doubleval).setScale(4, RoundingMode.HALF_EVEN).doubleValue());

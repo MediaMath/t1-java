@@ -23,10 +23,6 @@ import java.util.Date;
 
 public class StrategyConcept extends Entity {
 
-    public StrategyConcept() {
-        super("StrategyConcept");
-    }
-
     private int concept_id;
     private Date created_on;
     private int id;
@@ -39,6 +35,10 @@ public class StrategyConcept extends Entity {
 
     private Concept concept;
     private Strategy strategy;
+
+    public StrategyConcept() {
+        super("StrategyConcept");
+    }
 
     public int getConceptId() {
         return concept_id;

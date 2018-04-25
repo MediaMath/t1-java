@@ -26,10 +26,6 @@ import java.util.Date;
 
 public class Organization extends Entity {
 
-    public Organization() {
-        super("Organization");
-    }
-
     private String address_1;
     private String address_2;
     private int adx_seat_account_id;
@@ -61,6 +57,10 @@ public class Organization extends Entity {
     private boolean restrict_targeting_to_deterministic_id;
     private boolean restrict_targeting_to_same_device_id;
     private boolean terminated;
+
+    public Organization() {
+        super("Organization");
+    }
 
     public String getAddress1() {
         return address_1;

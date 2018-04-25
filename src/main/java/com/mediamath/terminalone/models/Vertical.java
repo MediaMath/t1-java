@@ -16,20 +16,19 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class Vertical extends Entity {
-
-    public Vertical() {
-        super("Vertical");
-    }
 
     private int id;
     private String name;
     private Date created_on;
     private Date updated_on;
     private int version;
+
+    public Vertical() {
+        super("Vertical");
+    }
 
     public int getId() {
         return id;

@@ -22,7 +22,6 @@ import java.util.Date;
 
 public class StrategyTargetingSegment extends Entity {
 
-
     private Date created_on;
     private String group_identifier;
     private int id;

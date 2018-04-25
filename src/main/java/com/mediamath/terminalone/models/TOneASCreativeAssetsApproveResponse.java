@@ -16,13 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
-
 public class TOneASCreativeAssetsApproveResponse extends Entity {
-
-    public TOneASCreativeAssetsApproveResponse() {
-        super("TOneASCreativeAssetsApproveResponse");
-    }
 
     private String updated_on;
     private String created_on;
@@ -59,6 +53,10 @@ public class TOneASCreativeAssetsApproveResponse extends Entity {
     private String ad_server_type;
     private String default_t1as_tag;
     private String tpas_ad_tag_name;
+
+    public TOneASCreativeAssetsApproveResponse() {
+        super("TOneASCreativeAssetsApproveResponse");
+    }
 
     public String getUpdatedOn() {
         return updated_on;

@@ -20,10 +20,6 @@ import javax.ws.rs.core.Form;
 
 public class StrategySupplySource extends Entity {
 
-    public StrategySupplySource() {
-        super("StrategySupplySource");
-    }
-
     private int id;
     private int strategy_id;
     private int supply_source_id;
@@ -32,6 +28,10 @@ public class StrategySupplySource extends Entity {
 
     private Strategy strategy;
     private SupplySource supply_source;
+
+    public StrategySupplySource() {
+        super("StrategySupplySource");
+    }
 
     public int getId() {
         return id;

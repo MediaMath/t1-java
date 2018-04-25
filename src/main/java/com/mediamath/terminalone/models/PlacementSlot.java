@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class PlacementSlot extends Entity {
-
-    public PlacementSlot() {
-        super("PlacementSlot");
-    }
 
     private int ad_slot;
     private boolean allow_remnant;
@@ -51,6 +46,10 @@ public class PlacementSlot extends Entity {
     private String volume_unit;
     private int width;
     private String name;
+
+    public PlacementSlot() {
+        super("PlacementSlot");
+    }
 
     public int getAdSlot() {
         return ad_slot;

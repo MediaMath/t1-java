@@ -25,10 +25,6 @@ import java.util.Map;
 
 public class User extends Entity {
 
-    public User() {
-        super("User");
-    }
-
     private boolean access_internal_fees;
     private boolean active;
     private Date created_on;
@@ -66,6 +62,10 @@ public class User extends Entity {
 
     private Permissions permissions;
     private Map<String, Integer> permissionList = new HashMap<String, Integer>();
+
+    public User() {
+        super("User");
+    }
 
     public boolean isAccessInternalFees() {
         return access_internal_fees;

@@ -1,17 +1,12 @@
 package com.mediamath.terminalone.models;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-
-import javax.ws.rs.core.Form;
-
 public class UserPermissions extends Entity {
+    private User user;
+    private Permissions permissions;
 
     public UserPermissions() {
         super("UserPermissions");
     }
-
-    private User user;
-    private Permissions permissions;
 
     public User getUser() {
         return user;

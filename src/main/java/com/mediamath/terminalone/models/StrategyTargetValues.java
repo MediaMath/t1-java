@@ -16,17 +16,10 @@
 
 package com.mediamath.terminalone.models;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StrategyTargetValues extends Entity {
-
-    public StrategyTargetValues() {
-        super("StrategyTargetValues");
-    }
 
     private Enabled enabled;
     private List<TargetValue> include = new ArrayList<>();
@@ -44,6 +37,10 @@ public class StrategyTargetValues extends Entity {
         public void setActive(String active) {
             this.active = active;
         }
+    }
+
+    public StrategyTargetValues() {
+        super("StrategyTargetValues");
     }
 
     public Enabled getEnabled() {

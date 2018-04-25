@@ -16,17 +16,15 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
-
 public class TargetDimension extends Entity {
-
-    public TargetDimension() {
-        super("TargetDimension");
-    }
 
     private String type;
     private String exclude;
     private String include;
+
+    public TargetDimension() {
+        super("TargetDimension");
+    }
 
     public String getType() {
         return type;

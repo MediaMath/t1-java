@@ -23,10 +23,6 @@ import java.util.Date;
 
 public class Pixel extends Entity {
 
-    public Pixel() {
-        super("PixelBundle");
-    }
-
     public enum pixelTypes {
         creative, event, data, segment
     }
@@ -81,6 +77,10 @@ public class Pixel extends Entity {
     private Advertiser advertiser;
     private Agency agency;
     private PixelProvider provider;
+
+    public Pixel() {
+        super("PixelBundle");
+    }
 
     public int getAdvertiserId() {
         return advertiser_id;

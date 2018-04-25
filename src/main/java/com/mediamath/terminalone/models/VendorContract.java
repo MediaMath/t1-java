@@ -22,11 +22,6 @@ import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class VendorContract extends Entity {
-
-    public VendorContract() {
-        super("VendorContract");
-    }
-
     private int campaign_id;
     private Date created_on;
     private int id;
@@ -39,6 +34,10 @@ public class VendorContract extends Entity {
 
     private Campaign campaign;
     private Vendor vendor;
+
+    public VendorContract() {
+        super("VendorContract");
+    }
 
     public int getCampaignId() {
         return campaign_id;

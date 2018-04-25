@@ -16,16 +16,11 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Strategy extends Entity implements Cloneable {
-
-    public Strategy() {
-        super("Strategy");
-    }
 
     public enum audSegExc {
         AND, OR
@@ -211,6 +206,11 @@ public class Strategy extends Entity implements Cloneable {
     private List<Integer> dealIds = new ArrayList<>();
 
     private List<SiteList> site_lists = new ArrayList<SiteList>();
+
+
+    public Strategy() {
+        super("Strategy");
+    }
 
     public audSegExc getAudienceSegmentExcludeOp() {
         return audience_segment_exclude_op;

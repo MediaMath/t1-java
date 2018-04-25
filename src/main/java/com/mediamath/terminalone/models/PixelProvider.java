@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class PixelProvider extends Entity {
-
-    public PixelProvider() {
-        super("PixelProvider");
-    }
 
     public enum executors {
         MEDIAMATH, UDI
@@ -42,6 +37,10 @@ public class PixelProvider extends Entity {
 
     private Agency agency;
     private Vendor vendor;
+
+    public PixelProvider() {
+        super("PixelProvider");
+    }
 
     public int getAgencyId() {
         return agency_id;

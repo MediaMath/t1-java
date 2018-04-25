@@ -12,11 +12,8 @@ import java.util.List;
 public class Contract extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-    public Contract() {
-        super("Contract");
-    }
-
     private List<Currency> adaptive_segment_cpm = new ArrayList<Currency>();
+
     private int contract_number;
     private Date created_on;
     private String currency_code;
@@ -53,6 +50,10 @@ public class Contract extends Entity {
     private List<Currency> t1_vads_fee_cpm = new ArrayList<Currency>();
     private Date updated_on;
     private int version;
+
+    public Contract() {
+        super("Contract");
+    }
 
     public List<Currency> getAdaptiveSegmentCpm() {
         return adaptive_segment_cpm;

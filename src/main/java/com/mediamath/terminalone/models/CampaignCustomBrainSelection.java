@@ -18,8 +18,6 @@ public class CampaignCustomBrainSelection {
         }
     }
 
-    ;
-
     private int campaign_id;
     private SELTYPES selection_type;
     private int selection_id;

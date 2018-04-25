@@ -23,11 +23,8 @@ import java.util.List;
 
 public class AudienceSegment extends Entity {
 
-    public AudienceSegment() {
-        super("AudienceSegment");
-    }
-
     private int audience_vendor_id;
+
     private boolean buyable;
     private int child_count;
     private String code;
@@ -43,6 +40,10 @@ public class AudienceSegment extends Entity {
     private int uniques;
     private Date updated_on;
     private int version;
+
+    public AudienceSegment() {
+        super("AudienceSegment");
+    }
 
     public int getAudienceVendorId() {
         return audience_vendor_id;

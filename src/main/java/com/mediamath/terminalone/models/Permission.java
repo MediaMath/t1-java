@@ -16,13 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
-
 public class Permission extends Entity {
-
-    public Permission() {
-        super("Permission");
-    }
 
     // private String type; // seems duplicate one private one local
     private String advertiser;
@@ -40,6 +34,10 @@ public class Permission extends Entity {
     private String type;
     private String role;
     private String scope;
+
+    public Permission() {
+        super("Permission");
+    }
 
     public String getAdvertiser() {
         return advertiser;

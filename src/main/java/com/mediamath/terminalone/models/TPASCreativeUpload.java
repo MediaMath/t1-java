@@ -16,14 +16,12 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
-
 public class TPASCreativeUpload extends Entity {
+    private TPASCreativeBatch batch;
+
     public TPASCreativeUpload() {
         super("TPASCreativeUpload");
     }
-
-    private TPASCreativeBatch batch;
 
     public TPASCreativeBatch getBatch() {
         return batch;

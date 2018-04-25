@@ -16,15 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class SupplySource extends Entity {
-
-    public SupplySource() {
-        super("SupplySource");
-    }
-
     private int bidder_exchange_identifier;
     private String code;
     private Date created_on;
@@ -49,6 +43,10 @@ public class SupplySource extends Entity {
     private boolean use_pool;
     private int version;
     private String name;
+
+    public SupplySource() {
+        super("SupplySource");
+    }
 
     public int getBidderExchangeIdentifier() {
         return bidder_exchange_identifier;

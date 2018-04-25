@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class PublisherSite extends Entity {
-
-    public PublisherSite() {
-        super("PublisherSite");
-    }
 
     private Date created_on;
     private int id;
@@ -33,6 +28,10 @@ public class PublisherSite extends Entity {
     private int version;
 
     private Publisher publisher;
+
+    public PublisherSite() {
+        super("PublisherSite");
+    }
 
     public Date getCreatedOn() {
         return created_on;

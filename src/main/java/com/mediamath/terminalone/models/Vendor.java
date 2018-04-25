@@ -16,15 +16,10 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 import java.util.List;
 
 public class Vendor extends Entity {
-
-    public Vendor() {
-        super("Vendor");
-    }
 
     public enum vendorTypes {
         AD_SERVER, AD_VERIFICATION, CONTEXTUAL, DATA, DSP, DYNAMIC_CREATIVE, NETWORK, OBA_COMPLIANCE, OTHER, PIXEL_TRACKING, RICH_MEDIA, SURVEY
@@ -51,6 +46,10 @@ public class Vendor extends Entity {
 
     private List<VendorContract> vendor_contracts;
     private List<VendorDomain> vendor_domains;
+
+    public Vendor() {
+        super("Vendor");
+    }
 
     public boolean isAdxApproved() {
         return adx_approved;

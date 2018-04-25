@@ -23,10 +23,6 @@ import java.util.Date;
 
 public class Advertiser extends Entity {
 
-    public Advertiser() {
-        super("Advertiser");
-    }
-
     public enum dmpSettings {
         inherits("inherits"), disabled("disabled");
         String val;
@@ -92,6 +88,10 @@ public class Advertiser extends Entity {
     private Contact billing_contact;
     private Contact sales_contact;
     private Vertical vertical;
+
+    public Advertiser() {
+        super("Advertiser");
+    }
 
     public int getId() {
         return id;

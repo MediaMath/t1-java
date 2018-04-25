@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class Contact extends Entity {
-
-    public Contact() {
-        super("Contact");
-    }
 
     private int id;
     private int version;
@@ -42,6 +37,10 @@ public class Contact extends Entity {
     private String country;
     private Date created_on;
     private Date updated_on;
+
+    public Contact() {
+        super("Contact");
+    }
 
     public int getId() {
         return id;

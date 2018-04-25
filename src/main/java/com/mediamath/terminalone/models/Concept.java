@@ -23,19 +23,19 @@ import java.util.Date;
 
 public class Concept extends Entity {
 
-    public Concept() {
-        super("Concept");
-    }
-
     private int advertiser_id;
+
     private Date created_on;
     private int id;
     private String name;
     private boolean status;
     private Date updated_on;
     private int version;
-
     private Advertiser advertiser;
+
+    public Concept() {
+        super("Concept");
+    }
 
     public int getAdvertiserId() {
         return advertiser_id;

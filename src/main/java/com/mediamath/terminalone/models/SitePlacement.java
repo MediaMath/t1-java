@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class SitePlacement extends Entity {
-
-    public SitePlacement() {
-        super("SitePlacement");
-    }
 
     public enum dealSources {
         USER, INTERNAL
@@ -48,6 +43,10 @@ public class SitePlacement extends Entity {
     private int publisher_site_id;
     private Date updated_on;
     private int version;
+
+    public SitePlacement() {
+        super("SitePlacement");
+    }
 
     public boolean isBillMediaToClient() {
         return bill_media_to_client;

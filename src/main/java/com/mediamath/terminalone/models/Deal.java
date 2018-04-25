@@ -28,10 +28,6 @@ import java.util.TimeZone;
 
 public class Deal extends Entity {
 
-    public Deal() {
-        super("Deal");
-    }
-
     public enum dealSources {
         USER, INTERNAL
     }
@@ -75,6 +71,10 @@ public class Deal extends Entity {
     private Advertiser advertiser;
     private Publisher publisher;
     private SupplySource supply_source;
+
+    public Deal() {
+        super("Deal");
+    }
 
     public int getAdvertiserId() {
         return advertiser_id;

@@ -16,15 +16,10 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TargetDimensions extends Entity {
-
-    public TargetDimensions() {
-        super("TargetDimensions");
-    }
 
     public enum excludeOp {
         AND, OR
@@ -40,6 +35,10 @@ public class TargetDimensions extends Entity {
     private List<Integer> include = new ArrayList<Integer>();
     private includeOp include_op;
     private excludeOp exclude_op;
+
+    public TargetDimensions() {
+        super("TargetDimensions");
+    }
 
     public int getId() {
         return id;

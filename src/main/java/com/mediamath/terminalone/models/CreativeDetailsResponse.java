@@ -1,17 +1,11 @@
 package com.mediamath.terminalone.models;
 
-import com.mediamath.terminalone.exceptions.ClientException;
-
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 
 public class CreativeDetailsResponse extends Entity {
 
-    public CreativeDetailsResponse() {
-        super(null);
-    }
-
     private int duration;
+
     private ArrayList<Long> autoVendors = new ArrayList<Long>();
     private ArrayList<Integer> companionIds = new ArrayList<Integer>();
     private String thumbnail;
@@ -26,6 +20,9 @@ public class CreativeDetailsResponse extends Entity {
     private boolean isAudio;
     private int vastVersion;
 
+    public CreativeDetailsResponse() {
+        super(null);
+    }
 
     public int getDuration() {
         return duration;

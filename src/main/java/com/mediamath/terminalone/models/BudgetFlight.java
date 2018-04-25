@@ -8,11 +8,8 @@ import java.util.Date;
 
 public class BudgetFlight extends Entity {
 
-    public BudgetFlight() {
-        super("BudgetFlight");
-    }
-
     private int id;
+
     private int campaign_id;
     private String created_on;
     private String currency_code;
@@ -26,6 +23,10 @@ public class BudgetFlight extends Entity {
     private String zone_name;
     private int total_impression_budget;
     private boolean isDeleted = false;
+
+    public BudgetFlight() {
+        super("BudgetFlight");
+    }
 
     public int getId() {
         return id;

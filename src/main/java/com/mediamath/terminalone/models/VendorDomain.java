@@ -16,14 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
-import javax.ws.rs.core.Form;
 import java.util.Date;
 
 public class VendorDomain extends Entity {
-
-    public VendorDomain() {
-        super("VendorDomain");
-    }
 
     private boolean allow_subdomain_match;
     private Date created_on;
@@ -32,6 +27,10 @@ public class VendorDomain extends Entity {
     private Date updated_on;
     private int vendor_id;
     private int version;
+
+    public VendorDomain() {
+        super("VendorDomain");
+    }
 
     public boolean isAllowSubdomainMatch() {
         return allow_subdomain_match;

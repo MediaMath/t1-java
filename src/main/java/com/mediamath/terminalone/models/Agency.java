@@ -22,10 +22,6 @@ import javax.ws.rs.core.Form;
 
 public class Agency extends Entity {
 
-    public Agency() {
-        super("Agency");
-    }
-
     private boolean allow_x_adv_optimization = false;
     private boolean allow_x_adv_pixels = false;
     private int billing_contact_id;
@@ -45,6 +41,10 @@ public class Agency extends Entity {
     private Contact billing_contact;
     private Contact sales_contact;
     private Contact traffic_contact;
+
+    public Agency() {
+        super("Agency");
+    }
 
     public boolean isAllowXAdvOptimization() {
         return allow_x_adv_optimization;

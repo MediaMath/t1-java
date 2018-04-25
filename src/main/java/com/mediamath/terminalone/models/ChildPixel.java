@@ -23,11 +23,8 @@ import java.util.Date;
 
 public class ChildPixel extends Entity {
 
-    public ChildPixel() {
-        super("ChildPixel");
-    }
-
     private int bundle_id;
+
     private Date created_on;
     private boolean distributed;
     private int id;
@@ -36,8 +33,11 @@ public class ChildPixel extends Entity {
     private String tag;
     private Date updated_on;
     private int version;
-
     private Pixel pixel_bundle;
+
+    public ChildPixel() {
+        super("ChildPixel");
+    }
 
     public int getBundleId() {
         return bundle_id;

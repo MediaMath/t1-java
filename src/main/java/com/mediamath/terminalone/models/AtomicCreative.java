@@ -26,43 +26,48 @@ public class AtomicCreative extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-    public AtomicCreative() {
-        super("AtomicCreative");
-    }
+
 
     public enum adFormats {
-        DISPLAY, EXPANDABLE, MOBILE
+        DISPLAY, EXPANDABLE, MOBILE;
     }
+
 
     public enum adServers {
-        ATLAS, DART, EYEWONDER, MEDIAMIND, MEDIAPLEX, POINTROLL, YIELD_MANAGER, TERMINALONE, MEDIAFORGE, OTHER
+        ATLAS, DART, EYEWONDER, MEDIAMIND, MEDIAPLEX, POINTROLL, YIELD_MANAGER, TERMINALONE, MEDIAFORGE, OTHER;
     }
+
 
     public enum expandDir {
-        NONRESTRICTED
+        NONRESTRICTED;
     }
+
 
     public enum expandTrig {
-        AUTOMATIC, MOUSEOVER, CLICK
+        AUTOMATIC, MOUSEOVER, CLICK;
     }
+
 
     public enum fileTypes {
-        swf, gif, html5, jpg, jpeg, tif, tiff, png, unknown, vast
+        swf, gif, html5, jpg, jpeg, tif, tiff, png, unknown, vast;
+
+    }
+    public enum mediaTypes {
+        display, video, mobile;
+
     }
 
-    public enum mediaTypes {
-        display, video, mobile
-    }
 
     public enum tagTypes {
-        IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME, IMG
+        IFRAME_SCRIPT_NOSCRIPT, IFRAME_SCRIPT, IFRAME_NOSCRIPT, IFRAME_IMG, SCRIPT_NOSCRIPT, SCRIPT, NOSCRIPT, IFRAME, IMG;
     }
+
 
     public enum expandValues {
-        L, R, U, D, LD, RD, LU, RU
+        L, R, U, D, LD, RD, LU, RU;
     }
-
     private int advertiser_id;
+
     private adFormats ad_format;
     private adServers ad_server_type;
     private String approval_status;
@@ -105,11 +110,15 @@ public class AtomicCreative extends Entity {
     private int width;
     private boolean is_mraid;
     private expandValues expand;
-
     private Advertiser advertiser;
+
     private Concept concept;
     private CreativeApproval creative_approvals;
     private Creative creative;
+
+    public AtomicCreative() {
+        super("AtomicCreative");
+    }
 
     public int getAdvertiserId() {
         return advertiser_id;

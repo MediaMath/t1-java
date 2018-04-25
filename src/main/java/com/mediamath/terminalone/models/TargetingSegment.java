@@ -2,16 +2,11 @@ package com.mediamath.terminalone.models;
 
 import com.mediamath.terminalone.exceptions.ClientException;
 
-import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class TargetingSegment extends Entity {
-
-    public TargetingSegment() {
-        super("TargetingSegment");
-    }
 
     private int targeting_vendor_id;
     private boolean buyable;
@@ -30,6 +25,10 @@ public class TargetingSegment extends Entity {
     private String external_code;
     private Date updated_on;
     private int version;
+
+    public TargetingSegment() {
+        super("TargetingSegment");
+    }
 
     public int getTargetingVendorId() {
         return targeting_vendor_id;
