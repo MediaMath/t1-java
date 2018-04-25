@@ -16,73 +16,12 @@
 
 package com.mediamath.terminalone.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.BudgetFlight;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
-import com.mediamath.terminalone.models.Currency;
-import com.mediamath.terminalone.models.FieldError;
-import com.mediamath.terminalone.models.JsonPostErrorResponse;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.SiteList;
-import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.StrategyAudienceSegment;
-import com.mediamath.terminalone.models.StrategyConcept;
-import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategyTarget;
-import com.mediamath.terminalone.models.StrategyTargetValues;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Error;
-import com.mediamath.terminalone.models.T1File;
-import com.mediamath.terminalone.models.T1Meta;
-import com.mediamath.terminalone.models.T1User;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
-import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.User;
-import com.mediamath.terminalone.models.UserPermissions;
-import com.mediamath.terminalone.models.VendorContract;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
-import com.mediamath.terminalone.models.ZipCodes;
-import com.mediamath.terminalone.models.ZipCodesJsonResponse;
+import com.mediamath.terminalone.models.*;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.TPasCreativeUploadBatchHelper;
@@ -90,6 +29,21 @@ import com.mediamath.terminalone.models.helper.VideoCreativeHelper;
 import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 import com.mediamath.terminalone.utils.Utility;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PostService {
 
@@ -457,7 +411,7 @@ public class PostService {
      * Copies Strategies in bulk from one campaign to another campaign.
      *
      * @param entity expects a Strategy entity.
-     * @return JsonResponse<?       extends       T1Entity> object.
+     * @return JsonResponse<?               extends               T1Entity> object.
      * @throws ClientException a client exception is thrown if any error occurs.
      * @throws ParseException  a parse exception is thrown when the response cannot be
      *                         parsed.
@@ -825,7 +779,7 @@ public class PostService {
      * deletes a StrategyConcept entity.
      *
      * @param strategyConcept expects a StrategyConcept entity.
-     * @return JsonResponse<?       extends       T1Entity> returns a jsonResponse of type T
+     * @return JsonResponse<?               extends               T1Entity> returns a jsonResponse of type T
      * entity.
      * @throws ClientException a client exception is thrown if any error occurs.
      * @throws ParseException  a parse exception is thrown when the response cannot be
@@ -858,7 +812,7 @@ public class PostService {
      * deletes a StrategyDayPart entity.
      *
      * @param strategyDayPart expects a StrategyDayPart entity.
-     * @return JsonResponse<?       extends       T1Entity> returns a JsonResponse of type T
+     * @return JsonResponse<?               extends               T1Entity> returns a JsonResponse of type T
      * entity.
      * @throws ClientException a client exception is thrown if any error occurs.
      * @throws ParseException  a parse exception is thrown when the response cannot be
@@ -895,7 +849,7 @@ public class PostService {
      * Delete Vendor Contract Entity
      *
      * @param Vendor Contract Entity
-     * @return JsonResponse<?       extends       T1Entity> returns a JsonResponse of type T
+     * @return JsonResponse<?               extends               T1Entity> returns a JsonResponse of type T
      * entity.
      * @throws ClientException
      * @throws ParseException
@@ -1025,7 +979,7 @@ public class PostService {
      * upload
      *
      * @param entity requires a TPASCreativeBatchApprove entity.
-     * @return JsonResponse<?       extends       T1Entity> returns a JsonResponse of type
+     * @return JsonResponse<?               extends               T1Entity> returns a JsonResponse of type
      * T.
      * @throws ClientException a client exception is thrown if any error occurs.
      * @throws ParseException  a parse exception is thrown when the response cannot be
@@ -1142,7 +1096,7 @@ public class PostService {
      * saves TOneASCreativeAssetsApprove entity.
      *
      * @param entity expects a TOneASCreativeAssetsApprove entity.
-     * @return JsonResponse<?       extends       T1Entity> returns JsonResponse of type T
+     * @return JsonResponse<?               extends               T1Entity> returns JsonResponse of type T
      * @throws ClientException a client exception is thrown if any error occurs.
      * @throws IOException     exception is thrown when the multipart form is left open.
      */

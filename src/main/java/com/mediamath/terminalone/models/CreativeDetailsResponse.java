@@ -1,158 +1,157 @@
 package com.mediamath.terminalone.models;
 
-import java.util.ArrayList;
+import com.mediamath.terminalone.exceptions.ClientException;
 
 import javax.ws.rs.core.Form;
-
-import com.mediamath.terminalone.exceptions.ClientException;
+import java.util.ArrayList;
 
 public class CreativeDetailsResponse implements T1Entity {
 
-	
-	private int duration;
-	private ArrayList<Long> autoVendors = new ArrayList<Long>();
-	private ArrayList<Integer> companionIds = new ArrayList<Integer>();
-	private String thumbnail;
-	private Status Status;
-	private VideoCreative details;
-	private double percent;
-	private boolean isUploaded;
-	private boolean readyToServe;
-	private boolean isSecure;
-	private boolean isRotating;
-	private boolean isDynamic;
-	private boolean isAudio;
-	private int vastVersion;
-	
-	
-	public int getDuration() {
-		return duration;
-	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
+    private int duration;
+    private ArrayList<Long> autoVendors = new ArrayList<Long>();
+    private ArrayList<Integer> companionIds = new ArrayList<Integer>();
+    private String thumbnail;
+    private Status Status;
+    private VideoCreative details;
+    private double percent;
+    private boolean isUploaded;
+    private boolean readyToServe;
+    private boolean isSecure;
+    private boolean isRotating;
+    private boolean isDynamic;
+    private boolean isAudio;
+    private int vastVersion;
 
-	public ArrayList<Long> getAutoVendors() {
-		return autoVendors;
-	}
 
-	public void setAutoVendors(ArrayList<Long> autoVendors) {
-		this.autoVendors = autoVendors;
-	}
+    public int getDuration() {
+        return duration;
+    }
 
-	public ArrayList<Integer> getCompanionIds() {
-		return companionIds;
-	}
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
-	public void setCompanionIds(ArrayList<Integer> companionIds) {
-		this.companionIds = companionIds;
-	}
+    public ArrayList<Long> getAutoVendors() {
+        return autoVendors;
+    }
 
-	public String getThumbnail() {
-		return thumbnail;
-	}
+    public void setAutoVendors(ArrayList<Long> autoVendors) {
+        this.autoVendors = autoVendors;
+    }
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
+    public ArrayList<Integer> getCompanionIds() {
+        return companionIds;
+    }
 
-	public Status getStatus() {
-		return Status;
-	}
+    public void setCompanionIds(ArrayList<Integer> companionIds) {
+        this.companionIds = companionIds;
+    }
 
-	public void setStatus(Status status) {
-		Status = status;
-	}
+    public String getThumbnail() {
+        return thumbnail;
+    }
 
-	public VideoCreative getDetails() {
-		return details;
-	}
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
-	public void setDetails(VideoCreative details) {
-		this.details = details;
-	}
+    public Status getStatus() {
+        return Status;
+    }
 
-	public double getPercent() {
-		return percent;
-	}
+    public void setStatus(Status status) {
+        Status = status;
+    }
 
-	public void setPercent(double percent) {
-		this.percent = percent;
-	}
+    public VideoCreative getDetails() {
+        return details;
+    }
 
-	public boolean isUploaded() {
-		return isUploaded;
-	}
+    public void setDetails(VideoCreative details) {
+        this.details = details;
+    }
 
-	public void setUploaded(boolean isUploaded) {
-		this.isUploaded = isUploaded;
-	}
+    public double getPercent() {
+        return percent;
+    }
 
-	public boolean isReadyToServe() {
-		return readyToServe;
-	}
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
 
-	public void setReadyToServe(boolean readyToServe) {
-		this.readyToServe = readyToServe;
-	}
+    public boolean isUploaded() {
+        return isUploaded;
+    }
 
-	public boolean isSecure() {
-		return isSecure;
-	}
+    public void setUploaded(boolean isUploaded) {
+        this.isUploaded = isUploaded;
+    }
 
-	public void setSecure(boolean isSecure) {
-		this.isSecure = isSecure;
-	}
+    public boolean isReadyToServe() {
+        return readyToServe;
+    }
 
-	public boolean isRotating() {
-		return isRotating;
-	}
+    public void setReadyToServe(boolean readyToServe) {
+        this.readyToServe = readyToServe;
+    }
 
-	public void setRotating(boolean isRotating) {
-		this.isRotating = isRotating;
-	}
+    public boolean isSecure() {
+        return isSecure;
+    }
 
-	public boolean isDynamic() {
-		return isDynamic;
-	}
+    public void setSecure(boolean isSecure) {
+        this.isSecure = isSecure;
+    }
 
-	public void setDynamic(boolean isDynamic) {
-		this.isDynamic = isDynamic;
-	}
+    public boolean isRotating() {
+        return isRotating;
+    }
 
-	public boolean isAudio() {
-		return isAudio;
-	}
+    public void setRotating(boolean isRotating) {
+        this.isRotating = isRotating;
+    }
 
-	public void setAudio(boolean isAudio) {
-		this.isAudio = isAudio;
-	}
+    public boolean isDynamic() {
+        return isDynamic;
+    }
 
-	public int getVastVersion() {
-		return vastVersion;
-	}
+    public void setDynamic(boolean isDynamic) {
+        this.isDynamic = isDynamic;
+    }
 
-	public void setVastVersion(int vastVersion) {
-		this.vastVersion = vastVersion;
-	}
+    public boolean isAudio() {
+        return isAudio;
+    }
 
-	@Override
-	public String getEntityname() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void setAudio(boolean isAudio) {
+        this.isAudio = isAudio;
+    }
 
-	@Override
-	public Form getForm() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public int getVastVersion() {
+        return vastVersion;
+    }
 
-	@Override
-	public String getUri() throws ClientException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void setVastVersion(int vastVersion) {
+        this.vastVersion = vastVersion;
+    }
+
+    @Override
+    public String getEntityname() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Form getForm() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUri() throws ClientException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

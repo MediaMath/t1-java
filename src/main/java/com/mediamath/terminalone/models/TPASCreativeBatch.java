@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,49 +17,49 @@
 package com.mediamath.terminalone.models;
 
 public class TPASCreativeBatch {
-  private String filename;
-  private String user_id;
-  private String id;
-  private String total;
-  private TPASCreativeBatchPlacements placements;
+    private String filename;
+    private String user_id;
+    private String id;
+    private String total;
+    private TPASCreativeBatchPlacements placements;
 
-  public String getFilename() {
-    return filename;
-  }
+    public String getFilename() {
+        return filename;
+    }
 
-  public void setFilename(String filename) {
-    this.filename = filename;
-  }
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
-  public String getUser_id() {
-    return user_id;
-  }
+    public String getUser_id() {
+        return user_id;
+    }
 
-  public void setUser_id(String user_id) {
-    this.user_id = user_id;
-  }
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getTotal() {
-    return total;
-  }
+    public String getTotal() {
+        return total;
+    }
 
-  public void setTotal(String total) {
-    this.total = total;
-  }
+    public void setTotal(String total) {
+        this.total = total;
+    }
 
-  public TPASCreativeBatchPlacements getPlacements() {
-    return placements;
-  }
+    public TPASCreativeBatchPlacements getPlacements() {
+        return placements;
+    }
 
-  public void setPlacements(TPASCreativeBatchPlacements placements) {
-    this.placements = placements;
-  }
+    public void setPlacements(TPASCreativeBatchPlacements placements) {
+        this.placements = placements;
+    }
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,28 +23,28 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName = "Result")
 public class ReportValidationResponse {
 
-  @JacksonXmlProperty(localName = "status")
-  @JacksonXmlElementWrapper(useWrapping = false)
-  private ReportStatus[] status;
+    @JacksonXmlProperty(localName = "status")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private ReportStatus[] status;
 
-  @JacksonXmlProperty(localName = "entity")
-  @JacksonXmlElementWrapper(useWrapping = false)
-  private ReportErrorEntityInfo[] entity;
+    @JacksonXmlProperty(localName = "entity")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private ReportErrorEntityInfo[] entity;
 
-  public ReportStatus[] getStatus() {
-    return status;
-  }
+    public ReportStatus[] getStatus() {
+        return status;
+    }
 
-  public void setStatus(ReportStatus[] status) {
-    this.status = status;
-  }
+    public void setStatus(ReportStatus[] status) {
+        this.status = status;
+    }
 
-  public ReportErrorEntityInfo[] getEntity() {
-    return entity;
-  }
+    public ReportErrorEntityInfo[] getEntity() {
+        return entity;
+    }
 
-  public void setEntity(ReportErrorEntityInfo[] entity) {
-    this.entity = entity;
-  }
+    public void setEntity(ReportErrorEntityInfo[] entity) {
+        this.entity = entity;
+    }
 
 }

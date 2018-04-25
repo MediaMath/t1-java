@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,32 +18,32 @@ package com.mediamath.terminalone.models;
 
 public class T1Session {
 
-	private String current_time;
-	private String sessionid;
-	private String expires;
+    private String current_time;
+    private String sessionid;
+    private String expires;
 
-	public String getCurrentTime() {
-		return current_time;
-	}
+    public String getCurrentTime() {
+        return current_time;
+    }
 
-	public void setCurrentTime(String current_time) {
-		this.current_time = current_time;
-	}
+    public void setCurrentTime(String current_time) {
+        this.current_time = current_time;
+    }
 
-	public String getSessionid() {
-		return sessionid;
-	}
+    public String getSessionid() {
+        return sessionid;
+    }
 
-	public void setSessionid(String sessionid) {
-		this.sessionid = sessionid;
-	}
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
+    }
 
-	public String getExpires() {
-		return expires;
-	}
+    public String getExpires() {
+        return expires;
+    }
 
-	public void setExpires(String expires) {
-		this.expires = expires;
-	}
+    public void setExpires(String expires) {
+        this.expires = expires;
+    }
 
 }

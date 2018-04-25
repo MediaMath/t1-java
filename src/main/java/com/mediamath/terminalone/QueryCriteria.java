@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2016 MediaMath
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,277 +16,276 @@
 
 package com.mediamath.terminalone;
 
+import com.mediamath.terminalone.utils.ConditionQuery;
+import com.mediamath.terminalone.utils.FullParamValues;
+import com.mediamath.terminalone.utils.QueryParamValues;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mediamath.terminalone.utils.ConditionQuery;
-import com.mediamath.terminalone.utils.FullParamValues;
-import com.mediamath.terminalone.utils.QueryParamValues;
-
 public class QueryCriteria {
-	
-	public enum CreativeType {
-	    video, normal;
-	}
 
-	public String collection = null;
+    public enum CreativeType {
+        video, normal;
+    }
 
-	public long entity = 0;
+    public String collection = null;
 
-	public List<String> child = new ArrayList<>();
+    public long entity = 0;
 
-	public List<ConditionQuery> includeConditionList = new ArrayList<>();
+    public List<String> child = new ArrayList<>();
 
-	public String sortBy = null;
+    public List<ConditionQuery> includeConditionList = new ArrayList<>();
 
-	public int pageLimit = 100;
+    public String sortBy = null;
 
-	public int pageOffset = 0;
+    public int pageLimit = 100;
 
-	public boolean getAll;
+    public int pageOffset = 0;
 
-	public long parent = 0;
+    public boolean getAll;
 
-	public Map<String, Long> limit = new HashMap<>();
+    public long parent = 0;
 
-	public String query = null;
+    public Map<String, Long> limit = new HashMap<>();
 
-	public String queryParamName = null;
+    public String query = null;
 
-	public boolean downloadSiteList = false;
+    public String queryParamName = null;
 
-	public String queryOperator = null;
+    public boolean downloadSiteList = false;
 
-	public QueryParamValues queryParams = null;
+    public String queryOperator = null;
 
-	public FullParamValues full = null;
-	
-	public CreativeType creativeType;
+    public QueryParamValues queryParams = null;
 
-	/**
-	 * Query Criteria builder object.
-	 * 
-	 * @param builder
-	 * 
-	 */
-	public QueryCriteria(Builder builder) {
+    public FullParamValues full = null;
 
-		collection = builder.collection;
+    public CreativeType creativeType;
 
-		entity = builder.entity;
+    /**
+     * Query Criteria builder object.
+     *
+     * @param builder
+     */
+    public QueryCriteria(Builder builder) {
 
-		child = builder.child;
+        collection = builder.collection;
 
-		includeConditionList = builder.includeConditionList;
+        entity = builder.entity;
 
-		sortBy = builder.sortBy;
+        child = builder.child;
 
-		if (builder.pageLimit > 0) {
-			pageLimit = builder.pageLimit;
-		}
+        includeConditionList = builder.includeConditionList;
 
-		parent = builder.parent;
+        sortBy = builder.sortBy;
 
-		pageOffset = builder.pageOffset;
+        if (builder.pageLimit > 0) {
+            pageLimit = builder.pageLimit;
+        }
 
-		getAll = builder.getAll;
+        parent = builder.parent;
 
-		limit = builder.limit;
+        pageOffset = builder.pageOffset;
 
-		query = builder.query;
+        getAll = builder.getAll;
 
-		queryParamName = builder.queryParamName;
+        limit = builder.limit;
 
-		full = builder.full;
+        query = builder.query;
 
-		queryParams = builder.queryParams;
+        queryParamName = builder.queryParamName;
 
-		queryOperator = builder.queryOperator;
+        full = builder.full;
 
-		downloadSiteList = builder.downloadSiteList;
-		
-		creativeType = builder.creativeType;
-	}
+        queryParams = builder.queryParams;
 
-	public static Builder builder() {
-		return new Builder();
-	}
+        queryOperator = builder.queryOperator;
 
-	public static Builder builder(QueryCriteria oldQueryCriteria) {
-		return new Builder(oldQueryCriteria);
-	}
+        downloadSiteList = builder.downloadSiteList;
 
-	public static class Builder {
+        creativeType = builder.creativeType;
+    }
 
-		private String collection = null;
+    public static Builder builder() {
+        return new Builder();
+    }
 
-		private long entity;
+    public static Builder builder(QueryCriteria oldQueryCriteria) {
+        return new Builder(oldQueryCriteria);
+    }
 
-		public List<String> child = new ArrayList<>();
+    public static class Builder {
 
-		private List<ConditionQuery> includeConditionList = new ArrayList<>();
+        private String collection = null;
 
-		private String sortBy = null;
+        private long entity;
 
-		private int pageLimit;
+        public List<String> child = new ArrayList<>();
 
-		private long parent;
+        private List<ConditionQuery> includeConditionList = new ArrayList<>();
 
-		private int pageOffset;
+        private String sortBy = null;
 
-		private boolean getAll;
+        private int pageLimit;
 
-		private Map<String, Long> limit = new HashMap<>();
+        private long parent;
 
-		private String query = null;
+        private int pageOffset;
 
-		private String queryParamName = null;
+        private boolean getAll;
 
-		private String queryOperator = null;
+        private Map<String, Long> limit = new HashMap<>();
 
-		private QueryParamValues queryParams = null;
+        private String query = null;
 
-		private FullParamValues full = null;
+        private String queryParamName = null;
 
-		private boolean downloadSiteList = false;
-		
-		private CreativeType creativeType;
+        private String queryOperator = null;
 
-		private Builder() {
-		}
+        private QueryParamValues queryParams = null;
 
-		private Builder(QueryCriteria old) {
+        private FullParamValues full = null;
 
-			collection = old.collection;
+        private boolean downloadSiteList = false;
 
-			entity = old.entity;
+        private CreativeType creativeType;
 
-			child = old.child;
+        private Builder() {
+        }
 
-			includeConditionList = old.includeConditionList;
+        private Builder(QueryCriteria old) {
 
-			sortBy = old.sortBy;
+            collection = old.collection;
 
-			if (old.pageLimit > 0) {
-				pageLimit = old.pageLimit;
-			}
+            entity = old.entity;
 
-			parent = old.parent;
+            child = old.child;
 
-			full = old.full;
+            includeConditionList = old.includeConditionList;
 
-			pageOffset = old.pageOffset;
+            sortBy = old.sortBy;
 
-			limit = old.limit;
+            if (old.pageLimit > 0) {
+                pageLimit = old.pageLimit;
+            }
 
-			query = old.query;
+            parent = old.parent;
 
-			queryParamName = old.queryParamName;
+            full = old.full;
 
-			queryOperator = old.queryOperator;
+            pageOffset = old.pageOffset;
 
-			queryParams = old.queryParams;
+            limit = old.limit;
 
-			downloadSiteList = old.downloadSiteList;
-			
-			creativeType = old.creativeType;
-		}
+            query = old.query;
 
-		public Builder setCollection(String value) {
-			collection = value;
-			return this;
-		}
+            queryParamName = old.queryParamName;
 
-		public Builder setEntity(long value) {
-			entity = value;
-			return this;
-		}
+            queryOperator = old.queryOperator;
 
-		public Builder setChild(String value) {
-			child.add(value);
-			return this;
-		}
+            queryParams = old.queryParams;
 
-		public Builder setInclude(ConditionQuery value) {
-			includeConditionList.add(value);
-			return this;
-		}
+            downloadSiteList = old.downloadSiteList;
 
-		public Builder setSortBy(String sortBy) {
-			this.sortBy = sortBy;
-			return this;
-		}
+            creativeType = old.creativeType;
+        }
 
-		public Builder setPageLimit(int pageLimit) {
-			this.pageLimit = pageLimit;
-			return this;
-		}
+        public Builder setCollection(String value) {
+            collection = value;
+            return this;
+        }
 
-		public Builder setParent(long parent) {
-			this.parent = parent;
-			return this;
-		}
+        public Builder setEntity(long value) {
+            entity = value;
+            return this;
+        }
 
-		public Builder setFull(FullParamValues full) {
-			this.full = full;
-			return this;
-		}
+        public Builder setChild(String value) {
+            child.add(value);
+            return this;
+        }
 
-		public Builder setPageOffset(int pageOffset) {
-			this.pageOffset = pageOffset;
-			return this;
-		}
+        public Builder setInclude(ConditionQuery value) {
+            includeConditionList.add(value);
+            return this;
+        }
 
-		public Builder setGetAll(boolean getAll) {
-			this.getAll = getAll;
-			return this;
-		}
+        public Builder setSortBy(String sortBy) {
+            this.sortBy = sortBy;
+            return this;
+        }
 
-		public Builder setLimit(Map<String, Long> limit) {
-			this.limit = limit;
-			return this;
-		}
+        public Builder setPageLimit(int pageLimit) {
+            this.pageLimit = pageLimit;
+            return this;
+        }
 
-		public Builder setIncludeConditionList(List<ConditionQuery> includeConditionList) {
-			this.includeConditionList = includeConditionList;
-			return this;
-		}
+        public Builder setParent(long parent) {
+            this.parent = parent;
+            return this;
+        }
 
-		public Builder setQuery(String query) {
-			this.query = query;
-			return this;
-		}
+        public Builder setFull(FullParamValues full) {
+            this.full = full;
+            return this;
+        }
 
-		public Builder setQueryParamName(String queryParamName) {
-			this.queryParamName = queryParamName;
-			return this;
-		}
+        public Builder setPageOffset(int pageOffset) {
+            this.pageOffset = pageOffset;
+            return this;
+        }
 
-		public Builder setQueryOperator(String queryOperator) {
-			this.queryOperator = queryOperator;
-			return this;
-		}
+        public Builder setGetAll(boolean getAll) {
+            this.getAll = getAll;
+            return this;
+        }
 
-		public Builder setQueryParams(QueryParamValues queryParams) {
-			this.queryParams = queryParams;
-			return this;
-		}
+        public Builder setLimit(Map<String, Long> limit) {
+            this.limit = limit;
+            return this;
+        }
 
-		public Builder setDownloadSiteList(boolean downloadSiteList) {
-			this.downloadSiteList = downloadSiteList;
-			return this;
-		}
-		
-		public Builder setCreativeType(CreativeType creativeType) {
-			this.creativeType = creativeType;
-			return this;
-		}
+        public Builder setIncludeConditionList(List<ConditionQuery> includeConditionList) {
+            this.includeConditionList = includeConditionList;
+            return this;
+        }
 
-		public QueryCriteria build() {
-			return new QueryCriteria(this);
-		}
-	}
+        public Builder setQuery(String query) {
+            this.query = query;
+            return this;
+        }
+
+        public Builder setQueryParamName(String queryParamName) {
+            this.queryParamName = queryParamName;
+            return this;
+        }
+
+        public Builder setQueryOperator(String queryOperator) {
+            this.queryOperator = queryOperator;
+            return this;
+        }
+
+        public Builder setQueryParams(QueryParamValues queryParams) {
+            this.queryParams = queryParams;
+            return this;
+        }
+
+        public Builder setDownloadSiteList(boolean downloadSiteList) {
+            this.downloadSiteList = downloadSiteList;
+            return this;
+        }
+
+        public Builder setCreativeType(CreativeType creativeType) {
+            this.creativeType = creativeType;
+            return this;
+        }
+
+        public QueryCriteria build() {
+            return new QueryCriteria(this);
+        }
+    }
 
 }
