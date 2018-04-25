@@ -21,9 +21,11 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class ChildPixel implements T1Entity {
+public class ChildPixel extends Entity {
 
-    private static final String entityName = "ChildPixel";
+    public ChildPixel() {
+        super("ChildPixel");
+    }
 
     private int bundle_id;
     private Date created_on;
@@ -115,11 +117,6 @@ public class ChildPixel implements T1Entity {
 
     public void setPixelBundle(Pixel pixel_bundle) {
         this.pixel_bundle = pixel_bundle;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

@@ -414,21 +414,27 @@ public class GetService {
                     errors = vidgson.fromJson(errorsElement, T1Error.class);
                 }
                 errorResponse.setErrors(errors);
-            } else if (errorsElement.isJsonArray()) {
-                JsonArray array = errorsElement.getAsJsonArray();
-                JsonArray newArray = new JsonArray();
+            } else {
+                handleApiErrors(errorsElement, errorResponse, gson);
+            }
+        }
+    }
 
-                for (int i = 0; i < array.size(); i++) {
-                    if (!(array.get(i) instanceof JsonPrimitive)) {
-                        newArray.add(array.get(i));
-                    }
+    static void handleApiErrors(JsonElement errorsElement, JsonPostErrorResponse errorResponse, Gson gson) {
+        if (errorsElement.isJsonArray()) {
+            JsonArray array = errorsElement.getAsJsonArray();
+            JsonArray newArray = new JsonArray();
+
+            for (int i = 0; i < array.size(); i++) {
+                if (!(array.get(i) instanceof JsonPrimitive)) {
+                    newArray.add(array.get(i));
                 }
-                if (newArray.size() > 0) {
-                    Type type = new TypeToken<ArrayList<T1Error>>() {
-                    }.getType();
-                    List<T1Error> errors = gson.fromJson(newArray, type);
-                    errorResponse.setErrors(errors);
-                }
+            }
+            if (newArray.size() > 0) {
+                Type type = new TypeToken<ArrayList<T1Error>>() {
+                }.getType();
+                List<T1Error> errors = gson.fromJson(newArray, type);
+                errorResponse.setErrors(errors);
             }
         }
     }

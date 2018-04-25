@@ -21,9 +21,11 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Concept implements T1Entity {
+public class Concept extends Entity {
 
-    private static final String entityName = "Concept";
+    public Concept() {
+        super("Concept");
+    }
 
     private int advertiser_id;
     private Date created_on;
@@ -100,11 +102,6 @@ public class Concept implements T1Entity {
     }
 
     @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
     public Form getForm() {
         Form conceptForm = new Form();
 
@@ -121,12 +118,6 @@ public class Concept implements T1Entity {
         }
 
         return conceptForm;
-    }
-
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

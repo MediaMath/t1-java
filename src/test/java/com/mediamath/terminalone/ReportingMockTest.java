@@ -71,11 +71,6 @@ public class ReportingMockTest {
         REPORTSERROR = testConfig.getProperty("t1.mock.reporting.error");
     }
 
-    @After
-    public final void tearDown() throws InterruptedException {
-        Thread.sleep(5000);
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void testGetMeta() throws ClientException {

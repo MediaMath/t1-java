@@ -6,9 +6,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class BudgetFlight implements T1Entity {
+public class BudgetFlight extends Entity {
 
-    private static final String entityName = "BudgetFlight";
+    public BudgetFlight() {
+        super("BudgetFlight");
+    }
 
     private int id;
     private int campaign_id;
@@ -127,16 +129,7 @@ public class BudgetFlight implements T1Entity {
 
     public void setTotalBudget(double value, String currency_code) {
         this.total_budget.clear();
-        if (value > 0) {
-            T1Cost cost = new T1Cost();
-            cost.setValue(value);
-
-            if (currency_code != null && !currency_code.isEmpty()) {
-                cost.setCurrencyCode(currency_code);
-            }
-
-            this.total_budget.add(cost);
-        }
+        setCurrencyFieldValue(value, currency_code, this.total_budget);
     }
 
     public boolean isDeleted() {
@@ -145,16 +138,6 @@ public class BudgetFlight implements T1Entity {
 
     public void setDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
     }
 
     @Override

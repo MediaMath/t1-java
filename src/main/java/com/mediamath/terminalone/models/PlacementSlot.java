@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class PlacementSlot implements T1Entity {
+public class PlacementSlot extends Entity {
 
-    private static final String entityName = "PlacementSlot";
+    public PlacementSlot() {
+        super("PlacementSlot");
+    }
 
     private int ad_slot;
     private boolean allow_remnant;
@@ -248,21 +250,6 @@ public class PlacementSlot implements T1Entity {
 
     public void setWidth(int width) {
         this.width = width;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
     public String getName() {

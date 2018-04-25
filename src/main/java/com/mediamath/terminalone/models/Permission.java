@@ -18,9 +18,11 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class Permission implements T1Entity {
+public class Permission extends Entity {
 
-    private static final String entityName = "Permission";
+    public Permission() {
+        super("Permission");
+    }
 
     // private String type; // seems duplicate one private one local
     private String advertiser;
@@ -157,21 +159,6 @@ public class Permission implements T1Entity {
 
     public void setScope(String scope) {
         this.scope = scope;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

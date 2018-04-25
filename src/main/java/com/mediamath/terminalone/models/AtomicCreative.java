@@ -22,11 +22,13 @@ import javax.ws.rs.core.Form;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AtomicCreative implements T1Entity {
+public class AtomicCreative extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-    private static final String entityName = "AtomicCreative";
+    public AtomicCreative() {
+        super("AtomicCreative");
+    }
 
     public enum adFormats {
         DISPLAY, EXPANDABLE, MOBILE
@@ -486,11 +488,6 @@ public class AtomicCreative implements T1Entity {
     }
 
     @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
     public Form getForm() {
 
         final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
@@ -658,10 +655,4 @@ public class AtomicCreative implements T1Entity {
         return Utility.getFilteredForm(atomicCreativeForm, "atomiccreative");
 
     }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
 }

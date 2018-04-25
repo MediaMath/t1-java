@@ -20,11 +20,9 @@ import javax.ws.rs.core.Form;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class StrategyDomain implements T1Entity {
+public class StrategyDomain extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-
-    private static final String entityName = "StrategyDomain";
 
     public enum restrictions {
         INCLUDE, EXCLUDE
@@ -41,10 +39,11 @@ public class StrategyDomain implements T1Entity {
     private Strategy strategy;
 
     public StrategyDomain() {
+        super("StrategyDomain");
     }
 
     public StrategyDomain(String domain, restrictions restriction) {
-        super();
+        super("StrategyDomain");
         this.domain = domain;
         this.restriction = restriction;
     }
@@ -111,11 +110,6 @@ public class StrategyDomain implements T1Entity {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

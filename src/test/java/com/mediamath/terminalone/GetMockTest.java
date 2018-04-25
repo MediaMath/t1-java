@@ -65,11 +65,6 @@ public class GetMockTest {
         STR_RESPONSE = testConfig.getProperty("t1.mock.get.strategy_save_response");
     }
 
-    @After
-    public final void tearDown() throws InterruptedException {
-        Thread.sleep(5000);
-    }
-
     @SuppressWarnings("unchecked")
     @Test
     public void testAdvertiserGettWithMocks() throws ClientException, ParseException {

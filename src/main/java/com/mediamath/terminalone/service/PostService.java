@@ -19,6 +19,7 @@ package com.mediamath.terminalone.service;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
+import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
 import com.mediamath.terminalone.models.*;
@@ -1215,22 +1216,7 @@ public class PostService {
                     errors = vidgson.fromJson(errorsElement, T1Error.class);
                 }
                 errorResponse.setErrors(errors);
-            } else if (errorsElement.isJsonArray()) {
-                JsonArray array = errorsElement.getAsJsonArray();
-                JsonArray newArray = new JsonArray();
-
-                for (int i = 0; i < array.size(); i++) {
-                    if (!(array.get(i) instanceof JsonPrimitive)) {
-                        newArray.add(array.get(i));
-                    }
-                }
-                if (newArray.size() > 0) {
-                    Type type = new TypeToken<ArrayList<T1Error>>() {
-                    }.getType();
-                    List<T1Error> errors = gson.fromJson(newArray, type);
-                    errorResponse.setErrors(errors);
-                }
-            }
+            } else GetService.handleApiErrors(errorsElement, errorResponse, gson);
         }
     }
 
@@ -1299,53 +1285,18 @@ public class PostService {
             @SuppressWarnings("unchecked")
             ArrayList<T1Error> al = (ArrayList<T1Error>) jsonPostResponse.getErrors();
             for (T1Error error : al) {
-                if (error.getMessage() != null) {
-                    stringBuilder = formErrorString(stringBuilder, error);
-                }
-                if (error.getFieldError() != null) {
-                    for (FieldError fe : error.getFieldError()) {
-                        stringBuilder = formFieldErrorString(stringBuilder, fe);
-                    }
-                }
+                stringBuilder = T1Service.getErrorStringBuilder(stringBuilder, error);
             }
         } else {
 
             T1Error error = (T1Error) jsonPostResponse.getErrors();
 
-            if (error.getMessage() != null) {
-                stringBuilder = formErrorString(stringBuilder, error);
-            }
-            if (error.getFieldError() != null) {
-                for (FieldError fe : error.getFieldError()) {
-                    stringBuilder = formFieldErrorString(stringBuilder, fe);
-                }
-            }
+            stringBuilder = T1Service.getErrorStringBuilder(stringBuilder, error);
         }
 
         return stringBuilder;
     }
 
-    private StringBuilder formFieldErrorString(StringBuilder strBuilder, FieldError fe) {
-        StringBuilder stringBuilder = strBuilder;
-        if (stringBuilder == null) {
-            stringBuilder = new StringBuilder(
-                    "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
-        } else {
-            stringBuilder.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
-        }
-        return stringBuilder;
-    }
-
-    private StringBuilder formErrorString(StringBuilder strBuilder, T1Error error) {
-        StringBuilder stringBuilder = strBuilder;
-        if (stringBuilder == null) {
-            stringBuilder = new StringBuilder(error.getMessage()); // add error
-            // field
-        } else {
-            stringBuilder.append(", " + error.getMessage());
-        }
-        return stringBuilder;
-    }
 
     private StringBuilder parseErrorException(JsonPostErrorResponse jsonPostResponse, StringBuilder strBuilder) {
         StringBuilder stringBuilder = strBuilder;
@@ -1472,32 +1423,7 @@ public class PostService {
 
     @SuppressWarnings("rawtypes")
     private String checkAndFixStrategyJson(JsonObject responseObject) {
-        Gson gson = new Gson();
-        JsonObject data = responseObject.getAsJsonObject("data");
-
-        Class strategyClass = Strategy.class;
-        Field[] fieldList = strategyClass.getDeclaredFields();
-
-        for (Field field : fieldList) {
-            if (field.getType().isInstance(new ArrayList<Currency>())
-                    && ("java.util.ArrayList<com.mediamath.terminalone.models.Currency>").equals(field.getGenericType().toString())
-                    && (data.get(field.getName()) != null && data.get(field.getName()).isJsonPrimitive())) {
-                float fieldValue = data.get(field.getName()).getAsFloat();
-                responseObject.getAsJsonObject("data").remove(field.getName());
-                ArrayList<Currency> egvList = new ArrayList<>();
-                Currency curr = new Currency();
-                curr.setValue(fieldValue);
-                if (data.get("currency_code") != null) {
-                    curr.setCurrencyCode(data.get("currency_code").getAsString());
-                }
-                egvList.add(curr);
-                JsonParser parser = new JsonParser();
-                JsonElement je = parser.parse(gson.toJson(egvList, ArrayList.class));
-                responseObject.getAsJsonObject("data").add(field.getName(), je);
-                data = responseObject.getAsJsonObject("data");
-            }
-        }
-
-        return responseObject.toString();
+        return TerminalOne.fixStrategyJson(responseObject);
     }
+
 }

@@ -26,9 +26,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
-public class Deal implements T1Entity {
+public class Deal extends Entity {
 
-    private static final String entityName = "Deal";
+    public Deal() {
+        super("Deal");
+    }
 
     public enum dealSources {
         USER, INTERNAL
@@ -280,11 +282,6 @@ public class Deal implements T1Entity {
 
     public void setSupplySource(SupplySource supply_source) {
         this.supply_source = supply_source;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

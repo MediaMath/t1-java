@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Creative implements T1Entity {
+public class Creative extends Entity {
 
-    private static final String entityName = "Creative";
+    public Creative() {
+        super("Creative");
+    }
 
     private int atomic_creative_id;
     private Date created_on;
@@ -86,21 +88,6 @@ public class Creative implements T1Entity {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
     public String getName() {

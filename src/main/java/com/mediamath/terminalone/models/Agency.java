@@ -20,9 +20,11 @@ import com.mediamath.terminalone.utils.Utility;
 
 import javax.ws.rs.core.Form;
 
-public class Agency implements T1Entity {
+public class Agency extends Entity {
 
-    private static final String entityName = "Agency";
+    public Agency() {
+        super("Agency");
+    }
 
     private boolean allow_x_adv_optimization = false;
     private boolean allow_x_adv_pixels = false;
@@ -162,11 +164,6 @@ public class Agency implements T1Entity {
 
     public void setTrafficContact(Contact traffic_contact) {
         this.traffic_contact = traffic_contact;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     public boolean isAllowXAdvPixels() {

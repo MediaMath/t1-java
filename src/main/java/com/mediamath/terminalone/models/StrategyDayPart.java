@@ -21,9 +21,7 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class StrategyDayPart implements T1Entity {
-
-    private static final String entityName = "StrategyDayPart";
+public class StrategyDayPart extends Entity {
 
     public enum daysEnum {
         M, T, W, R, F, S, U
@@ -43,10 +41,11 @@ public class StrategyDayPart implements T1Entity {
     private Strategy strategy;
 
     public StrategyDayPart() {
+        super("StrategyDayPart");
     }
 
     public StrategyDayPart(int start_hour, int end_hour, daysEnum days, boolean user_time) {
-        super();
+        super("StrategyDayPart");
         this.days = days;
         this.end_hour = end_hour;
         this.start_hour = start_hour;
@@ -139,11 +138,6 @@ public class StrategyDayPart implements T1Entity {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     public String getName() {

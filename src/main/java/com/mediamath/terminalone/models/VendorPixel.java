@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class VendorPixel implements T1Entity {
+public class VendorPixel extends Entity {
 
-    private static final String entityName = "VendorPixel";
+    public VendorPixel() {
+        super("VendorPixel");
+    }
 
     private Date created_on;
     private int creative_id;
@@ -104,21 +106,6 @@ public class VendorPixel implements T1Entity {
 
     public void setCreative(Creative creative) {
         this.creative = creative;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

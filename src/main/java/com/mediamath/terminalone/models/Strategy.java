@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Strategy implements T1Entity, Cloneable {
+public class Strategy extends Entity implements Cloneable {
 
-    private static final String entityName = "Strategy";
+    public Strategy() {
+        super("Strategy");
+    }
 
     public enum audSegExc {
         AND, OR
@@ -546,11 +548,6 @@ public class Strategy implements T1Entity, Cloneable {
         this.version = version;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public String getZoneName() {
         return zone_name;
     }
@@ -869,16 +866,6 @@ public class Strategy implements T1Entity, Cloneable {
 
     public void setStrategyTargetValues(StrategyTargetValues strategyTargetValues) {
         this.strategyTargetValues = strategyTargetValues;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
     @Override

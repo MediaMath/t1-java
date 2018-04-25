@@ -18,8 +18,10 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class TPASCreativeUpload implements T1Entity {
-    private static final String entityName = "TPASCreativeUpload";
+public class TPASCreativeUpload extends Entity {
+    public TPASCreativeUpload() {
+        super("TPASCreativeUpload");
+    }
 
     private TPASCreativeBatch batch;
 
@@ -29,21 +31,6 @@ public class TPASCreativeUpload implements T1Entity {
 
     public void setBatch(TPASCreativeBatch batch) {
         this.batch = batch;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

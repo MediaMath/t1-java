@@ -18,9 +18,11 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class TOneASCreativeAssetsApproveResponse implements T1Entity {
+public class TOneASCreativeAssetsApproveResponse extends Entity {
 
-    private static final String entityName = "TOneASCreativeAssetsApproveResponse";
+    public TOneASCreativeAssetsApproveResponse() {
+        super("TOneASCreativeAssetsApproveResponse");
+    }
 
     private String updated_on;
     private String created_on;
@@ -57,11 +59,6 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
     private String ad_server_type;
     private String default_t1as_tag;
     private String tpas_ad_tag_name;
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
 
     public String getUpdatedOn() {
         return updated_on;
@@ -342,15 +339,4 @@ public class TOneASCreativeAssetsApproveResponse implements T1Entity {
     public void setTpasAdTagName(String tpas_ad_tag_name) {
         this.tpas_ad_tag_name = tpas_ad_tag_name;
     }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
 }

@@ -20,9 +20,8 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class StrategyTargetingSegment implements T1Entity {
+public class StrategyTargetingSegment extends Entity {
 
-    private static final String entityName = "StrategyTargetingSegment";
 
     private Date created_on;
     private String group_identifier;
@@ -41,9 +40,11 @@ public class StrategyTargetingSegment implements T1Entity {
     private Strategy strategy;
 
     public StrategyTargetingSegment() {
+        super("StrategyTargetingSegment");
     }
 
     public StrategyTargetingSegment(int id, String restriction, float user_cpm, String operator) {
+        super("StrategyTargetingSegment");
         this.targeting_segment_id = id;
         this.operator = operator;
         this.restriction = restriction;
@@ -150,21 +151,6 @@ public class StrategyTargetingSegment implements T1Entity {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
     public String getName() {

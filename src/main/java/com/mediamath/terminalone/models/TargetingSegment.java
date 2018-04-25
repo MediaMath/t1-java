@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TargetingSegment implements T1Entity {
+public class TargetingSegment extends Entity {
 
-    private static final String entityName = "TargetingSegment";
+    public TargetingSegment() {
+        super("TargetingSegment");
+    }
 
     private int targeting_vendor_id;
     private boolean buyable;
@@ -167,16 +169,6 @@ public class TargetingSegment implements T1Entity {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
     }
 
     @Override

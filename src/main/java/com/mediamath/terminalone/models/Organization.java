@@ -24,9 +24,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Organization implements T1Entity {
+public class Organization extends Entity {
 
-    private static final String entityName = "Organization";
+    public Organization() {
+        super("Organization");
+    }
 
     private String address_1;
     private String address_2;
@@ -307,11 +309,6 @@ public class Organization implements T1Entity {
 
     public void setTerminated(boolean terminated) {
         this.terminated = terminated;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

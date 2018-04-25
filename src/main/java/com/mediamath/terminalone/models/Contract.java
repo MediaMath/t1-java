@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Contract implements T1Entity {
+public class Contract extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
-    private static final String entityName = "Contract";
+    public Contract() {
+        super("Contract");
+    }
 
     private List<Currency> adaptive_segment_cpm = new ArrayList<Currency>();
     private int contract_number;
@@ -346,11 +348,6 @@ public class Contract implements T1Entity {
 
     public void setPmpOptimizationOnFeePct(int pmp_optimization_on_fee_pct) {
         this.pmp_optimization_on_fee_pct = pmp_optimization_on_fee_pct;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

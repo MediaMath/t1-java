@@ -19,9 +19,7 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 import javax.ws.rs.core.Form;
 
-public class ZipCodes implements T1Entity {
-
-    private static final String entityName = "ZipCodes";
+public class ZipCodes extends Entity {
 
     public enum restrictions {
         INCLUDE, EXCLUDE
@@ -35,11 +33,12 @@ public class ZipCodes implements T1Entity {
     private boolean active;
 
     public ZipCodes() {
+        super("ZipCodes");
     }
 
     public ZipCodes(int strategyId, restrictions restriction, String file, boolean validate_only, boolean ignore_errors,
                     boolean active) {
-        super();
+        super("ZipCodes");
         this.strategyId = strategyId;
         this.restriction = restriction;
         this.file = file;
@@ -97,22 +96,6 @@ public class ZipCodes implements T1Entity {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-
-        return null;
-    }
-
-    @Override
-    public String getUri() throws ClientException {
-        return null;
     }
 
 }

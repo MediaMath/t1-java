@@ -20,9 +20,7 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TargetValues implements T1Entity {
-
-    private static final String entityName = "TargetValues";
+public class TargetValues extends Entity {
 
     public enum oper {
         AND, OR
@@ -49,9 +47,11 @@ public class TargetValues implements T1Entity {
     private List<Integer> value_ids = new ArrayList<Integer>();
 
     public TargetValues() {
+        super("TargetValues");
     }
 
     public TargetValues(codes code, restrictions restriction, oper operation, List<Integer> value_ids) {
+        super("TargetValues");
         this.code = code;
         this.restriction = restriction;
         this.operation = operation;
@@ -114,11 +114,6 @@ public class TargetValues implements T1Entity {
         this.value = value;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public restrictions getRestriction() {
         return restriction;
     }
@@ -141,16 +136,6 @@ public class TargetValues implements T1Entity {
 
     public void setValueIds(List<Integer> value_ids) {
         this.value_ids = value_ids;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

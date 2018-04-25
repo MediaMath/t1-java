@@ -21,9 +21,11 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Pixel implements T1Entity {
+public class Pixel extends Entity {
 
-    private static final String entityName = "PixelBundle";
+    public Pixel() {
+        super("PixelBundle");
+    }
 
     public enum pixelTypes {
         creative, event, data, segment
@@ -294,11 +296,6 @@ public class Pixel implements T1Entity {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     public roiFields getCurrency() {

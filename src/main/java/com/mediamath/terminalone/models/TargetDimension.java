@@ -18,9 +18,11 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class TargetDimension implements T1Entity {
+public class TargetDimension extends Entity {
 
-    private static final String entityName = "TargetDimension";
+    public TargetDimension() {
+        super("TargetDimension");
+    }
 
     private String type;
     private String exclude;
@@ -48,21 +50,6 @@ public class TargetDimension implements T1Entity {
 
     public void setInclude(String include) {
         this.include = include;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

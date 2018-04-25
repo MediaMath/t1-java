@@ -72,11 +72,6 @@ public class PostFunctionalTestIT {
         oauthSecret = testConfig.getProperty("t1.oauth_secret");
     }
 
-    @After
-    public final void tearDown() throws InterruptedException {
-        Thread.sleep(5000);
-    }
-
     @Test
     public void testJTerminalOneStringStringString() throws ClientException {
         TerminalOne t1;

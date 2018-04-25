@@ -20,9 +20,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TPASCreativeBatchApprove implements T1Entity {
+public class TPASCreativeBatchApprove extends Entity {
 
-    private static final String entityName = "ThreePasCreativeBatchApprove";
+    public TPASCreativeBatchApprove() {
+        super("ThreePasCreativeBatchApprove");
+    }
 
     private String batchId;
 
@@ -69,23 +71,8 @@ public class TPASCreativeBatchApprove implements T1Entity {
         }
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public List<TPASCreativeBatchIndex> getBatch() {
         return batch;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

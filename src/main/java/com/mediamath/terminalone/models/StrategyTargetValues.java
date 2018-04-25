@@ -22,8 +22,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StrategyTargetValues implements T1Entity {
-    private static final String ENTITYNAME = "StrategyTargetValues";
+public class StrategyTargetValues extends Entity {
+
+    public StrategyTargetValues() {
+        super("StrategyTargetValues");
+    }
 
     private Enabled enabled;
     private List<TargetValue> include = new ArrayList<>();
@@ -81,21 +84,6 @@ public class StrategyTargetValues implements T1Entity {
 
     public void setIncludeOp(String include_op) {
         this.include_op = include_op;
-    }
-
-    @Override
-    public String getEntityname() {
-        return ENTITYNAME;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() throws ClientException {
-        return null;
     }
 
 }

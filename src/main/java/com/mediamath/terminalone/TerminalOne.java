@@ -996,6 +996,11 @@ public class TerminalOne {
 
     @SuppressWarnings("rawtypes")
     private String checkAndFixStrategyJson(JsonObject responseObject) {
+        return fixStrategyJson(responseObject);
+    }
+
+
+    public static String fixStrategyJson(JsonObject responseObject) {
         Gson gson = new Gson();
         JsonObject data = responseObject.getAsJsonObject("data");
 

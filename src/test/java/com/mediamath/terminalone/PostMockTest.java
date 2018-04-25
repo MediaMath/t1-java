@@ -234,10 +234,6 @@ public class PostMockTest {
         CAMPAIGN_BULK_STRATEGY_SAVE_RESPONSE = testConfig.getProperty("t1.mock.update.bulk_strategy.response");
     }
 
-    @After
-    public final void tearDown() throws InterruptedException {
-        Thread.sleep(5000);
-    }
 
     @SuppressWarnings({"deprecation", "unchecked"})
     @Test

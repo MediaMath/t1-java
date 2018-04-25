@@ -5,8 +5,11 @@ import com.mediamath.terminalone.exceptions.ClientException;
 import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 
-public class CreativeDetailsResponse implements T1Entity {
+public class CreativeDetailsResponse extends Entity {
 
+    public CreativeDetailsResponse() {
+        super(null);
+    }
 
     private int duration;
     private ArrayList<Long> autoVendors = new ArrayList<Long>();
@@ -136,22 +139,5 @@ public class CreativeDetailsResponse implements T1Entity {
         this.vastVersion = vastVersion;
     }
 
-    @Override
-    public String getEntityname() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Form getForm() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getUri() throws ClientException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

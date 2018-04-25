@@ -21,9 +21,11 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class VendorContract implements T1Entity {
+public class VendorContract extends Entity {
 
-    private static final String entityName = "VendorContract";
+    public VendorContract() {
+        super("VendorContract");
+    }
 
     private int campaign_id;
     private Date created_on;
@@ -124,11 +126,6 @@ public class VendorContract implements T1Entity {
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

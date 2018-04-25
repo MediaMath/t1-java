@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Contact implements T1Entity {
+public class Contact extends Entity {
 
-    private static final String entityName = "Contact";
+    public Contact() {
+        super("Contact");
+    }
 
     private int id;
     private int version;
@@ -175,21 +177,6 @@ public class Contact implements T1Entity {
 
     public void setUpdatedOn(Date updated_on) {
         this.updated_on = updated_on;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

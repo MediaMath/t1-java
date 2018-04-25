@@ -18,9 +18,11 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class StrategySupplySource implements T1Entity {
+public class StrategySupplySource extends Entity {
 
-    private static final String entityName = "StrategySupplySource";
+    public StrategySupplySource() {
+        super("StrategySupplySource");
+    }
 
     private int id;
     private int strategy_id;
@@ -77,11 +79,6 @@ public class StrategySupplySource implements T1Entity {
 
     public void setSupplySource(SupplySource supply_source) {
         this.supply_source = supply_source;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

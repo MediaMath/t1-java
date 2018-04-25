@@ -16,6 +16,8 @@
 
 package com.mediamath.terminalone.service;
 
+import com.mediamath.terminalone.models.FieldError;
+import com.mediamath.terminalone.models.T1Error;
 import com.mediamath.terminalone.utils.Utility;
 
 import javax.ws.rs.core.Form;
@@ -200,5 +202,40 @@ public class T1Service {
     public static Properties getEntityServicesPaths() {
         return entityServicesPaths;
     }
+
+    static StringBuilder getErrorStringBuilder(StringBuilder stringBuilder, T1Error error) {
+        if (error.getMessage() != null) {
+            stringBuilder = formErrorString(stringBuilder, error);
+        }
+        if (error.getFieldError() != null) {
+            for (FieldError fe : error.getFieldError()) {
+                stringBuilder = formFieldErrorString(stringBuilder, fe);
+            }
+        }
+        return stringBuilder;
+    }
+
+    static StringBuilder formFieldErrorString(StringBuilder strBuilder, FieldError fe) {
+        StringBuilder stringBuilder = strBuilder;
+        if (stringBuilder == null) {
+            stringBuilder = new StringBuilder(
+                    "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
+        } else {
+            stringBuilder.append(", " + "Name: " + fe.getName() + ", Code: " + fe.getCode() + ", Error: " + fe.getError());
+        }
+        return stringBuilder;
+    }
+
+    static StringBuilder formErrorString(StringBuilder strBuilder, T1Error error) {
+        StringBuilder stringBuilder = strBuilder;
+        if (stringBuilder == null) {
+            stringBuilder = new StringBuilder(error.getMessage()); // add error
+            // field
+        } else {
+            stringBuilder.append(", " + error.getMessage());
+        }
+        return stringBuilder;
+    }
+
 
 }

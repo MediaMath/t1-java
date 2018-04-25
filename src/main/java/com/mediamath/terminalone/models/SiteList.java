@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SiteList implements T1Entity {
-
-    private static final String entityName = "SiteList";
+public class SiteList extends Entity {
 
     public enum restrictions {
         INCLUDE, EXCLUDE
@@ -48,11 +46,12 @@ public class SiteList implements T1Entity {
 
     private List<String> domains = new ArrayList<>();
 
-    /* condtructor */
     public SiteList() {
+        super("SiteList");
     }
 
     public SiteList(int id, boolean assigned) {
+        super("SiteList");
         this.id = id;
         this.assigned = assigned;
     }
@@ -167,11 +166,6 @@ public class SiteList implements T1Entity {
 
     public void setAssigned(boolean assigned) {
         this.assigned = assigned;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

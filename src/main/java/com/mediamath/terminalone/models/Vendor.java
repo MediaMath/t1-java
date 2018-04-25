@@ -20,9 +20,11 @@ import javax.ws.rs.core.Form;
 import java.util.Date;
 import java.util.List;
 
-public class Vendor implements T1Entity {
+public class Vendor extends Entity {
 
-    private static final String entityName = "Vendor";
+    public Vendor() {
+        super("Vendor");
+    }
 
     public enum vendorTypes {
         AD_SERVER, AD_VERIFICATION, CONTEXTUAL, DATA, DSP, DYNAMIC_CREATIVE, NETWORK, OBA_COMPLIANCE, OTHER, PIXEL_TRACKING, RICH_MEDIA, SURVEY
@@ -208,21 +210,6 @@ public class Vendor implements T1Entity {
 
     public void setVendorDomains(List<VendorDomain> vendor_domains) {
         this.vendor_domains = vendor_domains;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

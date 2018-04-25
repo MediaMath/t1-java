@@ -18,9 +18,11 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
-public class AdServer implements T1Entity {
+public class AdServer extends Entity {
 
-    private static final String entityName = "AdServer";
+    public AdServer() {
+        super("AdServer");
+    }
 
     private int id;
     private String name;
@@ -34,7 +36,7 @@ public class AdServer implements T1Entity {
      * @param version provide appropriate version.
      */
     public AdServer(int id, String name, int version, String entity_type) {
-        super();
+        super("AdServer");
         this.id = id;
         this.name = name;
         this.version = version;
@@ -62,21 +64,6 @@ public class AdServer implements T1Entity {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

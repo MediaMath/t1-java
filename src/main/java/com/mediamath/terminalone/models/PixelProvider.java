@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class PixelProvider implements T1Entity {
+public class PixelProvider extends Entity {
 
-    private static final String entityName = "PixelProvider";
+    public PixelProvider() {
+        super("PixelProvider");
+    }
 
     public enum executors {
         MEDIAMATH, UDI
@@ -121,11 +123,6 @@ public class PixelProvider implements T1Entity {
         this.version = version;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public Agency getAgency() {
         return agency;
     }
@@ -141,15 +138,4 @@ public class PixelProvider implements T1Entity {
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
     }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
 }

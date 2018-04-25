@@ -4,9 +4,11 @@ import com.mediamath.terminalone.exceptions.ClientException;
 
 import javax.ws.rs.core.Form;
 
-public class UserPermissions implements T1Entity {
+public class UserPermissions extends Entity {
 
-    private static final String entityName = "UserPermissions";
+    public UserPermissions() {
+        super("UserPermissions");
+    }
 
     private User user;
     private Permissions permissions;
@@ -27,18 +29,4 @@ public class UserPermissions implements T1Entity {
         this.permissions = permissions;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() throws ClientException {
-        return null;
-    }
 }

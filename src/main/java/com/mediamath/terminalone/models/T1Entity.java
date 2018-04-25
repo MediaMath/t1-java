@@ -19,13 +19,14 @@ package com.mediamath.terminalone.models;
 import com.mediamath.terminalone.exceptions.ClientException;
 
 import javax.ws.rs.core.Form;
+import java.util.ArrayList;
 
 public interface T1Entity {
 
-    public String getEntityname();
+    String getEntityname();
 
-    public Form getForm();
+    Form getForm();
 
-    public String getUri() throws ClientException;
+    String getUri() throws ClientException;
 
 }

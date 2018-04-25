@@ -21,9 +21,11 @@ import com.mediamath.terminalone.utils.Utility;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Advertiser implements T1Entity {
+public class Advertiser extends Entity {
 
-    private static final String entityName = "Advertiser";
+    public Advertiser() {
+        super("Advertiser");
+    }
 
     public enum dmpSettings {
         inherits("inherits"), disabled("disabled");
@@ -289,11 +291,6 @@ public class Advertiser implements T1Entity {
 
     public void setVertical(Vertical vertical) {
         this.vertical = vertical;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
     }
 
     @Override

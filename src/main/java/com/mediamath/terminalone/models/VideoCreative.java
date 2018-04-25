@@ -22,7 +22,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoCreative implements T1Entity {
+public class VideoCreative extends Entity {
+
+    public VideoCreative() {
+        super(null);
+    }
 
     private String name;
     private Long startTime;
@@ -171,19 +175,5 @@ public class VideoCreative implements T1Entity {
         this.startTime = startTime;
     }
 
-    @Override
-    public String getEntityname() {
-        return null;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() throws ClientException {
-        return null;
-    }
 
 }

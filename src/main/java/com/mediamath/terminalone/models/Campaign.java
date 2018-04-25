@@ -27,11 +27,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Campaign implements T1Entity {
+public class Campaign extends Entity {
 
     private static final String YYYY_MM_DDTHH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss Z";
 
-    private static final String entityName = "Campaign";
+    public Campaign() {
+        super("Campaign");
+    }
 
     public enum conv {
         every, one, variable
@@ -549,11 +551,6 @@ public class Campaign implements T1Entity {
         this.relevant_budget_flight = relevant_budget_flight;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public int getMeritPixelId() {
         return merit_pixel_id;
     }
@@ -591,35 +588,16 @@ public class Campaign implements T1Entity {
     }
 
     public void setTotalBudget(double value, String currency_code) {
-        this.total_budget.clear();
-        if (value > 0) {
-            T1Cost cost = new T1Cost();
-            cost.setValue(value);
-
-            if (currency_code != null && !currency_code.isEmpty()) {
-                cost.setCurrencyCode(currency_code);
-            }
-
-            this.total_budget.add(cost);
-        }
+        setCurrencyFieldValue(value, currency_code, this.total_budget);
     }
+
 
     public ArrayList<T1Cost> getAdServerFee() {
         return ad_server_fee;
     }
 
     public void setAdServerFee(double value, String currency_code) {
-        this.ad_server_fee.clear();
-        if (value > 0) {
-            T1Cost cost = new T1Cost();
-            cost.setValue(value);
-
-            if (currency_code != null && !currency_code.isEmpty()) {
-                cost.setCurrencyCode(currency_code);
-            }
-
-            this.ad_server_fee.add(cost);
-        }
+       setCurrencyFieldValue(value, currency_code, this.ad_server_fee);
     }
 
     public ArrayList<T1Cost> getSpendCapAmount() {
@@ -627,17 +605,7 @@ public class Campaign implements T1Entity {
     }
 
     public void setSpendCapAmount(double value, String currency_code) {
-        this.spend_cap_amount.clear();
-        if (value > 0) {
-            T1Cost cost = new T1Cost();
-            cost.setValue(value);
-
-            if (currency_code != null && !currency_code.isEmpty()) {
-                cost.setCurrencyCode(currency_code);
-            }
-
-            this.spend_cap_amount.add(cost);
-        }
+        setCurrencyFieldValue(value, currency_code, this.spend_cap_amount);
     }
 
     public ArrayList<T1Cost> getGoalValue() {
@@ -645,17 +613,7 @@ public class Campaign implements T1Entity {
     }
 
     public void setGoalValue(double value, String currency_code) {
-        this.goal_value.clear();
-        if (value > 0) {
-            T1Cost cost = new T1Cost();
-            cost.setValue(value);
-
-            if (currency_code != null && !currency_code.isEmpty()) {
-                cost.setCurrencyCode(currency_code);
-            }
-
-            this.goal_value.add(cost);
-        }
+        setCurrencyFieldValue(value, currency_code, this.goal_value);
     }
 
     public void setGoalValue(double value) {
@@ -967,11 +925,6 @@ public class Campaign implements T1Entity {
 
         return campaignForm;
 
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

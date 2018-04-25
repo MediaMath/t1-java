@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class CreativeApproval implements T1Entity {
+public class CreativeApproval extends Entity {
 
-    private static final String entityName = "CreativeApproval";
+    public CreativeApproval() {
+        super("CreativeApproval");
+    }
 
     private String additional_detail;
     private String approval_status;
@@ -157,21 +159,6 @@ public class CreativeApproval implements T1Entity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AudienceSegment implements T1Entity {
+public class AudienceSegment extends Entity {
 
-    private static final String entityName = "AudienceSegment";
+    public AudienceSegment() {
+        super("AudienceSegment");
+    }
 
     private int audience_vendor_id;
     private boolean buyable;
@@ -174,18 +176,4 @@ public class AudienceSegment implements T1Entity {
         this.version = version;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
 }

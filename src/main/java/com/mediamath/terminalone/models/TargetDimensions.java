@@ -20,9 +20,11 @@ import javax.ws.rs.core.Form;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TargetDimensions implements T1Entity {
+public class TargetDimensions extends Entity {
 
-    private static final String entityName = "TargetDimensions";
+    public TargetDimensions() {
+        super("TargetDimensions");
+    }
 
     public enum excludeOp {
         AND, OR
@@ -86,20 +88,4 @@ public class TargetDimensions implements T1Entity {
     public void setExcludeOp(excludeOp exclude_op) {
         this.exclude_op = exclude_op;
     }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
 }

@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class SupplySource implements T1Entity {
+public class SupplySource extends Entity {
 
-    private static final String entityName = "SupplySource";
+    public SupplySource() {
+        super("SupplySource");
+    }
 
     private int bidder_exchange_identifier;
     private String code;
@@ -230,21 +232,6 @@ public class SupplySource implements T1Entity {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
     public String getName() {

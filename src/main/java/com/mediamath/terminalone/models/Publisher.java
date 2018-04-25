@@ -19,9 +19,11 @@ package com.mediamath.terminalone.models;
 import javax.ws.rs.core.Form;
 import java.util.Date;
 
-public class Publisher implements T1Entity {
+public class Publisher extends Entity {
 
-    private static final String entityName = "Publisher";
+    public Publisher() {
+        super("Publisher");
+    }
 
     private Date created_on;
     private int id;
@@ -80,27 +82,12 @@ public class Publisher implements T1Entity {
         this.version = version;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public Organization getOrganization() {
         return organization;
     }
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
-    }
-
-    @Override
-    public Form getForm() {
-        return null;
-    }
-
-    @Override
-    public String getUri() {
-        return null;
     }
 
 }

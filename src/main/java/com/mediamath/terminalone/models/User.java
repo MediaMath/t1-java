@@ -23,9 +23,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User implements T1Entity {
+public class User extends Entity {
 
-    private String entityName = "User";
+    public User() {
+        super("User");
+    }
 
     private boolean access_internal_fees;
     private boolean active;
@@ -353,11 +355,6 @@ public class User implements T1Entity {
         this.permissions = permissions;
     }
 
-    @Override
-    public String getEntityname() {
-        return entityName;
-    }
-
     public void setEntityname(String eName) {
         this.entityName = eName;
     }
@@ -430,10 +427,4 @@ public class User implements T1Entity {
 
         return Utility.getFilteredForm(userForm, "user");
     }
-
-    @Override
-    public String getUri() {
-        return null;
-    }
-
 }
