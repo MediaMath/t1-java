@@ -139,7 +139,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private String created_on;
 	private String currency_code;
 	private String description;
-	private ArrayList<Currency> effective_goal_value = new ArrayList<Currency>();
+	//This field is manually deserialized
+	private transient GoalValue effective_goal_value;
 	private Date end_date;
 	private String feature_compatibility;
 	private int frequency_amount;
@@ -147,7 +148,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private boolean frequency_optimization;
 	private freqType frequency_type;
 	private goalType goal_type;
-	private ArrayList<Currency> goal_value = new ArrayList<Currency>();
+	//This field is manually deserialized
+	private transient GoalValue goal_value;
 	private int id;
 	private int impression_cap;
 	private freqType impression_cap_type;
@@ -637,38 +639,126 @@ public class Strategy implements T1Entity, Cloneable {
 		this.budget.add(currency);
 	}
 
-	public ArrayList<Currency> getEffectiveGoalValue() {
-		return effective_goal_value;
+	public GoalValue getEffectiveGoalValue() {
+		return this.effective_goal_value;
 	}
 
-	public void setEffectiveGoalValue(ArrayList<Currency> effective_goal_value) {
-		this.effective_goal_value = effective_goal_value;
+	public Double getEffectiveGoalDoubleValue() {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi) {
+			if (this.getEffectiveGoalValue() == null || this.getEffectiveGoalValue().getAbsoluteValue() == null || this.getEffectiveGoalValue().getAbsoluteValue().isEmpty()) {
+				return null;
+			} else {
+				return this.getEffectiveGoalValue().getAbsoluteValue().get(0).getValue();
+			}
+		} else if (getGoalType() == goalType.vcr || getGoalType() == goalType.ctr) {
+			if (this.getEffectiveGoalValue() == null) {
+				return null;
+			} else {
+				return this.getEffectiveGoalValue().getPercentageValue();
+			}
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
-	public void setEffectiveGoalValue(float effective_goal_value) {
-		Currency currency = new Currency();
-		currency.setValue(effective_goal_value);
-		this.effective_goal_value.add(currency);
+	public void setEffectiveGoalValue(double value, String currency_code) {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi ) {
+			GoalValue goalValue = new GoalValue();
+			if (value > 0) {
+				T1Cost cost = new T1Cost();
+				cost.setValue(value);
+
+				if (currency_code != null && !currency_code.isEmpty()) {
+					cost.setCurrencyCode(currency_code);
+				}
+
+				ArrayList<T1Cost> arrayList = new ArrayList<>();
+				arrayList.add(cost);
+				goalValue.setAbsoluteValue(arrayList);
+				this.effective_goal_value = goalValue;
+			}
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
-	public ArrayList<Currency> getGoalValue() {
-		return goal_value;
+	public void setEffectiveGoalValue(double value) {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi) {
+			setEffectiveGoalValue(value, null);
+		} else if (getGoalType() == goalType.vcr || getGoalType() == goalType.ctr) {
+			GoalValue goalValue = new GoalValue();
+			goalValue.setPercentageValue(value);
+			this.effective_goal_value = goalValue;
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
-	public void setGoalValue(ArrayList<Currency> goal_value) {
-		this.goal_value = goal_value;
+	public GoalValue getGoalValue() {
+		return this.goal_value;
 	}
 
-	public void setGoalValue(float goal_value) {
-		Currency currency = new Currency();
-		currency.setValue(goal_value);
-		this.goal_value.add(currency);
+	public Double getGoalDoubleValue() {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi) {
+			if (this.getGoalValue() == null || this.getGoalValue().getAbsoluteValue() == null || this.getGoalValue().getAbsoluteValue().isEmpty()) {
+				return null;
+			} else {
+				return this.getGoalValue().getAbsoluteValue().get(0).getValue();
+			}
+		} else if (getGoalType() == goalType.vcr || getGoalType() == goalType.ctr) {
+			if (this.getGoalValue() == null) {
+				return null;
+			} else {
+				return this.getGoalValue().getPercentageValue();
+			}
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
-	public void setGoalValue(String goal_value) {
-		Currency currency = new Currency();
-		currency.setValue(Float.valueOf(goal_value));
-		this.goal_value.add(currency);
+	public void setGoalValue(double value, String currency_code) {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi ) {
+			GoalValue goalValue = new GoalValue();
+			if (value > 0) {
+				T1Cost cost = new T1Cost();
+				cost.setValue(value);
+
+				if (currency_code != null && !currency_code.isEmpty()) {
+					cost.setCurrencyCode(currency_code);
+				}
+
+				ArrayList<T1Cost> arrayList = new ArrayList<>();
+				arrayList.add(cost);
+				goalValue.setAbsoluteValue(arrayList);
+				this.goal_value = goalValue;
+			}
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
+	}
+
+	public void setGoalValue(double value) {
+		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
+				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
+				|| getGoalType() == goalType.roi) {
+			setGoalValue(value, null);
+		} else if (getGoalType() == goalType.vcr || getGoalType() == goalType.ctr) {
+			GoalValue goalValue = new GoalValue();
+			goalValue.setPercentageValue(value);
+			this.goal_value = goalValue;
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
 	public ArrayList<Currency> getMaxBid() {

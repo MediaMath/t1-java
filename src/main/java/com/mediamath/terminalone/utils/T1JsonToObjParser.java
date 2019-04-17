@@ -19,25 +19,13 @@ package com.mediamath.terminalone.utils;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApproveResponse;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
+import com.mediamath.terminalone.models.*;
 
 public class T1JsonToObjParser {
 
@@ -126,6 +114,9 @@ public class T1JsonToObjParser {
     try {
       Gson gson = new GsonBuilder()
           .registerTypeAdapter(JsonResponse.class, new CustomInstanceCreator())
+          .registerTypeAdapter(Campaign.class, new CampaignDeserializer())
+          .registerTypeAdapter(Strategy.class, new StrategyDeserializer())
+          .registerTypeAdapter(DmpSegment.Expression.class, new ExpressionDeserializer())
           .setDateFormat(YYYY_MM_DD_T_HH_MM_SS).create();
       jsonResponse = gson.fromJson(jsonstr, vClassType);
     } catch (JsonParseException parseException) {
@@ -270,4 +261,104 @@ public class T1JsonToObjParser {
     }
 
   }
+
+  class CampaignDeserializer implements JsonDeserializer<Campaign> {
+      @Override
+      public Campaign deserialize(JsonElement paramJsonElement, Type paramType, JsonDeserializationContext paramJsonDeserializationContext) throws JsonParseException {
+          Campaign campaign = new Gson().fromJson(paramJsonElement.getAsJsonObject(), Campaign.class);
+
+          try {
+              JsonElement goalValueJson = paramJsonElement.getAsJsonObject().get("goal_value");
+              if (goalValueJson != null) {
+                  if (campaign.getGoalType() == Campaign.goalTypes.ctr || campaign.getGoalType() == Campaign.goalTypes.vcr) {
+                      campaign.setGoalValue(goalValueJson.getAsDouble());
+                  } else {
+                      JsonArray array = goalValueJson.getAsJsonArray();
+                      if (!array.isJsonNull()) {
+                          JsonObject obj = array.get(0).getAsJsonObject();
+                          campaign.setGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString());
+                      }
+                  }
+              }
+          } catch (IllegalArgumentException ie) {
+              throw ie;
+          }
+
+          return campaign;
+      }
+  }
+
+  class ExpressionDeserializer implements JsonDeserializer<DmpSegment.Expression> {
+      @Override
+      public DmpSegment.Expression deserialize(JsonElement paramJsonElement, Type paramType, JsonDeserializationContext paramJsonDeserializationContext) throws JsonParseException {
+          //{"op":"and","values":[{"op":"or","values":["id_319163","id_319164"]},{"op":"or","values":["id_319165",{"op":"and","values":["id_319166",{"op":"not","expression":"id_319167"}]}]}]}
+          DmpSegment.Expression expression = new DmpSegment.Expression();
+          if (paramJsonElement == null || paramJsonElement.isJsonNull()) {
+              return null;
+          }
+          if (paramJsonElement.isJsonPrimitive()) {
+              expression.setExpression(paramJsonElement.getAsString());
+              return expression;
+          }
+
+          JsonElement opElement = paramJsonElement.getAsJsonObject().get("op");
+          if (opElement == null || opElement.isJsonNull()) {
+              throw new IllegalStateException("op cannot be null in expression " + paramJsonElement);
+          }
+          DmpSegment.Expression.Op op = DmpSegment.Expression.Op.valueOf(opElement.getAsString());
+          expression.setOp(op);
+          List<DmpSegment.Expression> values = null;
+
+          JsonElement valuesElement = paramJsonElement.getAsJsonObject().get("values");
+          if (valuesElement != null && !valuesElement.isJsonNull()) {
+              Iterator<JsonElement> it = valuesElement.getAsJsonArray().iterator();
+              values = new ArrayList<>();
+              while (it.hasNext()) {
+                  JsonElement elem = it.next();
+                  values.add(deserialize(elem,paramType,paramJsonDeserializationContext));
+              }
+              expression.setValues(values);
+              return expression;
+          }
+
+          JsonElement expressionElement = paramJsonElement.getAsJsonObject().get("expression");
+          if (expressionElement == null || expressionElement.isJsonNull()) {
+              throw new IllegalStateException("expression cannot be null in expression " + paramJsonElement);
+          }
+          String expressionStr = expressionElement.getAsString();
+          expression.setExpression(expressionStr);
+
+          return expression;
+      }
+  }
+
+  class StrategyDeserializer implements JsonDeserializer<Strategy> {
+    @Override
+    public Strategy deserialize(JsonElement paramJsonElement, Type paramType, JsonDeserializationContext paramJsonDeserializationContext) throws JsonParseException {
+        Strategy strategy = new Gson().fromJson(paramJsonElement.getAsJsonObject(), Strategy.class);
+
+        try {
+            if (strategy.getGoalType() == Strategy.goalType.ctr || strategy.getGoalType() == Strategy.goalType.vcr) {
+                strategy.setGoalValue(paramJsonElement.getAsJsonObject().get("goal_value").getAsDouble());
+                strategy.setEffectiveGoalValue(paramJsonElement.getAsJsonObject().get("effective_goal_value").getAsDouble());
+            } else {
+                JsonArray array = paramJsonElement.getAsJsonObject().get("goal_value").getAsJsonArray();
+                if(!array.isJsonNull()) {
+                  JsonObject obj = array.get(0).getAsJsonObject();
+                  strategy.setGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString());
+                }
+                array = paramJsonElement.getAsJsonObject().get("effective_goal_value").getAsJsonArray();
+                if(!array.isJsonNull()) {
+                    JsonObject obj = array.get(0).getAsJsonObject();
+                    strategy.setEffectiveGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString() );
+                }
+            }
+        } catch (IllegalArgumentException ie) {
+          throw ie;
+        }
+
+        return strategy;
+    }
+  }
+
 }

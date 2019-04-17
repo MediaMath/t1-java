@@ -26,6 +26,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -91,6 +93,8 @@ import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 import com.mediamath.terminalone.utils.Utility;
 
+import static com.mediamath.terminalone.utils.Constants.DMP_SEGMENT;
+
 /**
  * Handles the authentication, session, entity retrieval, creation etc.
  *
@@ -98,6 +102,8 @@ import com.mediamath.terminalone.utils.Utility;
 public class TerminalOne {
 
 	private static final String ENTITY_TYPE = "entity_type";
+
+	private static final String TYPE = "type";
 
 	private static final String STRATEGY = "strategy";
 
@@ -112,6 +118,8 @@ public class TerminalOne {
 	private static final String UNABLE_TO_GET_O_AUTH_TOKEN = "Unable to get OAuth token: ";
 
 	private static final String LOGIN = "login";
+
+	private static final String SESSION = "session";
 
 	private static final Logger logger = LoggerFactory.getLogger(TerminalOne.class);
 
@@ -131,6 +139,8 @@ public class TerminalOne {
 	private T1User user = null;
 
 	private boolean authenticated = false;
+
+	private ZonedDateTime authExpirationDate = null;
 
 	/**
 	 * Constructor.
@@ -246,18 +256,37 @@ public class TerminalOne {
 		logger.info("Authenticating.");
 
 		user = new T1User();
+		String token = null;
 		OAuthResponse oauthResponse = this.getOAuthToken(username, password, clientId, clientSecret);
-		if (oauthResponse != null && oauthResponse.getAccessToken() != null) {
-			user.setToken(oauthResponse.getAccessToken());
+		if (oauthResponse != null && oauthResponse.getAccessToken() != null && oauthResponse.getIdToken() != null) {
+			token = oauthResponse.getIdToken();
+			user.setToken(token);
+			Long expiresIn = oauthResponse.getExpiresIn();
+			//session usually expires in 1 day, will take a half of it to be safe or 1 hour if expiration is not returned
+			expiresIn = expiresIn == null ? OAuthResponse.DEFAULT_EXPIRES_IN_SECONDS : oauthResponse.getExpiresIn()/2;
+			authExpirationDate = ZonedDateTime.now().plus(expiresIn, ChronoUnit.SECONDS);
+		}
+
+		//Spec says we need also to include cookie session
+		String url = tOneService.constructUrl(new StringBuilder(SESSION), SESSION);
+		String sessionResponse = connection.get(url, user);
+
+		setUserSessionInfo(sessionResponse);
+		if (user != null) {
+			user.setToken(token);
 		}
 
 		setServices();
 
-		if (this.getUser() != null && this.getUser().getToken() != null && !this.getUser().getToken().isEmpty()) {
+		if (checkUserAndUserData() && checkUserSession() && checkUserSessionID() && this.getUser().getToken() != null && !this.getUser().getToken().isEmpty()) {
 			this.authenticated = true;
 		}
 
 		return isAuthenticated();
+	}
+
+	public boolean isAuthExpired() {
+		return ZonedDateTime.now().isAfter(authExpirationDate);
 	}
 
 	/**
@@ -1115,6 +1144,9 @@ public class TerminalOne {
 			if(entityTypeElement!=null && entityTypeElement.getAsString().equals(STRATEGY)){
 				modifiedJsonString = checkAndFixStrategyJson(responseObject);
 			}
+			if (entityTypeElement == null) {
+				entityTypeElement = obj.get(TYPE);
+			}
 			if(modifiedJsonString==null){
 				modifiedJsonString=response;
 			}
@@ -1122,7 +1154,9 @@ public class TerminalOne {
 			
 			String entityType = (entityTypeElement != null) ? entityTypeElement.getAsString() : null;
 
-			if (entityType != null && !"".equalsIgnoreCase(entityType)) {
+			if (entityType != null && entityType.equals(DMP_SEGMENT)) {
+				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
+			} else if (entityType != null && !"".equalsIgnoreCase(entityType)) {
 				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
 			} else {
 				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), new TypeToken<JsonResponse<Data>>() {

@@ -19,10 +19,7 @@ package com.mediamath.terminalone.models;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.ws.rs.core.Form;
 
@@ -77,7 +74,7 @@ public class Campaign implements T1Entity {
 	}
 
 	public enum goalTypes {
-		spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi"), none("none");
+		spend("spend"), reach("reach"), cpc("cpc"), cpa("cpa"), roi("roi"), ctr("ctr"), vcr("vcr"), none("none");
 
 		String value;
 
@@ -113,7 +110,8 @@ public class Campaign implements T1Entity {
 	private float goal_alert;
 	private goalCats goal_category;
 	private goalTypes goal_type;
-	private ArrayList<T1Cost> goal_value = new ArrayList<T1Cost>();
+	//This field is manually deserialized
+	private transient GoalValue goal_value;
 	private boolean has_custom_attribution;
 	private int id;
 	private int impression_cap_amount;
@@ -637,30 +635,64 @@ public class Campaign implements T1Entity {
 		}
 	}
 
-	public ArrayList<T1Cost> getGoalValue() {
-		return goal_value;
+	public GoalValue getGoalValue() {
+		return this.goal_value;
+	}
+
+	public Double getGoalDoubleValue() {
+		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
+				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
+				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
+			if (getGoalValue() == null||  getGoalValue().getAbsoluteValue() == null || getGoalValue().getAbsoluteValue().isEmpty()) {
+				return null;
+			} else {
+				return getGoalValue().getAbsoluteValue().get(0).getValue();
+			}
+		} else if (getGoalType() == goalTypes.vcr || getGoalType() == goalTypes.ctr) {
+			if (getGoalValue() == null) {
+				return null;
+			} else {
+				return getGoalValue().getPercentageValue();
+			}
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
+		}
 	}
 
 	public void setGoalValue(double value, String currency_code) {
-		this.goal_value.clear();
-		if (value > 0) {
-			T1Cost cost = new T1Cost();
-			cost.setValue(value);
+		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
+				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
+				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
+			GoalValue goalValue = new GoalValue();
+			if (value > 0) {
+				T1Cost cost = new T1Cost();
+				cost.setValue(value);
 
-			if (currency_code != null && !currency_code.isEmpty()) {
-				cost.setCurrencyCode(currency_code);
+				if (currency_code != null && !currency_code.isEmpty()) {
+					cost.setCurrencyCode(currency_code);
+				}
+
+				ArrayList<T1Cost> arrayList = new ArrayList<>();
+				arrayList.add(cost);
+				goalValue.setAbsoluteValue(arrayList);
+				this.goal_value = goalValue;
 			}
-
-			this.goal_value.add(cost);
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
 		}
 	}
 
 	public void setGoalValue(double value) {
-		this.goal_value.clear();
-		if (value > 0) {
-			T1Cost cost = new T1Cost();
-			cost.setValue(value);
-			this.goal_value.add(cost);
+		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
+				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
+				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
+			setGoalValue(value, null);
+		} else if (getGoalType() == goalTypes.vcr || getGoalType() == goalTypes.ctr) {
+			GoalValue goalValue = new GoalValue();
+			goalValue.setPercentageValue(value);
+			this.goal_value = goalValue;
+		} else {
+			throw new IllegalStateException("Goal type " + getGoalType() + " is invalid");
 		}
 	}
 	
@@ -731,8 +763,8 @@ public class Campaign implements T1Entity {
 			campaignForm.param("spend_cap_amount", String.valueOf(this.getSpendCapAmount().get(0).getValue()));
 		}
 
-		if (!this.getGoalValue().isEmpty()) {
-			campaignForm.param("goal_value", String.valueOf(this.getGoalValue().get(0).getValue()));
+		if (getGoalType() != null && getGoalDoubleValue() != null && getGoalDoubleValue() > 0) {
+			campaignForm.param("goal_value", String.valueOf(getGoalDoubleValue()));
 		}
 
 		if (this.getAdServerId() > 0) {

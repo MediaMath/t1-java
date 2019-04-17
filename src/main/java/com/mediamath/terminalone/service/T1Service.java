@@ -46,6 +46,8 @@ public class T1Service {
 
 	private String pathMgmt = null;
 
+	private String pathDmp = null;
+
 	private String mediaPathMgmt = null;
 
 	private String videoCreativeURL = null;
@@ -60,6 +62,7 @@ public class T1Service {
 	public T1Service() {
 		this.apiBase = configprop.getProperty("t1.api_base");
 		this.pathMgmt = configprop.getProperty("t1.path_mgmt");
+		this.pathDmp = configprop.getProperty("t1.path_dmp");
 		this.mediaPathMgmt = configprop.getProperty("t1.media_path_mgmt");
 		this.videoCreativeURL = configprop.getProperty("t1.videoCreativeURL");
 		this.reportingURL = configprop.getProperty("t1.reportingURL");
@@ -88,6 +91,9 @@ public class T1Service {
 			break;
 		case "t1.media_path_mgmt":
 			servicePath = mediaPathMgmt;
+			break;
+		case "t1.path_dmp":
+			servicePath = pathDmp;
 			break;
 		default:
 			servicePath = pathMgmt;

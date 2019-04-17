@@ -21,15 +21,8 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
-import com.mediamath.terminalone.models.BulkStrategy;
-import com.mediamath.terminalone.models.Segments;
-import com.mediamath.terminalone.models.SiteList;
-import com.mediamath.terminalone.models.Strategy;
+import com.mediamath.terminalone.models.*;
 import com.mediamath.terminalone.models.Strategy.goalType;
-import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategyDomain;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.TargetValues;
 import com.mediamath.terminalone.utils.Utility;
 
 public class StrategyHelper {
@@ -131,10 +124,8 @@ public class StrategyHelper {
 				strategyForm.param("description", entity.getDescription());
 			}
 
-			if (entity.getEffectiveGoalValue() != null && !entity.getEffectiveGoalValue().isEmpty()
-					&& entity.getEffectiveGoalValue().get(0).getValue() > 0) {
-				strategyForm.param("effective_goal_value",
-						String.valueOf(entity.getEffectiveGoalValue().get(0).getValue()));
+			if (entity.getGoalType() != null && entity.getEffectiveGoalDoubleValue() != null && entity.getEffectiveGoalDoubleValue() > 0) {
+				strategyForm.param("effective_goal_value", String.valueOf(entity.getEffectiveGoalDoubleValue()));
 			}
 
 			if (entity.getFrequencyType() != null) {
@@ -153,9 +144,8 @@ public class StrategyHelper {
 				strategyForm.param("goal_type", String.valueOf(entity.getGoalType().getValue()));
 			}
 
-			if (entity.getGoalType() != null && !entity.getGoalValue().isEmpty()
-					&& entity.getGoalValue().get(0).getValue() > 0) {
-				strategyForm.param("goal_value", String.valueOf(entity.getGoalValue().get(0).getValue()));
+			if (entity.getGoalType() != null && entity.getGoalDoubleValue() != null && entity.getGoalDoubleValue() > 0) {
+				strategyForm.param("goal_value", String.valueOf(entity.getGoalDoubleValue()));
 			}
 
 			if (entity.getMaxBid() != null && !entity.getMaxBid().isEmpty()

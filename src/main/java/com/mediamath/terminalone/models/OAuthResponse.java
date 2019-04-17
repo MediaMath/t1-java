@@ -18,9 +18,13 @@ package com.mediamath.terminalone.models;
 
 public class OAuthResponse {
 
+	public static final Long DEFAULT_EXPIRES_IN_SECONDS = 3600L;
+
 	private String access_token;
 
-	private Long expiresIn;
+	private String id_token;
+
+	private Long expires_in;
 
 	private String token_type;
 
@@ -33,11 +37,11 @@ public class OAuthResponse {
 	}
 
 	public Long getExpiresIn() {
-		return expiresIn;
+		return expires_in;
 	}
 
-	public void setExpiresIn(Long expiresIn) {
-		this.expiresIn = expiresIn;
+	public void setExpiresIn(Long expires_in) {
+		this.expires_in = expires_in;
 	}
 
 	public String getTokenType() {
@@ -48,4 +52,11 @@ public class OAuthResponse {
 		this.token_type = token_type;
 	}
 
+	public String getIdToken() {
+		return id_token;
+	}
+
+	public void setIdToken(String id_token) {
+		this.id_token = id_token;
+	}
 }

@@ -1,7 +1,24 @@
-target/
-.classpath
-.settings/
+.gradle
+/build/
+/out/
+bin/
+generated/
+generated_tests/
+!gradle/wrapper/gradle-wrapper.jar
 *.log
-/bin/
 /src/test/resources/test.properties
 t1java.log
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

@@ -21,52 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.reflect.TypeToken;
-import com.mediamath.terminalone.models.AdServer;
-import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.models.AtomicCreative;
-import com.mediamath.terminalone.models.AudienceSegment;
-import com.mediamath.terminalone.models.BudgetFlight;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
-import com.mediamath.terminalone.models.ChildPixel;
-import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.Contact;
-import com.mediamath.terminalone.models.Contract;
-import com.mediamath.terminalone.models.Creative;
-import com.mediamath.terminalone.models.CreativeApproval;
-import com.mediamath.terminalone.models.Deal;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.Organization;
-import com.mediamath.terminalone.models.Permissions;
-import com.mediamath.terminalone.models.Pixel;
-import com.mediamath.terminalone.models.PixelProvider;
-import com.mediamath.terminalone.models.PlacementSlot;
-import com.mediamath.terminalone.models.Publisher;
-import com.mediamath.terminalone.models.PublisherSite;
-import com.mediamath.terminalone.models.SiteList;
-import com.mediamath.terminalone.models.SitePlacement;
-import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.StrategyAudienceSegment;
-import com.mediamath.terminalone.models.StrategyConcept;
-import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategyDomain;
-import com.mediamath.terminalone.models.StrategySupplySource;
-import com.mediamath.terminalone.models.StrategyTarget;
-import com.mediamath.terminalone.models.StrategyTargetValues;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.SupplySource;
-import com.mediamath.terminalone.models.TargetDimension;
-import com.mediamath.terminalone.models.TargetValues;
-import com.mediamath.terminalone.models.TargetingSegment;
-import com.mediamath.terminalone.models.User;
-import com.mediamath.terminalone.models.UserPermissions;
-import com.mediamath.terminalone.models.Vendor;
-import com.mediamath.terminalone.models.VendorContract;
-import com.mediamath.terminalone.models.VendorDomain;
-import com.mediamath.terminalone.models.VendorPixel;
-import com.mediamath.terminalone.models.VendorPixelDomain;
-import com.mediamath.terminalone.models.Vertical;
+import com.mediamath.terminalone.models.*;
 
 public final class Constants {
 
@@ -238,6 +193,10 @@ public final class Constants {
 
 	private static final String AD_SERVERS = "ad_servers";
 
+	public static final String DMP_SEGMENT = "segment";
+
+	private static final String DMP_SEGMENTS = "segments";
+
 	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
 
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
@@ -271,6 +230,8 @@ public final class Constants {
 
 	static {
 
+		getEntityType.put(DMP_SEGMENT, new TypeToken<JsonResponse<DmpSegment>>() {
+		}.getType());
 		getEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<AdServer>>() {
 		}.getType());
 		getEntityType.put(AD_SERVER, new TypeToken<JsonResponse<AdServer>>() {
@@ -457,6 +418,8 @@ public final class Constants {
 		}.getType());
 
 		/* LIST RETURN TYPE */
+		getListoFEntityType.put(DMP_SEGMENT, new TypeToken<JsonResponse<ArrayList<DmpSegment>>>() {
+		}.getType());
 		getListoFEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<ArrayList<AdServer>>>() {
 		}.getType());
 		getListoFEntityType.put(AD_SERVER, new TypeToken<JsonResponse<ArrayList<AdServer>>>() {
@@ -698,6 +661,7 @@ public final class Constants {
 		entityPaths.put("PlacementSlot", PLACEMENT_SLOTS);
 		entityPaths.put("Publisher", PUBLISHERS);
 		entityPaths.put("PublisherSite", PUBLISHER_SITES);
+		entityPaths.put("DmpSegment", DMP_SEGMENTS);
 		entityPaths.put("SiteList", SITE_LISTS);
 		entityPaths.put("SitePlacement", SITE_PLACEMENTS);
 		entityPaths.put("Strategy", STRATEGIES);
