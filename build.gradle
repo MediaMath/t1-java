@@ -20,7 +20,7 @@ apply plugin: 'com.bmuschko.clover'
 apply plugin: 'com.github.jk1.dependency-license-report'
 
 group 'com.viralgains.odyssey'  //this was com.mediamath, but now we're forking and putting jar in vg artifactory
-version = '1,2.1-SNAPSHOT' //this was 1.2.1 originally when we forked
+version = '1.2.1-SNAPSHOT' //this was 1.2.1 originally when we forked
 sourceCompatibility = 1.8
 
 
