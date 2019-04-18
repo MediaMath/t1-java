@@ -91,6 +91,8 @@ import com.mediamath.terminalone.utils.Constants;
 import com.mediamath.terminalone.utils.T1JsonToObjParser;
 import com.mediamath.terminalone.utils.Utility;
 
+import static com.mediamath.terminalone.utils.Constants.DMP_SEGMENT;
+
 public class PostService {
 
     private static final String ENTITY_TYPE = "entity_type";
@@ -1484,7 +1486,13 @@ public class PostService {
                 if (modifiedJsonString == null) {
                     modifiedJsonString = response;
                 }
-                finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+
+                entityType = obj.get("type") == null ? null : obj.get("type").getAsString();
+                if (entityType != null && entityType.equals(DMP_SEGMENT)) {
+                    finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
+                } else {
+                    finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+                }
             }
         } else if (entity != null) {
             finalJsonResponse = parser.parseJsonToObj(response, Constants.getEntityType.get(entity.getEntityname().toLowerCase()));

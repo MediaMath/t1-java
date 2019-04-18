@@ -30,7 +30,7 @@ public class VideoCreative implements T1Entity {
 	private String landingUrl;
 	private String customVAST;
 	private String customVASTUrl;
-	private ArrayList<Long> vendors = new ArrayList<Long>();
+	private ArrayList<Long> vendors = new ArrayList<>();
 	private long advertiser;
 	private boolean desktopEncoding;
 	private Long endTime;
@@ -40,7 +40,7 @@ public class VideoCreative implements T1Entity {
 	private long concept;
 	private String clickthroughUrl;
 	private boolean active;
-	private List<EventPixel> eventPixels = new ArrayList();
+	private List<EventPixel> eventPixels = new ArrayList<>();
 	
 	private int creativeId;
 

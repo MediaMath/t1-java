@@ -1,0 +1,113 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:2.0.0-beta1"
+        classpath 'com.bmuschko:gradle-clover-plugin:2.2.1'
+        classpath 'gradle.plugin.com.github.jk1:gradle-license-report:1.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: "com.gorylenko.gradle-git-properties" //generates git.properties, which is then visible at /application/info
+//MAL: disabling eclipse plugin unless someone actually needs it
+//apply plugin: 'eclipse'
+apply plugin: 'com.bmuschko.clover'
+apply plugin: 'com.github.jk1.dependency-license-report'
+
+group 'com.viralgains.odyssey'  //this was com.mediamath, but now we're forking and putting jar in vg artifactory
+version = '1,2.1-SNAPSHOT' //this was 1.2.1 originally when we forked
+sourceCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+}
+
+//For non-spring dependencies, specific versions need to be set to ensure that the same version is used by everyone.
+dependencies {
+    compile('junit:junit:4.12')
+    compile('org.glassfish.jersey.core:jersey-client:2.25.1')
+    compile('org.glassfish.jersey.media:jersey-media-multipart:2.25.1')
+    compile('org.slf4j:slf4j-api:1.7.25')
+    compile('org.slf4j:slf4j-log4j12:1.7.25')
+    compile('com.google.code.gson:gson:2.8.1')
+    compile('org.mockito:mockito-core:2.8.47')
+    compile('org.mockito:mockito-all:1.10.19')
+    compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2')
+    compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2')
+    compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.common:1.0.2')
+    clover 'org.openclover:clover:4.2.0'
+}
+
+jar {
+    //write the git_commit of the common build into its jar manifest for easy reading later in the app with SomeCommonClass.class.getPackage().getImplementationVersion()
+    manifest {
+        attributes 'Implementation-Version': "${System.env.GIT_COMMIT}" //will be blank on local builds
+    }
+}
+
+gitProperties {
+    customProperty 'git.vg_build_number', "${System.env.tagPrefix ?: ''}${System.env.BUILD_NUMBER ?:''}" //gets tagPrefix and BUILD_NUMBER from Jenkins build environment variable and puts into git properties so /info endpoint picks it up
+    keys = ['git.vg_build_number','git.build.time','git.branch','git.commit.id','git.commit.id.abbrev','git.commit.message.full','git.commit.time','git.commit.user.name'] //configures which keys to put
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat = 'full'
+    }
+}
+//Functional tests can be enabled when we build environment for real tests
+test {
+    exclude '**/functional/**'
+}
+
+clover{
+    compiler {
+        // used to add debug information for Spring applications. This allows the @PathVariable 'value' element to be optional.
+        debug = true
+    }
+    contexts {
+        statement {
+            name = 'log'
+            regexp = '^.*LOG\\..*'
+        }
+
+        method {
+            name = 'main'
+            regexp = 'public static void main\\(String args\\[\\]\\).*'
+        }
+        method {
+            name = 'getters'
+            regexp = 'public [^\\s]+ get[A-Z][^\\s]+\\(\\)'
+            maxStatements = 1
+        }
+        method {
+            name = 'setters'
+            regexp = 'public void set[A-Z][^\\s]+\\(.+\\)'
+            maxStatements = 1
+        }
+    }
+    report{
+        html = true
+        filter = 'log,main,getters,setters'
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/generated']
+        }
+    }
+}
+
+import com.github.jk1.license.render.*
+licenseReport {
+    renderers = [new CsvReportRenderer("licenses-${project.name}.csv")] //render dependencies as csv, one dependency per line
+}

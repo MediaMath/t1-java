@@ -139,6 +139,7 @@ public class PostMockTest {
 
     private static String LOGIN = null;
     private static String OAUTH = null;
+    private static String SESSION = null;
 
     @Mock
     Connection connectionmock;
@@ -168,6 +169,7 @@ public class PostMockTest {
         testConfig.load(input);
         LOGIN = testConfig.getProperty("t1.mock.loginResponse");
         OAUTH = testConfig.getProperty("t1.mock.oauthResponse");
+        SESSION = testConfig.getProperty("t1.mock.sessionResponse");
         AGENCY_RESPONSE = testConfig.getProperty("t1.mock.save.agency.response");
         CAMPAIGN_RESPONSE = testConfig.getProperty("t1.mock.save.campaign.response");
         ADVERTISER_RESPONSE = testConfig.getProperty("t1.mock.save.advertiser.response");
@@ -245,6 +247,8 @@ public class PostMockTest {
         Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), isNull(T1User.class)))
                 .thenReturn(response);
         Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(OAUTH);
+        Mockito.when(connectionmock.get(Mockito.anyString(), Mockito.any(T1User.class)))
+                .thenReturn(SESSION);
         t1.authenticate("user", "password", "clientId", "clientSecret");
 
         assertEquals(true, t1.isAuthenticated());
