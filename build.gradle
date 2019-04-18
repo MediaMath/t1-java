@@ -1,8 +1,4 @@
 buildscript {
-    project.ext['artifactoryDomainName'] = 'https://artifactory.viralgains.com/artifactory'
-    project.ext['artifactoryUsername'] = 'jenkins-development'
-    project.ext['artifactoryPassword'] = 'eURsomicKWAtione'
-
     repositories {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
@@ -23,28 +19,13 @@ apply plugin: "com.gorylenko.gradle-git-properties" //generates git.properties, 
 apply plugin: 'com.bmuschko.clover'
 apply plugin: 'com.github.jk1.dependency-license-report'
 
-group 'com.mediamath'
-version = '1.2.1'
+group 'com.viralgains.odyssey'  //this was com.mediamath, but now we're forking and putting jar in vg artifactory
+version = '1,2.1-SNAPSHOT' //this was 1.2.1 originally when we forked
 sourceCompatibility = 1.8
 
-//don't repackage the jar as an executable, this is just a simple library jar
-jar.enabled = true
 
 repositories {
     mavenCentral()
-    maven {
-        credentials {
-            username "$artifactoryUsername"
-            password "$artifactoryPassword"
-        }
-        url "$artifactoryDomainName/viralgains-libs"
-    }
-}
-
-//for dynamically changing modules, such as SNAPSHOT builds, have gradle recheck each time (needed for our odyssey-common)
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }
 
 //For non-spring dependencies, specific versions need to be set to ensure that the same version is used by everyone.
@@ -61,6 +42,13 @@ dependencies {
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2')
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.common:1.0.2')
     clover 'org.openclover:clover:4.2.0'
+}
+
+jar {
+    //write the git_commit of the common build into its jar manifest for easy reading later in the app with SomeCommonClass.class.getPackage().getImplementationVersion()
+    manifest {
+        attributes 'Implementation-Version': "${System.env.GIT_COMMIT}" //will be blank on local builds
+    }
 }
 
 gitProperties {
