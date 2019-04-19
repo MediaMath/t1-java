@@ -16,6 +16,7 @@ apply plugin: 'java'
 apply plugin: "com.gorylenko.gradle-git-properties" //generates git.properties, which is then visible at /application/info
 //MAL: disabling eclipse plugin unless someone actually needs it
 //apply plugin: 'eclipse'
+apply plugin: 'maven' //for pushing to artifactory
 apply plugin: 'com.bmuschko.clover'
 apply plugin: 'com.github.jk1.dependency-license-report'
 
