@@ -127,7 +127,14 @@ public class Concept implements T1Entity {
 
   @Override
   public String getUri() {
-    return null;
+    StringBuilder uri = new StringBuilder();
+
+    if (this.getId() > 0) {
+      uri.append("/");
+      uri.append(this.getId());
+    }
+
+    return uri.toString();
   }
 
 }
