@@ -39,6 +39,7 @@ import java.util.concurrent.FutureTask;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
+import com.mediamath.terminalone.models.*;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -58,30 +59,6 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.Currency;
-import com.mediamath.terminalone.models.Data;
-import com.mediamath.terminalone.models.JsonPostErrorResponse;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.OAuthResponse;
-import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.StrategyConcept;
-import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1File;
-import com.mediamath.terminalone.models.T1User;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
-import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.User;
-import com.mediamath.terminalone.models.VendorContract;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
-import com.mediamath.terminalone.models.ZipCodes;
-import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.models.reporting.ReportValidationResponse;
 import com.mediamath.terminalone.models.reporting.Reports;
 import com.mediamath.terminalone.models.reporting.meta.MetaData;
@@ -1172,8 +1149,8 @@ public class TerminalOne {
 					&& (query.creativeType != null && query.creativeType.equals(CreativeType.video))) {
 				String finResponse = "{\"data\":" + response + "}";
 				finalJsonResponse = parser.parseJsonToObj(finResponse,
-						new TypeToken<JsonResponse<VideoCreativeResponse>>() {
-						}.getType());
+							new TypeToken<JsonResponse<CreativeDetailsResponse>>() {
+							}.getType());
 			} else {
 				finalJsonResponse = parser.parseJsonToObj(response,
 						Constants.getEntityType.get(query.collection.toLowerCase()));
