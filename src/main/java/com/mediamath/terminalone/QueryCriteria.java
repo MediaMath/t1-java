@@ -61,6 +61,8 @@ public class QueryCriteria {
 
 	public QueryParamValues queryParams = null;
 
+	public Map<String,String> extraParams = new HashMap<>();
+
 	public FullParamValues full = null;
 	
 	public CreativeType creativeType;
@@ -94,6 +96,8 @@ public class QueryCriteria {
 		getAll = builder.getAll;
 
 		limit = builder.limit;
+
+		extraParams = builder.extraParams;
 
 		query = builder.query;
 
@@ -140,6 +144,8 @@ public class QueryCriteria {
 
 		private Map<String, Long> limit = new HashMap<>();
 
+		public Map<String,String> extraParams = new HashMap<>();
+
 		private String query = null;
 
 		private String queryParamName = null;
@@ -180,6 +186,8 @@ public class QueryCriteria {
 			pageOffset = old.pageOffset;
 
 			limit = old.limit;
+
+			extraParams = old.extraParams;
 
 			query = old.query;
 
@@ -246,6 +254,11 @@ public class QueryCriteria {
 
 		public Builder setLimit(Map<String, Long> limit) {
 			this.limit = limit;
+			return this;
+		}
+
+		public Builder setExtraParams(Map<String, String> extraParams) {
+			this.extraParams = extraParams;
 			return this;
 		}
 
