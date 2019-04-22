@@ -75,6 +75,7 @@ public class GetService {
 
 		constructChild(query, path);// param child String example: acl, permissions
 		constructLimit(query, path);// param limit, should be key=value pair. example organization : 123456
+		constructExtraParams(query, path);// any extra parameters needed in url, should be key=value pair. example dimension : DMAX
 
 		// applicable only for sitelist with id
 		if (query.downloadSiteList) {
@@ -179,6 +180,23 @@ public class GetService {
 		} else if (query.limit.size() > 1) {
 			throw new ClientException(
 					"Limit must consist of one parent collection (or chained parent collection) and a single value for it");
+		}
+	}
+
+	/**
+	 * @param query
+	 * @param path
+	 * @throws ClientException
+	 */
+	private void constructExtraParams(QueryCriteria query, StringBuilder path) throws ClientException {
+		for (Map.Entry<String,String> entry : query.extraParams.entrySet()) {
+			if (!entry.getKey().equals("")) {
+				if (!("".equals(path.toString())) && path.indexOf("?") != -1) {
+					path.append("&" + entry.getKey() + "=" + entry.getValue());
+				} else {
+					path.append("?" + entry.getKey() + "=" + entry.getValue());
+				}
+			}
 		}
 	}
 
