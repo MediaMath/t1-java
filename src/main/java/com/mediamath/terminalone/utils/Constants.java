@@ -197,6 +197,8 @@ public final class Constants {
 
 	private static final String DMP_SEGMENTS = "segments";
 
+	public static final String TIMEZONE = "timezone";
+
 	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
 
 	private static final String SITE_LISTS_FOR_CAMPAIGN = "site_lists_for_campaign";
@@ -230,6 +232,8 @@ public final class Constants {
 
 	static {
 
+		getEntityType.put(TIMEZONE, new TypeToken<JsonResponse<TimeZone>>() {
+		}.getType());
 		getEntityType.put(DMP_SEGMENT, new TypeToken<JsonResponse<DmpSegment>>() {
 		}.getType());
 		getEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<AdServer>>() {
@@ -418,6 +422,8 @@ public final class Constants {
 		}.getType());
 
 		/* LIST RETURN TYPE */
+		getListoFEntityType.put(TIMEZONE, new TypeToken<JsonResponse<ArrayList<TimeZone>>>() {
+		}.getType());
 		getListoFEntityType.put(DMP_SEGMENT, new TypeToken<JsonResponse<ArrayList<DmpSegment>>>() {
 		}.getType());
 		getListoFEntityType.put(AD_SERVERS, new TypeToken<JsonResponse<ArrayList<AdServer>>>() {
