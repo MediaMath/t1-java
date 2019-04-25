@@ -792,6 +792,47 @@ public class TerminalOne {
 	}
 
 	/**
+	 * Get raw data for APIs that are not in the standard collection pattern e.g 'nemo/target'.
+	 *
+	 * @param query
+	 *            expects a QueryCriteria entity.
+	 *
+	 * @return JsonResponse
+	 *
+	 * @throws ClientException
+	 *             a client exception is thrown if any error occurs.
+	 * @throws ParseException
+	 *             a parse exception is thrown when the response cannot be
+	 *             parsed.
+	 */
+	public JsonElement getRawJsonData(QueryCriteria query) throws ClientException, ParseException {
+		StringBuilder path = getService.get(query);
+		String finalPath;
+
+		if (query.collection.equals(CREATIVES)
+				&& (query.creativeType != null && query.creativeType.equals(CreativeType.video))) {
+			finalPath = tOneService.constructVideoCreativeUrl(path);
+		} else {
+			// If collection=deals then use for media api base
+			finalPath = tOneService.constructUrl(path, query.collection);
+		}
+
+		String response = this.connection.get(finalPath, this.getUser());
+
+		T1JsonToObjParser parser = new T1JsonToObjParser();
+		JsonPostErrorResponse jsonPostErrorResponse;
+
+		// check whether error present
+		jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
+
+		if (jsonPostErrorResponse != null) {
+			postService.throwExceptions(jsonPostErrorResponse);
+		}
+
+		return parser.getDataFromResponse(response);
+	}
+
+	/**
 	 * If get_all is true, then fetch all data from server and add to existing
 	 * records.
 	 * 
