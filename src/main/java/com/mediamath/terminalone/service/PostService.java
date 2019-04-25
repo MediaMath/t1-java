@@ -588,15 +588,7 @@ public class PostService {
                 uri.append("/site_lists");
             } else if (entity.isCopyCampaign()) {
                 uri.append("/copy");
-            } else if (entity.getBudgetFlights().size() == 1) {
-                uri.append("/budget_flights");
-                if (entity.getBudgetFlights().get(0).getId() > 0) {
-                    uri.append("/").append(entity.getBudgetFlights().get(0).getId());
-                }
-                if (entity.getBudgetFlights().get(0).isDeleted()) {
-                    uri.append(DELETE);
-                }
-            } else if (entity.getBudgetFlights().size() > 1) {
+            } else if (entity.getBudgetFlights().size() > 0) {
                 uri.append("/budget_flights/bulk");
             } else if (entity.getCampaignCustomBrainSelection().size() == 1) {
                 uri.append("/custom_brain_selections");
@@ -1465,7 +1457,9 @@ public class PostService {
                 JsonElement entityTypeElem = dataObj.get(ENTITY_TYPE);
                 if (entityTypeElem != null) {
                     String entityType = entityTypeElem.getAsString();
-                    finalJsonResponse = parseArrayJsonResponse(modifiedJsonString.replaceAll("\\\\", ""), parser, finalJsonResponse, entityType);
+                    //finalJsonResponse = parseArrayJsonResponse(modifiedJsonString.replaceAll("\\\\", ""), parser, finalJsonResponse, entityType);
+                    //Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+                    finalJsonResponse = parseArrayJsonResponse(modifiedJsonString, parser, finalJsonResponse, entityType);
                 }
 
             }
@@ -1481,7 +1475,9 @@ public class PostService {
                     modifiedJsonString = response;
                 }
 
-                finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
+                //finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
+                //Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+                finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
             } else {
                 if (modifiedJsonString == null) {
                     modifiedJsonString = response;
@@ -1491,7 +1487,9 @@ public class PostService {
                 if (entityType != null && entityType.equals(DMP_SEGMENT)) {
                     finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
                 } else {
-                    finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+                    //finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
+                    //Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+                    finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entity.getEntityname().toLowerCase()));
                 }
             }
         } else if (entity != null) {

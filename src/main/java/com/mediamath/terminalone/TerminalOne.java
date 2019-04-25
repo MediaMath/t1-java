@@ -40,6 +40,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
 import com.mediamath.terminalone.models.*;
+import com.mediamath.terminalone.utils.SafeExecutor;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -744,6 +745,10 @@ public class TerminalOne {
 		return response;
 	}
 
+	public JsonResponse<? extends T1Entity> getSafe(QueryCriteria query) throws Exception {
+		return new SafeExecutor().executeSafe(()->get(query));
+	}
+
 	/**
 	 * Get.
 	 * 
@@ -1109,9 +1114,9 @@ public class TerminalOne {
 			if (Constants.getListoFEntityType.get(entityType) == null) {
 				return null;
 			}
-
-			finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getListoFEntityType.get(entityType));
-
+			//finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getListoFEntityType.get(entityType));
+			//Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+			finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getListoFEntityType.get(entityType));
 		}
 
 		if (element != null && element.isJsonObject()) {
@@ -1134,10 +1139,13 @@ public class TerminalOne {
 			if (entityType != null && entityType.equals(DMP_SEGMENT)) {
 				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
 			} else if (entityType != null && !"".equalsIgnoreCase(entityType)) {
-				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
+				//finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), Constants.getEntityType.get(entityType));
+				//Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, Constants.getEntityType.get(entityType));
 			} else {
-				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), new TypeToken<JsonResponse<Data>>() {
-				}.getType());
+				//finalJsonResponse = parser.parseJsonToObj(modifiedJsonString.replaceAll("\\\\", ""), new TypeToken<JsonResponse<Data>>() {}.getType());
+				//Replacing \" does not work in case a json element has quotes inside, removing this, we will see if any impact
+				finalJsonResponse = parser.parseJsonToObj(modifiedJsonString, new TypeToken<JsonResponse<Data>>() {}.getType());
 			}
 		}
 
