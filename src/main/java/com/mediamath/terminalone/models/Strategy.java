@@ -201,6 +201,7 @@ public class Strategy implements T1Entity, Cloneable {
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
 	private List<Concept> concepts = new ArrayList<Concept>();
+	private List<StrategyConcept> strategy_concepts = new ArrayList<StrategyConcept>();
 	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
@@ -599,6 +600,14 @@ public class Strategy implements T1Entity, Cloneable {
 
 	public void setConcepts(List<Concept> concepts) {
 		this.concepts = concepts;
+	}
+
+	public List<StrategyConcept> getStrategyConcepts() {
+		return strategy_concepts;
+	}
+
+	public void setStrategyConcepts(List<StrategyConcept> strategyConcepts) {
+		this.strategy_concepts = strategyConcepts;
 	}
 
 	public Date getEndDate() {
