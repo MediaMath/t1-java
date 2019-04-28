@@ -50,6 +50,12 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.setUserCpm(user_cpm);
 	}
 
+	public StrategyTargetingSegment(int id, String restriction, String operator) {
+		this.targeting_segment_id = id;
+		this.operator = operator;
+		this.restriction = restriction;
+	}
+
 	public Date getCreatedOn() {
 		return created_on;
 	}

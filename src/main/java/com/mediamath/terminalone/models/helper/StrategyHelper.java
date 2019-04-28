@@ -226,6 +226,8 @@ public class StrategyHelper {
 
 				if (pixelTargetExpression.length() > 0) {
 					pixelTargetExpression.append(" AND NOT " + excludePixels.toString());
+				} else {
+					pixelTargetExpression.append("NOT " + excludePixels.toString());
 				}
 			}
 
