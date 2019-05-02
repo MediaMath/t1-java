@@ -214,7 +214,12 @@ public class SiteList implements T1Entity {
 		// for insert/update of domains against site list
 		if (!this.getDomains().isEmpty()) {
 			for (String str : this.getDomains()) {
-				siteListForm.param("domain", str);
+				int idx = str.indexOf("app:");
+				if (idx == 0) {
+					siteListForm.param("app", str.substring(4));
+				} else {
+					siteListForm.param("domain", str);
+				}
 			}
 		}
 
