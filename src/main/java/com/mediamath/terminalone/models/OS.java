@@ -1,8 +1,11 @@
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Arrays;
 import java.util.List;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum OS {
     TV_OS("TV OS",3070762),
     MAC_OS("macOS",7159),
