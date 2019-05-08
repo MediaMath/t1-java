@@ -889,6 +889,8 @@ public class Campaign implements T1Entity {
 
 		if (this.getPcWindowMinutes() > 0) {
 			campaignForm.param("pc_window_minutes", String.valueOf(this.getPcWindowMinutes()));
+		} else {
+			campaignForm.param("pc_window_minutes", "");
 		}
 
 		if (this.getPvPct() > 0) {
@@ -897,6 +899,8 @@ public class Campaign implements T1Entity {
 
 		if (this.getPvWindowMinutes() > 0) {
 			campaignForm.param("pv_window_minutes", String.valueOf(this.getPvWindowMinutes()));
+		} else {
+			campaignForm.param("pv_window_minutes", "");
 		}
 
 		if (this.getZoneName() != null) {
