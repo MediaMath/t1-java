@@ -1092,6 +1092,8 @@ public class PostMockTest {
 
         Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class), Mockito.any(T1User.class)))
                 .thenReturn(response);
+        Mockito.when(connectionmock.delete(Mockito.anyString(), Mockito.any(T1User.class)))
+                .thenReturn(response);
         Mockito.when(response.readEntity(Mockito.any(Class.class))).thenReturn(STRATEGY_TGT_VALUES_RESPONSE);
 
         try {
