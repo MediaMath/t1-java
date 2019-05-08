@@ -582,6 +582,19 @@ public class Strategy implements T1Entity, Cloneable {
 		return target_values;
 	}
 
+	public boolean hasTargetValuesExcept(TargetValues.codes code) {
+		if (getTargetValues() == null || getTargetValues().isEmpty()) {
+			return false;
+		} else {
+			for(TargetValues targetValues : getTargetValues()) {
+				if (targetValues.getCode() != null && targetValues.getCode() != code) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	public void setTargetValues(List<TargetValues> target_values) {
 		this.target_values = target_values;
 	}
