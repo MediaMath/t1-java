@@ -217,6 +217,22 @@ public class Connection {
 	}
 
 	/**
+	 * Sends DELETE http request
+	 * @param url
+	 * 				requires api end point url.
+	 * @param userMap
+	 * 				requires a valid login user information.
+	 * @return Response object.
+	 */
+	public Response delete(String url, T1User userMap) {
+		Response response;
+		Client client = instantiateSimpleClient();
+		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
+		response = invocationBuilder.delete();
+		return response;
+	}
+
+	/**
 	 * handles GET requests
 	 * 
 	 * @param url

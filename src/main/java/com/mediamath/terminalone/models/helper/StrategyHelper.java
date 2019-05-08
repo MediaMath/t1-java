@@ -21,6 +21,10 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mediamath.terminalone.models.*;
 import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.utils.Utility;
@@ -38,6 +42,20 @@ public class StrategyHelper {
 	private StrategyHelper() {
 		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
 	}
+
+	public static JsonElement getNemoTargetingJson(int strategyId, TargetValues targetValues) {
+		JsonObject result = new JsonObject();
+		result.add("operator", new JsonPrimitive("OR"));
+		result.add("strategy_id", new JsonPrimitive(strategyId));
+		result.add("restriction", new JsonPrimitive(targetValues.getRestriction().name()));
+		JsonArray values = new JsonArray();
+		for(Integer valueId : targetValues.getValueIds()) {
+			values.add(valueId);
+		}
+		result.add("target.id", values);
+		return result;
+	}
+
 
 	/**
 	 * creates a Strategy Form object.
@@ -326,7 +344,7 @@ public class StrategyHelper {
 			int inc = 1;
 			
 			for (TargetValues tv : entity.getTargetValues()) {
-				if (tv != null) {
+				if (tv != null && tv.getCode() != TargetValues.codes.NEMO) {
 					strategyForm.param(DIMENSIONS + inc + ".code", tv.getCode().name());
 					strategyForm.param(DIMENSIONS + inc + RESTRICTION, tv.getRestriction().name());
 					int cntr = 1;

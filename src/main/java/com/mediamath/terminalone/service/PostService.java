@@ -30,6 +30,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.mediamath.terminalone.models.*;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -50,39 +51,6 @@ import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.BudgetFlight;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
-import com.mediamath.terminalone.models.Currency;
-import com.mediamath.terminalone.models.FieldError;
-import com.mediamath.terminalone.models.JsonPostErrorResponse;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.SiteList;
-import com.mediamath.terminalone.models.Strategy;
-import com.mediamath.terminalone.models.StrategyAudienceSegment;
-import com.mediamath.terminalone.models.StrategyConcept;
-import com.mediamath.terminalone.models.StrategyDayPart;
-import com.mediamath.terminalone.models.StrategyTarget;
-import com.mediamath.terminalone.models.StrategyTargetValues;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1Error;
-import com.mediamath.terminalone.models.T1File;
-import com.mediamath.terminalone.models.T1Meta;
-import com.mediamath.terminalone.models.T1User;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
-import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.User;
-import com.mediamath.terminalone.models.UserPermissions;
-import com.mediamath.terminalone.models.VendorContract;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
-import com.mediamath.terminalone.models.ZipCodes;
-import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.models.helper.StrategyHelper;
 import com.mediamath.terminalone.models.helper.TOneCreativeAssetsApproveHelper;
 import com.mediamath.terminalone.models.helper.TPasCreativeUploadBatchHelper;
@@ -197,6 +165,17 @@ public class PostService {
         return readPostResponseToString(responseObj);
     }
 
+    private String delete(String path) throws ClientException {
+        Response responseObj = this.connection.delete(path, this.user);
+        return readPostResponseToString(responseObj);
+    }
+
+    private String post(String path, JsonElement jsonElement) throws ClientException {
+        String json = new Gson().toJson(jsonElement);
+        Response responseObj = this.connection.post(path, json, this.user);
+        return readPostResponseToString(responseObj);
+    }
+
     private String readPostResponseToString(Response responseObj) throws ClientException {
         String response = responseObj.readEntity(String.class);
         JsonPostErrorResponse error = jsonPostErrorResponseParser(response, responseObj);
@@ -257,6 +236,27 @@ public class PostService {
     }
 
     /**
+     * Performs OS and Devices Targeting
+     * @param entity expects a Strategy entity.
+     * @throws ClientException a client exception is thrown if any error occurs.
+     */
+    private void saveWurflTargeting(Strategy entity) throws ClientException {
+        StringBuilder nemoPathBuilder = new StringBuilder()
+                .append("nemo/attachment?strategy_id=")
+                .append(entity.getId())
+                .append("&dimension=WURF&dimension_code=WURF");
+        String nemoPath = t1Service.constructUrl(nemoPathBuilder, Constants.entityPaths.get(entity.getEntityname()));
+        //clean up existing wurfl targeting (OS and Devices)
+        delete(nemoPath);
+        for(TargetValues targetValues : entity.getTargetValues()) {
+            if (targetValues.getCode() == TargetValues.codes.NEMO) {
+                JsonElement jsonElement = StrategyHelper.getNemoTargetingJson(entity.getId(), targetValues);
+                post(nemoPath, jsonElement);
+            }
+        }
+    }
+
+    /**
      * saves a Strategy entity.
      *
      * @param entity expects a Strategy entity.
@@ -271,6 +271,11 @@ public class PostService {
         Strategy strategy = null;
         JsonResponse<? extends T1Entity> finalJsonResponse;
         if (entity != null) {
+            if (entity.getTargetValues() != null && !entity.getTargetValues().isEmpty()) {
+                //perform wurfl targeting / NEMO target code: OS and Devices
+                saveWurflTargeting(entity);
+            }
+
             StringBuilder uri = getUri(entity);
 
             constructStrategyURIPath(entity, uri);
@@ -371,7 +376,7 @@ public class PostService {
                 uri.append("/targeting_segments");
             }
 
-            if (!entity.getTargetValues().isEmpty()) {
+            if (!entity.getTargetValues().isEmpty() && entity.hasTargetValuesExcept(TargetValues.codes.NEMO)) {
                 uri.append("/target_values");
             }
 
