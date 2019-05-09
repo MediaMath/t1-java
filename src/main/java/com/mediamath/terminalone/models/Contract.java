@@ -381,7 +381,7 @@ public class Contract implements T1Entity {
 		}
 		contractForm.param("exclude_agency_margin", Utility.getOneOrZero(this.isExcludeAgencyMargin()));
 
-		if (!this.getExternalMediaTrackingCpm().isEmpty() && this.getExternalMediaTrackingCpm().get(0).getValue() > 0) {
+		if (!this.getExternalMediaTrackingCpm().isEmpty() && this.getExternalMediaTrackingCpm().get(0).getValue().floatValue() > 0) {
 			contractForm.param("external_media_tracking_cpm",
 					String.valueOf(this.getExternalMediaTrackingCpm().get(0).getValue()));
 		}

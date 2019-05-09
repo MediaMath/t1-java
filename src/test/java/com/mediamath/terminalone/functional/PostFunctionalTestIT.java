@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -673,15 +674,15 @@ public class PostFunctionalTestIT {
 
 		Strategy str = new Strategy();
 		str.setName("TestStrategy");
-		str.setBudget(100.12f);
+		str.setBudget(new BigDecimal(100.12f));
 		str.setCampaignId(349751);
 		str.setFrequencyType(freqType.asap);
 		str.setFrequencyAmount(10);
 		str.setFrequencyInterval(freqInt.day);
 		str.setGoalType(goalType.spend);
 		str.setGoalValue(12.12f);
-		str.setMaxBid(10f);
-		str.setPacingAmount(10f);
+		str.setMaxBid(new BigDecimal(10f));
+		str.setPacingAmount(new BigDecimal(10f));
 		str.setType(type.REM);
 		str.setUseCampaignStart(false);
 
@@ -1580,7 +1581,7 @@ public class PostFunctionalTestIT {
 		str.setTargetingSegmentIncludeOp(Strategy.tgtSegInc.OR);
 		List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
 
-		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
+		tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", new BigDecimal(2.5f), "OR"));
 
 		str.setStrategyTargetingSegments(tsList);
 		try {
@@ -2147,7 +2148,7 @@ public class PostFunctionalTestIT {
 
 		for (int j = 0; j < strategies.size(); j++) {
 			List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
-			tsList.add(new StrategyTargetingSegment(17484, "EXCLUDE", 0.0f, "OR"));
+			tsList.add(new StrategyTargetingSegment(17484, "EXCLUDE", new BigDecimal(0.0f), "OR"));
 			Strategy strategy = strategies.get(j);
 			strategy.setStrategyTargetingSegments(tsList);
 			try {
@@ -2229,7 +2230,7 @@ public class PostFunctionalTestIT {
 			List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
 			tsList = (List<StrategyTargetingSegment>) jsonresponse.getData();
 			// add new TS
-			tsList.add(new StrategyTargetingSegment(119, "INCLUDE", 7.0f, "OR"));
+			tsList.add(new StrategyTargetingSegment(119, "INCLUDE", new BigDecimal(7.0f), "OR"));
 
 			strategy.setStrategyTargetingSegments(tsList);
 			try {
@@ -2289,7 +2290,7 @@ public class PostFunctionalTestIT {
 		TerminalOne jt1 = new TerminalOne(user, password, productionKey);
 		Currency curr = new Currency();
 		curr.setCurrencyCode("USD");
-		curr.setValue(100f);
+		curr.setValue(new BigDecimal(100f));
 
 		List<Currency> cList = new ArrayList<Currency>();
 		cList.add(curr);

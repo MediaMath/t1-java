@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,7 +44,7 @@ public class StrategyTargetingSegment implements T1Entity {
 	public StrategyTargetingSegment() {
 	}
 
-	public StrategyTargetingSegment(int id, String restriction, float user_cpm, String operator) {
+	public StrategyTargetingSegment(int id, String restriction, BigDecimal user_cpm, String operator) {
 		this.targeting_segment_id = id;
 		this.operator = operator;
 		this.restriction = restriction;
@@ -136,7 +137,7 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.user_cpm = user_cpm;
 	}
 
-	public void setUserCpm(float user_cpm) {
+	public void setUserCpm(BigDecimal user_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(user_cpm);
 		this.user_cpm.add(curr);

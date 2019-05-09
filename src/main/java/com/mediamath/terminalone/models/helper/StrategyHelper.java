@@ -109,7 +109,7 @@ public class StrategyHelper {
 			}
 
 			if (entity.getBudget() != null && !entity.getBudget().isEmpty()
-					&& entity.getBudget().get(0).getValue() > 0) {
+					&& entity.getBudget().get(0).getValue().floatValue()> 0) {
 				strategyForm.param("budget", String.valueOf(entity.getBudget().get(0).getValue()));
 			}
 			if (entity.getCampaignId() > 0) {
@@ -149,12 +149,12 @@ public class StrategyHelper {
 			}
 
 			if (entity.getMaxBid() != null && !entity.getMaxBid().isEmpty()
-					&& entity.getMaxBid().get(0).getValue() > 0) {
+					&& entity.getMaxBid().get(0).getValue().floatValue()> 0) {
 				strategyForm.param("max_bid", String.valueOf(entity.getMaxBid().get(0).getValue()));
 			}
 
 			if (entity.getMinBid() != null && !entity.getMinBid().isEmpty()
-					&& entity.getMinBid().get(0).getValue() > 0) {
+					&& entity.getMinBid().get(0).getValue().floatValue() > 0) {
 				strategyForm.param("min_bid", String.valueOf(entity.getMinBid().get(0).getValue()));
 			}
 
@@ -166,7 +166,7 @@ public class StrategyHelper {
 			}
 
 			if (entity.getPacingAmount() != null && !entity.getPacingAmount().isEmpty()
-					&& entity.getPacingAmount().get(0).getValue() > 0) {
+					&& entity.getPacingAmount().get(0).getValue().floatValue() > 0) {
 				strategyForm.param("pacing_amount", String.valueOf(entity.getPacingAmount().get(0).getValue()));
 			}
 			if (entity.getPacingInterval() != null) {
@@ -236,7 +236,7 @@ public class StrategyHelper {
 			}
 
 			if (entity.getRoiTarget() != null && !entity.getRoiTarget().isEmpty()
-					&& entity.getRoiTarget().get(0).getValue() > 0) {
+					&& entity.getRoiTarget().get(0).getValue().floatValue() > 0) {
 				strategyForm.param("roi_target", String.valueOf(entity.getRoiTarget().get(0).getValue()));
 			}
 
