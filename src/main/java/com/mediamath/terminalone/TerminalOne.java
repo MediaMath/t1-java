@@ -26,6 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -1227,7 +1228,7 @@ public class TerminalOne {
 			&& ("java.util.ArrayList<com.mediamath.terminalone.models.Currency>").equals(field.getGenericType().toString())
 			&& (data.get(field.getName())!=null && data.get(field.getName()).isJsonPrimitive()))
 			{
-					float fieldValue = data.get(field.getName()).getAsFloat();
+					BigDecimal fieldValue = data.get(field.getName()).getAsBigDecimal();
 					responseObject.getAsJsonObject("data").remove(field.getName());
 					ArrayList<Currency> egvList = new ArrayList<>();
 					Currency curr = new Currency();

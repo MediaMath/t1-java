@@ -1,5 +1,6 @@
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,7 +110,7 @@ public class TargetingSegment implements T1Entity {
 		this.retail_cpm = retail_cpm;
 	}
 
-	public void setRetailCpm(float retail_cpm) {
+	public void setRetailCpm(BigDecimal retail_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(retail_cpm);
 		this.retail_cpm.add(curr);
@@ -123,7 +124,7 @@ public class TargetingSegment implements T1Entity {
 		this.wholesale_cpm = wholesale_cpm;
 	}
 
-	public void setWholesaleCpm(float wholesale_cpm) {
+	public void setWholesaleCpm(BigDecimal wholesale_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(wholesale_cpm);
 		this.wholesale_cpm.add(curr);

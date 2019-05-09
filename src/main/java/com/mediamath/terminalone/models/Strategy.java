@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -656,13 +657,13 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@Deprecated
-	public void setBudget(float budget) {
+	public void setBudget(BigDecimal budget) {
 		Currency currency = new Currency();
 		currency.setValue(budget);
 		this.budget.add(currency);
 	}
 
-	public void setBudget(float budget, String currency_code) {
+	public void setBudget(BigDecimal budget, String currency_code) {
 		this.budget.clear();
 		Currency currency = new Currency();
 		currency.setValue(budget);
@@ -801,13 +802,13 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@Deprecated
-	public void setMaxBid(float max_bid) {
+	public void setMaxBid(BigDecimal max_bid) {
 		Currency currency = new Currency();
 		currency.setValue(max_bid);
 		this.max_bid.add(currency);
 	}
 
-	public void setMaxBid(float max_bid, String currency_code) {
+	public void setMaxBid(BigDecimal max_bid, String currency_code) {
 		this.max_bid.clear();
 		Currency currency = new Currency();
 		currency.setValue(max_bid);
@@ -824,13 +825,13 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@Deprecated
-	public void setMinBid(float min_bid) {
+	public void setMinBid(BigDecimal min_bid) {
 		Currency currency = new Currency();
 		currency.setValue(min_bid);
 		this.min_bid.add(currency);
 	}
 
-	public void setMinBid(float min_bid, String currency_code) {
+	public void setMinBid(BigDecimal min_bid, String currency_code) {
 		this.min_bid.clear();
 		Currency currency = new Currency();
 		currency.setValue(min_bid);
@@ -847,13 +848,13 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@Deprecated
-	public void setPacingAmount(float pacing_amount) {
+	public void setPacingAmount(BigDecimal pacing_amount) {
 		Currency currency = new Currency();
 		currency.setValue(pacing_amount);
 		this.pacing_amount.add(currency);
 	}
 
-	public void setPacingAmount(float pacing_amount, String currency_code) {
+	public void setPacingAmount(BigDecimal pacing_amount, String currency_code) {
 		this.pacing_amount.clear();
 		Currency currency = new Currency();
 		currency.setValue(pacing_amount);
@@ -870,13 +871,13 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@Deprecated
-	public void setRoiTarget(float roi_target) {
+	public void setRoiTarget(BigDecimal roi_target) {
 		Currency currency = new Currency();
 		currency.setValue(roi_target);
 		this.roi_target.add(currency);
 	}
 
-	public void setRoiTarget(float roi_target, String currency_code) {
+	public void setRoiTarget(BigDecimal roi_target, String currency_code) {
 		this.roi_target.clear();
 		Currency currency = new Currency();
 		currency.setValue(roi_target);

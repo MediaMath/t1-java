@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
@@ -413,15 +414,15 @@ public class PostMockTest {
 
         Strategy str = new Strategy();
         str.setName("TestStrategy");
-        str.setBudget(100.12f);
+        str.setBudget(new BigDecimal(100.12f));
         str.setCampaignId(233131);
         str.setFrequencyType(freqType.asap);
         str.setFrequencyAmount(10);
         str.setFrequencyInterval(freqInt.day);
         str.setGoalType(goalType.spend);
         str.setGoalValue(12.12f);
-        str.setMaxBid(10f);
-        str.setPacingAmount(10f);
+        str.setMaxBid(new BigDecimal(10f));
+        str.setPacingAmount(new BigDecimal(10f));
         str.setPacingType(pacType.even);
         str.setPacingInterval(pacInt.day);
         str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
@@ -1010,7 +1011,7 @@ public class PostMockTest {
         str.setTargetingSegmentIncludeOp(Strategy.tgtSegInc.OR);
         List<StrategyTargetingSegment> tsList = new ArrayList<StrategyTargetingSegment>();
 
-        tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", 2.5f, "OR"));
+        tsList.add(new StrategyTargetingSegment(4569, "INCLUDE", new BigDecimal(2.5f), "OR"));
 
         str.setStrategyTargetingSegments(tsList);
 
@@ -1682,7 +1683,7 @@ public class PostMockTest {
 
         Currency curr = new Currency();
         curr.setCurrencyCode("USD");
-        curr.setValue(100f);
+        curr.setValue(new BigDecimal(100f));
 
         List<Currency> cList = new ArrayList<Currency>();
         cList.add(curr);

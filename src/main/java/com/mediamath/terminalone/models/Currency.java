@@ -1,10 +1,12 @@
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
+
 public class Currency {
 
 	private String currency_code;
 
-	private float value;
+	private BigDecimal value;
 
 	public String getCurrencyCode() {
 		return currency_code;
@@ -14,11 +16,11 @@ public class Currency {
 		this.currency_code = currency_code;
 	}
 
-	public float getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
-	public void setValue(float value) {
+	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
 

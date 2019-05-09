@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.ws.rs.core.Form;
@@ -120,7 +121,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.user_cpm = user_cpm;
 	}
 
-	public void setUserCpm(float user_cpm) {
+	public void setUserCpm(BigDecimal user_cpm) {
 		Currency curr = new Currency();
 		curr.setValue(user_cpm);
 		this.user_cpm = curr;

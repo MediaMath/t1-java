@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1539,7 +1540,7 @@ public class PostService {
             if (field.getType().isInstance(new ArrayList<Currency>())
                     && ("java.util.ArrayList<com.mediamath.terminalone.models.Currency>").equals(field.getGenericType().toString())
                     && (data.get(field.getName()) != null && data.get(field.getName()).isJsonPrimitive())) {
-                float fieldValue = data.get(field.getName()).getAsFloat();
+                BigDecimal fieldValue = data.get(field.getName()).getAsBigDecimal();
                 responseObject.getAsJsonObject("data").remove(field.getName());
                 ArrayList<Currency> egvList = new ArrayList<>();
                 Currency curr = new Currency();

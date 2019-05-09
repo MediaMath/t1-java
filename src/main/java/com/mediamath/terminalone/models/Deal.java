@@ -299,7 +299,7 @@ public class Deal implements T1Entity {
 			dealForm.param("name", this.getName());
 		}
 
-		if (this.getPrice() != null && this.getPrice().getValue() > 0) {
+		if (this.getPrice() != null && this.getPrice().getValue().floatValue() > 0) {
 			dealForm.param("price", String.valueOf(this.getPrice().getValue()));
 		}
 
