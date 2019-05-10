@@ -266,12 +266,21 @@ public class Connection {
 		return response;
 	}
 
+	private static Client client;
 	private Client instantiateSimpleClient() {
-		return ClientBuilder.newClient(new ClientConfig());
+		if (client==null)
+			client = ClientBuilder.newClient(new ClientConfig());
+		return client;
+		//avoid leaking Client objects as causes issues under load.
 	}
 
+	private static Client multiClient;
 	private Client instantiateMultipartClient() {
-		return ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+		if (multiClient==null)
+			multiClient=ClientBuilder.newClient(new ClientConfig()).register(MultiPartFeature.class);
+		return multiClient;
+		//avoid leaking Client objects as causes issues under load.
+
 	}
 
 	private void userSessionCheck(T1User userMap, Invocation.Builder invocationBuilder) {
