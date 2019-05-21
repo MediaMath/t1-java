@@ -112,19 +112,22 @@ public class T1JsonToObjParser {
       throws ParseException {
     JsonResponse<? extends T1Entity> jsonResponse = null;
     try {
-      Gson gson = new GsonBuilder()
-          .registerTypeAdapter(JsonResponse.class, new CustomInstanceCreator())
-          .registerTypeAdapter(Campaign.class, new CampaignDeserializer())
-          .registerTypeAdapter(Strategy.class, new StrategyDeserializer())
-          .registerTypeAdapter(DmpSegment.Expression.class, new ExpressionDeserializer())
-          .setDateFormat(YYYY_MM_DD_T_HH_MM_SS).create();
-      jsonResponse = gson.fromJson(jsonstr, vClassType);
+      jsonResponse = gson().fromJson(jsonstr, vClassType);
     } catch (JsonParseException parseException) {
     	Utility.logStackTrace(parseException);
       throw new ParseException(COULD_NOT_PARSE_RESPONSE);
     }
     return jsonResponse;
   }
+
+    public Gson gson() {
+        return  new GsonBuilder()
+                .registerTypeAdapter(JsonResponse.class, new CustomInstanceCreator())
+                .registerTypeAdapter(Campaign.class, new CampaignDeserializer())
+                .registerTypeAdapter(Strategy.class, new StrategyDeserializer())
+                .registerTypeAdapter(DmpSegment.Expression.class, new ExpressionDeserializer())
+                .setDateFormat(YYYY_MM_DD_T_HH_MM_SS).create();
+    }
 
   /**
    * parses 3pas creative upload response string to TPASCreativeUpload object.

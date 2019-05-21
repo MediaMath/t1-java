@@ -30,7 +30,9 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -1197,10 +1199,19 @@ public class TerminalOne {
 			}
 			if (query.collection.equals(CREATIVES)
 					&& (query.creativeType != null && query.creativeType.equals(CreativeType.video))) {
-				String finResponse = "{\"data\":" + response + "}";
-				finalJsonResponse = parser.parseJsonToObj(finResponse,
+				if (query.entity == 0 ) {
+					String finResponse = new Gson().toJson(responseObject.get("creatives"));
+					HashMap<String,CreativeDetailsResponse> mapResponse = parser.gson().fromJson(finResponse, new TypeToken<HashMap<String,CreativeDetailsResponse>>() {}.getType());
+					CreativeDetailsResponseMap creativeDetailsResponseMap = new CreativeDetailsResponseMap(mapResponse);
+					JsonResponse<CreativeDetailsResponseMap> jsonResponse =  new JsonResponse<>();
+					jsonResponse.setData(creativeDetailsResponseMap);
+					finalJsonResponse =  jsonResponse;
+				} else {
+					String finResponse = "{\"data\":" + response + "}";
+					finalJsonResponse = parser.parseJsonToObj(finResponse,
 							new TypeToken<JsonResponse<CreativeDetailsResponse>>() {
 							}.getType());
+				}
 			} else {
 				finalJsonResponse = parser.parseJsonToObj(response,
 						Constants.getEntityType.get(query.collection.toLowerCase()));
