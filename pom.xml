@@ -97,8 +97,7 @@
 								<configuration>
 									<tasks>
 										<echo>Using config.sandbox.properties</echo>
-										<copy file="src/main/resources/config.sandbox.properties"
-											tofile="src/main/resources/config.properties" />
+										<copy file="src/main/resources/config.sandbox.properties" tofile="src/main/resources/config.properties"/>
 									</tasks>
 								</configuration>
 							</execution>
@@ -196,8 +195,7 @@
 								<configuration>
 									<tasks>
 										<echo>Using config.sandbox.properties</echo>
-										<copy file="src/main/resources/config.prod.properties"
-											tofile="src/main/resources/config.properties" />
+										<copy file="src/main/resources/config.prod.properties" tofile="src/main/resources/config.properties"/>
 									</tasks>
 								</configuration>
 							</execution>
@@ -337,8 +335,7 @@
 								<configuration>
 									<tasks>
 										<echo>Using config.sandbox.properties</echo>
-										<copy file="src/main/resources/config.prod.properties"
-											tofile="src/main/resources/config.properties" />
+										<copy file="src/main/resources/config.prod.properties" tofile="src/main/resources/config.properties"/>
 									</tasks>
 								</configuration>
 							</execution>
@@ -438,7 +435,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>2.9.2</version>
+			<version>2.9.9</version>
 		</dependency>
 
 		<dependency>
