@@ -217,9 +217,10 @@ public class StrategyHelper {
 			if (entity.getIncludePixels() != null && !entity.getIncludePixels().isEmpty()) {
 				includePixels.append("(");
 				int size = entity.getIncludePixels().size() - 1;
+				String operator = entity.getIncludePixelOperator() != null && !entity.getIncludePixelOperator().isEmpty() ? entity.getIncludePixelOperator() : "AND";
 				for (Integer i : entity.getIncludePixels()) {
 					if (size != 0) {
-						includePixels.append("[" + i + "] AND ");
+						includePixels.append("[" + i + "] " + operator + " ");
 						size--;
 					} else {
 						includePixels.append("[" + i + "]");
