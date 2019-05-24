@@ -168,6 +168,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private String pixel_target_expr;
 	private ArrayList<Integer> includePixels = new ArrayList<Integer>();
 	private ArrayList<Integer> excludePixels = new ArrayList<Integer>();
+	//This field is manually deserialized
+	private String include_pixel_operator;
 	private boolean run_on_all_exchanges;
 	private boolean run_on_all_pmp;
 	private boolean run_on_display;
@@ -955,6 +957,14 @@ public class Strategy implements T1Entity, Cloneable {
 
 	public void setExcludePixels(Integer pixelId) {
 		this.excludePixels.add(pixelId);
+	}
+
+	public String getIncludePixelOperator() {
+		return include_pixel_operator;
+	}
+
+	public void setIncludePixelOperator(String include_pixel_operator) {
+		this.include_pixel_operator = include_pixel_operator;
 	}
 
 	public List<StrategyAudienceSegment> getStrategyAudienceSegments() {
