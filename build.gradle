@@ -42,6 +42,7 @@ dependencies {
     compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2')
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2')
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.common:1.0.2')
+    compile ('org.javers:javers-core:5.5.1')
     clover 'org.openclover:clover:4.2.0'
 }
 
