@@ -24,6 +24,7 @@ import java.util.*;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.Id;
 
 public class Campaign implements T1Entity {
 
@@ -153,7 +154,8 @@ public class Campaign implements T1Entity {
 	private Pixel merit_pixel;
 	private ArrayList<SiteList> site_lists = new ArrayList<SiteList>();
 	private ArrayList<BudgetFlight> budget_flights = new ArrayList<>();
-	
+	private Set<Strategy> strategies = new HashSet<>();
+
 	private ArrayList<CampaignCustomBrainSelection> campaign_custom_brain_selection = new ArrayList<>();
 
 	public void setMargins(Date date, Double doubleval) {
@@ -222,6 +224,14 @@ public class Campaign implements T1Entity {
 
 	public void setConversionVariableMinutes(int conversion_variable_minutes) {
 		this.conversion_variable_minutes = conversion_variable_minutes;
+	}
+
+	public Set<Strategy> getStrategies() {
+		return strategies;
+	}
+
+	public void setStrategies(Set<Strategy> strategies) {
+		this.strategies = strategies;
 	}
 
 	public Date getCreatedOn() {
@@ -320,6 +330,7 @@ public class Campaign implements T1Entity {
 		this.has_custom_attribution = has_custom_attribution;
 	}
 
+	@Id
 	public int getId() {
 		return id;
 	}

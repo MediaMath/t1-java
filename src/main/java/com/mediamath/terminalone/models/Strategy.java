@@ -16,6 +16,8 @@
 
 package com.mediamath.terminalone.models;
 
+import com.mediamath.terminalone.StrategyDeviceOs;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -210,6 +212,7 @@ public class Strategy implements T1Entity, Cloneable {
 	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
 	private List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
 	private List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
+	List<StrategyDeviceOs> strategyDeviceOs = new ArrayList<>();
 
 	private List<Deal> deals = new ArrayList<>();
 	private List<Integer> dealIds = new ArrayList<>();
@@ -278,6 +281,14 @@ public class Strategy implements T1Entity, Cloneable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<StrategyDeviceOs> getStrategyDeviceOs() {
+		return strategyDeviceOs;
+	}
+
+	public void setStrategyDeviceOs(List<StrategyDeviceOs> strategyDeviceOs) {
+		this.strategyDeviceOs = strategyDeviceOs;
 	}
 
 	public String getFeatureCompatibility() {
