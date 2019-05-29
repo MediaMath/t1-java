@@ -1,13 +1,12 @@
 package com.mediamath.terminalone.models;
 
-import java.util.Date;
-
 public class DeviceModel {
     private int id;
     private int parent_id;
     private int bidder_frequency;
     private String path;
     private String name;
+    private int child_count_visible;
 
     public int getId() {
         return id;
@@ -49,4 +48,11 @@ public class DeviceModel {
         this.name = name;
     }
 
+    public int getChildCountVisible() {
+        return child_count_visible;
+    }
+
+    public void setChildCountVisible(int child_count_visible) {
+        this.child_count_visible = child_count_visible;
+    }
 }
