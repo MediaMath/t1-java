@@ -37,7 +37,9 @@ public class StrategyHelper {
 	private static final String DAY_PARTS = "day_parts.";
 	private static final String DIMENSIONS = "dimensions.";
 	private static final String SEGMENTS = "segments.";
+	private static final String CONCEPTS = "concepts.";
 	private static final String RESTRICTION = ".restriction";
+	private static final String WEIGHTING = ".weighting";
 
 	private StrategyHelper() {
 		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
@@ -89,6 +91,7 @@ public class StrategyHelper {
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
 				&& entity.getAudienceSegments().isEmpty() && entity.getStrategyTargetingSegments().isEmpty()
 				&& entity.getSiteLists().isEmpty() && entity.getDealIds().isEmpty()
+				&& entity.getStrategyConcepts() == null
 				&& entity.getStrategyDayParts().isEmpty() && !entity.isCopyStrategy()
 				&& (entity.getFromCampaignId() <= 0 && entity.getToCampaignId() <= 0)) {
 
@@ -318,6 +321,18 @@ public class StrategyHelper {
 				if (sd != null) {
 					strategyForm.param(SEGMENTS + inc + ".id", String.valueOf(sd.getId()));
 					strategyForm.param(SEGMENTS + inc + RESTRICTION, sd.getRestriction().name());
+					inc++;
+				}
+			}
+		}
+
+		// strategy concepts assignment
+		if (entity.getStrategyConcepts() != null) {
+			int inc = 1;
+			for (StrategyConcept strategyConcept : entity.getStrategyConcepts()) {
+				if (strategyConcept != null) {
+					strategyForm.param(CONCEPTS + inc + ".id", String.valueOf(strategyConcept.getConceptId()));
+					strategyForm.param(CONCEPTS + inc + WEIGHTING, strategyConcept.getWeighting());
 					inc++;
 				}
 			}

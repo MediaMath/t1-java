@@ -206,7 +206,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
 	private List<Concept> concepts = new ArrayList<Concept>();
-	private List<StrategyConcept> strategy_concepts = new ArrayList<StrategyConcept>();
+	//null is used to specify that no concepts are updated while empty list means all concepts should be deleted
+	private List<StrategyConcept> strategy_concepts = null;
 	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();

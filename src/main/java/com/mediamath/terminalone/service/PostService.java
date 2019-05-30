@@ -385,6 +385,10 @@ public class PostService {
                 uri.append("/day_parts");
             }
 
+            if (entity.getStrategyConcepts() != null) {
+                uri.append("/concepts");
+            }
+
             if (!entity.getDealIds().isEmpty()) {
                 uri.append("/deals");
             }
