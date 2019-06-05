@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.ws.rs.core.Form;
@@ -325,7 +326,7 @@ public class PostService {
                 if (dataList.get(0) instanceof SiteList) {
                     localStrategy = entity;
                     localStrategy.getSiteLists().clear();
-                    localStrategy.setSiteLists(dataList);
+                    localStrategy.setSiteLists(new HashSet<>(dataList));
                 }
                 if (dataList.get(0) instanceof StrategyDayPart) {
                     localStrategy = entity;
@@ -335,7 +336,7 @@ public class PostService {
                 if (dataList.get(0) instanceof StrategyTarget) {
                     localStrategy = entity;
                     localStrategy.getStrategyTarget().clear();
-                    localStrategy.setStrategyTarget(dataList);
+                    localStrategy.setStrategyTarget(new HashSet<>(dataList));
                 }
             }
 

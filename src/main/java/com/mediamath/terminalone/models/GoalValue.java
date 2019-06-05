@@ -1,16 +1,17 @@
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class GoalValue {
-    private Double percentageValue;
+    private BigDecimal percentageValue;
     private ArrayList<T1Cost> absoluteValue;
 
-    public Double getPercentageValue() {
+    public BigDecimal getPercentageValue() {
         return percentageValue;
     }
 
-    public void setPercentageValue(Double percentageValue) {
+    public void setPercentageValue(BigDecimal percentageValue) {
         this.percentageValue = percentageValue;
     }
 

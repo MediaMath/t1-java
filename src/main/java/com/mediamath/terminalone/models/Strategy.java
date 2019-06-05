@@ -16,12 +16,14 @@
 
 package com.mediamath.terminalone.models;
 
+import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.StrategyDeviceOs;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
+import org.javers.core.metamodel.annotation.ShallowReference;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.ws.rs.core.Form;
 
@@ -59,7 +61,10 @@ public class Strategy implements T1Entity, Cloneable {
 	} // should be not-applicable
 
 	public enum freqType {
-		even("even"), asap("asap"), no_limit("no-limit");
+		even("even"),
+		asap("asap"),
+		@SerializedName("no-limit")
+		no_limit("no-limit");
 
 		String value;
 
@@ -202,23 +207,25 @@ public class Strategy implements T1Entity, Cloneable {
 	private StrategyTargetValues strategyTargetValues;
 
 	private List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
+	@ShallowReference
 	private List<Segments> audience_segments = new ArrayList<Segments>();
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
 	private List<Concept> concepts = new ArrayList<Concept>();
 	//null is used to specify that no concepts are updated while empty list means all concepts should be deleted
-	private List<StrategyConcept> strategy_concepts = null;
+	private Set<StrategyConcept> strategy_concepts = null;
 	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
 	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
-	private List<StrategyTarget> strategyTarget = new ArrayList<StrategyTarget>();
+	private Set<StrategyTarget> strategyTarget = new HashSet<>();
 	private List<BulkStrategy> bulkStrategy = new ArrayList<BulkStrategy>();
-	List<StrategyDeviceOs> strategyDeviceOs = new ArrayList<>();
+	private Set<StrategyDeviceOs> strategyDeviceOs = new HashSet<>();
 
 	private List<Deal> deals = new ArrayList<>();
 	private List<Integer> dealIds = new ArrayList<>();
 
-	private List<SiteList> site_lists = new ArrayList<SiteList>();
+	@ShallowReference
+	private Set<SiteList> site_lists = new HashSet<>();
 
 	public audSegExc getAudienceSegmentExcludeOp() {
 		return audience_segment_exclude_op;
@@ -260,6 +267,7 @@ public class Strategy implements T1Entity, Cloneable {
 		this.campaign_id = campaign_id;
 	}
 
+	@DiffIgnore
 	public String getCreatedOn() {
 		return created_on;
 	}
@@ -284,14 +292,15 @@ public class Strategy implements T1Entity, Cloneable {
 		this.description = description;
 	}
 
-	public List<StrategyDeviceOs> getStrategyDeviceOs() {
+	public Set<StrategyDeviceOs> getStrategyDeviceOs() {
 		return strategyDeviceOs;
 	}
 
-	public void setStrategyDeviceOs(List<StrategyDeviceOs> strategyDeviceOs) {
+	public void setStrategyDeviceOs(Set<StrategyDeviceOs> strategyDeviceOs) {
 		this.strategyDeviceOs = strategyDeviceOs;
 	}
 
+	@DiffIgnore
 	public String getFeatureCompatibility() {
 		return feature_compatibility;
 	}
@@ -332,6 +341,7 @@ public class Strategy implements T1Entity, Cloneable {
 		this.goal_type = goal_type;
 	}
 
+	@Id
 	public int getId() {
 		return id;
 	}
@@ -500,6 +510,8 @@ public class Strategy implements T1Entity, Cloneable {
 		this.targeting_segment_exclude_op = targeting_segment_exclude_op;
 	}
 
+	//MediaMath has a bug that it returns OR all the time while contextual segments are should always have AND
+	@DiffIgnore
 	public tgtSegInc getTargetingSegmentIncludeOp() {
 		return targeting_segment_include_op;
 	}
@@ -516,6 +528,7 @@ public class Strategy implements T1Entity, Cloneable {
 		this.type = type;
 	}
 
+	@DiffIgnore
 	public String getUpdatedOn() {
 		return updated_on;
 	}
@@ -556,6 +569,7 @@ public class Strategy implements T1Entity, Cloneable {
 		this.use_optimization = use_optimization;
 	}
 
+	@DiffIgnore
 	public int getVersion() {
 		return version;
 	}
@@ -585,6 +599,7 @@ public class Strategy implements T1Entity, Cloneable {
 		this.strategy_domain_restrictions = strategy_domain_restrictions;
 	}
 
+	@ShallowReference
 	public List<Segments> getAudienceSegments() {
 		return audience_segments;
 	}
@@ -622,6 +637,8 @@ public class Strategy implements T1Entity, Cloneable {
 		this.campaign = campaign;
 	}
 
+	//we compare StrategyConcepts instead of Concepts
+	@DiffIgnore
 	public List<Concept> getConcepts() {
 		return concepts;
 	}
@@ -630,11 +647,11 @@ public class Strategy implements T1Entity, Cloneable {
 		this.concepts = concepts;
 	}
 
-	public List<StrategyConcept> getStrategyConcepts() {
+	public Set<StrategyConcept> getStrategyConcepts() {
 		return strategy_concepts;
 	}
 
-	public void setStrategyConcepts(List<StrategyConcept> strategyConcepts) {
+	public void setStrategyConcepts(Set<StrategyConcept> strategyConcepts) {
 		this.strategy_concepts = strategyConcepts;
 	}
 
@@ -685,11 +702,13 @@ public class Strategy implements T1Entity, Cloneable {
 		this.budget.add(currency);
 	}
 
+	@DiffIgnore
 	public GoalValue getEffectiveGoalValue() {
 		return this.effective_goal_value;
 	}
 
-	public Double getEffectiveGoalDoubleValue() {
+	@DiffIgnore
+	public BigDecimal getEffectiveGoalBigDecimalValue() {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi) {
@@ -709,12 +728,12 @@ public class Strategy implements T1Entity, Cloneable {
 		}
 	}
 
-	public void setEffectiveGoalValue(double value, String currency_code) {
+	public void setEffectiveGoalValue(BigDecimal value, String currency_code) {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi ) {
 			GoalValue goalValue = new GoalValue();
-			if (value > 0) {
+			if (value.compareTo(BigDecimal.ZERO) > 0) {
 				T1Cost cost = new T1Cost();
 				cost.setValue(value);
 
@@ -732,7 +751,7 @@ public class Strategy implements T1Entity, Cloneable {
 		}
 	}
 
-	public void setEffectiveGoalValue(double value) {
+	public void setEffectiveGoalValue(BigDecimal value) {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi) {
@@ -750,7 +769,7 @@ public class Strategy implements T1Entity, Cloneable {
 		return this.goal_value;
 	}
 
-	public Double getGoalDoubleValue() {
+	public BigDecimal getGoalBigDecimalValue() {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi) {
@@ -770,12 +789,12 @@ public class Strategy implements T1Entity, Cloneable {
 		}
 	}
 
-	public void setGoalValue(double value, String currency_code) {
+	public void setGoalValue(BigDecimal value, String currency_code) {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi ) {
 			GoalValue goalValue = new GoalValue();
-			if (value > 0) {
+			if (value.compareTo(BigDecimal.ZERO) > 0) {
 				T1Cost cost = new T1Cost();
 				cost.setValue(value);
 
@@ -793,7 +812,7 @@ public class Strategy implements T1Entity, Cloneable {
 		}
 	}
 
-	public void setGoalValue(double value) {
+	public void setGoalValue(BigDecimal value) {
 		if (getGoalType() == goalType.spend || getGoalType() == goalType.reach
 				|| getGoalType() == goalType.cpa || getGoalType() == goalType.cpc
 				|| getGoalType() == goalType.roi) {
@@ -939,14 +958,17 @@ public class Strategy implements T1Entity, Cloneable {
 		this.bulkStrategy = bulkStrategy;
 	}
 
-	public List<SiteList> getSiteLists() {
+	@ShallowReference
+	public Set<SiteList> getSiteLists() {
 		return site_lists;
 	}
 
-	public void setSiteLists(List<SiteList> siteLists) {
+	public void setSiteLists(Set<SiteList> siteLists) {
 		this.site_lists = siteLists;
 	}
 
+	//Ignoring the diff because this is helper field which is not sent to MediaMath
+	@DiffIgnore
 	public ArrayList<Integer> getIncludePixels() {
 		return includePixels;
 	}
@@ -959,6 +981,8 @@ public class Strategy implements T1Entity, Cloneable {
 		this.includePixels.add(pixelId);
 	}
 
+	//Ignoring the diff because this is helper field which is not sent to MediaMath
+	@DiffIgnore
 	public ArrayList<Integer> getExcludePixels() {
 		return excludePixels;
 	}
@@ -971,6 +995,8 @@ public class Strategy implements T1Entity, Cloneable {
 		this.excludePixels.add(pixelId);
 	}
 
+	//Ignoring the diff because this is helper field which is not sent to MediaMath
+	@DiffIgnore
 	public String getIncludePixelOperator() {
 		return include_pixel_operator;
 	}
@@ -1027,11 +1053,11 @@ public class Strategy implements T1Entity, Cloneable {
 		this.strategyDayParts = strategyDayParts;
 	}
 
-	public List<StrategyTarget> getStrategyTarget() {
+	public Set<StrategyTarget> getStrategyTarget() {
 		return strategyTarget;
 	}
 
-	public void setStrategyTarget(List<StrategyTarget> strategyTarget) {
+	public void setStrategyTarget(Set<StrategyTarget> strategyTarget) {
 		this.strategyTarget = strategyTarget;
 	}
 

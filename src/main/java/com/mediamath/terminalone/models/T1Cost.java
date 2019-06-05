@@ -16,10 +16,12 @@
 
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
+
 public class T1Cost {
 
 	private String currency_code;
-	private double value;
+	private BigDecimal value;
 
 	public String getCurrencyCode() {
 		return currency_code;
@@ -29,11 +31,11 @@ public class T1Cost {
 		this.currency_code = currency_code;
 	}
 
-	public double getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
 

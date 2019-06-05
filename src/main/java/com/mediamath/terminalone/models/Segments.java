@@ -16,6 +16,8 @@
 
 package com.mediamath.terminalone.models;
 
+import org.javers.core.metamodel.annotation.Id;
+
 public class Segments {
 
   public enum restrictions {
@@ -30,6 +32,7 @@ public class Segments {
     AND, OR
   }
 
+  @Id
   private int id;
   private restrictions restriction;
   private audSegExc exclude;
@@ -50,6 +53,11 @@ public class Segments {
     this.include = include;
   }
 
+  public Segments() {
+    
+  }
+
+  @Id
   public int getId() {
     return id;
   }

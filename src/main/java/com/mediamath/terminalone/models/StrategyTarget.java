@@ -1,7 +1,14 @@
 package com.mediamath.terminalone.models;
 
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
+import org.javers.core.metamodel.annotation.ShallowReference;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class StrategyTarget {
 
@@ -13,8 +20,10 @@ public class StrategyTarget {
 	private boolean active;
 	private String target_op;
 	private int target_dimension_id;
-	private List<TargetValue> target_values = new ArrayList<>();
+	@ShallowReference
+	private Set<TargetValue> target_values = new HashSet<>();
 
+	@DiffIgnore
 	public int getId() {
 		return id;
 	}
@@ -23,6 +32,7 @@ public class StrategyTarget {
 		this.id = id;
 	}
 
+	@DiffIgnore
 	public String getName() {
 		return name;
 	}
@@ -39,6 +49,7 @@ public class StrategyTarget {
 		this.exclude = exclude;
 	}
 
+	@DiffIgnore
 	public int getStrategyId() {
 		return strategy_id;
 	}
@@ -47,6 +58,7 @@ public class StrategyTarget {
 		this.strategy_id = strategy_id;
 	}
 
+	@DiffIgnore
 	public TargetDimension getTargetDimension() {
 		return target_dimension;
 	}
@@ -55,6 +67,7 @@ public class StrategyTarget {
 		this.target_dimension = target_dimension;
 	}
 
+	@DiffIgnore
 	public boolean isActive() {
 		return active;
 	}
@@ -71,6 +84,7 @@ public class StrategyTarget {
 		this.target_op = target_op;
 	}
 
+	@DiffIgnore
 	public int getTargetDimensionId() {
 		return target_dimension_id;
 	}
@@ -79,12 +93,19 @@ public class StrategyTarget {
 		this.target_dimension_id = target_dimension_id;
 	}
 
-	public List<TargetValue> getTargetValues() {
+	@ShallowReference
+	public Set<TargetValue> getTargetValues() {
 		return target_values;
 	}
 
-	public void setTargetValues(List<TargetValue> target_values) {
+	public void setTargetValues(Set<TargetValue> target_values) {
 		this.target_values = target_values;
+	}
+
+	@Id
+	public String getDifferId() {
+		String ids = getTargetValues().stream().map(x -> String.valueOf(x.getId())).sorted().collect(Collectors.joining( "," ) );
+		return String.join("", String.valueOf(isExclude()), getTargetOp(), ids);
 	}
 
 }

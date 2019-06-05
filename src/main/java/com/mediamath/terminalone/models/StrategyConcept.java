@@ -21,6 +21,8 @@ import java.util.Date;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 public class StrategyConcept implements T1Entity {
 
@@ -47,6 +49,12 @@ public class StrategyConcept implements T1Entity {
 		this.concept_id = concept_id;
 	}
 
+	@Id
+	public String getDifferId() {
+		return String.valueOf(getConceptId()) + String.valueOf(getStrategyId());
+	}
+
+	@DiffIgnore
 	public Date getCreatedOn() {
 		return created_on;
 	}
@@ -55,6 +63,7 @@ public class StrategyConcept implements T1Entity {
 		this.created_on = created_on;
 	}
 
+	@DiffIgnore
 	public int getId() {
 		return id;
 	}
@@ -63,6 +72,7 @@ public class StrategyConcept implements T1Entity {
 		this.id = id;
 	}
 
+	@DiffIgnore
 	public boolean isStatus() {
 		return status;
 	}
@@ -79,6 +89,7 @@ public class StrategyConcept implements T1Entity {
 		this.strategy_id = strategy_id;
 	}
 
+	@DiffIgnore
 	public Date getUpdatedOn() {
 		return updated_on;
 	}
@@ -87,6 +98,7 @@ public class StrategyConcept implements T1Entity {
 		this.updated_on = updated_on;
 	}
 
+	@DiffIgnore
 	public int getVersion() {
 		return version;
 	}
@@ -95,6 +107,7 @@ public class StrategyConcept implements T1Entity {
 		this.version = version;
 	}
 
+	@DiffIgnore
 	public Concept getConcept() {
 		return concept;
 	}
@@ -103,6 +116,7 @@ public class StrategyConcept implements T1Entity {
 		this.concept = concept;
 	}
 
+	@DiffIgnore
 	public Strategy getStrategy() {
 		return strategy;
 	}
@@ -124,6 +138,7 @@ public class StrategyConcept implements T1Entity {
 		this.weighting = weighting;
 	}
 
+	@DiffIgnore
 	public String getName() {
 		return name;
 	}
@@ -158,6 +173,7 @@ public class StrategyConcept implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
 	public String getUri() {
 		StringBuilder uri = new StringBuilder();
 

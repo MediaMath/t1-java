@@ -24,14 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TimeZone;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -279,11 +272,11 @@ public class PostFunctionalTestIT {
 		camp.setAdServerId(9);
 		camp.setAdvertiserId(182395);
 		camp.setName("CampaignTest One");
-		camp.setAdServerFee(10.01, null);
+		camp.setAdServerFee(new BigDecimal("10.01"), null);
 		camp.setConversionType("variable");
 		camp.setConversionVariableMinutes(1);
 		camp.setGoalType(Campaign.goalTypes.cpa);
-		camp.setGoalValue(100, null);
+		camp.setGoalValue(new BigDecimal(100), null);
 		camp.setServiceType(Campaign.servTypes.SELF);
 
 		Calendar endcal = Calendar.getInstance();
@@ -299,14 +292,14 @@ public class PostFunctionalTestIT {
 		camp.setStartDate(startd);
 
 		camp.setPcWindowMinutes(1);
-		camp.setSpendCapAmount(10, null);
+		camp.setSpendCapAmount(new BigDecimal(10), null);
 		camp.setSpendCapType(Campaign.freqTypes.asap);
 		camp.setImpressionCapType(Campaign.freqTypes.asap);
 		camp.setTotalImpressionBudget(100);
 		camp.setImpressionCapAutomatic(true);
 		camp.setUseMmFreq(false);
 		camp.setMeritPixelId(800781);
-		camp.setTotalBudget(200, "USD");
+		camp.setTotalBudget(new BigDecimal(200), "USD");
 
 		try {
 			camp = (Campaign) t1.save(camp);
@@ -349,11 +342,11 @@ public class PostFunctionalTestIT {
 		camp.setAdServerId(9);
 		camp.setAdvertiserId(122631);
 		camp.setName("CampaignTest One");
-		camp.setAdServerFee(10.01, null);
+		camp.setAdServerFee(new BigDecimal("10.01"), null);
 		camp.setConversionType("variable");
 		camp.setConversionVariableMinutes(1);
 		camp.setGoalType(Campaign.goalTypes.cpa);
-		camp.setGoalValue(100, null);
+		camp.setGoalValue(new BigDecimal(100), null);
 		camp.setServiceType(Campaign.servTypes.SELF);
 
 		Calendar endcal = Calendar.getInstance();
@@ -369,13 +362,13 @@ public class PostFunctionalTestIT {
 		camp.setStartDate(startd);
 
 		camp.setPcWindowMinutes(1);
-		camp.setSpendCapAmount(10, null);
+		camp.setSpendCapAmount(new BigDecimal(10), null);
 		camp.setSpendCapType(Campaign.freqTypes.even);
 		camp.setImpressionCapType(Campaign.freqTypes.even);
 		camp.setImpressionCapAmount(10);
 		camp.setUseMmFreq(false);
 		camp.setMeritPixelId(800781);
-		camp.setTotalBudget(200, "USD");
+		camp.setTotalBudget(new BigDecimal(200), "USD");
 
 		try {
 			camp = (Campaign) t1.save(camp);
@@ -416,11 +409,11 @@ public class PostFunctionalTestIT {
 		camp.setAdServerId(9);
 		camp.setAdvertiserId(122631);
 		camp.setName("CampaignTest One");
-		camp.setAdServerFee(10.01, null);
+		camp.setAdServerFee(new BigDecimal("10.01"), null);
 		camp.setConversionType("variable");
 		camp.setConversionVariableMinutes(1);
 		camp.setGoalType(Campaign.goalTypes.cpa);
-		camp.setGoalValue(100, null);
+		camp.setGoalValue(new BigDecimal(100), null);
 		camp.setServiceType(Campaign.servTypes.SELF);
 
 		Calendar endcal = Calendar.getInstance();
@@ -438,7 +431,7 @@ public class PostFunctionalTestIT {
 		camp.setImpressionCapAmount(10);
 		camp.setUseMmFreq(false);
 		camp.setMeritPixelId(800781);
-		camp.setTotalBudget(200, "USD");
+		camp.setTotalBudget(new BigDecimal(200), "USD");
 		// camp.setSpendCapAutomatic(false);
 
 		try {
@@ -482,11 +475,11 @@ public class PostFunctionalTestIT {
 		camp.setAdServerId(9);
 		camp.setAdvertiserId(182395);
 		camp.setName("CampaignTest One");
-		camp.setAdServerFee(10.01, null);
+		camp.setAdServerFee(new BigDecimal("10.01"), null);
 		camp.setConversionType("variable");
 		camp.setConversionVariableMinutes(1);
 		camp.setGoalType(Campaign.goalTypes.cpc);
-		camp.setGoalValue(100, null);
+		camp.setGoalValue(new BigDecimal(100), null);
 		camp.setServiceType(Campaign.servTypes.SELF);
 
 		Calendar endcal = Calendar.getInstance();
@@ -504,7 +497,7 @@ public class PostFunctionalTestIT {
 		camp.setPcWindowMinutes(1);
 		camp.setUseMmFreq(false);
 		/* camp.setMeritPixelId(800781); */
-		camp.setTotalBudget(200, "USD");
+		camp.setTotalBudget(new BigDecimal(200), "USD");
 		camp.setZoneName("Europe/Paris");
 
 		try {
@@ -680,7 +673,7 @@ public class PostFunctionalTestIT {
 		str.setFrequencyAmount(10);
 		str.setFrequencyInterval(freqInt.day);
 		str.setGoalType(goalType.spend);
-		str.setGoalValue(12.12f);
+		str.setGoalValue(new BigDecimal("12.12"));
 		str.setMaxBid(new BigDecimal(10f));
 		str.setPacingAmount(new BigDecimal(10f));
 		str.setType(type.REM);
@@ -1325,7 +1318,7 @@ public class PostFunctionalTestIT {
 		Strategy cmp = new Strategy();
 		cmp.setId(2035005);
 
-		ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+		Set<SiteList> siteList = new HashSet<SiteList>();
 		siteList.add(new SiteList(99058, true));
 		siteList.add(new SiteList(99059, false));
 
@@ -1644,9 +1637,9 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 
-		List<StrategyTarget> sdp = str.getStrategyTarget();
+		Set<StrategyTarget> sdp = str.getStrategyTarget();
 		assertFalse(sdp.isEmpty());
-		assertTrue(sdp.get(0).getId() > 0);
+		assertTrue(sdp.iterator().next().getId() > 0);
 	}
 
 	@Test
@@ -1678,9 +1671,9 @@ public class PostFunctionalTestIT {
 			e.printStackTrace();
 		}
 
-		List<StrategyTarget> sdp = str.getStrategyTarget();
+		Set<StrategyTarget> sdp = str.getStrategyTarget();
 		assertFalse(sdp.isEmpty());
-		assertTrue(sdp.get(0).getId() > 0);
+		assertTrue(sdp.iterator().next().getId() > 0);
 	}
 
 	@Test
@@ -1797,12 +1790,12 @@ public class PostFunctionalTestIT {
 
 		bf1.setStartDate(startd);
 		bf1.setEndDate(endd);
-		bf1.setTotalBudget(10000, "USD");
+		bf1.setTotalBudget(new BigDecimal(10000), "USD");
 		bf1.setTotalImpressionBudget(120000);
 
 		bf2.setStartDate(startd1);
 		bf2.setEndDate(endd1);
-		bf2.setTotalBudget(15000, "USD");
+		bf2.setTotalBudget(new BigDecimal(15000), "USD");
 		bf2.setTotalImpressionBudget(180000);
 
 		cmp.getBudgetFlights().add(bf1);
@@ -2551,9 +2544,9 @@ public class PostFunctionalTestIT {
 		strategy.setTargetValues(tsList);
 		strategy = jt1.save(strategy);
 		
-		List<StrategyTarget> sdp = strategy.getStrategyTarget();
+		Set<StrategyTarget> sdp = strategy.getStrategyTarget();
 		assertFalse(sdp.isEmpty());
-		assertTrue(sdp.get(0).getId() > 0);
+		assertTrue(sdp.iterator().next().getId() > 0);
 	}
 
 }

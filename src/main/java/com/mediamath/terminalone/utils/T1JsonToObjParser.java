@@ -274,12 +274,12 @@ public class T1JsonToObjParser {
               JsonElement goalValueJson = paramJsonElement.getAsJsonObject().get("goal_value");
               if (goalValueJson != null) {
                   if (campaign.getGoalType() == Campaign.goalTypes.ctr || campaign.getGoalType() == Campaign.goalTypes.vcr) {
-                      campaign.setGoalValue(goalValueJson.getAsDouble());
+                      campaign.setGoalValue(goalValueJson.getAsBigDecimal());
                   } else {
                       JsonArray array = goalValueJson.getAsJsonArray();
                       if (!array.isJsonNull()) {
                           JsonObject obj = array.get(0).getAsJsonObject();
-                          campaign.setGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString());
+                          campaign.setGoalValue(obj.get("value").getAsBigDecimal(), obj.get("currency_code").getAsString());
                       }
                   }
               }
@@ -342,18 +342,18 @@ public class T1JsonToObjParser {
 
         try {
             if (strategy.getGoalType() == Strategy.goalType.ctr || strategy.getGoalType() == Strategy.goalType.vcr) {
-                strategy.setGoalValue(paramJsonElement.getAsJsonObject().get("goal_value").getAsDouble());
-                strategy.setEffectiveGoalValue(paramJsonElement.getAsJsonObject().get("effective_goal_value").getAsDouble());
+                strategy.setGoalValue(paramJsonElement.getAsJsonObject().get("goal_value").getAsBigDecimal());
+                strategy.setEffectiveGoalValue(paramJsonElement.getAsJsonObject().get("effective_goal_value").getAsBigDecimal());
             } else {
                 JsonArray array = paramJsonElement.getAsJsonObject().get("goal_value").getAsJsonArray();
                 if(!array.isJsonNull()) {
                   JsonObject obj = array.get(0).getAsJsonObject();
-                  strategy.setGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString());
+                  strategy.setGoalValue(obj.get("value").getAsBigDecimal(), obj.get("currency_code").getAsString());
                 }
                 array = paramJsonElement.getAsJsonObject().get("effective_goal_value").getAsJsonArray();
                 if(!array.isJsonNull()) {
                     JsonObject obj = array.get(0).getAsJsonObject();
-                    strategy.setEffectiveGoalValue(obj.get("value").getAsDouble(), obj.get("currency_code").getAsString() );
+                    strategy.setEffectiveGoalValue(obj.get("value").getAsBigDecimal(), obj.get("currency_code").getAsString() );
                 }
             }
         } catch (IllegalArgumentException ie) {

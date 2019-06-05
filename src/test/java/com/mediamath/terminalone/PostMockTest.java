@@ -291,13 +291,13 @@ public class PostMockTest {
 
         Campaign camp = new Campaign();
         camp.setName("CampaignTest One 271778");
-        camp.setAdServerFee(10.01, null);
+        camp.setAdServerFee(new BigDecimal("10.01"), null);
         camp.setAdServerId(9);
         camp.setAdvertiserId(122631);
         camp.setConversionType("variable");
         camp.setConversionVariableMinutes(1);
         camp.setGoalType(Campaign.goalTypes.cpa);
-        camp.setGoalValue(100, null);
+        camp.setGoalValue(new BigDecimal(100), null);
         camp.setServiceType(Campaign.servTypes.SELF);
 
         Calendar cal = Calendar.getInstance();
@@ -311,8 +311,8 @@ public class PostMockTest {
         camp.setStartDate(new Date());
 
         camp.setPcWindowMinutes(1);
-        camp.setSpendCapAmount(10, null);
-        camp.setTotalBudget(100, null);
+        camp.setSpendCapAmount(new BigDecimal(10), null);
+        camp.setTotalBudget(new BigDecimal(100), null);
         camp.setUseMmFreq(false);
         camp.setMeritPixelId(800781);
 
@@ -420,7 +420,7 @@ public class PostMockTest {
         str.setFrequencyAmount(10);
         str.setFrequencyInterval(freqInt.day);
         str.setGoalType(goalType.spend);
-        str.setGoalValue(12.12f);
+        str.setGoalValue(new BigDecimal("12.12"));
         str.setMaxBid(new BigDecimal(10f));
         str.setPacingAmount(new BigDecimal(10f));
         str.setPacingType(pacType.even);
@@ -430,7 +430,7 @@ public class PostMockTest {
         str.setBidAggresiveness(50);
         str.setBidPriceIsMediaOnly(false);
         str.setDescription("Test Strategy");
-        str.setEffectiveGoalValue(12.12f);
+        str.setEffectiveGoalValue(new BigDecimal("12.12"));
         str.setMediaType(Strategy.mediaType.DISPLAY);
         str.setImpressionPacingInterval(freqInt.day);
         str.setRunOnAllExchanges(false);
@@ -861,7 +861,7 @@ public class PostMockTest {
         Strategy cmp = new Strategy();
         cmp.setId(2035005);
 
-        ArrayList<SiteList> siteList = new ArrayList<SiteList>();
+        Set<SiteList> siteList = new HashSet<SiteList>();
         siteList.add(new SiteList(99058, true));
         siteList.add(new SiteList(99059, false));
 
@@ -1107,9 +1107,9 @@ public class PostMockTest {
             e.printStackTrace();
         }
 
-        List<StrategyTarget> sdp = str.getStrategyTarget();
+        Set<StrategyTarget> sdp = str.getStrategyTarget();
         assertTrue(!sdp.isEmpty());
-        assertTrue(sdp.get(0).getId() > 0);
+        assertTrue(sdp.iterator().next().getId() > 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -1295,7 +1295,7 @@ public class PostMockTest {
 
         bf1.setStartDate(startd1);
         bf1.setEndDate(endd1);
-        bf1.setTotalBudget(10000, "USD");
+        bf1.setTotalBudget(new BigDecimal(10000), "USD");
         bf1.setTotalImpressionBudget(120000);
         cmp.getBudgetFlights().add(bf1);
 
@@ -1345,7 +1345,7 @@ public class PostMockTest {
         bf1.setId(458041);
         bf1.setStartDate(startd1);
         bf1.setEndDate(endd1);
-        bf1.setTotalBudget(3000, "USD");
+        bf1.setTotalBudget(new BigDecimal(3000), "USD");
         bf1.setTotalImpressionBudget(120000);
         bf1.setIsRelevant(true);
         bf1.setVersion(2);
@@ -1441,12 +1441,12 @@ public class PostMockTest {
 
         bf1.setStartDate(startd);
         bf1.setEndDate(endd);
-        bf1.setTotalBudget(10000, "USD");
+        bf1.setTotalBudget(new BigDecimal(10000), "USD");
         bf1.setTotalImpressionBudget(120000);
 
         bf2.setStartDate(startd1);
         bf2.setEndDate(endd1);
-        bf2.setTotalBudget(15000, "USD");
+        bf2.setTotalBudget(new BigDecimal(15000), "USD");
         bf2.setTotalImpressionBudget(180000);
 
         cmp.getBudgetFlights().add(bf1);

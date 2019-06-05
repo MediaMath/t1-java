@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,6 +60,7 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.restriction = restriction;
 	}
 
+	@DiffIgnore
 	public Date getCreatedOn() {
 		return created_on;
 	}
@@ -65,6 +69,7 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.created_on = created_on;
 	}
 
+	@DiffIgnore
 	public String getGroupIdentifier() {
 		return group_identifier;
 	}
@@ -73,12 +78,19 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.group_identifier = group_identifier;
 	}
 
+	@DiffIgnore
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	//Strategy Targeting Segment Id cannot be annotated with @Id because it is not unique inside a campaign
+	@Id
+	public String getDifferId() {
+		return String.valueOf(getTargetingSegmentId()) + String.valueOf(getStrategyId());
 	}
 
 	public String getOperator() {
@@ -121,6 +133,7 @@ public class StrategyTargetingSegment implements T1Entity {
 		this.type = type;
 	}
 
+	@DiffIgnore
 	public Date getUpdatedOn() {
 		return updated_on;
 	}
@@ -174,6 +187,7 @@ public class StrategyTargetingSegment implements T1Entity {
 		return null;
 	}
 
+	@DiffIgnore
 	public String getName() {
 		return name;
 	}
