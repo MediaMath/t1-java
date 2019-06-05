@@ -16,6 +16,7 @@
 
 package com.mediamath.terminalone.models.helper;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
@@ -145,8 +146,8 @@ public class StrategyHelper {
 				strategyForm.param("description", entity.getDescription());
 			}
 
-			if (entity.getGoalType() != null && entity.getEffectiveGoalDoubleValue() != null && entity.getEffectiveGoalDoubleValue() > 0) {
-				strategyForm.param("effective_goal_value", String.valueOf(entity.getEffectiveGoalDoubleValue()));
+			if (entity.getGoalType() != null && entity.getEffectiveGoalBigDecimalValue() != null && entity.getEffectiveGoalBigDecimalValue().compareTo(BigDecimal.ZERO) > 0) {
+				strategyForm.param("effective_goal_value", String.valueOf(entity.getEffectiveGoalBigDecimalValue()));
 			}
 
 			if (entity.getFrequencyType() != null) {
@@ -165,8 +166,8 @@ public class StrategyHelper {
 				strategyForm.param("goal_type", String.valueOf(entity.getGoalType().getValue()));
 			}
 
-			if (entity.getGoalType() != null && entity.getGoalDoubleValue() != null && entity.getGoalDoubleValue() > 0) {
-				strategyForm.param("goal_value", String.valueOf(entity.getGoalDoubleValue()));
+			if (entity.getGoalType() != null && entity.getGoalBigDecimalValue() != null && entity.getGoalBigDecimalValue().compareTo(BigDecimal.ZERO) > 0) {
+				strategyForm.param("goal_value", String.valueOf(entity.getGoalBigDecimalValue()));
 			}
 
 			if (entity.getMaxBid() != null && !entity.getMaxBid().isEmpty()

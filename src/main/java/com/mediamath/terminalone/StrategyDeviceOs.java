@@ -17,6 +17,8 @@
 package com.mediamath.terminalone;
 
 import com.mediamath.terminalone.models.T1Entity;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 import javax.ws.rs.core.Form;
 import java.util.Date;
@@ -46,6 +48,7 @@ public class StrategyDeviceOs implements T1Entity {
 
   public StrategyDeviceOs(){}
 
+  @DiffIgnore
   public Date getCreatedAt() {
     return created_on;
   }
@@ -54,6 +57,7 @@ public class StrategyDeviceOs implements T1Entity {
     this.created_on = created_at;
   }
 
+  @DiffIgnore
   public int getId() {
     return id;
   }
@@ -61,6 +65,12 @@ public class StrategyDeviceOs implements T1Entity {
   public void setId(int id) {
     this.id = id;
   }
+
+  @Id
+  public String getDifferId() {
+    return String.valueOf(getTargetId()) + String.valueOf(getStrategyId());
+  }
+
 
   public restrictions getRestriction() {
     return restriction;
@@ -78,6 +88,7 @@ public class StrategyDeviceOs implements T1Entity {
     this.strategy_id = strategy_id;
   }
 
+  @DiffIgnore
   public Date getUpdatedOn() {
     return updated_on;
   }
@@ -86,6 +97,7 @@ public class StrategyDeviceOs implements T1Entity {
     this.updated_on = updated_on;
   }
 
+  @DiffIgnore
   public int getVersion() {
     return version;
   }
@@ -94,47 +106,42 @@ public class StrategyDeviceOs implements T1Entity {
     this.version = version;
   }
 
-    public Date getCreated_on() {
+  @DiffIgnore
+  public Date getCreated_on() {
         return created_on;
     }
 
-    public void setCreated_on(Date created_on) {
+
+  public void setCreated_on(Date created_on) {
         this.created_on = created_on;
     }
 
-    public int getTarget_id() {
+  public int getTargetId() {
         return target_id;
     }
 
-    public void setTarget_id(int target_id) {
+  public void setTargetId(int target_id) {
         this.target_id = target_id;
-    }
+  }
 
-    public StrategyDeviceOs.operator getOperator() {
+  public StrategyDeviceOs.operator getOperator() {
         return operator;
     }
 
-    public void setOperator(StrategyDeviceOs.operator operator) {
+  public void setOperator(StrategyDeviceOs.operator operator) {
         this.operator = operator;
     }
 
-    public int getStrategy_id() {
-        return strategy_id;
-    }
-
-    public void setStrategy_id(int strategy_id) {
-        this.strategy_id = strategy_id;
-    }
-
-    public Date getUpdated_on() {
+  @DiffIgnore
+  public Date getUpdated_on() {
         return updated_on;
     }
 
-    public void setUpdated_on(Date updated_on) {
+  public void setUpdated_on(Date updated_on) {
         this.updated_on = updated_on;
     }
 
-    @Override
+  @Override
   public String getEntityname() {
     return entityName;
   }
@@ -145,6 +152,7 @@ public class StrategyDeviceOs implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
   public String getUri() {
 	  return null;
   }

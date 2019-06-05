@@ -1,11 +1,14 @@
 package com.mediamath.terminalone.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.exceptions.ClientException;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 public class BudgetFlight implements T1Entity {
 
@@ -26,6 +29,7 @@ public class BudgetFlight implements T1Entity {
 	private int total_impression_budget;
 	private boolean isDeleted = false;
 
+	@Id
 	public int getId() {
 		return id;
 	}
@@ -34,6 +38,7 @@ public class BudgetFlight implements T1Entity {
 		this.id = id;
 	}
 
+	@DiffIgnore
 	public int getCampaignId() {
 		return campaign_id;
 	}
@@ -42,6 +47,7 @@ public class BudgetFlight implements T1Entity {
 		this.campaign_id = campaign_id;
 	}
 
+	@DiffIgnore
 	public String getCreatedOn() {
 		return created_on;
 	}
@@ -66,6 +72,7 @@ public class BudgetFlight implements T1Entity {
 		this.end_date = end_date;
 	}
 
+	@DiffIgnore
 	public boolean isIsRelevant() {
 		return is_relevant;
 	}
@@ -74,6 +81,7 @@ public class BudgetFlight implements T1Entity {
 		this.is_relevant = is_relevant;
 	}
 
+	@DiffIgnore
 	public String getName() {
 		return name;
 	}
@@ -82,6 +90,8 @@ public class BudgetFlight implements T1Entity {
 		this.name = name;
 	}
 
+	//as we change start date if it is in the past, we cannot differ it
+	@DiffIgnore
 	public Date getStartDate() {
 		return start_date;
 	}
@@ -94,6 +104,7 @@ public class BudgetFlight implements T1Entity {
 		return total_budget;
 	}
 
+	@DiffIgnore
 	public Date getUpdatedOn() {
 		return updated_on;
 	}
@@ -102,6 +113,7 @@ public class BudgetFlight implements T1Entity {
 		this.updated_on = updated_on;
 	}
 
+	@DiffIgnore
 	public int getVersion() {
 		return version;
 	}
@@ -110,6 +122,7 @@ public class BudgetFlight implements T1Entity {
 		this.version = version;
 	}
 
+	@DiffIgnore
 	public String getZoneName() {
 		return zone_name;
 	}
@@ -126,9 +139,9 @@ public class BudgetFlight implements T1Entity {
 		this.total_impression_budget = total_impression_budget;
 	}
 
-	public void setTotalBudget(double value, String currency_code) {
+	public void setTotalBudget(BigDecimal value, String currency_code) {
 		this.total_budget.clear();
-		if (value > 0) {
+		if (value.compareTo(BigDecimal.ZERO) > 0) {
 			T1Cost cost = new T1Cost();
 			cost.setValue(value);
 

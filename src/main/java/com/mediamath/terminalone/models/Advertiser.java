@@ -20,6 +20,7 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.utils.Utility;
 
 public class Advertiser implements T1Entity {
@@ -40,7 +41,12 @@ public class Advertiser implements T1Entity {
   }
 
   public enum freqInts {
-    hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
+    hour("hour"),
+    day("day"),
+    week("week"),
+    month("month"),
+    @SerializedName("not-applicable")
+    not_applicable("not-applicable");
     String val;
 
     freqInts(String s) {
@@ -52,7 +58,10 @@ public class Advertiser implements T1Entity {
   }
 
   public enum freqTypes {
-    even("even"), asap("asap"), no_limit("no-limit");
+    even("even"),
+    asap("asap"),
+    @SerializedName("no-limit")
+    no_limit("no-limit");
     String val;
 
     freqTypes(String s) {

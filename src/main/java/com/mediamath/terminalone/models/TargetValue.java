@@ -16,6 +16,8 @@
 
 package com.mediamath.terminalone.models;
 
+import org.javers.core.metamodel.annotation.Id;
+
 import javax.ws.rs.core.Form;
 
 public class TargetValue implements T1Entity {
@@ -24,6 +26,7 @@ public class TargetValue implements T1Entity {
 
   private String _type;
   private String code;
+  @Id
   private int id;
   private boolean is_targetable;
   private String name;
@@ -48,6 +51,7 @@ public class TargetValue implements T1Entity {
     this.code = code;
   }
 
+  @Id
   public int getId() {
     return id;
   }

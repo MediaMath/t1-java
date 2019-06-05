@@ -23,6 +23,7 @@ import java.util.List;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.Id;
 
 public class SiteList implements T1Entity {
 
@@ -34,6 +35,7 @@ public class SiteList implements T1Entity {
 
 	private Date created_on;
 	private String filename;
+	@Id
 	private int id;
 	private String name;
 	private int organization_id;
@@ -74,6 +76,7 @@ public class SiteList implements T1Entity {
 		this.filename = filename;
 	}
 
+	@Id
 	public int getId() {
 		return id;
 	}

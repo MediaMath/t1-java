@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -45,10 +48,17 @@ public class StrategyAudienceSegment implements T1Entity {
 		return audience_segment_id;
 	}
 
+	//Audience Segment Id cannot be annotated with @Id because it is not unique inside a campaign
+	@Id
+	public String getDifferId() {
+		return String.valueOf(getAudienceSegmentId()) + String.valueOf(getStrategyId());
+	}
+
 	public void setAudienceSegmentId(int audience_segment_id) {
 		this.audience_segment_id = audience_segment_id;
 	}
 
+	@DiffIgnore
 	public Date getCreatedOn() {
 		return created_on;
 	}
@@ -57,6 +67,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.created_on = created_on;
 	}
 
+	@DiffIgnore
 	public String getGroupIdentifier() {
 		return group_identifier;
 	}
@@ -65,6 +76,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.group_identifier = group_identifier;
 	}
 
+	@DiffIgnore
 	public int getId() {
 		return id;
 	}
@@ -73,6 +85,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.id = id;
 	}
 
+	@DiffIgnore
 	public String getOperator() {
 		return operator;
 	}
@@ -97,6 +110,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.strategy_id = strategy_id;
 	}
 
+	@DiffIgnore
 	public String getType() {
 		return type;
 	}
@@ -105,6 +119,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.type = type;
 	}
 
+	@DiffIgnore
 	public Date getUpdatedOn() {
 		return updated_on;
 	}
@@ -113,6 +128,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.updated_on = updated_on;
 	}
 
+	@DiffIgnore
 	public Currency getUserCpm() {
 		return user_cpm;
 	}
@@ -127,6 +143,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.user_cpm = curr;
 	}
 
+	@DiffIgnore
 	public int getVersion() {
 		return version;
 	}
@@ -135,6 +152,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.version = version;
 	}
 
+	@DiffIgnore
 	public Strategy getStrategy() {
 		return strategy;
 	}
@@ -143,6 +161,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		this.strategy = strategy;
 	}
 
+	@DiffIgnore
 	public AudienceSegment getAudienceSegment() {
 		return audience_segment;
 	}
@@ -166,6 +185,7 @@ public class StrategyAudienceSegment implements T1Entity {
 		return null;
 	}
 
+	@DiffIgnore
 	public String getName() {
 		return name;
 	}

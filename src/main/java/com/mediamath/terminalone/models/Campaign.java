@@ -23,7 +23,9 @@ import java.util.*;
 
 import javax.ws.rs.core.Form;
 
+import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.Id;
 
 public class Campaign implements T1Entity {
@@ -37,7 +39,12 @@ public class Campaign implements T1Entity {
 	}
 
 	public enum freqInts {
-		hour("hour"), day("day"), week("week"), month("month"), not_applicable("not-applcable");
+		hour("hour"),
+		day("day"),
+		week("week"),
+		month("month"),
+		@SerializedName("not-applicable")
+		not_applicable("not-applicable");
 
 		String value;
 
@@ -50,7 +57,10 @@ public class Campaign implements T1Entity {
 	} // should be not-applicable
 
 	public enum freqTypes {
-		even("even"), asap("asap"), no_limit("no-limit");
+		even("even"),
+		asap("asap"),
+		@SerializedName("no-limit")
+		no_limit("no-limit");
 		String value;
 
 		freqTypes(String s) {
@@ -234,6 +244,7 @@ public class Campaign implements T1Entity {
 		this.strategies = strategies;
 	}
 
+	@DiffIgnore
 	public Date getCreatedOn() {
 		return created_on;
 	}
@@ -258,6 +269,7 @@ public class Campaign implements T1Entity {
 		this.dcs_data_is_campaign_level = dcs_data_is_campaign_level;
 	}
 
+	@DiffIgnore
 	public Date getEndDate() {
 		return end_date;
 	}
@@ -379,6 +391,7 @@ public class Campaign implements T1Entity {
 		this.io_reference_num = io_reference_num;
 	}
 
+	@DiffIgnore
 	public Date getInitialStartDate() {
 		return initial_start_date;
 	}
@@ -475,6 +488,7 @@ public class Campaign implements T1Entity {
 		this.spend_cap_automatic = spend_cap_automatic;
 	}
 
+	@DiffIgnore
 	public Date getStartDate() {
 		return start_date;
 	}
@@ -491,6 +505,7 @@ public class Campaign implements T1Entity {
 		this.status = status;
 	}
 
+	@DiffIgnore
 	public int getSuspiciousTrafficFilterLevel() {
 		return suspicious_traffic_filter_level;
 	}
@@ -499,6 +514,7 @@ public class Campaign implements T1Entity {
 		this.suspicious_traffic_filter_level = suspicious_traffic_filter_level;
 	}
 
+	@DiffIgnore
 	public Date getUpdatedOn() {
 		return updated_on;
 	}
@@ -523,6 +539,7 @@ public class Campaign implements T1Entity {
 		this.use_mm_freq = use_mm_freq;
 	}
 
+	@DiffIgnore
 	public int getVersion() {
 		return version;
 	}
@@ -568,10 +585,12 @@ public class Campaign implements T1Entity {
 		this.merit_pixel_id = merit_pixel_id;
 	}
 
+	@DiffIgnore
 	public ArrayList<T1Cost> getTotalBudget() {
 		return total_budget;
 	}
 
+	@DiffIgnore
 	public Advertiser getAdvertiser() {
 		return advertiser;
 	}
@@ -596,9 +615,9 @@ public class Campaign implements T1Entity {
 		this.merit_pixel = merit_pixel;
 	}
 
-	public void setTotalBudget(double value, String currency_code) {
+	public void setTotalBudget(BigDecimal value, String currency_code) {
 		this.total_budget.clear();
-		if (value > 0) {
+		if (value.compareTo(BigDecimal.ZERO) > 0) {
 			T1Cost cost = new T1Cost();
 			cost.setValue(value);
 
@@ -614,9 +633,9 @@ public class Campaign implements T1Entity {
 		return ad_server_fee;
 	}
 
-	public void setAdServerFee(double value, String currency_code) {
+	public void setAdServerFee(BigDecimal value, String currency_code) {
 		this.ad_server_fee.clear();
-		if (value > 0) {
+		if (value.compareTo(BigDecimal.ZERO) > 0) {
 			T1Cost cost = new T1Cost();
 			cost.setValue(value);
 
@@ -632,9 +651,9 @@ public class Campaign implements T1Entity {
 		return spend_cap_amount;
 	}
 
-	public void setSpendCapAmount(double value, String currency_code) {
+	public void setSpendCapAmount(BigDecimal value, String currency_code) {
 		this.spend_cap_amount.clear();
-		if (value > 0) {
+		if (value.compareTo(BigDecimal.ZERO) > 0) {
 			T1Cost cost = new T1Cost();
 			cost.setValue(value);
 
@@ -650,7 +669,7 @@ public class Campaign implements T1Entity {
 		return this.goal_value;
 	}
 
-	public Double getGoalDoubleValue() {
+	public BigDecimal getGoalBigDecimalValue() {
 		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
 				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
 				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
@@ -670,12 +689,12 @@ public class Campaign implements T1Entity {
 		}
 	}
 
-	public void setGoalValue(double value, String currency_code) {
+	public void setGoalValue(BigDecimal value, String currency_code) {
 		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
 				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
 				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
 			GoalValue goalValue = new GoalValue();
-			if (value > 0) {
+			if (value.compareTo(BigDecimal.ZERO) > 0) {
 				T1Cost cost = new T1Cost();
 				cost.setValue(value);
 
@@ -693,7 +712,7 @@ public class Campaign implements T1Entity {
 		}
 	}
 
-	public void setGoalValue(double value) {
+	public void setGoalValue(BigDecimal value) {
 		if (getGoalType() == goalTypes.spend || getGoalType() == goalTypes.reach
 				|| getGoalType() == goalTypes.cpa || getGoalType() == goalTypes.cpc
 				|| getGoalType() == goalTypes.roi || getGoalType() == goalTypes.none) {
@@ -774,8 +793,8 @@ public class Campaign implements T1Entity {
 			campaignForm.param("spend_cap_amount", String.valueOf(this.getSpendCapAmount().get(0).getValue()));
 		}
 
-		if (getGoalType() != null && getGoalDoubleValue() != null && getGoalDoubleValue() > 0) {
-			campaignForm.param("goal_value", String.valueOf(getGoalDoubleValue()));
+		if (getGoalType() != null && getGoalBigDecimalValue() != null && getGoalBigDecimalValue().compareTo(BigDecimal.ZERO) > 0) {
+			campaignForm.param("goal_value", String.valueOf(getGoalBigDecimalValue()));
 		}
 
 		if (this.getAdServerId() > 0) {
