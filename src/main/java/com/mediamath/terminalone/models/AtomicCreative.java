@@ -22,6 +22,8 @@ import java.util.Date;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 public class AtomicCreative implements T1Entity {
 
@@ -134,6 +136,7 @@ public class AtomicCreative implements T1Entity {
     this.ad_server_type = ad_server_type;
   }
 
+  @DiffIgnore
   public String getApprovalStatus() {
     return approval_status;
   }
@@ -166,6 +169,7 @@ public class AtomicCreative implements T1Entity {
     this.built = built;
   }
 
+  @DiffIgnore
   public int getBuiltByUserId() {
     return built_by_user_id;
   }
@@ -198,6 +202,7 @@ public class AtomicCreative implements T1Entity {
     this.concept_id = concept_id;
   }
 
+  @DiffIgnore
   public Date getCreatedOn() {
     return created_on;
   }
@@ -230,6 +235,7 @@ public class AtomicCreative implements T1Entity {
     this.end_date = end_date;
   }
 
+  @DiffIgnore
   public expandDir getExpansionDirection() {
     return expansion_direction;
   }
@@ -238,6 +244,7 @@ public class AtomicCreative implements T1Entity {
     this.expansion_direction = expansion_direction;
   }
 
+  @DiffIgnore
   public expandTrig getExpansionTrigger() {
     return expansion_trigger;
   }
@@ -254,6 +261,7 @@ public class AtomicCreative implements T1Entity {
     this.external_identifier = external_identifier;
   }
 
+  @DiffIgnore
   public fileTypes getFileType() {
     return file_type;
   }
@@ -278,6 +286,7 @@ public class AtomicCreative implements T1Entity {
     this.height = height;
   }
 
+  @Id
   public int getId() {
     return id;
   }
@@ -302,6 +311,7 @@ public class AtomicCreative implements T1Entity {
     this.is_multi_creative = is_multi_creative;
   }
 
+  @DiffIgnore
   public Date getLastModified() {
     return last_modified;
   }
@@ -310,6 +320,7 @@ public class AtomicCreative implements T1Entity {
     this.last_modified = last_modified;
   }
 
+  @DiffIgnore
   public mediaTypes getMediaType() {
     return media_type;
   }
@@ -414,6 +425,7 @@ public class AtomicCreative implements T1Entity {
     this.type = type;
   }
 
+  @DiffIgnore
   public Date getUpdatedOn() {
     return updated_on;
   }
@@ -661,6 +673,7 @@ public class AtomicCreative implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
 

@@ -22,6 +22,7 @@ import java.util.List;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.exceptions.ClientException;
+import org.javers.core.metamodel.annotation.Id;
 
 public class VideoCreative implements T1Entity {
 
@@ -100,7 +101,7 @@ public class VideoCreative implements T1Entity {
 		this.desktopEncoding = desktopEncoding;
 	}
 
-	public long getEndTime() {
+	public Long getEndTime() {
 		return endTime;
 	}
 
@@ -156,6 +157,7 @@ public class VideoCreative implements T1Entity {
 		this.eventPixels = eventPixels;
 	}
 
+	@Id
 	public int getCreativeId() {
 		return creativeId;
 	}
@@ -164,7 +166,7 @@ public class VideoCreative implements T1Entity {
 		this.creativeId = creativeId;
 	}
 
-	public long getStartTime() {
+	public Long getStartTime() {
 		return startTime;
 	}
 
