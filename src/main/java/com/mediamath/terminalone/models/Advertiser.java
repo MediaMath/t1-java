@@ -22,6 +22,8 @@ import javax.ws.rs.core.Form;
 
 import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 public class Advertiser implements T1Entity {
 
@@ -98,6 +100,7 @@ public class Advertiser implements T1Entity {
   private Contact sales_contact;
   private Vertical vertical;
 
+  @Id
   public int getId() {
     return id;
   }
@@ -162,6 +165,7 @@ public class Advertiser implements T1Entity {
     this.billing_contact_id = billing_contact_id;
   }
 
+  @DiffIgnore
   public Date getCreatedOn() {
     return created_on;
   }
@@ -186,6 +190,7 @@ public class Advertiser implements T1Entity {
     this.dmp_enabled = dmp_enabled;
   }
 
+  @DiffIgnore
   public freqTypes getFrequencyType() {
     return frequency_type;
   }
@@ -194,6 +199,7 @@ public class Advertiser implements T1Entity {
     this.frequency_type = frequency_type;
   }
 
+  @DiffIgnore
   public freqInts getFrequencyInterval() {
     return frequency_interval;
   }
@@ -242,6 +248,7 @@ public class Advertiser implements T1Entity {
     this.status = status;
   }
 
+  @DiffIgnore
   public Date getUpdatedOn() {
     return updated_on;
   }

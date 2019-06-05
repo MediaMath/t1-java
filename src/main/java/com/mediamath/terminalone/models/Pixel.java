@@ -21,6 +21,8 @@ import java.util.Date;
 import javax.ws.rs.core.Form;
 
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+import org.javers.core.metamodel.annotation.Id;
 
 public class Pixel implements T1Entity {
 
@@ -121,6 +123,7 @@ public class Pixel implements T1Entity {
     this.cost_pct_cpm = cost_pct_cpm;
   }
 
+  @DiffIgnore
   public Date getCreatedOn() {
     return created_on;
   }
@@ -137,6 +140,7 @@ public class Pixel implements T1Entity {
     this.eligible = eligible;
   }
 
+  @DiffIgnore
   public String getExternalIdentifier() {
     return external_identifier;
   }
@@ -145,6 +149,7 @@ public class Pixel implements T1Entity {
     this.external_identifier = external_identifier;
   }
 
+  @Id
   public int getId() {
     return id;
   }
@@ -177,6 +182,7 @@ public class Pixel implements T1Entity {
     this.pixel_type = pixel_type;
   }
 
+  @DiffIgnore
   public pricing getPricing() {
     return pricing;
   }
@@ -193,6 +199,7 @@ public class Pixel implements T1Entity {
     this.provider_id = provider_id;
   }
 
+  @DiffIgnore
   public int getRmxConversionMinutes() {
     return rmx_conversion_minutes;
   }
@@ -201,6 +208,7 @@ public class Pixel implements T1Entity {
     this.rmx_conversion_minutes = rmx_conversion_minutes;
   }
 
+  @DiffIgnore
   public rmxConvTypes getRmxConversionType() {
     return rmx_conversion_type;
   }
@@ -265,6 +273,7 @@ public class Pixel implements T1Entity {
     this.tag_type = tag_type;
   }
 
+  @DiffIgnore
   public String getTags() {
     return tags;
   }
@@ -281,6 +290,7 @@ public class Pixel implements T1Entity {
     this.type = type;
   }
 
+  @DiffIgnore
   public Date getUpdatedOn() {
     return updated_on;
   }
@@ -289,6 +299,7 @@ public class Pixel implements T1Entity {
     this.updated_on = updated_on;
   }
 
+  @DiffIgnore
   public int getVersion() {
     return version;
   }
