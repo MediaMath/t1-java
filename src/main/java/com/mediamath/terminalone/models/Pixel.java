@@ -362,6 +362,7 @@ public class Pixel implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
   public Form getForm() {
 
     Form pixelForm = new Form();
@@ -481,6 +482,7 @@ public class Pixel implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {
