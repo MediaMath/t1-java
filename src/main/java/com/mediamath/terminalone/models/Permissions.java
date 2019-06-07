@@ -16,15 +16,21 @@
 
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Permissions {
 
+	@JsonProperty("all_organizations")
 	private boolean all_organizations;
+	@JsonProperty("organization_ids")
 	private List<Integer> organization_ids = new ArrayList<>();
+	@JsonProperty("agency_ids")
 	private List<Integer> agency_ids = new ArrayList<>();
+	@JsonProperty("advertiser_ids")
 	private List<Integer> advertiser_ids = new ArrayList<>();
 	private List<Access> flags = new ArrayList<>();
 	private Entities entities;

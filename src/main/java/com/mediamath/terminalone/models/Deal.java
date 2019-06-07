@@ -24,9 +24,13 @@ import java.util.TimeZone;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.mediamath.terminalone.utils.Utility;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Deal implements T1Entity {
 
 	private static final String entityName = "Deal";
@@ -48,23 +52,35 @@ public class Deal implements T1Entity {
 	}
 
 	private int advertiser_id;
+
+	@JsonFormat(pattern = "YYYY-MM-dd'T'HH:mm:ssX")
 	private Date created_on;
 	private String currency_code;
+
+	@JsonProperty("deal_identifier")
 	private String deal_identifier;
 	private dealSources deal_source;
 	private String description;
+
+	@JsonFormat(pattern = "YYYY-MM-dd'T'HH:mm:ssX")
 	private Date end_datetime;
 	private int id;
 	private mediaTypes media_type;
+
+	@JsonProperty("name")
 	private String name;
 	private boolean partner_sourced;
 	private Currency price;
 	private priceMethods price_method;
 	private priceTypes price_type;
 	private int publisher_id;
+
+	@JsonFormat(pattern = "YYYY-MM-dd'T'HH:mm:ssX")
 	private Date start_datetime;
 	private boolean status;
 	private int supply_source_id;
+
+	@JsonFormat(pattern = "YYYY-MM-dd'T'HH:mm:ssX")
 	private Date updated_on;
 	private int version;
 	private String zone_name;
