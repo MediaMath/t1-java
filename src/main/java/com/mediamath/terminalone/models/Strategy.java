@@ -222,7 +222,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private Set<StrategyDeviceOs> strategyDeviceOs = new HashSet<>();
 
 	private List<Deal> deals = new ArrayList<>();
-	private List<Integer> dealIds = new ArrayList<>();
+	//null is used to specify that no deals are updated while empty list means all deals should be deleted
+	private Set<Integer> dealIds = null;
 
 	@ShallowReference
 	private Set<SiteList> site_lists = new HashSet<>();
@@ -1021,11 +1022,11 @@ public class Strategy implements T1Entity, Cloneable {
 		this.deals = deals;
 	}
 
-	public List<Integer> getDealIds() {
+	public Set<Integer> getDealIds() {
 		return dealIds;
 	}
 
-	public void setDealIds(List<Integer> dealIds) {
+	public void setDealIds(Set<Integer> dealIds) {
 		this.dealIds = dealIds;
 	}
 

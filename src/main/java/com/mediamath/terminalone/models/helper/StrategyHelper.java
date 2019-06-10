@@ -91,7 +91,8 @@ public class StrategyHelper {
 
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
 				&& entity.getAudienceSegments().isEmpty() && entity.getStrategyTargetingSegments().isEmpty()
-				&& entity.getSiteLists().isEmpty() && entity.getDealIds().isEmpty()
+				&& entity.getSiteLists().isEmpty()
+				&& entity.getDealIds() == null
 				&& entity.getStrategyConcepts() == null
 				&& entity.getStrategyDayParts().isEmpty() && !entity.isCopyStrategy()
 				&& (entity.getFromCampaignId() <= 0 && entity.getToCampaignId() <= 0)) {
@@ -394,14 +395,13 @@ public class StrategyHelper {
 		}
 
 		// Deals
-		if (!entity.getDealIds().isEmpty()) {
+		if (entity.getDealIds() != null) {
 			int inc = 1;
 			for (Integer sl : entity.getDealIds()) {
 				if (sl != null) {
 					strategyForm.param("deal." + inc + ".id", String.valueOf(sl));
 					inc++;
 				}
-				
 			}
 		}
 
