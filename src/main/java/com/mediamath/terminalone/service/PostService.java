@@ -390,7 +390,7 @@ public class PostService {
                 uri.append("/concepts");
             }
 
-            if (!entity.getDealIds().isEmpty()) {
+            if (entity.getDealIds() != null) {
                 uri.append("/deals");
             }
 
