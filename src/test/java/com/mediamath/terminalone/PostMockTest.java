@@ -899,7 +899,7 @@ public class PostMockTest {
         Strategy cmp = new Strategy();
         cmp.setId(2145568);
 
-        ArrayList<Integer> deals = new ArrayList<>();
+        Set<Integer> deals = new HashSet<>();
         deals.add(173102);
         deals.add(173101);
         deals.add(172912);
