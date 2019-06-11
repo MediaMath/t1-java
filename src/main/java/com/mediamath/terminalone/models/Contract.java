@@ -7,8 +7,10 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class Contract implements T1Entity {
 
@@ -355,6 +357,8 @@ public class Contract implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		final SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
 
@@ -475,6 +479,8 @@ public class Contract implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
 		if (this.getId() > 0) {

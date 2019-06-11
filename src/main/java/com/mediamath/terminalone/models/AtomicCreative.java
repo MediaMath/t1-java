@@ -21,6 +21,7 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
 import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.Id;
@@ -504,6 +505,8 @@ public class AtomicCreative implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 
     final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
@@ -674,6 +677,7 @@ public class AtomicCreative implements T1Entity {
 
   @Override
   @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
 

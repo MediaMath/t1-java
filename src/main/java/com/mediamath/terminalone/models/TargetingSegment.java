@@ -7,7 +7,9 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.exceptions.ClientException;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class TargetingSegment implements T1Entity {
 
@@ -176,11 +178,15 @@ public class TargetingSegment implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		return null;
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
 

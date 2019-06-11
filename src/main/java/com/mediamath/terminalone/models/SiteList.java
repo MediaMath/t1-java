@@ -22,7 +22,9 @@ import java.util.List;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.javers.core.metamodel.annotation.Id;
 
 public class SiteList implements T1Entity {
@@ -179,6 +181,8 @@ public class SiteList implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		Form siteListForm = new Form();
 
@@ -230,6 +234,8 @@ public class SiteList implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() {
 		StringBuilder uri = new StringBuilder();
 

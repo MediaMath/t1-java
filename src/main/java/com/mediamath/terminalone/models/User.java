@@ -22,7 +22,9 @@ import java.util.Map;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class User implements T1Entity {
 
@@ -364,6 +366,8 @@ public class User implements T1Entity {
 	}
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 
 		Form userForm = new Form();
@@ -433,6 +437,8 @@ public class User implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     return null;
   }
