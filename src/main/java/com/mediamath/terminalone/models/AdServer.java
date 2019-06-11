@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+
 import javax.ws.rs.core.Form;
 
 public class AdServer implements T1Entity {
@@ -73,11 +76,15 @@ public class AdServer implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
     return null;
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     return null;
   }

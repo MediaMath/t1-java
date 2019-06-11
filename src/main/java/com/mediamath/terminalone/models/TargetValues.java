@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,11 +148,15 @@ public class TargetValues implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		return null;
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() {
 		return null;
 	}

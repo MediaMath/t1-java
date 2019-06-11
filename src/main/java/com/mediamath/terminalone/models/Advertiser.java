@@ -20,6 +20,7 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.utils.Utility;
 import org.javers.core.metamodel.annotation.DiffIgnore;
@@ -318,6 +319,8 @@ public class Advertiser implements T1Entity {
    *          expects an Advertiser Entity.
    * @return Form object.
    */
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
     Form advertiserForm = new Form();
 
@@ -394,6 +397,8 @@ public class Advertiser implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
 

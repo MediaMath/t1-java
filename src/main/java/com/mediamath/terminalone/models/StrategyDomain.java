@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -119,6 +122,8 @@ public class StrategyDomain implements T1Entity {
   }
   
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
     final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
     
@@ -156,6 +161,8 @@ public class StrategyDomain implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
 	  StringBuilder uri = new StringBuilder();
 	    
