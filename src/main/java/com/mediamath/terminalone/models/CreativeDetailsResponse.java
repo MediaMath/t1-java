@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.exceptions.ClientException;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class CreativeDetailsResponse implements T1Entity {
 
@@ -144,12 +146,16 @@ public class CreativeDetailsResponse implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() throws ClientException {
 		// TODO Auto-generated method stub
 		return null;

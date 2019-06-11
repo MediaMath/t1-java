@@ -23,6 +23,7 @@ import java.util.*;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
 import com.mediamath.terminalone.utils.Utility;
 import org.javers.core.metamodel.annotation.DiffIgnore;
@@ -767,6 +768,8 @@ public class Campaign implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 
 		final SimpleDateFormat SDF = new SimpleDateFormat(YYYY_MM_DDTHH_MM_SS_Z);
@@ -1034,6 +1037,8 @@ public class Campaign implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() {
 		return null;
 	}

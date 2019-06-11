@@ -20,7 +20,9 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class Concept implements T1Entity {
 
@@ -106,6 +108,8 @@ public class Concept implements T1Entity {
   }
   
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
     Form conceptForm = new Form();
 
@@ -126,6 +130,8 @@ public class Concept implements T1Entity {
 
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
 

@@ -1,8 +1,10 @@
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.*;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.ws.rs.core.Form;
 import java.lang.reflect.Type;
@@ -248,6 +250,8 @@ public class DmpSegment implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public Form getForm() {
 		Form dmpSegmentForm = new Form();
 
@@ -299,6 +303,8 @@ public class DmpSegment implements T1Entity {
 	}
 
 	@Override
+	@DiffIgnore
+	@JsonIgnore
 	public String getUri() throws ClientException {
 		StringBuilder uri = new StringBuilder();
 

@@ -20,7 +20,9 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class ChildPixel implements T1Entity {
 
@@ -124,6 +126,8 @@ public class ChildPixel implements T1Entity {
   }
   
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 
     Form pixelForm = new Form();
@@ -155,6 +159,8 @@ public class ChildPixel implements T1Entity {
 
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {

@@ -22,8 +22,10 @@ import java.util.Date;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class Organization implements T1Entity {
 
@@ -316,6 +318,8 @@ public class Organization implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 
     Form orgForm = new Form();
@@ -395,6 +399,8 @@ public class Organization implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() throws ClientException {
     StringBuilder uri = new StringBuilder();
     if (this.getId() > 0) {

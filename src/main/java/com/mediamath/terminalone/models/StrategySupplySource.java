@@ -16,6 +16,9 @@
 
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.javers.core.metamodel.annotation.DiffIgnore;
+
 import javax.ws.rs.core.Form;
 
 public class StrategySupplySource implements T1Entity {
@@ -85,6 +88,8 @@ public class StrategySupplySource implements T1Entity {
   }
   
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 	  Form strategySupplySourceForm = new Form();
 
@@ -105,6 +110,8 @@ public class StrategySupplySource implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
 	  StringBuilder uri = new StringBuilder();
 

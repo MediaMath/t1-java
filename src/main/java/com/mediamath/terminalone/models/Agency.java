@@ -18,7 +18,9 @@ package com.mediamath.terminalone.models;
 
 import javax.ws.rs.core.Form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mediamath.terminalone.utils.Utility;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 public class Agency implements T1Entity {
 
@@ -198,6 +200,8 @@ public class Agency implements T1Entity {
    * 
    */
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public Form getForm() {
 
     Form agencyForm = new Form();
@@ -255,6 +259,8 @@ public class Agency implements T1Entity {
   }
 
   @Override
+  @DiffIgnore
+  @JsonIgnore
   public String getUri() {
     StringBuilder uri = new StringBuilder();
 
