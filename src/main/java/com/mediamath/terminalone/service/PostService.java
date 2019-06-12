@@ -32,6 +32,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.*;
 import com.mediamath.terminalone.models.*;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -40,15 +41,6 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.exceptions.ClientException;
@@ -1192,7 +1184,13 @@ public class PostService {
      */
     public JsonPostErrorResponse jsonPostErrorResponseParser(String responseStr, Response responseObj) {
         JsonParser parser1 = new JsonParser();
-        JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
+        JsonObject obj = null;
+        try {
+            obj = parser1.parse(responseStr).getAsJsonObject();
+        } catch (JsonSyntaxException ex) {
+            String message = "Cannot parse json response: " + responseStr;
+            throw new IllegalStateException(message, ex);
+        }
 
         JsonElement errorsElement = obj.get("errors");
         JsonElement errorElement = obj.get("error");
@@ -1440,7 +1438,14 @@ public class PostService {
         // parse the string to gson objs
         JsonResponse<? extends T1Entity> finalJsonResponse = null;
         JsonParser parsers = new JsonParser();
-        JsonObject responseObject = parsers.parse(new StringReader(response)).getAsJsonObject();
+        JsonObject responseObject = null;
+        try {
+            responseObject = parsers.parse(new StringReader(response)).getAsJsonObject();
+        } catch (JsonSyntaxException ex) {
+            String message = "Cannot parse json response: " + response;
+            throw new IllegalStateException(message, ex);
+        }
+
         String modifiedJsonString = null;
 
         JsonElement element = parser.getDataFromResponse(response);
