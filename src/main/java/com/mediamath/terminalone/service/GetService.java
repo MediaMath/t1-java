@@ -16,14 +16,7 @@
 
 package com.mediamath.terminalone.service;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import com.mediamath.terminalone.QueryCriteria;
@@ -391,8 +384,13 @@ public class GetService {
 	 */
 	public JsonPostErrorResponse jsonGetErrorResponseParser(String responseStr) {
 		JsonParser parser1 = new JsonParser();
-		JsonObject obj = parser1.parse(responseStr).getAsJsonObject();
-
+		JsonObject obj = null;
+		try {
+			obj = parser1.parse(responseStr).getAsJsonObject();
+		} catch (JsonSyntaxException ex) {
+			String message = "Cannot parse json response: " + responseStr;
+			throw new IllegalStateException(message, ex);
+		}
 		JsonElement errorsElement = obj.get("errors");
 		JsonElement errorElement = obj.get("error");
 		JsonElement metaElement = obj.get("meta");

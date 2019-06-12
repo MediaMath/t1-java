@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 
 import javax.ws.rs.core.Response;
 
+import com.google.gson.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +36,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.mediamath.terminalone.Connection;
 import com.mediamath.terminalone.ReportCriteria;
@@ -364,7 +360,13 @@ public class ReportService {
   public JsonResponse<? extends T1Entity> parseMetaResponse(String response) {
     JsonParser parser = new JsonParser();
     JsonResponse<Meta> finalResponse;
-    JsonObject obj = parser.parse(response).getAsJsonObject();
+    JsonObject obj = null;
+    try {
+        obj = parser.parse(response).getAsJsonObject();
+    } catch (JsonSyntaxException ex) {
+        String message = "Cannot parse json response: " + response;
+        throw new IllegalStateException(message, ex);
+    }
 
     JsonElement reportsElement = obj.get("reports");
     JsonObject reportsObj = reportsElement.getAsJsonObject();
@@ -408,7 +410,13 @@ public class ReportService {
     MetaData data = gson.fromJson(response, MetaData.class);
 
     JsonParser parser = new JsonParser();
-    JsonObject obj = parser.parse(response).getAsJsonObject();
+    JsonObject obj = null;
+    try {
+        obj = parser.parse(response).getAsJsonObject();
+    } catch (JsonSyntaxException ex) {
+        String message = "Cannot parse json response: " + response;
+        throw new IllegalStateException(message, ex);
+    }
     JsonElement reportsElement = obj.get("structure");
 
     JsonObject dimensionObj = reportsElement.getAsJsonObject().get("dimensions").getAsJsonObject();
