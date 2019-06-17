@@ -16,12 +16,12 @@
 
 package com.mediamath.terminalone.utils;
 
+import com.google.gson.reflect.TypeToken;
+import com.mediamath.terminalone.models.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.google.gson.reflect.TypeToken;
-import com.mediamath.terminalone.models.*;
 
 public final class Constants {
 
@@ -210,6 +210,8 @@ public final class Constants {
 	
 	private static final String CONTRACTS = "contracts";
 	private static final String CONTRACT = "contract";
+
+	private static final String CREATIVE_HEALTHCHECK = "creative_healthcheck";
 	
 
 	// required for converting requested string path names to entity names when
@@ -477,6 +479,8 @@ public final class Constants {
 		getListoFEntityType.put(CREATIVE_APPROVALS, new TypeToken<JsonResponse<ArrayList<CreativeApproval>>>() {
 		}.getType());
 		getListoFEntityType.put(CREATIVE_APPROVAL, new TypeToken<JsonResponse<ArrayList<CreativeApproval>>>() {
+		}.getType());
+		getListoFEntityType.put(CREATIVE_HEALTHCHECK, new TypeToken<JsonResponse<ArrayList<CreativeHealthcheck>>>() {
 		}.getType());
 		getListoFEntityType.put(DEALS, new TypeToken<JsonResponse<ArrayList<Deal>>>() {
 		}.getType());
