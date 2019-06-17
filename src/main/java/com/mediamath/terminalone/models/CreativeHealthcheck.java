@@ -25,83 +25,83 @@ public class CreativeHealthcheck implements T1Entity {
         return entityName;
     }
 
-    public int getAtomic_creative_id() {
+    public int getAtomicCreativeId() {
         return atomic_creative_id;
     }
 
-    public UUID getOdc_creative_id() {
+    public UUID getOdcCreativeId() {
         return odc_creative_id;
     }
 
-    public void setOdc_creative_id(UUID odc_creative_id) {
+    public void setOdcCreativeId(UUID odc_creative_id) {
         this.odc_creative_id = odc_creative_id;
     }
 
-    public void setAtomic_creative_id(int atomic_creative_id) {
+    public void setAtomicCreativeId(int atomic_creative_id) {
         this.atomic_creative_id = atomic_creative_id;
     }
 
-    public String getNet_status() {
+    public String getNetStatus() {
         return net_status;
     }
 
-    public void setNet_status(String net_status) {
+    public void setNetStatus(String net_status) {
         this.net_status = net_status;
     }
 
-    public String getAdx_open_auction() {
+    public String getAdxOpenAuction() {
         return adx_open_auction;
     }
 
-    public void setAdx_open_auction(String adx_open_auction) {
+    public void setAdxOpenAuction(String adx_open_auction) {
         this.adx_open_auction = adx_open_auction;
     }
 
-    public String getAdx_deals() {
+    public String getAdxDeals() {
         return adx_deals;
     }
 
-    public void setAdx_deals(String adx_deals) {
+    public void setAdxDeals(String adx_deals) {
         this.adx_deals = adx_deals;
     }
 
-    public String getMopub_direct() {
+    public String getMopubDirect() {
         return mopub_direct;
     }
 
-    public void setMopub_direct(String mopub_direct) {
+    public void setMopubDirect(String mopub_direct) {
         this.mopub_direct = mopub_direct;
     }
 
-    public String getRight_media_exchange() {
+    public String getRightMediaExchange() {
         return right_media_exchange;
     }
 
-    public void setRight_media_exchange(String right_media_exchange) {
+    public void setRightMediaExchange(String right_media_exchange) {
         this.right_media_exchange = right_media_exchange;
     }
 
-    public String getApp_nexus() {
+    public String getAppNexus() {
         return app_nexus;
     }
 
-    public void setApp_nexus(String app_nexus) {
+    public void setAppNexus(String app_nexus) {
         this.app_nexus = app_nexus;
     }
 
-    public String getBrightroll_for_display() {
+    public String getBrightrollForDisplay() {
         return brightroll_for_display;
     }
 
-    public void setBrightroll_for_display(String brightroll_for_display) {
+    public void setBrightrollForDisplay(String brightroll_for_display) {
         this.brightroll_for_display = brightroll_for_display;
     }
 
-    public String getMicrosoft_ad_exchange() {
+    public String getMicrosoftAdExchange() {
         return microsoft_ad_exchange;
     }
 
-    public void setMicrosoft_ad_exchange(String microsoft_ad_exchange) {
+    public void setMicrosoftAdExchange(String microsoft_ad_exchange) {
         this.microsoft_ad_exchange = microsoft_ad_exchange;
     }
 
