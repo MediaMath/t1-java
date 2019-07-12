@@ -258,6 +258,7 @@ public class Advertiser implements T1Entity {
     this.updated_on = updated_on;
   }
 
+  @DiffIgnore
   public int getVersion() {
     return version;
   }
