@@ -1,9 +1,12 @@
 package com.mediamath.terminalone.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DMA {
 
     private String name;
-    private String country_code;
+    @JsonProperty("country_code")
+    private String countryCode;
     private String code;
     private int id;
 
@@ -15,13 +18,6 @@ public class DMA {
         this.name = name;
     }
 
-    public String getCountry_code() {
-        return country_code;
-    }
-
-    public void setCountry_code(String country_code) {
-        this.country_code = country_code;
-    }
 
     public String getCode() {
         return code;
@@ -37,5 +33,13 @@ public class DMA {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }
