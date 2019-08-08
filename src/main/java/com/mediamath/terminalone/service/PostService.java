@@ -683,7 +683,7 @@ public class PostService {
      * @param creativeId requires a creativeId string.
      * @return VideoCreativeUploadStatus object.
      */
-    public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
+    public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) throws ClientException{
         VideoCreativeUploadStatus uploadStatus = null;
         if (checkString(creativeId)) {
             StringBuilder path = new StringBuilder(t1Service.getApiBase() + t1Service.getVideoCreativeURL() + CREATIVES

@@ -40,6 +40,8 @@ dependencies {
     compile('org.mockito:mockito-core:2.8.47')
     compile('org.mockito:mockito-all:1.10.19')
     compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.2')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.2')
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2')
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.common:1.0.2')
     compile ('org.javers:javers-core:5.5.1')

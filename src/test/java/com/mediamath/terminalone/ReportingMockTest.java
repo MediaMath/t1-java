@@ -299,7 +299,7 @@ public class ReportingMockTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testPerformanceReportErrorHandling() {
+	public void testPerformanceReportErrorHandling() throws ClientException {
 
 		try {
 			Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);

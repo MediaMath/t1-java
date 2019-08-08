@@ -27,6 +27,11 @@ public class ClientException extends T1Exception {
     this.message = message;
   }
 
+  public ClientException(String message, Throwable th) {
+    super(message, th);
+    this.message = message;
+  }
+
   @Override
   public String toString() {
     return "Client Exception: " + message;
