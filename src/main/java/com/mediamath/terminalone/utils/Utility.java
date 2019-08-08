@@ -25,6 +25,10 @@ import java.util.Properties;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +39,8 @@ public class Utility {
 	private static final String UNABLE_TO_LOAD_THE_CONFIGURATIONS = "Unable to load the configurations";
 
 	private static final Logger logger = LoggerFactory.getLogger(Utility.class);
+
+	private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).registerModule(new Jdk8Module());
 
 	private static Properties vConfigProp = new Properties();
 
@@ -74,6 +80,14 @@ public class Utility {
 			response = "1";
 		}
 		return response;
+	}
+
+	public static String objectToString(Object o) {
+		try {
+			return objectMapper.writeValueAsString(o);
+		} catch (JsonProcessingException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**

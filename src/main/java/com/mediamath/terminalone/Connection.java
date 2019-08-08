@@ -17,8 +17,10 @@
 package com.mediamath.terminalone;
 
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -62,6 +64,8 @@ public class Connection {
 
 	private static final String NO_POST_DATA = "No Post Data";
 
+	private static final String UNKNOWN_HOST_EXCEPTION = "java.net.UnknownHostException";
+
 	private static final Logger logger = LoggerFactory.getLogger(Connection.class);
 
 	private static Properties configprop = Utility.loadConfigProperty();
@@ -98,8 +102,20 @@ public class Connection {
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		try {
+			response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
+	}
+
+	private boolean isUnknownHostException(ProcessingException ex) {
+		return ex.getCause() != null && ex.getCause() instanceof UnknownHostException;
 	}
 
 	/**
@@ -122,7 +138,15 @@ public class Connection {
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, null, client);
-		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		try {
+			response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_FORM_URLENCODED));
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 	}
 
@@ -160,7 +184,15 @@ public class Connection {
 		Response response;
 		Client client = instantiateMultipartClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
+		try {
+			response = invocationBuilder.post(Entity.entity(data, data.getMediaType()));
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 
 	}
@@ -186,7 +218,15 @@ public class Connection {
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+		try {
+			response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_OCTET_STREAM_TYPE));
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 
 	}
@@ -212,7 +252,15 @@ public class Connection {
 		Response response;
 		Client client = instantiateMultipartClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		try {
+			response = invocationBuilder.post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 	}
 
@@ -224,11 +272,19 @@ public class Connection {
 	 * 				requires a valid login user information.
 	 * @return Response object.
 	 */
-	public Response delete(String url, T1User userMap) {
+	public Response delete(String url, T1User userMap) throws ClientException {
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.delete();
+		try {
+			response = invocationBuilder.delete();
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 	}
 
@@ -241,11 +297,19 @@ public class Connection {
 	 *            requires a valid user login session.
 	 * @return String object.
 	 */
-	public String get(String url, T1User userMap) {
+	public String get(String url, T1User userMap) throws ClientException{
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.get();
+		try {
+			response = invocationBuilder.get();
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response.readEntity(String.class);
 	}
 
@@ -258,11 +322,19 @@ public class Connection {
 	 *            requires a valid user login session.
 	 * @return Response object.
 	 */
-	public Response getReportData(String url, T1User userMap) {
+	public Response getReportData(String url, T1User userMap) throws ClientException {
 		Response response;
 		Client client = instantiateSimpleClient();
 		Invocation.Builder invocationBuilder = configureInvocationBuilder(url, userMap, client);
-		response = invocationBuilder.get();
+		try {
+			response = invocationBuilder.get();
+		} catch (ProcessingException ex) {
+			if(isUnknownHostException(ex)) {
+				throw new ClientException(UNKNOWN_HOST_EXCEPTION, ex);
+			} else {
+				throw ex;
+			}
+		}
 		return response;
 	}
 

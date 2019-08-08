@@ -740,7 +740,7 @@ public class TerminalOne {
 	 * @return VideoCreativeUploadStatus object.
 	 * 
 	 */
-	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) {
+	public VideoCreativeUploadStatus getVideoCreativeUploadStatus(String creativeId) throws ClientException {
 		VideoCreativeUploadStatus response = null;
 		if (isAuthenticated() && checkCreativeID(creativeId)) {
 			response = postService.getVideoCreativeUploadStatus(creativeId);
@@ -1005,7 +1005,7 @@ public class TerminalOne {
 	 * @return JsonResponse<? extends T1Entity> JsonResponse of type T is
 	 *         returned.
 	 */
-	public JsonResponse<? extends T1Entity> getMeta() {
+	public JsonResponse<? extends T1Entity> getMeta() throws ClientException {
 		JsonResponse<? extends T1Entity> jsonResponse;
 		StringBuilder path = reportService.getMetaUri();
 		String finalPath = tOneService.constructReportingUrl(path);
@@ -1022,7 +1022,7 @@ public class TerminalOne {
 	 * 
 	 * @return MetaData object.
 	 */
-	public MetaData getReportsMeta(Reports report) {
+	public MetaData getReportsMeta(Reports report) throws ClientException {
 		StringBuilder reportName = new StringBuilder(report.getReportNameWithMeta());
 		String finalPath = tOneService.constructReportingUrl(reportName);
 		String response = this.connection.get(finalPath, this.getUser());
@@ -1106,6 +1106,7 @@ public class TerminalOne {
 		jsonPostErrorResponse = getService.jsonGetErrorResponseParser(response);
 
 		if (jsonPostErrorResponse != null) {
+			logger.error(Utility.objectToString(jsonPostErrorResponse));
 			postService.throwExceptions(jsonPostErrorResponse);
 		}
 
