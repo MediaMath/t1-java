@@ -37,7 +37,7 @@ public class TargetValues implements T1Entity {
 	}
 
 	public enum codes {
-		BSER, CSPD, DVCE, FOLD, ISPX, INVT, DMAX, REGN, CHNL, SFTY, VAUD, VCON, VLIN, VPSZ, NEMO
+		BSER, CSPD, DVCE, FOLD, ISPX, INVT, DMAX, REGN, CHNL, SFTY, VAUD, VCON, VLIN, VPSZ, NEMO, VSKP
 	}
 
 	private String _type;
