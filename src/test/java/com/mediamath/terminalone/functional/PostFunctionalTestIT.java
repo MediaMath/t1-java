@@ -778,17 +778,17 @@ public class PostFunctionalTestIT {
 		str.setId(2205653);
 		str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
 		str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
-		List<Segments> asList = new ArrayList<Segments>();
+		Set<Segments> asSet = new HashSet<>();
 
-		asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
-		str.setAudienceSegments(asList);
+		asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+		str.setAudienceSegments(asSet);
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		List<Segments> audienceSeg = str.getAudienceSegments();
+		Set<Segments> audienceSeg = str.getAudienceSegments();
 		assertNotNull(audienceSeg);
 	}
 
@@ -2175,11 +2175,11 @@ public class PostFunctionalTestIT {
 		List<Strategy> strategies = (List<Strategy>) jsonresponse1.getData();
 
 		for (int j = 0; j < strategies.size(); j++) {
-			List<Segments> asList = new ArrayList<Segments>();
-			asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+			Set<Segments> asSet = new HashSet<>();
+			asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
 
 			Strategy strategy = strategies.get(j);
-			strategy.setAudienceSegments(asList);
+			strategy.setAudienceSegments(asSet);
 			try {
 				System.out.println("getting saved...");
 				strategy = one.save(strategy);
