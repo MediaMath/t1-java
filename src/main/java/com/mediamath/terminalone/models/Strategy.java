@@ -209,13 +209,13 @@ public class Strategy implements T1Entity, Cloneable {
 
 	private List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
 	@ShallowReference
-	private List<Segments> audience_segments = new ArrayList<Segments>();
+	private Set<Segments> audience_segments = new HashSet<>();
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
 	private List<Concept> concepts = new ArrayList<Concept>();
 	//null is used to specify that no concepts are updated while empty list means all concepts should be deleted
 	private Set<StrategyConcept> strategy_concepts = null;
-	private List<StrategyAudienceSegment> strategyAudienceSegments = new ArrayList<StrategyAudienceSegment>();
+	private Set<StrategyAudienceSegment> strategyAudienceSegments = new HashSet<>();
 	private List<StrategyTargetingSegment> strategyTargetingSegments = new ArrayList<StrategyTargetingSegment>();
 	private List<StrategyDayPart> strategyDayParts = new ArrayList<StrategyDayPart>();
 	private Set<StrategyTarget> strategyTarget = new HashSet<>();
@@ -602,11 +602,11 @@ public class Strategy implements T1Entity, Cloneable {
 	}
 
 	@ShallowReference
-	public List<Segments> getAudienceSegments() {
+	public Set<Segments> getAudienceSegments() {
 		return audience_segments;
 	}
 
-	public void setAudienceSegments(List<Segments> audience_segments) {
+	public void setAudienceSegments(Set<Segments> audience_segments) {
 		this.audience_segments = audience_segments;
 	}
 
@@ -1007,11 +1007,11 @@ public class Strategy implements T1Entity, Cloneable {
 		this.include_pixel_operator = include_pixel_operator;
 	}
 
-	public List<StrategyAudienceSegment> getStrategyAudienceSegments() {
+	public Set<StrategyAudienceSegment> getStrategyAudienceSegments() {
 		return strategyAudienceSegments;
 	}
 
-	public void setStrategyAudienceSegments(List<StrategyAudienceSegment> strategyAudienceSegments) {
+	public void setStrategyAudienceSegments(Set<StrategyAudienceSegment> strategyAudienceSegments) {
 		this.strategyAudienceSegments = strategyAudienceSegments;
 	}
 

@@ -477,10 +477,10 @@ public class PostMockTest {
         str.setId(1377524);
         str.setAudienceSegmentExcludeOp(Strategy.audSegExc.OR);
         str.setAudienceSegmentIncludeOp(Strategy.audSegInc.OR);
-        List<Segments> asList = new ArrayList<Segments>();
+        Set<Segments> asSet = new HashSet<>();
 
-        asList.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
-        str.setAudienceSegments(asList);
+        asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+        str.setAudienceSegments(asSet);
 
         Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
         Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
@@ -501,7 +501,7 @@ public class PostMockTest {
             e.printStackTrace();
         }
         assertNotNull(str);
-        assertEquals(1552491, str.getStrategyAudienceSegments().get(0).getId());
+        assertEquals(1552491, str.getStrategyAudienceSegments().iterator().next().getId());
     }
 
     @SuppressWarnings("unchecked")

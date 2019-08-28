@@ -308,7 +308,7 @@ public class PostService {
                 if (dataList.get(0) instanceof StrategyAudienceSegment) {
                     localStrategy = entity;
                     localStrategy.getStrategyAudienceSegments().clear();
-                    localStrategy.setStrategyAudienceSegments(dataList);
+                    localStrategy.setStrategyAudienceSegments(new HashSet<>(dataList));
                 }
                 if (dataList.get(0) instanceof StrategyTargetingSegment) {
                     localStrategy = entity;
