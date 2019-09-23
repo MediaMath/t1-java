@@ -82,7 +82,12 @@ public class T1Service {
 	 */
 	public String constructUrl(StringBuilder path, String collection) {
 
+		if(collection != null && collection.startsWith("dmp.")) {
+			return apiBase + pathDmp + "/" + path.toString();
+		}
+
 		String servicePath = null;
+
 		String serviceUrl = (Utility.getServicePath(collection) != null) ? Utility.getServicePath(collection) : "";
 
 		switch (serviceUrl) {
