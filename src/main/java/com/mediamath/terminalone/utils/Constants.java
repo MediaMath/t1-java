@@ -59,6 +59,8 @@ public final class Constants {
 
 	private static final String TARGETING_SEGMENT = "targeting_segment";
 
+	private static final String TAXONOMY = "dmp.audience_segments";
+
 	private static final String VERTICAL = "vertical";
 
 	private static final String VERTICALS = "verticals";
@@ -199,6 +201,8 @@ public final class Constants {
 
 	public static final String TIMEZONE = "timezone";
 
+	private static final String TAXONOMY_TYPE = "taxonomy";
+
 	public static final String TARGET_VALUE_COUNT = "target_value_count";
 
 	private static final String SITE_LISTS_FOR_STRATEGY = "site_lists_for_strategy";
@@ -237,6 +241,8 @@ public final class Constants {
 	static {
 
 		getEntityType.put(TIMEZONE, new TypeToken<JsonResponse<TimeZone>>() {
+		}.getType());
+		getEntityType.put(TAXONOMY_TYPE, new TypeToken<JsonResponse<Taxonomy>>() {
 		}.getType());
 		getEntityType.put(TARGET_VALUE_COUNT, new TypeToken<JsonResponse<TargetValue>>() {
 		}.getType());
@@ -588,6 +594,8 @@ public final class Constants {
 		}.getType());
 		getListoFEntityType.put(TARGET_VALUE, new TypeToken<JsonResponse<ArrayList<TargetValues>>>() {
 		}.getType());
+        getListoFEntityType.put(TAXONOMY_TYPE, new TypeToken<JsonResponse<ArrayList<Taxonomy>>>() {
+        }.getType());
 		getListoFEntityType.put(VENDORS, new TypeToken<JsonResponse<ArrayList<Vendor>>>() {
 		}.getType());
 		getListoFEntityType.put(VENDOR, new TypeToken<JsonResponse<ArrayList<Vendor>>>() {
@@ -691,7 +699,8 @@ public final class Constants {
 		entityPaths.put("TargetDimension", TARGET_DIMENSIONS);
 		entityPaths.put("TargetValue", TARGET_VALUES);
 		entityPaths.put("TargetingSegment", TARGETING_SEGMENT);
-		
+		entityPaths.put("Taxonomy", TAXONOMY);
+
 		entityPaths.put("Permission", PERMISSIONS);
 		entityPaths.put("UserPermissions", USER_PERMISSIONS);
 		entityPaths.put("Report", REPORTS);

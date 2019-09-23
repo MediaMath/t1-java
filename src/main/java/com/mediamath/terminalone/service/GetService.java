@@ -56,7 +56,12 @@ public class GetService {
 
 		// param collection String example "advertisers"
 		if (query.collection != null) {
-			path.append(query.collection);
+			int idx = query.collection.lastIndexOf(".");
+			if (idx == -1) {
+				path.append(query.collection);
+			} else {
+				path.append(query.collection.substring(idx+1));
+			}
 		} else {
 			throw new ClientException("please specify: collection");
 		}

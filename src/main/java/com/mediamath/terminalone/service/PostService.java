@@ -293,6 +293,46 @@ public class PostService {
     }
 
     /**
+     * saves a Taxonomy entity.
+     *
+     * @param entity expects a Taxonomy entity.
+     * @return Strategy object.
+     * @throws ClientException a client exception is thrown if any error occurs.
+     * @throws ParseException  a parse exception is thrown when the response cannot be
+     *                         parsed.
+     * @throws IOException
+     */
+    public T1Entity save(Taxonomy entity, Integer taxonomyId) throws ClientException, ParseException {
+        Taxonomy taxonomy = null;
+        JsonResponse<? extends T1Entity> finalJsonResponse;
+        if (entity != null) {
+            StringBuilder uri = getUri(entity);
+            int idx = uri.lastIndexOf(".");
+            if (idx != -1) {
+                uri = new StringBuilder(uri.toString().substring(idx+1));
+            }
+            if (taxonomyId != null) {
+                uri.append("/").append(taxonomyId);
+            }
+            String path = t1Service.constructUrl(uri, Constants.entityPaths.get(entity.getEntityname()));
+            String json = new Gson().toJson(entity);
+            Response responseObj = this.connection.post(path, json, this.user);
+            String responseString = readPostResponseToString(responseObj);
+
+
+            finalJsonResponse = getJsonResponse(entity, responseString);
+
+            if (finalJsonResponse == null)
+                return null;
+
+            if (finalJsonResponse.getData() == null)
+                return null;
+            return finalJsonResponse.getData();
+        }
+        return taxonomy;
+    }
+
+    /**
      * @param entity
      * @param strategy
      * @param finalJsonResponse

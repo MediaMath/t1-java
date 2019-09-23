@@ -45,6 +45,7 @@ public class AudienceSegment implements T1Entity {
 	private int uniques;
 	private Date updated_on;
 	private int version;
+	private Integer taxonomy_id;
 
 	public int getAudienceVendorId() {
 		return audience_vendor_id;
@@ -176,6 +177,14 @@ public class AudienceSegment implements T1Entity {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public Integer getTaxonomyId() {
+		return taxonomy_id;
+	}
+
+	public void setTaxonomyId(Integer taxonomyId) {
+		this.taxonomy_id = taxonomy_id;
 	}
 
 	@Override

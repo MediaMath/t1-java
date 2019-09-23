@@ -88,6 +88,8 @@ public class TerminalOne {
 
 	private static final String STRATEGY = "strategy";
 
+	private static final String TAXONOMY_TYPE = "taxonomy";
+
 	private static final String CONTEXT = "context";
 
 	private static final String UNABLE_TO_PARSE_THE_RESPONSE = "Unable to parse the response";
@@ -382,6 +384,26 @@ public class TerminalOne {
 		}
 		return strategy;
 	}
+
+    /**
+     * Saves Taxonomy entity.
+     *
+     * @param entity
+     *            expects Taxonomy entity.
+     * @return Taxonomy object.
+     * @throws ClientException
+     *             a client exception is thrown if any error occurs.
+     * @throws ParseException
+     *             a parse exception is thrown when the response cannot be
+     *             parsed.
+     */
+    public T1Entity save(Taxonomy entity, Integer taxonomyId) throws ClientException, ParseException {
+		T1Entity taxonomy = null;
+        if (isAuthenticated()) {
+            taxonomy = postService.save(entity, taxonomyId);
+        }
+        return taxonomy;
+    }
 
 	/**
 	 * Saves ZipCodes against Strategy entity.
@@ -1132,6 +1154,10 @@ public class TerminalOne {
 			}
 
 			JsonObject dataObj = data.getAsJsonObject();
+			if (dataObj.get(ENTITY_TYPE) == null && dataObj.get(TAXONOMY_TYPE) != null) {
+				dataObj.addProperty(ENTITY_TYPE, TAXONOMY_TYPE);
+			}
+
 			//Check whether strategy have values in old format, if yes change them to current format
 			if(dataObj.get(ENTITY_TYPE).equals(STRATEGY)){
 				modifiedJsonString = checkAndFixStrategyJson(responseObject);
@@ -1167,6 +1193,11 @@ public class TerminalOne {
 		if (element != null && element.isJsonObject()) {
 
 			JsonObject obj = element.getAsJsonObject();
+
+			if (obj.get(ENTITY_TYPE) == null && obj.get(TAXONOMY_TYPE) != null) {
+				obj.addProperty(ENTITY_TYPE, TAXONOMY_TYPE);
+			}
+
 			JsonElement entityTypeElement = obj.get(ENTITY_TYPE);
 			if(entityTypeElement!=null && entityTypeElement.getAsString().equals(STRATEGY)){
 				modifiedJsonString = checkAndFixStrategyJson(responseObject);
