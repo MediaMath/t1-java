@@ -596,6 +596,8 @@ public final class Constants {
 		}.getType());
         getListoFEntityType.put(TAXONOMY_TYPE, new TypeToken<JsonResponse<ArrayList<Taxonomy>>>() {
         }.getType());
+		getListoFEntityType.put(TAXONOMY, new TypeToken<JsonResponse<ArrayList<Taxonomy>>>() {
+		}.getType());
 		getListoFEntityType.put(VENDORS, new TypeToken<JsonResponse<ArrayList<Vendor>>>() {
 		}.getType());
 		getListoFEntityType.put(VENDOR, new TypeToken<JsonResponse<ArrayList<Vendor>>>() {
