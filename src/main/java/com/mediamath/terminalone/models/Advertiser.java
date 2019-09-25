@@ -183,6 +183,7 @@ public class Advertiser implements T1Entity {
     this.domain = domain;
   }
 
+  //MediaMath has deprecated this field and we no longer need to send or diff it
   @DiffIgnore
   public dmpSettings getDmpEnabled() {
     return dmp_enabled;
