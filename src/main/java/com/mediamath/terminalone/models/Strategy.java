@@ -174,8 +174,8 @@ public class Strategy implements T1Entity, Cloneable {
 	private pacType pacing_type;
 	private ArrayList<Currency> roi_target = new ArrayList<Currency>();
 	private String pixel_target_expr;
-	private ArrayList<Integer> includePixels = new ArrayList<Integer>();
-	private ArrayList<Integer> excludePixels = new ArrayList<Integer>();
+	private TreeSet<Integer> includePixels = new TreeSet<>();
+	private TreeSet<Integer> excludePixels = new TreeSet<>();
 	//This field is manually deserialized
 	private String include_pixel_operator;
 	private boolean run_on_all_exchanges;
@@ -971,11 +971,11 @@ public class Strategy implements T1Entity, Cloneable {
 
 	//Ignoring the diff because this is helper field which is not sent to MediaMath
 	@DiffIgnore
-	public ArrayList<Integer> getIncludePixels() {
+	public TreeSet<Integer> getIncludePixels() {
 		return includePixels;
 	}
 
-	public void setIncludePixels(ArrayList<Integer> includePixels) {
+	public void setIncludePixels(TreeSet<Integer> includePixels) {
 		this.includePixels = includePixels;
 	}
 
@@ -985,11 +985,11 @@ public class Strategy implements T1Entity, Cloneable {
 
 	//Ignoring the diff because this is helper field which is not sent to MediaMath
 	@DiffIgnore
-	public ArrayList<Integer> getExcludePixels() {
+	public TreeSet<Integer> getExcludePixels() {
 		return excludePixels;
 	}
 
-	public void setExcludePixels(ArrayList<Integer> excludePixels) {
+	public void setExcludePixels(TreeSet<Integer> excludePixels) {
 		this.excludePixels = excludePixels;
 	}
 
