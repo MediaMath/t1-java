@@ -183,6 +183,7 @@ public class Advertiser implements T1Entity {
     this.domain = domain;
   }
 
+  @DiffIgnore
   public dmpSettings getDmpEnabled() {
     return dmp_enabled;
   }
