@@ -25,7 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.TimeZone;
 
+import com.mediamath.terminalone.models.*;
+import com.mediamath.terminalone.models.Currency;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,56 +38,16 @@ import com.mediamath.terminalone.QueryCriteria.CreativeType;
 import com.mediamath.terminalone.TerminalOne;
 import com.mediamath.terminalone.exceptions.ClientException;
 import com.mediamath.terminalone.exceptions.ParseException;
-import com.mediamath.terminalone.models.Advertiser;
-import com.mediamath.terminalone.models.Agency;
-import com.mediamath.terminalone.models.AtomicCreative;
-import com.mediamath.terminalone.models.BudgetFlight;
-import com.mediamath.terminalone.models.BulkStrategy;
-import com.mediamath.terminalone.models.Campaign;
-import com.mediamath.terminalone.models.CampaignCustomBrainSelection;
 import com.mediamath.terminalone.models.CampaignCustomBrainSelection.SELTYPES;
-import com.mediamath.terminalone.models.ChildPixel;
-import com.mediamath.terminalone.models.Concept;
-import com.mediamath.terminalone.models.Contract;
-import com.mediamath.terminalone.models.CreativeDetailsResponse;
-import com.mediamath.terminalone.models.Currency;
-import com.mediamath.terminalone.models.EventPixel;
 import com.mediamath.terminalone.models.EventPixel.EventPixelsEnum;
-import com.mediamath.terminalone.models.JsonResponse;
-import com.mediamath.terminalone.models.Organization;
-import com.mediamath.terminalone.models.Segments;
-import com.mediamath.terminalone.models.SiteList;
-import com.mediamath.terminalone.models.Strategy;
 import com.mediamath.terminalone.models.Strategy.freqInt;
 import com.mediamath.terminalone.models.Strategy.freqType;
 import com.mediamath.terminalone.models.Strategy.goalType;
 import com.mediamath.terminalone.models.Strategy.type;
-import com.mediamath.terminalone.models.StrategyConcept;
-import com.mediamath.terminalone.models.StrategyDayPart;
 import com.mediamath.terminalone.models.StrategyDayPart.daysEnum;
-import com.mediamath.terminalone.models.StrategyDomain;
 import com.mediamath.terminalone.models.StrategyDomain.restrictions;
-import com.mediamath.terminalone.models.StrategySupplySource;
-import com.mediamath.terminalone.models.StrategyTarget;
-import com.mediamath.terminalone.models.StrategyTargetingSegment;
-import com.mediamath.terminalone.models.T1Entity;
-import com.mediamath.terminalone.models.T1File;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsApprove;
-import com.mediamath.terminalone.models.TOneASCreativeAssetsUpload;
-import com.mediamath.terminalone.models.TPASCreativeBatchApprove;
-import com.mediamath.terminalone.models.TPASCreativeUpload;
-import com.mediamath.terminalone.models.TargetDimensions;
 import com.mediamath.terminalone.models.TargetDimensions.excludeOp;
 import com.mediamath.terminalone.models.TargetDimensions.includeOp;
-import com.mediamath.terminalone.models.TargetValues;
-import com.mediamath.terminalone.models.User;
-import com.mediamath.terminalone.models.VendorContract;
-import com.mediamath.terminalone.models.VideoCreative;
-import com.mediamath.terminalone.models.VideoCreativeResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadResponse;
-import com.mediamath.terminalone.models.VideoCreativeUploadStatus;
-import com.mediamath.terminalone.models.ZipCodes;
-import com.mediamath.terminalone.models.ZipCodesJsonResponse;
 import com.mediamath.terminalone.utils.FullParamValues;
 
 public class PostFunctionalTestIT {
@@ -781,15 +744,23 @@ public class PostFunctionalTestIT {
 		Set<Segments> asSet = new HashSet<>();
 
 		asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
-		str.setAudienceSegments(asSet);
+
+		Set<AudienceSegmentGroup> audienceSegmentGroups = new HashSet<>();
+		audienceSegmentGroups.add(new AudienceSegmentGroup(asSet, AudienceSegmentGroup.Operator.AND));
+		str.setAudienceSegmentGroups(audienceSegmentGroups);
+
 		try {
 			str = jt1.save(str);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Set<Segments> audienceSeg = str.getAudienceSegments();
-		assertNotNull(audienceSeg);
+		Set<AudienceSegmentGroup> audienceSegGroups = str.getAudienceSegmentGroups();
+		assertNotNull(audienceSegGroups);
+		assertEquals(1, audienceSegGroups.size());
+		AudienceSegmentGroup group = audienceSegGroups.iterator().next();
+		assertNotNull(group.getAudienceSegments());
+		assertEquals(1, group.getAudienceSegments().size());
 	}
 
 	@Test
@@ -2177,9 +2148,11 @@ public class PostFunctionalTestIT {
 		for (int j = 0; j < strategies.size(); j++) {
 			Set<Segments> asSet = new HashSet<>();
 			asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
+			Set<AudienceSegmentGroup> audienceSegmentGroups = new HashSet<>();
+			audienceSegmentGroups.add(new AudienceSegmentGroup(asSet, AudienceSegmentGroup.Operator.AND));
 
 			Strategy strategy = strategies.get(j);
-			strategy.setAudienceSegments(asSet);
+			strategy.setAudienceSegmentGroups(audienceSegmentGroups);
 			try {
 				System.out.println("getting saved...");
 				strategy = one.save(strategy);

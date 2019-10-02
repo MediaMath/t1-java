@@ -396,7 +396,7 @@ public class PostService {
                 uri.append("/domain_restrictions");
             }
 
-            if (!entity.getAudienceSegments().isEmpty()
+            if (!entity.getAudienceSegmentGroups().isEmpty()
                     && entity.getAudienceSegmentExcludeOp() != null && entity.getAudienceSegmentIncludeOp() != null) {
                 uri.append("/audience_segments");
             }

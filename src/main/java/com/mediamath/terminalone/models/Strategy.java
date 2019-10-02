@@ -208,8 +208,7 @@ public class Strategy implements T1Entity, Cloneable {
 	private StrategyTargetValues strategyTargetValues;
 
 	private List<StrategyDomain> strategy_domain_restrictions = new ArrayList<StrategyDomain>();
-	@ShallowReference
-	private Set<Segments> audience_segments = new HashSet<>();
+	private Set<AudienceSegmentGroup> audienceSegmentGroups = new HashSet<>();
 	private List<Segments> targeting_segments = new ArrayList<Segments>();
 	private List<TargetValues> target_values = new ArrayList<TargetValues>();
 	private List<Concept> concepts = new ArrayList<Concept>();
@@ -601,13 +600,12 @@ public class Strategy implements T1Entity, Cloneable {
 		this.strategy_domain_restrictions = strategy_domain_restrictions;
 	}
 
-	@ShallowReference
-	public Set<Segments> getAudienceSegments() {
-		return audience_segments;
+	public Set<AudienceSegmentGroup> getAudienceSegmentGroups() {
+		return audienceSegmentGroups;
 	}
 
-	public void setAudienceSegments(Set<Segments> audience_segments) {
-		this.audience_segments = audience_segments;
+	public void setAudienceSegmentGroups(Set<AudienceSegmentGroup> audienceSegmentGroups) {
+		this.audienceSegmentGroups = audienceSegmentGroups;
 	}
 
 	public List<TargetValues> getTargetValues() {
@@ -1007,6 +1005,8 @@ public class Strategy implements T1Entity, Cloneable {
 		this.include_pixel_operator = include_pixel_operator;
 	}
 
+	//Ignoring this diff, instead mediamath api code will transform this to audienceSegmentGroups so we can diff without tracking group identifiers
+	@DiffIgnore
 	public Set<StrategyAudienceSegment> getStrategyAudienceSegments() {
 		return strategyAudienceSegments;
 	}

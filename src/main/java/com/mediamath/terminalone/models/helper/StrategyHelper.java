@@ -41,6 +41,8 @@ public class StrategyHelper {
 	private static final String CONCEPTS = "concepts.";
 	private static final String RESTRICTION = ".restriction";
 	private static final String WEIGHTING = ".weighting";
+	private static final String GROUP_IDENTIFIER = ".group_identifier";
+	private static final String OPERATOR = ".operator";
 
 	private StrategyHelper() {
 		throw new IllegalAccessError("StrategyHelper cannot be instantiated");
@@ -73,11 +75,11 @@ public class StrategyHelper {
 
 		Form strategyForm = new Form();
 
-		if (entity.getAudienceSegmentExcludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
+		if (entity.getAudienceSegmentExcludeOp() != null && !entity.getAudienceSegmentGroups().isEmpty()) {
 			strategyForm.param(EXCLUDE_OP, entity.getAudienceSegmentExcludeOp().toString());
 		}
 
-		if (entity.getAudienceSegmentIncludeOp() != null && !entity.getAudienceSegments().isEmpty()) {
+		if (entity.getAudienceSegmentIncludeOp() != null && !entity.getAudienceSegmentGroups().isEmpty()) {
 			strategyForm.param(INCLUDE_OP, entity.getAudienceSegmentIncludeOp().toString());
 		}
 
@@ -90,7 +92,7 @@ public class StrategyHelper {
 		}
 
 		if (entity.getTargetValues().isEmpty() && entity.getStrategyDomainRestrictions().isEmpty()
-				&& entity.getAudienceSegments().isEmpty() && entity.getStrategyTargetingSegments().isEmpty()
+				&& entity.getAudienceSegmentGroups().isEmpty() && entity.getStrategyTargetingSegments().isEmpty()
 				&& entity.getSiteLists().isEmpty()
 				&& entity.getDealIds() == null
 				&& entity.getStrategyConcepts() == null
@@ -316,15 +318,23 @@ public class StrategyHelper {
 		}
 
 		// strategy audience segments
-		if (!entity.getAudienceSegments().isEmpty() && entity.getAudienceSegmentExcludeOp() != null
+
+		if (!entity.getAudienceSegmentGroups().isEmpty() && entity.getAudienceSegmentExcludeOp() != null
 				&& entity.getAudienceSegmentIncludeOp() != null) {
+			int groupIndex = 1;
 			int inc = 1;
-			for (Segments sd : entity.getAudienceSegments()) {
-				if (sd != null) {
-					strategyForm.param(SEGMENTS + inc + ".id", String.valueOf(sd.getId()));
-					strategyForm.param(SEGMENTS + inc + RESTRICTION, sd.getRestriction().name());
-					inc++;
+			for (AudienceSegmentGroup asg : entity.getAudienceSegmentGroups()) {
+				String groupIdentifier = "g" + groupIndex;
+				for (Segments sd : asg.getAudienceSegments()) {
+					if (sd != null) {
+						strategyForm.param(SEGMENTS + inc + ".id", String.valueOf(sd.getId()));
+						strategyForm.param(SEGMENTS + inc + RESTRICTION, sd.getRestriction().name());
+						strategyForm.param(SEGMENTS + inc + GROUP_IDENTIFIER, groupIdentifier);
+						inc++;
+					}
 				}
+				strategyForm.param(groupIdentifier + OPERATOR, asg.getOperator().name());
+				groupIndex++;
 			}
 		}
 

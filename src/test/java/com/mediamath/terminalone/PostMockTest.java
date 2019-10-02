@@ -480,7 +480,10 @@ public class PostMockTest {
         Set<Segments> asSet = new HashSet<>();
 
         asSet.add(new Segments(691, Segments.restrictions.INCLUDE, Segments.audSegExc.OR, Segments.audSegInc.OR));
-        str.setAudienceSegments(asSet);
+        Set<AudienceSegmentGroup> audienceSegmentGroups = new HashSet<>();
+        audienceSegmentGroups.add(new AudienceSegmentGroup(asSet, AudienceSegmentGroup.Operator.AND));
+
+        str.setAudienceSegmentGroups(audienceSegmentGroups);
 
         Mockito.when(connectionmock.post(Mockito.anyString(), Mockito.any(Form.class))).thenReturn(responseLogin);
         Mockito.when(responseLogin.readEntity(Mockito.any(Class.class))).thenReturn(LOGIN);
